@@ -1,0 +1,172 @@
+/* Minimal, modern phone-first login style - muted light blue background, centered card */
+
+/* Font */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+
+:root {
+  --bg-muted: #e6f3f8; /* muted light blue */
+  --card-bg: #ffffff;
+  --accent-green: #28a745;
+  --muted-border: #e6eef3;
+  --text-dark: #163243;
+  --soft-shadow: 0 6px 20px rgba(15, 35, 50, 0.08);
+}
+
+* { box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
+
+/* Background + remove default Ionic paddings that puedan mover la tarjeta */
+ion-content.login-content {
+  --background: var(--bg-muted);
+  --padding-start: 0;
+  --padding-end: 0;
+  padding: 0;
+}
+
+/* centro absoluto relativo a la pantalla usando una capa interna
+   esto evita que header o barras laterales desplacen la tarjeta */
+.login-center {
+  min-height: calc(100vh - 56px); /* dejar espacio para header */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Top title (centered, minimal) */
+.app-header {
+  --background: transparent;
+  box-shadow: none;
+  padding-top: 8px;
+  padding-bottom: 6px;
+}
+.app-title {
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: var(--text-dark);
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: 0.6px;
+  margin: 0;
+}
+
+/* Card */
+.login-form {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: var(--soft-shadow);
+  color: var(--text-dark);
+  border: 1px solid rgba(9, 30, 44, 0.03);
+}
+
+/* Card title */
+.login-title {
+  margin: 0 0 10px 0;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--text-dark);
+  text-align: center;
+}
+
+/* Inputs: flat, subtle border, rounded */
+.form-item {
+  margin-top: 12px;
+  --background: transparent;
+  --color: var(--text-dark);
+  --placeholder-color: rgba(22,50,67,0.45);
+  border-radius: 10px;
+  padding: 6px 10px;
+  border: 1px solid var(--muted-border);
+  background: transparent;
+}
+
+/* IonInput text color */
+.message-input {
+  --background: transparent;
+  --color: var(--text-dark);
+  font-size: 1rem;
+  color: var(--text-dark);
+}
+
+/* Focus state for aesthetics */
+.form-item.ion-focused,
+.form-item:focus-within {
+  border-color: rgba(40,167,69,0.18);
+  box-shadow: 0 6px 18px rgba(40,167,69,0.06);
+}
+
+/* Big, modern green button */
+.login-button {
+  margin-top: 16px;
+  --background: var(--accent-green);
+  --color: #fff;
+  border-radius: 12px;
+  font-weight: 600;
+  padding: 12px 16px;
+  box-shadow: 0 6px 14px rgba(40,167,69,0.12);
+  transition: transform .08s ease, box-shadow .12s ease;
+}
+.login-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(40,167,69,0.10);
+}
+
+/* Status messages */
+.error-message {
+  display: block;
+  margin-bottom: 8px;
+  color: #e05b5b !important;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.success-message {
+  display: block;
+  margin-bottom: 8px;
+  color: #2f9d84 !important;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Teacher link below form */
+.teacher-row {
+  margin-top: 14px;
+  text-align: center;
+}
+.teacher-link {
+  color: rgba(22,50,67,0.65);
+  text-decoration: none;
+  font-size: 0.95rem;
+  border-bottom: 1px dashed rgba(22,50,67,0.06);
+  padding-bottom: 2px;
+}
+
+/* Phone-first sizes */
+@media (max-width: 420px) {
+  .login-form { padding: 18px; border-radius: 12px; }
+  .app-title { font-size: 1.2rem; }
+  .login-button { padding: 11px; font-size: 0.98rem; }
+}
+
+/* Reduce visual chrome for minimal look */
+ion-header.app-header ion-toolbar { --min-height: 48px; padding: 0 12px; }
+ion-text.app-title h1 { margin: 0; font-size: 1.4rem; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 1px; }
+
+/* Alinear verticalmente el texto dentro de IonInput */
+.message-input::part(native),
+.form-item .native-input {
+  padding-top: 10px;     /* ajusta hasta que quede centrado */
+  padding-bottom: 1px;  /* ajusta hasta que quede centrado */
+  line-height: 1;
+  height: auto;
+}
+
+/* Si el label flotante queda muy pegado, separarlo ligeramente */
+.form-item ion-label {
+  transform-origin: left center;
+  padding-left: 2px;
+}

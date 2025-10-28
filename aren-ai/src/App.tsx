@@ -4,6 +4,7 @@ import { Redirect, Route } from 'react-router-dom';
 import Menu from './components/Menu';
 import Page from './pages/Page';
 import Chat from './pages/Chatbot';
+import Login from './pages/Login';  
 
 
 /* Core CSS required for Ionic components to work properly */
@@ -46,10 +47,10 @@ const App: React.FC = () => {
           <Menu />
           <IonRouterOutlet id="main">
             <Route path="/" exact={true}>
-              <Redirect to="/chatbot" />
+              <Redirect to="/Login" />
             </Route>
-            <Route path="/chatbot" exact={true}>
-              <Chat />
+            <Route path="/Login" exact={true}>
+              <Login />
             </Route>
             <Route path="/folder/:name" exact={true}>
               <Page />
