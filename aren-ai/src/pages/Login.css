@@ -1,172 +1,302 @@
-/* Minimal, modern phone-first login style - muted light blue background, centered card */
+/* Import Open Sans font */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 
-/* Font */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
-
-:root {
-  --bg-muted: #e6f3f8; /* muted light blue */
-  --card-bg: #ffffff;
-  --accent-green: #28a745;
-  --muted-border: #e6eef3;
-  --text-dark: #163243;
-  --soft-shadow: 0 6px 20px rgba(15, 35, 50, 0.08);
+* {
+  font-family: 'Open Sans', sans-serif;
 }
 
-* { box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
-
-/* Background + remove default Ionic paddings that puedan mover la tarjeta */
-ion-content.login-content {
-  --background: var(--bg-muted);
-  --padding-start: 0;
-  --padding-end: 0;
-  padding: 0;
+/* Background color - CREMA */
+.login-content {
+  --background: #fff7dd;
+  --padding-top: 40px;
+  --padding-bottom: 20px;
+  --padding-start: 16px;
+  --padding-end: 16px;
 }
 
-/* centro absoluto relativo a la pantalla usando una capa interna
-   esto evita que header o barras laterales desplacen la tarjeta */
-.login-center {
-  min-height: calc(100vh - 56px); /* dejar espacio para header */
+/* Login container */
+.login-container {
+  min-height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 10px 0;
 }
 
-/* Top title (centered, minimal) */
-.app-header {
-  --background: transparent;
-  box-shadow: none;
-  padding-top: 8px;
-  padding-bottom: 6px;
-}
-.app-title {
-  display: block;
-  width: 100%;
+/* Brand section - Título arriba del logo */
+.brand-section {
   text-align: center;
-  color: var(--text-dark);
-  font-weight: 700;
-  font-size: 1.4rem;
-  letter-spacing: 0.6px;
+  margin-bottom: 40px;
+}
+
+.brand-title {
+  font-size: 3rem;
+  font-weight: 300; /* Más delgado */
+  margin: 0 0 25px 0;
+  color: #8f6a56;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.logo-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 20px rgba(143, 106, 86, 0.3);
+  border: 3px solid #8f6a56;
+}
+
+.brand-subtitle {
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin: 0;
+  opacity: 0.8;
+  color: #8f6a56;
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
+/* Login card - MARRÓN (solo campos) */
+.login-card {
+  background: #8f6a56;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(143, 106, 86, 0.3);
+  margin: 0 0 60px 0; /* Más margen abajo */
+  overflow: hidden;
+  border: 2px solid #8f6a56;
+}
+
+.login-card ion-card-content {
+  padding: 30px 24px;
+}
+
+/* Input sections */
+.input-section {
+  margin-bottom: 25px;
+}
+
+.input-label {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  display: block;
+  color: white !important;
+  letter-spacing: 0.5px;
+}
+
+/* Input items - BLANCO */
+.input-item {
+  --background: white;
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --inner-padding-end: 0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+}
+
+.input-icon {
+  color: #8f6a56;
+  font-size: 1.2rem;
+  margin-right: 12px;
+}
+
+.custom-input {
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  --color: #2c3e50;
+  --placeholder-color: #7f8c8d;
+  --placeholder-font-weight: 400;
+  font-size: 1rem;
+}
+
+.password-toggle {
+  --color: #8f6a56;
+  --padding-start: 8px;
+  --padding-end: 8px;
   margin: 0;
 }
 
-/* Card */
-.login-form {
+/* Forgot Password Section */
+.forgot-password-section {
+  text-align: center;
+  margin: 20px 0 0 0;
+}
+
+.forgot-password-link {
+  --color: white;
+  --background: transparent;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: underline;
+  margin: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+.forgot-password-link:hover {
+  --color: rgba(255, 255, 255, 0.8);
+}
+
+/* Container para botones MUY ABAJO */
+.buttons-container {
   width: 100%;
-  max-width: 420px;
-  background: var(--card-bg);
-  padding: 20px;
-  border-radius: 14px;
-  box-shadow: var(--soft-shadow);
-  color: var(--text-dark);
-  border: 1px solid rgba(9, 30, 44, 0.03);
+  margin-top: 80px; /* Mucho más espacio arriba */
+  padding-bottom: 20px;
 }
 
-/* Card title */
-.login-title {
-  margin: 0 0 10px 0;
-  font-weight: 600;
-  font-size: 1.2rem;
-  color: var(--text-dark);
-  text-align: center;
-}
-
-/* Inputs: flat, subtle border, rounded */
-.form-item {
-  margin-top: 12px;
-  --background: transparent;
-  --color: var(--text-dark);
-  --placeholder-color: rgba(22,50,67,0.45);
-  border-radius: 10px;
-  padding: 6px 10px;
-  border: 1px solid var(--muted-border);
-  background: transparent;
-}
-
-/* IonInput text color */
-.message-input {
-  --background: transparent;
-  --color: var(--text-dark);
-  font-size: 1rem;
-  color: var(--text-dark);
-}
-
-/* Focus state for aesthetics */
-.form-item.ion-focused,
-.form-item:focus-within {
-  border-color: rgba(40,167,69,0.18);
-  box-shadow: 0 6px 18px rgba(40,167,69,0.06);
-}
-
-/* Big, modern green button */
+/* Login button - MARRÓN con texto blanco */
 .login-button {
-  margin-top: 16px;
-  --background: var(--accent-green);
-  --color: #fff;
-  border-radius: 12px;
+  --background: #8f6a56;
+  --background-activated: #7a5a48;
+  --background-hover: #85604e;
+  --color: white;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 16px rgba(143, 106, 86, 0.3);
   font-weight: 600;
-  padding: 12px 16px;
-  box-shadow: 0 6px 14px rgba(40,167,69,0.12);
-  transition: transform .08s ease, box-shadow .12s ease;
-}
-.login-button:active {
-  transform: translateY(1px);
-  box-shadow: 0 4px 10px rgba(40,167,69,0.10);
+  font-size: 1.1rem;
+  height: 55px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* Status messages */
-.error-message {
-  display: block;
-  margin-bottom: 8px;
-  color: #e05b5b !important;
-  text-align: center;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-.success-message {
-  display: block;
-  margin-bottom: 8px;
-  color: #2f9d84 !important;
-  text-align: center;
-  font-weight: 600;
-  font-size: 0.95rem;
+.login-button:disabled {
+  --background: #b8a399;
+  --color: #e0e0e0;
+  --box-shadow: none;
 }
 
-/* Teacher link below form */
-.teacher-row {
-  margin-top: 14px;
-  text-align: center;
-}
-.teacher-link {
-  color: rgba(22,50,67,0.65);
-  text-decoration: none;
-  font-size: 0.95rem;
-  border-bottom: 1px dashed rgba(22,50,67,0.06);
-  padding-bottom: 2px;
-}
-
-/* Phone-first sizes */
-@media (max-width: 420px) {
-  .login-form { padding: 18px; border-radius: 12px; }
-  .app-title { font-size: 1.2rem; }
-  .login-button { padding: 11px; font-size: 0.98rem; }
+/* Teacher button - OUTLINE marrón */
+.teacher-button {
+  --background: transparent;
+  --background-activated: rgba(143, 106, 86, 0.1);
+  --background-hover: rgba(143, 106, 86, 0.05);
+  --color: #8f6a56;
+  --border-color: #8f6a56;
+  --border-width: 2px;
+  --border-radius: 12px;
+  --border-style: solid;
+  font-weight: 500;
+  font-size: 1rem;
+  height: 50px;
+  text-transform: none;
+  letter-spacing: 0.5px;
 }
 
-/* Reduce visual chrome for minimal look */
-ion-header.app-header ion-toolbar { --min-height: 48px; padding: 0 12px; }
-ion-text.app-title h1 { margin: 0; font-size: 1.4rem; font-weight: 700; color: var(--text-dark); text-transform: uppercase; letter-spacing: 1px; }
-
-/* Alinear verticalmente el texto dentro de IonInput */
-.message-input::part(native),
-.form-item .native-input {
-  padding-top: 10px;     /* ajusta hasta que quede centrado */
-  padding-bottom: 1px;  /* ajusta hasta que quede centrado */
-  line-height: 1;
-  height: auto;
+.teacher-button:disabled {
+  --color: #b8a399;
+  --border-color: #b8a399;
 }
 
-/* Si el label flotante queda muy pegado, separarlo ligeramente */
-.form-item ion-label {
-  transform-origin: left center;
-  padding-left: 2px;
+/* Responsive design */
+@media (max-width: 768px) {
+  .login-content {
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --padding-top: 30px;
+  }
+  
+  .brand-title {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+  }
+  
+  .brand-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .logo-image {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .login-card ion-card-content {
+    padding: 24px 20px;
+  }
+  
+  .input-section {
+    margin-bottom: 20px;
+  }
+  
+  .login-button {
+    height: 50px;
+    font-size: 1rem;
+  }
+  
+  .teacher-button {
+    height: 48px;
+  }
+  
+  .buttons-container {
+    margin-top: 60px;
+  }
+  
+  .login-card {
+    margin: 0 0 50px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-title {
+    font-size: 2rem;
+    letter-spacing: 1px;
+  }
+  
+  .logo-image {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .login-card ion-card-content {
+    padding: 20px 16px;
+  }
+  
+  .buttons-container {
+    margin-top: 50px;
+  }
+  
+  .login-content {
+    --padding-top: 20px;
+  }
+  
+  .login-card {
+    margin: 0 0 40px 0;
+  }
+}
+
+/* Animation for logo */
+.logo-image {
+  animation: gentlePulse 4s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 20px rgba(143, 106, 86, 0.3);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 6px 25px rgba(143, 106, 86, 0.4);
+  }
+}
+
+/* Focus states for accessibility */
+.input-item:focus-within {
+  --background: white;
+  box-shadow: 0 2px 12px rgba(255, 255, 255, 0.3);
+  border-color: white;
+}
+
+.custom-input:focus {
+  --color: #2c3e50;
 }

@@ -1,0 +1,409 @@
+/* Import Open Sans font */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Background color - CREMA */
+.register-content {
+  --background: #fff7dd;
+  --padding-top: 40px;
+  --padding-bottom: 20px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+
+/* Register container */
+.register-container {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+/* Brand section */
+.brand-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.back-button {
+  --color: #8f6a56;
+  --background: transparent;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.brand-title {
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin: 0 0 10px 0;
+  color: #8f6a56;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.brand-subtitle {
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin: 0;
+  opacity: 0.8;
+  color: #8f6a56;
+  letter-spacing: 0.5px;
+}
+
+/* Register card - MARRÓN */
+.register-card {
+  background: #8f6a56;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(143, 106, 86, 0.3);
+  margin: 0 0 40px 0;
+  overflow: hidden;
+  border: 2px solid #8f6a56;
+}
+
+.register-card ion-card-content {
+  padding: 25px 24px;
+}
+
+/* Input sections */
+.input-section {
+  margin-bottom: 18px;
+}
+
+.input-label {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 6px;
+  display: block;
+  color: white !important;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.auto-filled-badge {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.mep-selector-badge {
+  background: rgba(76, 175, 80, 0.3);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+/* Input items - BLANCO */
+.input-item {
+  --background: white;
+  --border-radius: 10px;
+  --padding-start: 14px;
+  --padding-end: 14px;
+  --inner-padding-end: 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  margin-bottom: 5px;
+}
+
+.input-icon {
+  color: #8f6a56;
+  font-size: 1.1rem;
+  margin-right: 10px;
+}
+
+.custom-input {
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  --color: #2c3e50;
+  --placeholder-color: #7f8c8d;
+  --placeholder-font-weight: 400;
+  font-size: 0.95rem;
+}
+
+/* Estilo para campo de institución bloqueado */
+.input-item[readonly] {
+  --background: #f5f5f5;
+  --color: #666;
+}
+
+.password-toggle {
+  --color: #8f6a56;
+  --padding-start: 6px;
+  --padding-end: 6px;
+  margin: 0;
+}
+
+/* Email hint */
+.email-hint {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 5px 0 0 0;
+  font-style: italic;
+}
+
+.institution-hint {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 4px 0 0 0;
+  font-style: italic;
+}
+
+/* MEP Selector Styles */
+.mep-selector-container {
+  position: relative;
+}
+
+.institution-selector-item {
+  --background: white;
+  --border-radius: 10px;
+  --padding-start: 14px;
+  --padding-end: 14px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  cursor: pointer;
+}
+
+.institution-display {
+  margin: 12px 0;
+  font-size: 0.95rem;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.selector-arrow {
+  color: #8f6a56;
+  font-size: 1.2rem;
+}
+
+.mep-selector-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  border-top: none;
+  z-index: 10;
+  margin-top: -1px;
+}
+
+.institution-searchbar {
+  --background: #f8f9fa;
+  --border-radius: 0;
+  --box-shadow: none;
+  --color: #2c3e50;
+  padding: 8px 12px;
+  margin: 0;
+}
+
+.institution-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.institution-item {
+  --background: transparent;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --inner-padding-end: 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.institution-item:last-child {
+  border-bottom: none;
+}
+
+.institution-icon {
+  color: #8f6a56;
+  font-size: 1rem;
+  margin-right: 8px;
+}
+
+.institution-name {
+  margin: 10px 0;
+  font-size: 0.9rem;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.no-results {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 16px;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Password Requirements */
+.password-requirements {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 8px;
+}
+
+.requirements-title {
+  font-size: 0.8rem;
+  color: white;
+  margin: 0 0 6px 0;
+  font-weight: 600;
+}
+
+.requirements-list {
+  margin: 0;
+  padding-left: 16px;
+}
+
+.requirement-error {
+  font-size: 0.75rem;
+  color: #ff6b6b;
+  margin: 2px 0;
+}
+
+.password-error {
+  font-size: 0.75rem;
+  color: #ff6b6b;
+  margin: 4px 0 0 0;
+  font-weight: 500;
+}
+
+/* Container para botones */
+.buttons-container {
+  width: 100%;
+  margin-top: 30px;
+  padding-bottom: 20px;
+}
+
+/* Register button - MARRÓN con texto blanco */
+.register-button {
+  --background: #8f6a56;
+  --background-activated: #7a5a48;
+  --background-hover: #85604e;
+  --color: white;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 16px rgba(143, 106, 86, 0.3);
+  font-weight: 600;
+  font-size: 1.1rem;
+  height: 55px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.register-button:disabled {
+  --background: #b8a399;
+  --color: #e0e0e0;
+  --box-shadow: none;
+}
+
+/* Back to login button - OUTLINE marrón */
+.back-login-button {
+  --background: transparent;
+  --background-activated: rgba(143, 106, 86, 0.1);
+  --background-hover: rgba(143, 106, 86, 0.05);
+  --color: #8f6a56;
+  --border-color: #8f6a56;
+  --border-width: 2px;
+  --border-radius: 12px;
+  --border-style: solid;
+  font-weight: 500;
+  font-size: 1rem;
+  height: 50px;
+  text-transform: none;
+  letter-spacing: 0.5px;
+}
+
+.back-login-button:disabled {
+  --color: #b8a399;
+  --border-color: #b8a399;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .register-content {
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --padding-top: 30px;
+  }
+  
+  .brand-title {
+    font-size: 2rem;
+    letter-spacing: 1.5px;
+  }
+  
+  .brand-subtitle {
+    font-size: 1rem;
+  }
+  
+  .register-card ion-card-content {
+    padding: 20px 18px;
+  }
+  
+  .input-section {
+    margin-bottom: 16px;
+  }
+  
+  .institution-list {
+    max-height: 150px;
+  }
+  
+  .register-button {
+    height: 50px;
+    font-size: 1rem;
+  }
+  
+  .back-login-button {
+    height: 48px;
+  }
+  
+  .buttons-container {
+    margin-top: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-title {
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+  }
+  
+  .register-card ion-card-content {
+    padding: 18px 16px;
+  }
+  
+  .buttons-container {
+    margin-top: 20px;
+  }
+  
+  .register-content {
+    --padding-top: 20px;
+  }
+}
+
+/* Focus states for accessibility */
+.input-item:focus-within {
+  --background: white;
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+  border-color: white;
+}
+
+.custom-input:focus {
+  --color: #2c3e50;
+}

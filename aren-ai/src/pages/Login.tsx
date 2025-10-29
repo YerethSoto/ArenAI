@@ -1,121 +1,164 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
-  IonButton,
   IonContent,
-  IonHeader,
-  IonItem,
-  IonLabel,
   IonPage,
-  IonText,
-  IonToolbar,
+  IonItem,
   IonInput,
-} from "@ionic/react";
-import "./Login.css";
+  IonButton,
+  IonText,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonIcon,
+  IonCard,
+  IonCardContent
+} from '@ionic/react';
+import { person, key, eye, eyeOff } from 'ionicons/icons';
+import { useHistory } from 'react-router-dom';
+import './Login.css';
 
 const Login: React.FC = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
 
-  const handleLogin = async () => {
-    setError("");
-    if (firstName.trim() === "" || lastName.trim() === "" || password.trim() === "") {
-      setError("Please enter first name, last name and password");
-      return;
-    }
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    // Simular proceso de login
+    setTimeout(() => {
+      console.log('Login attempt with:', { username, password });
+      setIsLoading(false);
+    }, 1500);
+  };
 
-    // Demo: credenciales quemadas (no hace backend)
-    if (firstName === "Admin" && lastName === "User" && password === "password") {
-      setLoggedIn(true);
-      return;
-    }
+  const handleTeacherLogin = () => {
+    // Redirigir a la pantalla de registro
+    history.push('/register');
+  };
 
-    // marcar como ingresado si hay cualquier valor (modo demo)
-    setLoggedIn(true);
+  const handleForgotPassword = () => {
+    console.log('Forgot password clicked');
+    // Lógica para recuperar contraseña
   };
 
   return (
     <IonPage>
-      <IonHeader className="app-header">
-        <IonToolbar>
-          <IonText className="app-title" color="dark">
-            <strong>ArenAI</strong>
-          </IonText>
-        </IonToolbar>
-      </IonHeader>
+      <IonContent fullscreen class="login-content">
+        <div className="login-container">
+          <IonGrid>
+            <IonRow class="ion-justify-content-center">
+              <IonCol size="12" size-md="8" size-lg="6" size-xl="4">
+                {/* Brand section con título arriba del logo */}
+                <div className="brand-section">
+                  <IonText>
+                    <h1 className="brand-title">ARENAI</h1>
+                  </IonText>
+                  <div className="logo-container">
+                    <img 
+                      src="./resources/Capybara profile picture.png" 
+                      alt="ArenAI Logo" 
+                      className="logo-image"
+                    />
+                  </div>
+                  <IonText>
+                    <p className="brand-subtitle">Ready to learn?</p>
+                  </IonText>
+                </div>
 
-      {/* fullscreen para poder centrar respecto a toda la pantalla */}
-      <IonContent fullscreen className="login-content">
-        <div className="login-center">
-          <div className="login-form" role="form" aria-label="Login form">
-            <h2 className="login-title">Welcome</h2>
+                {/* Card de login SOLO con campos */}
+                <IonCard className="login-card">
+                  <IonCardContent>
+                    <form onSubmit={handleLogin}>
+                      
+                      {/* Username Section */}
+                      <div className="input-section">
+                        <IonText>
+                          <h3 className="input-label">Username</h3>
+                        </IonText>
+                        <IonItem className="input-item" lines="none">
+                          <IonIcon icon={person} slot="start" className="input-icon" />
+                          <IonInput
+                            type="text"
+                            placeholder="Enter your username"
+                            value={username}
+                            onIonInput={(e) => setUsername(e.detail.value!)}
+                            className="custom-input"
+                            required
+                          />
+                        </IonItem>
+                      </div>
 
-            {error && (
-              <IonText color="danger" className="error-message">
-                {error}
-              </IonText>
-            )}
-            {loggedIn && (
-              <IonText color="success" className="success-message">
-                Login successful (demo)
-              </IonText>
-            )}
+                      {/* Password Section */}
+                      <div className="input-section">
+                        <IonText>
+                          <h3 className="input-label">Password</h3>
+                        </IonText>
+                        <IonItem className="input-item" lines="none">
+                          <IonIcon icon={key} slot="start" className="input-icon" />
+                          <IonInput
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Enter your password"
+                            value={password}
+                            onIonInput={(e) => setPassword(e.detail.value!)}
+                            className="custom-input"
+                            required
+                          />
+                          <IonButton
+                            fill="clear"
+                            slot="end"
+                            className="password-toggle"
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            <IonIcon icon={showPassword ? eyeOff : eye} />
+                          </IonButton>
+                        </IonItem>
+                      </div>
 
-            <IonItem className="form-item">
-              <IonLabel position="floating">First name</IonLabel>
-              <IonInput
-                value={firstName}
-                onIonInput={(e: any) => setFirstName(e.detail.value ?? "")}
-                disabled={loggedIn}
-                className="message-input"
-                inputMode="text"
-                autocomplete="given-name"
-              />
-            </IonItem>
+                      {/* Forgot Password Link */}
+                      <div className="forgot-password-section">
+                        <IonButton 
+                          fill="clear" 
+                          className="forgot-password-link"
+                          onClick={handleForgotPassword}
+                        >
+                          Forgot password?
+                        </IonButton>
+                      </div>
 
-            <IonItem className="form-item">
-              <IonLabel position="floating">Last name</IonLabel>
-              <IonInput
-                value={lastName}
-                onIonInput={(e: any) => setLastName(e.detail.value ?? "")}
-                disabled={loggedIn}
-                className="message-input"
-                inputMode="text"
-                autocomplete="family-name"
-              />
-            </IonItem>
+                    </form>
+                  </IonCardContent>
+                </IonCard>
 
-            <IonItem className="form-item">
-              <IonLabel position="floating">Password</IonLabel>
-              <IonInput
-                type="password"
-                value={password}
-                onIonInput={(e: any) => setPassword(e.detail.value ?? "")}
-                disabled={loggedIn}
-                className="message-input"
-                autocomplete="current-password"
-              />
-            </IonItem>
+                {/* Botones MUY ABAJO de la tarjeta */}
+                <div className="buttons-container">
+                  <IonButton
+                    type="submit"
+                    expand="block"
+                    className="login-button"
+                    onClick={handleLogin}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'LOGGING IN...' : 'LOGIN'}
+                  </IonButton>
 
-            <IonButton
-              expand="full"
-              onClick={handleLogin}
-              disabled={loggedIn}
-              className="login-button"
-              aria-label="Login"
-              href="/teacher-main"
-            >
-              {loggedIn ? "Logged in" : "Login"}
-            </IonButton>
+                  <IonButton
+                    expand="block"
+                    fill="outline"
+                    className="teacher-button"
+                    onClick={handleTeacherLogin}
+                    disabled={isLoading}
+                  >
+                    Are you a teacher?
+                  </IonButton>
+                </div>
 
-            <div className="teacher-row">
-              <a className="teacher-link" href="/teacher-signup">
-                Are you a teacher?
-              </a>
-            </div>
-          </div>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
         </div>
       </IonContent>
     </IonPage>
