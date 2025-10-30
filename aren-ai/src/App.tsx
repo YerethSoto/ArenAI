@@ -23,7 +23,7 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
-
+import Main_Prof from './pages/Main_Prof';
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------
@@ -64,6 +64,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/chat" exact={true}>
               <Chat />
+            </Route>
+            <Route path="/main-prof" exact={true}>
+              <Main_Prof />
             </Route>
           </IonRouterOutlet>
         </IonSplitPane>
