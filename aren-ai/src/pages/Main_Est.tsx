@@ -18,10 +18,10 @@ import {
   chevronBack, 
   chevronForward, 
   arrowForward, 
-  add,
+  play,
   school,
   book,
-  bulb,
+  warning,
   calculator,
   flask,
   leaf,
@@ -31,9 +31,9 @@ import {
   code,
   fitness
 } from 'ionicons/icons';
-import './Main_Prof.css';
+import './Main_Est.css';
 
-const Main_Prof: React.FC = () => {
+const Main_Est: React.FC = () => {
   const [currentWeek, setCurrentWeek] = useState(1);
   const [overallPerformance, setOverallPerformance] = useState(78);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -41,6 +41,7 @@ const Main_Prof: React.FC = () => {
   const [selectedSection, setSelectedSection] = useState('Section 1');
   const [selectedSubject, setSelectedSubject] = useState('Mathematics');
   const [topics, setTopics] = useState<any[]>([]);
+  const [challengingTopics, setChallengingTopics] = useState<any[]>([]);
   
   // Referencias para el swipe
   const carouselTrackRef = useRef<HTMLDivElement>(null);
@@ -58,12 +59,11 @@ const Main_Prof: React.FC = () => {
     'History': history,
     'Geography': globe,
     'Art': brush,
-
     'Computer Science': code,
     'Physical Education': fitness
   };
 
-  // Datos de temas por materia (más temas para hacer carrusel)
+  // Datos de temas por materia
   const subjectTopics: { [key: string]: Array<{ name: string; percentage: number }> } = {
     'Mathematics': [
       { name: 'Algebra', percentage: 85 },
@@ -170,19 +170,19 @@ const Main_Prof: React.FC = () => {
     'Physical Education': 76
   };
 
-  // Recomendaciones para la clase
-  const classRecommendations: { [key: string]: string } = {
-    'Mathematics': 'Focus on practicing quadratic equations with real-world examples. Consider using visual aids to help students understand the graphical representation of equations.',
-    'Physics': 'Incorporate hands-on experiments with Newton\'s laws. Use simple demonstrations with everyday objects to make concepts more tangible.',
-    'Chemistry': 'Plan a lab session for chemical reactions. Prepare safety guidelines and ensure all materials are ready for practical learning.',
-    'Biology': 'Use microscope activities to explore cell structures. Prepare slides in advance and create comparison charts for different cell types.',
-    'English': 'Organize group discussions about the assigned reading. Prepare discussion questions that encourage critical thinking and analysis.',
-    'History': 'Create interactive timelines for historical events. Use primary sources and documents to make history come alive for students.',
-    'Geography': 'Incorporate map-reading exercises and case studies of different regions. Use multimedia resources to show diverse landscapes.',
-    'Art': 'Set up different art stations with various mediums. Encourage creative expression while teaching fundamental techniques.',
-    'Music': 'Combine theory with practical instrument sessions. Use listening exercises to develop musical appreciation.',
-    'Computer Science': 'Provide hands-on coding exercises with immediate feedback. Use real-world projects to demonstrate practical applications.',
-    'Physical Education': 'Mix team sports with individual fitness activities. Focus on both skill development and health education.'
+  // Consejos de mejora por materia
+  const improvementTips: { [key: string]: string } = {
+    'Mathematics': 'Focus on practicing problems daily and review fundamental concepts',
+    'Physics': 'Work on understanding the underlying principles before solving problems',
+    'Chemistry': 'Memorize key formulas and practice balancing equations regularly',
+    'Biology': 'Create visual diagrams and use flashcards for terminology',
+    'English': 'Read extensively and practice writing essays with proper structure',
+    'History': 'Create timelines and connect events to understand historical context',
+    'Geography': 'Study maps regularly and relate physical features to human activities',
+    'Art': 'Practice basic techniques daily and study different art styles',
+    'Music': 'Consistent practice and ear training exercises will help significantly',
+    'Computer Science': 'Code daily and work on understanding algorithms step by step',
+    'Physical Education': 'Focus on proper form and gradually increase intensity'
   };
 
   // Opciones para los selectores
@@ -201,18 +201,27 @@ const Main_Prof: React.FC = () => {
     return 'poor';
   };
 
-  // Función para obtener color del ring chart
-  const getRingChartColor = (percentage: number) => {
-    if (percentage >= 80) return '#4CAF50';
-    if (percentage >= 70) return '#90beab';
-    if (percentage >= 60) return '#FFC107';
-    return '#F44336';
+  // Función para obtener temas desafiantes (los 3 con menor porcentaje)
+  const getChallengingTopics = (topicsList: any[]) => {
+    return topicsList
+      .filter(topic => topic.percentage < 70) // Solo temas con menos del 70%
+      .sort((a, b) => a.percentage - b.percentage) // Ordenar de menor a mayor
+      .slice(0, 3); // Tomar los 3 más difíciles
+  };
+
+  // Función para obtener nivel de dificultad
+  const getDifficultyLevel = (percentage: number) => {
+    if (percentage < 50) return 'High';
+    if (percentage < 60) return 'Medium-High';
+    return 'Medium';
   };
 
   // Actualizar topics cuando cambia la materia
   useEffect(() => {
-    setTopics(subjectTopics[selectedSubject] || []);
+    const currentTopics = subjectTopics[selectedSubject] || [];
+    setTopics(currentTopics);
     setOverallPerformance(subjectPerformance[selectedSubject] || 75);
+    setChallengingTopics(getChallengingTopics(currentTopics));
     setCurrentSlide(0); // Resetear carrusel al cambiar materia
   }, [selectedSubject]);
 
@@ -241,8 +250,8 @@ const Main_Prof: React.FC = () => {
     }
   };
 
-  const handleCreateQuiz = () => {
-    console.log(`Creating quiz for ${selectedSubject}`);
+  const handlePractice = () => {
+    console.log(`Starting practice for ${selectedSubject}`);
   };
 
   // Calcular total de slides (2 tarjetas por slide)
@@ -274,7 +283,7 @@ const Main_Prof: React.FC = () => {
     
     isDraggingRef.current = false;
     const diff = startXRef.current - currentXRef.current;
-    const threshold = 50; // mínimo de pixels para cambiar slide
+    const threshold = 50;
     
     if (carouselTrackRef.current) {
       carouselTrackRef.current.style.cursor = 'grab';
@@ -283,10 +292,8 @@ const Main_Prof: React.FC = () => {
     }
     
     if (diff > threshold && currentSlide < totalSlides - 1) {
-      // Swipe izquierda - siguiente slide
       handleNextSlide();
     } else if (diff < -threshold && currentSlide > 0) {
-      // Swipe derecha - slide anterior
       handlePreviousSlide();
     }
   };
@@ -386,7 +393,7 @@ const Main_Prof: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen class="main-prof-content">
+      <IonContent fullscreen class="main-est-content">
         <div className="dashboard-container">
           
           {/* Header con selector de semana - COLOR VERDE */}
@@ -419,13 +426,13 @@ const Main_Prof: React.FC = () => {
             </div>
           </div>
 
-          {/* Tarjeta de Overall Performance */}
+          {/* Tarjeta de My Performance */}
           <IonCard className="performance-card">
             <IonCardContent>
               <div className="performance-header">
                 <IonText>
                   <h3 className="subject-title">{selectedSubject}</h3>
-                  <p className="performance-label">Overall Performance</p>
+                  <p className="performance-label">My Performance</p>
                 </IonText>
               </div>
               
@@ -548,61 +555,69 @@ const Main_Prof: React.FC = () => {
             )}
           </div>
 
-          {/* Sección Enforce Topics - COLOR VERDE */}
-          <div className="enforce-section">
+          {/* Sección Challenging Topics - COLOR VERDE */}
+          <div className="challenging-topics-section">
             <IonText>
-              <h3 className="section-title">Enforce Topics</h3>
+              <h3 className="section-title">Challenging Topics</h3>
             </IonText>
             
-            <IonCard className="enforce-card">
+            <IonCard className="challenging-topics-card">
               <IonCardContent>
-                <div className="enforce-content">
-                  <IonIcon icon={school} className="enforce-icon" />
+                <div className="challenging-topics-header">
+                  <IonIcon icon={warning} className="challenging-topics-icon" />
                   <IonText>
-                    <p className="enforce-text">
-                      Focus on improving student performance in {selectedSubject.toLowerCase()}. 
-                      Use targeted exercises and additional practice materials to 
-                      reinforce understanding and build confidence in challenging areas.
-                    </p>
-                  </IonText>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-
-          {/* Sección Today's Class - COLOR VERDE */}
-          <div className="todays-class-section">
-            <IonText>
-              <h3 className="section-title">Today's Class</h3>
-            </IonText>
-            
-            <IonCard className="class-card">
-              <IonCardContent>
-                <div className="class-header">
-                  <IonIcon icon={bulb} className="class-icon" />
-                  <IonText>
-                    <h4 className="class-title">Teaching Recommendation</h4>
+                    <h4 className="challenging-topics-title">Areas Needing Improvement</h4>
                   </IonText>
                 </div>
                 
-                <IonText>
-                  <p className="class-recommendation">
-                    {classRecommendations[selectedSubject]}
-                  </p>
-                </IonText>
+                <div className="challenging-content">
+                  {challengingTopics.length > 0 ? (
+                    <>
+                      {challengingTopics.map((topic, index) => (
+                        <div key={index}>
+                          <div className="challenging-topic-item">
+                            <IonIcon icon={warning} className="topic-warning-icon" />
+                            <div className="topic-difficulty-info">
+                              <IonText>
+                                <h5 className="topic-difficulty-name">{topic.name}</h5>
+                                <p className="topic-difficulty-percentage">
+                                  Current performance: {topic.percentage}%
+                                </p>
+                              </IonText>
+                            </div>
+                            <div className="topic-difficulty-badge">
+                              {getDifficultyLevel(topic.percentage)}
+                            </div>
+                          </div>
+                          {index === 0 && ( // Mostrar consejo solo para el tema más difícil
+                            <p className="improvement-tip">
+                              💡 {improvementTips[selectedSubject]}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </>
+                  ) : (
+                    <IonText>
+                      <p className="topic-difficulty-percentage" style={{ textAlign: 'center', padding: '20px' }}>
+                        Great job! You're performing well in all topics. Keep up the good work! 🎉
+                      </p>
+                    </IonText>
+                  )}
+                </div>
               </IonCardContent>
             </IonCard>
           </div>
 
-          {/* Botón Create Quiz - COLOR VERDE OSCURO */}
-          <div className="quiz-section">
+          {/* Botón Practice - COLOR VERDE OSCURO */}
+          <div className="practice-section">
             <IonButton 
               expand="block" 
-              className="create-quiz-button"
-              onClick={handleCreateQuiz}
+              className="practice-button"
+              onClick={handlePractice}
             >
-              <IonIcon icon={add} slot="start" />
-              Create Quiz for {selectedSubject}
+              <IonIcon icon={play} slot="start" />
+              Practice {selectedSubject}
             </IonButton>
           </div>
 
@@ -612,4 +627,4 @@ const Main_Prof: React.FC = () => {
   );
 };
 
-export default Main_Prof;
+export default Main_Est;

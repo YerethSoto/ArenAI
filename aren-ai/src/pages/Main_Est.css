@@ -6,7 +6,7 @@
 }
 
 /* Background color - CREMA */
-.main-prof-content {
+.main-est-content {
   --background: #fff7dd;
   --padding-top: 20px;
   --padding-bottom: 20px;
@@ -15,11 +15,11 @@
 }
 
 /* Header styling - MARRÓN */
-.main-prof-content ion-header {
+.main-est-content ion-header {
   --background: #8f6a56 !important;
 }
 
-.main-prof-content ion-toolbar {
+.main-est-content ion-toolbar {
   --background: #8f6a56 !important;
   --color: #8f6a56;
   --border-width: 0 !important;
@@ -131,7 +131,7 @@ ion-menu-button {
   font-weight: 500;
 }
 
-/* Performance Card - COLOR ACTUALIZADO #90beab */
+/* My Performance Card - COLOR ACTUALIZADO #90beab */
 .performance-card {
   background: #90beab;
   border-radius: 15px;
@@ -389,91 +389,110 @@ ion-menu-button {
   text-align: center;
 }
 
-/* Enforce Section - COLOR VERDE */
-.enforce-section {
+/* Challenging Topics Section - COLOR VERDE */
+.challenging-topics-section {
   margin-bottom: 25px;
 }
 
-.enforce-card {
+.challenging-topics-card {
   background: #90beab;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(144, 190, 171, 0.3);
   border: 2px solid #90beab;
 }
 
-.enforce-card ion-card-content {
+.challenging-topics-card ion-card-content {
   padding: 20px;
 }
 
-.enforce-content {
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-}
-
-.enforce-icon {
-  color: white;
-  font-size: 1.4rem;
-  margin-top: 2px;
-  flex-shrink: 0;
-}
-
-.enforce-text {
-  font-size: 0.95rem;
-  color: white;
-  line-height: 1.5;
-  margin: 0;
-}
-
-/* Today's Class Section - COLOR VERDE */
-.todays-class-section {
-  margin-bottom: 25px;
-}
-
-.class-card {
-  background: #90beab;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(144, 190, 171, 0.3);
-  border: 2px solid #90beab;
-}
-
-.class-card ion-card-content {
-  padding: 20px;
-}
-
-.class-header {
+.challenging-topics-header {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 15px;
 }
 
-.class-icon {
+.challenging-topics-icon {
   color: white;
   font-size: 1.2rem;
 }
 
-.class-title {
+.challenging-topics-title {
   font-size: 1.1rem;
   font-weight: 600;
   color: white;
   margin: 0;
 }
 
-.class-recommendation {
+.challenging-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.challenging-topic-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.challenging-topic-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.topic-warning-icon {
+  color: #ffeb3b;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.topic-difficulty-info {
+  flex: 1;
+}
+
+.topic-difficulty-name {
   font-size: 0.95rem;
+  font-weight: 600;
   color: white;
-  line-height: 1.5;
+  margin: 0 0 4px 0;
+}
+
+.topic-difficulty-percentage {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
   margin: 0;
   font-style: italic;
 }
 
-/* Quiz Section - COLOR VERDE OSCURO */
-.quiz-section {
+.topic-difficulty-badge {
+  background: rgba(244, 67, 54, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.improvement-tip {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 8px 0 0 0;
+  padding-left: 28px;
+  font-style: italic;
+  border-left: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Practice Section - COLOR VERDE OSCURO */
+.practice-section {
   margin-bottom: 30px;
 }
 
-.create-quiz-button {
+.practice-button {
   --background: #7aa895; /* VERDE OSCURO DEL CÍRCULO INTERIOR */
   --background-activated: #699382;
   --background-hover: #729c8a;
@@ -545,10 +564,20 @@ ion-menu-button {
     font-size: 0.85rem;
     min-height: 28px;
   }
+  
+  .challenging-topic-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .topic-difficulty-badge {
+    align-self: flex-start;
+  }
 }
 
 @media (max-width: 480px) {
-  .main-prof-content {
+  .main-est-content {
     --padding-start: 12px;
     --padding-end: 12px;
   }
@@ -585,12 +614,6 @@ ion-menu-button {
   
   .performance-card ion-card-content {
     padding: 20px;
-  }
-  
-  .enforce-content {
-    flex-direction: column;
-    text-align: center;
-    gap: 10px;
   }
   
   .topic-card {
