@@ -15,6 +15,7 @@ import {
 import { micOutline, send } from "ionicons/icons";
 import React, { useState, useRef, useEffect } from "react";
 import "./Chatbot.css";
+import ask_chat from '../api/ask_chat';
 
 interface Message {
   id: number;
@@ -134,28 +135,26 @@ const Chat: React.FC = () => {
       displayedText: inputMessage,
       isTyping: false,
     };
-
+    // Get AI response
+    // botResponse put the variable on the bot response
+    
+    ask_chat({
+        inputMessage: inputMessage,
+        learningType: 'Kinesthetic',
+        level: '7th grade',
+        name: 'Yereth Soto',
+        topics_progress: {
+          "addition": 80,
+          "subtraction": 76, 
+          "multiplication": 69,
+          "division": 45,
+          "fractions": 82
+        },
+      }).then((botResponse) => {
     setMessages((prev) => [...prev, userMessage]);
     setInputMessage("");
     scrollToBottom();
-
-
-
-
-    // Aqui va las respuesta del bot 
-    const botResponse = ""; //Add here 
-    const botMessage: Message = {
-      id: messageIdCounter.current++,
-      text: botResponse,
-      isUser: false,
-      timestamp: new Date(),
-      displayedText: "",
-      isTyping: true,
-    };
-    
-    setMessages((prev) => [...prev, botMessage]);
-    
-    startTypewriterEffect(botMessage.id, botResponse, 30);
+    });
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

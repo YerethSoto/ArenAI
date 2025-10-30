@@ -1,123 +1,230 @@
-ion-menu ion-content {
-  --background: #8f6a56;
+/* Import Open Sans font */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+* {
+  font-family: 'Open Sans', sans-serif;
 }
 
-ion-menu.md ion-content {
-  --padding-start: 8px;
-  --padding-end: 8px;
-  --padding-top: 20px;
-  --padding-bottom: 20px;
+/* Menu background */
+ion-menu {
+  --background: #fff7dd;
 }
 
-ion-menu.md ion-list {
-  padding: 20px 0;
+ion-content {
+  --background: #fff7dd;
 }
 
-ion-menu.md ion-note {
-  margin-bottom: 30px;
+/* Header del menú */
+.menu-header {
+  background: #8f6a56;
+  padding: 30px 20px 25px 20px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-ion-menu.md ion-list-header, ion-menu.md ion-note {
-  padding-left: 10px;
+.teacher-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-ion-menu.md ion-list#inbox-list {
-  border-bottom: #8f6a56;
+.teacher-avatar {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-ion-menu.md ion-list#inbox-list ion-list-header {
-  font-size: 22px;
+.teacher-avatar ion-icon {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.teacher-details {
+  flex: 1;
+}
+
+.teacher-name {
+  font-size: 1.1rem;
   font-weight: 600;
-  min-height: 20px;
+  color: white;
+  margin: 0 0 4px 0;
+  display: block;
 }
 
-ion-menu.md ion-list#labels-list ion-list-header {
-  font-size: 16px;
-  margin-bottom: 18px;
-  color: #757575;
-  min-height: 26px;
+.teacher-email {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
 }
 
-ion-menu.md ion-item {
-  --padding-start: 10px;
-  --padding-end: 10px;
-  border-radius: 4px;
+/* Listas del menú */
+ion-list {
+  background: transparent;
+  padding: 0;
 }
 
-ion-menu.md ion-item.selected {
-  --background: rgba(var(--ion-color-primary-rgb), 0.14);
+ion-list-header {
+  --background: transparent;
+  --color: #8f6a56;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+  padding: 20px 16px 8px 16px;
 }
 
-ion-menu.md ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
-}
-
-ion-menu.md ion-item ion-icon {
-  color: #616e7e;
-}
-
-ion-menu.md ion-item ion-label {
-  font-weight: 500;
-}
-
-ion-menu.ios ion-content {
-  --padding-bottom: 20px;
-}
-
-ion-menu.ios ion-list {
-  padding: 20px 0 0 0;
-  color: #8f6a56;
-}
-
-ion-menu.ios ion-note {
-  line-height: 24px;
-  margin-bottom: 20px;
-}
-
-ion-menu.ios ion-item {
+/* Items del menú */
+ion-item {
+  --background: transparent;
+  --background-activated: rgba(143, 106, 86, 0.1);
+  --background-hover: rgba(143, 106, 86, 0.05);
+  --color: #2c3e50;
   --padding-start: 16px;
   --padding-end: 16px;
-  --min-height: 50px;
+  --inner-padding-end: 0;
+  margin: 2px 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
-ion-menu.ios ion-item ion-icon {
-  font-size: 24px;
-  color: #73849a;
-}
-
-ion-menu.ios ion-item .selected ion-icon {
-  color:#8f6a56;
-}
-
-ion-menu.ios ion-list#labels-list ion-list-header {
-  margin-bottom: 8px;
-}
-
-ion-menu.ios ion-list-header,
-ion-menu.ios ion-note {
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-ion-menu.ios ion-note {
-  margin-bottom: 8px;
-}
-
-ion-note {
-  display: inline-block;
-  font-size: 16px;
-  color: var(--ion-color-medium-shade);
+ion-item:hover {
+  --background: rgba(143, 106, 86, 0.05);
 }
 
 ion-item.selected {
-  --color: var(--ion-color-primary);
-} 
-ion-menu ion-item.selected {
-  --background: #8f6a56; 
+  --background: #8f6a56;
+  --color: white;
 }
-ion-list {
+
+ion-item ion-icon {
   color: #8f6a56;
+  font-size: 1.2rem;
+  margin-right: 12px;
 }
-ion-list#inbox-list {
-  --background: #8f6a56; 
+
+ion-item.selected ion-icon {
+  color: white;
+}
+
+ion-label {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+/* Footer del menú */
+.menu-footer {
+  padding: 20px 16px;
+  text-align: center;
+  border-top: 1px solid rgba(143, 106, 86, 0.1);
+  margin-top: 20px;
+}
+
+.app-version {
+  font-size: 0.8rem;
+  color: #8f6a56;
+  opacity: 0.7;
+}
+
+/* Efectos y animaciones */
+ion-menu-toggle {
+  display: block;
+}
+
+ion-item {
+  position: relative;
+}
+
+ion-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  right: 16px;
+  height: 1px;
+  background: rgba(143, 106, 86, 0.1);
+}
+
+ion-item:last-child::after {
+  display: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .menu-header {
+    padding: 25px 16px 20px 16px;
+  }
+  
+  .teacher-avatar {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .teacher-name {
+    font-size: 1rem;
+  }
+  
+  .teacher-email {
+    font-size: 0.8rem;
+  }
+  
+  ion-list-header {
+    padding: 18px 12px 6px 12px;
+    font-size: 0.85rem;
+  }
+  
+  ion-item {
+    --padding-start: 12px;
+    --padding-end: 12px;
+    margin: 2px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-header {
+    padding: 20px 12px 15px 12px;
+  }
+  
+  .teacher-info {
+    gap: 12px;
+  }
+  
+  .teacher-avatar {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .teacher-avatar ion-icon {
+    font-size: 1.3rem;
+  }
+  
+  ion-label {
+    font-size: 0.9rem;
+  }
+}
+
+/* Scrollbar personalizado */
+ion-content::part(scroll) {
+  scrollbar-width: thin;
+  scrollbar-color: #8f6a56 #fff7dd;
+}
+
+ion-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+ion-content::-webkit-scrollbar-track {
+  background: #fff7dd;
+}
+
+ion-content::-webkit-scrollbar-thumb {
+  background: #8f6a56;
+  border-radius: 3px;
+}
+
+ion-content::-webkit-scrollbar-thumb:hover {
+  background: #7a5a48;
 }
