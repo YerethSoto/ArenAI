@@ -7,8 +7,8 @@ interface ContainerProps {
 const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
   return (
     <div id="container">
-      <strong>{name}</strong>
-      <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+      {/* Here we are going to add components to the main page
+      Add validations based on the name prop if needed*/}
     </div>
   );
 };
