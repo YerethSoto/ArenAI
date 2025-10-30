@@ -1,10 +1,16 @@
+from fastapi import APIRouter
+from fastapi import status as HTTP_STATUS
 import ollama
-import sys
- 
+router = APIRouter()
+doc = {
+    'name': '/ai',
+    'description': 'AI endpoints',
+}
 
-def AskOllama(userinput, learningType, level, name):
+@router.get("/ask_ollama")
+def AskOllama(userinput: str, learningType: str, level: str, name: str):
 
-
+    # This is a test, after is going to be more modular
     systemRules = f'You are Aren a capybara who loves to teach, your name is Aren, a friendly AI tutor helping students during class. ' \
     'Core Instructions: ' \
     '- Dont give direct answers unless its an answer to a question you posed yourself as an example - students must discover answers themselves ' \
@@ -46,14 +52,8 @@ def AskOllama(userinput, learningType, level, name):
         {'role': 'system', 'content': systemRules}
 
     ],
-    
-
-    
-
     )
 
     return(response['message'] ['content'])
 
-print(AskOllama(input("Ingresa texto para query: "),'An explanation of the concepts', '7th', 'Yereth Soto'))
-
-
+# print(AskOllama(input("Ingresa texto para query: "),'An explanation of the concepts', '7th', 'Yereth Soto'))

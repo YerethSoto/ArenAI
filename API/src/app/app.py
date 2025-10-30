@@ -1,23 +1,10 @@
-"""Definition of Flask application"""
 from fastapi import FastAPI
+from controllers.v1.ai import router as ai_router
 
+app = FastAPI()
+app.include_router(ai_router, prefix="/api")
 
-def create_app() -> FastAPI:
-    app = FastAPI(title="Aren AI API")
+@app.get("/")
+async def read_root():
+    return {"message": "Hello World"}
 
-    # Routers registration
-    # this will be moved to api_v1 later
-    # app.include_router(auth_bp, prefix="/api/auth", tags=["Auth"])
-    # app.include_router(students_bp, prefix="/api/students", tags=["Students"])
-    # app.include_router(lessons_bp, prefix="/api/lessons", tags=["Lessons"])
-
-    # Endpoint
-    @app.get("/")
-    async def root():
-        return {"message": "Welcome to the Aren AI Backend API"}
-
-    return app
-
-
-# app instance
-app = create_app()

@@ -1,0 +1,354 @@
+/* Import Open Sans font */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Background color - FIXED SCROLL */
+ion-content.chat-content {
+  --background: #80a1ba;
+  --padding-bottom: 150px !important;
+  --padding-end: 0;
+  --padding-start: 0;
+  --padding-top: 0;
+  --overflow: auto;
+}
+
+/* Header styling */
+.app-header {
+  --background: #536e83 !important;
+}
+
+.app-header ion-toolbar {
+  --background: #536e83 !important;
+  --color: white;
+  --border-width: 0 !important;
+}
+
+.app-title {
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+.help-button {
+  --color: white;
+  --background: transparent;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Messages container */
+.messages-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.message-list {
+  background: transparent;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Message wrapper for alignment */
+.message-wrapper {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  width: 100%;
+  min-height: 60px;
+}
+
+/* User messages - Right side */
+.user-wrapper {
+  justify-content: flex-end;
+}
+
+/* Bot messages - Left side */
+.bot-wrapper {
+  justify-content: flex-start;
+}
+
+/* Avatar container for consistent spacing */
+.avatar-container {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 4px;
+}
+
+/* Bot avatar as plain image */
+.bot-avatar-image {
+  width: 60px;
+  height: 60px;
+  margin-right: 12px;
+  border-radius: 50%;
+  object-fit: contain;
+  object-position: center;
+  background: transparent;
+  display: block;
+  flex-shrink: 0;
+}
+
+.user-avatar-image {
+  width: 60px;
+  height: 60px;
+  margin-left: 12px;
+  border-radius: 50%;
+  object-fit: contain;
+  object-position: center;
+  background: transparent;
+  display: block;
+  flex-shrink: 0;
+}
+
+.message-bubble {
+  max-width: calc(100% - 80px);
+  padding: 14px 18px;
+  border-radius: 20px;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-top: 4px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+}
+
+.message-text {
+  margin: 0;
+  font-weight: 400;
+  color: white;
+  width: 100%;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  hyphens: auto;
+}
+
+.user-bubble {
+  background: #3c7782;
+  color: white;
+  border-bottom-right-radius: 8px;
+  margin-left: 8px;
+}
+
+.bot-bubble {
+  background: #536e83;
+  color: white;
+  border-bottom-left-radius: 8px;
+  margin-right: 8px;
+}
+
+.typing-cursor {
+  animation: blink 0.7s infinite;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: bold;
+  margin-left: 2px;
+  display: inline-block;
+  width: 3px;
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+.typing-bubble {
+  background: #536e83 !important;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
+  }
+  70% {
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+.chat-footer {
+  background: #536e83 !important;
+  padding-bottom: env(safe-area-inset-bottom);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  overflow: hidden;
+  z-index: 1000;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  max-height: 120px;
+}
+
+.chat-footer ion-toolbar {
+  --background: #536e83 !important;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  --min-height: auto;
+}
+
+.input-container {
+  --padding-start: 16px;
+  --inner-padding-end: 8px;
+  --background: #536e83;
+  background: #536e83;
+  margin: 0 16px;
+  border-radius: 25px;
+  border: none;
+  width: calc(100% - 32px);
+  min-height: 60px;
+  max-height: 100px;
+}
+
+.message-input {
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --color: white;
+  --placeholder-color: rgba(255, 255, 255, 0.7);
+  --placeholder-font-weight: 300;
+  font-size: 1.2rem;
+  --background: transparent;
+  min-height: 50px;
+  max-height: 80px;
+}
+
+.message-input::part(native) {
+  background: transparent;
+}
+
+.send-btn,
+.mic-btn {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --color: white;
+}
+
+@media (max-width: 768px) {
+  ion-content.chat-content {
+    --padding-bottom: 130px !important;
+  }
+  
+  .message-bubble {
+    max-width: calc(100% - 70px);
+    font-size: 1.05rem;
+    padding: 12px 16px;
+    word-break: break-all;
+  }
+  
+  .messages-container {
+    padding: 12px;
+  }
+  
+  .bot-avatar-image,
+  .user-avatar-image {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .chat-footer {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    max-height: 110px;
+  }
+  
+  .input-container {
+    min-height: 55px;
+    margin: 0 12px;
+    width: calc(100% - 24px);
+    max-height: 90px;
+  }
+}
+
+.message-input::part(placeholder) {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+
+.message-bubble {
+  max-width: calc(100% - 80px);
+  padding: 14px 18px;
+  border-radius: 20px;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-top: 4px;
+  min-height: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+}
+
+.message-text {
+  margin: 0;
+  font-weight: 400;
+  color: white;
+  width: 100%;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  hyphens: auto;
+}
+
+.message-timestamp {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  margin-top: 4px;
+  align-self: flex-end;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.user-bubble {
+  background: #3c7782;
+  color: white;
+  border-bottom-right-radius: 8px;
+  margin-left: 8px;
+  align-items: flex-end;
+}
+
+.user-bubble .message-timestamp {
+  align-self: flex-end;
+}
+
+.bot-bubble {
+  background: #536e83;
+  color: white;
+  border-bottom-left-radius: 8px;
+  margin-right: 8px;
+  align-items: flex-start;
+}
+
+.bot-bubble .message-timestamp {
+  align-self: flex-start;
+}
+
