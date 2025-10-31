@@ -51,3 +51,22 @@ El servidor se expone en `http://localhost:3000` (configurable vía `PORT`).
 - `POST /api/students/:userId/topics/:topicId/score` – actualiza/crea puntaje acumulado por tema.
 
 Todos los endpoints realizan validación con Zod y ejecutan SQL nativo mediante el cliente `pg`.
+
+## Autenticación
+
+1. Solicita un token JWT enviando `POST /api/auth/login` con:
+
+```json
+{
+  "identifier": "usuario-o-correo",
+  "password": "TuP4ssw0rd@Fuerte"
+}
+```
+
+2. Usa el token recibido en las demás peticiones:
+
+```
+Authorization: Bearer <token>
+```
+
+Configura `JWT_SECRET` y `JWT_EXPIRES_IN` en tu `.env` para ajustar la firma y caducidad de los tokens.

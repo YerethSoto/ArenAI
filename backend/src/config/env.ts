@@ -21,6 +21,8 @@ const EnvSchema = z.object({
     .optional()
     .transform((value) => value === 'true')
     .optional(),
+  JWT_SECRET: z.string().min(16, 'JWT_SECRET must be at least 16 characters long'),
+  JWT_EXPIRES_IN: z.string().optional().default('1h'),
 });
 
 const env = EnvSchema.parse(process.env);
@@ -34,5 +36,9 @@ export const appConfig = {
     user: env.DB_USER,
     password: env.DB_PASSWORD,
     ssl: env.DB_SSL ?? false,
+  },
+  auth: {
+    jwtSecret: env.JWT_SECRET,
+    jwtExpiresIn: env.JWT_EXPIRES_IN,
   },
 };
