@@ -15,7 +15,7 @@ import {
 import { micOutline, send } from "ionicons/icons";
 import React, { useState, useRef, useEffect } from "react";
 import "./Chatbot.css";
-import ask_chat from '../api/ask_chat';
+import { ask_chat } from '../modules/api.js';
 
 interface Message {
   id: number;
@@ -137,7 +137,6 @@ const Chat: React.FC = () => {
     };
     // Get AI response
     // botResponse put the variable on the bot response
-    
     ask_chat({
         inputMessage: inputMessage,
         learningType: 'Kinesthetic',
