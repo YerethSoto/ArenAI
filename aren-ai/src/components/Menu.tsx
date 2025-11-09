@@ -6,8 +6,8 @@ import {
   IonList,
   IonListHeader,
   IonMenu,
-  IonNote,
   IonMenuToggle,
+  IonNote,
 } from '@ionic/react';
 
 import { useLocation } from 'react-router-dom';
