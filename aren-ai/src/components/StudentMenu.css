@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Nixie+One&display=swap');
+
+.student-menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #90beab;
+  border-radius: 12px;
+  padding: 6px 16px;
+  box-shadow: 0 2px 8px rgba(144, 190, 171, 0.3);
+  border: 2px solid #90beab;
+  min-height: 44px;
+  width: auto;
+  max-width: 200px;
+  position: relative;
+  z-index: 100;
+}
+
+.subject-selector {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* Dropdown wrapper */
+.dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown trigger - looks like plain text */
+.dropdown-trigger {
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 4px 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  min-width: 50px;
+  text-align: center;
+}
+
+.dropdown-trigger:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.subject-trigger {
+  min-width: 110px;
+  text-align: left;
+}
+
+/* Dropdown options - NOW IN PORTAL */
+.dropdown-portal {
+  position: fixed;
+  z-index: 9999; /* Highest possible z-index */
+}
+
+.dropdown-options {
+  background: #fff7dd;
+  border: 1px solid #90beab;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 130px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.subject-options {
+  z-index: 10002;
+  min-width: 130px;
+}
+
+.dropdown-option {
+  color: #8f6a56;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.2s;
+}
+
+.dropdown-option:last-child {
+  border-bottom: none;
+}
+
+.dropdown-option:hover {
+  background: #90beab;
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .student-menu-container {
+    padding: 5px 12px;
+    max-width: 180px;
+    min-height: 40px;
+  }
+  
+  .dropdown-trigger {
+    font-size: 0.95rem;
+    min-width: 45px;
+  }
+  
+  .subject-trigger {
+    min-width: 100px;
+  }
+  
+  .dropdown-options {
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .student-menu-container {
+    padding: 4px 10px;
+    max-width: 160px;
+    min-height: 36px;
+  }
+  
+  .dropdown-trigger {
+    font-size: 0.9rem;
+    min-width: 40px;
+    padding: 3px 5px;
+  }
+  
+  .subject-trigger {
+    min-width: 90px;
+  }
+  
+  .dropdown-options {
+    min-width: 110px;
+  }
+}
+.subject-trigger {
+  min-width: 110px;
+  text-align: center; 
+}
