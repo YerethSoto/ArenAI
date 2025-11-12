@@ -13,10 +13,10 @@ export interface UserRecord {
 export async function findUserByIdentifier(identifier: string) {
   const result = await db.query<UserRecord>(
     `SELECT id_user, username, email, password_hash, role, name, last_name
-       FROM "user"
-      WHERE username = $1 OR email = $1
+       FROM \`user\`
+      WHERE username = ? OR email = ?
       LIMIT 1`,
-    [identifier]
+    [identifier, identifier]
   );
 
   return result.rows.at(0) ?? null;

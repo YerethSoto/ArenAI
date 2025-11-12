@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { appConfig } from '../config/env.js';
 
@@ -14,17 +14,17 @@ export interface TokenResponse {
 }
 
 export function signAccessToken({ userId, username, role }: SignTokenPayload): TokenResponse {
-  const token = jwt.sign(
-    {
-      sub: userId,
-      username,
-      role,
-    },
-    appConfig.auth.jwtSecret,
-    {
-      expiresIn: appConfig.auth.jwtExpiresIn,
-    }
-  );
+  const payload = {
+    sub: String(userId),
+    username,
+    role,
+  };
+
+  const signOptions: SignOptions = {
+    expiresIn: appConfig.auth.jwtExpiresIn as SignOptions['expiresIn'],
+  };
+
+  const token = jwt.sign(payload, appConfig.auth.jwtSecret, signOptions);
 
   return { token, expiresIn: appConfig.auth.jwtExpiresIn };
 }

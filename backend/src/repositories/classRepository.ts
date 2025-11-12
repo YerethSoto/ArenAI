@@ -1,3 +1,4 @@
+import type { ResultSetHeader } from 'mysql2';
 import { db } from '../db/pool.js';
 import type { ClassRecord } from '../types.js';
 
@@ -30,10 +31,9 @@ export async function createClass(payload: {
   currentQuestionsSummary?: string | null;
   scoreAverage?: number | null;
 }) {
-  const result = await db.query<ClassRecord>(
+  const insertResult = await db.query<ResultSetHeader>(
     `INSERT INTO class (id_professor, name_class, id_subject, id_section, fecha, ai_summary, current_questions_summary, score_average)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-     RETURNING id_class, id_professor, name_class, id_subject, id_section, fecha, ai_summary, current_questions_summary, score_average`,
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       payload.professorId,
       payload.name,
@@ -46,7 +46,14 @@ export async function createClass(payload: {
     ]
   );
 
-  return result.rows[0];
+  const created = await db.query<ClassRecord>(
+    `SELECT id_class, id_professor, name_class, id_subject, id_section, fecha, ai_summary, current_questions_summary, score_average
+     FROM class
+     WHERE id_class = ?`,
+    [insertResult.rows[0].insertId]
+  );
+
+  return created.rows[0];
 }
 
 export async function assignTopicsToClass(classId: number, topics: ClassTopicPayload[]) {
@@ -54,21 +61,20 @@ export async function assignTopicsToClass(classId: number, topics: ClassTopicPay
   const client = await db.getClient();
 
   try {
-    await client.query('BEGIN');
+    await client.beginTransaction();
 
     for (const { topicId, scoreAverage } of topics) {
       await client.query(
         `INSERT INTO class_topic (id_class, id_topic, score_average)
-         VALUES ($1, $2, $3)
-         ON CONFLICT (id_class, id_topic)
-         DO UPDATE SET score_average = EXCLUDED.score_average`,
+         VALUES (?, ?, ?)
+         ON DUPLICATE KEY UPDATE score_average = VALUES(score_average)`,
         [classId, topicId, scoreAverage ?? null]
       );
     }
 
-    await client.query('COMMIT');
+    await client.commit();
   } catch (error) {
-    await client.query('ROLLBACK');
+    await client.rollback();
     throw error;
   } finally {
     client.release();
@@ -80,16 +86,16 @@ export async function enrollStudentsInClass(classId: number, students: ClassStud
   const client = await db.getClient();
 
   try {
-    await client.query('BEGIN');
+    await client.beginTransaction();
 
     for (const student of students) {
       await client.query(
         `INSERT INTO class_student (id_class, id_user, ai_summary, interaction_coefficient, score_average)
-         VALUES ($1, $2, $3, $4, $5)
-         ON CONFLICT (id_class, id_user)
-         DO UPDATE SET ai_summary = EXCLUDED.ai_summary,
-                       interaction_coefficient = EXCLUDED.interaction_coefficient,
-                       score_average = EXCLUDED.score_average`,
+         VALUES (?, ?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE
+           ai_summary = VALUES(ai_summary),
+           interaction_coefficient = VALUES(interaction_coefficient),
+           score_average = VALUES(score_average)`,
         [
           classId,
           student.userId,
@@ -100,9 +106,9 @@ export async function enrollStudentsInClass(classId: number, students: ClassStud
       );
     }
 
-    await client.query('COMMIT');
+    await client.commit();
   } catch (error) {
-    await client.query('ROLLBACK');
+    await client.rollback();
     throw error;
   } finally {
     client.release();
@@ -114,22 +120,22 @@ export async function recordClassStudentTopicScores(classId: number, entries: Cl
   const client = await db.getClient();
 
   try {
-    await client.query('BEGIN');
+    await client.beginTransaction();
 
     for (const entry of entries) {
       await client.query(
         `INSERT INTO class_student_topic (id_class, id_topic, id_user, score, ai_summary)
-         VALUES ($1, $2, $3, $4, $5)
-         ON CONFLICT (id_class, id_topic, id_user)
-         DO UPDATE SET score = EXCLUDED.score,
-                       ai_summary = EXCLUDED.ai_summary`,
+         VALUES (?, ?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE
+           score = VALUES(score),
+           ai_summary = VALUES(ai_summary)`,
         [classId, entry.topicId, entry.userId, entry.score ?? null, entry.aiSummary ?? null]
       );
     }
 
-    await client.query('COMMIT');
+    await client.commit();
   } catch (error) {
-    await client.query('ROLLBACK');
+    await client.rollback();
     throw error;
   } finally {
     client.release();

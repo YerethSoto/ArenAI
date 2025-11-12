@@ -1,3 +1,4 @@
+import type { ResultSetHeader } from 'mysql2';
 import { db } from '../db/pool.js';
 import type { Institution } from '../types.js';
 import { parseNumeric } from '../utils/transformers.js';
@@ -19,7 +20,7 @@ export async function getInstitutionById(id: number) {
   const result = await db.query<Institution>(
     `SELECT id_institution, name_institution, score_average
      FROM institution
-     WHERE id_institution = $1`,
+     WHERE id_institution = ?`,
     [id]
   );
 
@@ -34,16 +35,18 @@ export async function getInstitutionById(id: number) {
 }
 
 export async function createInstitution(payload: { name: string; scoreAverage?: number | null }) {
-  const result = await db.query<Institution>(
+  const insertResult = await db.query<ResultSetHeader>(
     `INSERT INTO institution (name_institution, score_average)
-     VALUES ($1, $2)
-     RETURNING id_institution, name_institution, score_average`,
+     VALUES (?, ?)`,
     [payload.name, payload.scoreAverage ?? null]
   );
 
-  const created = result.rows[0];
-  return {
-    ...created,
-    score_average: parseNumeric(created.score_average),
-  };
+  const insertId = insertResult.rows[0].insertId;
+  const created = await getInstitutionById(insertId);
+
+  if (!created) {
+    throw new Error('Failed to load institution after insert');
+  }
+
+  return created;
 }

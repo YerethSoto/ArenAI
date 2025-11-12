@@ -1,3 +1,4 @@
+import type { ResultSetHeader } from 'mysql2';
 import { db } from '../db/pool.js';
 import type { Subject } from '../types.js';
 
@@ -12,12 +13,18 @@ export async function listSubjects() {
 }
 
 export async function createSubject(payload: { name: string }) {
-  const result = await db.query<Subject>(
+  const insertResult = await db.query<ResultSetHeader>(
     `INSERT INTO subject (name_subject)
-     VALUES ($1)
-     RETURNING id_subject, name_subject`,
+     VALUES (?)`,
     [payload.name]
   );
 
-  return result.rows[0];
+  const created = await db.query<Subject>(
+    `SELECT id_subject, name_subject
+     FROM subject
+     WHERE id_subject = ?`,
+    [insertResult.rows[0].insertId]
+  );
+
+  return created.rows[0];
 }

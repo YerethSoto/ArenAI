@@ -1,3 +1,4 @@
+import type { ResultSetHeader } from 'mysql2';
 import { db } from '../db/pool.js';
 import type { Topic } from '../types.js';
 
@@ -13,7 +14,7 @@ export async function listTopicsBySubject(subjectId: number) {
   const result = await db.query<Topic>(
     `SELECT id_topic, name, id_subject, description
      FROM topic
-     WHERE id_subject = $1
+     WHERE id_subject = ?
      ORDER BY name`,
     [subjectId]
   );
@@ -22,43 +23,61 @@ export async function listTopicsBySubject(subjectId: number) {
 }
 
 export async function createTopic(payload: { name: string; subjectId: number; description?: string | null }) {
-  const result = await db.query<Topic>(
+  const insertResult = await db.query<ResultSetHeader>(
     `INSERT INTO topic (name, id_subject, description)
-     VALUES ($1, $2, $3)
-     RETURNING id_topic, name, id_subject, description`,
+     VALUES (?, ?, ?)`,
     [payload.name, payload.subjectId, payload.description ?? null]
   );
 
-  return result.rows[0];
+  const created = await db.query<Topic>(
+    `SELECT id_topic, name, id_subject, description
+     FROM topic
+     WHERE id_topic = ?`,
+    [insertResult.rows[0].insertId]
+  );
+
+  return created.rows[0];
 }
 
 export async function createTopicRelation(payload: { fatherId: number; sonId: number; correlation?: number | null }) {
-  const result = await db.query<{ id_topic_father_son_relation: number }>(
+  const insertResult = await db.query<ResultSetHeader>(
     `INSERT INTO topic_father_son_relation (id_topic_father, id_topic_son, correlation_coefficient)
-     VALUES ($1, $2, $3)
-     RETURNING id_topic_father_son_relation`,
+     VALUES (?, ?, ?)`,
     [payload.fatherId, payload.sonId, payload.correlation ?? null]
   );
 
-  return result.rows[0];
+  const created = await db.query<{ id_topic_father_son_relation: number }>(
+    `SELECT id_topic_father_son_relation
+     FROM topic_father_son_relation
+     WHERE id_topic_father_son_relation = ?`,
+    [insertResult.rows[0].insertId]
+  );
+
+  return created.rows[0];
 }
 
 export async function createTopicResource(payload: { topicId: number; source: string; description?: string | null; quality?: number | null }) {
-  const result = await db.query<TopicResource>(
+  const insertResult = await db.query<ResultSetHeader>(
     `INSERT INTO topic_resource (id_topic, resource_source, description, resource_quality)
-     VALUES ($1, $2, $3, $4)
-     RETURNING id_topic_resource, id_topic, resource_source, description, resource_quality`,
+     VALUES (?, ?, ?, ?)`,
     [payload.topicId, payload.source, payload.description ?? null, payload.quality ?? null]
   );
 
-  return result.rows[0];
+  const created = await db.query<TopicResource>(
+    `SELECT id_topic_resource, id_topic, resource_source, description, resource_quality
+     FROM topic_resource
+     WHERE id_topic_resource = ?`,
+    [insertResult.rows[0].insertId]
+  );
+
+  return created.rows[0];
 }
 
 export async function listTopicResources(topicId: number) {
   const result = await db.query<TopicResource>(
     `SELECT id_topic_resource, id_topic, resource_source, description, resource_quality
      FROM topic_resource
-     WHERE id_topic = $1
+     WHERE id_topic = ?
      ORDER BY id_topic_resource`,
     [topicId]
   );

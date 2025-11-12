@@ -3,11 +3,11 @@ import jwt from 'jsonwebtoken';
 import { appConfig } from '../config/env.js';
 import { ApiError } from './errorHandler.js';
 
-interface AccessTokenPayload extends jwt.JwtPayload {
-  sub: number | string;
+type AccessTokenPayload = jwt.JwtPayload & {
+  sub: string;
   username: string;
   role?: string | null;
-}
+};
 
 export interface AuthenticatedUser {
   id: number;
@@ -37,7 +37,7 @@ export function requireAuth(req: Request, _res: Response, next: NextFunction) {
   try {
     const payload = jwt.verify(token, appConfig.auth.jwtSecret) as AccessTokenPayload;
 
-    const subject = typeof payload.sub === 'string' ? Number(payload.sub) : payload.sub;
+    const subject = Number(payload.sub);
 
     if (!subject || Number.isNaN(subject)) {
       throw new ApiError(401, 'Invalid token payload');

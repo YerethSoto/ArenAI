@@ -1,11 +1,11 @@
 # ArenAI Backend
 
-API RESTful construida con TypeScript y Express para interactuar con OpenGauss utilizando SQL puro.
+API RESTful construida con TypeScript y Express para interactuar con MySQL utilizando SQL puro.
 
 ## Requisitos
 
 - Node.js >= 18
-- Base de datos OpenGauss/PostgreSQL accesible
+- Base de datos MySQL 8+ accesible
 - Variables de entorno definidas (ver `.env.example`)
 
 ## Instalación
@@ -24,7 +24,7 @@ Ejecuta los scripts `database/000-initial-schema.sql` y `database/001-arenai.sql
 npm run migrate
 ```
 
-El script aplicará todos los archivos `.sql` de la carpeta `database/` en orden alfanumérico.
+El script aplicará todos los archivos `.sql` de la carpeta `database/` en orden alfanumérico. Asegúrate de que los scripts estén adaptados a MySQL antes de ejecutarlos.
 
 ## Desarrollo
 
@@ -50,7 +50,7 @@ El servidor se expone en `http://localhost:3000` (configurable vía `PORT`).
 - `GET /api/students/:userId/progress` – progreso general por tema.
 - `POST /api/students/:userId/topics/:topicId/score` – actualiza/crea puntaje acumulado por tema.
 
-Todos los endpoints realizan validación con Zod y ejecutan SQL nativo mediante el cliente `pg`.
+Todos los endpoints realizan validación con Zod y ejecutan SQL nativo mediante el cliente `mysql2`.
 
 ## Autenticación
 
