@@ -85,17 +85,12 @@ const App: React.FC = () => {
 
   // Determine which sidebar to show based on user role
   const renderSidebar = () => {
-    if (!userRole) {
-      console.log('App: No user role, not rendering sidebar');
-      return null;
-    }
-    
-    console.log('App: Rendering sidebar for role:', userRole);
+    if (!userRole) return null;
     switch (userRole) {
       case 'professor':
-        return <ProfessorSidebar onLogout={handleLogout} />;
+        return <ProfessorSidebar key="professor" onLogout={handleLogout} />;
       case 'student':
-        return <StudentSidebar onLogout={handleLogout} />;
+        return <StudentSidebar key="student" onLogout={handleLogout} />;
       default:
         return null;
     }

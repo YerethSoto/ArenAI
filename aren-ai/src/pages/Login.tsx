@@ -137,12 +137,11 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         setUsername('');
         setPassword('');
         
-        // DIRECT REDIRECT - This is the fix!
+        // Redirige SIEMPRE al dashboard principal
         const redirectPath = authenticatedUser.role === 'student' 
           ? '/page/student' 
           : '/page/professor';
-        console.log('Redirecting to:', redirectPath);
-        history.push(redirectPath);
+        history.replace(redirectPath); // <-- Usa replace en vez de push
         
       } else {
         setError('Invalid username or password');
