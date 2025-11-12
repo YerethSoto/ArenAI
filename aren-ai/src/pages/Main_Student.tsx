@@ -17,7 +17,7 @@ import {
 import { 
   chevronBack, 
   chevronForward, 
-  add,
+  person,
   menu,
   school,
   chevronDown,
@@ -29,8 +29,9 @@ import {
   globe,
   language
 } from 'ionicons/icons';
-import './Main_Prof.css';
-import ProfessorMenu from '../components/ProfessorMenu'
+import './Main_Student.css';
+import StudentSidebar from '../components/StudentSidebar';
+import StudentMenu from '../components/StudentMenu';
 
 // ============================================================================
 // DATA VARIABLES - These will be replaced with API calls later
@@ -90,19 +91,19 @@ const SUBJECT_TOPICS = {
   ]
 };
 
-// Enforce topics text - This will come from API
-const ENFORCE_TOPICS_TEXT = {
-  'Math': 'Focus on improving student performance in mathematics. Use targeted exercises and additional practice materials to reinforce understanding and build confidence in challenging areas like calculus and probability.',
-  'Science': 'Enhance science comprehension through hands-on experiments and real-world applications. Students need more practice with physics concepts and chemical reactions.',
+// Study recommendations text - This will come from API
+const STUDY_RECOMMENDATIONS_TEXT = {
+  'Math': 'Focus on improving your performance in mathematics. Use targeted exercises and additional practice materials to reinforce understanding and build confidence in challenging areas like calculus and probability.',
+  'Science': 'Enhance science comprehension through hands-on experiments and real-world applications. You need more practice with physics concepts and chemical reactions.',
   'Social Studies': 'Improve historical analysis and geographical understanding. Incorporate more primary source analysis and map reading activities to build critical thinking skills.',
   'Spanish': 'Strengthen language acquisition through immersive activities. Focus on conversational practice and grammar reinforcement to improve overall fluency.'
 };
 
-// Class recommendations - This will come from API
-const CLASS_RECOMMENDATIONS = {
-  'Math': 'Focus on practicing quadratic equations with real-world examples. Consider using visual aids to help students understand the graphical representation of equations.',
-  'Science': 'Incorporate hands-on experiments to help students visualize scientific concepts. Use real-world examples to make the material more engaging and relatable.',
-  'Social Studies': 'Use interactive timelines and maps to help students understand historical context. Encourage discussions about current events to make connections with past events.',
+// Learning recommendations - This will come from API
+const LEARNING_RECOMMENDATIONS = {
+  'Math': 'Focus on practicing quadratic equations with real-world examples. Consider using visual aids to help understand the graphical representation of equations.',
+  'Science': 'Try hands-on experiments to help visualize scientific concepts. Use real-world examples to make the material more engaging and relatable.',
+  'Social Studies': 'Use interactive timelines and maps to understand historical context. Connect current events with past events to see patterns.',
   'Spanish': 'Practice conversational Spanish through role-playing activities. Incorporate multimedia resources like videos and songs to improve listening comprehension.'
 };
 
@@ -142,7 +143,7 @@ const getRingChartColor = (percentage: number) => {
 // MAIN COMPONENT
 // ============================================================================
 
-const Main_Prof: React.FC = () => {
+const Main_Student: React.FC = () => {
   // State variables
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
   const [overallPerformance, setOverallPerformance] = useState(82);
@@ -170,9 +171,9 @@ const Main_Prof: React.FC = () => {
     setCurrentSlide(0);
   }, [selectedSubject]);
 
-  // Get current enforce text and class recommendation from variables
-  const currentEnforceText = ENFORCE_TOPICS_TEXT[selectedSubject as keyof typeof ENFORCE_TOPICS_TEXT] || '';
-  const currentClassRecommendation = CLASS_RECOMMENDATIONS[selectedSubject as keyof typeof CLASS_RECOMMENDATIONS] || '';
+  // Get current study recommendation and learning recommendation from variables
+  const currentStudyRecommendation = STUDY_RECOMMENDATIONS_TEXT[selectedSubject as keyof typeof STUDY_RECOMMENDATIONS_TEXT] || '';
+  const currentLearningRecommendation = LEARNING_RECOMMENDATIONS[selectedSubject as keyof typeof LEARNING_RECOMMENDATIONS] || '';
   const currentSubjectIcon = SUBJECT_ICONS[selectedSubject as keyof typeof SUBJECT_ICONS] || book;
 
   // Week navigation handlers
@@ -202,8 +203,8 @@ const Main_Prof: React.FC = () => {
     }
   };
 
-  const handleCreateQuiz = () => {
-    console.log(`Creating quiz for ${selectedSubject}`);
+  const handlePracticeTopics = () => {
+    console.log(`Starting practice for ${selectedSubject}`);
   };
 
   const totalSlides = Math.ceil(topics.length / 3);
@@ -291,35 +292,41 @@ const Main_Prof: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <div className="header-content">
-            <IonMenuButton slot="start" className="menu-button enlarged-menu">
-              <IonIcon icon={menu} />
-            </IonMenuButton>
-            
-            <div className="header-center">
-              <ProfessorMenu
-                selectedGrade={selectedGrade}
-                selectedSection={selectedSection}
-                selectedSubject={selectedSubject}
-                onGradeChange={setSelectedGrade}
-                onSectionChange={setSelectedSection}
-                onSubjectChange={setSelectedSubject}
-              />
-            </div>
-            
-            <div className="header-brand">
-              <div className="brand-text">
-                <div className="arenai">ArenAI</div>
-                <div className="teacher">Teacher</div>
-              </div>
-            </div>
-          </div>
-        </IonToolbar>
-      </IonHeader>
 
-      <IonContent fullscreen class="main-prof-content">
+
+
+
+    <IonHeader>
+  <IonToolbar>
+    <div className="header-content">
+      <IonMenuButton slot="start" className="menu-button enlarged-menu">
+        <IonIcon icon={menu} />
+      </IonMenuButton>
+      
+      <div className="header-center">
+        <StudentMenu
+          selectedSubject={selectedSubject}
+          onSubjectChange={setSelectedSubject}
+        />
+      </div>
+      
+      <div className="header-brand">
+        <div className="brand-text">
+          <div className="arenai">ArenAI</div>
+          <div className="student">Student</div>
+        </div>
+      </div>
+    </div>
+  </IonToolbar>
+</IonHeader>
+
+
+
+
+
+      
+
+      <IonContent fullscreen class="main-student-content">
         <div className="dashboard-container">
           
           {/* Week Selector Section */}
@@ -337,7 +344,7 @@ const Main_Prof: React.FC = () => {
               <div className="week-display">
                 <IonText>
                   <h2 className="week-title">{currentWeek.name}</h2>
-                  <p className="section-info">{selectedGrade} - {selectedSection}</p>
+                  <p className="section-info">Grade {selectedGrade} - Section {selectedSection}</p>
                 </IonText>
               </div>
               
@@ -363,13 +370,13 @@ const Main_Prof: React.FC = () => {
                     </IonText>
                   </div>
                   <IonText>
-                    <p className="performance-label-new">Overall Performance</p>
+                    <p className="performance-label-new">My Overall Performance</p>
                   </IonText>
                   <IonButton 
                     fill="clear" 
                     className="review-button-new"
                   >
-                    Review details <IonIcon icon={arrowForward} slot="end" />
+                    View details <IonIcon icon={arrowForward} slot="end" />
                   </IonButton>
                 </div>
                 
@@ -398,7 +405,7 @@ const Main_Prof: React.FC = () => {
           <div className="topics-section">
             <div className="section-header">
               <IonText>
-                <h3 className="section-title">Performance by Topic</h3>
+                <h3 className="section-title">My Performance by Topic</h3>
               </IonText>
               {totalSlides > 1 && (
                 <div className="carousel-indicator-large">
@@ -490,19 +497,19 @@ const Main_Prof: React.FC = () => {
             )}
           </div>
 
-          {/* Enforce Topics Section */}
-          <div className="enforce-section">
+          {/* Study Recommendations Section */}
+          <div className="study-section">
             <IonText>
-              <h3 className="section-title">Enforce Topics</h3>
+              <h3 className="section-title">Study Recommendations</h3>
             </IonText>
             
-            <IonCard className="enforce-card">
+            <IonCard className="study-card">
               <IonCardContent>
-                <div className="enforce-content">
-                  <IonIcon icon={school} className="enforce-icon" />
+                <div className="study-content">
+                  <IonIcon icon={person} className="study-icon" />
                   <IonText>
-                    <p className="enforce-text">
-                      {currentEnforceText}
+                    <p className="study-text">
+                      {currentStudyRecommendation}
                     </p>
                   </IonText>
                 </div>
@@ -510,39 +517,39 @@ const Main_Prof: React.FC = () => {
             </IonCard>
           </div>
 
-          {/* Today's Class Section */}
-          <div className="todays-class-section">
+          {/* Today's Learning Section */}
+          <div className="todays-learning-section">
             <IonText>
-              <h3 className="section-title">Today's Class</h3>
+              <h3 className="section-title">Today's Learning</h3>
             </IonText>
             
-            <IonCard className="class-card">
+            <IonCard className="learning-card">
               <IonCardContent>
-                <div className="class-header">
-                  <IonIcon icon={bulb} className="class-icon" />
+                <div className="learning-header">
+                  <IonIcon icon={bulb} className="learning-icon" />
                   <IonText>
-                    <h4 className="class-title">Teaching Recommendation</h4>
+                    <h4 className="learning-title">Learning Recommendation</h4>
                   </IonText>
                 </div>
                 
                 <IonText>
-                  <p className="class-recommendation">
-                    {currentClassRecommendation}
+                  <p className="learning-recommendation">
+                    {currentLearningRecommendation}
                   </p>
                 </IonText>
               </IonCardContent>
             </IonCard>
           </div>
 
-          {/* Quiz Section */}
-          <div className="quiz-section">
+          {/* Practice Section */}
+          <div className="practice-section">
             <IonButton 
               expand="block" 
-              className="create-quiz-button"
-              onClick={handleCreateQuiz}
+              className="practice-topics-button"
+              onClick={handlePracticeTopics}
             >
-              <IonIcon icon={add} slot="start" />
-              Create Quiz for {selectedSubject}
+              <IonIcon icon={school} slot="start" />
+              Practice {selectedSubject} Topics
             </IonButton>
           </div>
 
@@ -552,4 +559,4 @@ const Main_Prof: React.FC = () => {
   );
 };
 
-export default Main_Prof;
+export default Main_Student;

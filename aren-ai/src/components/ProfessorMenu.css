@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Nixie+One&display=swap');
+
+.professor-menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #90beab;
+  border-radius: 12px;
+  padding: 6px 16px;
+  box-shadow: 0 2px 8px rgba(144, 190, 171, 0.3);
+  border: 2px solid #90beab;
+  min-height: 44px;
+  width: auto;
+  max-width: 300px;
+  position: relative;
+  z-index: 100;
+}
+
+.class-selectors {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* Dropdown wrapper */
+.dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown trigger - looks like plain text */
+.dropdown-trigger {
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 4px 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  min-width: 50px;
+  text-align: center;
+}
+
+.dropdown-trigger:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.subject-trigger {
+  min-width: 110px;
+  text-align: left;
+}
+
+/* Dropdown options - NOW IN PORTAL */
+.dropdown-portal {
+  position: fixed;
+  z-index: 9999; /* Highest possible z-index */
+}
+
+.dropdown-options {
+  background: #fff7dd;
+  border: 1px solid #90beab;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 80px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.grade-options {
+  z-index: 10000;
+}
+
+.section-options {
+  z-index: 10001;
+}
+
+.subject-options {
+  z-index: 10002;
+  min-width: 130px;
+}
+
+.dropdown-option {
+  color: #8f6a56;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.2s;
+}
+
+.dropdown-option:last-child {
+  border-bottom: none;
+}
+
+.dropdown-option:hover {
+  background: #90beab;
+  color: white;
+}
+
+.divider {
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0 4px;
+  opacity: 0.9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .professor-menu-container {
+    padding: 5px 12px;
+    max-width: 280px;
+    min-height: 40px;
+  }
+  
+  .dropdown-trigger {
+    font-size: 0.95rem;
+    min-width: 45px;
+  }
+  
+  .subject-trigger {
+    min-width: 100px;
+  }
+  
+  .divider {
+    font-size: 0.95rem;
+    margin: 0 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .professor-menu-container {
+    padding: 4px 10px;
+    max-width: 250px;
+    min-height: 36px;
+  }
+  
+  .dropdown-trigger {
+    font-size: 0.9rem;
+    min-width: 40px;
+    padding: 3px 5px;
+  }
+  
+  .subject-trigger {
+    min-width: 90px;
+  }
+  
+  .subject-options {
+    min-width: 110px;
+  }
+  
+  .divider {
+    font-size: 0.9rem;
+    margin: 0 2px;
+  }
+}  
+.subject-trigger {
+  min-width: 110px;
+  text-align: center; 
+}

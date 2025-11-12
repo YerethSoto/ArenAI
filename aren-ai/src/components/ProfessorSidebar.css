@@ -228,3 +228,10 @@ ion-content::-webkit-scrollbar-thumb {
 ion-content::-webkit-scrollbar-thumb:hover {
   background: #7a5a48;
 }
+.teacher-username{
+
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  display: block;
+
+}

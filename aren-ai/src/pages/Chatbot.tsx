@@ -11,10 +11,13 @@ import {
   IonTitle,
   IonToolbar,
   IonFooter,
+  IonMenuButton,
 } from "@ionic/react";
-import { micOutline, send } from "ionicons/icons";
+import { micOutline, send, menu } from "ionicons/icons";
 import React, { useState, useRef, useEffect } from "react";
 import "./Chatbot.css";
+import StudentMenu from "../components/StudentMenu";
+import StudentSidebar from "../components/StudentSidebar";
 
 interface Message {
   id: number;
@@ -26,34 +29,45 @@ interface Message {
 }
 
 const Chat: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([]); // Array vacío inicial
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
+  const [isOllamaConnected, setIsOllamaConnected] = useState<boolean>(false);
+  const [selectedSubject, setSelectedSubject] = useState('Math');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLIonContentElement>(null);
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const messageIdCounter = useRef(1); // Contador para IDs únicos y consistentes
+  const messageIdCounter = useRef(1);
 
-  // Efecto para el mensaje inicial cuando el componente se monta
+  // Logout handler
+  const handleLogout = () => {
+    console.log('Logout clicked');
+    // Add your logout logic here
+    // For example: navigation to login page, clear tokens, etc.
+    // You can use Ionic's useHistory hook for navigation if needed
+  };
+
+  // Check Ollama connection on component mount
   useEffect(() => {
+    checkOllamaConnection();
+    
     const initialMessage: Message = {
       id: messageIdCounter.current++,
       text: "¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte?",
       isUser: false,
       timestamp: new Date(),
-      displayedText: "", // Vacío para el efecto de escritura
+      displayedText: "",
       isTyping: true,
     };
     
     setMessages([initialMessage]);
     
-    // Iniciar efecto de escritura para el mensaje inicial
     setTimeout(() => {
       startTypewriterEffect(initialMessage.id, initialMessage.text, 40);
-    }, 500); // Pequeño delay para que se note el efecto al cargar
+    }, 500);
     
   }, []);
 
-  // Limpiar intervalos cuando el componente se desmonte
+  // Clean up intervals on unmount
   useEffect(() => {
     return () => {
       if (typingIntervalRef.current) {
@@ -62,7 +76,24 @@ const Chat: React.FC = () => {
     };
   }, []);
 
-  // Efecto de escritura para mensajes del bot
+  // Check if Ollama is running
+  const checkOllamaConnection = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:11434/api/tags');
+      if (response.ok) {
+        setIsOllamaConnected(true);
+        console.log('Ollama is connected');
+      } else {
+        setIsOllamaConnected(false);
+        console.log('Ollama is not running');
+      }
+    } catch (error) {
+      setIsOllamaConnected(false);
+      console.log('Ollama connection failed:', error);
+    }
+  };
+
+  // Typewriter effect for bot messages
   const startTypewriterEffect = (messageId: number, fullText: string, speed: number = 40) => {
     let currentText = "";
     let charIndex = 0;
@@ -86,8 +117,6 @@ const Chat: React.FC = () => {
             : msg
         ));
         charIndex++;
-        
-        // Hacer scroll durante la escritura
         scrollToBottom();
       } else {
         if (typingIntervalRef.current) {
@@ -114,7 +143,7 @@ const Chat: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  // Función para formatear la hora
+  // Format time function
   const formatTime = (date: Date): string => {
     return date.toLocaleTimeString('es-ES', { 
       hour: '2-digit', 
@@ -123,7 +152,8 @@ const Chat: React.FC = () => {
     });
   };
 
-  const handleSendMessage = () => {
+  // Main function to handle sending messages
+  const handleSendMessage = async () => {
     if (inputMessage.trim() === "") return;
 
     const userMessage: Message = {
@@ -139,23 +169,121 @@ const Chat: React.FC = () => {
     setInputMessage("");
     scrollToBottom();
 
+    try {
+      // System prompt for the AI - Updated to include subject context
+      const systemRules = `Eres Aren, un capibara entusiasta que adora enseñar. Eres un tutor amigable que ayuda a estudiantes durante sus clases.
 
+CONTEXTO DEL AULA:
+- Materia actual: ${selectedSubject}
+- El estudiante tiene acceso a su CUADERNO para escribir, dibujar y resolver problemas
+- Puede hacer notas, diagramas y cálculos en papel
+- Está en un ambiente de aprendizaje con materiales básicos (lápiz, papel, borrador)
+- Eres un asistente de chat dentro de una aplicación
 
+PERFIL DEL ESTUDIANTE:
+- Nombre: Yereth Soto
+- Grado: 7mo grado
+- Estilo de aprendizaje: kinestésico
 
-    // Aqui va las respuesta del bot 
-    const botResponse = "Hola, esto es una pruebaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-    const botMessage: Message = {
-      id: messageIdCounter.current++,
-      text: botResponse,
-      isUser: false,
-      timestamp: new Date(),
-      displayedText: "",
-      isTyping: true,
-    };
-    
-    setMessages((prev) => [...prev, botMessage]);
-    
-    startTypewriterEffect(botMessage.id, botResponse, 30);
+FILOSOFÍA DE ENSEÑANZA:
+1. DESCUBRIMIENTO GUIADO: Nunca des respuestas directas. Haz preguntas estratégicas que lleven a los estudiantes a descubrir soluciones por sí mismos.
+2. USO PRÁCTICO DEL CUADERNO: Fomenta el uso activo del cuaderno para resolver problemas.
+3. ENFOQUE EN LA MATERIA: Enfócate en ${selectedSubject} y sus conceptos específicos.
+
+ADAPTACIÓN AL ESTILO DE APRENDIZAJE - ACTIVIDADES PRÁCTICAS:
+
+Aprendices Kinestésicos (Yereth):
+- "Escribe cada paso físicamente en tu cuaderno"
+- "Usa tu dedo para trazar los cálculos"
+- "Organiza tu cuaderno con espacios para cada paso"
+- "Usa gestos con las manos para representar operaciones"
+- "Encierra en un círculo o subraya las partes importantes"
+
+MÉTODOS DE ENSEÑANZA CONCRETOS:
+1. "YO HAGO, NOSOTROS HACEMOS, TÚ HACES":
+   - YO HAGO: Demuestro un paso específico (explico cómo lo haría en mi cuaderno)
+   - NOSOTROS HACEMOS: Guío para hacer el siguiente paso juntos
+   - TÚ HACES: Invito a intentar el siguiente paso en tu cuaderno
+
+2. ESTRATEGIAS DE CUADERNO:
+   - "Escribe lo que ya sabes sobre el problema"
+   - "Dibuja un espacio de trabajo para cada parte"
+   - "Usa la página para organizar tus pensamientos"
+   - "Haz una lista de lo que necesitas encontrar"
+
+LENGUAJE REQUERIDO - USA SIEMPRE:
+- "Primero, escribe en tu cuaderno lo que el problema está preguntando"
+- "¿Qué operación/concepto de ${selectedSubject} necesitamos usar aquí?"
+- "Intenta resolver solo esta parte en tu cuaderno: [paso específico]"
+- "Excelente, ahora usemos eso para el siguiente paso"
+- "Dibuja cómo visualizas este problema"
+- "Escribe la siguiente operación en tu cuaderno"
+
+Habla directamente con Yereth, usando su nombre frecuentemente. Proporciona pasos accionables que desarrollen habilidades de pensamiento. Celebra el esfuerzo y enfócate en la mentalidad de crecimiento.`;
+
+      let botResponse: string;
+
+      if (isOllamaConnected) {
+        // Call Ollama directly
+        const response = await fetch('http://127.0.0.1:11434/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'phi4:latest',
+            messages: [
+              {
+                role: 'system',
+                content: systemRules
+              },
+              {
+                role: 'user',
+                content: inputMessage
+              }
+            ],
+            stream: false
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Ollama error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        botResponse = data.message.content;
+      } else {
+        // Fallback response if Ollama is not available
+        botResponse = "¡Hola! Actualmente no puedo acceder a mi sistema de IA. Por favor asegúrate de que Ollama esté ejecutándose en tu computadora. Mientras tanto, puedo sugerirte que: \n\n1. Escribas el problema en tu cuaderno\n2. Identifiques qué información tienes y qué necesitas encontrar\n3. Intentes diferentes enfoques para resolverlo";
+      }
+
+      const botMessage: Message = {
+        id: messageIdCounter.current++,
+        text: botResponse,
+        isUser: false,
+        timestamp: new Date(),
+        displayedText: "",
+        isTyping: true,
+      };
+      
+      setMessages((prev) => [...prev, botMessage]);
+      startTypewriterEffect(botMessage.id, botResponse, 30);
+
+    } catch (error) {
+      console.error('Error sending message:', error);
+      
+      const errorMessage: Message = {
+        id: messageIdCounter.current++,
+        text: "Lo siento, estoy teniendo problemas para procesar tu mensaje. Por favor verifica que Ollama esté ejecutándose (puerto 11434) o intenta nuevamente.",
+        isUser: false,
+        timestamp: new Date(),
+        displayedText: "",
+        isTyping: true,
+      };
+      
+      setMessages((prev) => [...prev, errorMessage]);
+      startTypewriterEffect(errorMessage.id, errorMessage.text, 30);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -165,7 +293,6 @@ const Chat: React.FC = () => {
     }
   };
 
-  // esta funcion es para ver si el mensaje es repetido no volver a mostrar la foto, no se va a usar mucho  pero por si acaso
   const shouldShowAvatar = (currentIndex: number) => {
     if (currentIndex === 0) return true;
     const currentMessage = messages[currentIndex];
@@ -177,11 +304,29 @@ const Chat: React.FC = () => {
     <IonPage>
       <IonHeader className="app-header">
         <IonToolbar>
-          <IonTitle className="app-title">ArenAI</IonTitle>
-          <IonButtons slot="end">
-          </IonButtons>
+          <div className="header-content">
+            <IonMenuButton slot="start" className="menu-button enlarged-menu">
+              <IonIcon icon={menu} />
+            </IonMenuButton>
+            
+            <div className="header-center">
+              <StudentMenu
+                selectedSubject={selectedSubject}
+                onSubjectChange={setSelectedSubject}
+              />
+            </div>
+            
+            <div className="header-brand">
+              <div className="brand-text">
+                <div className="arenai">ArenAI</div>
+                <div className="student">Chat</div>
+              </div>
+            </div>
+          </div>
         </IonToolbar>
       </IonHeader>
+
+      <StudentSidebar onLogout={handleLogout} />
 
       <IonContent ref={contentRef} className="chat-content">
         <div className="messages-container">
@@ -252,6 +397,7 @@ const Chat: React.FC = () => {
                 slot="end"
                 className="send-btn"
                 onClick={handleSendMessage}
+                disabled={!inputMessage.trim()}
               >
                 <IonIcon icon={send} />
               </IonButton>

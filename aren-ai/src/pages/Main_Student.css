@@ -7,7 +7,7 @@
 }
 
 /* Background color - CREMA */
-.main-prof-content {
+.main-student-content {
   --background: #fff7dd;
   --padding-top: 20px;
   --padding-bottom: 20px;
@@ -68,6 +68,23 @@ ion-toolbar {
   z-index: 101;
 }
 
+/* Subject selector styling */
+.subject-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.subject-select {
+  --background: white;
+  --color: #8f6a56;
+  --border-radius: 25px;
+  --padding-start: 20px;
+  --padding-end: 20px;
+  min-width: 200px;
+  font-weight: 600;
+}
+
 /* Brand in bottom right of header */
 .header-brand {
   position: absolute;
@@ -95,7 +112,7 @@ ion-toolbar {
   font-family: 'Nixie One', cursive;
 }
 
-.teacher {
+.student {
   color: white;
   font-size: 0.8rem;
   font-weight: 500;
@@ -144,6 +161,13 @@ ion-toolbar {
   font-weight: 600;
   color: white;
   margin: 0;
+}
+
+.section-info {
+  font-size: 0.9rem;
+  color: white;
+  margin: 5px 0 0 0;
+  opacity: 0.9;
 }
 
 /* FIXED: Overall Performance Section - Side by Side Layout */
@@ -445,35 +469,35 @@ ion-toolbar {
   font-size: 20px;
 }
 
-/* Enforce Section */
-.enforce-section {
+/* Study Section */
+.study-section {
   margin-bottom: 25px;
 }
 
-.enforce-card {
+.study-card {
   background: #90beab;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(144, 190, 171, 0.3);
   border: 2px solid #90beab;
 }
 
-.enforce-card ion-card-content {
+.study-card ion-card-content {
   padding: 20px;
 }
 
-.enforce-content {
+.study-content {
   display: flex;
   align-items: flex-start;
   gap: 12px;
 }
 
-.enforce-icon {
+.study-icon {
   font-size: 24px;
   color: white;
   margin-top: 2px;
 }
 
-.enforce-text {
+.study-text {
   font-size: 0.95rem;
   color: white;
   line-height: 1.5;
@@ -481,42 +505,42 @@ ion-toolbar {
   white-space: pre-line;
 }
 
-/* Today's Class Section */
-.todays-class-section {
+/* Today's Learning Section */
+.todays-learning-section {
   margin-bottom: 25px;
 }
 
-.class-card {
+.learning-card {
   background: #90beab;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(144, 190, 171, 0.3);
   border: 2px solid #90beab;
 }
 
-.class-card ion-card-content {
+.learning-card ion-card-content {
   padding: 20px;
 }
 
-.class-header {
+.learning-header {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
 }
 
-.class-icon {
+.learning-icon {
   font-size: 24px;
   color: white;
 }
 
-.class-title {
+.learning-title {
   font-size: 1.1rem;
   font-weight: 600;
   color: white;
   margin: 0;
 }
 
-.class-recommendation {
+.learning-recommendation {
   font-size: 0.95rem;
   color: white;
   line-height: 1.5;
@@ -524,12 +548,12 @@ ion-toolbar {
   font-style: italic;
 }
 
-/* Quiz Section */
-.quiz-section {
+/* Practice Section */
+.practice-section {
   margin-bottom: 30px;
 }
 
-.create-quiz-button {
+.practice-topics-button {
   --background: #508393;
   --background-activated: #467888;
   --background-hover: #4a7c8c;

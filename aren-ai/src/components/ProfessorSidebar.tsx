@@ -31,7 +31,7 @@ import {
   bookOutline,
   clipboardOutline
 } from 'ionicons/icons';
-import './Menu.css';
+import './ProfessorSidebar.css';
 
 interface AppPage {
   url: string;
@@ -43,40 +43,25 @@ interface AppPage {
 const appPages: AppPage[] = [
   {
     title: 'Dashboard',
-    url: '/main-prof',
+    url: '/page/professor',
     iosIcon: homeOutline,
     mdIcon: homeSharp
   },
-  {
-    title: 'My Classes',
-    url: '/folder/Classes',
-    iosIcon: schoolOutline,
-    mdIcon: schoolSharp
-  },
-  {
-    title: 'Create Class',
-    url: '/class-creation',
-    iosIcon: createOutline,
-    mdIcon: createSharp
-  },
-  {
-    title: 'Analytics',
-    url: '/folder/Analytics',
-    iosIcon: analyticsOutline,
-    mdIcon: analyticsSharp
-  },
+
+  
   {
     title: 'Students',
     url: '/folder/Students',
     iosIcon: peopleOutline,
     mdIcon: peopleSharp
   },
+  
   {
-    title: 'Assignments',
-    url: '/folder/Assignments',
-    iosIcon: clipboardOutline,
-    mdIcon: clipboardOutline
-  }
+    title: 'Create Class',
+    url: '/class-creation',
+    iosIcon: createOutline,
+    mdIcon: createSharp
+  },
 ];
 
 const settingsPages: AppPage[] = [
@@ -100,21 +85,61 @@ const settingsPages: AppPage[] = [
   }
 ];
 
-const Menu: React.FC = () => {
+// Interface for user data
+interface UserData {
+  name: string;
+  email: string;
+  username: string;
+}
+
+// Props interface for the sidebar
+interface ProfessorSidebarProps {
+  onLogout: () => void;
+}
+
+const ProfessorSidebar: React.FC<ProfessorSidebarProps> = ({ onLogout }) => {
   const location = useLocation();
+
+  // Get current user data from localStorage
+  const getUserData = (): UserData => {
+    try {
+      const storedData = localStorage.getItem('userData');
+      if (storedData) {
+        return JSON.parse(storedData);
+      }
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+    }
+    
+    // Fallback data if nothing is stored
+    return {
+      name: 'Prof. Rodriguez',
+      email: 'prof.rodriguez@arenai.edu',
+      username: 'prof.rodriguez'
+    };
+  };
+
+  const currentUser = getUserData();
+
+  // Handle logout
+  const handleLogout = () => {
+    console.log('ProfessorSidebar: Logging out');
+    onLogout(); // Call the parent's logout function
+  };
 
   return (
     <IonMenu contentId="main" type="overlay">
       <IonContent>
-        {/* Header del menú */}
+        {/* Header del menú con datos dinámicos del usuario */}
         <div className="menu-header">
           <div className="teacher-info">
             <div className="teacher-avatar">
               <IonIcon icon={schoolSharp} />
             </div>
             <div className="teacher-details">
-              <IonLabel className="teacher-name">Prof. Rodriguez</IonLabel>
-              <IonNote className="teacher-email">prof.rodriguez@arenai.edu</IonNote>
+              <IonLabel className="teacher-name">{currentUser.name}</IonLabel>
+              <IonNote className="teacher-email">{currentUser.email}</IonNote>
+              <IonNote className="teacher-username">@{currentUser.username}</IonNote>
             </div>
           </div>
         </div>
@@ -144,6 +169,24 @@ const Menu: React.FC = () => {
         <IonList id="settings-list" lines="none">
           <IonListHeader>Account</IonListHeader>
           {settingsPages.map((appPage, index) => {
+            if (appPage.title === 'Logout') {
+              return (
+                <IonMenuToggle key={index} autoHide={false}>
+                  <IonItem 
+                    className={location.pathname === appPage.url ? 'selected' : ''}
+                    routerLink={appPage.url}
+                    routerDirection="none"
+                    lines="none"
+                    detail={false}
+                    onClick={handleLogout}
+                  >
+                    <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
+                    <IonLabel>{appPage.title}</IonLabel>
+                  </IonItem>
+                </IonMenuToggle>
+              );
+            }
+            
             return (
               <IonMenuToggle key={index} autoHide={false}>
                 <IonItem 
@@ -170,4 +213,4 @@ const Menu: React.FC = () => {
   );
 };
 
-export default Menu;
+export default ProfessorSidebar;
