@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import {
   IonContent,
   IonIcon,
@@ -9,6 +10,7 @@ import {
   IonMenuToggle,
   IonNote,
 } from '@ionic/react';
+import { Link } from 'react-router-dom';
 
 import { useLocation } from 'react-router-dom';
 import { 
@@ -102,7 +104,14 @@ interface StudentSidebarProps {
 }
 
 const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
+  const [showAnimation, setShowAnimation] = useState(true);
   const location = useLocation();
+
+  useEffect(() => {
+    // Solo muestra la animación la primera vez
+    const timer = setTimeout(() => setShowAnimation(false), 1000); // duración de la animación
+    return () => clearTimeout(timer);
+  }, []);
 
   // Get current user data from localStorage
   const getUserData = (): UserData => {
@@ -132,7 +141,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
   };
 
   return (
-    <IonMenu contentId="main" type="overlay">
+    <IonMenu contentId="main">
       <IonContent>
         {/* Header del menú */}
         <div className="menu-header">
