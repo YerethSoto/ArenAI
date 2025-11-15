@@ -83,7 +83,7 @@ Se incluyó la colección `backend/postman/arenai-api.postman_collection.json` c
 2. Ejecuta `POST /api/auth/login` (usa el usuario sembrado `admin` / `ArenAIAdmin123` tras correr `npm run migrate`). El script de la colección guardará automáticamente el token y el `authUserId` para reutilizarlos.
 3. Las peticiones que crean entidades guardan los IDs resultantes en variables (`institutionId`, `sectionId`, `subjectId`, `topicId`, etc.) que luego se usan en rutas dependientes.
 4. Para los campos que requieren un estudiante real (`studentUserId`) crea primero un usuario con perfil de estudiante en la base de datos y escribe su ID en la variable correspondiente antes de ejecutar esos requests.
-5. El flujo recomendado es: crear institución → sección → materia → temas → recursos/relaciones → clase → asignaciones y métricas → endpoints de estudiante.
+5. El flujo recomendado es: crear institución (institution) → sección (section) → materia (subject) → temas (topics) → recursos/relaciones (resources/relations) → clase (class) → asignaciones y métricas (assignments/metrics) → endpoints de estudiante (student endpoints).
 
 Con esto puedes recorrer toda la API en orden desde Postman sin tener que armar cada request manualmente.
 
