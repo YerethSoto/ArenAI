@@ -1,12 +1,51 @@
 SET NAMES utf8mb4;
 SET time_zone = '+00:00';
 
+-- Cambia @RESET_SCHEMA a 1 únicamente si deseas borrar todas las tablas antes de recrearlas.
+SET @RESET_SCHEMA := IFNULL(@RESET_SCHEMA, 0);
+
+DROP PROCEDURE IF EXISTS reset_schema_objects;
+CREATE PROCEDURE reset_schema_objects(IN should_reset BOOLEAN)
+proc: BEGIN
+  DECLARE old_fk_checks INT DEFAULT @@FOREIGN_KEY_CHECKS;
+
+  IF should_reset = 0 THEN
+    LEAVE proc;
+  END IF;
+
+  SET FOREIGN_KEY_CHECKS = 0;
+
+  DROP TABLE IF EXISTS user_section;
+  DROP TABLE IF EXISTS professor_profile;
+  DROP TABLE IF EXISTS student_profile;
+  DROP TABLE IF EXISTS `user`;
+
+  DROP TABLE IF EXISTS class_student_topic;
+  DROP TABLE IF EXISTS class_student;
+  DROP TABLE IF EXISTS student_topic;
+  DROP TABLE IF EXISTS class_topic;
+  DROP TABLE IF EXISTS class;
+
+  DROP TABLE IF EXISTS topic_resource;
+  DROP TABLE IF EXISTS topic_father_son_relation;
+  DROP TABLE IF EXISTS topic;
+  DROP TABLE IF EXISTS subject;
+
+  DROP TABLE IF EXISTS section;
+  DROP TABLE IF EXISTS grade_score_average;
+  DROP TABLE IF EXISTS professor;
+  DROP TABLE IF EXISTS student;
+  DROP TABLE IF EXISTS institution;
+
+  SET FOREIGN_KEY_CHECKS = old_fk_checks;
+END;
+
+CALL reset_schema_objects(@RESET_SCHEMA);
+DROP PROCEDURE IF EXISTS reset_schema_objects;
+
 -- =========================================================
 -- RESET: eliminar objetos previos (triggers, tablas)
 -- =========================================================
-SET @OLD_FOREIGN_KEY_CHECKS := @@FOREIGN_KEY_CHECKS;
-SET FOREIGN_KEY_CHECKS = 0;
-
 DROP TRIGGER IF EXISTS trg_enforce_same_subject_ins;
 DROP TRIGGER IF EXISTS trg_enforce_same_subject_upd;
 DROP TRIGGER IF EXISTS trg_class_professor_check_ins;
@@ -19,30 +58,6 @@ DROP TRIGGER IF EXISTS trg_cst_student_check_upd;
 DROP FUNCTION IF EXISTS enforce_same_subject_for_class_topic;
 DROP FUNCTION IF EXISTS ensure_user_is_professor;
 DROP FUNCTION IF EXISTS ensure_user_is_student;
-
-DROP TABLE IF EXISTS user_section;
-DROP TABLE IF EXISTS professor_profile;
-DROP TABLE IF EXISTS student_profile;
-DROP TABLE IF EXISTS `user`;
-
-DROP TABLE IF EXISTS class_student_topic;
-DROP TABLE IF EXISTS class_student;
-DROP TABLE IF EXISTS student_topic;
-DROP TABLE IF EXISTS class_topic;
-DROP TABLE IF EXISTS class;
-
-DROP TABLE IF EXISTS topic_resource;
-DROP TABLE IF EXISTS topic_father_son_relation;
-DROP TABLE IF EXISTS topic;
-DROP TABLE IF EXISTS subject;
-
-DROP TABLE IF EXISTS section;
-DROP TABLE IF EXISTS grade_score_average;
-DROP TABLE IF EXISTS professor;
-DROP TABLE IF EXISTS student;
-DROP TABLE IF EXISTS institution;
-
-SET FOREIGN_KEY_CHECKS = IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1);
 
 -- =========================================================
 -- 1) INSTITUCIÓN / SECCIÓN

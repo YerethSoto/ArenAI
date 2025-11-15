@@ -27,6 +27,8 @@ npm run migrate
 El script aplicará todos los archivos `.sql` de la carpeta `database/` en orden alfanumérico. Asegúrate de que los scripts estén adaptados a MySQL antes de ejecutarlos.
 
 > Los scripts fueron escritos de forma idempotente, por lo que puedes volver a correr `npm run migrate` sin vaciar la base de datos. El seed actualiza/crea el usuario `admin` automáticamente si ya existe.
+>
+> Si realmente necesitas recrear todo desde cero, edita `database/001-arenai.sql` y cambia temporalmente la línea `SET @RESET_SCHEMA := IFNULL(@RESET_SCHEMA, 0);` a `SET @RESET_SCHEMA := 1;` **antes** de ejecutar `npm run migrate`. Mientras esté en `0`, tus datos no se eliminarán.
 
 ## Desarrollo
 
