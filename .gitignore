@@ -1,0 +1,3 @@
+backend/cert/client-cert-arenai.pem
+backend/cert/client-key-arenai.pem
+backend/cert/server-ca-arenai.pem
