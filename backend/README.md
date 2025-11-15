@@ -28,7 +28,27 @@ El script aplicará todos los archivos `.sql` de la carpeta `database/` en orden
 
 > Los scripts fueron escritos de forma idempotente, por lo que puedes volver a correr `npm run migrate` sin vaciar la base de datos. El seed actualiza/crea el usuario `admin` automáticamente si ya existe.
 >
-> Si realmente necesitas recrear todo desde cero, edita `database/001-arenai.sql` y cambia temporalmente la línea `SET @RESET_SCHEMA := IFNULL(@RESET_SCHEMA, 0);` a `SET @RESET_SCHEMA := 1;` **antes** de ejecutar `npm run migrate`. Mientras esté en `0`, tus datos no se eliminarán.
+> Si realmente necesitas recrear todo desde cero, elimina manualmente las tablas o la base de datos antes de volver a ejecutar `npm run migrate`.
+>
+> El esquema completo vive ahora en `000-initial-schema.sql`. El archivo `001-arenai.sql` se conserva como migración vacía para mantener compatibilidad con ejecuciones anteriores.
+
+## Configuración de Base de Datos (SSL)
+
+El backend se conecta vía TLS contra MySQL usando los certificados en `backend/cert/`. Asegúrate de definir en `.env`:
+
+```
+DB_HOST=34.67.117.207
+DB_PORT=3306
+DB_NAME=arenaidb
+DB_USER=arenaidb
+DB_PASSWORD=DAKe5?LNjoZluak+
+DB_SSL=true
+DB_SSL_CA_PATH=cert/server-ca-arenai.pem
+DB_SSL_CERT_PATH=cert/client-cert-arenai.pem
+DB_SSL_KEY_PATH=cert/client-key-arenai.pem
+```
+
+Los paths pueden ser absolutos o relativos al directorio `backend/`. Si `DB_SSL=true`, todos los archivos deben existir; de lo contrario, la inicialización fallará. Para entornos locales sin TLS basta con poner `DB_SSL=false` y omitir los paths.
 
 ## Desarrollo
 
