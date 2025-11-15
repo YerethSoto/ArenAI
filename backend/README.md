@@ -47,6 +47,7 @@ El servidor se expone en `http://localhost:3000` (configurable vía `PORT`).
 - `GET /api/subjects/:subjectId/topics` / `POST .../topics`
 - `POST /api/topics/relations` – dependencia entre temas.
 - `GET|POST /api/topics/:topicId/resources` – recursos por tema.
+- `GET /api/classes` – listado filtrable por materia, sección o profesor.
 - `POST /api/classes` – registra una clase.
 - `POST /api/classes/:classId/topics` – asigna temas a la clase.
 - `POST /api/classes/:classId/students` – registra participación de estudiantes.

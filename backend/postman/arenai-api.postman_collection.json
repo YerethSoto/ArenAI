@@ -592,6 +592,51 @@
       "name": "Classes",
       "item": [
         {
+          "name": "GET /api/classes",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "classes"
+              ],
+              "query": [
+                {
+                  "key": "subjectId",
+                  "value": "{{subjectId}}",
+                  "disabled": true
+                },
+                {
+                  "key": "sectionId",
+                  "value": "{{sectionId}}",
+                  "disabled": true
+                },
+                {
+                  "key": "professorId",
+                  "value": "{{authUserId}}",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "POST /api/classes",
           "event": [
             {

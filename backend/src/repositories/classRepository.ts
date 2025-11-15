@@ -1,6 +1,7 @@
 import type { ResultSetHeader } from 'mysql2';
 import { db } from '../db/pool.js';
 import type { ClassRecord } from '../types.js';
+import { parseNumeric } from '../utils/transformers.js';
 
 interface ClassTopicPayload {
   topicId: number;
@@ -19,6 +20,120 @@ interface ClassStudentTopicPayload {
   topicId: number;
   score?: number | null;
   aiSummary?: string | null;
+}
+
+interface ClassListRow extends ClassRecord {
+  subject_name: string;
+  section_name: string;
+  section_grade: string;
+  professor_username: string;
+  professor_name: string;
+  professor_last_name: string | null;
+  institution_id: number;
+  institution_name: string | null;
+}
+
+export interface ListedClass {
+  id: number;
+  name: string;
+  date: string | null;
+  aiSummary: string | null;
+  currentQuestionsSummary: string | null;
+  scoreAverage: number | null;
+  subject: {
+    id: number;
+    name: string;
+  };
+  section: {
+    id: number;
+    name: string;
+    grade: string;
+    institutionId: number;
+    institutionName: string | null;
+  };
+  professor: {
+    id: number;
+    username: string;
+    name: string;
+    lastName: string | null;
+  };
+}
+
+export async function listClasses(filters: { subjectId?: number; sectionId?: number; professorId?: number }) {
+  const conditions: string[] = [];
+  const params: Array<number> = [];
+
+  if (filters.subjectId) {
+    conditions.push('c.id_subject = ?');
+    params.push(filters.subjectId);
+  }
+
+  if (filters.sectionId) {
+    conditions.push('c.id_section = ?');
+    params.push(filters.sectionId);
+  }
+
+  if (filters.professorId) {
+    conditions.push('c.id_professor = ?');
+    params.push(filters.professorId);
+  }
+
+  const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+
+  const result = await db.query<ClassListRow>(
+    `SELECT
+        c.id_class,
+        c.id_professor,
+        c.name_class,
+        c.id_subject,
+        c.id_section,
+        c.fecha,
+        c.ai_summary,
+        c.current_questions_summary,
+        c.score_average,
+        subj.name_subject AS subject_name,
+        sec.name AS section_name,
+        sec.grade AS section_grade,
+        inst.id_institution AS institution_id,
+        inst.name_institution AS institution_name,
+        u.username AS professor_username,
+        u.name AS professor_name,
+        u.last_name AS professor_last_name
+     FROM class c
+     INNER JOIN subject subj ON subj.id_subject = c.id_subject
+     INNER JOIN section sec ON sec.id_section = c.id_section
+     LEFT JOIN institution inst ON inst.id_institution = sec.id_institution
+     INNER JOIN \`user\` u ON u.id_user = c.id_professor
+     ${whereClause}
+     ORDER BY c.fecha DESC, c.id_class DESC`,
+    params
+  );
+
+  return result.rows.map<ListedClass>((row) => ({
+    id: row.id_class,
+    name: row.name_class,
+    date: row.fecha,
+    aiSummary: row.ai_summary,
+    currentQuestionsSummary: row.current_questions_summary,
+    scoreAverage: parseNumeric(row.score_average),
+    subject: {
+      id: row.id_subject,
+      name: row.subject_name,
+    },
+    section: {
+      id: row.id_section,
+      name: row.section_name,
+      grade: row.section_grade,
+      institutionId: row.institution_id,
+      institutionName: row.institution_name,
+    },
+    professor: {
+      id: row.id_professor,
+      username: row.professor_username,
+      name: row.professor_name,
+      lastName: row.professor_last_name,
+    },
+  }));
 }
 
 export async function createClass(payload: {
