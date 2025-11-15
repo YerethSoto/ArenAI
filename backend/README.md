@@ -88,8 +88,29 @@ Se incluyó la colección `backend/postman/arenai-api.postman_collection.json` c
 
 Con esto puedes recorrer toda la API en orden desde Postman sin tener que armar cada request manualmente.
 
+## Modelo de Datos
 
+- **institution**: catálogo de colegios con promedio global. `section`, `user` y `grade_score_average` apuntan aquí.
+- **section**: grupos por institución (ej. “Sección 9A”). Cada sección pertenece a una `institution` y se usa en `class` y `user_section`.
+- **subject**: materias principales. `class` y `topic` referencian un `subject`.
+- **topic**: temas concretos dentro de una materia. Se relaciona con `topic_father_son_relation`, `topic_resource`, `class_topic`, `class_student_topic` y `student_topic`.
+- **topic_father_son_relation**: define dependencias entre temas (padre ↔ hijo) para mapear prerequisitos.
+- **topic_resource**: almacena recursos (links, notas, calidad) asociados a un `topic`.
+- **user**: entidad central de autenticación (admin, profesor o estudiante). Puede apuntar a una `institution` y se amplía con perfiles.
+- **student_profile**: datos adicionales de estudiantes (correo de encargado, score promedio). Los triggers exigen su existencia al inscribirlos en clases.
+- **professor_profile**: datos adicionales de profesores (grado que imparten). Los triggers de `class` validan que exista.
+- **user_section**: relación N:M entre usuarios y secciones con el rol específico en cada una.
+- **class**: registro de cada sesión de clase (profesor, sección, materia, fecha, resúmenes). Se conecta con `class_topic`, `class_student` y `class_student_topic`.
+- **class_topic**: lista los temas cubiertos en una clase y almacena un promedio por tema; el trigger asegura que el tema corresponde a la misma materia de la clase.
+- **class_student**: participación global de cada estudiante en la clase (coeficiente de interacción, resumen, score).
+- **class_student_topic**: calificación por estudiante/tema dentro de la clase (detalle fino por participación).
+- **student_topic**: progreso acumulado por estudiante/tema a lo largo del tiempo, independiente de la clase.
+- **grade_score_average**: promedio agregado por grado dentro de una institución (opcional para dashboards).
 
-DB:
+Relaciones importantes:
 
-arenaidb / DAKe5?LNjoZluak+
+1. `institution` → `section` → `class`: toda clase pertenece a una sección y, por transitividad, a una institución.
+2. `class` requiere un `user` con `professor_profile`; el trigger `trg_class_professor_check_*` lo verifica.
+3. Estudiantes (`user` + `student_profile`) se inscriben a clases (`class_student`) y se desglosan por tema (`class_student_topic`); el progreso histórico queda en `student_topic`.
+4. `subject` agrupa múltiples `topic` y, a su vez, cada clase se asocia a un `subject`. Los triggers de `class_topic` impiden mezclar temas de otra materia.
+5. Los recursos (`topic_resource`) y relaciones (`topic_father_son_relation`) ayudan a enriquecer recomendaciones AI y a mostrar dependencias curriculares.
