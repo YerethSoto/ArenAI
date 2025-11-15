@@ -26,6 +26,8 @@ npm run migrate
 
 El script aplicará todos los archivos `.sql` de la carpeta `database/` en orden alfanumérico. Asegúrate de que los scripts estén adaptados a MySQL antes de ejecutarlos.
 
+> Los scripts fueron escritos de forma idempotente, por lo que puedes volver a correr `npm run migrate` sin vaciar la base de datos. El seed actualiza/crea el usuario `admin` automáticamente si ya existe.
+
 ## Desarrollo
 
 ```bash
@@ -82,3 +84,9 @@ Se incluyó la colección `backend/postman/arenai-api.postman_collection.json` c
 5. El flujo recomendado es: crear institución → sección → materia → temas → recursos/relaciones → clase → asignaciones y métricas → endpoints de estudiante.
 
 Con esto puedes recorrer toda la API en orden desde Postman sin tener que armar cada request manualmente.
+
+
+
+DB:
+
+arenaidb / DAKe5?LNjoZluak+

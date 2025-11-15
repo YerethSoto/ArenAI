@@ -242,10 +242,45 @@ DROP PROCEDURE IF EXISTS ensure_index;
 CREATE PROCEDURE ensure_index (
   IN in_table_name VARCHAR(64),
   IN in_index_name VARCHAR(64),
-  IN in_index_expression VARCHAR(512)
+  IN in_index_expression VARCHAR(512),
+  IN in_required_columns VARCHAR(512)
 )
-BEGIN
+proc: BEGIN
   DECLARE idx_exists INT DEFAULT 0;
+  DECLARE col_check TEXT DEFAULT in_required_columns;
+  DECLARE column_missing INT DEFAULT 0;
+  DECLARE col_name VARCHAR(64);
+  DECLARE comma_pos INT DEFAULT 0;
+  DECLARE col_exists INT DEFAULT 0;
+
+  column_loop: WHILE col_check IS NOT NULL AND CHAR_LENGTH(TRIM(col_check)) > 0 DO
+    SET comma_pos = LOCATE(',', col_check);
+    IF comma_pos = 0 THEN
+      SET col_name = TRIM(col_check);
+      SET col_check = NULL;
+    ELSE
+      SET col_name = TRIM(SUBSTRING(col_check, 1, comma_pos - 1));
+      SET col_check = SUBSTRING(col_check, comma_pos + 1);
+    END IF;
+
+    IF col_name <> '' THEN
+      SELECT COUNT(*)
+        INTO col_exists
+      FROM information_schema.columns
+      WHERE table_schema = DATABASE()
+        AND table_name = in_table_name
+        AND column_name = col_name;
+
+      IF col_exists = 0 THEN
+        SET column_missing = 1;
+        LEAVE column_loop;
+      END IF;
+    END IF;
+  END WHILE;
+
+  IF column_missing = 1 THEN
+    LEAVE proc;
+  END IF;
 
   SELECT COUNT(*)
     INTO idx_exists
@@ -262,11 +297,11 @@ BEGIN
   END IF;
 END;
 
-CALL ensure_index('class', 'idx_class__subject_section', '(id_subject, id_section, fecha)');
-CALL ensure_index('topic', 'idx_topic__subject', '(id_subject)');
-CALL ensure_index('class_topic', 'idx_class_topic__topic', '(id_topic)');
-CALL ensure_index('class_student', 'idx_class_student__student', '(id_student)');
-CALL ensure_index('class_student_topic', 'idx_class_student_topic__student', '(id_student)');
-CALL ensure_index('student_topic', 'idx_student_topic__student', '(id_student)');
+CALL ensure_index('class', 'idx_class__subject_section', '(id_subject, id_section, fecha)', 'id_subject,id_section');
+CALL ensure_index('topic', 'idx_topic__subject', '(id_subject)', 'id_subject');
+CALL ensure_index('class_topic', 'idx_class_topic__topic', '(id_topic)', 'id_topic');
+CALL ensure_index('class_student', 'idx_class_student__student', '(id_student)', 'id_student');
+CALL ensure_index('class_student_topic', 'idx_class_student_topic__student', '(id_student)', 'id_student');
+CALL ensure_index('student_topic', 'idx_student_topic__student', '(id_student)', 'id_student');
 
 DROP PROCEDURE IF EXISTS ensure_index;

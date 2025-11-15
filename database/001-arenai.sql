@@ -4,6 +4,9 @@ SET time_zone = '+00:00';
 -- =========================================================
 -- RESET: eliminar objetos previos (triggers, tablas)
 -- =========================================================
+SET @OLD_FOREIGN_KEY_CHECKS := @@FOREIGN_KEY_CHECKS;
+SET FOREIGN_KEY_CHECKS = 0;
+
 DROP TRIGGER IF EXISTS trg_enforce_same_subject_ins;
 DROP TRIGGER IF EXISTS trg_enforce_same_subject_upd;
 DROP TRIGGER IF EXISTS trg_class_professor_check_ins;
@@ -38,6 +41,8 @@ DROP TABLE IF EXISTS grade_score_average;
 DROP TABLE IF EXISTS professor;
 DROP TABLE IF EXISTS student;
 DROP TABLE IF EXISTS institution;
+
+SET FOREIGN_KEY_CHECKS = IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1);
 
 -- =========================================================
 -- 1) INSTITUCIÓN / SECCIÓN
@@ -370,12 +375,73 @@ END;
 -- =========================================================
 -- 8) ÍNDICES ÚTILES
 -- =========================================================
-CREATE INDEX idx_class__subject_section        ON class(id_subject, id_section, fecha);
-CREATE INDEX idx_topic__subject                ON topic(id_subject);
-CREATE INDEX idx_class_topic__topic            ON class_topic(id_topic);
-CREATE INDEX idx_class_student__user           ON class_student(id_user);
-CREATE INDEX idx_class_student_topic__user     ON class_student_topic(id_user);
-CREATE INDEX idx_student_topic__user           ON student_topic(id_user);
+DROP PROCEDURE IF EXISTS ensure_index;
+CREATE PROCEDURE ensure_index (
+  IN in_table_name VARCHAR(64),
+  IN in_index_name VARCHAR(64),
+  IN in_index_expression VARCHAR(512),
+  IN in_required_columns VARCHAR(512)
+)
+proc: BEGIN
+  DECLARE idx_exists INT DEFAULT 0;
+  DECLARE col_check TEXT DEFAULT in_required_columns;
+  DECLARE column_missing INT DEFAULT 0;
+  DECLARE col_name VARCHAR(64);
+  DECLARE comma_pos INT DEFAULT 0;
+  DECLARE col_exists INT DEFAULT 0;
+
+  column_loop: WHILE col_check IS NOT NULL AND CHAR_LENGTH(TRIM(col_check)) > 0 DO
+    SET comma_pos = LOCATE(',', col_check);
+    IF comma_pos = 0 THEN
+      SET col_name = TRIM(col_check);
+      SET col_check = NULL;
+    ELSE
+      SET col_name = TRIM(SUBSTRING(col_check, 1, comma_pos - 1));
+      SET col_check = SUBSTRING(col_check, comma_pos + 1);
+    END IF;
+
+    IF col_name <> '' THEN
+      SELECT COUNT(*)
+        INTO col_exists
+      FROM information_schema.columns
+      WHERE table_schema = DATABASE()
+        AND table_name = in_table_name
+        AND column_name = col_name;
+
+      IF col_exists = 0 THEN
+        SET column_missing = 1;
+        LEAVE column_loop;
+      END IF;
+    END IF;
+  END WHILE;
+
+  IF column_missing = 1 THEN
+    LEAVE proc;
+  END IF;
+
+  SELECT COUNT(*)
+    INTO idx_exists
+  FROM information_schema.statistics
+  WHERE table_schema = DATABASE()
+    AND table_name = in_table_name
+    AND index_name = in_index_name;
+
+  IF idx_exists = 0 THEN
+    SET @create_stmt = CONCAT('CREATE INDEX `', in_index_name, '` ON `', in_table_name, '` ', in_index_expression);
+    PREPARE stmt FROM @create_stmt;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+  END IF;
+END;
+
+CALL ensure_index('class', 'idx_class__subject_section', '(id_subject, id_section, fecha)', 'id_subject,id_section');
+CALL ensure_index('topic', 'idx_topic__subject', '(id_subject)', 'id_subject');
+CALL ensure_index('class_topic', 'idx_class_topic__topic', '(id_topic)', 'id_topic');
+CALL ensure_index('class_student', 'idx_class_student__user', '(id_user)', 'id_user');
+CALL ensure_index('class_student_topic', 'idx_class_student_topic__user', '(id_user)', 'id_user');
+CALL ensure_index('student_topic', 'idx_student_topic__user', '(id_user)', 'id_user');
+
+DROP PROCEDURE IF EXISTS ensure_index;
 
 DROP TABLE IF EXISTS professor;
 DROP TABLE IF EXISTS student;
