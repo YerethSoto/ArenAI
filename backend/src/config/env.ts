@@ -1,4 +1,5 @@
 import { config as loadEnv } from 'dotenv';
+import path from 'node:path';
 import { z } from 'zod';
 
 loadEnv();
@@ -21,11 +22,23 @@ const EnvSchema = z.object({
     .optional()
     .transform((value) => value === 'true')
     .optional(),
+  DB_SSL_CA_PATH: z.string().optional(),
+  DB_SSL_CERT_PATH: z.string().optional(),
+  DB_SSL_KEY_PATH: z.string().optional(),
   JWT_SECRET: z.string().min(16, 'JWT_SECRET must be at least 16 characters long'),
   JWT_EXPIRES_IN: z.string().optional().default('1h'),
 });
 
 const env = EnvSchema.parse(process.env);
+
+if (env.DB_SSL && (!env.DB_SSL_CA_PATH || !env.DB_SSL_CERT_PATH || !env.DB_SSL_KEY_PATH)) {
+  throw new Error('DB_SSL is true but one or more SSL file paths are missing.');
+}
+
+const resolvePath = (filePath?: string) => {
+  if (!filePath) return undefined;
+  return path.isAbsolute(filePath) ? filePath : path.resolve(process.cwd(), filePath);
+};
 
 export const appConfig = {
   port: Number(env.PORT),
@@ -35,7 +48,13 @@ export const appConfig = {
     database: env.DB_NAME,
     user: env.DB_USER,
     password: env.DB_PASSWORD,
-    ssl: env.DB_SSL ?? false,
+    ssl: env.DB_SSL
+      ? {
+          caPath: resolvePath(env.DB_SSL_CA_PATH),
+          certPath: resolvePath(env.DB_SSL_CERT_PATH),
+          keyPath: resolvePath(env.DB_SSL_KEY_PATH),
+        }
+      : null,
   },
   auth: {
     jwtSecret: env.JWT_SECRET,

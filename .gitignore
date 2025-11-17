@@ -1,0 +1,13 @@
+backend/cert/client-cert-arenai.pem
+backend/cert/client-key-arenai.pem
+backend/cert/server-ca-arenai.pem
+/backend/dist
+/backend/dist
+backend/dist/config/env.js
+backend/dist/db/pool.js
+backend/dist/repositories/classRepository.js
+backend/dist/routes/classes.js
+backend/dist/config/env.js
+backend/dist/db/pool.js
+backend/dist/repositories/classRepository.js
+backend/dist/routes/classes.js
