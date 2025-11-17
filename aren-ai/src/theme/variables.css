@@ -1,2 +1,14 @@
-/* For information on how to create your own theme, please see:
-http://ionicframework.com/docs/theming/ */
+/* Disable automatic dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Use light theme colors even in dark mode */
+    --ion-background-color: #ffffff;
+    --ion-text-color: #000000;
+  }
+}
+
+/* Or force light theme globally */
+ion-app {
+  --ion-background-color: #ffffff;
+  --ion-text-color: #000000;
+}
