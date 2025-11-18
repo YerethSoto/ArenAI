@@ -21,7 +21,7 @@ import {
   IonButtons,
   IonLabel
 } from '@ionic/react';
-import { school, create, chevronDown, close, share, copy } from 'ionicons/icons';
+import { school, create, chevronDown, close, share, copy, todayOutline } from 'ionicons/icons';
 import QRCode from 'qrcode';
 import './Class_Creation.css';
 
@@ -30,6 +30,7 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 const Class_Creation: React.FC = () => {
   const [className, setClassName] = useState('');
   const [gradeLevel, setGradeLevel] = useState('');
+  const [sectionNumber, setSectionNumer] = useState('')
   const [isLoading, setIsLoading] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
   const [classCode, setClassCode] = useState('');
@@ -39,11 +40,13 @@ const Class_Creation: React.FC = () => {
   const modalRef = useRef<HTMLIonModalElement | null>(null);
 
   const gradeLevels = [
-    'Kindergarten','1st Grade','2nd Grade','3rd Grade','4th Grade','5th Grade',
-    '6th Grade','7th Grade','8th Grade','9th Grade','10th Grade','11th Grade',
-    '12th Grade','University Freshman','University Sophomore','University Junior',
-    'University Senior','Graduate School'
+    '7','8','9','10','11',
+    '12'
   ];
+
+  const sectionNumbers = [
+    '1','2','3','4','5','6','7','8','9','10'
+  ]
 
   const generateClassCode = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -59,15 +62,14 @@ const Class_Creation: React.FC = () => {
   const handleCreateClass = async () => {
     try {
       setIsLoading(true);
-      console.log('handleCreateClass start', { className, gradeLevel });
 
-      if (!className.trim()) {
-        alert('Please enter a class name');
-        return;
-      }
       if (!gradeLevel) {
         alert('Please select a grade level');
         return;
+      }
+      if(!sectionNumber){
+
+        alert('Please enter the section number')
       }
 
       // Simular llamada/processing
@@ -165,7 +167,7 @@ const Class_Creation: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonMenuButton slot="start" />
-          <IonTitle>Create Class</IonTitle>
+          <IonTitle>Create a Section</IonTitle>
         </IonToolbar>
       </IonHeader>
 
@@ -175,30 +177,19 @@ const Class_Creation: React.FC = () => {
             <IonRow class="ion-justify-content-center">
               <IonCol size="12" size-md="8" size-lg="6" size-xl="4">
                 <div className="header-section">
-                  <IonText><h1 className="page-title">Create New Class</h1></IonText>
-                  <IonText><p className="page-subtitle">Set up your virtual classroom</p></IonText>
+                  <IonText><h1 className="page-title"><strong>Create New Section</strong></h1></IonText>
+                  <IonText><p className="page-subtitle">Create it once, use it for a year</p></IonText>
                 </div>
 
                 <IonCard className="creation-card">
                   <IonCardContent>
                     {/* reemplazamos <form> por controles con onClick */}
-                    <div className="input-section">
-                      <IonText><h3 className="input-label">Class Name</h3></IonText>
-                      <IonItem className="input-item" lines="none">
-                        <IonIcon icon={school} slot="start" className="input-icon" />
-                        <IonInput
-                          type="text"
-                          placeholder="Enter class name (e.g., Mathematics 101)"
-                          value={className}
-                          onIonInput={(e) => setClassName((e.target as any).value ?? (e as any).detail?.value ?? '')}
-                          className="custom-input"
-                        />
-                      </IonItem>
-                    </div>
+
 
                     <div className="input-section">
                       <IonText><h3 className="input-label">Grade Level</h3></IonText>
                       <IonItem className="select-item" lines="none">
+                         <IonIcon icon={todayOutline} slot="start" className="input-icon" />
                         <IonSelect
                           value={gradeLevel}
                           placeholder="Select grade level"
@@ -211,6 +202,35 @@ const Class_Creation: React.FC = () => {
                         <IonIcon icon={chevronDown} slot="end" className="select-arrow" />
                       </IonItem>
                     </div>
+
+
+
+
+
+                    <div className="input-section">
+                      <IonText><h3 className="input-label">Section Name</h3></IonText>
+                      <IonItem className="input-item" lines="none">
+                        <IonIcon icon={school} slot="start" className="input-icon" />
+
+
+                          <IonSelect
+                          value={sectionNumber}
+                          placeholder="Select section number"
+                          onIonChange={(e) => setSectionNumer(e.detail.value)}
+                          interface="action-sheet"
+                          className="custom-input"
+                        >
+                          {sectionNumbers.map((grade, i) => <IonSelectOption key={i} value={grade}>{grade}</IonSelectOption>)}
+                        </IonSelect>
+
+
+
+
+                   
+                      </IonItem>
+                    </div>
+
+                    
 
                     <div className="button-section">
                       <IonButton
@@ -230,13 +250,14 @@ const Class_Creation: React.FC = () => {
                   <IonCard className="info-card">
                     <IonCardContent>
                       <IonText>
-                        <h3 className="info-title">About Class Creation</h3>
+                        <h3 className="info-title"><strong>About Section Creation</strong></h3>
                         <ul className="info-list">
-                          <li>Create virtual classrooms for your students</li>
-                          <li>Assign specific grade levels to each class</li>
-                          <li>Manage multiple classes from your dashboard</li>
-                          <li>Share class codes with students for easy access</li>
-                          <li>Generate QR codes for instant class joining</li>
+                          
+
+                          <li>1. Enter the grade and sectino number and automatically create a new section</li>
+                          <li>2. Once created you will get a QR Code, let the students scan it to join the section</li>
+                          <li>3.  <strong> Done!</strong> now your students will be assigned to this section for the remainder of the year</li>
+                    
                         </ul>
                       </IonText>
                     </IonCardContent>
@@ -259,7 +280,7 @@ const Class_Creation: React.FC = () => {
 
               <div className="qr-overlay-body">
                 <div className="success-section">
-                  <p className="success-message">Your class <strong>{className}</strong> has been created.</p>
+                  <p className="success-message">Your class <strong>{gradeLevel} - {sectionNumber} </strong> has been created.</p>
                 </div>
 
                 <div className="class-details">

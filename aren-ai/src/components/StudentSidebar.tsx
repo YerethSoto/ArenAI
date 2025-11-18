@@ -44,7 +44,7 @@ interface AppPage {
 
 const appPages: AppPage[] = [
   {
-    title: 'Dashboard',
+    title: 'Main Menu',
     url: '/page/student',
     iosIcon: homeOutline,
     mdIcon: homeSharp
@@ -56,18 +56,14 @@ const appPages: AppPage[] = [
     mdIcon: schoolSharp
   },
   
+  
   {
-    title: 'Progress',
-    url: '/folder/Progress',
-    iosIcon: analyticsOutline,
-    mdIcon: analyticsOutline
-  },
-  {
-    title: 'Leaderboard',
-    url: '/folder/Leaderboard',
+    title: 'Quiz',
+    url: '/quiz',
     iosIcon: trophyOutline,
     mdIcon: trophySharp
   },
+  
 ];
 
 const settingsPages: AppPage[] = [

@@ -685,4 +685,60 @@ ion-content.chat-content {
   .menu-button.enlarged-menu ion-icon {
     font-size: 22px;
   }
+
+
+  ion-toolbar {
+  --background: #536e83 !important;
+}
+
+.app-header {
+  --background: #536e83 !important;
+}
+
+.app-header ion-toolbar {
+  --background: #536e83 !important;
+}
+
+/* Force light theme and fix black background issues */
+:root {
+  --ion-background-color: #80a1ba !important;
+  --ion-text-color: #000000 !important;
+}
+
+ion-content.chat-content {
+  --background: #80a1ba !important;
+  background: #80a1ba !important;
+}
+
+/* Force message bubbles to use your colors */
+.message-bubble {
+  background: inherit !important;
+}
+
+.user-bubble {
+  background: #3c7782 !important;
+}
+
+.bot-bubble {
+  background: #536e83 !important;
+}
+
+/* Ensure text is visible */
+.message-text {
+  color: white !important;
+}
+
+/* Fix any potential dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  ion-content.chat-content {
+    --background: #80a1ba !important;
+    background: #80a1ba !important;
+  }
+  
+  .message-bubble {
+    background: inherit !important;
+  }
+}
+
+
 }

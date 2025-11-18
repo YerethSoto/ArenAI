@@ -31,13 +31,7 @@ interface User {
 
 const DUMMY_USERS: User[] = [
   // Professor accounts
-  {
-    username: 'prof.rodriguez',
-    password: 'password123',
-    role: 'professor',
-    name: 'Prof. Rodriguez',
-    email: 'prof.rodriguez@arenai.edu'
-  },
+  
   {
     username: 'Yereth',
     password: '123',
@@ -45,34 +39,20 @@ const DUMMY_USERS: User[] = [
     name: 'Yereth Soto',
     email: 'ysotoz011@ulacit.ed.cr'
   },
-  {
-    username: 'dr.smith',
-    password: 'password123',
-    role: 'professor',
-    name: 'Dr. Smith',
-    email: 'dr.smith@arenai.edu'
-  },
   // Student accounts
   {
-    username: 'maria.garcia',
-    password: 'password123',
+    username: 'Leo',
+    password: '123',
     role: 'student',
-    name: 'Maria Garcia',
-    email: 'maria.garcia@arenai.edu'
+    name: 'Leonardo Escobar',
+    email: 'leonardo@gmail.com'
   },
   {
-    username: 'john.doe',
-    password: 'password123',
+    username: 'Reishell',
+    password: '123',
     role: 'student',
-    name: 'John Doe',
-    email: 'john.doe@arenai.edu'
-  },
-  {
-    username: 'sarah.wilson',
-    password: 'password123',
-    role: 'student',
-    name: 'Sarah Wilson',
-    email: 'sarah.wilson@arenai.edu'
+    name: 'Reishell Fernandez',
+    email: 'reishell@gmail.com'
   }
 ];
 
@@ -177,11 +157,11 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                 {/* Brand section con título arriba del logo */}
                 <div className="brand-section">
                   <IonText>
-                    <h1 className="brand-title">ARENAI</h1>
+                    <h1 className="brand-title">Aren AI</h1>
                   </IonText>
                   <div className="logo-container">
                     <img 
-                      src="./resources/Capybara profile picture.png" 
+                      src="/assets/Capybara profile picture.png" 
                       alt="ArenAI Logo" 
                       className="logo-image"
                     />
@@ -191,37 +171,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                   </IonText>
                 </div>
 
-                {/* Demo Quick Login - Remove in production */}
-                <div className="demo-section" style={{ marginBottom: '20px', textAlign: 'center' }}>
-                  <IonText>
-                    <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '10px' }}>
-                      Demo Accounts (Click to auto-fill):
-                    </p>
-                  </IonText>
-                  <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                    <IonButton 
-                      size="small" 
-                      fill="outline"
-                      onClick={() => handleQuickLogin('prof.rodriguez', 'password123')}
-                    >
-                      Professor
-                    </IonButton>
-                    <IonButton 
-                      size="small" 
-                      fill="outline"
-                      onClick={() => handleQuickLogin('Yereth', '123')}
-                    >
-                      Yereth (Prof)
-                    </IonButton>
-                    <IonButton 
-                      size="small" 
-                      fill="outline"
-                      onClick={() => handleQuickLogin('maria.garcia', 'password123')}
-                    >
-                      Student
-                    </IonButton>
-                  </div>
-                </div>
+        
+                
 
                 {/* Card de login SOLO con campos */}
                 <IonCard className="login-card">

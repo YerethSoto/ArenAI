@@ -9,6 +9,7 @@ import Chat from './pages/Chatbot';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Class_Creation from './pages/Class_Creation';
+import Quiz from './pages/Quiz';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -130,14 +131,18 @@ const App: React.FC = () => {
               )}
             </Route>
 
-            {/* Importante activar al crear registro
-            <Route path="/register" exact={true}>
-              <Register onRegister={(role: 'professor' | 'student') => {
+           
+            <Route path="/Register" exact={true}>
+
+
+
+             <Register></Register> : <Redirect to="/Register"></Redirect>
+             {/* <Register onRegister={(role: 'professor' | 'student') => {
                 setUserRole(role);
-                localStorage.setItem('userRole', role);
-              }} />
+                localStorage.setItem('userRole', role);}
+              }} />*/}
             </Route>
-            */}
+       
             
             {/* Main Dashboard Routes */}
             <Route path="/page/professor" exact={true}>
@@ -153,6 +158,10 @@ const App: React.FC = () => {
             </Route>
             <Route path="/folder/:name" exact={true}>
               {userRole ? <Page /> : <Redirect to="/login" />}
+            </Route>
+
+            <Route path="/quiz" exact={true}>
+              {userRole === 'student' ? <Quiz /> : <Redirect to="/login" />}
             </Route>
             <Route path="/chat" exact={true}>
               {userRole ? <Chat /> : <Redirect to="/login" />}

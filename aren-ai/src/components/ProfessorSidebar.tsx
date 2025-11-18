@@ -29,7 +29,8 @@ import {
   exitOutline,
   exitSharp,
   bookOutline,
-  clipboardOutline
+  clipboardOutline,
+  glassesOutline
 } from 'ionicons/icons';
 import './ProfessorSidebar.css';
 
@@ -42,7 +43,7 @@ interface AppPage {
 
 const appPages: AppPage[] = [
   {
-    title: 'Dashboard',
+    title: 'Main Menu',
     url: '/page/professor',
     iosIcon: homeOutline,
     mdIcon: homeSharp
@@ -134,7 +135,7 @@ const ProfessorSidebar: React.FC<ProfessorSidebarProps> = ({ onLogout }) => {
         <div className="menu-header">
           <div className="teacher-info">
             <div className="teacher-avatar">
-              <IonIcon icon={schoolSharp} />
+              <IonIcon icon={glassesOutline} />
             </div>
             <div className="teacher-details">
               <IonLabel className="teacher-name">{currentUser.name}</IonLabel>
