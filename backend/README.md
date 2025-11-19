@@ -56,7 +56,7 @@ Los paths pueden ser absolutos o relativos al directorio `backend/`. Si `DB_SSL=
 npm run dev
 ```
 
-El servidor se expone en `http://localhost:3000` (configurable vía `PORT`).
+El servidor se expone en `http://localhost:3002` (configurable vía `PORT`).
 
 ## Endpoints Relevantes
 

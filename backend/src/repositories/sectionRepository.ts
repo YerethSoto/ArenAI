@@ -14,6 +14,18 @@ export async function listSectionsByInstitution(institutionId: number) {
   return result.rows;
 }
 
+export async function getSectionById(sectionId: number) {
+  const result = await db.query<Section>(
+    `SELECT id_section, name, grade, id_institution
+     FROM section
+     WHERE id_section = ?
+     LIMIT 1`,
+    [sectionId]
+  );
+
+  return result.rows.at(0) ?? null;
+}
+
 export async function createSection(payload: { name: string; grade: string; institutionId: number }) {
   const insertResult = await db.query<ResultSetHeader>(
     `INSERT INTO section (name, grade, id_institution)

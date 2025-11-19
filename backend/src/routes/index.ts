@@ -4,6 +4,7 @@ import { subjectsRouter } from './subjects.js';
 import { topicsRouter } from './topics.js';
 import { classesRouter } from './classes.js';
 import { studentsRouter } from './students.js';
+import { sectionsRouter } from './sections.js';
 import { authRouter } from './auth.js';
 import { requireAuth } from '../middleware/auth.js';
 
@@ -16,5 +17,6 @@ router.use('/subjects', subjectsRouter);
 router.use('/topics', topicsRouter);
 router.use('/classes', classesRouter);
 router.use('/students', studentsRouter);
+router.use('/sections', sectionsRouter);
 
 export const apiRouter = router;
