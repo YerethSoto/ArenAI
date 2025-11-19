@@ -44,6 +44,12 @@ router.post('/login', async (req, res, next) => {
         role: user.role,
         name: user.name,
         lastName: user.last_name,
+        institution: user.id_institution
+          ? {
+              id: user.id_institution,
+              name: user.institution_name,
+            }
+          : null,
       },
     });
   } catch (error) {
