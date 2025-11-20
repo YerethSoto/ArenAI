@@ -16,6 +16,7 @@ import {
 import { person, key, eye, eyeOff } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import './Login.css';
+import { getApiUrl } from '../config/api';
 
 // The real authentication happens via the backend API at POST /api/auth/login
 // We keep a small local type to represent the shape of the response's user
@@ -139,9 +140,9 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     <h1 className="brand-title">Aren AI</h1>
                   </IonText>
                   <div className="logo-container">
-                    <img 
-                      src="/assets/Capybara profile picture.png" 
-                      alt="ArenAI Logo" 
+                    <img
+                      src="/assets/Capybara profile picture.png"
+                      alt="ArenAI Logo"
                       className="logo-image"
                     />
                   </div>
@@ -150,19 +151,19 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                   </IonText>
                 </div>
 
-        
-                
+
+
 
                 {/* Card de login SOLO con campos */}
                 <IonCard className="login-card">
                   <IonCardContent>
                     <form onSubmit={handleLogin}>
-                      
+
                       {/* Error Message */}
                       {error && (
-                        <div className="error-message" style={{ 
-                          color: 'red', 
-                          textAlign: 'center', 
+                        <div className="error-message" style={{
+                          color: 'red',
+                          textAlign: 'center',
                           marginBottom: '15px',
                           fontSize: '0.9rem'
                         }}>
@@ -216,8 +217,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
                       {/* Forgot Password Link */}
                       <div className="forgot-password-section">
-                        <IonButton 
-                          fill="clear" 
+                        <IonButton
+                          fill="clear"
                           className="forgot-password-link"
                           onClick={handleForgotPassword}
                         >
