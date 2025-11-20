@@ -48,16 +48,9 @@ const Class_Creation: React.FC = () => {
     '1','2','3','4','5','6','7','8','9','10'
   ]
 
-  const generateClassCode = () => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let result = '';
-    for (let i = 0; i < 6; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return result;
-  };
 
-  const generateJoinLink = (code: string) => `https://arenai.education/join/${code}`;
+  // Use API to create section and get id_section as code
+  const apiBase = '/api/sections';
 
   const handleCreateClass = async () => {
     try {
@@ -65,24 +58,47 @@ const Class_Creation: React.FC = () => {
 
       if (!gradeLevel) {
         alert('Please select a grade level');
+        setIsLoading(false);
         return;
       }
-      if(!sectionNumber){
-
-        alert('Please enter the section number')
+      if (!sectionNumber) {
+        alert('Please enter the section number');
+        setIsLoading(false);
+        return;
       }
 
-      // Simular llamada/processing
-      await sleep(800);
+  // read token saved by login/register flow
+  const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+      if (!token) {
+        alert('You must be logged in to create a section. Please log in and try again.');
+        setIsLoading(false);
+        // Optionally, redirect to login page here
+        return;
+      }
 
-      const newClassCode = generateClassCode();
-      const newJoinLink = generateJoinLink(newClassCode);
+      // Call backend API to create section
+      const res = await fetch(apiBase, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ section_number: sectionNumber, grade: gradeLevel })
+      });
+      if (!res.ok) {
+        const errMsg = await res.text();
+        throw new Error(errMsg || 'Failed to create section');
+      }
+      const section = await res.json();
+      // Use id_section as the code and for the join link
+      const newClassCode = section.id_section?.toString() || '';
+      const newJoinLink = `https://arenai.education/join/${newClassCode}`;
 
       setClassCode(newClassCode);
       setJoinLink(newJoinLink);
       setQrData({ classCode: newClassCode, joinLink: newJoinLink });
 
-      // Generar imagen QR localmente (data URL)
+      // Generate QR code image
       try {
         const dataUrl = await QRCode.toDataURL(newJoinLink, { margin: 1, width: 320 });
         setQrImage(dataUrl);
@@ -91,14 +107,12 @@ const Class_Creation: React.FC = () => {
         setQrImage(null);
       }
 
-      // Pequeño delay para asegurar render coherente antes de abrir modal
       await sleep(100);
-
       setShowQRModal(true);
-      console.log('Class created', { newClassCode, newJoinLink });
+      console.log('Section created', { newClassCode, newJoinLink });
     } catch (err) {
-      console.error('Error creating class:', err);
-      alert('An error occurred while creating the class.');
+      console.error('Error creating section:', err);
+      alert('An error occurred while creating the section.');
     } finally {
       setIsLoading(false);
     }

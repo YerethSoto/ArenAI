@@ -4,10 +4,10 @@ import type { Section } from '../types.js';
 
 export async function listSectionsByInstitution(institutionId: number) {
   const result = await db.query<Section>(
-    `SELECT id_section, name, grade, id_institution
+    `SELECT id_section, section_number, grade, id_institution
      FROM section
      WHERE id_institution = ?
-     ORDER BY grade, name`,
+     ORDER BY grade, section_number`,
     [institutionId]
   );
 
@@ -16,7 +16,7 @@ export async function listSectionsByInstitution(institutionId: number) {
 
 export async function getSectionById(sectionId: number) {
   const result = await db.query<Section>(
-    `SELECT id_section, name, grade, id_institution
+    `SELECT id_section, section_number, grade, id_institution
      FROM section
      WHERE id_section = ?
      LIMIT 1`,
@@ -26,15 +26,15 @@ export async function getSectionById(sectionId: number) {
   return result.rows.at(0) ?? null;
 }
 
-export async function createSection(payload: { name: string; grade: string; institutionId: number }) {
+export async function createSection(payload: { sectionNumber: string; grade: string; institutionId: number }) {
   const insertResult = await db.query<ResultSetHeader>(
-    `INSERT INTO section (name, grade, id_institution)
+    `INSERT INTO section (section_number, grade, id_institution)
      VALUES (?, ?, ?)`,
-    [payload.name, payload.grade, payload.institutionId]
+    [payload.sectionNumber, payload.grade, payload.institutionId]
   );
 
   const newSection = await db.query<Section>(
-    `SELECT id_section, name, grade, id_institution
+    `SELECT id_section, section_number, grade, id_institution
      FROM section
      WHERE id_section = ?`,
     [insertResult.rows[0].insertId]

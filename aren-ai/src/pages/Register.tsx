@@ -252,13 +252,44 @@ const Register: React.FC = () => {
       return;
     }
 
-    // Simular proceso de registro
-    setTimeout(() => {
-      console.log('Registration attempt with:', formData);
+    // Call backend registration endpoint (every new registrant becomes a professor)
+    try {
+      const resp = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phoneNumber: formData.phone,
+          institution: formData.institution,
+          password: formData.password,
+        }),
+      });
+
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => null);
+        alert(err?.message || 'Registration failed');
+        setIsLoading(false);
+        return;
+      }
+
+      const data = await resp.json();
+      // Save token
+      if (data.token) {
+        try {
+          localStorage.setItem('authToken', data.token);
+        } catch (_) {}
+      }
+
       setIsLoading(false);
-      // Redirigir al chat después del registro exitoso
-      history.push('/chat');
-    }, 1500);
+      // Redirect professors to professor dashboard
+      history.replace('/page/professor');
+    } catch (error) {
+      console.error('Register error', error);
+      alert('Unable to reach server');
+      setIsLoading(false);
+    }
   };
 
   const handleBackToLogin = () => {

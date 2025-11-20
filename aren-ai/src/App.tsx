@@ -8,6 +8,7 @@ import Page from './pages/Page';
 import Chat from './pages/Chatbot';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import RegisterStudent from './pages/RegisterStudent';
 import Class_Creation from './pages/Class_Creation';
 import Quiz from './pages/Quiz';
 
@@ -141,6 +142,9 @@ const App: React.FC = () => {
                 setUserRole(role);
                 localStorage.setItem('userRole', role);}
               }} />*/}
+            </Route>
+            <Route path="/register-student" exact={true}>
+              <RegisterStudent />
             </Route>
        
             

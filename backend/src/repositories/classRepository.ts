@@ -92,7 +92,7 @@ export async function listClasses(filters: { subjectId?: number; sectionId?: num
         c.current_questions_summary,
         c.score_average,
         subj.name_subject AS subject_name,
-        sec.name AS section_name,
+  sec.section_number AS section_name,
         sec.grade AS section_grade,
         inst.id_institution AS institution_id,
         inst.name_institution AS institution_name,

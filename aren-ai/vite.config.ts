@@ -14,5 +14,16 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
-  }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        // Backend in your environment is listening on port 3002 (see server startup)
+        target: 'http://localhost:3002',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 })
+

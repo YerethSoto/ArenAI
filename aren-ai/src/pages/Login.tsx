@@ -17,55 +17,16 @@ import { person, key, eye, eyeOff } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import './Login.css';
 
-// ============================================================================
-// DUMMY DATA - This will be replaced with API calls later
-// ============================================================================
-
-interface User {
+// The real authentication happens via the backend API at POST /api/auth/login
+// We keep a small local type to represent the shape of the response's user
+interface ApiUser {
+  id: number;
   username: string;
-  password: string;
-  role: 'professor' | 'student';
-  name: string;
   email: string;
+  role: 'professor' | 'student' | null;
+  name: string;
+  lastName?: string | null;
 }
-
-const DUMMY_USERS: User[] = [
-  // Professor accounts
-  
-  {
-    username: 'Yereth',
-    password: '123',
-    role: 'professor',
-    name: 'Yereth Soto',
-    email: 'ysotoz011@ulacit.ed.cr'
-  },
-  // Student accounts
-  {
-    username: 'Leo',
-    password: '123',
-    role: 'student',
-    name: 'Leonardo Escobar',
-    email: 'leonardo@gmail.com'
-  },
-  {
-    username: 'Reishell',
-    password: '123',
-    role: 'student',
-    name: 'Reishell Fernandez',
-    email: 'reishell@gmail.com'
-  }
-];
-
-// ============================================================================
-// HELPER FUNCTIONS - These will remain the same
-// ============================================================================
-
-const authenticateUser = (username: string, password: string): User | null => {
-  const user = DUMMY_USERS.find(
-    user => user.username === username && user.password === password
-  );
-  return user || null;
-};
 
 // ============================================================================
 // PROPS INTERFACE
@@ -91,7 +52,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-    
     // Validate inputs
     if (!username.trim() || !password.trim()) {
       setError('Please enter both username and password');
@@ -99,40 +59,59 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       return;
     }
 
-    // Simulate API call delay
-    setTimeout(() => {
-      const authenticatedUser = authenticateUser(username, password);
-      
-      if (authenticatedUser) {
-        console.log('Login successful:', authenticatedUser);
-        
-        // Call the onLogin callback with user role and data
-        onLogin(authenticatedUser.role, {
-          name: authenticatedUser.name,
-          email: authenticatedUser.email,
-          username: authenticatedUser.username
-        });
-        
-        // Clear form
-        setUsername('');
-        setPassword('');
-        
-        // Redirige SIEMPRE al dashboard principal
-        const redirectPath = authenticatedUser.role === 'student' 
-          ? '/page/student' 
-          : '/page/professor';
-        history.replace(redirectPath); // <-- Usa replace en vez de push
-        
-      } else {
-        setError('Invalid username or password');
+    // Call backend API
+    try {
+      const resp = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ identifier: username, password }),
+      });
+
+      if (!resp.ok) {
+        // Attempt to show server error message
+        const errBody = await resp.json().catch(() => null);
+        setError(errBody?.message || 'Invalid username or password');
         setIsLoading(false);
+        return;
       }
-    }, 1500);
+
+      const data = await resp.json();
+
+      // Persist token for subsequent requests
+      if (data.token) {
+        try {
+          localStorage.setItem('authToken', data.token);
+        } catch (_) {
+          // ignore storage errors
+        }
+      }
+
+      // Call the onLogin callback with role and user data
+      onLogin(data.user.role ?? 'student', data.user);
+
+      // Clear form
+      setUsername('');
+      setPassword('');
+
+      // Redirect to the appropriate dashboard
+      const redirectPath = data.user.role === 'student' ? '/page/student' : '/page/professor';
+      history.replace(redirectPath);
+    } catch (error) {
+      console.error('Login error', error);
+      setError('Unable to reach authentication server');
+      setIsLoading(false);
+    }
   };
 
   const handleTeacherLogin = () => {
     // Redirect to registration page
     history.push('/register');
+  };
+
+  const handleStudentRegister = () => {
+    history.push('/register-student');
   };
 
   const handleForgotPassword = () => {
@@ -270,6 +249,17 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     disabled={isLoading}
                   >
                     Are you a teacher?
+                  </IonButton>
+
+                  <IonButton
+                    expand="block"
+                    fill="outline"
+                    className="teacher-button"
+                    onClick={handleStudentRegister}
+                    disabled={isLoading}
+                    style={{ marginTop: 8 }}
+                  >
+                    Are you a student?
                   </IonButton>
                 </div>
 

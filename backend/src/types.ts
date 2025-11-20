@@ -6,7 +6,7 @@ export interface Institution {
 
 export interface Section {
   id_section: number;
-  name: string;
+  section_number: string;
   grade: string;
   id_institution: number;
 }
