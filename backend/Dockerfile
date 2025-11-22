@@ -18,6 +18,7 @@ COPY package*.json ./
 RUN npm ci --only=production
 
 COPY --from=builder /app/dist ./dist
+COPY cert ./cert
 
 # Cloud Run expects the container to listen on port 8080 by default, 
 # or the port specified by the PORT environment variable.
