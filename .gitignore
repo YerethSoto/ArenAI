@@ -1,3 +1,4 @@
 # Ignore everything inside backend/dist
 backend/dist/
 /backend/cert
+**/node_modules/
