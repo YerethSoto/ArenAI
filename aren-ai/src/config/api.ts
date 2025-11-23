@@ -1,4 +1,5 @@
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+// Hardcoded for production APK to ensure it points to Cloud Run
+export const API_BASE_URL = 'https://arenai-backend-271931294892.us-central1.run.app';
 
 export const getApiUrl = (endpoint: string) => {
     // Remove leading slash if present to avoid double slashes if base url has trailing slash

@@ -62,7 +62,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
     // Call backend API
     try {
-      const resp = await fetch('/api/auth/login', {
+      const resp = await fetch(getApiUrl('/api/auth/login'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

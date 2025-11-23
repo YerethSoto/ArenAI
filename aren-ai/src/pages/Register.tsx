@@ -17,6 +17,7 @@ import {
 import { person, mail, key, eye, eyeOff, arrowBack, call, business, school, chevronDown, chevronUp } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import './Register.css';
+import { getApiUrl } from '../config/api';
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -222,7 +223,7 @@ const Register: React.FC = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     // Validar contraseña
     const passwordErrors = validatePassword(formData.password);
     if (passwordErrors.length > 0) {
@@ -254,7 +255,7 @@ const Register: React.FC = () => {
 
     // Call backend registration endpoint (every new registrant becomes a professor)
     try {
-      const resp = await fetch('/api/auth/register', {
+      const resp = await fetch(getApiUrl('/api/auth/register'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -279,7 +280,7 @@ const Register: React.FC = () => {
       if (data.token) {
         try {
           localStorage.setItem('authToken', data.token);
-        } catch (_) {}
+        } catch (_) { }
       }
 
       setIsLoading(false);
@@ -305,15 +306,15 @@ const Register: React.FC = () => {
               <IonCol size="12" size-md="8" size-lg="6" size-xl="4">
                 {/* Brand section */}
                 <div className="brand-section">
-                  <IonButton 
-                    fill="clear" 
+                  <IonButton
+                    fill="clear"
                     className="back-button"
                     onClick={handleBackToLogin}
                   >
                     <IonIcon icon={arrowBack} slot="start" />
                     Back to Login
                   </IonButton>
-                  
+
                   <IonText>
                     <h1 className="brand-title">Create Account</h1>
                   </IonText>
@@ -326,7 +327,7 @@ const Register: React.FC = () => {
                 <IonCard className="register-card">
                   <IonCardContent>
                     <form onSubmit={handleRegister}>
-                      
+
                       {/* First Name */}
                       <div className="input-section">
                         <IonText>
@@ -416,7 +417,7 @@ const Register: React.FC = () => {
                         {showMEPSelector ? (
                           // Selector para MEP con campo clickeable
                           <div className="mep-selector-container">
-                            <IonItem 
+                            <IonItem
                               className="institution-selector-item"
                               button
                               detail={false}
@@ -428,9 +429,9 @@ const Register: React.FC = () => {
                                   {formData.institution || 'Select your institution...'}
                                 </p>
                               </IonText>
-                              <IonIcon 
-                                icon={isMEPSelectorOpen ? chevronUp : chevronDown} 
-                                slot="end" 
+                              <IonIcon
+                                icon={isMEPSelectorOpen ? chevronUp : chevronDown}
+                                slot="end"
                                 className="selector-arrow"
                               />
                             </IonItem>
@@ -443,10 +444,10 @@ const Register: React.FC = () => {
                                   placeholder="Search MEP institutions..."
                                   className="institution-searchbar"
                                 />
-                                
+
                                 <div className="institution-list">
                                   {filteredInstitutions.slice(0, 10).map((institution, index) => (
-                                    <IonItem 
+                                    <IonItem
                                       key={index}
                                       button
                                       detail={false}
@@ -475,8 +476,8 @@ const Register: React.FC = () => {
                             <IonInput
                               type="text"
                               placeholder={
-                                isInstitutionLocked 
-                                  ? "Institution auto-filled from email" 
+                                isInstitutionLocked
+                                  ? "Institution auto-filled from email"
                                   : "Enter your institution name"
                               }
                               value={formData.institution}

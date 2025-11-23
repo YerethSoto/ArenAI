@@ -16,6 +16,7 @@ import {
 import { person, key, business, arrowBack, eye, eyeOff } from 'ionicons/icons';
 import './RegisterStudent.css';
 import { useHistory } from 'react-router-dom';
+import { getApiUrl } from '../config/api';
 
 const RegisterStudent: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -69,7 +70,7 @@ const RegisterStudent: React.FC = () => {
 
   const handleRegister = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    
+
     // Validar campos requeridos
     if (!formData.username.trim() || !formData.password || !formData.institution.trim() || !formData.sectionId.trim()) {
       alert('Please fill all fields');
@@ -92,7 +93,7 @@ const RegisterStudent: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const resp = await fetch('/api/auth/register-student', {
+      const resp = await fetch(getApiUrl('/api/auth/register-student'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -118,7 +119,7 @@ const RegisterStudent: React.FC = () => {
           localStorage.setItem('userRole', 'student');
           // store basic user data for personalization
           if (data.user) localStorage.setItem('userData', JSON.stringify(data.user));
-        } catch (_) {}
+        } catch (_) { }
       }
 
       setIsLoading(false);
@@ -143,15 +144,15 @@ const RegisterStudent: React.FC = () => {
               <IonCol size="12" size-md="8" size-lg="6" size-xl="4">
                 {/* Brand section */}
                 <div className="brand-section">
-                  <IonButton 
-                    fill="clear" 
+                  <IonButton
+                    fill="clear"
                     className="back-button"
                     onClick={handleBackToLogin}
                   >
                     <IonIcon icon={arrowBack} slot="start" />
                     Back to Login
                   </IonButton>
-                  
+
                   <IonText>
                     <h1 className="brand-title">Student Sign Up</h1>
                   </IonText>

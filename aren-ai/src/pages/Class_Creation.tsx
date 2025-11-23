@@ -22,7 +22,7 @@ import {
   IonLabel
 } from '@ionic/react';
 import { school, create, chevronDown, close, share, copy, todayOutline } from 'ionicons/icons';
-import QRCode from 'qrcode';
+import * as QRCode from 'qrcode';
 import './Class_Creation.css';
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -40,12 +40,12 @@ const Class_Creation: React.FC = () => {
   const modalRef = useRef<HTMLIonModalElement | null>(null);
 
   const gradeLevels = [
-    '7','8','9','10','11',
+    '7', '8', '9', '10', '11',
     '12'
   ];
 
   const sectionNumbers = [
-    '1','2','3','4','5','6','7','8','9','10'
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'
   ]
 
 
@@ -67,8 +67,8 @@ const Class_Creation: React.FC = () => {
         return;
       }
 
-  // read token saved by login/register flow
-  const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+      // read token saved by login/register flow
+      const token = localStorage.getItem('authToken') || localStorage.getItem('token');
       if (!token) {
         alert('You must be logged in to create a section. Please log in and try again.');
         setIsLoading(false);
@@ -203,7 +203,7 @@ const Class_Creation: React.FC = () => {
                     <div className="input-section">
                       <IonText><h3 className="input-label">Grade Level</h3></IonText>
                       <IonItem className="select-item" lines="none">
-                         <IonIcon icon={todayOutline} slot="start" className="input-icon" />
+                        <IonIcon icon={todayOutline} slot="start" className="input-icon" />
                         <IonSelect
                           value={gradeLevel}
                           placeholder="Select grade level"
@@ -227,7 +227,7 @@ const Class_Creation: React.FC = () => {
                         <IonIcon icon={school} slot="start" className="input-icon" />
 
 
-                          <IonSelect
+                        <IonSelect
                           value={sectionNumber}
                           placeholder="Select section number"
                           onIonChange={(e) => setSectionNumer(e.detail.value)}
@@ -240,11 +240,11 @@ const Class_Creation: React.FC = () => {
 
 
 
-                   
+
                       </IonItem>
                     </div>
 
-                    
+
 
                     <div className="button-section">
                       <IonButton
@@ -266,12 +266,12 @@ const Class_Creation: React.FC = () => {
                       <IonText>
                         <h3 className="info-title"><strong>About Section Creation</strong></h3>
                         <ul className="info-list">
-                          
+
 
                           <li>1. Enter the grade and sectino number and automatically create a new section</li>
                           <li>2. Once created you will get a QR Code, let the students scan it to join the section</li>
                           <li>3.  <strong> Done!</strong> now your students will be assigned to this section for the remainder of the year</li>
-                    
+
                         </ul>
                       </IonText>
                     </IonCardContent>
@@ -282,7 +282,7 @@ const Class_Creation: React.FC = () => {
           </IonGrid>
         </div>
 
-        { /* quita IonModal y añade este overlay controlado por showQRModal */ }
+        { /* quita IonModal y añade este overlay controlado por showQRModal */}
         {showQRModal && qrData && (
           <div className="qr-overlay" role="dialog" aria-modal="true">
             <div className="qr-overlay-backdrop" onClick={handleCloseModal} />
