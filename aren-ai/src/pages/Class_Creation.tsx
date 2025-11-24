@@ -22,7 +22,7 @@ import {
   IonLabel
 } from '@ionic/react';
 import { school, create, chevronDown, close, share, copy, todayOutline } from 'ionicons/icons';
-import QRCode from 'qrcode';
+import * as QRCode from 'qrcode';
 import './Class_Creation.css';
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -37,15 +37,16 @@ const Class_Creation: React.FC = () => {
   const [joinLink, setJoinLink] = useState('');
   const [qrData, setQrData] = useState<{ classCode: string; joinLink: string } | null>(null);
   const [qrImage, setQrImage] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null); // NUEVO: para mostrar errores en la interfaz
   const modalRef = useRef<HTMLIonModalElement | null>(null);
 
   const gradeLevels = [
-    '7','8','9','10','11',
+    '7', '8', '9', '10', '11',
     '12'
   ];
 
   const sectionNumbers = [
-    '1','2','3','4','5','6','7','8','9','10'
+    '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'
   ]
 
 
@@ -55,28 +56,26 @@ const Class_Creation: React.FC = () => {
   const handleCreateClass = async () => {
     try {
       setIsLoading(true);
+      setErrorMsg(null); // Limpia error anterior
 
       if (!gradeLevel) {
-        alert('Please select a grade level');
+        setErrorMsg('Please select a grade level');
         setIsLoading(false);
         return;
       }
       if (!sectionNumber) {
-        alert('Please enter the section number');
+        setErrorMsg('Please enter the section number');
         setIsLoading(false);
         return;
       }
 
-  // read token saved by login/register flow
-  const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+      const token = localStorage.getItem('authToken') || localStorage.getItem('token');
       if (!token) {
-        alert('You must be logged in to create a section. Please log in and try again.');
+        setErrorMsg('You must be logged in to create a section. Please log in and try again.');
         setIsLoading(false);
-        // Optionally, redirect to login page here
         return;
       }
 
-      // Call backend API to create section
       const res = await fetch(apiBase, {
         method: 'POST',
         headers: {
@@ -85,20 +84,28 @@ const Class_Creation: React.FC = () => {
         },
         body: JSON.stringify({ section_number: sectionNumber, grade: gradeLevel })
       });
+
+      if (res.status === 409) {
+        setErrorMsg('Ya existe una clase con ese grado y sección. Por favor elige otra combinación.');
+        setIsLoading(false);
+        return;
+      }
+
       if (!res.ok) {
         const errMsg = await res.text();
-        throw new Error(errMsg || 'Failed to create section');
+        setErrorMsg(errMsg || 'Failed to create section');
+        setIsLoading(false);
+        return;
       }
+
       const section = await res.json();
-      // Use id_section as the code and for the join link
       const newClassCode = section.id_section?.toString() || '';
-      const newJoinLink = `https://arenai.education/join/${newClassCode}`;
+      const newJoinLink = `http://localhost:5173/join/${newClassCode}`;
 
       setClassCode(newClassCode);
       setJoinLink(newJoinLink);
       setQrData({ classCode: newClassCode, joinLink: newJoinLink });
 
-      // Generate QR code image
       try {
         const dataUrl = await QRCode.toDataURL(newJoinLink, { margin: 1, width: 320 });
         setQrImage(dataUrl);
@@ -112,7 +119,7 @@ const Class_Creation: React.FC = () => {
       console.log('Section created', { newClassCode, newJoinLink });
     } catch (err) {
       console.error('Error creating section:', err);
-      alert('An error occurred while creating the section.');
+      setErrorMsg('An error occurred while creating the section.');
     } finally {
       setIsLoading(false);
     }
@@ -197,13 +204,17 @@ const Class_Creation: React.FC = () => {
 
                 <IonCard className="creation-card">
                   <IonCardContent>
-                    {/* reemplazamos <form> por controles con onClick */}
-
-
+                    {/* NUEVO: muestra el error si existe */}
+                    {errorMsg && (
+                      <IonText color="danger">
+                        <p style={{ marginBottom: 12 }}>{errorMsg}</p>
+                      </IonText>
+                    )}
+                    {/* ...resto del formulario... */}
                     <div className="input-section">
                       <IonText><h3 className="input-label">Grade Level</h3></IonText>
                       <IonItem className="select-item" lines="none">
-                         <IonIcon icon={todayOutline} slot="start" className="input-icon" />
+                        <IonIcon icon={todayOutline} slot="start" className="input-icon" />
                         <IonSelect
                           value={gradeLevel}
                           placeholder="Select grade level"
@@ -216,18 +227,11 @@ const Class_Creation: React.FC = () => {
                         <IonIcon icon={chevronDown} slot="end" className="select-arrow" />
                       </IonItem>
                     </div>
-
-
-
-
-
                     <div className="input-section">
                       <IonText><h3 className="input-label">Section Name</h3></IonText>
                       <IonItem className="input-item" lines="none">
                         <IonIcon icon={school} slot="start" className="input-icon" />
-
-
-                          <IonSelect
+                        <IonSelect
                           value={sectionNumber}
                           placeholder="Select section number"
                           onIonChange={(e) => setSectionNumer(e.detail.value)}
@@ -236,16 +240,8 @@ const Class_Creation: React.FC = () => {
                         >
                           {sectionNumbers.map((grade, i) => <IonSelectOption key={i} value={grade}>{grade}</IonSelectOption>)}
                         </IonSelect>
-
-
-
-
-                   
                       </IonItem>
                     </div>
-
-                    
-
                     <div className="button-section">
                       <IonButton
                         onClick={handleCreateClass}
@@ -259,19 +255,18 @@ const Class_Creation: React.FC = () => {
                     </div>
                   </IonCardContent>
                 </IonCard>
-
                 <div className="info-section">
                   <IonCard className="info-card">
                     <IonCardContent>
                       <IonText>
                         <h3 className="info-title"><strong>About Section Creation</strong></h3>
                         <ul className="info-list">
-                          
+
 
                           <li>1. Enter the grade and sectino number and automatically create a new section</li>
                           <li>2. Once created you will get a QR Code, let the students scan it to join the section</li>
                           <li>3.  <strong> Done!</strong> now your students will be assigned to this section for the remainder of the year</li>
-                    
+
                         </ul>
                       </IonText>
                     </IonCardContent>
@@ -282,7 +277,7 @@ const Class_Creation: React.FC = () => {
           </IonGrid>
         </div>
 
-        { /* quita IonModal y añade este overlay controlado por showQRModal */ }
+        { /* quita IonModal y añade este overlay controlado por showQRModal */}
         {showQRModal && qrData && (
           <div className="qr-overlay" role="dialog" aria-modal="true">
             <div className="qr-overlay-backdrop" onClick={handleCloseModal} />

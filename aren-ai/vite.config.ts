@@ -19,7 +19,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         // Backend in your environment is listening on port 3002 (see server startup)
-        target: 'http://localhost:3002',
+        target: 'http://127.0.0.1:3002',
         changeOrigin: true,
         secure: false,
       },

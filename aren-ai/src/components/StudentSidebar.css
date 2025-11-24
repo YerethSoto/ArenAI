@@ -229,3 +229,115 @@ ion-item:hover {
   from { transform: translateX(-100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
 }
+
+.sidebar-usage-info {
+  margin: 24px 16px 0 16px;
+  padding: 12px 10px 10px 10px;
+  background: #fff7dd;
+  border-radius: 10px;
+  border: 1px solid #90beab;
+  box-shadow: 0 2px 8px rgba(144, 190, 171, 0.08);
+  font-size: 0.97rem;
+  color: #8f6a56;
+}
+
+.usage-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.usage-label {
+  font-weight: 600;
+  font-size: 0.97em;
+  margin-left: 6px;
+  flex: 1;
+}
+
+.usage-value {
+  font-weight: 700;
+  color: #90beab;
+  margin-left: 8px;
+}
+
+.usage-icon {
+  color: #8f6a56;
+  font-size: 1.1em;
+  margin-right: 4px;
+}
+
+.usage-help-btn {
+  background: none;
+  border: none;
+  padding: 0 0 0 4px;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  color: #90beab;
+  font-size: 1.1em;
+  transition: color 0.2s;
+}
+
+.usage-help-btn:hover ion-icon {
+  color: #8f6a56;
+}
+
+.usage-formula-tooltip {
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  bottom: 80px;
+  background: #fff;
+  color: #8f6a56;
+  border: 1px solid #90beab;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(144,190,171,0.15);
+  padding: 14px 16px 10px 16px;
+  z-index: 9999;
+  font-size: 0.98em;
+  animation: fadeIn 0.2s;
+  cursor: pointer;
+}
+
+.usage-formula-tooltip strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1em;
+}
+
+.usage-formula-close {
+  margin-top: 8px;
+  font-size: 0.9em;
+  color: #90beab;
+  text-align: right;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+.usage-progress-bar {
+  width: 100%;
+  height: 12px;
+  background: #e0e6e3;
+  border-radius: 6px;
+  margin: 8px 0 2px 0;
+  overflow: hidden;
+  position: relative;
+}
+.usage-progress-inner {
+  height: 100%;
+  background: linear-gradient(90deg, #90beab 60%, #71da68 100%);
+  border-radius: 6px;
+  transition: width 0.4s;
+}
+.usage-progress-label {
+  font-size: 0.88em;
+  color: #8f6a56;
+  margin-bottom: 6px;
+  margin-top: 2px;
+  text-align: right;
+}

@@ -12,6 +12,9 @@ import RegisterStudent from './pages/RegisterStudent';
 import Class_Creation from './pages/Class_Creation';
 import StudentSectionPage from './pages/StudentScores';
 import Quiz from './pages/Quiz';
+import Main_Prof from './pages/Main_Prof';
+import Main_Student from './pages/Main_Student';
+import Class_Join from './pages/Class_Join'; // <-- Importa la nueva página
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -28,15 +31,6 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
-import Main_Prof from './pages/Main_Prof';
-import Main_Student from './pages/Main_Student';
-
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
 
 /* import '@ionic/react/css/palettes/dark.always.css'; */
 /* import '@ionic/react/css/palettes/dark.class.css'; */
@@ -48,45 +42,33 @@ import './theme/variables.css';
 setupIonicReact();
 
 const App: React.FC = () => {
-  // State to track user role - this will come from your authentication system
   const [userRole, setUserRole] = useState<'professor' | 'student' | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  
-  // This useEffect simulates checking user authentication
+
   useEffect(() => {
-    // Check if user role exists in localStorage
     const savedRole = localStorage.getItem('userRole') as 'professor' | 'student' | null;
-    console.log('App: Checking localStorage for userRole:', savedRole);
-    
     if (savedRole) {
       setUserRole(savedRole);
     } else {
-      // NO DEFAULT ROLE - user must login first
       setUserRole(null);
     }
     setIsLoading(false);
   }, []);
 
   const handleLogin = (role: 'professor' | 'student', userData?: any) => {
-    console.log('App: User logged in as:', role, 'with data:', userData);
     setUserRole(role);
     localStorage.setItem('userRole', role);
-    
-    // Store user data for personalization
     if (userData) {
       localStorage.setItem('userData', JSON.stringify(userData));
     }
   };
 
-  // Handle logout
   const handleLogout = () => {
-    console.log('App: Logging out user');
     setUserRole(null);
     localStorage.removeItem('userData');
     localStorage.removeItem('userRole');
   };
 
-  // Determine which sidebar to show based on user role
   const renderSidebar = () => {
     if (!userRole) return null;
     switch (userRole) {
@@ -99,7 +81,6 @@ const App: React.FC = () => {
     }
   };
 
-  // Show loading while checking authentication
   if (isLoading) {
     return (
       <IonApp>
@@ -133,22 +114,13 @@ const App: React.FC = () => {
               )}
             </Route>
 
-           
             <Route path="/Register" exact={true}>
-
-
-
-             <Register></Register> : <Redirect to="/Register"></Redirect>
-             {/* <Register onRegister={(role: 'professor' | 'student') => {
-                setUserRole(role);
-                localStorage.setItem('userRole', role);}
-              }} />*/}
+              <Register />
             </Route>
             <Route path="/register-student" exact={true}>
               <RegisterStudent />
             </Route>
        
-            
             {/* Main Dashboard Routes */}
             <Route path="/page/professor" exact={true}>
               {userRole === 'professor' ? <Main_Prof /> : <Redirect to="/login" />}
@@ -177,6 +149,10 @@ const App: React.FC = () => {
               {userRole === 'professor' ? <StudentSectionPage /> : <Redirect to="/login" />}
             </Route>
 
+            {/* Nueva ruta para unirse a clase por código o QR */}
+            <Route path="/join/:code?" exact={true}>
+              <Class_Join />
+            </Route>
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>

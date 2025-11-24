@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   IonContent,
   IonPage,
@@ -17,6 +17,7 @@ import { person, key, eye, eyeOff } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import './Login.css';
 import { getApiUrl } from '../config/api';
+import { buildUrl } from '../utils/api';
 
 // The real authentication happens via the backend API at POST /api/auth/login
 // We keep a small local type to represent the shape of the response's user
@@ -48,6 +49,15 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const history = useHistory();
+
+  // Recarga la página solo una vez al llegar a esta ruta
+  useEffect(() => {
+    if (!window.location.hash.includes('#reloaded')) {
+      window.location.hash = '#reloaded';
+      window.location.reload();
+    }
+    // Si ya tiene el hash, no vuelve a recargar
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
