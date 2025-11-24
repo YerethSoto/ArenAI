@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import RegisterStudent from './pages/RegisterStudent';
 import Class_Creation from './pages/Class_Creation';
+import StudentSectionPage from './pages/StudentScores';
 import Quiz from './pages/Quiz';
 import Main_Prof from './pages/Main_Prof';
 import Main_Student from './pages/Main_Student';
@@ -141,6 +142,11 @@ const App: React.FC = () => {
             </Route>
             <Route path="/chat" exact={true}>
               {userRole ? <Chat /> : <Redirect to="/login" />}
+            </Route>
+
+            {/* Students by section */}
+            <Route path="/student-section" exact={true}>
+              {userRole === 'professor' ? <StudentSectionPage /> : <Redirect to="/login" />}
             </Route>
 
             {/* Nueva ruta para unirse a clase por código o QR */}
