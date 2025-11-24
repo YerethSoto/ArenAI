@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Nixie+One&display=swap');
 
 :root {
   --arenai-header-bg: #536e83;
@@ -10,33 +10,94 @@
 }
 
 .app-header {
-  --background: var(--arenai-header-bg) !important;
+  --background: #8f6a56 !important;
   --color: #ffffff;
 }
 
 .app-header ion-toolbar {
-  --background: var(--arenai-header-bg) !important;
-  --color: #ffffff;
+  --background: #8f6a56 !important;
+  --color: white;
+  --min-height: 80px;
 }
 
 .chat-embed-content {
-  --background: var(--arenai-body-bg);
+  --background: #fff7dd;
   --padding-start: 0;
   --padding-end: 0;
-  --padding-top: 0;
+  --padding-top: 80px;
   --padding-bottom: 0;
+  --border-radius: 18px;
+  --box-shadow: 0 2px 16px rgba(143, 106, 86, 0.10);
+  --border: 2px solid #90beab;
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 80px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .chat-iframe-wrapper {
   width: 100%;
+  max-width: 520px;
   height: 100%;
   padding-top: 8px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 80px);
+  padding: 0 32px; /* Espacio lateral para que no pegue a los bordes */
   box-sizing: border-box;
 }
 
 .chat-iframe-wrapper iframe {
   width: 100%;
-  height: 100%;
+  max-width: 420px;
+  min-height: 600px;
+  height: 70vh;
   border: none;
   background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(143, 106, 86, 0.10);
+  border: 2px solid #90beab;
+  transition: box-shadow 0.2s;
+}
+
+iframe:focus, iframe:hover {
+  box-shadow: 0 4px 24px rgba(143, 106, 86, 0.18);
+  border-color: #8f6a56;
+}
+
+ion-toolbar {
+  --background: #8f6a56 !important;
+  --color: white;
+  --min-height: 80px;
+}
+
+ion-title {
+  font-family: 'Nixie One', cursive;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 600px) {
+  .chat-embed-content {
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 80px;
+  }
+  .chat-iframe-wrapper {
+    padding: 0 6px;
+    max-width: 100vw;
+  }
+  iframe {
+    min-height: 400px;
+    max-width: 100vw;
+    border-radius: 12px;
+  }
 }

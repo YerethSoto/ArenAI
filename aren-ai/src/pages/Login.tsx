@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   IonContent,
   IonPage,
@@ -49,6 +49,15 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const history = useHistory();
+
+  // Recarga la página solo una vez al llegar a esta ruta
+  useEffect(() => {
+    if (!window.location.hash.includes('#reloaded')) {
+      window.location.hash = '#reloaded';
+      window.location.reload();
+    }
+    // Si ya tiene el hash, no vuelve a recargar
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
