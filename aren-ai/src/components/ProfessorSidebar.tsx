@@ -63,6 +63,12 @@ const appPages: AppPage[] = [
     iosIcon: createOutline,
     mdIcon: createSharp
   },
+  {
+    title: 'Student Sections',
+    url: '/student-section',
+    iosIcon: analyticsOutline,
+    mdIcon: analyticsSharp
+  }
 ];
 
 const settingsPages: AppPage[] = [

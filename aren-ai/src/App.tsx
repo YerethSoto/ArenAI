@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import RegisterStudent from './pages/RegisterStudent';
 import Class_Creation from './pages/Class_Creation';
+import StudentSectionPage from './pages/StudentScores';
 import Quiz from './pages/Quiz';
 
 /* Core CSS required for Ionic components to work properly */
@@ -170,6 +171,12 @@ const App: React.FC = () => {
             <Route path="/chat" exact={true}>
               {userRole ? <Chat /> : <Redirect to="/login" />}
             </Route>
+
+            {/* Students by section */}
+            <Route path="/student-section" exact={true}>
+              {userRole === 'professor' ? <StudentSectionPage /> : <Redirect to="/login" />}
+            </Route>
+
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>
