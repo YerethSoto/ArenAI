@@ -25,7 +25,6 @@ export interface Topic {
 
 export interface ClassRecord {
   id_class: number;
-  id_professor: number;
   name_class: string;
   id_subject: number;
   id_section: number;
@@ -40,4 +39,103 @@ export interface StudentProgressRow {
   topic_name: string;
   subject_name: string;
   score: string | null;
+}
+
+export interface Quiz {
+  id_quiz: number;
+  id_professor: number | null;
+  quiz_name: string | null;
+  id_subject: number;
+  id_section: number;
+  id_class: number;
+}
+
+export interface QuizQuestion {
+  id_quiz_question: number;
+  id_quiz: number;
+  id_topic: number | null;
+  question: string;
+  answer1: string | null;
+  answer2: string | null;
+  answer3: string | null;
+  answer4: string | null;
+}
+
+export interface QuizStudent {
+  id_quiz_student: number;
+  id_quiz: number | null;
+  id_student: number | null;
+  score: number | null;
+}
+
+export interface BattleMinigame {
+  id_battle_minigame: number;
+  id_user_1: number | null;
+  id_user_2: number | null;
+  id_class: number | null;
+  user_1_health: number | null;
+  user_2_health: number | null;
+  winner: boolean | null;
+  id_subject: number | null;
+}
+
+export interface BattleMinigameQuestion {
+  id_battle_minigame_question: number;
+  id_battle_minigame: number | null;
+  id_topic: number | null;
+  question: string | null;
+  answer1: string | null;
+  answer2: string | null;
+  answer3: string | null;
+  answer4: string | null;
+}
+
+export interface Chat {
+  id_chat: number;
+  id_user_1: number | null;
+  id_user_2: number | null;
+  friendship: boolean | null;
+}
+
+export interface Message {
+  id_message: number;
+  id_chat: number | null;
+  id_user: number | null;
+  date: string | null;
+}
+
+export interface Chatbot {
+  id_chatbot: number;
+  id_subject: number | null;
+  id_student: number | null;
+}
+
+export interface ChatbotMessage {
+  id_chatbot_message: number;
+  id_chatbot: number | null;
+  date: string | null;
+  is_user: boolean | null;
+}
+
+export interface Assignment {
+  id_assignment: number;
+  id_section: number | null;
+  due_time: string | null;
+  id_quiz: number | null;
+  win_battle_requirement: number | null;
+  id_subject: number | null;
+}
+
+export interface AssignmentStudent {
+  id_assignment_student: number;
+  id_assignment: number | null;
+  id_student: number | null;
+  complete: boolean | null;
+  id_quiz_student: number | null;
+}
+
+export interface AssignmentStudentBattle {
+  id_assignment_student_battle: number;
+  id_assignment_student: number | null;
+  id_battle_minigame: number | null;
 }

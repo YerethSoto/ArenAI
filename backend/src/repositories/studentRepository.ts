@@ -12,6 +12,7 @@ interface SectionStudentRow {
   role_in_section: string | null;
   email_guardian: string | null;
   score_average: string | null;
+  quiz_streak: number | null;
 }
 
 export async function getStudentTopicProgress(userId: number) {
@@ -67,7 +68,8 @@ export async function listStudentsBySection(sectionId: number) {
         u.phone_number,
         us.role_in_section,
         sp.email_guardian,
-        sp.score_average
+        sp.score_average,
+        sp.quiz_streak
      FROM user_section us
      INNER JOIN \`user\` u ON u.id_user = us.id_user
      INNER JOIN student_profile sp ON sp.id_user = u.id_user

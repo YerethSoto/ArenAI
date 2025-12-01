@@ -12,14 +12,14 @@ SET @institution_id := (
   LIMIT 1
 );
 
-INSERT INTO section (name, grade, id_institution)
+INSERT INTO section (section_number, grade, id_institution)
 VALUES ('Seccion 9A', '9', @institution_id)
 ON DUPLICATE KEY UPDATE grade = VALUES(grade);
 
 SET @section_id := (
   SELECT id_section
   FROM section
-  WHERE name = 'Seccion 9A' AND id_institution = @institution_id
+  WHERE section_number = 'Seccion 9A' AND id_institution = @institution_id
   LIMIT 1
 );
 

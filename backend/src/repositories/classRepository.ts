@@ -13,6 +13,7 @@ interface ClassStudentPayload {
   interactionCoefficient?: number | null;
   scoreAverage?: number | null;
   aiSummary?: string | null;
+  attendance?: boolean | null;
 }
 
 interface ClassStudentTopicPayload {
@@ -26,9 +27,6 @@ interface ClassListRow extends ClassRecord {
   subject_name: string;
   section_name: string;
   section_grade: string;
-  professor_username: string;
-  professor_name: string;
-  professor_last_name: string | null;
   institution_id: number;
   institution_name: string | null;
 }
@@ -51,12 +49,6 @@ export interface ListedClass {
     institutionId: number;
     institutionName: string | null;
   };
-  professor: {
-    id: number;
-    username: string;
-    name: string;
-    lastName: string | null;
-  };
 }
 
 export async function listClasses(filters: { subjectId?: number; sectionId?: number; professorId?: number }) {
@@ -68,15 +60,12 @@ export async function listClasses(filters: { subjectId?: number; sectionId?: num
     params.push(filters.subjectId);
   }
 
+
   if (filters.sectionId) {
     conditions.push('c.id_section = ?');
     params.push(filters.sectionId);
   }
 
-  if (filters.professorId) {
-    conditions.push('c.id_professor = ?');
-    params.push(filters.professorId);
-  }
 
   const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
 
@@ -95,15 +84,11 @@ export async function listClasses(filters: { subjectId?: number; sectionId?: num
   sec.section_number AS section_name,
         sec.grade AS section_grade,
         inst.id_institution AS institution_id,
-        inst.name_institution AS institution_name,
-        u.username AS professor_username,
-        u.name AS professor_name,
-        u.last_name AS professor_last_name
+        inst.name_institution AS institution_name
      FROM class c
      INNER JOIN subject subj ON subj.id_subject = c.id_subject
      INNER JOIN section sec ON sec.id_section = c.id_section
      LEFT JOIN institution inst ON inst.id_institution = sec.id_institution
-     INNER JOIN \`user\` u ON u.id_user = c.id_professor
      ${whereClause}
      ORDER BY c.fecha DESC, c.id_class DESC`,
     params
@@ -127,17 +112,10 @@ export async function listClasses(filters: { subjectId?: number; sectionId?: num
       institutionId: row.institution_id,
       institutionName: row.institution_name,
     },
-    professor: {
-      id: row.id_professor,
-      username: row.professor_username,
-      name: row.professor_name,
-      lastName: row.professor_last_name,
-    },
   }));
 }
 
 export async function createClass(payload: {
-  professorId: number;
   name: string;
   subjectId: number;
   sectionId: number;
@@ -147,10 +125,9 @@ export async function createClass(payload: {
   scoreAverage?: number | null;
 }) {
   const insertResult = await db.query<ResultSetHeader>(
-    `INSERT INTO class (id_professor, name_class, id_subject, id_section, fecha, ai_summary, current_questions_summary, score_average)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO class (name_class, id_subject, id_section, fecha, ai_summary, current_questions_summary, score_average)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`,
     [
-      payload.professorId,
       payload.name,
       payload.subjectId,
       payload.sectionId,
@@ -162,7 +139,7 @@ export async function createClass(payload: {
   );
 
   const created = await db.query<ClassRecord>(
-    `SELECT id_class, id_professor, name_class, id_subject, id_section, fecha, ai_summary, current_questions_summary, score_average
+    `SELECT id_class, name_class, id_subject, id_section, fecha, ai_summary, current_questions_summary, score_average
      FROM class
      WHERE id_class = ?`,
     [insertResult.rows[0].insertId]
@@ -205,18 +182,20 @@ export async function enrollStudentsInClass(classId: number, students: ClassStud
 
     for (const student of students) {
       await client.query(
-        `INSERT INTO class_student (id_class, id_user, ai_summary, interaction_coefficient, score_average)
-         VALUES (?, ?, ?, ?, ?)
+        `INSERT INTO class_student (id_class, id_user, ai_summary, interaction_coefficient, score_average, attendance)
+         VALUES (?, ?, ?, ?, ?, ?)
          ON DUPLICATE KEY UPDATE
            ai_summary = VALUES(ai_summary),
            interaction_coefficient = VALUES(interaction_coefficient),
-           score_average = VALUES(score_average)`,
+           score_average = VALUES(score_average),
+           attendance = VALUES(attendance)`,
         [
           classId,
           student.userId,
           student.aiSummary ?? null,
           student.interactionCoefficient ?? null,
           student.scoreAverage ?? null,
+          student.attendance ?? false,
         ]
       );
     }

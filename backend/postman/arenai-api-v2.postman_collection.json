@@ -1,0 +1,740 @@
+{
+    "info": {
+        "name": "ArenAI API V2",
+        "description": "Colección de ejemplos para probar todos los endpoints expuestos por el backend de ArenAI (V2 Schema).",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 200) {",
+                                    "  const json = pm.response.json();",
+                                    "  pm.collectionVariables.set('token', json.token);",
+                                    "  if (json.user && json.user.id_user) {",
+                                    "    pm.collectionVariables.set('authUserId', json.user.id_user);",
+                                    "  }",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"identifier\": \"admin\",\n  \"password\": \"ArenAIAdmin123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/login",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Quizzes",
+            "item": [
+                {
+                    "name": "Create Quiz",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201) {",
+                                    "  const json = pm.response.json();",
+                                    "  pm.collectionVariables.set('quizId', json.id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"professorId\": {{authUserId}},\n  \"name\": \"Quiz de Algebra\",\n  \"subjectId\": {{subjectId}},\n  \"sectionId\": {{sectionId}},\n  \"classId\": {{classId}}\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/quizzes",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "quizzes"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Quiz",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/quizzes/{{quizId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "quizzes",
+                                "{{quizId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Add Question to Quiz",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"topicId\": {{topicId}},\n  \"question\": \"Cuanto es 2+2?\",\n  \"answer1\": \"3\",\n  \"answer2\": \"4\",\n  \"answer3\": \"5\",\n  \"answer4\": \"6\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/quizzes/{{quizId}}/questions",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "quizzes",
+                                "{{quizId}}",
+                                "questions"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Quiz Questions",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/quizzes/{{quizId}}/questions",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "quizzes",
+                                "{{quizId}}",
+                                "questions"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Record Quiz Score",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"studentId\": {{studentUserId}},\n  \"score\": 100\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/quizzes/{{quizId}}/score",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "quizzes",
+                                "{{quizId}}",
+                                "score"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Battles",
+            "item": [
+                {
+                    "name": "Create Battle",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201) {",
+                                    "  const json = pm.response.json();",
+                                    "  pm.collectionVariables.set('battleId', json.id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"user1Id\": {{authUserId}},\n  \"user2Id\": {{studentUserId}},\n  \"classId\": {{classId}},\n  \"subjectId\": {{subjectId}}\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/battles",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "battles"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Battle",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/battles/{{battleId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "battles",
+                                "{{battleId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Battle Health",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"user1Health\": 80,\n  \"user2Health\": 90\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/battles/{{battleId}}/health",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "battles",
+                                "{{battleId}}",
+                                "health"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Set Battle Winner",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"winner\": true\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/battles/{{battleId}}/winner",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "battles",
+                                "{{battleId}}",
+                                "winner"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Chats",
+            "item": [
+                {
+                    "name": "Create Chat",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201) {",
+                                    "  const json = pm.response.json();",
+                                    "  pm.collectionVariables.set('chatId', json.id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"user1Id\": {{authUserId}},\n  \"user2Id\": {{studentUserId}}\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/chats",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "chats"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Send Message",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"userId\": {{authUserId}},\n  \"date\": \"2024-11-30T10:00:00Z\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/chats/{{chatId}}/messages",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "chats",
+                                "{{chatId}}",
+                                "messages"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Messages",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/chats/{{chatId}}/messages",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "chats",
+                                "{{chatId}}",
+                                "messages"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Chatbot",
+            "item": [
+                {
+                    "name": "Create Session",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201) {",
+                                    "  const json = pm.response.json();",
+                                    "  pm.collectionVariables.set('chatbotId', json.id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"studentId\": {{studentUserId}},\n  \"subjectId\": {{subjectId}}\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/chatbot",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "chatbot"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Add Message",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"isUser\": true,\n  \"date\": \"2024-11-30T10:05:00Z\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/chatbot/{{chatbotId}}/messages",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "chatbot",
+                                "{{chatbotId}}",
+                                "messages"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Assignments",
+            "item": [
+                {
+                    "name": "Create Assignment",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201) {",
+                                    "  const json = pm.response.json();",
+                                    "  pm.collectionVariables.set('assignmentId', json.id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"sectionId\": {{sectionId}},\n  \"subjectId\": {{subjectId}},\n  \"dueTime\": \"2024-12-31\",\n  \"quizId\": {{quizId}}\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/assignments",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "assignments"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Assign to Student",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 201) {",
+                                    "  const json = pm.response.json();",
+                                    "  pm.collectionVariables.set('assignmentStudentId', json.id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"studentId\": {{studentUserId}}\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/assignments/{{assignmentId}}/assign",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "assignments",
+                                "{{assignmentId}}",
+                                "assign"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Completion",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"complete\": true\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/assignments/student/{{assignmentStudentId}}/complete",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "assignments",
+                                "student",
+                                "{{assignmentStudentId}}",
+                                "complete"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:3002",
+            "type": "string"
+        },
+        {
+            "key": "token",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "authUserId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "studentUserId",
+            "value": "100",
+            "type": "string"
+        },
+        {
+            "key": "subjectId",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "sectionId",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "classId",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "topicId",
+            "value": "1",
+            "type": "string"
+        },
+        {
+            "key": "quizId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "battleId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "chatId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "chatbotId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "assignmentId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "assignmentStudentId",
+            "value": "",
+            "type": "string"
+        }
+    ]
+}

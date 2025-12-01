@@ -10,6 +10,7 @@ export interface UserRecord {
   last_name: string | null;
   id_institution: number | null;
   institution_name: string | null;
+  profile_picture_name: string | null;
 }
 
 export async function findUserByIdentifier(identifier: string) {
@@ -23,6 +24,7 @@ export async function findUserByIdentifier(identifier: string) {
         u.name,
         u.last_name,
         u.id_institution,
+        u.profile_picture_name,
         i.name_institution AS institution_name
        FROM \`user\` u
        LEFT JOIN institution i ON i.id_institution = u.id_institution
@@ -45,6 +47,7 @@ export async function findUserByUsername(username: string) {
         u.name,
         u.last_name,
         u.id_institution,
+        u.profile_picture_name,
         i.name_institution AS institution_name
        FROM \`user\` u
        LEFT JOIN institution i ON i.id_institution = u.id_institution

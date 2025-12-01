@@ -26,10 +26,10 @@ CREATE TABLE IF NOT EXISTS institution (
 
 CREATE TABLE IF NOT EXISTS section (
   id_section       INT AUTO_INCREMENT PRIMARY KEY,
-  name             VARCHAR(255) NOT NULL,
+  section_number   VARCHAR(255) NOT NULL,
   grade            VARCHAR(100) NOT NULL,
   id_institution   INT NOT NULL,
-  UNIQUE (id_institution, name),
+  UNIQUE (id_institution, section_number),
   CONSTRAINT fk_section_institution
     FOREIGN KEY (id_institution) REFERENCES institution(id_institution)
     ON DELETE RESTRICT
@@ -263,29 +263,6 @@ BEGIN
   END IF;
 END;
 
-CREATE TRIGGER trg_class_professor_check_ins
-BEFORE INSERT ON class
-FOR EACH ROW
-BEGIN
-  DECLARE v_count INT DEFAULT 0;
-  SELECT COUNT(*) INTO v_count FROM professor_profile p WHERE p.id_user = NEW.id_professor;
-  IF v_count = 0 THEN
-    SIGNAL SQLSTATE '45000'
-      SET MESSAGE_TEXT = 'El usuario indicado no tiene perfil de profesor';
-  END IF;
-END;
-
-CREATE TRIGGER trg_class_professor_check_upd
-BEFORE UPDATE ON class
-FOR EACH ROW
-BEGIN
-  DECLARE v_count INT DEFAULT 0;
-  SELECT COUNT(*) INTO v_count FROM professor_profile p WHERE p.id_user = NEW.id_professor;
-  IF v_count = 0 THEN
-    SIGNAL SQLSTATE '45000'
-      SET MESSAGE_TEXT = 'El usuario indicado no tiene perfil de profesor';
-  END IF;
-END;
 
 CREATE TRIGGER trg_cs_student_check_ins
 BEFORE INSERT ON class_student
