@@ -31,7 +31,8 @@ import {
   exitOutline,
   exitSharp,
   peopleOutline,
-  analyticsOutline
+  analyticsOutline,
+  timeOutline
 } from 'ionicons/icons';
 import './StudentSidebar.css';
 
@@ -99,6 +100,25 @@ interface StudentSidebarProps {
   onLogout: () => void;
 }
 
+// Cálculo simplificado del índice de utilización
+// Ejemplo: Meta diaria de índice = 100
+// Índice = (tiempoDeUso * 0.7) + (actividadesCompletadas * 10) + otrosFactores
+function calcularIndiceUtilizacion({
+  tiempoDeUso,
+  actividadesCompletadas
+}: { tiempoDeUso: number; actividadesCompletadas: number }) {
+  // Ejemplo de fórmula compuesta y clara:
+  // - El tiempo de uso pondera más al principio y menos después (logarítmico)
+  // - Las actividades completadas tienen peso cuadrático
+  // - Hay un pequeño bonus si el usuario supera ciertos umbrales
+  const usoLog = Math.log1p(tiempoDeUso) * 15;
+  const actividadesPeso = Math.pow(actividadesCompletadas, 1.5) * 6;
+  const bonus = (tiempoDeUso > 60 ? 10 : 0) + (actividadesCompletadas >= 5 ? 8 : 0);
+  return Math.round(usoLog + actividadesPeso + bonus);
+}
+
+const META_DIARIA = 100;
+
 const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
   const [showAnimation, setShowAnimation] = useState(true);
   const location = useLocation();
@@ -135,6 +155,38 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
     console.log('StudentSidebar: Logging out');
     onLogout(); // Call the parent's logout function
   };
+
+  // --- NUEVO: Estados para uso e índice ---
+  const [tiempoDeUso, setTiempoDeUso] = useState<number>(0); // en minutos
+  const [actividadesCompletadas, setActividadesCompletadas] = useState<number>(0);
+
+  // Simulación de otros factores (quemado)
+  const otrosFactores = 10;
+
+  // Simulación: incrementar tiempo de uso cada minuto
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTiempoDeUso(prev => prev + 1);
+    }, 60000); // cada minuto
+    return () => clearInterval(interval);
+  }, []);
+
+  // Simulación: actividades completadas (puedes cambiarlo por datos reales)
+  useEffect(() => {
+    setActividadesCompletadas(3); // valor quemado
+  }, []);
+
+  // Cálculo del índice de utilización usando la función determinista
+  const indiceUtilizacion = calcularIndiceUtilizacion({
+    tiempoDeUso,
+    actividadesCompletadas
+  });
+
+  // Cálculo del porcentaje de progreso
+  const progreso = Math.min(100, Math.round((indiceUtilizacion / META_DIARIA) * 100));
+
+  // Estado para mostrar la ventanita de explicación
+  const [showFormulaInfo, setShowFormulaInfo] = useState(false);
 
   return (
     <IonMenu contentId="main">
@@ -213,6 +265,46 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
             );
           })}
         </IonList>
+
+        {/* --- NUEVO: Indicadores de uso --- */}
+        <div className="sidebar-usage-info">
+          <div className="usage-row">
+            <IonIcon icon={analyticsOutline} className="usage-icon" />
+            <span className="usage-label">Índice de utilización:</span>
+            <span className="usage-value">{indiceUtilizacion}</span>
+            <button
+              className="usage-help-btn"
+              aria-label="¿Cómo se calcula?"
+              onClick={() => setShowFormulaInfo(true)}
+              tabIndex={0}
+            >
+              <IonIcon icon={helpCircleOutline} />
+            </button>
+          </div>
+          <div className="usage-progress-bar">
+            <div className="usage-progress-inner" style={{ width: `${progreso}%` }} />
+          </div>
+          <div className="usage-progress-label">
+           
+          </div>
+          <div className="usage-row">
+            <IonIcon icon={timeOutline} className="usage-icon" />
+            <span className="usage-label">Tiempo de uso hoy:</span>
+            <span className="usage-value">{tiempoDeUso} min</span>
+          </div>
+          {showFormulaInfo && (
+            <div className="usage-formula-tooltip" onClick={() => setShowFormulaInfo(false)}>
+              <strong>¿Cómo se calcula?</strong>
+              <div>
+                Índice = log(1 + minutos de uso) × 15 + (actividades completadas<sup>1.5</sup> × 6) + bonus<br /><br />
+                <b>Bonus:</b> +10 si usas más de 60 min, +8 si completas 5 o más actividades.<br />
+                <b>Meta diaria:</b> {META_DIARIA} puntos.<br />
+                <b>Progreso:</b> La barra muestra tu avance hacia la meta diaria.
+              </div>
+              <div className="usage-formula-close">Cerrar</div>
+            </div>
+          )}
+        </div>
 
         {/* Información de la app */}
         <div className="menu-footer">

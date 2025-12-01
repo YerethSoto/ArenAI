@@ -16,6 +16,7 @@ import {
 import { person, key, business, arrowBack, eye, eyeOff } from 'ionicons/icons';
 import './RegisterStudent.css';
 import { useHistory } from 'react-router-dom';
+import { buildUrl } from '../utils/api';
 import { getApiUrl } from '../config/api';
 
 const RegisterStudent: React.FC = () => {
@@ -93,7 +94,7 @@ const RegisterStudent: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const resp = await fetch(getApiUrl('/api/auth/register-student'), {
+      const resp = await fetch('/api/auth/register-student', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
