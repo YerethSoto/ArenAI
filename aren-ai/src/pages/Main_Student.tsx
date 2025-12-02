@@ -541,17 +541,7 @@ const Main_Student: React.FC = () => {
             </IonCard>
           </div>
 
-          {/* Practice Section */}
-          <div className="practice-section">
-            <IonButton 
-              expand="block" 
-              className="practice-topics-button"
-              onClick={handlePracticeTopics}
-            >
-              <IonIcon icon={school} slot="start" />
-              Practice {selectedSubject} Topics
-            </IonButton>
-          </div>
+          
 
         </div>
       </IonContent>

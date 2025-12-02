@@ -17,7 +17,6 @@ import {
 import { person, mail, key, eye, eyeOff, arrowBack, call, business, school, chevronDown, chevronUp } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import './Register.css';
-import { buildUrl } from '../utils/api';
 import { getApiUrl } from '../config/api';
 
 const Register: React.FC = () => {
@@ -134,12 +133,15 @@ const Register: React.FC = () => {
     if (!/(?=.*[A-Z])/.test(password)) {
       errors.push('At least one uppercase letter');
     }
+    /*
     if (!/(?=.*\d)/.test(password)) {
       errors.push('At least one number');
     }
+    
     if (!/(?=.*[@$!%*?&])/.test(password)) {
       errors.push('At least one special character (@$!%*?&)');
     }
+      */
     return errors;
   };
 
@@ -256,7 +258,7 @@ const Register: React.FC = () => {
 
     // Call backend registration endpoint (every new registrant becomes a professor)
     try {
-      const resp = await fetch('/api/auth/register', {
+      const resp = await fetch(getApiUrl('/api/auth/register'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

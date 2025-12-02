@@ -534,17 +534,7 @@ const Main_Prof: React.FC = () => {
             </IonCard>
           </div>
 
-          {/* Quiz Section */}
-          <div className="quiz-section">
-            <IonButton 
-              expand="block" 
-              className="create-quiz-button"
-              onClick={handleCreateQuiz}
-            >
-              <IonIcon icon={add} slot="start" />
-              Create Quiz for {selectedSubject}
-            </IonButton>
-          </div>
+         
 
         </div>
       </IonContent>

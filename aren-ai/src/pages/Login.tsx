@@ -17,7 +17,6 @@ import { person, key, eye, eyeOff } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import './Login.css';
 import { getApiUrl } from '../config/api';
-import { buildUrl } from '../utils/api';
 
 // The real authentication happens via the backend API at POST /api/auth/login
 // We keep a small local type to represent the shape of the response's user
@@ -70,9 +69,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       return;
     }
 
+
     // Call backend API
     try {
-      const resp = await fetch('/api/auth/login', {
+      const resp = await fetch(getApiUrl('/api/auth/login'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -131,11 +131,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     setError('Password recovery feature coming soon!');
   };
 
-  // Quick login for demo purposes (optional - remove in production)
-  const handleQuickLogin = (demoUsername: string, demoPassword: string) => {
-    setUsername(demoUsername);
-    setPassword(demoPassword);
-  };
 
   return (
     <IonPage>
@@ -157,7 +152,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     />
                   </div>
                   <IonText>
-                    <p className="brand-subtitle">Ready to learn?</p>
+                    <p className="brand-subtitle">Less Monologues, more Dialogs</p>
                   </IonText>
                 </div>
 

@@ -227,7 +227,7 @@ const Quiz: React.FC = () => {
 
   const currentUser = getUserData();
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [score, setScore] = useState(1200);
+  const [score, setScore] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [startTime, setStartTime] = useState<number>(Date.now());

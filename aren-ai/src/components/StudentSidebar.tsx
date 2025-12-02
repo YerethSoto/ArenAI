@@ -32,7 +32,9 @@ import {
   exitSharp,
   peopleOutline,
   analyticsOutline,
-  timeOutline
+  timeOutline,
+  americanFootballOutline,
+  americanFootballSharp
 } from 'ionicons/icons';
 import './StudentSidebar.css';
 
@@ -64,6 +66,20 @@ const appPages: AppPage[] = [
     iosIcon: trophyOutline,
     mdIcon: trophySharp
   },
+
+  {
+    title: 'Battle',
+    url: '/battleminigame',
+    iosIcon: americanFootballOutline,
+    mdIcon: americanFootballSharp
+  },
+
+  {
+    title: 'Battle loggy',
+    url: '/battlelobby',
+    iosIcon: americanFootballOutline,
+    mdIcon: americanFootballSharp
+  },
   
 ];
 
@@ -74,6 +90,7 @@ const settingsPages: AppPage[] = [
     iosIcon: settingsOutline,
     mdIcon: settingsSharp
   },
+  
   {
     title: 'Help & Support',
     url: '/folder/Help',
@@ -85,7 +102,8 @@ const settingsPages: AppPage[] = [
     url: '/login',
     iosIcon: exitOutline,
     mdIcon: exitSharp
-  }
+  },
+  
 ];
 
 // Interface for user data

@@ -58,7 +58,7 @@ const appPages: AppPage[] = [
   },
   
   {
-    title: 'Create Class',
+    title: 'Create Section',
     url: '/class-creation',
     iosIcon: createOutline,
     mdIcon: createSharp

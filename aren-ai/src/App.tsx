@@ -14,7 +14,9 @@ import StudentSectionPage from './pages/StudentScores';
 import Quiz from './pages/Quiz';
 import Main_Prof from './pages/Main_Prof';
 import Main_Student from './pages/Main_Student';
-import Class_Join from './pages/Class_Join'; // <-- Importa la nueva página
+import Class_Join from './pages/Class_Join';
+import BattleMinigame from './pages/BattleMinigame';
+import BattleLobby from './components/BattleLobby';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -140,6 +142,16 @@ const App: React.FC = () => {
             <Route path="/quiz" exact={true}>
               {userRole === 'student' ? <Quiz /> : <Redirect to="/login" />}
             </Route>
+
+
+            <Route path="/battleminigame" exact={true}>
+              {userRole === 'student' ? <BattleMinigame></BattleMinigame>: <Redirect to="/login" />}
+            </Route>
+            
+             <Route path="/battlelobby" exact={true}>
+              {userRole === 'student' ? <BattleLobby></BattleLobby>: <Redirect to="/login" />}
+            </Route>
+
             <Route path="/chat" exact={true}>
               {userRole ? <Chat /> : <Redirect to="/login" />}
             </Route>
