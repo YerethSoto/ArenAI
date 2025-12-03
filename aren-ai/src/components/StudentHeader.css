@@ -1,0 +1,127 @@
+/* StudentHeader.css */
+
+.student-header-container {
+    --background: transparent;
+    position: relative;
+    z-index: 100;
+    box-shadow: none;
+    overflow: visible !important;
+    contain: none !important;
+    background: transparent !important;
+}
+
+.student-toolbar {
+    /* Remove manual background setting, let color="primary" handle it */
+    --border-width: 0;
+    padding-top: var(--ion-safe-area-top, 20px);
+    padding-bottom: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    transition: background-color 0.3s ease;
+    position: relative;
+    z-index: 20;
+}
+
+.sh-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    width: 100%;
+    height: 100%;
+}
+
+.sh-menu-btn {
+    color: var(--ion-color-primary-contrast, white);
+    font-size: 24px;
+    --color: var(--ion-color-primary-contrast, white);
+    margin: 0;
+}
+
+.sh-brand-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    color: var(--ion-color-primary-contrast, white);
+}
+
+.sh-brand-name {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.sh-brand-sub {
+    font-size: 10px;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Notch Design */
+.sh-notch-container {
+    position: absolute;
+    top: 60px;
+    /* Match toolbar height */
+    margin-top: var(--ion-safe-area-top, 20px);
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 10;
+    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.1));
+}
+
+.sh-notch {
+    /* Explicitly use the variable here */
+    background-color: var(--ion-color-primary);
+    width: 140px;
+    height: 50px;
+
+    /* Semi-circle shape */
+    border-bottom-left-radius: 70px;
+    border-bottom-right-radius: 70px;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 5px;
+
+    pointer-events: auto;
+    transition: background-color 0.3s ease;
+    margin-top: -1px;
+}
+
+/* Subject Display */
+.sh-subject-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    /* Ensure content is centered in the top part of the semi-circle */
+    padding-bottom: 15px;
+}
+
+/* Fallback text style */
+.sh-subject-text {
+    color: var(--ion-color-primary-contrast, white);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* Decoration for pages without subject */
+.sh-notch-decoration {
+    width: 40px;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    margin-top: 10px;
+}

@@ -18,6 +18,7 @@ import Main_Student from './pages/Main_Student';
 import Class_Join from './pages/Class_Join';
 import BattleMinigame from './pages/BattleMinigame';
 import BattleLobby from './components/BattleLobby';
+import StudentSettings from './pages/StudentSettings';
 import { ThemeProvider } from './context/ThemeContext';
 
 /* Core CSS required for Ionic components to work properly */
@@ -42,6 +43,9 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+
+/* i18n */
+import './i18n';
 
 setupIonicReact();
 
@@ -141,6 +145,11 @@ const App: React.FC = () => {
               <Route path="/create-task" exact={true}>
                 {userRole === 'professor' ? <CreateTask /> : <Redirect to="/login" />}
               </Route>
+
+              <Route path="/settings" exact={true}>
+                {userRole === 'student' ? <StudentSettings /> : <Redirect to="/login" />}
+              </Route>
+
               <Route path="/folder/:name" exact={true}>
                 {userRole ? <Page /> : <Redirect to="/login" />}
               </Route>

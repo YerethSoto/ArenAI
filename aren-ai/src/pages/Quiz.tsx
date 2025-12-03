@@ -1,69 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import {
   IonContent,
-  IonHeader,
   IonPage,
-  IonToolbar,
-  IonButtons,
-  IonMenuButton,
-  IonIcon,
   IonButton,
-  IonText,
   IonGrid,
   IonRow,
   IonCol,
+  IonText,
+  IonIcon,
   IonModal,
   IonCard,
-  IonCardContent,
+  IonCardContent
 } from '@ionic/react';
-import { menu, arrowForward } from 'ionicons/icons';
-import StudentMenu from '../components/StudentMenu';
-import StudentSidebar from '../components/StudentSidebar';
+import { arrowForward } from 'ionicons/icons';
+import { useTranslation } from 'react-i18next';
 import './Quiz.css';
-
-interface UserData {
-  name: string;
-  email: string;
-  username: string;
-}
-
-interface Question {
-  id: number;
-  question: string;
-  options: string[];
-  correctAnswer: number;
-}
-
+import StudentHeader from '../components/StudentHeader';
+import StudentSidebar from '../components/StudentSidebar';
+import { getUserData } from '../utils/userUtils';
 const Quiz: React.FC = () => {
+  const { t } = useTranslation();
+
   const handleLogout = () => {
-    console.log('Logout clicked');
+    window.location.href = '/login';
   };
 
-  const getUserData = (): UserData => {
-    try {
-      const storedData = localStorage.getItem('userData');
-      if (storedData) {
-        return JSON.parse(storedData);
-      }
-    } catch (error) {
-      console.error('Error parsing user data:', error);
-    }
-    
-    return {
-      name: 'Estudiante',
-      email: 'Error',
-      username: 'Error'
-    };
-  };
-
-  // Costa Rican History Questions - More personal and friendly
-  const questions: Question[] = [
+  // Mock data for the quiz
+  const questions = [
     {
       id: 1,
       question: "Oye {name}, ¿sabes en qué año nuestro país tomó la valiente decisión de abolir el ejército?",
       options: [
         "A. 1948",
-        "B. 1821", 
+        "B. 1821",
         "C. 1856",
         "D. 1921"
       ],
@@ -71,69 +40,69 @@ const Quiz: React.FC = () => {
     },
     {
       id: 2,
-      question: "{name}, ¿recuerdas quién fue ese presidente visionario que eliminó el ejército y nos convirtió en un país de paz?",
+      question: "{name}, ¿recuerdas cuál es nuestra flor nacional, esa orquídea morada tan linda?",
       options: [
-        "A. Juan Rafael Mora Porras",
-        "B. José Figueres Ferrer",
-        "C. Ricardo Jiménez Oreamuno",
-        "D. Cleto González Víquez"
+        "A. La Guaria Morada",
+        "B. La Rosa",
+        "C. El Girasol",
+        "D. La Margarita"
       ],
-      correctAnswer: 1
+      correctAnswer: 0
     },
     {
       id: 3,
-      question: "{name}, ¿contra quiénes luchamos los costarricenses en esa épica Batalla de Rivas de 1856?",
+      question: "{name}, ¿sabes quién es nuestro Héroe Nacional que quemó el Mesón de Guerra?",
       options: [
-        "A. España",
-        "B. Nicaragua",
-        "C. Los filibusteros de William Walker",
-        "D. México"
+        "A. Juan Santamaría",
+        "B. Juan Mora Porras",
+        "C. Pancha Carrasco",
+        "D. José María Castro Madriz"
       ],
-      correctAnswer: 2
+      correctAnswer: 0
     },
     {
       id: 4,
-      question: "Oye {name}, ¿sabes quién fue ese gran líder que nos alertó sobre la invasión de los filibusteros?",
+      question: "Oye {name}, ¿en qué provincia se encuentra el Parque Nacional Manuel Antonio?",
       options: [
-        "A. Juan Santamaría",
-        "B. Juan Rafael Mora Porras",
-        "C. Juanito Mora",
-        "D. Pancha Carrasco"
+        "A. Puntarenas",
+        "B. Guanacaste",
+        "C. Limón",
+        "D. San José"
       ],
-      correctAnswer: 1
+      correctAnswer: 0
     },
     {
       id: 5,
-      question: "{name}, ¿en qué año celebramos nuestra independencia de España?",
+      question: "{name}, ¿cuál es el volcán más alto de Costa Rica?",
       options: [
-        "A. 1821",
-        "B. 1848",
-        "C. 1856",
-        "D. 1800"
+        "A. Volcán Irazú",
+        "B. Volcán Arenal",
+        "C. Volcán Poás",
+        "D. Volcán Turrialba"
       ],
       correctAnswer: 0
     },
     {
       id: 6,
-      question: "{name}, ¿en qué batalla se hizo famoso nuestro héroe Juan Santamaría?",
+      question: "{name}, ¿qué día celebramos nuestra independencia?",
       options: [
-        "A. Batalla de Santa Rosa",
-        "B. Batalla de Rivas",
-        "C. Batalla de la Trinidad",
-        "D. Batalla de Ochomogo"
+        "A. 15 de septiembre",
+        "B. 11 de abril",
+        "C. 25 de julio",
+        "D. 12 de octubre"
       ],
-      correctAnswer: 1
+      correctAnswer: 0
     },
     {
       id: 7,
-      question: "Oye {name}, ¿sabes cuál fue nuestra primera capital?",
+      question: "Oye {name}, ¿dónde se encuentra el Teatro Nacional?",
       options: [
         "A. San José",
         "B. Cartago",
         "C. Heredia",
         "D. Alajuela"
       ],
-      correctAnswer: 1
+      correctAnswer: 0
     },
     {
       id: 8,
@@ -242,7 +211,7 @@ const Quiz: React.FC = () => {
     const endTime = Date.now();
     const timeTaken = (endTime - startTime) / 1000; // Time in seconds
     const isCorrect = answerIndex === questions[currentQuestion].correctAnswer;
-    
+
     setSelectedAnswer(answerIndex);
     setIsAnswered(true);
 
@@ -257,11 +226,11 @@ const Quiz: React.FC = () => {
       else if (timeTaken < 10) pointsEarned = 125;
       else if (timeTaken < 15) pointsEarned = 110;
       else pointsEarned = 100;
-      
+
       // Show points animation
       setAnimationPoints(pointsEarned);
       setShowPointsAnimation(true);
-      
+
       // Update score after animation starts
       setTimeout(() => {
         setScore(prev => prev + pointsEarned);
@@ -290,7 +259,7 @@ const Quiz: React.FC = () => {
 
   const getButtonColor = (index: number) => {
     if (!isAnswered) return '';
-    
+
     if (index === questions[currentQuestion].correctAnswer) {
       return 'correct';
     } else if (index === selectedAnswer && index !== questions[currentQuestion].correctAnswer) {
@@ -305,11 +274,11 @@ const Quiz: React.FC = () => {
 
   const getScoreRating = () => {
     const percentage = (correctAnswers / questions.length) * 100;
-    if (percentage >= 90) return { text: '¡PERFECTO!', color: '#4CAF50' };
-    if (percentage >= 80) return { text: '¡IMPRESIONANTE!', color: '#2196F3' };
-    if (percentage >= 70) return { text: '¡MUY BIEN!', color: '#FF9800' };
-    if (percentage >= 60) return { text: '¡BIEN HECHO!', color: '#9C27B0' };
-    return { text: '¡SIGUE PRACTICANDO!', color: '#F44336' };
+    if (percentage >= 90) return { text: t('quiz.rating.perfect'), color: '#4CAF50' };
+    if (percentage >= 80) return { text: t('quiz.rating.awesome'), color: '#2196F3' };
+    if (percentage >= 70) return { text: t('quiz.rating.veryGood'), color: '#FF9800' };
+    if (percentage >= 60) return { text: t('quiz.rating.goodJob'), color: '#9C27B0' };
+    return { text: t('quiz.rating.keepPracticing'), color: '#F44336' };
   };
 
   const calculatePerformancePercentage = () => {
@@ -329,53 +298,31 @@ const Quiz: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader className="app-header">
-        <IonToolbar>
-          <div className="header-content">
-            <IonMenuButton slot="start" className="menu-button enlarged-menu">
-              <IonIcon icon={menu} />
-            </IonMenuButton>
-            
-            <div className="header-center">
-              <StudentMenu
-                selectedSubject={'History'}
-                onSubjectChange={() => {}}
-              />
-            </div>
-            
-            <div className="header-brand">
-              <div className="brand-text">
-                <div className="arenai">ArenAI</div>
-                <div className="student">Quiz</div>
-              </div>
-            </div>
-          </div>
-        </IonToolbar>
-      </IonHeader>
+      <StudentHeader pageTitle="quiz.title" showNotch={false} />
 
       <StudentSidebar onLogout={handleLogout} />
 
       <IonContent fullscreen className="quiz-content">
         <div className="quiz-container">
-          <div className="stats-bar">
+          <div className="quiz-stats-bar" style={{ backgroundColor: 'var(--ion-color-primary)', borderColor: 'var(--ion-color-primary)' }}>
             <div className="stat-box">
               <div className="stat-number">{currentQuestion + 1}/15</div>
-              <div className="stat-label">preguntas</div>
+              <div className="stat-label">{t('quiz.questions')}</div>
             </div>
             <div className="stat-box">
               <div className="stat-number">{score} pts</div>
-              <div className="stat-label">puntos</div>
+              <div className="stat-label">{t('quiz.points')}</div>
             </div>
             <div className="stat-box">
               <div className="stat-number">1ro</div>
-              <div className="stat-label">lugar</div>
+              <div className="stat-label">{t('quiz.place')}</div>
             </div>
           </div>
 
           <div className="image-section">
-            <img 
-              src="/assets/capybara_sprite_normal.png" 
-              alt="ArenAI Capybara" 
+            <img
+              src="/assets/capybara_sprite_normal.png"
+              alt="ArenAI Capybara"
               className="quiz-image"
             />
             <div className="character-name-hexagon">
@@ -400,8 +347,8 @@ const Quiz: React.FC = () => {
               <IonRow>
                 {questions[currentQuestion].options.map((option, index) => (
                   <IonCol size="12" key={index}>
-                    <IonButton 
-                      expand="block" 
+                    <IonButton
+                      expand="block"
                       className={`option-button ${getButtonColor(index)}`}
                       onClick={() => handleAnswerSelect(index)}
                       disabled={isAnswered}
@@ -430,7 +377,7 @@ const Quiz: React.FC = () => {
                 {/* Score Rating */}
                 <div className="score-rating-section">
                   <IonText>
-                    <h2 
+                    <h2
                       className="score-rating"
                       style={{ color: getScoreRating().color }}
                     >
@@ -439,7 +386,7 @@ const Quiz: React.FC = () => {
                   </IonText>
                   <IonText>
                     <p className="congratulations-text">
-                      ¡Felicidades {currentUser.name}! Tu puntuación es {score} puntos
+                      {t('quiz.congrats', { name: currentUser.name, score: score })}
                     </p>
                   </IonText>
                 </div>
@@ -447,7 +394,7 @@ const Quiz: React.FC = () => {
                 {/* Performance Ring */}
                 <div className="performance-section">
                   <div className="circle-wrapper">
-                    <div 
+                    <div
                       className="performance-ring-chart"
                       style={{
                         '--percentage': `${calculatePerformancePercentage()}%`,
@@ -466,7 +413,7 @@ const Quiz: React.FC = () => {
                 {/* Topics to Reinforce */}
                 <div className="topics-section">
                   <IonText>
-                    <h3 className="topics-title">Temas para reforzar</h3>
+                    <h3 className="topics-title">{t('quiz.topicsToReinforce')}</h3>
                   </IonText>
                   <div className="topics-grid">
                     <div className="topic-item">
@@ -489,13 +436,13 @@ const Quiz: React.FC = () => {
 
                 {/* Back to Menu Button */}
                 <div className="action-section">
-                  <IonButton 
-                    expand="block" 
+                  <IonButton
+                    expand="block"
                     className="menu-button-primary"
                     onClick={handleBackToMenu}
                   >
                     <IonIcon icon={arrowForward} slot="end" />
-                    Volver al Menú Principal
+                    {t('quiz.backToMenu')}
                   </IonButton>
                 </div>
               </IonCardContent>

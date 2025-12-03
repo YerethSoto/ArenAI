@@ -1,0 +1,175 @@
+{
+    "sidebar": {
+        "learning": "Learning",
+        "mainMenu": "Main Menu",
+        "chat": "Chat with Aren",
+        "quiz": "Quiz",
+        "battle": "Battle",
+        "battleLobby": "Battle Lobby",
+        "account": "Account",
+        "settings": "Settings",
+        "help": "Help & Support",
+        "logout": "Logout",
+        "utilizationIndex": "Utilization Index:",
+        "timeUsed": "Time used today:",
+        "howCalculated": "How is it calculated?",
+        "formulaTitle": "How is it calculated?",
+        "formulaBody": "Index = log(1 + minutes of use) × 15 + (activities completed^1.5 × 6) + bonus",
+        "formulaBonus": "Bonus: +10 if you use more than 60 min, +8 if you complete 5 or more activities.",
+        "formulaGoal": "Daily Goal: {{goal}} points.",
+        "formulaProgress": "Progress: The bar shows your progress towards the daily goal.",
+        "close": "Close"
+    },
+    "mainStudent": {
+        "brandSub": "Student",
+        "yourSubject": "Your {{subject}}",
+        "recommendations": "Recommendations",
+        "questions": "Questions",
+        "studyRecommendation": "Study Recommendation",
+        "popularQuestions": "Popular Questions",
+        "weeks": {
+            "week1": "Intro to Derivatives",
+            "week2": "Week 2 - Functions and Graphs",
+            "week3": "Week 3 - Geometry Basics",
+            "week4": "Week 4 - Advanced Geometry",
+            "week5": "Week 5 - Trigonometry",
+            "week6": "Week 6 - Statistics & Probability",
+            "week7": "Week 7 - Calculus Introduction",
+            "week8": "Week 8 - Advanced Calculus",
+            "week9": "Week 9 - Number Theory",
+            "week10": "Week 10 - Mathematical Logic",
+            "week11": "Week 11 - Review & Applications",
+            "week12": "Week 12 - Final Projects"
+        },
+        "subjects": {
+            "Math": "Math",
+            "Science": "Science",
+            "SocialStudies": "Social Studies",
+            "Spanish": "Spanish"
+        },
+        "topics": {
+            "Algebra": "Algebra",
+            "Geometry": "Geometry",
+            "Calculus": "Calculus",
+            "Statistics": "Statistics",
+            "Trigonometry": "Trigonometry",
+            "Probability": "Probability",
+            "LinearEq": "Linear Eq",
+            "Functions": "Functions",
+            "Biology": "Biology",
+            "Chemistry": "Chemistry",
+            "Physics": "Physics",
+            "EarthSci": "Earth Sci",
+            "Astronomy": "Astronomy",
+            "EnvSci": "Env Sci",
+            "History": "History",
+            "Geography": "Geography",
+            "Civics": "Civics",
+            "Economics": "Economics",
+            "Culture": "Culture",
+            "Govt": "Govt",
+            "Vocab": "Vocab",
+            "Grammar": "Grammar",
+            "Reading": "Reading",
+            "Writing": "Writing",
+            "Speaking": "Speaking",
+            "Listening": "Listening"
+        }
+    },
+    "settings": {
+        "title": "Settings",
+        "appearance": "Appearance",
+        "theme": "Theme",
+        "language": "Language",
+        "themePreview": "Theme Preview",
+        "previewDesc": "This is how your components will look:",
+        "primaryTitle": "Primary Title",
+        "standardText": "This is standard text content.",
+        "primaryButton": "Primary Button",
+        "secondaryButton": "Secondary Button",
+        "tertiaryButton": "Tertiary Button",
+        "primaryCard": "Primary Card",
+        "cardDesc": "Card with primary background color.",
+        "outlineButton": "Outline Button",
+        "listItem": "List Item",
+        "listDesc": "With secondary text"
+    },
+    "chat": {
+        "title": "ArenAI Chat"
+    },
+    "quiz": {
+        "title": "Quiz",
+        "questions": "questions",
+        "points": "points",
+        "place": "place",
+        "congrats": "Congratulations {{name}}! Your score is {{score}} points",
+        "topicsToReinforce": "Topics to reinforce",
+        "backToMenu": "Back to Main Menu",
+        "rating": {
+            "perfect": "PERFECT!",
+            "awesome": "AWESOME!",
+            "veryGood": "VERY GOOD!",
+            "goodJob": "GOOD JOB!",
+            "keepPracticing": "KEEP PRACTICING!"
+        }
+    },
+    "battle": {
+        "title": "Battle",
+        "rematch": "Rematch",
+        "backToMenu": "Back to Menu",
+        "victory": "VICTORY!",
+        "defeat": "DEFEAT!",
+        "draw": "DRAW!",
+        "finalHealth": "Your final health",
+        "opponentHealth": "Opponent health",
+        "score": "Score",
+        "hp": "HP"
+    },
+    "battleLobby": {
+        "title": "Battle Arena",
+        "welcomeTitle": "Battle Arena",
+        "welcomeSubtitle": "Prove your knowledge against other students",
+        "searching": "Searching for opponent...",
+        "searchingDesc1": "Looking for a worthy opponent...",
+        "searchingDesc2": "Analyzing potential opponents...",
+        "battleId": "Battle ID: {{id}}",
+        "shareId": "Share this ID for a friend to join",
+        "cancelSearch": "Cancel search",
+        "chooseSubject": "Choose your subject",
+        "quickBattle": "Quick Battle",
+        "howToPlay": "How to play?",
+        "step1": {
+            "title": "Choose a subject",
+            "desc": "Select the topic you want to practice"
+        },
+        "step2": {
+            "title": "Wait for an opponent",
+            "desc": "The system will automatically find another player"
+        },
+        "step3": {
+            "title": "Answer questions",
+            "desc": "Each correct answer damages the opponent"
+        },
+        "step4": {
+            "title": "Win the battle!",
+            "desc": "Reduce opponent's health to zero"
+        },
+        "backToMenu": "Back to Main Menu",
+        "processing": "Processing...",
+        "cancelAlert": {
+            "header": "Cancel search",
+            "message": "Are you sure you want to cancel the opponent search?",
+            "continue": "Continue searching",
+            "cancel": "Cancel"
+        },
+        "error": "Error",
+        "subjects": {
+            "History": "History",
+            "HistoryDesc": "Battle with questions about historical events",
+            "Math": "Math",
+            "MathDesc": "Show your math skills",
+            "Science": "Science",
+            "ScienceDesc": "Questions about biology, chemistry and physics"
+        }
+    }
+}

@@ -5,6 +5,7 @@ import './StudentMenu.css';
 interface StudentMenuProps {
   selectedSubject: string;
   onSubjectChange: (subject: string) => void;
+  variant?: 'default' | 'header';
 }
 
 interface DropdownPortalProps {
@@ -14,11 +15,11 @@ interface DropdownPortalProps {
   onOptionClick: (type: string, value: string) => void;
 }
 
-const DropdownPortal: React.FC<DropdownPortalProps> = ({ 
-  children, 
-  triggerRect, 
-  type, 
-  onOptionClick 
+const DropdownPortal: React.FC<DropdownPortalProps> = ({
+  children,
+  triggerRect,
+  type,
+  onOptionClick
 }) => {
   const [mounted, setMounted] = useState(false);
 
@@ -38,10 +39,10 @@ const DropdownPortal: React.FC<DropdownPortalProps> = ({
   // Add the type and onOptionClick to children
   const childrenWithProps = React.Children.map(children, child =>
     React.isValidElement(child)
-      ? React.cloneElement(child, { 
-          _portalType: type,
-          _onOptionClick: onOptionClick 
-        } as any)
+      ? React.cloneElement(child, {
+        _portalType: type,
+        _onOptionClick: onOptionClick
+      } as any)
       : child
   );
 
@@ -59,10 +60,10 @@ interface DropdownOptionsProps {
   _onOptionClick?: (type: string, value: string) => void;
 }
 
-const DropdownOptions: React.FC<DropdownOptionsProps> = ({ 
-  children, 
-  _portalType, 
-  _onOptionClick 
+const DropdownOptions: React.FC<DropdownOptionsProps> = ({
+  children,
+  _portalType,
+  _onOptionClick
 }) => {
   const handleOptionClick = (value: string) => {
     if (_portalType && _onOptionClick) {
@@ -72,9 +73,9 @@ const DropdownOptions: React.FC<DropdownOptionsProps> = ({
 
   const childrenWithClick = React.Children.map(children, child =>
     React.isValidElement(child)
-      ? React.cloneElement(child, { 
-          _onOptionClick: handleOptionClick 
-        } as any)
+      ? React.cloneElement(child, {
+        _onOptionClick: handleOptionClick
+      } as any)
       : child
   );
 
@@ -88,11 +89,11 @@ interface DropdownOptionProps {
   value?: string;
 }
 
-const DropdownOption: React.FC<DropdownOptionProps> = ({ 
-  children, 
+const DropdownOption: React.FC<DropdownOptionProps> = ({
+  children,
   onClick,
   _onOptionClick,
-  value 
+  value
 }) => {
   const handleClick = () => {
     if (_onOptionClick && value) {
@@ -111,31 +112,29 @@ const DropdownOption: React.FC<DropdownOptionProps> = ({
 
 const StudentMenu: React.FC<StudentMenuProps> = ({
   selectedSubject,
-  onSubjectChange
+  onSubjectChange,
+  variant = 'default'
 }) => {
   const subjects = ['Math', 'Science', 'Social Studies', 'Spanish'];
-  
+
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [triggerRect, setTriggerRect] = useState<DOMRect | null>(null);
-  
+
   const subjectRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleSelectClick = (type: string) => {
     // Update trigger position before opening dropdown
     const rect = subjectRef.current?.getBoundingClientRect() || null;
-    
+
     setTriggerRect(rect);
     setActiveDropdown(activeDropdown === type ? null : type);
   };
 
   const handleOptionClick = (type: string, value: string) => {
-    console.log(`Option clicked: ${type} - ${value}`);
-    
     if (type === 'subject') {
       onSubjectChange(value);
     }
-    
     setActiveDropdown(null);
   };
 
@@ -157,11 +156,11 @@ const StudentMenu: React.FC<StudentMenuProps> = ({
 
   return (
     <>
-      <div className="student-menu-container" ref={containerRef}>
+      <div className={`student-menu-container ${variant === 'header' ? 'header-variant' : ''}`} ref={containerRef}>
         <div className="subject-selector">
           {/* Subject Dropdown */}
           <div className="dropdown-wrapper">
-            <div 
+            <div
               ref={subjectRef}
               className="dropdown-trigger subject-trigger"
               onClick={() => handleSelectClick('subject')}
@@ -174,8 +173,8 @@ const StudentMenu: React.FC<StudentMenuProps> = ({
 
       {/* Dropdown Portal */}
       {activeDropdown === 'subject' && (
-        <DropdownPortal 
-          triggerRect={triggerRect} 
+        <DropdownPortal
+          triggerRect={triggerRect}
           type="subject"
           onOptionClick={handleOptionClick}
         >

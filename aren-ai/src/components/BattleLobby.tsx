@@ -28,7 +28,9 @@ import {
   arrowDown
 } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import StudentMenu from '../components/StudentMenu';
+import StudentHeader from '../components/StudentHeader';
 import './BattleLobby.css';
 
 interface UserData {
@@ -40,13 +42,14 @@ interface UserData {
 
 interface Subject {
   id: number;
-  name: string;
+  nameKey: string;
+  descKey: string;
   icon: string;
   color: string;
-  description: string;
 }
 
 const BattleLobby: React.FC = () => {
+  const { t } = useTranslation();
   const [isSearching, setIsSearching] = useState(false);
   const [searchProgress, setSearchProgress] = useState(0);
   const [battleId, setBattleId] = useState<number | null>(null);
@@ -71,7 +74,7 @@ const BattleLobby: React.FC = () => {
     } catch (error) {
       console.error('Error parsing user data:', error);
     }
-    
+
     return {
       id: 1,
       name: 'Estudiante',
@@ -85,24 +88,24 @@ const BattleLobby: React.FC = () => {
   const subjects: Subject[] = [
     {
       id: 1,
-      name: 'Historia',
+      nameKey: 'battleLobby.subjects.History',
+      descKey: 'battleLobby.subjects.HistoryDesc',
       icon: '🏛️',
-      color: '#8f6a56',
-      description: 'Batalla con preguntas sobre eventos históricos'
+      color: '#8f6a56'
     },
     {
       id: 2,
-      name: 'Matemáticas',
+      nameKey: 'battleLobby.subjects.Math',
+      descKey: 'battleLobby.subjects.MathDesc',
       icon: '🧮',
-      color: '#3c7782',
-      description: 'Demuestra tus habilidades matemáticas'
+      color: '#3c7782'
     },
     {
       id: 3,
-      name: 'Ciencias',
+      nameKey: 'battleLobby.subjects.Science',
+      descKey: 'battleLobby.subjects.ScienceDesc',
       icon: '🔬',
-      color: '#90beab',
-      description: 'Preguntas de biología, química y física'
+      color: '#90beab'
     }
   ];
 
@@ -119,7 +122,7 @@ const BattleLobby: React.FC = () => {
     setIsSearching(true);
     setSearchProgress(0);
     setErrorMessage('');
-    
+
     // Start progress animation
     const progressInterval = setInterval(() => {
       setSearchProgress(prev => {
@@ -133,10 +136,10 @@ const BattleLobby: React.FC = () => {
 
     try {
       console.log('Starting matchmaking for user:', currentUser.id, 'subject:', subjectId);
-      
+
       const response = await fetch('http://localhost:3000/api/battles/matchmaking/join', {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
         },
@@ -146,7 +149,7 @@ const BattleLobby: React.FC = () => {
           classId: 1 // Default class ID
         })
       });
-      
+
       if (!response.ok) {
         if (response.status === 401) {
           throw new Error('No autorizado. Por favor, inicia sesión nuevamente.');
@@ -155,16 +158,16 @@ const BattleLobby: React.FC = () => {
         }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
       console.log('Matchmaking response:', data);
-      
+
       clearInterval(progressInterval);
-      
+
       if (data.battleId) {
         // Found a battle immediately
         setBattleId(data.battleId);
-        
+
         // Start polling for battle readiness
         startBattlePolling(data.battleId);
       } else if (data.matchmakingId) {
@@ -173,55 +176,55 @@ const BattleLobby: React.FC = () => {
       } else {
         throw new Error('Respuesta inválida del servidor');
       }
-      
+
     } catch (error: any) {
       console.error('Matchmaking error:', error);
       clearInterval(progressInterval);
       setIsSearching(false);
       setSearchProgress(0);
-      
+
       const errorMessage = error.message || 'Error al buscar oponente';
       if (errorMessage.includes('Failed to fetch') || errorMessage.includes('Connection refused')) {
         setErrorMessage('Error de conexión con el servidor. Verifica que el servidor esté ejecutándose.');
       } else {
         setErrorMessage(errorMessage);
       }
-      
+
       setShowErrorAlert(true);
     }
   };
 
   const startMatchmakingPolling = (matchmakingId: number, waitingBattleId?: number) => {
     console.log('Starting matchmaking polling for ID:', matchmakingId);
-    
+
     // Store waiting battle ID if provided
     if (waitingBattleId) {
       setBattleId(waitingBattleId);
     }
-    
+
     const interval = setInterval(async () => {
       try {
         console.log('Polling matchmaking status for user:', currentUser.id);
-        
+
         const response = await fetch(`http://localhost:3000/api/battles/matchmaking/status/${currentUser.id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
           }
         });
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const status = await response.json();
         console.log('Matchmaking status:', status);
-        
+
         if (status && status.battle_id) {
           // Match found!
           clearInterval(interval);
           setSearchInterval(null);
           setBattleId(status.battle_id);
-          
+
           // Check if battle is ready
           checkBattleReady(status.battle_id);
         }
@@ -229,9 +232,9 @@ const BattleLobby: React.FC = () => {
         console.error('Polling error:', error);
       }
     }, 3000); // Poll every 3 seconds
-    
+
     setSearchInterval(interval);
-    
+
     // Stop searching after 60 seconds
     setTimeout(() => {
       if (interval) {
@@ -249,7 +252,7 @@ const BattleLobby: React.FC = () => {
 
   const startBattlePolling = (battleId: number) => {
     console.log('Starting battle polling for ID:', battleId);
-    
+
     const interval = setInterval(async () => {
       try {
         const response = await fetch(`http://localhost:3000/api/battles/${battleId}/ready`, {
@@ -257,13 +260,13 @@ const BattleLobby: React.FC = () => {
             'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
           }
         });
-        
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        
+
         const data = await response.json();
-        
+
         if (data.ready) {
           // Battle is ready!
           clearInterval(interval);
@@ -274,7 +277,7 @@ const BattleLobby: React.FC = () => {
         console.error('Battle polling error:', error);
       }
     }, 2000); // Poll every 2 seconds
-    
+
     setSearchInterval(interval);
   };
 
@@ -285,7 +288,7 @@ const BattleLobby: React.FC = () => {
           'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
         }
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         if (data.ready) {
@@ -299,16 +302,16 @@ const BattleLobby: React.FC = () => {
 
   const navigateToBattle = (battleId: number) => {
     console.log('Navigating to battle:', battleId);
-    
+
     // Stop any polling
     if (searchInterval) {
       clearInterval(searchInterval);
       setSearchInterval(null);
     }
-    
+
     setIsSearching(false);
     setSearchProgress(0);
-    
+
     // Navigate to battle page
     history.push(`/battle/${battleId}`);
   };
@@ -317,7 +320,7 @@ const BattleLobby: React.FC = () => {
     try {
       await fetch('http://localhost:3000/api/battles/matchmaking/leave', {
         method: 'DELETE',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
         },
@@ -347,23 +350,7 @@ const BattleLobby: React.FC = () => {
 
   return (
     <IonPage className="battle-lobby-page">
-      <IonHeader className="app-header">
-        <IonToolbar>
-          <div className="header-content">
-            <StudentMenu
-              selectedSubject={'Battle Arena'}
-              onSubjectChange={() => {}}
-            />
-            
-            <div className="header-brand">
-              <div className="brand-text">
-                <div className="arenai">ArenAI</div>
-                <div className="student">Batallas</div>
-              </div>
-            </div>
-          </div>
-        </IonToolbar>
-      </IonHeader>
+      <StudentHeader pageTitle="battleLobby.title" />
 
       <IonContent className="battle-lobby-content">
         <div className="battle-lobby-container">
@@ -371,10 +358,10 @@ const BattleLobby: React.FC = () => {
           <div className="welcome-section">
             <h1 className="welcome-title">
               <IonIcon icon={arrowDown} className="title-icon" />
-              Arena de Batalla
+              {t('battleLobby.welcomeTitle')}
             </h1>
             <p className="welcome-subtitle">
-              Demuestra tus conocimientos contra otros estudiantes
+              {t('battleLobby.welcomeSubtitle')}
             </p>
           </div>
 
@@ -385,36 +372,36 @@ const BattleLobby: React.FC = () => {
                 <div className="searching-icon">
                   <IonIcon icon={search} className="spinning" />
                 </div>
-                
-                <h2 className="searching-title">Buscando oponente...</h2>
-                
+
+                <h2 className="searching-title">{t('battleLobby.searching')}</h2>
+
                 <div className="search-progress">
                   <IonProgressBar value={searchProgress / 100} color="primary" />
                   <div className="progress-text">{Math.round(searchProgress)}%</div>
                 </div>
-                
+
                 <p className="searching-description">
-                  {searchProgress < 50 
-                    ? "Buscando un oponente digno para ti..." 
-                    : "Analizando posibles oponentes..."}
+                  {searchProgress < 50
+                    ? t('battleLobby.searchingDesc1')
+                    : t('battleLobby.searchingDesc2')}
                 </p>
-                
+
                 {battleId && (
                   <div className="battle-id-info">
-                    <p>ID de batalla: <strong>{battleId}</strong></p>
-                    <small>Comparte este ID para que un amigo se una</small>
+                    <p><strong>{t('battleLobby.battleId', { id: battleId })}</strong></p>
+                    <small>{t('battleLobby.shareId')}</small>
                   </div>
                 )}
-                
-                <IonButton 
-                  expand="block" 
-                  color="medium" 
+
+                <IonButton
+                  expand="block"
+                  color="medium"
                   fill="outline"
                   onClick={() => setShowCancelAlert(true)}
                   className="cancel-button"
                 >
                   <IonIcon icon={close} slot="start" />
-                  Cancelar búsqueda
+                  {t('battleLobby.cancelSearch')}
                 </IonButton>
               </div>
             </div>
@@ -424,40 +411,40 @@ const BattleLobby: React.FC = () => {
           <div className="subjects-section">
             <h2 className="section-title">
               <IonIcon icon={trophy} />
-              Elige tu materia
+              {t('battleLobby.chooseSubject')}
             </h2>
-            
+
             <IonGrid>
               <IonRow>
                 {subjects.map((subject) => (
                   <IonCol size="12" size-md="6" key={subject.id}>
-                    <IonCard 
+                    <IonCard
                       className="subject-card"
                       style={{ '--subject-color': subject.color } as any}
                     >
                       <IonCardContent>
                         <div className="subject-header">
-                          <div 
+                          <div
                             className="subject-icon"
                             style={{ backgroundColor: subject.color }}
                           >
                             {subject.icon}
                           </div>
                           <div className="subject-info">
-                            <IonCardTitle>{subject.name}</IonCardTitle>
-                            <IonCardSubtitle>{subject.description}</IonCardSubtitle>
+                            <IonCardTitle>{t(subject.nameKey)}</IonCardTitle>
+                            <IonCardSubtitle>{t(subject.descKey)}</IonCardSubtitle>
                           </div>
                         </div>
-                        
+
                         <div className="subject-actions">
-                          <IonButton 
-                            expand="block" 
+                          <IonButton
+                            expand="block"
                             className="battle-button"
                             onClick={() => joinMatchmaking(subject.id)}
                             disabled={isSearching}
                           >
                             <IonIcon icon={flash} slot="start" />
-                            Batalla Rápida
+                            {t('battleLobby.quickBattle')}
                           </IonButton>
                         </div>
                       </IonCardContent>
@@ -474,35 +461,35 @@ const BattleLobby: React.FC = () => {
               <IonCardContent>
                 <h3 className="instructions-title">
                   <IonIcon icon={people} />
-                  ¿Cómo jugar?
+                  {t('battleLobby.howToPlay')}
                 </h3>
                 <div className="instructions-list">
                   <div className="instruction-item">
                     <div className="instruction-number">1</div>
                     <div className="instruction-text">
-                      <strong>Elige una materia</strong>
-                      <p>Selecciona el tema que quieres practicar</p>
+                      <strong>{t('battleLobby.step1.title')}</strong>
+                      <p>{t('battleLobby.step1.desc')}</p>
                     </div>
                   </div>
                   <div className="instruction-item">
                     <div className="instruction-number">2</div>
                     <div className="instruction-text">
-                      <strong>Espera un oponente</strong>
-                      <p>El sistema buscará automáticamente otro jugador</p>
+                      <strong>{t('battleLobby.step2.title')}</strong>
+                      <p>{t('battleLobby.step2.desc')}</p>
                     </div>
                   </div>
                   <div className="instruction-item">
                     <div className="instruction-number">3</div>
                     <div className="instruction-text">
-                      <strong>Responde preguntas</strong>
-                      <p>Cada respuesta correcta daña al oponente</p>
+                      <strong>{t('battleLobby.step3.title')}</strong>
+                      <p>{t('battleLobby.step3.desc')}</p>
                     </div>
                   </div>
                   <div className="instruction-item">
                     <div className="instruction-number">4</div>
                     <div className="instruction-text">
-                      <strong>¡Gana la batalla!</strong>
-                      <p>Reduce la vida del oponente a cero</p>
+                      <strong>{t('battleLobby.step4.title')}</strong>
+                      <p>{t('battleLobby.step4.desc')}</p>
                     </div>
                   </div>
                 </div>
@@ -512,36 +499,36 @@ const BattleLobby: React.FC = () => {
 
           {/* Back Button */}
           <div className="back-section">
-            <IonButton 
-              expand="block" 
-              color="medium" 
+            <IonButton
+              expand="block"
+              color="medium"
               fill="clear"
               onClick={handleBackToMenu}
             >
-              Volver al Menú Principal
+              {t('battleLobby.backToMenu')}
             </IonButton>
           </div>
         </div>
 
         {/* Loading */}
-        <IonLoading 
-          isOpen={false} 
-          message="Procesando..." 
+        <IonLoading
+          isOpen={false}
+          message={t('battleLobby.processing')}
         />
 
         {/* Cancel Alert */}
         <IonAlert
           isOpen={showCancelAlert}
           onDidDismiss={() => setShowCancelAlert(false)}
-          header="Cancelar búsqueda"
-          message="¿Estás seguro de que quieres cancelar la búsqueda de oponente?"
+          header={t('battleLobby.cancelAlert.header')}
+          message={t('battleLobby.cancelAlert.message')}
           buttons={[
             {
-              text: 'Continuar buscando',
+              text: t('battleLobby.cancelAlert.continue'),
               role: 'cancel'
             },
             {
-              text: 'Cancelar',
+              text: t('battleLobby.cancelAlert.cancel'),
               handler: cancelSearch
             }
           ]}
@@ -551,7 +538,7 @@ const BattleLobby: React.FC = () => {
         <IonAlert
           isOpen={showErrorAlert}
           onDidDismiss={() => setShowErrorAlert(false)}
-          header="Error"
+          header={t('battleLobby.error')}
           message={errorMessage}
           buttons={['OK']}
         />

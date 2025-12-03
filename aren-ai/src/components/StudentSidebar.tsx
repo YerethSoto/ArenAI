@@ -11,6 +11,7 @@ import {
   IonNote,
 } from '@ionic/react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { useLocation } from 'react-router-dom';
 import {
@@ -42,18 +43,18 @@ interface AppPage {
   url: string;
   iosIcon: string;
   mdIcon: string;
-  title: string;
+  titleKey: string;
 }
 
 const appPages: AppPage[] = [
   {
-    title: 'Main Menu',
+    titleKey: 'sidebar.mainMenu',
     url: '/page/student',
     iosIcon: homeOutline,
     mdIcon: homeSharp
   },
   {
-    title: 'Chat with Aren',
+    titleKey: 'sidebar.chat',
     url: '/chat',
     iosIcon: schoolOutline,
     mdIcon: schoolSharp
@@ -61,21 +62,21 @@ const appPages: AppPage[] = [
 
 
   {
-    title: 'Quiz',
+    titleKey: 'sidebar.quiz',
     url: '/quiz',
     iosIcon: trophyOutline,
     mdIcon: trophySharp
   },
 
   {
-    title: 'Battle',
+    titleKey: 'sidebar.battle',
     url: '/battleminigame',
     iosIcon: americanFootballOutline,
     mdIcon: americanFootballSharp
   },
 
   {
-    title: 'Battle loggy',
+    titleKey: 'sidebar.battleLobby',
     url: '/battlelobby',
     iosIcon: americanFootballOutline,
     mdIcon: americanFootballSharp
@@ -85,20 +86,20 @@ const appPages: AppPage[] = [
 
 const settingsPages: AppPage[] = [
   {
-    title: 'Settings',
-    url: '/folder/Settings',
+    titleKey: 'sidebar.settings',
+    url: '/settings',
     iosIcon: settingsOutline,
     mdIcon: settingsSharp
   },
 
   {
-    title: 'Help & Support',
+    titleKey: 'sidebar.help',
     url: '/folder/Help',
     iosIcon: helpCircleOutline,
     mdIcon: helpCircleSharp
   },
   {
-    title: 'Logout',
+    titleKey: 'sidebar.logout',
     url: '/login',
     iosIcon: exitOutline,
     mdIcon: exitSharp
@@ -111,6 +112,7 @@ interface UserData {
   name: string;
   email: string;
   username: string;
+  userRole?: string;
 }
 
 // Props interface for the sidebar
@@ -138,6 +140,7 @@ function calcularIndiceUtilizacion({
 const META_DIARIA = 100;
 
 const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
+  const { t } = useTranslation();
   const [showAnimation, setShowAnimation] = useState(true);
   const location = useLocation();
 
@@ -226,7 +229,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
 
         {/* Navegación principal */}
         <IonList id="main-list" lines="none">
-          <IonListHeader>Learning</IonListHeader>
+          <IonListHeader>{t('sidebar.learning')}</IonListHeader>
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
@@ -238,7 +241,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
                   detail={false}
                 >
                   <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
-                  <IonLabel>{appPage.title}</IonLabel>
+                  <IonLabel>{t(appPage.titleKey)}</IonLabel>
                 </IonItem>
               </IonMenuToggle>
             );
@@ -247,9 +250,9 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
 
         {/* Configuración y ayuda */}
         <IonList id="settings-list" lines="none">
-          <IonListHeader>Account</IonListHeader>
+          <IonListHeader>{t('sidebar.account')}</IonListHeader>
           {settingsPages.map((appPage, index) => {
-            if (appPage.title === 'Logout') {
+            if (appPage.titleKey === 'sidebar.logout') {
               return (
                 <IonMenuToggle key={index} autoHide={false}>
                   <IonItem
@@ -261,7 +264,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
                     onClick={handleLogout}
                   >
                     <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
-                    <IonLabel>{appPage.title}</IonLabel>
+                    <IonLabel>{t(appPage.titleKey)}</IonLabel>
                   </IonItem>
                 </IonMenuToggle>
               );
@@ -277,7 +280,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
                   detail={false}
                 >
                   <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
-                  <IonLabel>{appPage.title}</IonLabel>
+                  <IonLabel>{t(appPage.titleKey)}</IonLabel>
                 </IonItem>
               </IonMenuToggle>
             );
@@ -288,11 +291,11 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
         <div className="sidebar-usage-info">
           <div className="usage-row">
             <IonIcon icon={analyticsOutline} className="usage-icon" />
-            <span className="usage-label">Índice de utilización:</span>
+            <span className="usage-label">{t('sidebar.utilizationIndex')}</span>
             <span className="usage-value">{indiceUtilizacion}</span>
             <button
               className="usage-help-btn"
-              aria-label="¿Cómo se calcula?"
+              aria-label={t('sidebar.howCalculated')}
               onClick={() => setShowFormulaInfo(true)}
               tabIndex={0}
             >
@@ -307,19 +310,19 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
           </div>
           <div className="usage-row">
             <IonIcon icon={timeOutline} className="usage-icon" />
-            <span className="usage-label">Tiempo de uso hoy:</span>
+            <span className="usage-label">{t('sidebar.timeUsed')}</span>
             <span className="usage-value">{tiempoDeUso} min</span>
           </div>
           {showFormulaInfo && (
             <div className="usage-formula-tooltip" onClick={() => setShowFormulaInfo(false)}>
-              <strong>¿Cómo se calcula?</strong>
+              <strong>{t('sidebar.formulaTitle')}</strong>
               <div>
-                Índice = log(1 + minutos de uso) × 15 + (actividades completadas<sup>1.5</sup> × 6) + bonus<br /><br />
-                <b>Bonus:</b> +10 si usas más de 60 min, +8 si completas 5 o más actividades.<br />
-                <b>Meta diaria:</b> {META_DIARIA} puntos.<br />
-                <b>Progreso:</b> La barra muestra tu avance hacia la meta diaria.
+                {t('sidebar.formulaBody')}<br /><br />
+                <b>{t('sidebar.formulaBonus')}</b><br />
+                <b>{t('sidebar.formulaGoal', { goal: META_DIARIA })}</b><br />
+                <b>{t('sidebar.formulaProgress')}</b>
               </div>
-              <div className="usage-formula-close">Cerrar</div>
+              <div className="usage-formula-close">{t('sidebar.close')}</div>
             </div>
           )}
         </div>

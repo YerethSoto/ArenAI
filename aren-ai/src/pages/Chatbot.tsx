@@ -8,12 +8,14 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import "./Chatbot.css";
 
 const EMBEDDED_CHAT_URL =
   "https://genai-app-arenai-math-001-1-1763449207844-271931294892.us-central1.run.app/?key=8qes8frsvq5ojr8a&__theme=light";
 
 const Chat: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <IonPage>
       <IonHeader className="app-header">
@@ -21,7 +23,7 @@ const Chat: React.FC = () => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>ArenAI Chat</IonTitle>
+          <IonTitle>{t('chat.title')}</IonTitle>
         </IonToolbar>
       </IonHeader>
 

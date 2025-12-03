@@ -1,0 +1,175 @@
+{
+    "sidebar": {
+        "learning": "Aprendizaje",
+        "mainMenu": "Menú Principal",
+        "chat": "Chat con Aren",
+        "quiz": "Cuestionario",
+        "battle": "Batalla",
+        "battleLobby": "Lobby de Batalla",
+        "account": "Cuenta",
+        "settings": "Configuración",
+        "help": "Ayuda y Soporte",
+        "logout": "Cerrar Sesión",
+        "utilizationIndex": "Índice de utilización:",
+        "timeUsed": "Tiempo de uso hoy:",
+        "howCalculated": "¿Cómo se calcula?",
+        "formulaTitle": "¿Cómo se calcula?",
+        "formulaBody": "Índice = log(1 + minutos de uso) × 15 + (actividades completadas^1.5 × 6) + bonus",
+        "formulaBonus": "Bonus: +10 si usas más de 60 min, +8 si completas 5 o más actividades.",
+        "formulaGoal": "Meta diaria: {{goal}} puntos.",
+        "formulaProgress": "Progreso: La barra muestra tu avance hacia la meta diaria.",
+        "close": "Cerrar"
+    },
+    "mainStudent": {
+        "brandSub": "Estudiante",
+        "yourSubject": "Tu {{subject}}",
+        "recommendations": "Recomendaciones",
+        "questions": "Preguntas",
+        "studyRecommendation": "Recomendación de Estudio",
+        "popularQuestions": "Preguntas Populares",
+        "weeks": {
+            "week1": "Intro a las Derivadas",
+            "week2": "Semana 2 - Funciones y Gráficas",
+            "week3": "Semana 3 - Conceptos Básicos de Geometría",
+            "week4": "Semana 4 - Geometría Avanzada",
+            "week5": "Semana 5 - Trigonometría",
+            "week6": "Semana 6 - Estadística y Probabilidad",
+            "week7": "Semana 7 - Introducción al Cálculo",
+            "week8": "Semana 8 - Cálculo Avanzado",
+            "week9": "Semana 9 - Teoría de Números",
+            "week10": "Semana 10 - Lógica Matemática",
+            "week11": "Semana 11 - Repaso y Aplicaciones",
+            "week12": "Semana 12 - Proyectos Finales"
+        },
+        "subjects": {
+            "Math": "Matemáticas",
+            "Science": "Ciencias",
+            "SocialStudies": "Estudios Sociales",
+            "Spanish": "Español"
+        },
+        "topics": {
+            "Algebra": "Álgebra",
+            "Geometry": "Geometría",
+            "Calculus": "Cálculo",
+            "Statistics": "Estadística",
+            "Trigonometry": "Trigonometría",
+            "Probability": "Probabilidad",
+            "LinearEq": "Ec. Lineales",
+            "Functions": "Funciones",
+            "Biology": "Biología",
+            "Chemistry": "Química",
+            "Physics": "Física",
+            "EarthSci": "Ciencias de la Tierra",
+            "Astronomy": "Astronomía",
+            "EnvSci": "Ciencias Amb.",
+            "History": "Historia",
+            "Geography": "Geografía",
+            "Civics": "Cívica",
+            "Economics": "Economía",
+            "Culture": "Cultura",
+            "Govt": "Gobierno",
+            "Vocab": "Vocabulario",
+            "Grammar": "Gramática",
+            "Reading": "Lectura",
+            "Writing": "Escritura",
+            "Speaking": "Habla",
+            "Listening": "Escucha"
+        }
+    },
+    "settings": {
+        "title": "Configuración",
+        "appearance": "Apariencia",
+        "theme": "Tema",
+        "language": "Idioma",
+        "themePreview": "Vista Previa del Tema",
+        "previewDesc": "Así es como se verán tus componentes:",
+        "primaryTitle": "Título Primario",
+        "standardText": "Este es contenido de texto estándar.",
+        "primaryButton": "Botón Primario",
+        "secondaryButton": "Botón Secundario",
+        "tertiaryButton": "Botón Terciario",
+        "primaryCard": "Tarjeta Primaria",
+        "cardDesc": "Tarjeta con color de fondo primario.",
+        "outlineButton": "Botón de Borde",
+        "listItem": "Elemento de Lista",
+        "listDesc": "Con texto secundario"
+    },
+    "chat": {
+        "title": "Chat ArenAI"
+    },
+    "quiz": {
+        "title": "Cuestionario",
+        "questions": "preguntas",
+        "points": "puntos",
+        "place": "lugar",
+        "congrats": "¡Felicidades {{name}}! Tu puntuación es {{score}} puntos",
+        "topicsToReinforce": "Temas para reforzar",
+        "backToMenu": "Volver al Menú Principal",
+        "rating": {
+            "perfect": "¡PERFECTO!",
+            "awesome": "¡IMPRESIONANTE!",
+            "veryGood": "¡MUY BIEN!",
+            "goodJob": "¡BIEN HECHO!",
+            "keepPracticing": "¡SIGUE PRACTICANDO!"
+        }
+    },
+    "battle": {
+        "title": "Batalla",
+        "rematch": "Revancha",
+        "backToMenu": "Volver al Menú",
+        "victory": "¡VICTORIA!",
+        "defeat": "¡DERROTA!",
+        "draw": "¡EMPATE!",
+        "finalHealth": "Tu salud final",
+        "opponentHealth": "Salud del rival",
+        "score": "Puntuación",
+        "hp": "HP"
+    },
+    "battleLobby": {
+        "title": "Arena de Batalla",
+        "welcomeTitle": "Arena de Batalla",
+        "welcomeSubtitle": "Demuestra tus conocimientos contra otros estudiantes",
+        "searching": "Buscando oponente...",
+        "searchingDesc1": "Buscando un oponente digno para ti...",
+        "searchingDesc2": "Analizando posibles oponentes...",
+        "battleId": "ID de batalla: {{id}}",
+        "shareId": "Comparte este ID para que un amigo se una",
+        "cancelSearch": "Cancelar búsqueda",
+        "chooseSubject": "Elige tu materia",
+        "quickBattle": "Batalla Rápida",
+        "howToPlay": "¿Cómo jugar?",
+        "step1": {
+            "title": "Elige una materia",
+            "desc": "Selecciona el tema que quieres practicar"
+        },
+        "step2": {
+            "title": "Espera un oponente",
+            "desc": "El sistema buscará automáticamente otro jugador"
+        },
+        "step3": {
+            "title": "Responde preguntas",
+            "desc": "Cada respuesta correcta daña al oponente"
+        },
+        "step4": {
+            "title": "¡Gana la batalla!",
+            "desc": "Reduce la vida del oponente a cero"
+        },
+        "backToMenu": "Volver al Menú Principal",
+        "processing": "Procesando...",
+        "cancelAlert": {
+            "header": "Cancelar búsqueda",
+            "message": "¿Estás seguro de que quieres cancelar la búsqueda de oponente?",
+            "continue": "Continuar buscando",
+            "cancel": "Cancelar"
+        },
+        "error": "Error",
+        "subjects": {
+            "History": "Historia",
+            "HistoryDesc": "Batalla con preguntas sobre eventos históricos",
+            "Math": "Matemáticas",
+            "MathDesc": "Demuestra tus habilidades matemáticas",
+            "Science": "Ciencias",
+            "ScienceDesc": "Preguntas de biología, química y física"
+        }
+    }
+}

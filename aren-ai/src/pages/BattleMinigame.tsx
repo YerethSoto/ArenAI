@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   IonContent,
-  IonHeader,
   IonPage,
-  IonToolbar,
-  IonButtons,
-  IonMenuButton,
   IonIcon,
   IonButton,
   IonText,
@@ -15,10 +11,13 @@ import {
   IonModal,
   IonCard,
   IonCardContent,
+  IonMenuButton
 } from '@ionic/react';
 import { menu, arrowForward, close } from 'ionicons/icons';
+import { useTranslation } from 'react-i18next';
 import StudentMenu from '../components/StudentMenu';
 import StudentSidebar from '../components/StudentSidebar';
+import StudentHeader from '../components/StudentHeader';
 import './BattleMinigame.css';
 
 interface UserData {
@@ -44,6 +43,8 @@ interface BattlePlayer {
 }
 
 const BattleMinigame: React.FC = () => {
+  const { t } = useTranslation();
+
   const handleLogout = () => {
     console.log('Logout clicked');
   };
@@ -57,7 +58,7 @@ const BattleMinigame: React.FC = () => {
     } catch (error) {
       console.error('Error parsing user data:', error);
     }
-    
+
     return {
       name: 'Estudiante',
       email: 'Error',
@@ -71,7 +72,7 @@ const BattleMinigame: React.FC = () => {
       question: "¿Cuál fue el año en que Costa Rica abolió su ejército?",
       options: [
         "A. 1948",
-        "B. 1821", 
+        "B. 1821",
         "C. 1856",
         "D. 1921"
       ],
@@ -102,7 +103,7 @@ const BattleMinigame: React.FC = () => {
   ];
 
   const currentUser = getUserData();
-  
+
   const [player, setPlayer] = useState<BattlePlayer>({
     id: 1,
     name: currentUser.name.split(' ')[0],
@@ -136,7 +137,7 @@ const BattleMinigame: React.FC = () => {
   const [playerHitAnimation, setPlayerHitAnimation] = useState(false);
   const [opponentHitAnimation, setOpponentHitAnimation] = useState(false);
   const [scrollingTextPosition, setScrollingTextPosition] = useState(0);
-  
+
   const scrollingTextRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null); // FIX: Added initial value null
 
@@ -145,7 +146,7 @@ const BattleMinigame: React.FC = () => {
       setScrollingTextPosition(prev => {
         const textWidth = scrollingTextRef.current?.scrollWidth || 0;
         const containerWidth = scrollingTextRef.current?.parentElement?.offsetWidth || 0;
-        
+
         if (textWidth > containerWidth) {
           const newPosition = prev - 0.5;
           if (newPosition < -textWidth) {
@@ -173,12 +174,12 @@ const BattleMinigame: React.FC = () => {
     if (!isAnswered) {
       setShowQuestionPopup(true);
       setProgress(0);
-      
+
       const duration = 8000;
       const interval = 50;
       const steps = duration / interval;
       const increment = 100 / steps;
-      
+
       const progressTimer = setInterval(() => {
         setProgress(prev => {
           if (prev >= 100) {
@@ -204,12 +205,12 @@ const BattleMinigame: React.FC = () => {
   const showQuestion = () => {
     setShowQuestionPopup(true);
     setProgress(0);
-    
+
     const duration = 8000;
     const interval = 50;
     const steps = duration / interval;
     const increment = 100 / steps;
-    
+
     const progressTimer = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
@@ -235,11 +236,11 @@ const BattleMinigame: React.FC = () => {
 
   const calculateDamage = (isCorrect: boolean, timeTaken: number): number => {
     if (!isCorrect) return 0;
-    
+
     let damage = 25;
     if (timeTaken < 3) damage += 10;
     else if (timeTaken < 5) damage += 5;
-    
+
     return damage;
   };
 
@@ -248,7 +249,7 @@ const BattleMinigame: React.FC = () => {
 
     const isCorrect = answerIndex === questions[currentQuestion].correctAnswer;
     const damage = calculateDamage(isCorrect, 2);
-    
+
     setSelectedAnswer(answerIndex);
     setIsAnswered(true);
     setShowQuestionPopup(false);
@@ -258,7 +259,7 @@ const BattleMinigame: React.FC = () => {
       setPlayerAttackAnimation(true);
       setDamageAmount(damage);
       setDamageTarget('opponent');
-      
+
       setTimeout(() => {
         setShowDamageAnimation(true);
         setOpponentHitAnimation(true);
@@ -284,7 +285,7 @@ const BattleMinigame: React.FC = () => {
       setOpponentAttackAnimation(true);
       setDamageAmount(damage);
       setDamageTarget('player');
-      
+
       setTimeout(() => {
         setShowDamageAnimation(true);
         setPlayerHitAnimation(true);
@@ -338,7 +339,7 @@ const BattleMinigame: React.FC = () => {
 
   const getButtonColor = (index: number) => {
     if (!isAnswered) return '';
-    
+
     if (index === questions[currentQuestion].correctAnswer) {
       return 'correct';
     } else if (index === selectedAnswer && index !== questions[currentQuestion].correctAnswer) {
@@ -377,29 +378,7 @@ const BattleMinigame: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader className="app-header">
-        <IonToolbar>
-          <div className="header-content">
-            <IonMenuButton slot="start" className="menu-button enlarged-menu">
-              <IonIcon icon={menu} />
-            </IonMenuButton>
-            
-            <div className="header-center">
-              <StudentMenu
-                selectedSubject={'History'}
-                onSubjectChange={() => {}}
-              />
-            </div>
-            
-            <div className="header-brand">
-              <div className="brand-text">
-                <div className="arenai">ArenAI</div>
-                <div className="student">Batalla</div>
-              </div>
-            </div>
-          </div>
-        </IonToolbar>
-      </IonHeader>
+      <StudentHeader pageTitle="battle.title" />
 
       <StudentSidebar onLogout={handleLogout} />
 
@@ -412,7 +391,7 @@ const BattleMinigame: React.FC = () => {
                   <span className="character-name">{opponent.name} - {opponent.avatarName}</span>
                 </div>
                 <div className="health-bar-container">
-                  <div 
+                  <div
                     className="health-bar-fill"
                     style={{
                       width: `${(opponent.health / opponent.maxHealth) * 100}%`,
@@ -421,17 +400,16 @@ const BattleMinigame: React.FC = () => {
                   ></div>
                 </div>
                 <div className="hp-row">
-                  <span className="hp-text">HP: {opponent.health}/{opponent.maxHealth}</span>
+                  <span className="hp-text">{t('battle.hp')}: {opponent.health}/{opponent.maxHealth}</span>
                 </div>
               </div>
               <div className="avatar-wrapper">
-                <img 
-                  src="/assets/capybara_sprite_normal.png" 
+                <img
+                  src="/assets/capybara_sprite_normal.png"
                   alt={opponent.avatarName}
-                  className={`avatar-image ${
-                    opponentAttackAnimation ? 'enemy-attack-animation' : 
-                    opponentHitAnimation ? 'damage-animation' : ''
-                  }`}
+                  className={`avatar-image ${opponentAttackAnimation ? 'enemy-attack-animation' :
+                      opponentHitAnimation ? 'damage-animation' : ''
+                    }`}
                 />
               </div>
             </div>
@@ -440,13 +418,12 @@ const BattleMinigame: React.FC = () => {
           <div className="battle-section player-section">
             <div className="character-container">
               <div className="avatar-wrapper">
-                <img 
-                  src="/assets/capybara_sprite_normal.png" 
+                <img
+                  src="/assets/capybara_sprite_normal.png"
                   alt={player.avatarName}
-                  className={`avatar-image ${
-                    playerAttackAnimation ? 'player-attack-animation' : 
-                    playerHitAnimation ? 'damage-animation' : ''
-                  }`}
+                  className={`avatar-image ${playerAttackAnimation ? 'player-attack-animation' :
+                      playerHitAnimation ? 'damage-animation' : ''
+                    }`}
                 />
               </div>
               <div className="health-bar player-health">
@@ -454,7 +431,7 @@ const BattleMinigame: React.FC = () => {
                   <span className="character-name">{player.name} - {player.avatarName}</span>
                 </div>
                 <div className="health-bar-container">
-                  <div 
+                  <div
                     className="health-bar-fill"
                     style={{
                       width: `${(player.health / player.maxHealth) * 100}%`,
@@ -463,7 +440,7 @@ const BattleMinigame: React.FC = () => {
                   ></div>
                 </div>
                 <div className="hp-row">
-                  <span className="hp-text">HP: {player.health}/{player.maxHealth}</span>
+                  <span className="hp-text">{t('battle.hp')}: {player.health}/{player.maxHealth}</span>
                 </div>
               </div>
             </div>
@@ -476,8 +453,8 @@ const BattleMinigame: React.FC = () => {
               <IonRow>
                 {questions[currentQuestion].options.map((option, index) => (
                   <IonCol size="12" key={index}>
-                    <IonButton 
-                      expand="block" 
+                    <IonButton
+                      expand="block"
                       className={`option-button ${getButtonColor(index)}`}
                       onClick={() => handleAnswerSelect(index)}
                       disabled={isAnswered}
@@ -493,7 +470,7 @@ const BattleMinigame: React.FC = () => {
           <div className="bottom-question-bar" onClick={showQuestion}>
             <div className="bottom-bar-content">
               <div className="scrolling-text-container">
-                <div 
+                <div
                   ref={scrollingTextRef}
                   className="scrolling-text"
                   style={{ transform: `translateX(${scrollingTextPosition}px)` }}
@@ -508,8 +485,8 @@ const BattleMinigame: React.FC = () => {
             <div className="question-popup-overlay">
               <div className="question-popup">
                 <div className="question-header">
-                  <IonButton 
-                    fill="clear" 
+                  <IonButton
+                    fill="clear"
                     className="close-button"
                     onClick={closeQuestion}
                   >
@@ -524,7 +501,7 @@ const BattleMinigame: React.FC = () => {
                   </IonText>
                 </div>
                 <div className="progress-container">
-                  <div 
+                  <div
                     className="progress-bar"
                     style={{ width: `${progress}%` }}
                   ></div>
@@ -547,42 +524,42 @@ const BattleMinigame: React.FC = () => {
                 <div className="battle-results-section">
                   <IonText>
                     <h2 className="battle-result-title">
-                      {winner === 'player' && '¡VICTORIA!'}
-                      {winner === 'opponent' && '¡DERROTA!'}
-                      {winner === 'draw' && '¡EMPATE!'}
+                      {winner === 'player' && t('battle.victory')}
+                      {winner === 'opponent' && t('battle.defeat')}
+                      {winner === 'draw' && t('battle.draw')}
                     </h2>
                   </IonText>
-                  
+
                   <div className="battle-stats">
                     <div className="battle-stat">
-                      <div className="stat-label">Tu salud final</div>
+                      <div className="stat-label">{t('battle.finalHealth')}</div>
                       <div className="stat-value">{player.health}/{player.maxHealth}</div>
                     </div>
                     <div className="battle-stat">
-                      <div className="stat-label">Salud del rival</div>
+                      <div className="stat-label">{t('battle.opponentHealth')}</div>
                       <div className="stat-value">{opponent.health}/{opponent.maxHealth}</div>
                     </div>
                     <div className="battle-stat">
-                      <div className="stat-label">Puntuación</div>
+                      <div className="stat-label">{t('battle.score')}</div>
                       <div className="stat-value">{player.score} pts</div>
                     </div>
                   </div>
 
                   <div className="battle-actions">
-                    <IonButton 
-                      expand="block" 
+                    <IonButton
+                      expand="block"
                       className="rematch-button"
                       onClick={restartBattle}
                     >
-                      Revancha
+                      {t('battle.rematch')}
                     </IonButton>
-                    <IonButton 
-                      expand="block" 
+                    <IonButton
+                      expand="block"
                       className="menu-button-primary"
                       onClick={handleBackToMenu}
                     >
                       <IonIcon icon={arrowForward} slot="end" />
-                      Volver al Menú
+                      {t('battle.backToMenu')}
                     </IonButton>
                   </div>
                 </div>
