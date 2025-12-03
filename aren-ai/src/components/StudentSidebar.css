@@ -1,7 +1,7 @@
 .menu-header {
   padding: 20px 16px;
-  background: #8f6a56;
-  color: white;
+  background: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -67,7 +67,9 @@
   margin-top: 4px;
 }
 
-#main-list, #settings-list {
+#main-list,
+#settings-list,
+#theme-list {
   padding: 8px 0;
   background: transparent;
 }
@@ -75,7 +77,7 @@
 ion-list-header {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #8f6a56;
+  color: var(--ion-color-primary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 8px;
@@ -85,9 +87,9 @@ ion-list-header {
 
 ion-item {
   --background: transparent;
-  --background-hover: rgba(143, 106, 86, 0.1);
-  --background-activated: rgba(143, 106, 86, 0.15);
-  --color: #333;
+  --background-hover: var(--ion-color-primary-tint);
+  --background-activated: var(--ion-color-primary-shade);
+  --color: var(--ion-text-color);
   margin: 2px 8px;
   border-radius: 8px;
   --min-height: 48px;
@@ -96,18 +98,24 @@ ion-item {
 }
 
 ion-item.selected {
-  --background: rgba(143, 106, 86, 0.15);
-  --color: #8f6a56;
+  --background: var(--ion-color-primary-tint);
+  --color: var(--ion-color-primary);
+  font-weight: 500;
+}
+
+ion-item.selected-theme {
+  --background: var(--ion-color-primary-tint);
+  --color: var(--ion-color-primary);
   font-weight: 500;
 }
 
 ion-item ion-icon {
-  color: #8f6a56;
+  color: var(--ion-color-primary);
   margin-right: 12px;
 }
 
 ion-item.selected ion-icon {
-  color: #8f6a56;
+  color: var(--ion-color-primary);
 }
 
 ion-item::part(native) {
@@ -118,14 +126,15 @@ ion-item::part(native) {
 .menu-footer {
   padding: 16px;
   text-align: center;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--ion-color-primary-tint);
   margin-top: 20px;
-  background: rgba(143, 106, 86, 0.05);
+  background: var(--ion-color-primary-tint);
 }
 
 .app-version {
   font-size: 0.75rem;
-  color: #666;
+  color: var(--ion-text-color);
+  opacity: 0.7;
 }
 
 /* Animation for menu items */
@@ -142,28 +151,28 @@ ion-item:hover {
   .menu-header {
     padding: 16px 12px;
   }
-  
+
   .student-avatar {
     width: 44px;
     height: 44px;
   }
-  
+
   .student-avatar ion-icon {
     font-size: 20px;
   }
-  
+
   .student-name {
     font-size: 1rem;
   }
-  
+
   .student-email {
     font-size: 0.75rem;
   }
-  
+
   .student-username {
     font-size: 0.7rem;
   }
-  
+
   ion-item {
     margin: 1px 6px;
     --min-height: 44px;
@@ -174,29 +183,29 @@ ion-item:hover {
   .menu-header {
     padding: 14px 10px;
   }
-  
+
   .student-info {
     gap: 10px;
   }
-  
+
   .student-avatar {
     width: 40px;
     height: 40px;
   }
-  
+
   .student-avatar ion-icon {
     font-size: 18px;
   }
-  
+
   .student-name {
     font-size: 0.95rem;
   }
-  
+
   .student-email,
   .student-username {
     font-size: 0.7rem;
   }
-  
+
   ion-list-header {
     font-size: 0.85rem;
     padding-left: 12px;
@@ -207,17 +216,17 @@ ion-item:hover {
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   ion-item {
-    --color: #e0e0e0;
+    --color: var(--ion-text-color);
     --background-hover: rgba(255, 255, 255, 0.05);
   }
-  
+
   .menu-footer {
-    border-top-color: #444;
+    border-top-color: var(--ion-color-primary-shade);
     background: rgba(255, 255, 255, 0.02);
   }
-  
+
   .app-version {
-    color: #999;
+    color: var(--ion-text-color);
   }
 }
 
@@ -226,19 +235,26 @@ ion-item:hover {
 }
 
 @keyframes slideIn {
-  from { transform: translateX(-100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .sidebar-usage-info {
   margin: 24px 16px 0 16px;
   padding: 12px 10px 10px 10px;
-  background: #fff7dd;
+  background: var(--ion-card-background);
   border-radius: 10px;
-  border: 1px solid #90beab;
-  box-shadow: 0 2px 8px rgba(144, 190, 171, 0.08);
+  border: 1px solid var(--ion-color-secondary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   font-size: 0.97rem;
-  color: #8f6a56;
+  color: var(--ion-text-color);
 }
 
 .usage-row {
@@ -257,12 +273,12 @@ ion-item:hover {
 
 .usage-value {
   font-weight: 700;
-  color: #90beab;
+  color: var(--ion-color-secondary);
   margin-left: 8px;
 }
 
 .usage-icon {
-  color: #8f6a56;
+  color: var(--ion-color-primary);
   font-size: 1.1em;
   margin-right: 4px;
 }
@@ -275,13 +291,13 @@ ion-item:hover {
   outline: none;
   display: flex;
   align-items: center;
-  color: #90beab;
+  color: var(--ion-color-secondary);
   font-size: 1.1em;
   transition: color 0.2s;
 }
 
 .usage-help-btn:hover ion-icon {
-  color: #8f6a56;
+  color: var(--ion-color-primary);
 }
 
 .usage-formula-tooltip {
@@ -289,11 +305,11 @@ ion-item:hover {
   left: 30px;
   right: 30px;
   bottom: 80px;
-  background: #fff;
-  color: #8f6a56;
-  border: 1px solid #90beab;
+  background: var(--ion-card-background);
+  color: var(--ion-text-color);
+  border: 1px solid var(--ion-color-secondary);
   border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(144,190,171,0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   padding: 14px 16px 10px 16px;
   z-index: 9999;
   font-size: 0.98em;
@@ -310,33 +326,42 @@ ion-item:hover {
 .usage-formula-close {
   margin-top: 8px;
   font-size: 0.9em;
-  color: #90beab;
+  color: var(--ion-color-secondary);
   text-align: right;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px);}
-  to { opacity: 1; transform: translateY(0);}
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .usage-progress-bar {
   width: 100%;
   height: 12px;
-  background: #e0e6e3;
+  background: var(--ion-item-background);
   border-radius: 6px;
   margin: 8px 0 2px 0;
   overflow: hidden;
   position: relative;
 }
+
 .usage-progress-inner {
   height: 100%;
-  background: linear-gradient(90deg, #90beab 60%, #71da68 100%);
+  background: linear-gradient(90deg, var(--ion-color-secondary) 60%, var(--ion-color-tertiary) 100%);
   border-radius: 6px;
   transition: width 0.4s;
 }
+
 .usage-progress-label {
   font-size: 0.88em;
-  color: #8f6a56;
+  color: var(--ion-text-color);
   margin-bottom: 6px;
   margin-top: 2px;
   text-align: right;

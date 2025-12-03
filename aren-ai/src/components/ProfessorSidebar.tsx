@@ -11,8 +11,8 @@ import {
 } from '@ionic/react';
 
 import { useLocation } from 'react-router-dom';
-import { 
-  homeOutline, 
+import {
+  homeOutline,
   homeSharp,
   schoolOutline,
   schoolSharp,
@@ -49,19 +49,25 @@ const appPages: AppPage[] = [
     mdIcon: homeSharp
   },
 
-  
+
   {
     title: 'Students',
     url: '/folder/Students',
     iosIcon: peopleOutline,
     mdIcon: peopleSharp
   },
-  
+
   {
     title: 'Create Section',
     url: '/class-creation',
     iosIcon: createOutline,
     mdIcon: createSharp
+  },
+  {
+    title: 'Create Task',
+    url: '/create-task',
+    iosIcon: clipboardOutline,
+    mdIcon: clipboardOutline
   },
   {
     title: 'Student Sections',
@@ -117,7 +123,7 @@ const ProfessorSidebar: React.FC<ProfessorSidebarProps> = ({ onLogout }) => {
     } catch (error) {
       console.error('Error parsing user data:', error);
     }
-    
+
     // Fallback data if nothing is stored
     return {
       name: 'Prof. Rodriguez',
@@ -157,11 +163,11 @@ const ProfessorSidebar: React.FC<ProfessorSidebarProps> = ({ onLogout }) => {
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
-                <IonItem 
-                  className={location.pathname === appPage.url ? 'selected' : ''} 
-                  routerLink={appPage.url} 
-                  routerDirection="none" 
-                  lines="none" 
+                <IonItem
+                  className={location.pathname === appPage.url ? 'selected' : ''}
+                  routerLink={appPage.url}
+                  routerDirection="none"
+                  lines="none"
                   detail={false}
                 >
                   <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
@@ -179,7 +185,7 @@ const ProfessorSidebar: React.FC<ProfessorSidebarProps> = ({ onLogout }) => {
             if (appPage.title === 'Logout') {
               return (
                 <IonMenuToggle key={index} autoHide={false}>
-                  <IonItem 
+                  <IonItem
                     className={location.pathname === appPage.url ? 'selected' : ''}
                     routerLink={appPage.url}
                     routerDirection="none"
@@ -193,14 +199,14 @@ const ProfessorSidebar: React.FC<ProfessorSidebarProps> = ({ onLogout }) => {
                 </IonMenuToggle>
               );
             }
-            
+
             return (
               <IonMenuToggle key={index} autoHide={false}>
-                <IonItem 
-                  className={location.pathname === appPage.url ? 'selected' : ''} 
-                  routerLink={appPage.url} 
-                  routerDirection="none" 
-                  lines="none" 
+                <IonItem
+                  className={location.pathname === appPage.url ? 'selected' : ''}
+                  routerLink={appPage.url}
+                  routerDirection="none"
+                  lines="none"
                   detail={false}
                 >
                   <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />

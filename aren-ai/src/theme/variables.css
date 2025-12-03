@@ -1,14 +1,289 @@
 /* Disable automatic dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Use light theme colors even in dark mode */
-    --ion-background-color: #ffffff;
-    --ion-text-color: #000000;
+    /* Use light theme colors even in dark mode by default, overridden by specific dark theme classes */
+    --ion-background-color: #fdfbf7;
+    --ion-text-color: #2c3e50;
   }
 }
 
-/* Or force light theme globally */
+/* =========================================
+   GLOBAL DEFAULTS (Base Theme - Professor & Original Student)
+   ========================================= */
+:root {
+  /* Default Backgrounds */
+  --ion-background-color: #fdfbf7;
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
+
+  /* Default Text */
+  --ion-text-color: #2c3e50;
+  --ion-text-color-step-150: #415262;
+  --ion-text-color-step-400: #6b7884;
+
+  /* Default Primary (Earth Brown) */
+  --ion-color-primary: #8f6a56;
+  --ion-color-primary-rgb: 143, 106, 86;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #7e5d4c;
+  --ion-color-primary-tint: #9a7967;
+
+  /* Default Secondary (Sage Green) */
+  --ion-color-secondary: #90beab;
+  --ion-color-secondary-rgb: 144, 190, 171;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #7fa796;
+  --ion-color-secondary-tint: #9bc5b3;
+
+  /* Default Tertiary (Deep Teal) */
+  --ion-color-tertiary: #3c7782;
+  --ion-color-tertiary-rgb: 60, 119, 130;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #356972;
+  --ion-color-tertiary-tint: #50858f;
+}
+
+/* =========================================
+   THEME: NAVY SCHOLAR (Classic Academic)
+   ========================================= */
+body.theme-navy {
+  --ion-background-color: #ecf0f1;
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
+  --ion-text-color: #2c3e50;
+
+  /* Primary: Navy Blue */
+  --ion-color-primary: #2c3e50;
+  --ion-color-primary-rgb: 44, 62, 80;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #273746;
+  --ion-color-primary-tint: #415262;
+
+  /* Secondary: Slate Gray */
+  --ion-color-secondary: #34495e;
+  --ion-color-secondary-rgb: 52, 73, 94;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #2e4053;
+  --ion-color-secondary-tint: #48596e;
+
+  /* Tertiary: Cool Gray */
+  --ion-color-tertiary: #7f8c8d;
+  --ion-color-tertiary-rgb: 127, 140, 141;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #707b7c;
+  --ion-color-tertiary-tint: #8c9798;
+}
+
+/* =========================================
+   THEME: SAGE WISDOM (Natural Balance)
+   ========================================= */
+body.theme-sage {
+  --ion-background-color: #f5f8f0;
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
+  --ion-text-color: #2c3e50;
+
+  /* Primary: Sage Green */
+  --ion-color-primary: #6b8e23;
+  --ion-color-primary-rgb: 107, 142, 35;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #5e7d1f;
+  --ion-color-primary-tint: #7a9939;
+
+  /* Secondary: Yellow Green */
+  --ion-color-secondary: #9acd32;
+  --ion-color-secondary-rgb: 154, 205, 50;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #88b42c;
+  --ion-color-secondary-tint: #a4d247;
+
+  /* Tertiary: Dark Olive */
+  --ion-color-tertiary: #556b2f;
+  --ion-color-tertiary-rgb: 85, 107, 47;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #4b5e29;
+  --ion-color-tertiary-tint: #667a44;
+}
+
+/* =========================================
+   THEME: BURGUNDY BOOK (Traditional Library)
+   ========================================= */
+body.theme-burgundy {
+  --ion-background-color: #faf6f1;
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
+  --ion-text-color: #2c3e50;
+
+  /* Primary: Saddle Brown */
+  --ion-color-primary: #8b4513;
+  --ion-color-primary-rgb: 139, 69, 19;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #7a3d11;
+  --ion-color-primary-tint: #97572b;
+
+  /* Secondary: Sienna */
+  --ion-color-secondary: #a0522d;
+  --ion-color-secondary-rgb: 160, 82, 45;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #8d4828;
+  --ion-color-secondary-tint: #aa6342;
+
+  /* Tertiary: Chocolate */
+  --ion-color-tertiary: #d2691e;
+  --ion-color-tertiary-rgb: 210, 105, 30;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #b95c1a;
+  --ion-color-tertiary-tint: #d77835;
+}
+
+/* =========================================
+   THEME: BAMBOO GREEN (Fresh & Sustainable)
+   ========================================= */
+body.theme-bamboo {
+  --ion-background-color: #f0f8f0;
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
+  --ion-text-color: #2c3e50;
+
+  /* Primary: Bamboo Green */
+  --ion-color-primary: #55a630;
+  --ion-color-primary-rgb: 85, 166, 48;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #4b922a;
+  --ion-color-primary-tint: #66af45;
+
+  /* Secondary: Lime Green */
+  --ion-color-secondary: #80b918;
+  --ion-color-secondary-rgb: 128, 185, 24;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #71a315;
+  --ion-color-secondary-tint: #8dc02f;
+
+  /* Tertiary: Hunter Green */
+  --ion-color-tertiary: #2d6a4f;
+  --ion-color-tertiary-rgb: 45, 106, 79;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #285d46;
+  --ion-color-tertiary-tint: #427961;
+}
+
+/* =========================================
+   THEME: EARTH TONE (Natural Connection)
+   ========================================= */
+body.theme-earth {
+  --ion-background-color: #f8f5f0;
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
+  --ion-text-color: #2c3e50;
+
+  /* Primary: Warm Brown */
+  --ion-color-primary: #a0826d;
+  --ion-color-primary-rgb: 160, 130, 109;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #8d7260;
+  --ion-color-primary-tint: #aa8f7c;
+
+  /* Secondary: Sand */
+  --ion-color-secondary: #c9a690;
+  --ion-color-secondary-rgb: 201, 166, 144;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #b1927f;
+  --ion-color-secondary-tint: #ceaf9b;
+
+  /* Tertiary: Clay */
+  --ion-color-tertiary: #8b6f47;
+  --ion-color-tertiary-rgb: 139, 111, 71;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #7a623e;
+  --ion-color-tertiary-tint: #977d59;
+}
+
+/* =========================================
+   DARK MODE OVERRIDES
+   ========================================= */
+@media (prefers-color-scheme: dark) {
+
+  /* Default (Professor) Dark */
+  body {
+    --ion-background-color: #1a1a1a;
+    --ion-item-background: #2c2c2c;
+    --ion-card-background: #2c2c2c;
+    --ion-text-color: #e0e0e0;
+    --ion-text-color-step-150: #d0d0d0;
+    --ion-text-color-step-400: #a0a0a0;
+  }
+
+  /* Navy Dark */
+  body.theme-navy {
+    --ion-background-color: #1a1f2e;
+    --ion-item-background: #2c3e50;
+    --ion-card-background: #2c3e50;
+    --ion-color-primary: #5d6d7e;
+    --ion-color-secondary: #85929e;
+    --ion-text-color: #ecf0f1;
+  }
+
+  /* Sage Dark */
+  body.theme-sage {
+    --ion-background-color: #1e2a1a;
+    --ion-item-background: #2d3e26;
+    --ion-card-background: #2d3e26;
+    --ion-color-primary: #8fbc4a;
+    --ion-color-secondary: #b8e356;
+    --ion-text-color: #e8f5e9;
+  }
+
+  /* Burgundy Dark */
+  body.theme-burgundy {
+    --ion-background-color: #2a1f1a;
+    --ion-item-background: #3e2e26;
+    --ion-card-background: #3e2e26;
+    --ion-color-primary: #b8651e;
+    --ion-color-secondary: #cd853f;
+    --ion-text-color: #f5e6d3;
+  }
+
+  /* Bamboo Dark */
+  body.theme-bamboo {
+    --ion-background-color: #1a2e1a;
+    --ion-item-background: #263e26;
+    --ion-card-background: #263e26;
+    --ion-color-primary: #6fbf3f;
+    --ion-color-secondary: #9dd12f;
+    --ion-text-color: #e8f5e9;
+  }
+
+  /* Earth Dark */
+  body.theme-earth {
+    --ion-background-color: #2a241f;
+    --ion-item-background: #3e362e;
+    --ion-card-background: #3e362e;
+    --ion-color-primary: #b89a82;
+    --ion-color-secondary: #d9bda0;
+    --ion-text-color: #f5f0e8;
+  }
+}
+
+/* Force light theme globally (fallback) */
 ion-app {
-  --ion-background-color: #ffffff;
-  --ion-text-color: #000000;
+  --ion-background-color: var(--ion-background-color);
+  --ion-text-color: var(--ion-text-color);
 }

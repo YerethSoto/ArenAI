@@ -4,42 +4,46 @@
 }
 
 .average-score-bubble {
-  background-color: #3c7782;
+  background-color: var(--ion-color-tertiary);
   border-radius: 20px;
   padding: 12px 20px;
   text-align: center;
   margin: 0 auto 20px auto;
   max-width: 300px;
   font-weight: 600;
-  color: #eeeeee;
+  color: var(--ion-color-tertiary-contrast);
 }
+
 .student-bubble-card {
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
   width: 100%;
   max-width: 500px;
   min-height: 60px;
-  padding: 12px 20px; 
+  padding: 12px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: inherit;
-  margin-bottom: 16px; 
+  background-color: var(--ion-card-background);
+  margin-bottom: 16px;
 }
+
 .student-bubble-card h3 {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
-  color: #333;
+  color: var(--ion-text-color);
 }
 
 .student-bubble-card p {
   margin: 0;
   font-size: 1rem;
   font-weight: bold;
-  color: #222;
+  color: var(--ion-text-color);
+  opacity: 0.8;
 }
+
 .student-score-grid {
   display: flex;
   flex-direction: column;

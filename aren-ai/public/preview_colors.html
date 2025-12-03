@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nature-Inspired Student Themes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5;
+            padding: 40px;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #8f6a56;
+            margin-bottom: 40px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #fff7dd;
+            /* Default base */
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 2px solid transparent;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .theme-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .palette {
+            display: flex;
+            gap: 10px;
+        }
+
+        .swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Mock UI Elements */
+        .mock-header {
+            height: 50px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .mock-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
+            text-align: left;
+            position: relative;
+        }
+
+        .mock-button::after {
+            content: '→';
+            position: absolute;
+            right: 15px;
+        }
+
+        .mock-stat {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* --- THEMES --- */
+
+        /* 1. Original Refined (Reference) */
+        .theme-original .card {
+            background: #fff7dd;
+            border-color: #8f6a56;
+        }
+
+        .theme-original .mock-header {
+            background: #8f6a56;
+        }
+
+        .theme-original .mock-button {
+            background: #90beab;
+        }
+
+        .theme-original .mock-stat {
+            color: #8f6a56;
+        }
+
+        .theme-original .swatch1 {
+            background: #8f6a56;
+        }
+
+        .theme-original .swatch2 {
+            background: #90beab;
+        }
+
+        .theme-original .swatch3 {
+            background: #3c7782;
+        }
+
+        /* 2. Forest Canopy (Greens & Browns) */
+        .theme-forest .card {
+            background: #f1f8e9;
+            border-color: #558b2f;
+        }
+
+        .theme-forest .mock-header {
+            background: #558b2f;
+        }
+
+        /* Dark Green */
+        .theme-forest .mock-button {
+            background: #8bc34a;
+            color: #1a3e0c;
+        }
+
+        /* Light Green */
+        .theme-forest .mock-stat {
+            color: #558b2f;
+        }
+
+        .theme-forest .swatch1 {
+            background: #558b2f;
+        }
+
+        .theme-forest .swatch2 {
+            background: #8bc34a;
+        }
+
+        .theme-forest .swatch3 {
+            background: #33691e;
+        }
+
+        /* 3. River Stone (Teals & Greys) */
+        .theme-river .card {
+            background: #e0f7fa;
+            border-color: #00838f;
+        }
+
+        .theme-river .mock-header {
+            background: #00838f;
+        }
+
+        /* Cyan/Teal */
+        .theme-river .mock-button {
+            background: #4dd0e1;
+            color: #00363a;
+        }
+
+        /* Light Cyan */
+        .theme-river .mock-stat {
+            color: #00838f;
+        }
+
+        .theme-river .swatch1 {
+            background: #00838f;
+        }
+
+        .theme-river .swatch2 {
+            background: #4dd0e1;
+        }
+
+        .theme-river .swatch3 {
+            background: #006064;
+        }
+
+        /* 4. Sunset Clay (Terracotta & Warmth) */
+        .theme-sunset .card {
+            background: #fff3e0;
+            border-color: #e65100;
+        }
+
+        .theme-sunset .mock-header {
+            background: #ef6c00;
+        }
+
+        /* Orange */
+        .theme-sunset .mock-button {
+            background: #ffb74d;
+            color: #4e342e;
+        }
+
+        /* Light Orange */
+        .theme-sunset .mock-stat {
+            color: #ef6c00;
+        }
+
+        .theme-sunset .swatch1 {
+            background: #ef6c00;
+        }
+
+        .theme-sunset .swatch2 {
+            background: #ffb74d;
+        }
+
+        .theme-sunset .swatch3 {
+            background: #bf360c;
+        }
+
+        /* 5. Berry & Leaf (Muted Purple & Green) */
+        .theme-berry .card {
+            background: #f3e5f5;
+            border-color: #8e24aa;
+        }
+
+        .theme-berry .mock-header {
+            background: #8e24aa;
+        }
+
+        /* Purple */
+        .theme-berry .mock-button {
+            background: #ce93d8;
+            color: #4a148c;
+        }
+
+        /* Light Purple */
+        .theme-berry .mock-stat {
+            color: #8e24aa;
+        }
+
+        .theme-berry .swatch1 {
+            background: #8e24aa;
+        }
+
+        .theme-berry .swatch2 {
+            background: #ce93d8;
+        }
+
+        .theme-berry .swatch3 {
+            background: #6a1b9a;
+        }
+
+        /* 6. Ocean Sand (Blue & Beige) - Closer to original but bluer */
+        .theme-ocean .card {
+            background: #fff7dd;
+            border-color: #1976d2;
+        }
+
+        .theme-ocean .mock-header {
+            background: #1565c0;
+        }
+
+        /* Blue */
+        .theme-ocean .mock-button {
+            background: #64b5f6;
+            color: #0d47a1;
+        }
+
+        /* Light Blue */
+        .theme-ocean .mock-stat {
+            color: #1565c0;
+        }
+
+        .theme-ocean .swatch1 {
+            background: #1565c0;
+        }
+
+        .theme-ocean .swatch2 {
+            background: #64b5f6;
+        }
+
+        .theme-ocean .swatch3 {
+            background: #fff7dd;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Nature-Inspired Student Themes</h1>
+
+    <div class="grid">
+        <!-- Original -->
+        <div class="card theme-original">
+            <div class="card-header">
+                <span class="theme-name">1. Original Refined</span>
+                <div class="palette">
+                    <div class="swatch swatch1"></div>
+                    <div class="swatch swatch2"></div>
+                    <div class="swatch swatch3"></div>
+                </div>
+            </div>
+            <div class="mock-header">ArenAI Student</div>
+            <div class="mock-stat">Level 5</div>
+            <button class="mock-button">Start Quiz</button>
+            <button class="mock-button">View Stats</button>
+        </div>
+
+        <!-- Forest -->
+        <div class="card theme-forest">
+            <div class="card-header">
+                <span class="theme-name">2. Forest Canopy</span>
+                <div class="palette">
+                    <div class="swatch swatch1"></div>
+                    <div class="swatch swatch2"></div>
+                    <div class="swatch swatch3"></div>
+                </div>
+            </div>
+            <div class="mock-header">ArenAI Student</div>
+            <div class="mock-stat">Level 5</div>
+            <button class="mock-button">Start Quiz</button>
+            <button class="mock-button">View Stats</button>
+        </div>
+
+        <!-- River -->
+        <div class="card theme-river">
+            <div class="card-header">
+                <span class="theme-name">3. River Stone</span>
+                <div class="palette">
+                    <div class="swatch swatch1"></div>
+                    <div class="swatch swatch2"></div>
+                    <div class="swatch swatch3"></div>
+                </div>
+            </div>
+            <div class="mock-header">ArenAI Student</div>
+            <div class="mock-stat">Level 5</div>
+            <button class="mock-button">Start Quiz</button>
+            <button class="mock-button">View Stats</button>
+        </div>
+
+        <!-- Sunset -->
+        <div class="card theme-sunset">
+            <div class="card-header">
+                <span class="theme-name">4. Sunset Clay</span>
+                <div class="palette">
+                    <div class="swatch swatch1"></div>
+                    <div class="swatch swatch2"></div>
+                    <div class="swatch swatch3"></div>
+                </div>
+            </div>
+            <div class="mock-header">ArenAI Student</div>
+            <div class="mock-stat">Level 5</div>
+            <button class="mock-button">Start Quiz</button>
+            <button class="mock-button">View Stats</button>
+        </div>
+
+        <!-- Berry -->
+        <div class="card theme-berry">
+            <div class="card-header">
+                <span class="theme-name">5. Berry & Leaf</span>
+                <div class="palette">
+                    <div class="swatch swatch1"></div>
+                    <div class="swatch swatch2"></div>
+                    <div class="swatch swatch3"></div>
+                </div>
+            </div>
+            <div class="mock-header">ArenAI Student</div>
+            <div class="mock-stat">Level 5</div>
+            <button class="mock-button">Start Quiz</button>
+            <button class="mock-button">View Stats</button>
+        </div>
+
+        <!-- Ocean -->
+        <div class="card theme-ocean">
+            <div class="card-header">
+                <span class="theme-name">6. Ocean Sand</span>
+                <div class="palette">
+                    <div class="swatch swatch1"></div>
+                    <div class="swatch swatch2"></div>
+                    <div class="swatch swatch3"></div>
+                </div>
+            </div>
+            <div class="mock-header">ArenAI Student</div>
+            <div class="mock-stat">Level 5</div>
+            <button class="mock-button">Start Quiz</button>
+            <button class="mock-button">View Stats</button>
+        </div>
+    </div>
+
+</body>
+
+</html>

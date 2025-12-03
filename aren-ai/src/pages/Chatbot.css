@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Nixie+One&display=swap');
 
 :root {
-  --arenai-header-bg: #536e83;
-  --arenai-body-bg: #f4f7fb;
+  --arenai-header-bg: var(--ion-color-primary);
+  --arenai-body-bg: var(--ion-background-color);
 }
 
 * {
@@ -10,25 +10,25 @@
 }
 
 .app-header {
-  --background: #8f6a56 !important;
-  --color: #ffffff;
+  --background: var(--ion-color-primary) !important;
+  --color: var(--ion-color-primary-contrast);
 }
 
 .app-header ion-toolbar {
-  --background: #8f6a56 !important;
-  --color: white;
+  --background: var(--ion-color-primary) !important;
+  --color: var(--ion-color-primary-contrast);
   --min-height: 80px;
 }
 
 .chat-embed-content {
-  --background: #fff7dd;
+  --background: var(--ion-background-color);
   --padding-start: 0;
   --padding-end: 0;
   --padding-top: 80px;
   --padding-bottom: 0;
   --border-radius: 18px;
-  --box-shadow: 0 2px 16px rgba(143, 106, 86, 0.10);
-  --border: 2px solid #90beab;
+  --box-shadow: 0 2px 16px rgba(0, 0, 0, 0.10);
+  --border: 2px solid var(--ion-color-secondary);
   min-height: 100vh;
   box-sizing: border-box;
   display: flex;
@@ -49,7 +49,8 @@
   justify-content: center;
   align-items: flex-start;
   min-height: calc(100vh - 80px);
-  padding: 0 32px; /* Espacio lateral para que no pegue a los bordes */
+  padding: 0 32px;
+  /* Espacio lateral para que no pegue a los bordes */
   box-sizing: border-box;
 }
 
@@ -59,21 +60,22 @@
   min-height: 600px;
   height: 70vh;
   border: none;
-  background: #ffffff;
+  background: var(--ion-card-background);
   border-radius: 18px;
-  box-shadow: 0 2px 16px rgba(143, 106, 86, 0.10);
-  border: 2px solid #90beab;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.10);
+  border: 2px solid var(--ion-color-secondary);
   transition: box-shadow 0.2s;
 }
 
-iframe:focus, iframe:hover {
-  box-shadow: 0 4px 24px rgba(143, 106, 86, 0.18);
-  border-color: #8f6a56;
+iframe:focus,
+iframe:hover {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+  border-color: var(--ion-color-primary);
 }
 
 ion-toolbar {
-  --background: #8f6a56 !important;
-  --color: white;
+  --background: var(--ion-color-primary) !important;
+  --color: var(--ion-color-primary-contrast);
   --min-height: 80px;
 }
 
@@ -81,7 +83,7 @@ ion-title {
   font-family: 'Nixie One', cursive;
   font-size: 1.5rem;
   font-weight: 700;
-  color: white;
+  color: var(--ion-color-primary-contrast);
   letter-spacing: 1px;
 }
 
@@ -91,10 +93,12 @@ ion-title {
     padding-right: 4px;
     padding-top: 80px;
   }
+
   .chat-iframe-wrapper {
     padding: 0 6px;
     max-width: 100vw;
   }
+
   iframe {
     min-height: 400px;
     max-width: 100vw;

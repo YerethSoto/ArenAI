@@ -5,11 +5,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #90beab;
+  background: var(--ion-color-secondary);
   border-radius: 12px;
   padding: 6px 16px;
-  box-shadow: 0 2px 8px rgba(144, 190, 171, 0.3);
-  border: 2px solid #90beab;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 2px solid var(--ion-color-secondary);
   min-height: 44px;
   width: auto;
   max-width: 200px;
@@ -31,7 +31,7 @@
 
 /* Dropdown trigger - looks like plain text */
 .dropdown-trigger {
-  color: white;
+  color: var(--ion-color-secondary-contrast);
   font-size: 1rem;
   font-weight: 700;
   padding: 4px 6px;
@@ -44,7 +44,7 @@
 }
 
 .dropdown-trigger:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .subject-trigger {
@@ -59,10 +59,10 @@
 }
 
 .dropdown-options {
-  background: #fff7dd;
-  border: 1px solid #90beab;
+  background: var(--ion-card-background);
+  border: 2px solid var(--ion-color-secondary);
   border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   min-width: 130px;
   max-height: 200px;
   overflow-y: auto;
@@ -74,14 +74,15 @@
 }
 
 .dropdown-option {
-  color: #8f6a56;
+  color: var(--ion-text-color);
   font-size: 0.9rem;
   font-weight: 500;
   padding: 10px 14px;
   cursor: pointer;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--ion-color-secondary-tint);
   transition: all 0.2s;
   font-family: 'Open Sans', sans-serif;
+  background: var(--ion-card-background);
 }
 
 .dropdown-option:last-child {
@@ -89,8 +90,8 @@
 }
 
 .dropdown-option:hover {
-  background: #90beab;
-  color: white;
+  background: var(--ion-color-secondary);
+  color: var(--ion-color-secondary-contrast);
 }
 
 /* Responsive Design */
@@ -100,16 +101,16 @@
     max-width: 180px;
     min-height: 40px;
   }
-  
+
   .dropdown-trigger {
     font-size: 0.95rem;
     min-width: 45px;
   }
-  
+
   .subject-trigger {
     min-width: 100px;
   }
-  
+
   .dropdown-options {
     min-width: 120px;
   }
@@ -121,17 +122,17 @@
     max-width: 160px;
     min-height: 36px;
   }
-  
+
   .dropdown-trigger {
     font-size: 0.9rem;
     min-width: 40px;
     padding: 3px 5px;
   }
-  
+
   .subject-trigger {
     min-width: 90px;
   }
-  
+
   .dropdown-options {
     min-width: 110px;
   }

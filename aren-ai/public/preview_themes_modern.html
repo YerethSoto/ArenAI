@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista Previa de Temas Educativos - ArenAI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px 20px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .theme-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .theme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .theme-description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+            font-style: italic;
+            min-height: 36px;
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .color-box {
+            flex: 1;
+            height: 70px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .color-code {
+            font-size: 0.65rem;
+            opacity: 0.9;
+            margin-top: 3px;
+        }
+
+        .preview-section {
+            margin-top: 16px;
+        }
+
+        .preview-header {
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .preview-card {
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            color: white;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .preview-button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .preview-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 50px 0 30px 0;
+            color: #444;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎨 Temas Educativos Modernos - ArenAI</h1>
+    <p class="subtitle">Selecciona los temas que más te gusten para tu plataforma educativa</p>
+
+    <div class="category-title">🌟 Temas Clásicos y Profesionales</div>
+    <div class="themes-grid">
+        <!-- ORIGINAL REFINADO -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #8f6a56;">Original Refinado</h2>
+            <p class="theme-description">Profesional y cálido - Tu favorito actual</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #8f6a56;">P<span class="color-code">#8f6a56</span></div>
+                <div class="color-box" style="background: #90beab;">S<span class="color-code">#90beab</span></div>
+                <div class="color-box" style="background: #3c7782;">T<span class="color-code">#3c7782</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #8f6a56;">Header / Menú</div>
+                <div class="preview-card" style="background: #90beab;">Selector de Semana</div>
+                <button class="preview-button" style="background: #3c7782;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- NAVY SCHOLAR -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #2c3e50;">Navy Scholar</h2>
+            <p class="theme-description">Clásico académico - Serio y confiable</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #2c3e50;">P<span class="color-code">#2c3e50</span></div>
+                <div class="color-box" style="background: #34495e;">S<span class="color-code">#34495e</span></div>
+                <div class="color-box" style="background: #7f8c8d;">T<span class="color-code">#7f8c8d</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #2c3e50;">Header / Menú</div>
+                <div class="preview-card" style="background: #34495e;">Selector de Semana</div>
+                <button class="preview-button" style="background: #7f8c8d;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- SAGE WISDOM -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #6b8e23;">Sage Wisdom</h2>
+            <p class="theme-description">Natural y equilibrado - Concentración</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #6b8e23;">P<span class="color-code">#6b8e23</span></div>
+                <div class="color-box" style="background: #9acd32;">S<span class="color-code">#9acd32</span></div>
+                <div class="color-box" style="background: #556b2f;">T<span class="color-code">#556b2f</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #6b8e23;">Header / Menú</div>
+                <div class="preview-card" style="background: #9acd32;">Selector de Semana</div>
+                <button class="preview-button" style="background: #556b2f;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- BURGUNDY BOOK -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #8b4513;">Burgundy Book</h2>
+            <p class="theme-description">Tradicional y elegante - Biblioteca clásica</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #8b4513;">P<span class="color-code">#8b4513</span></div>
+                <div class="color-box" style="background: #a0522d;">S<span class="color-code">#a0522d</span></div>
+                <div class="color-box" style="background: #d2691e;">T<span class="color-code">#d2691e</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #8b4513;">Header / Menú</div>
+                <div class="preview-card" style="background: #a0522d;">Selector de Semana</div>
+                <button class="preview-button" style="background: #d2691e;">Botón de Acción</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-title">🌈 Temas Vibrantes y Energéticos</div>
+    <div class="themes-grid">
+        <!-- CORAL SUNSET -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #ff6b6b;">Coral Sunset</h2>
+            <p class="theme-description">Cálido y energizante - Motivación activa</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #ff6b6b;">P<span class="color-code">#ff6b6b</span></div>
+                <div class="color-box" style="background: #ffa07a;">S<span class="color-code">#ffa07a</span></div>
+                <div class="color-box" style="background: #ee5a6f;">T<span class="color-code">#ee5a6f</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #ff6b6b;">Header / Menú</div>
+                <div class="preview-card" style="background: #ffa07a;">Selector de Semana</div>
+                <button class="preview-button" style="background: #ee5a6f;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- MINT FRESH -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #26de81;">Mint Fresh</h2>
+            <p class="theme-description">Vibrante y positivo - Energía natural</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #26de81;">P<span class="color-code">#26de81</span></div>
+                <div class="color-box" style="background: #20bf6b;">S<span class="color-code">#20bf6b</span></div>
+                <div class="color-box" style="background: #0fb56a;">T<span class="color-code">#0fb56a</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #26de81;">Header / Menú</div>
+                <div class="preview-card" style="background: #20bf6b;">Selector de Semana</div>
+                <button class="preview-button" style="background: #0fb56a;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- SUNSET GOLD -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #f39c12;">Sunset Gold</h2>
+            <p class="theme-description">Cálido y optimista - Energía positiva</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #f39c12;">P<span class="color-code">#f39c12</span></div>
+                <div class="color-box" style="background: #f8b739;">S<span class="color-code">#f8b739</span></div>
+                <div class="color-box" style="background: #e67e22;">T<span class="color-code">#e67e22</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #f39c12;">Header / Menú</div>
+                <div class="preview-card" style="background: #f8b739;">Selector de Semana</div>
+                <button class="preview-button" style="background: #e67e22;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- ELECTRIC LIME -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #a4c639;">Electric Lime</h2>
+            <p class="theme-description">Dinámico y fresco - Innovación y creatividad</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #a4c639;">P<span class="color-code">#a4c639</span></div>
+                <div class="color-box" style="background: #c0d725;">S<span class="color-code">#c0d725</span></div>
+                <div class="color-box" style="background: #8db600;">T<span class="color-code">#8db600</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #a4c639;">Header / Menú</div>
+                <div class="preview-card" style="background: #c0d725;">Selector de Semana</div>
+                <button class="preview-button" style="background: #8db600;">Botón de Acción</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-title">🌊 Temas Frescos y Calmados</div>
+    <div class="themes-grid">
+        <!-- OCEAN BREEZE -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #4a90e2;">Ocean Breeze</h2>
+            <p class="theme-description">Fresco y moderno - Calma y concentración</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #4a90e2;">P<span class="color-code">#4a90e2</span></div>
+                <div class="color-box" style="background: #7eb3e8;">S<span class="color-code">#7eb3e8</span></div>
+                <div class="color-box" style="background: #357abd;">T<span class="color-code">#357abd</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #4a90e2;">Header / Menú</div>
+                <div class="preview-card" style="background: #7eb3e8;">Selector de Semana</div>
+                <button class="preview-button" style="background: #357abd;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- TEAL WAVE -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #1abc9c;">Teal Wave</h2>
+            <p class="theme-description">Equilibrado y moderno - Armonía perfecta</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #1abc9c;">P<span class="color-code">#1abc9c</span></div>
+                <div class="color-box" style="background: #48c9b0;">S<span class="color-code">#48c9b0</span></div>
+                <div class="color-box" style="background: #16a085;">T<span class="color-code">#16a085</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #1abc9c;">Header / Menú</div>
+                <div class="preview-card" style="background: #48c9b0;">Selector de Semana</div>
+                <button class="preview-button" style="background: #16a085;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- SKY BLUE -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #3498db;">Sky Blue</h2>
+            <p class="theme-description">Claro y abierto - Claridad mental</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #3498db;">P<span class="color-code">#3498db</span></div>
+                <div class="color-box" style="background: #5dade2;">S<span class="color-code">#5dade2</span></div>
+                <div class="color-box" style="background: #2980b9;">T<span class="color-code">#2980b9</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #3498db;">Header / Menú</div>
+                <div class="preview-card" style="background: #5dade2;">Selector de Semana</div>
+                <button class="preview-button" style="background: #2980b9;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- AQUA MARINE -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #00b894;">Aqua Marine</h2>
+            <p class="theme-description">Refrescante y limpio - Claridad y frescura</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #00b894;">P<span class="color-code">#00b894</span></div>
+                <div class="color-box" style="background: #00cec9;">S<span class="color-code">#00cec9</span></div>
+                <div class="color-box" style="background: #00a896;">T<span class="color-code">#00a896</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #00b894;">Header / Menú</div>
+                <div class="preview-card" style="background: #00cec9;">Selector de Semana</div>
+                <button class="preview-button" style="background: #00a896;">Botón de Acción</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-title">💜 Temas Creativos y Suaves</div>
+    <div class="themes-grid">
+        <!-- LAVENDER DREAM -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #a29bfe;">Lavender Dream</h2>
+            <p class="theme-description">Suave y creativo - Inspiración y creatividad</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #a29bfe;">P<span class="color-code">#a29bfe</span></div>
+                <div class="color-box" style="background: #c7b8ff;">S<span class="color-code">#c7b8ff</span></div>
+                <div class="color-box" style="background: #6c5ce7;">T<span class="color-code">#6c5ce7</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #a29bfe;">Header / Menú</div>
+                <div class="preview-card" style="background: #c7b8ff;">Selector de Semana</div>
+                <button class="preview-button" style="background: #6c5ce7;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- ROSE PINK -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #fd79a8;">Rose Pink</h2>
+            <p class="theme-description">Alegre y amigable - Diversión y aprendizaje</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #fd79a8;">P<span class="color-code">#fd79a8</span></div>
+                <div class="color-box" style="background: #ff9ff3;">S<span class="color-code">#ff9ff3</span></div>
+                <div class="color-box" style="background: #e84393;">T<span class="color-code">#e84393</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #fd79a8;">Header / Menú</div>
+                <div class="preview-card" style="background: #ff9ff3;">Selector de Semana</div>
+                <button class="preview-button" style="background: #e84393;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- PLUM PURPLE -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #9b59b6;">Plum Purple</h2>
+            <p class="theme-description">Sofisticado y creativo - Pensamiento crítico</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #9b59b6;">P<span class="color-code">#9b59b6</span></div>
+                <div class="color-box" style="background: #bb8fce;">S<span class="color-code">#bb8fce</span></div>
+                <div class="color-box" style="background: #8e44ad;">T<span class="color-code">#8e44ad</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #9b59b6;">Header / Menú</div>
+                <div class="preview-card" style="background: #bb8fce;">Selector de Semana</div>
+                <button class="preview-button" style="background: #8e44ad;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- SOFT PEACH -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #fab1a0;">Soft Peach</h2>
+            <p class="theme-description">Cálido y acogedor - Ambiente amigable</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #fab1a0;">P<span class="color-code">#fab1a0</span></div>
+                <div class="color-box" style="background: #ffeaa7;">S<span class="color-code">#ffeaa7</span></div>
+                <div class="color-box" style="background: #ff7675;">T<span class="color-code">#ff7675</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #fab1a0;">Header / Menú</div>
+                <div class="preview-card" style="background: #ffeaa7;">Selector de Semana</div>
+                <button class="preview-button" style="background: #ff7675;">Botón de Acción</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-title">🌿 Temas Naturales y Orgánicos</div>
+    <div class="themes-grid">
+        <!-- FOREST GREEN -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #27ae60;">Forest Green</h2>
+            <p class="theme-description">Natural y equilibrado - Crecimiento y aprendizaje</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #27ae60;">P<span class="color-code">#27ae60</span></div>
+                <div class="color-box" style="background: #52be80;">S<span class="color-code">#52be80</span></div>
+                <div class="color-box" style="background: #229954;">T<span class="color-code">#229954</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #27ae60;">Header / Menú</div>
+                <div class="preview-card" style="background: #52be80;">Selector de Semana</div>
+                <button class="preview-button" style="background: #229954;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- OLIVE BRANCH -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #808000;">Olive Branch</h2>
+            <p class="theme-description">Terroso y calmado - Paz y concentración</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #808000;">P<span class="color-code">#808000</span></div>
+                <div class="color-box" style="background: #9acd32;">S<span class="color-code">#9acd32</span></div>
+                <div class="color-box" style="background: #6b8e23;">T<span class="color-code">#6b8e23</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #808000;">Header / Menú</div>
+                <div class="preview-card" style="background: #9acd32;">Selector de Semana</div>
+                <button class="preview-button" style="background: #6b8e23;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- BAMBOO GREEN -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #55a630;">Bamboo Green</h2>
+            <p class="theme-description">Fresco y sostenible - Crecimiento constante</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #55a630;">P<span class="color-code">#55a630</span></div>
+                <div class="color-box" style="background: #80b918;">S<span class="color-code">#80b918</span></div>
+                <div class="color-box" style="background: #2d6a4f;">T<span class="color-code">#2d6a4f</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #55a630;">Header / Menú</div>
+                <div class="preview-card" style="background: #80b918;">Selector de Semana</div>
+                <button class="preview-button" style="background: #2d6a4f;">Botón de Acción</button>
+            </div>
+        </div>
+
+        <!-- EARTH TONE -->
+        <div class="theme-card">
+            <h2 class="theme-name" style="color: #a0826d;">Earth Tone</h2>
+            <p class="theme-description">Cálido y natural - Conexión con la naturaleza</p>
+            <div class="color-palette">
+                <div class="color-box" style="background: #a0826d;">P<span class="color-code">#a0826d</span></div>
+                <div class="color-box" style="background: #c9a690;">S<span class="color-code">#c9a690</span></div>
+                <div class="color-box" style="background: #8b6f47;">T<span class="color-code">#8b6f47</span></div>
+            </div>
+            <div class="preview-section">
+                <div class="preview-header" style="background: #a0826d;">Header / Menú</div>
+                <div class="preview-card" style="background: #c9a690;">Selector de Semana</div>
+                <button class="preview-button" style="background: #8b6f47;">Botón de Acción</button>
+            </div>
+        </div>
+    </div>
+
+    <div
+        style="text-align: center; margin-top: 60px; padding: 30px; background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+        <p style="font-size: 1.3rem; margin-bottom: 15px; font-weight: 700; color: #333;">💡 <strong>¿Cómo
+                elegir?</strong></p>
+        <p style="color: #666; margin-bottom: 10px; line-height: 1.6;">
+            Revisa cada categoría y selecciona los temas que más te gusten.<br>
+            Puedo implementar los que elijas o crear variaciones personalizadas.
+        </p>
+        <p style="color: #666; font-size: 0.95rem; margin-top: 20px;">
+            <strong>Total de temas:</strong> 24 opciones educativas modernas
+        </p>
+    </div>
+</body>
+
+</html>

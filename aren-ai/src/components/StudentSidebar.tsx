@@ -13,8 +13,8 @@ import {
 import { Link } from 'react-router-dom';
 
 import { useLocation } from 'react-router-dom';
-import { 
-  homeOutline, 
+import {
+  homeOutline,
   homeSharp,
   schoolOutline,
   schoolSharp,
@@ -58,8 +58,8 @@ const appPages: AppPage[] = [
     iosIcon: schoolOutline,
     mdIcon: schoolSharp
   },
-  
-  
+
+
   {
     title: 'Quiz',
     url: '/quiz',
@@ -80,7 +80,7 @@ const appPages: AppPage[] = [
     iosIcon: americanFootballOutline,
     mdIcon: americanFootballSharp
   },
-  
+
 ];
 
 const settingsPages: AppPage[] = [
@@ -90,7 +90,7 @@ const settingsPages: AppPage[] = [
     iosIcon: settingsOutline,
     mdIcon: settingsSharp
   },
-  
+
   {
     title: 'Help & Support',
     url: '/folder/Help',
@@ -103,7 +103,7 @@ const settingsPages: AppPage[] = [
     iosIcon: exitOutline,
     mdIcon: exitSharp
   },
-  
+
 ];
 
 // Interface for user data
@@ -157,7 +157,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
     } catch (error) {
       console.error('Error parsing user data:', error);
     }
-    
+
     // Fallback data if nothing is stored
     return {
       name: 'Maria Garcia',
@@ -230,11 +230,11 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
-                <IonItem 
-                  className={location.pathname === appPage.url ? 'selected' : ''} 
-                  routerLink={appPage.url} 
-                  routerDirection="none" 
-                  lines="none" 
+                <IonItem
+                  className={location.pathname === appPage.url ? 'selected' : ''}
+                  routerLink={appPage.url}
+                  routerDirection="none"
+                  lines="none"
                   detail={false}
                 >
                   <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
@@ -252,7 +252,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
             if (appPage.title === 'Logout') {
               return (
                 <IonMenuToggle key={index} autoHide={false}>
-                  <IonItem 
+                  <IonItem
                     className={location.pathname === appPage.url ? 'selected' : ''}
                     routerLink={appPage.url}
                     routerDirection="none"
@@ -266,14 +266,14 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
                 </IonMenuToggle>
               );
             }
-            
+
             return (
               <IonMenuToggle key={index} autoHide={false}>
-                <IonItem 
-                  className={location.pathname === appPage.url ? 'selected' : ''} 
-                  routerLink={appPage.url} 
-                  routerDirection="none" 
-                  lines="none" 
+                <IonItem
+                  className={location.pathname === appPage.url ? 'selected' : ''}
+                  routerLink={appPage.url}
+                  routerDirection="none"
+                  lines="none"
                   detail={false}
                 >
                   <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
@@ -303,7 +303,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
             <div className="usage-progress-inner" style={{ width: `${progreso}%` }} />
           </div>
           <div className="usage-progress-label">
-           
+
           </div>
           <div className="usage-row">
             <IonIcon icon={timeOutline} className="usage-icon" />

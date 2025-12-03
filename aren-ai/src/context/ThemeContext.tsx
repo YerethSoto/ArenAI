@@ -1,0 +1,66 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+// Define available themes
+export type Theme = 'original' | 'navy' | 'sage' | 'burgundy' | 'bamboo' | 'earth';
+
+interface ThemeContextType {
+    theme: Theme;
+    setTheme: (theme: Theme) => void;
+    availableThemes: Theme[];
+}
+
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [theme, setThemeState] = useState<Theme>('original');
+
+    // Load theme from local storage on mount
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('arenai-theme') as Theme;
+        const userRole = localStorage.getItem('userRole');
+
+        // Only apply theme for students
+        if (userRole === 'student' && savedTheme) {
+            setTheme(savedTheme);
+        } else {
+            // Professors always use original theme
+            setTheme('original');
+        }
+    }, []);
+
+    const setTheme = (newTheme: Theme) => {
+        const userRole = localStorage.getItem('userRole');
+
+        // Only allow theme changes for students
+        if (userRole === 'student') {
+            setThemeState(newTheme);
+            localStorage.setItem('arenai-theme', newTheme);
+
+            // Apply theme class to body
+            document.body.className = ''; // Clear existing classes
+            if (newTheme !== 'original') {
+                document.body.classList.add(`theme-${newTheme}`);
+            }
+        } else {
+            // Professors always stay on original theme
+            setThemeState('original');
+            document.body.className = ''; // Clear any theme classes
+        }
+    };
+
+    const availableThemes: Theme[] = ['original', 'navy', 'sage', 'burgundy', 'bamboo', 'earth'];
+
+    return (
+        <ThemeContext.Provider value={{ theme, setTheme, availableThemes }}>
+            {children}
+        </ThemeContext.Provider>
+    );
+};
+
+export const useTheme = () => {
+    const context = useContext(ThemeContext);
+    if (context === undefined) {
+        throw new Error('useTheme must be used within a ThemeProvider');
+    }
+    return context;
+};

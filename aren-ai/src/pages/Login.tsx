@@ -69,6 +69,37 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       return;
     }
 
+    // MOCK LOGIN FOR LOCAL TESTING (Database Offline)
+    if (username === 'prof' && password === 'test') {
+      console.log('Using Mock Professor Login');
+      const mockProf = {
+        id: 999,
+        username: 'prof',
+        email: 'prof@test.com',
+        role: 'professor',
+        name: 'Mock Professor'
+      };
+      onLogin('professor', mockProf);
+      history.replace('/page/professor');
+      setIsLoading(false);
+      return;
+    }
+
+    if (username === 'student' && password === 'test') {
+      console.log('Using Mock Student Login');
+      const mockStudent = {
+        id: 888,
+        username: 'student',
+        email: 'student@test.com',
+        role: 'student',
+        name: 'Mock Student'
+      };
+      onLogin('student', mockStudent);
+      history.replace('/page/student');
+      setIsLoading(false);
+      return;
+    }
+
 
     // Call backend API
     try {
