@@ -171,5 +171,469 @@
             "Science": "Science",
             "ScienceDesc": "Questions about biology, chemistry and physics"
         }
+    },
+    "personalityQuiz": {
+        "title": "Discover Your Learning Style",
+        "loading": "Loading your profile...",
+        "questions": [
+            {
+                "question": "How do you prefer to learn something new?",
+                "options": [
+                    "Listening to explanations and lectures",
+                    "Watching videos, images, or diagrams",
+                    "Doing experiments and touching objects",
+                    "Reading books and taking notes"
+                ],
+                "hint": "Think about your favorite learning method.",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "In a school project, what do you prefer to do?",
+                "options": [
+                    "Work alone and at my own pace",
+                    "Work with teammates",
+                    "Discover solutions on my own",
+                    "Follow clear step-by-step instructions"
+                ],
+                "hint": "Think about how you like to work.",
+                "learningType": [
+                    "intrapersonal",
+                    "collaborative",
+                    "discovery",
+                    "logical"
+                ]
+            },
+            {
+                "question": "What activity do you enjoy most in your free time?",
+                "options": [
+                    "Listening to music or podcasts",
+                    "Watching movies or browsing social media",
+                    "Doing sports or crafts",
+                    "Reading books or writing stories"
+                ],
+                "hint": "Select your favorite hobby.",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "When solving a difficult problem:",
+                "options": [
+                    "I talk out loud or discuss with someone",
+                    "I draw diagrams or mind maps",
+                    "I build models or simulate situations",
+                    "I write lists and analyze data"
+                ],
+                "hint": "Think about your problem-solving strategy.",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "logical"
+                ]
+            },
+            {
+                "question": "Do you like learning using technology?",
+                "options": [
+                    "Yes, I prefer online classes and videos",
+                    "Sometimes, depends on the subject",
+                    "I prefer traditional methods",
+                    "I like combining both"
+                ],
+                "hint": "Consider your technology preference.",
+                "learningType": [
+                    "online",
+                    "multimodal",
+                    "traditional",
+                    "multimodal"
+                ]
+            },
+            {
+                "question": "When you memorize information:",
+                "options": [
+                    "I repeat out loud several times",
+                    "I visualize images or scenes",
+                    "I write and rewrite notes",
+                    "I create logical associations"
+                ],
+                "hint": "Remember your memorization technique.",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "reading",
+                    "logical"
+                ]
+            },
+            {
+                "question": "Do you prefer working alone or with others?",
+                "options": [
+                    "Alone, I concentrate better",
+                    "With others, I learn more by sharing",
+                    "Depends on the task",
+                    "I like leading groups"
+                ],
+                "hint": "Think about your social learning style.",
+                "learningType": [
+                    "intrapersonal",
+                    "interpersonal",
+                    "multimodal",
+                    "interpersonal"
+                ]
+            },
+            {
+                "question": "When learning a new language:",
+                "options": [
+                    "I listen to conversations and music",
+                    "I watch movies with subtitles",
+                    "I practice speaking with native speakers",
+                    "I study grammar and write"
+                ],
+                "hint": "Consider your preferred method.",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "What type of instructions do you prefer?",
+                "options": [
+                    "Verbal explanations",
+                    "Video tutorials",
+                    "Practical demonstrations",
+                    "Detailed written manuals"
+                ],
+                "hint": "Think about which format you understand best.",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "When exploring a new topic:",
+                "options": [
+                    "I research on my own first",
+                    "I ask experts or teachers",
+                    "I experiment until I understand it",
+                    "I read articles and documents"
+                ],
+                "hint": "Remember your research approach.",
+                "learningType": [
+                    "discovery",
+                    "collaborative",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "Do you like studying with music?",
+                "options": [
+                    "Yes, it helps me concentrate",
+                    "No, I need total silence",
+                    "Depends on the task",
+                    "I prefer nature sounds"
+                ],
+                "hint": "Consider your ideal study environment.",
+                "learningType": [
+                    "auditory",
+                    "intrapersonal",
+                    "multimodal",
+                    "naturalist"
+                ]
+            },
+            {
+                "question": "In a class, you prefer the teacher to:",
+                "options": [
+                    "Explain verbally with examples",
+                    "Use visual presentations",
+                    "Do practical activities",
+                    "Assign readings and essays"
+                ],
+                "hint": "Think about your ideal class.",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "Do you like working with patterns and logic?",
+                "options": [
+                    "Yes, I love math",
+                    "No, I prefer creative subjects",
+                    "I like balancing both",
+                    "I prefer social and human subjects"
+                ],
+                "hint": "Consider your affinity for logic.",
+                "learningType": [
+                    "logical",
+                    "creative",
+                    "multimodal",
+                    "interpersonal"
+                ]
+            },
+            {
+                "question": "When learning about nature:",
+                "options": [
+                    "I prefer going out and observing",
+                    "I like classifying and organizing",
+                    "I learn by watching documentaries",
+                    "I read biology books"
+                ],
+                "hint": "Think about your connection with nature.",
+                "learningType": [
+                    "naturalist",
+                    "logical",
+                    "visual",
+                    "reading"
+                ]
+            },
+            {
+                "question": "Do you prefer making discoveries yourself?",
+                "options": [
+                    "Yes, I like exploring and experimenting",
+                    "No, I prefer being taught",
+                    "I combine both approaches",
+                    "I prefer researching in a group"
+                ],
+                "hint": "Remember your level of autonomy.",
+                "learningType": [
+                    "discovery",
+                    "traditional",
+                    "multimodal",
+                    "collaborative"
+                ]
+            }
+        ],
+        "results": {
+            "visual": {
+                "title": "You are a Visual Learner! 👁️",
+                "description": "You learn best through images, graphs, videos, and visual presentations. You have an excellent visual memory and prefer to see information.",
+                "traits": [
+                    "Exceptional visual memory",
+                    "Prefer diagrams and charts",
+                    "Think in images",
+                    "Understand better with mind maps"
+                ],
+                "recommendations": [
+                    "Use mind maps and diagrams",
+                    "Watch educational videos",
+                    "Use colors to organize notes",
+                    "Create your own infographics"
+                ]
+            },
+            "auditory": {
+                "title": "You are an Auditory Learner! 👂",
+                "description": "You learn best by listening. Verbal explanations, discussions, and podcasts are your strength. You remember what you hear better.",
+                "traits": [
+                    "Learn by listening",
+                    "Enjoy discussions",
+                    "Remember conversations easily",
+                    "Prefer verbal explanations"
+                ],
+                "recommendations": [
+                    "Listen to educational podcasts",
+                    "Record your classes",
+                    "Read out loud",
+                    "Participate in debates and discussions"
+                ]
+            },
+            "kinesthetic": {
+                "title": "You are a Kinesthetic Learner! 🤸",
+                "description": "You learn best by doing and touching. You need movement, practical experiments, and physical activities to learn effectively.",
+                "traits": [
+                    "Learn by doing",
+                    "Need movement",
+                    "Enjoy experiments",
+                    "Good at building things"
+                ],
+                "recommendations": [
+                    "Do practical experiments",
+                    "Use physical models",
+                    "Take active breaks",
+                    "Relate concepts to movements"
+                ]
+            },
+            "reading": {
+                "title": "You are a Reading/Writing Learner! 📚",
+                "description": "You learn best by reading and writing. Books, articles, and taking notes are essential for your learning process.",
+                "traits": [
+                    "Love reading and writing",
+                    "Take detailed notes",
+                    "Learn by writing",
+                    "Prefer structured texts"
+                ],
+                "recommendations": [
+                    "Read books and articles",
+                    "Write summaries",
+                    "Create lists and outlines",
+                    "Keep a learning journal"
+                ]
+            },
+            "logical": {
+                "title": "You are a Logical Learner! 🧮",
+                "description": "You learn best with logical reasoning, patterns, and structures. You like math, problems, and systematic analysis.",
+                "traits": [
+                    "Excellent at logic and math",
+                    "Recognize patterns easily",
+                    "Think in a structured way",
+                    "Enjoy solving problems"
+                ],
+                "recommendations": [
+                    "Use flowcharts",
+                    "Solve logical puzzles",
+                    "Organize information in tables",
+                    "Look for patterns in data"
+                ]
+            },
+            "interpersonal": {
+                "title": "You are an Interpersonal Learner! 🤝",
+                "description": "You learn best by interacting with others. Groups, discussions, and collaborative work boost your learning.",
+                "traits": [
+                    "Excellent in groups",
+                    "Understand people",
+                    "Enjoy collaborating",
+                    "Good at communicating"
+                ],
+                "recommendations": [
+                    "Form study groups",
+                    "Teach others",
+                    "Participate in group projects",
+                    "Use debates to learn"
+                ]
+            },
+            "intrapersonal": {
+                "title": "You are an Intrapersonal Learner! 🧘",
+                "description": "You learn best alone, through self-reflection. You need time to process internally and connect with your own thoughts.",
+                "traits": [
+                    "Prefer studying alone",
+                    "Reflective and self-aware",
+                    "Learn at your own pace",
+                    "Value your independence"
+                ],
+                "recommendations": [
+                    "Study in quiet environments",
+                    "Reflect on what you learned",
+                    "Keep a personal journal",
+                    "Set your own goals"
+                ]
+            },
+            "collaborative": {
+                "title": "You are a Collaborative Learner! 👥",
+                "description": "You learn best working in a team. Exchanging ideas and mutual support are fundamental to your academic success.",
+                "traits": [
+                    "Excellent at teamwork",
+                    "Share knowledge",
+                    "Support your classmates",
+                    "Learn by teaching"
+                ],
+                "recommendations": [
+                    "Join study groups",
+                    "Create team projects",
+                    "Use collaborative platforms",
+                    "Organize tutoring sessions"
+                ]
+            },
+            "discovery": {
+                "title": "You are a Discovery Learner! 🔍",
+                "description": "You learn best by exploring and discovering for yourself. Curiosity and experimentation are your best tools.",
+                "traits": [
+                    "Very curious and inquisitive",
+                    "Learn by experimenting",
+                    "Enjoy researching",
+                    "Autonomous in your learning"
+                ],
+                "recommendations": [
+                    "Do research projects",
+                    "Experiment freely",
+                    "Ask questions constantly",
+                    "Explore topics on your own"
+                ]
+            },
+            "online": {
+                "title": "You are a Digital Learner! 💻",
+                "description": "You learn best using technology and online resources. Digital platforms, apps, and online courses are ideal for you.",
+                "traits": [
+                    "Adapt well to technology",
+                    "Prefer digital resources",
+                    "Learn with apps and platforms",
+                    "Self-taught online"
+                ],
+                "recommendations": [
+                    "Use online courses (Coursera, Khan Academy)",
+                    "Try educational apps",
+                    "Watch tutorials on YouTube",
+                    "Join virtual communities"
+                ]
+            },
+            "naturalist": {
+                "title": "You are a Naturalist Learner! 🌿",
+                "description": "You learn best by connecting with nature. Classifying, observing, and understanding the natural world helps you learn.",
+                "traits": [
+                    "Connection with nature",
+                    "Observer of the environment",
+                    "Good at classifying",
+                    "Appreciate the natural world"
+                ],
+                "recommendations": [
+                    "Study outdoors",
+                    "Observe natural patterns",
+                    "Use examples from nature",
+                    "Visit natural science museums"
+                ]
+            },
+            "creative": {
+                "title": "You are a Creative Learner! 🎨",
+                "description": "You learn best through creativity and innovation. Art, music, and original projects boost your learning.",
+                "traits": [
+                    "Very creative and imaginative",
+                    "Think originally",
+                    "Enjoy artistic projects",
+                    "Innovative in your solutions"
+                ],
+                "recommendations": [
+                    "Use creative projects",
+                    "Draw and visualize concepts",
+                    "Create original presentations",
+                    "Relate topics to art"
+                ]
+            },
+            "multimodal": {
+                "title": "You are a Multimodal Learner! 🌟",
+                "description": "You learn best by combining multiple methods. You are flexible and adapt using different styles depending on the situation.",
+                "traits": [
+                    "Flexible in your methods",
+                    "Combine different styles",
+                    "Adapt easily",
+                    "Learn in multiple ways"
+                ],
+                "recommendations": [
+                    "Combine reading, videos, and practice",
+                    "Experiment with different methods",
+                    "Adapt your style to the topic",
+                    "Use varied resources"
+                ]
+            }
+        },
+        "ui": {
+            "progress": "Question",
+            "previous": "← Previous",
+            "restart": "Retake Quiz",
+            "exit": "Exit to Main Menu",
+            "yourTraits": "Your Traits:",
+            "recommendations": "Recommendations for You:"
+        }
     }
 }
