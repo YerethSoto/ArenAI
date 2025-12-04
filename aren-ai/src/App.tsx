@@ -13,6 +13,7 @@ import Class_Creation from './pages/Class_Creation';
 import CreateTask from './pages/CreateTask';
 import StudentSectionPage from './pages/StudentScores';
 import Quiz from './pages/Quiz';
+import PersonalityQuiz from './pages/PersonalityQuiz';
 import Main_Prof from './pages/Main_Prof';
 import Main_Student from './pages/Main_Student';
 import Class_Join from './pages/Class_Join';
@@ -155,7 +156,7 @@ const App: React.FC = () => {
               </Route>
 
               <Route path="/quiz" exact={true}>
-                {userRole === 'student' ? <Quiz /> : <Redirect to="/login" />}
+                {userRole === 'student' ? <PersonalityQuiz /> : <Redirect to="/login" />}
               </Route>
 
 
