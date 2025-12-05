@@ -1,548 +1,399 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   IonPage,
   IonContent,
-  IonHeader,
-  IonToolbar,
-  IonButton,
-  IonLoading,
-  IonCard,
-  IonCardContent,
-  IonCardTitle,
-  IonCardSubtitle,
-  IonGrid,
-  IonRow,
-  IonCol,
   IonIcon,
-  IonText,
-  IonAlert,
-  IonProgressBar
+  IonButton,
+  useIonRouter,
+  IonModal,
 } from '@ionic/react';
 import {
   trophy,
   people,
-  flash,
-  hourglass,
+  cart,
+  person,
+  shield,
+  calendar,
+  skull,
+  arrowBack,
   close,
-  search,
-  arrowDown
+  flash,
+  star,
+  ribbon,
+  image,
+  planet,
+  flask
 } from 'ionicons/icons';
-import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import StudentMenu from '../components/StudentMenu';
-import StudentHeader from '../components/StudentHeader';
 import './BattleLobby.css';
 
-interface UserData {
-  id: number;
-  name: string;
-  email: string;
-  username: string;
-}
-
-interface Subject {
-  id: number;
-  nameKey: string;
-  descKey: string;
-  icon: string;
-  color: string;
-}
+// Imports for embedded components
+import Shop from '../pages/Shop';
+import Clan from '../pages/Clan';
 
 const BattleLobby: React.FC = () => {
   const { t } = useTranslation();
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchProgress, setSearchProgress] = useState(0);
-  const [battleId, setBattleId] = useState<number | null>(null);
-  const [searchInterval, setSearchInterval] = useState<NodeJS.Timeout | null>(null);
-  const [showCancelAlert, setShowCancelAlert] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [showErrorAlert, setShowErrorAlert] = useState(false);
-  const history = useHistory();
+  const router = useIonRouter();
 
-  const getUserData = (): UserData => {
-    try {
-      const storedData = localStorage.getItem('userData');
-      if (storedData) {
-        const data = JSON.parse(storedData);
-        return {
-          id: data.id_user || data.id || 1,
-          name: data.name || 'Estudiante',
-          email: data.email || 'Error',
-          username: data.username || 'Error'
-        };
-      }
-    } catch (error) {
-      console.error('Error parsing user data:', error);
-    }
+  // UI State
+  const [selectedMode, setSelectedMode] = useState<'standard' | 'blitz' | 'trick'>('standard');
+  const [activeTab, setActiveTab] = useState<'shop' | 'avatar' | 'battle' | 'clan' | 'events'>('battle');
+  const [showFriends, setShowFriends] = useState(false);
+  const [showTrophyRoad, setShowTrophyRoad] = useState(false);
 
-    return {
-      id: 1,
-      name: 'Estudiante',
-      email: 'Error',
-      username: 'Error'
-    };
-  };
+  // Avatar Selection State
+  const [selectedAvatarHero, setSelectedAvatarHero] = useState('scholar');
 
-  const currentUser = getUserData();
+  // Mock Data
+  const user = { name: "Estudiante", level: 5, gold: 1450, gems: 120, trophies: 1200 };
+  const onlineFriends = [
+    { id: 1, name: "Ana P.", status: "online", avatar: "👩‍🎓" },
+    { id: 2, name: "Carlos M.", status: "online", avatar: "👨‍🏫" },
+    { id: 3, name: "Sofia L.", status: "inBattle", avatar: "👩‍🔬" },
+  ];
 
-  const subjects: Subject[] = [
+  // Avatar Config
+  const avatars = [
+    { id: 'scholar', name: 'El Erudito', icon: '❄️', role: 'Estratega' },
+    { id: 'warrior', name: 'Guerrero', icon: '🔥', role: 'Daño' },
+    { id: 'zen', name: 'Maestro Zen', icon: '🍃', role: 'Soporte' },
+    { id: 'dreamer', name: 'Soñadora', icon: '⚡', role: 'Control' },
+  ];
+
+  const currentAvatar = avatars.find(a => a.id === selectedAvatarHero);
+
+  // Arena Mock Data with PREMISES for Image Generation
+  const arenas = [
     {
-      id: 1,
-      nameKey: 'battleLobby.subjects.History',
-      descKey: 'battleLobby.subjects.HistoryDesc',
-      icon: '🏛️',
-      color: '#8f6a56'
-    },
-    {
-      id: 2,
-      nameKey: 'battleLobby.subjects.Math',
-      descKey: 'battleLobby.subjects.MathDesc',
-      icon: '🧮',
-      color: '#3c7782'
+      id: 4,
+      name: "Observatorio Estelar",
+      trophies: 1200,
+      img: "/assets/battle_sprite_back_capybara.png",
+      premise: "Concept: A high-tech glass observatory floating in a nebula. Deep purple and blue colors, holograms of constellations, futuristic telescopes.",
+      icon: planet
     },
     {
       id: 3,
-      nameKey: 'battleLobby.subjects.Science',
-      descKey: 'battleLobby.subjects.ScienceDesc',
-      icon: '🔬',
-      color: '#90beab'
+      name: "Jardín Botánico",
+      trophies: 800,
+      img: "/assets/battle_sprite_back_capybara.png",
+      premise: "Concept: A lush, overgrown greenhouse with bioluminescent plants. Giant vines wrapping around ancient stone structures. Mystic green atmosphere.",
+      icon: image
+    },
+    {
+      id: 2,
+      name: "Laboratorio Quántico",
+      trophies: 400,
+      img: "/assets/battle_sprite_back_capybara.png",
+      premise: "Concept: A sterile white laboratory with floating geometric shapes and laser grids. Blue neon lights and white surfaces.",
+      icon: flask
+    },
+    {
+      id: 1,
+      name: "Biblioteca Aeterna",
+      trophies: 0,
+      img: "/assets/battle_sprite_back_capybara.png",
+      premise: "Concept: An endless library with spiral staircases reaching into clouds. Flying books and golden dust particles.",
+      icon: ribbon
     }
   ];
 
-  // Cleanup intervals on unmount
-  useEffect(() => {
-    return () => {
-      if (searchInterval) {
-        clearInterval(searchInterval);
-      }
-    };
-  }, [searchInterval]);
+  const currentArena = arenas.find(a => a.trophies <= user.trophies && a.trophies >= 0) || arenas[3];
 
-  const joinMatchmaking = async (subjectId: number) => {
-    setIsSearching(true);
-    setSearchProgress(0);
-    setErrorMessage('');
-
-    // Start progress animation
-    const progressInterval = setInterval(() => {
-      setSearchProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          return 100;
-        }
-        return prev + 1;
-      });
-    }, 100);
-
-    try {
-      console.log('Starting matchmaking for user:', currentUser.id, 'subject:', subjectId);
-
-      const response = await fetch('http://localhost:3000/api/battles/matchmaking/join', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
-        },
-        body: JSON.stringify({
-          userId: currentUser.id,
-          subjectId: subjectId,
-          classId: 1 // Default class ID
-        })
-      });
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          throw new Error('No autorizado. Por favor, inicia sesión nuevamente.');
-        } else if (response.status === 404) {
-          throw new Error('Ruta no encontrada. Verifica la URL del servidor.');
-        }
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log('Matchmaking response:', data);
-
-      clearInterval(progressInterval);
-
-      if (data.battleId) {
-        // Found a battle immediately
-        setBattleId(data.battleId);
-
-        // Start polling for battle readiness
-        startBattlePolling(data.battleId);
-      } else if (data.matchmakingId) {
-        // Added to waiting list, start polling for match
-        startMatchmakingPolling(data.matchmakingId, data.battleId);
-      } else {
-        throw new Error('Respuesta inválida del servidor');
-      }
-
-    } catch (error: any) {
-      console.error('Matchmaking error:', error);
-      clearInterval(progressInterval);
-      setIsSearching(false);
-      setSearchProgress(0);
-
-      const errorMessage = error.message || 'Error al buscar oponente';
-      if (errorMessage.includes('Failed to fetch') || errorMessage.includes('Connection refused')) {
-        setErrorMessage('Error de conexión con el servidor. Verifica que el servidor esté ejecutándose.');
-      } else {
-        setErrorMessage(errorMessage);
-      }
-
-      setShowErrorAlert(true);
-    }
+  const handleBattleStart = () => {
+    router.push('/battleminigame');
   };
 
-  const startMatchmakingPolling = (matchmakingId: number, waitingBattleId?: number) => {
-    console.log('Starting matchmaking polling for ID:', matchmakingId);
+  // --- TAB RENDERING LOGIC ---
+  // --- EVENTS LOGIC ---
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
 
-    // Store waiting battle ID if provided
-    if (waitingBattleId) {
-      setBattleId(waitingBattleId);
+  const EVENTS = [
+    { id: 1, title: 'Torneo Blitz', sub: 'Termina en 2d 14h', desc: '¡Batallas rápidas de 60 segundos! Gana doble oro en cada victoria.', icon: flash, color: 'var(--ion-color-primary)', reward: '2x Gold' },
+    { id: 2, title: 'Reto Lógico', sub: 'Recompensas Dobles', desc: 'Demuestra tu inteligencia en el modo Lógica. Preguntas nivel avanzado.', icon: star, color: 'var(--ion-color-secondary)', reward: 'Cofre Raro' }
+  ];
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'shop':
+        return (
+          <div className="view-container slide-in" style={{ padding: 0, height: '100%' }}>
+            <Shop />
+          </div>
+        );
+      case 'avatar':
+        return (
+          <div className="view-container slide-in">
+            <div className="section-title">Elige tu Luchador</div>
+
+            <div className="avatar-selector-container">
+              <div className="hero-preview">
+                <div className="hero-model">{currentAvatar?.icon}</div>
+              </div>
+
+              <div className="hero-stats">
+                <div className="hero-name">{currentAvatar?.name}</div>
+                <div className="hero-role">{currentAvatar?.role}</div>
+              </div>
+
+              <button className="btn-select-hero">
+                Seleccionar {currentAvatar?.name}
+              </button>
+
+              <div className="section-title" style={{ fontSize: '14px', marginTop: '20px' }}>Colección</div>
+              <div className="avatars-grid">
+                {avatars.map(av => (
+                  <div
+                    key={av.id}
+                    className={`avatar-card ${selectedAvatarHero === av.id ? 'selected' : ''}`}
+                    onClick={() => setSelectedAvatarHero(av.id)}
+                  >
+                    <div className="avatar-icon">{av.icon}</div>
+                    <div className="avatar-label">{av.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      case 'clan':
+        return (
+          <div className="view-container slide-in" style={{ padding: 0, height: '100%' }}>
+            <Clan />
+          </div>
+        );
+      case 'events':
+        return (
+          <div className="view-container slide-in">
+            <div className="section-title">Eventos de Temporada</div>
+
+            {EVENTS.map(ev => (
+              <div key={ev.id} className="event-banner" style={{ background: ev.color }} onClick={() => setSelectedEvent(ev)}>
+                <div className="event-title">{ev.title}</div>
+                <div className="event-sub">{ev.sub}</div>
+                <IonIcon icon={ev.icon} size="large" style={{ position: 'absolute', right: '-20px', bottom: '-20px', opacity: 0.3, fontSize: '100px' }} />
+              </div>
+            ))}
+          </div>
+        );
+      case 'battle':
+      default:
+        return (
+          <div className="view-container view-battle slide-in">
+
+            {/* FRIENDS POPOVER AND BACKDROP */}
+            {showFriends && (
+              <>
+                <div className="friends-backdrop" onClick={() => setShowFriends(false)}></div>
+                <div className="friends-popover">
+                  <div className="friends-header">
+                    <span>Amigos ({onlineFriends.filter(f => f.status === 'online').length})</span>
+                    <IonIcon icon={close} className="close-friends-btn" onClick={() => setShowFriends(false)} />
+                  </div>
+                  <div className="friends-list">
+                    {onlineFriends.map(friend => (
+                      <div key={friend.id} className="friend-row">
+                        <div className="f-avatar">{friend.avatar}</div>
+                        <div className="f-info">
+                          <div className="f-name">{friend.name}</div>
+                          <div className={`f-status ${friend.status}`}>{friend.status}</div>
+                        </div>
+                        <button className="btn-vs-mini" disabled={friend.status !== 'online'}>VS</button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* ARENA VISUAL */}
+            <div className="lobby-arena-header">
+              <div className="arena-visual" onClick={() => setShowTrophyRoad(true)}>
+                <div className="arena-tap-hint">Ver Camino de Trofeos</div>
+                <img src={currentArena.img} alt="Arena" className="arena-current-img" />
+              </div>
+              <div className="arena-info">
+                <h2 className="arena-name">{currentArena.name}</h2>
+                <p className="arena-desc">Arena {currentArena.id}</p>
+              </div>
+
+              {/* BATTLE CONTROLS */}
+              <div className="lobby-battle-section">
+                <div className="mode-selector">
+                  <button
+                    className={`mode-btn ${selectedMode === 'standard' ? 'active' : ''}`}
+                    onClick={() => setSelectedMode('standard')}
+                  >Standard</button>
+                  <button
+                    className={`mode-btn ${selectedMode === 'blitz' ? 'active' : ''}`}
+                    onClick={() => setSelectedMode('blitz')}
+                  >Blitz</button>
+                  <button
+                    className={`mode-btn ${selectedMode === 'trick' ? 'active' : ''}`}
+                    onClick={() => setSelectedMode('trick')}
+                  >Lógica</button>
+                </div>
+
+                <button className="btn-battle-gold" onClick={handleBattleStart}>
+                  <span>BATALLA</span>
+                  <span className="sub-text">{selectedMode}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        );
     }
-
-    const interval = setInterval(async () => {
-      try {
-        console.log('Polling matchmaking status for user:', currentUser.id);
-
-        const response = await fetch(`http://localhost:3000/api/battles/matchmaking/status/${currentUser.id}`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const status = await response.json();
-        console.log('Matchmaking status:', status);
-
-        if (status && status.battle_id) {
-          // Match found!
-          clearInterval(interval);
-          setSearchInterval(null);
-          setBattleId(status.battle_id);
-
-          // Check if battle is ready
-          checkBattleReady(status.battle_id);
-        }
-      } catch (error) {
-        console.error('Polling error:', error);
-      }
-    }, 3000); // Poll every 3 seconds
-
-    setSearchInterval(interval);
-
-    // Stop searching after 60 seconds
-    setTimeout(() => {
-      if (interval) {
-        clearInterval(interval);
-        setSearchInterval(null);
-      }
-      if (!battleId) {
-        setIsSearching(false);
-        setSearchProgress(0);
-        setErrorMessage('No se encontró oponente. Intenta nuevamente.');
-        setShowErrorAlert(true);
-      }
-    }, 60000);
-  };
-
-  const startBattlePolling = (battleId: number) => {
-    console.log('Starting battle polling for ID:', battleId);
-
-    const interval = setInterval(async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/api/battles/${battleId}/ready`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (data.ready) {
-          // Battle is ready!
-          clearInterval(interval);
-          setSearchInterval(null);
-          navigateToBattle(battleId);
-        }
-      } catch (error) {
-        console.error('Battle polling error:', error);
-      }
-    }, 2000); // Poll every 2 seconds
-
-    setSearchInterval(interval);
-  };
-
-  const checkBattleReady = async (battleId: number) => {
-    try {
-      const response = await fetch(`http://localhost:3000/api/battles/${battleId}/ready`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data.ready) {
-          navigateToBattle(battleId);
-        }
-      }
-    } catch (error) {
-      console.error('Error checking battle readiness:', error);
-    }
-  };
-
-  const navigateToBattle = (battleId: number) => {
-    console.log('Navigating to battle:', battleId);
-
-    // Stop any polling
-    if (searchInterval) {
-      clearInterval(searchInterval);
-      setSearchInterval(null);
-    }
-
-    setIsSearching(false);
-    setSearchProgress(0);
-
-    // Navigate to battle page
-    history.push(`/battle/${battleId}`);
-  };
-
-  const cancelSearch = async () => {
-    try {
-      await fetch('http://localhost:3000/api/battles/matchmaking/leave', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
-        },
-        body: JSON.stringify({ userId: currentUser.id })
-      });
-    } catch (error) {
-      console.error('Cancel search error:', error);
-    } finally {
-      // Clean up
-      if (searchInterval) {
-        clearInterval(searchInterval);
-        setSearchInterval(null);
-      }
-      setIsSearching(false);
-      setSearchProgress(0);
-      setShowCancelAlert(false);
-    }
-  };
-
-  const handleBackToMenu = () => {
-    // Cancel search if active
-    if (isSearching) {
-      cancelSearch();
-    }
-    history.push('/page/student');
   };
 
   return (
     <IonPage className="battle-lobby-page">
-      <StudentHeader pageTitle="battleLobby.title" />
 
-      <IonContent className="battle-lobby-content">
-        <div className="battle-lobby-container">
-          {/* Welcome Section */}
-          <div className="welcome-section">
-            <h1 className="welcome-title">
-              <IonIcon icon={arrowDown} className="title-icon" />
-              {t('battleLobby.welcomeTitle')}
-            </h1>
-            <p className="welcome-subtitle">
-              {t('battleLobby.welcomeSubtitle')}
-            </p>
+      {/* TOP BAR */}
+      <div className="lobby-top-bar">
+        <div className="lobby-left-group">
+          {/* EXIT BUTTON */}
+          <div className="btn-friends-toggle" style={{ background: 'var(--ion-color-medium)', marginRight: '8px' }} onClick={() => router.push('/page/student')}>
+            <IonIcon icon={arrowBack} />
           </div>
+          {/* FRIENDS BUTTON */}
+          <div className="btn-friends-toggle" onClick={() => setShowFriends(!showFriends)}>
+            <IonIcon icon={people} />
+            <div className="friend-count-badge">2</div>
+          </div>
+        </div>
 
-          {/* Search Status */}
-          {isSearching && (
-            <div className="searching-overlay">
-              <div className="searching-content">
-                <div className="searching-icon">
-                  <IonIcon icon={search} className="spinning" />
-                </div>
+        <div className="lobby-user-info">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div className="lobby-level-badge">{user.level}</div>
+            <span className="user-name-display">{user.name}</span>
+          </div>
+        </div>
 
-                <h2 className="searching-title">{t('battleLobby.searching')}</h2>
+        <div className="lobby-resources">
+          <div className="res-item"><span className="res-gold">🪙</span> {user.gold}</div>
+          <div className="res-item"><span className="res-gems">💎</span> {user.gems}</div>
+        </div>
+      </div>
 
-                <div className="search-progress">
-                  <IonProgressBar value={searchProgress / 100} color="primary" />
-                  <div className="progress-text">{Math.round(searchProgress)}%</div>
-                </div>
+      <IonContent fullscreen>
+        <div className="lobby-content">
+          {renderContent()}
 
-                <p className="searching-description">
-                  {searchProgress < 50
-                    ? t('battleLobby.searchingDesc1')
-                    : t('battleLobby.searchingDesc2')}
-                </p>
-
-                {battleId && (
-                  <div className="battle-id-info">
-                    <p><strong>{t('battleLobby.battleId', { id: battleId })}</strong></p>
-                    <small>{t('battleLobby.shareId')}</small>
-                  </div>
-                )}
-
-                <IonButton
-                  expand="block"
-                  color="medium"
-                  fill="outline"
-                  onClick={() => setShowCancelAlert(true)}
-                  className="cancel-button"
-                >
-                  <IonIcon icon={close} slot="start" />
-                  {t('battleLobby.cancelSearch')}
+          {/* EPIC TROPHY ROAD OVERLAY: PREMISE CARDS ONLY */}
+          {showTrophyRoad && (
+            <div className="trophy-road-overlay">
+              <div className="road-header">
+                <IonButton fill="clear" color="medium" onClick={() => setShowTrophyRoad(false)}>
+                  <IonIcon slot="start" icon={arrowBack} />
+                  Volver
                 </IonButton>
+                <div style={{ fontWeight: '800', fontSize: '18px' }}>CAMINO DE TROFEOS</div>
+              </div>
+              <div className="road-content">
+                {/* Road line background */}
+                <div className="road-path-line"></div>
+
+                {arenas.map(arena => (
+                  <div key={arena.id} className={`road-arena-node ${arena.id === currentArena.id ? 'current' : ''}`}>
+                    <div className="arena-concept-card">
+                      <div className="concept-header">
+                        <IonIcon icon={arena.icon} className="concept-icon" />
+                      </div>
+                      <div className="concept-body">
+                        <div className="node-trophies"><IonIcon icon={trophy} /> {arena.trophies}+</div>
+                        <div className="node-title">{arena.name}</div>
+                        <p className="node-premise">
+                          <strong>[Image Placeholder]</strong><br />
+                          {arena.premise}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
 
-          {/* Battle Subjects */}
-          <div className="subjects-section">
-            <h2 className="section-title">
-              <IonIcon icon={trophy} />
-              {t('battleLobby.chooseSubject')}
-            </h2>
-
-            <IonGrid>
-              <IonRow>
-                {subjects.map((subject) => (
-                  <IonCol size="12" size-md="6" key={subject.id}>
-                    <IonCard
-                      className="subject-card"
-                      style={{ '--subject-color': subject.color } as any}
-                    >
-                      <IonCardContent>
-                        <div className="subject-header">
-                          <div
-                            className="subject-icon"
-                            style={{ backgroundColor: subject.color }}
-                          >
-                            {subject.icon}
-                          </div>
-                          <div className="subject-info">
-                            <IonCardTitle>{t(subject.nameKey)}</IonCardTitle>
-                            <IonCardSubtitle>{t(subject.descKey)}</IonCardSubtitle>
-                          </div>
-                        </div>
-
-                        <div className="subject-actions">
-                          <IonButton
-                            expand="block"
-                            className="battle-button"
-                            onClick={() => joinMatchmaking(subject.id)}
-                            disabled={isSearching}
-                          >
-                            <IonIcon icon={flash} slot="start" />
-                            {t('battleLobby.quickBattle')}
-                          </IonButton>
-                        </div>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                ))}
-              </IonRow>
-            </IonGrid>
-          </div>
-
-          {/* How to Play */}
-          <div className="instructions-section">
-            <IonCard>
-              <IonCardContent>
-                <h3 className="instructions-title">
-                  <IonIcon icon={people} />
-                  {t('battleLobby.howToPlay')}
-                </h3>
-                <div className="instructions-list">
-                  <div className="instruction-item">
-                    <div className="instruction-number">1</div>
-                    <div className="instruction-text">
-                      <strong>{t('battleLobby.step1.title')}</strong>
-                      <p>{t('battleLobby.step1.desc')}</p>
-                    </div>
+          {/* EVENT MODAL */}
+          <IonModal isOpen={!!selectedEvent} onDidDismiss={() => setSelectedEvent(null)} initialBreakpoint={0.6} breakpoints={[0, 0.6]}>
+            <div className="event-modal-content" style={{ padding: '30px', textAlign: 'center' }}>
+              {selectedEvent && (
+                <>
+                  <div style={{
+                    width: '80px', height: '80px',
+                    background: selectedEvent.color,
+                    borderRadius: '20px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    margin: '0 auto 20px',
+                    boxShadow: '0 10px 20px rgba(0,0,0,0.1)'
+                  }}>
+                    <IonIcon icon={selectedEvent.icon} style={{ fontSize: '40px', color: 'white' }} />
                   </div>
-                  <div className="instruction-item">
-                    <div className="instruction-number">2</div>
-                    <div className="instruction-text">
-                      <strong>{t('battleLobby.step2.title')}</strong>
-                      <p>{t('battleLobby.step2.desc')}</p>
-                    </div>
-                  </div>
-                  <div className="instruction-item">
-                    <div className="instruction-number">3</div>
-                    <div className="instruction-text">
-                      <strong>{t('battleLobby.step3.title')}</strong>
-                      <p>{t('battleLobby.step3.desc')}</p>
-                    </div>
-                  </div>
-                  <div className="instruction-item">
-                    <div className="instruction-number">4</div>
-                    <div className="instruction-text">
-                      <strong>{t('battleLobby.step4.title')}</strong>
-                      <p>{t('battleLobby.step4.desc')}</p>
-                    </div>
-                  </div>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
+                  <h2 style={{ fontSize: '24px', fontWeight: '800', margin: '0 0 10px' }}>{selectedEvent.title}</h2>
+                  <div style={{ color: 'var(--ion-color-medium)', marginBottom: '20px', fontWeight: 'bold' }}>{selectedEvent.sub}</div>
 
-          {/* Back Button */}
-          <div className="back-section">
-            <IonButton
-              expand="block"
-              color="medium"
-              fill="clear"
-              onClick={handleBackToMenu}
-            >
-              {t('battleLobby.backToMenu')}
-            </IonButton>
-          </div>
+                  <p style={{ lineHeight: '1.6', fontSize: '16px', marginBottom: '30px' }}>
+                    {selectedEvent.desc}
+                  </p>
+
+                  <div className="reward-box" style={{
+                    background: 'var(--ion-item-background)',
+                    padding: '15px',
+                    borderRadius: '12px',
+                    marginBottom: '30px',
+                    border: '1px dashed var(--ion-color-medium)'
+                  }}>
+                    <div style={{ fontSize: '12px', textTransform: 'uppercase', color: 'var(--ion-color-medium)', fontWeight: 'bold' }}>Recompensa Principal</div>
+                    <div style={{ fontSize: '18px', fontWeight: '800', color: 'var(--ion-color-primary)' }}>{selectedEvent.reward}</div>
+                  </div>
+
+                  <IonButton expand="block" color="dark" onClick={() => setSelectedEvent(null)}>Entendido</IonButton>
+                </>
+              )}
+            </div>
+          </IonModal>
+
         </div>
-
-        {/* Loading */}
-        <IonLoading
-          isOpen={false}
-          message={t('battleLobby.processing')}
-        />
-
-        {/* Cancel Alert */}
-        <IonAlert
-          isOpen={showCancelAlert}
-          onDidDismiss={() => setShowCancelAlert(false)}
-          header={t('battleLobby.cancelAlert.header')}
-          message={t('battleLobby.cancelAlert.message')}
-          buttons={[
-            {
-              text: t('battleLobby.cancelAlert.continue'),
-              role: 'cancel'
-            },
-            {
-              text: t('battleLobby.cancelAlert.cancel'),
-              handler: cancelSearch
-            }
-          ]}
-        />
-
-        {/* Error Alert */}
-        <IonAlert
-          isOpen={showErrorAlert}
-          onDidDismiss={() => setShowErrorAlert(false)}
-          header={t('battleLobby.error')}
-          message={errorMessage}
-          buttons={['OK']}
-        />
       </IonContent>
+
+      {/* FOOTER NAV (Fixed) */}
+      <div className="lobby-footer">
+        <div
+          className={`nav-item ${activeTab === 'shop' ? 'active' : ''}`}
+          onClick={() => setActiveTab('shop')}
+        >
+          <IonIcon icon={cart} />
+          <span>{t('battleLobby.tabs.shop', 'Tienda')}</span>
+        </div>
+        <div
+          className={`nav-item ${activeTab === 'avatar' ? 'active' : ''}`}
+          onClick={() => setActiveTab('avatar')}
+        >
+          <IonIcon icon={person} />
+          <span>{t('battleLobby.tabs.deck', 'Avatar')}</span>
+        </div>
+        <div
+          className={`nav-item ${activeTab === 'battle' ? 'active' : ''}`}
+          onClick={() => setActiveTab('battle')}
+        >
+          <IonIcon icon={skull} style={{ fontSize: '32px' }} />
+        </div>
+        <div
+          className={`nav-item ${activeTab === 'clan' ? 'active' : ''}`}
+          onClick={() => setActiveTab('clan')}
+        >
+          <IonIcon icon={shield} />
+          <span>{t('battleLobby.tabs.clan', 'Clan')}</span>
+        </div>
+        <div
+          className={`nav-item ${activeTab === 'events' ? 'active' : ''}`}
+          onClick={() => setActiveTab('events')}
+        >
+          <IonIcon icon={calendar} />
+          <span>{t('battleLobby.tabs.events', 'Eventos')}</span>
+        </div>
+      </div>
+
     </IonPage>
   );
 };

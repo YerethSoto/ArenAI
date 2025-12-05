@@ -25,6 +25,11 @@ import {
   calendarSharp,
   trophyOutline,
   trophySharp,
+  ribbon,
+  ribbonOutline,
+  ribbonSharp,
+  cartOutline,
+  cartSharp,
   settingsOutline,
   settingsSharp,
   helpCircleOutline,
@@ -32,6 +37,7 @@ import {
   exitOutline,
   exitSharp,
   peopleOutline,
+  peopleSharp,
   analyticsOutline,
   timeOutline,
   americanFootballOutline,
@@ -66,10 +72,16 @@ const appPages: AppPage[] = [
     iosIcon: trophyOutline,
     mdIcon: trophySharp,
   },
+  {
+    titleKey: "sidebar.leaderboard",
+    url: "/leaderboard",
+    iosIcon: ribbonOutline,
+    mdIcon: ribbonSharp,
+  },
 
   {
     titleKey: "sidebar.battle",
-    url: "/battleminigame",
+    url: "/battlelobby",
     iosIcon: americanFootballOutline,
     mdIcon: americanFootballSharp,
   },
@@ -93,7 +105,7 @@ const settingsPages: AppPage[] = [
 
   {
     titleKey: "sidebar.help",
-    url: "/folder/Help",
+    url: "/help",
     iosIcon: helpCircleOutline,
     mdIcon: helpCircleSharp,
   },
