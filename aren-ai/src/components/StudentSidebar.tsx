@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   IonContent,
   IonIcon,
@@ -9,11 +9,11 @@ import {
   IonMenu,
   IonMenuToggle,
   IonNote,
-} from '@ionic/react';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+} from "@ionic/react";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import {
   homeOutline,
   homeSharp,
@@ -35,9 +35,9 @@ import {
   analyticsOutline,
   timeOutline,
   americanFootballOutline,
-  americanFootballSharp
-} from 'ionicons/icons';
-import './StudentSidebar.css';
+  americanFootballSharp,
+} from "ionicons/icons";
+import "./StudentSidebar.css";
 
 interface AppPage {
   url: string;
@@ -48,63 +48,61 @@ interface AppPage {
 
 const appPages: AppPage[] = [
   {
-    titleKey: 'sidebar.mainMenu',
-    url: '/page/student',
+    titleKey: "sidebar.mainMenu",
+    url: "/page/student",
     iosIcon: homeOutline,
-    mdIcon: homeSharp
+    mdIcon: homeSharp,
   },
   {
-    titleKey: 'sidebar.chat',
-    url: '/chat',
+    titleKey: "sidebar.chat",
+    url: "/chat",
     iosIcon: schoolOutline,
-    mdIcon: schoolSharp
+    mdIcon: schoolSharp,
   },
 
-
   {
-    titleKey: 'sidebar.quiz',
-    url: '/quiz',
+    titleKey: "sidebar.quiz",
+    url: "/quiz",
     iosIcon: trophyOutline,
-    mdIcon: trophySharp
+    mdIcon: trophySharp,
   },
 
   {
-    titleKey: 'sidebar.battle',
-    url: '/battleminigame',
+    titleKey: "sidebar.battle",
+    url: "/battleminigame",
     iosIcon: americanFootballOutline,
-    mdIcon: americanFootballSharp
+    mdIcon: americanFootballSharp,
   },
-
+  /*
   {
     titleKey: 'sidebar.battleLobby',
     url: '/battlelobby',
     iosIcon: americanFootballOutline,
     mdIcon: americanFootballSharp
   },
-
+  */
 ];
 
 const settingsPages: AppPage[] = [
   {
-    titleKey: 'sidebar.settings',
-    url: '/settings',
+    titleKey: "sidebar.settings",
+    url: "/settings",
     iosIcon: settingsOutline,
-    mdIcon: settingsSharp
+    mdIcon: settingsSharp,
   },
 
   {
-    titleKey: 'sidebar.help',
-    url: '/folder/Help',
+    titleKey: "sidebar.help",
+    url: "/folder/Help",
     iosIcon: helpCircleOutline,
-    mdIcon: helpCircleSharp
+    mdIcon: helpCircleSharp,
   },
   {
-    titleKey: 'sidebar.logout',
-    url: '/login',
+    titleKey: "sidebar.logout",
+    url: "/login",
     iosIcon: exitOutline,
-    mdIcon: exitSharp
+    mdIcon: exitSharp,
   },
-
 ];
 
 // Interface for user data
@@ -125,15 +123,19 @@ interface StudentSidebarProps {
 // Índice = (tiempoDeUso * 0.7) + (actividadesCompletadas * 10) + otrosFactores
 function calcularIndiceUtilizacion({
   tiempoDeUso,
-  actividadesCompletadas
-}: { tiempoDeUso: number; actividadesCompletadas: number }) {
+  actividadesCompletadas,
+}: {
+  tiempoDeUso: number;
+  actividadesCompletadas: number;
+}) {
   // Ejemplo de fórmula compuesta y clara:
   // - El tiempo de uso pondera más al principio y menos después (logarítmico)
   // - Las actividades completadas tienen peso cuadrático
   // - Hay un pequeño bonus si el usuario supera ciertos umbrales
   const usoLog = Math.log1p(tiempoDeUso) * 15;
   const actividadesPeso = Math.pow(actividadesCompletadas, 1.5) * 6;
-  const bonus = (tiempoDeUso > 60 ? 10 : 0) + (actividadesCompletadas >= 5 ? 8 : 0);
+  const bonus =
+    (tiempoDeUso > 60 ? 10 : 0) + (actividadesCompletadas >= 5 ? 8 : 0);
   return Math.round(usoLog + actividadesPeso + bonus);
 }
 
@@ -153,19 +155,19 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
   // Get current user data from localStorage
   const getUserData = (): UserData => {
     try {
-      const storedData = localStorage.getItem('userData');
+      const storedData = localStorage.getItem("userData");
       if (storedData) {
         return JSON.parse(storedData);
       }
     } catch (error) {
-      console.error('Error parsing user data:', error);
+      console.error("Error parsing user data:", error);
     }
 
     // Fallback data if nothing is stored
     return {
-      name: 'Maria Garcia',
-      email: 'maria.garcia@arenai.edu',
-      username: 'maria.garcia'
+      name: "Maria Garcia",
+      email: "maria.garcia@arenai.edu",
+      username: "maria.garcia",
     };
   };
 
@@ -173,13 +175,14 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
 
   // Handle logout
   const handleLogout = () => {
-    console.log('StudentSidebar: Logging out');
+    console.log("StudentSidebar: Logging out");
     onLogout(); // Call the parent's logout function
   };
 
   // --- NUEVO: Estados para uso e índice ---
   const [tiempoDeUso, setTiempoDeUso] = useState<number>(0); // en minutos
-  const [actividadesCompletadas, setActividadesCompletadas] = useState<number>(0);
+  const [actividadesCompletadas, setActividadesCompletadas] =
+    useState<number>(0);
 
   // Simulación de otros factores (quemado)
   const otrosFactores = 10;
@@ -187,7 +190,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
   // Simulación: incrementar tiempo de uso cada minuto
   useEffect(() => {
     const interval = setInterval(() => {
-      setTiempoDeUso(prev => prev + 1);
+      setTiempoDeUso((prev) => prev + 1);
     }, 60000); // cada minuto
     return () => clearInterval(interval);
   }, []);
@@ -200,11 +203,14 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
   // Cálculo del índice de utilización usando la función determinista
   const indiceUtilizacion = calcularIndiceUtilizacion({
     tiempoDeUso,
-    actividadesCompletadas
+    actividadesCompletadas,
   });
 
   // Cálculo del porcentaje de progreso
-  const progreso = Math.min(100, Math.round((indiceUtilizacion / META_DIARIA) * 100));
+  const progreso = Math.min(
+    100,
+    Math.round((indiceUtilizacion / META_DIARIA) * 100)
+  );
 
   // Estado para mostrar la ventanita de explicación
   const [showFormulaInfo, setShowFormulaInfo] = useState(false);
@@ -221,7 +227,9 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
             <div className="student-details">
               <IonLabel className="student-name">{currentUser.name}</IonLabel>
               <IonNote className="student-email">{currentUser.email}</IonNote>
-              <IonNote className="student-username">@{currentUser.username}</IonNote>
+              <IonNote className="student-username">
+                @{currentUser.username}
+              </IonNote>
               <IonNote className="student-role">Student</IonNote>
             </div>
           </div>
@@ -229,18 +237,25 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
 
         {/* Navegación principal */}
         <IonList id="main-list" lines="none">
-          <IonListHeader>{t('sidebar.learning')}</IonListHeader>
+          <IonListHeader>{t("sidebar.learning")}</IonListHeader>
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
                 <IonItem
-                  className={location.pathname === appPage.url ? 'selected' : ''}
+                  className={
+                    location.pathname === appPage.url ? "selected" : ""
+                  }
                   routerLink={appPage.url}
                   routerDirection="none"
                   lines="none"
                   detail={false}
                 >
-                  <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
+                  <IonIcon
+                    aria-hidden="true"
+                    slot="start"
+                    ios={appPage.iosIcon}
+                    md={appPage.mdIcon}
+                  />
                   <IonLabel>{t(appPage.titleKey)}</IonLabel>
                 </IonItem>
               </IonMenuToggle>
@@ -250,20 +265,27 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
 
         {/* Configuración y ayuda */}
         <IonList id="settings-list" lines="none">
-          <IonListHeader>{t('sidebar.account')}</IonListHeader>
+          <IonListHeader>{t("sidebar.account")}</IonListHeader>
           {settingsPages.map((appPage, index) => {
-            if (appPage.titleKey === 'sidebar.logout') {
+            if (appPage.titleKey === "sidebar.logout") {
               return (
                 <IonMenuToggle key={index} autoHide={false}>
                   <IonItem
-                    className={location.pathname === appPage.url ? 'selected' : ''}
+                    className={
+                      location.pathname === appPage.url ? "selected" : ""
+                    }
                     routerLink={appPage.url}
                     routerDirection="none"
                     lines="none"
                     detail={false}
                     onClick={handleLogout}
                   >
-                    <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
+                    <IonIcon
+                      aria-hidden="true"
+                      slot="start"
+                      ios={appPage.iosIcon}
+                      md={appPage.mdIcon}
+                    />
                     <IonLabel>{t(appPage.titleKey)}</IonLabel>
                   </IonItem>
                 </IonMenuToggle>
@@ -273,13 +295,20 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
                 <IonItem
-                  className={location.pathname === appPage.url ? 'selected' : ''}
+                  className={
+                    location.pathname === appPage.url ? "selected" : ""
+                  }
                   routerLink={appPage.url}
                   routerDirection="none"
                   lines="none"
                   detail={false}
                 >
-                  <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
+                  <IonIcon
+                    aria-hidden="true"
+                    slot="start"
+                    ios={appPage.iosIcon}
+                    md={appPage.mdIcon}
+                  />
                   <IonLabel>{t(appPage.titleKey)}</IonLabel>
                 </IonItem>
               </IonMenuToggle>
@@ -291,11 +320,11 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
         <div className="sidebar-usage-info">
           <div className="usage-row">
             <IonIcon icon={analyticsOutline} className="usage-icon" />
-            <span className="usage-label">{t('sidebar.utilizationIndex')}</span>
+            <span className="usage-label">{t("sidebar.utilizationIndex")}</span>
             <span className="usage-value">{indiceUtilizacion}</span>
             <button
               className="usage-help-btn"
-              aria-label={t('sidebar.howCalculated')}
+              aria-label={t("sidebar.howCalculated")}
               onClick={() => setShowFormulaInfo(true)}
               tabIndex={0}
             >
@@ -303,26 +332,34 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
             </button>
           </div>
           <div className="usage-progress-bar">
-            <div className="usage-progress-inner" style={{ width: `${progreso}%` }} />
+            <div
+              className="usage-progress-inner"
+              style={{ width: `${progreso}%` }}
+            />
           </div>
-          <div className="usage-progress-label">
-
-          </div>
+          <div className="usage-progress-label"></div>
           <div className="usage-row">
             <IonIcon icon={timeOutline} className="usage-icon" />
-            <span className="usage-label">{t('sidebar.timeUsed')}</span>
+            <span className="usage-label">{t("sidebar.timeUsed")}</span>
             <span className="usage-value">{tiempoDeUso} min</span>
           </div>
           {showFormulaInfo && (
-            <div className="usage-formula-tooltip" onClick={() => setShowFormulaInfo(false)}>
-              <strong>{t('sidebar.formulaTitle')}</strong>
+            <div
+              className="usage-formula-tooltip"
+              onClick={() => setShowFormulaInfo(false)}
+            >
+              <strong>{t("sidebar.formulaTitle")}</strong>
               <div>
-                {t('sidebar.formulaBody')}<br /><br />
-                <b>{t('sidebar.formulaBonus')}</b><br />
-                <b>{t('sidebar.formulaGoal', { goal: META_DIARIA })}</b><br />
-                <b>{t('sidebar.formulaProgress')}</b>
+                {t("sidebar.formulaBody")}
+                <br />
+                <br />
+                <b>{t("sidebar.formulaBonus")}</b>
+                <br />
+                <b>{t("sidebar.formulaGoal", { goal: META_DIARIA })}</b>
+                <br />
+                <b>{t("sidebar.formulaProgress")}</b>
               </div>
-              <div className="usage-formula-close">{t('sidebar.close')}</div>
+              <div className="usage-formula-close">{t("sidebar.close")}</div>
             </div>
           )}
         </div>
