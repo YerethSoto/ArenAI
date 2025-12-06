@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { apiRouter } from './routes/index.js';
+import { aiRouter } from './routes/ai.js';
 import { errorHandler, ApiError } from './middleware/errorHandler.js';
 
 export function createApp() {
@@ -14,6 +15,7 @@ export function createApp() {
   });
 
   app.use('/api', apiRouter);
+  app.use('/ai', aiRouter);
 
   app.use((_req, _res, next) => {
     next(new ApiError(404, 'Route not found'));
