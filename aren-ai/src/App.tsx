@@ -19,7 +19,15 @@ import Main_Student from './pages/Main_Student';
 import Class_Join from './pages/Class_Join';
 import BattleMinigame from './pages/BattleMinigame';
 import BattleLobby from './components/BattleLobby';
+import SubjectDetail from './pages/SubjectDetail';
+import StudentProfile from './pages/StudentProfile';
+import CharacterDetail from './pages/CharacterDetail';
 import StudentSettings from './pages/StudentSettings';
+import Achievements from './pages/Achievements';
+import Leaderboard from './pages/Leaderboard';
+import Shop from './pages/Shop';
+import Clan from './pages/Clan';
+import Help from './pages/Help';
 import { ThemeProvider } from './context/ThemeContext';
 
 /* Core CSS required for Ionic components to work properly */
@@ -138,6 +146,12 @@ const App: React.FC = () => {
               <Route path="/page/student" exact={true}>
                 {userRole === 'student' ? <Main_Student /> : <Redirect to="/login" />}
               </Route>
+              <Route path="/leaderboard" exact={true}>
+                {userRole === 'student' ? <Leaderboard /> : <Redirect to="/login" />}
+              </Route>
+              <Route path="/leaderboard" exact={true}>
+                {userRole === 'student' ? <Leaderboard /> : <Redirect to="/login" />}
+              </Route>
 
               {/* Additional Features */}
               <Route path="/class-creation" exact={true}>
@@ -168,6 +182,22 @@ const App: React.FC = () => {
                 {userRole === 'student' ? <BattleLobby></BattleLobby> : <Redirect to="/login" />}
               </Route>
 
+              <Route path="/subject/:name" exact={true}>
+                {userRole === 'student' ? <SubjectDetail /> : <Redirect to="/login" />}
+              </Route>
+
+              <Route path="/profile" exact={true}>
+                {userRole === 'student' ? <StudentProfile /> : <Redirect to="/login" />}
+              </Route>
+
+              <Route path="/character-detail" exact={true}>
+                {userRole === 'student' ? <CharacterDetail /> : <Redirect to="/login" />}
+              </Route>
+
+              <Route path="/achievements" exact={true}>
+                {userRole === 'student' ? <Achievements /> : <Redirect to="/login" />}
+              </Route>
+
               <Route path="/chat" exact={true}>
                 {userRole ? <Chat /> : <Redirect to="/login" />}
               </Route>
@@ -175,6 +205,10 @@ const App: React.FC = () => {
               {/* Students by section */}
               <Route path="/student-section" exact={true}>
                 {userRole === 'professor' ? <StudentSectionPage /> : <Redirect to="/login" />}
+              </Route>
+
+              <Route path="/help" exact={true}>
+                {userRole === 'student' ? <Help /> : <Redirect to="/login" />}
               </Route>
 
               {/* Nueva ruta para unirse a clase por código o QR */}

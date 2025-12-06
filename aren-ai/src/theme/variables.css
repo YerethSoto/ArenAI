@@ -7,21 +7,19 @@
   }
 }
 
-/* =========================================
-   GLOBAL DEFAULTS (Base Theme - Professor & Original Student)
-   ========================================= */
+
+/* Esta parte hay que cambiarla porque el default theme no se ve bien y los otros se ven feo por ahora voy a poner el azul como default */
+
+/*
 :root {
-  /* Default Backgrounds */
   --ion-background-color: #fdfbf7;
   --ion-item-background: #ffffff;
   --ion-card-background: #ffffff;
 
-  /* Default Text */
   --ion-text-color: #2c3e50;
   --ion-text-color-step-150: #415262;
   --ion-text-color-step-400: #6b7884;
 
-  /* Default Primary (Earth Brown) */
   --ion-color-primary: #8f6a56;
   --ion-color-primary-rgb: 143, 106, 86;
   --ion-color-primary-contrast: #ffffff;
@@ -29,7 +27,6 @@
   --ion-color-primary-shade: #7e5d4c;
   --ion-color-primary-tint: #9a7967;
 
-  /* Default Secondary (Sage Green) */
   --ion-color-secondary: #90beab;
   --ion-color-secondary-rgb: 144, 190, 171;
   --ion-color-secondary-contrast: #ffffff;
@@ -37,7 +34,6 @@
   --ion-color-secondary-shade: #7fa796;
   --ion-color-secondary-tint: #9bc5b3;
 
-  /* Default Tertiary (Deep Teal) */
   --ion-color-tertiary: #3c7782;
   --ion-color-tertiary-rgb: 60, 119, 130;
   --ion-color-tertiary-contrast: #ffffff;
@@ -46,38 +42,80 @@
   --ion-color-tertiary-tint: #50858f;
 }
 
-/* =========================================
-   THEME: NAVY SCHOLAR (Classic Academic)
-   ========================================= */
-body.theme-navy {
-  --ion-background-color: #ecf0f1;
+
+*/
+
+
+:root {
+  --ion-background-color: #fdfbf7;
+  /* Cream/Paper Background */
   --ion-item-background: #ffffff;
   --ion-card-background: #ffffff;
-  --ion-text-color: #2c3e50;
 
-  /* Primary: Navy Blue */
-  --ion-color-primary: #2c3e50;
-  --ion-color-primary-rgb: 44, 62, 80;
+  --ion-text-color: #2c3e50;
+  --ion-text-color-step-150: #415262;
+  --ion-text-color-step-400: #6b7884;
+
+  /* Primary: Academic Brown */
+  --ion-color-primary: #8f6a56;
+  --ion-color-primary-rgb: 143, 106, 86;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #273746;
-  --ion-color-primary-tint: #415262;
+  --ion-color-primary-shade: #7e5d4c;
+  --ion-color-primary-tint: #9a7967;
 
-  /* Secondary: Slate Gray */
-  --ion-color-secondary: #34495e;
-  --ion-color-secondary-rgb: 52, 73, 94;
+  /* Secondary: Sage Green */
+  --ion-color-secondary: #90beab;
+  --ion-color-secondary-rgb: 144, 190, 171;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #2e4053;
-  --ion-color-secondary-tint: #48596e;
+  --ion-color-secondary-shade: #7fa796;
+  --ion-color-secondary-tint: #9bc5b3;
 
-  /* Tertiary: Cool Gray */
-  --ion-color-tertiary: #7f8c8d;
-  --ion-color-tertiary-rgb: 127, 140, 141;
+  /* Tertiary: Teal */
+  --ion-color-tertiary: #3c7782;
+  --ion-color-tertiary-rgb: 60, 119, 130;
   --ion-color-tertiary-contrast: #ffffff;
   --ion-color-tertiary-contrast-rgb: 255, 255, 255;
-  --ion-color-tertiary-shade: #707b7c;
-  --ion-color-tertiary-tint: #8c9798;
+  --ion-color-tertiary-shade: #356972;
+  --ion-color-tertiary-tint: #50858f;
+}
+
+
+
+
+body.theme-navy {
+  --ion-background-color: #e3f2fd;
+  /* Light Blue Tint */
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
+  --ion-text-color: #0d47a1;
+  /* Deep Blue Text */
+
+  /* Primary: Classic Navy */
+  --ion-color-primary: #002147;
+  /* Oxford Blue */
+  --ion-color-primary-rgb: 0, 33, 71;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #001d3e;
+  --ion-color-primary-tint: #1a3759;
+
+  /* Secondary: Royal Blue */
+  --ion-color-secondary: #1565c0;
+  --ion-color-secondary-rgb: 21, 101, 192;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #1359a9;
+  --ion-color-secondary-tint: #2c74c6;
+
+  /* Tertiary: Sky Blue */
+  --ion-color-tertiary: #90caf9;
+  --ion-color-tertiary-rgb: 144, 202, 249;
+  --ion-color-tertiary-contrast: #000000;
+  --ion-color-tertiary-contrast-rgb: 0, 0, 0;
+  --ion-color-tertiary-shade: #7fb2db;
+  --ion-color-tertiary-tint: #9bcfda;
 }
 
 /* =========================================

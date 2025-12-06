@@ -1,0 +1,240 @@
+/* Achievements.css */
+
+/* Use Global App Theme Variables */
+.achievements-page {
+    /* Inherit global background */
+    --background: var(--ion-background-color);
+}
+
+.ach-content {
+    padding: 16px;
+    padding-bottom: 40px;
+}
+
+/* Header */
+.ach-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-top: 10px;
+}
+
+.ach-total-score {
+    background: var(--ion-color-light);
+    /* Adaptive light/dark */
+    border: 1px solid var(--ion-color-medium-tint);
+    color: var(--ion-color-dark);
+    /* Adaptive text */
+    padding: 6px 14px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+/* Icons within total score need to match text */
+.ach-total-score ion-icon {
+    color: var(--ion-color-warning);
+    /* Gold trophy always looks good */
+}
+
+.ach-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--ion-color-dark);
+    /* Adaptive title */
+    margin-bottom: 20px;
+    padding-left: 5px;
+}
+
+/* Category Tabs */
+.ach-filters {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    scrollbar-width: none;
+}
+
+.ach-filter-btn {
+    background: var(--ion-card-background);
+    /* Adaptive card bg */
+    border: 1px solid var(--ion-border-color);
+    /* Adaptive border */
+    color: var(--ion-color-medium);
+    padding: 8px 16px;
+    border-radius: 20px;
+    /* Standard pill shape */
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.ach-filter-btn.active {
+    background: var(--ion-color-primary);
+    color: var(--ion-color-primary-contrast);
+    border-color: var(--ion-color-primary);
+    box-shadow: 0 4px 10px rgba(var(--ion-color-primary-rgb), 0.3);
+}
+
+
+/* List Grid */
+.ach-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Card */
+.ach-card {
+    background: var(--ion-card-background);
+    /* Adaptive */
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    position: relative;
+    /* Soft shadow for app feel */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid transparent;
+    /* Prepare for border */
+    transition: transform 0.2s;
+}
+
+/* Dark mode specific tweak if needed, but ionic vars handle this */
+
+.ach-card:active {
+    transform: scale(0.98);
+}
+
+.ach-card.locked {
+    opacity: 0.7;
+    background: var(--ion-item-background);
+    /* Slightly different shade if available */
+    border: 1px dashed var(--ion-color-medium);
+    box-shadow: none;
+}
+
+.ach-card.unlocked {
+    border: 1px solid var(--ion-color-primary);
+}
+
+/* Left Accent Line */
+.ach-card.unlocked::before {
+    content: '';
+    position: absolute;
+    top: 15%;
+    bottom: 15%;
+    left: 0;
+    width: 4px;
+    border-radius: 0 4px 4px 0;
+    background: var(--ion-color-primary);
+}
+
+
+/* Icon */
+.ach-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    background: var(--ion-color-light);
+    /* Light grey in light mode, dark grey in dark */
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+    color: var(--ion-color-medium);
+}
+
+.ach-card.unlocked .ach-icon-wrapper {
+    background: var(--ion-color-primary-tint);
+    color: var(--ion-color-primary-contrast);
+    /* Text on primary usually white */
+}
+
+/* If tint provides a colored bg, ensure icon is visible. 
+   Alternatively: bg = primary transparent? 
+   Let's keep it simple: Primary background for icon. */
+.ach-card.unlocked .ach-icon-wrapper {
+    background: var(--ion-color-primary);
+    box-shadow: 0 4px 10px rgba(var(--ion-color-primary-rgb), 0.3);
+}
+
+
+/* Content */
+.ach-info {
+    flex: 1;
+}
+
+.ach-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ion-color-dark);
+    /* Adaptive text */
+    margin-bottom: 4px;
+}
+
+.ach-desc {
+    font-size: 13px;
+    color: var(--ion-color-medium);
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+/* Progress Bar */
+.ach-progress-container {
+    height: 8px;
+    background: var(--ion-color-light-shade);
+    /* Track color */
+    border-radius: 4px;
+    margin-bottom: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.ach-progress-fill {
+    height: 100%;
+    background: var(--ion-color-primary);
+    border-radius: 4px;
+    width: 0%;
+    transition: width 1s ease-out;
+}
+
+.ach-progress-text {
+    font-size: 11px;
+    color: var(--ion-color-medium);
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
+.ach-reward-badge {
+    background: rgba(255, 193, 7, 0.15);
+    /* Gold tint low opacity */
+    padding: 4px 10px;
+    border-radius: 8px;
+    color: #bfa004;
+    /* Darker gold for readability on light */
+    font-weight: 700;
+    font-size: 12px;
+    align-self: flex-start;
+    /* Align top if row */
+    white-space: nowrap;
+}
+
+/* Dark mode Text adjust for gold */
+@media (prefers-color-scheme: dark) {
+    .ach-reward-badge {
+        color: #ffd700;
+        /* Brighter gold on dark */
+        background: rgba(255, 215, 0, 0.2);
+    }
+}

@@ -32,7 +32,7 @@
   color: var(--ion-color-primary-contrast, white);
   font-weight: 800;
   font-size: 14px;
-  text-transform: uppercase;
+  text-transform: none;
   letter-spacing: 0.5px;
   width: 100%;
   display: flex;

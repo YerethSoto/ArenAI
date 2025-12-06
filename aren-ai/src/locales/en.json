@@ -6,6 +6,7 @@
         "quiz": "Quiz",
         "battle": "Battle",
         "battleLobby": "Battle Lobby",
+        "achievements": "Achievements",
         "account": "Account",
         "settings": "Settings",
         "help": "Help & Support",
@@ -634,6 +635,130 @@
             "exit": "Exit to Main Menu",
             "yourTraits": "Your Traits:",
             "recommendations": "Recommendations for You:"
+        }
+    },
+    "achievements": {
+        "pageTitle": "Hall of Achievements",
+        "totalScore": "Total Score",
+        "filters": {
+            "all": "All",
+            "study": "Study",
+            "combat": "Combat",
+            "social": "Social"
+        },
+        "items": {
+            "first_login": {
+                "title": "Fresh Start",
+                "description": "Log in for the first time."
+            },
+            "math_wizard": {
+                "title": "Math Wizard",
+                "description": "Get a perfect score in a Math quiz."
+            },
+            "quiz_master": {
+                "title": "Quiz Master",
+                "description": "Complete 10 quizzes without failing."
+            },
+            "battle_champion": {
+                "title": "Arena Champion",
+                "description": "Win 5 battles against other students."
+            },
+            "bookworm": {
+                "title": "Bookworm",
+                "description": "Read 50 study articles."
+            },
+            "social_butterfly": {
+                "title": "Social Butterfly",
+                "description": "Add 5 friends to your list."
+            },
+            "streak_master": {
+                "title": "Unstoppable",
+                "description": "Maintain a 7-day study streak."
+            }
+        },
+        "ui": {
+            "reward": "Reward",
+            "progress": "Progress",
+            "locked": "Locked",
+            "unlocked": "Completed"
+        }
+    },
+    "avatars": {
+        "scholar": {
+            "title": "The Scholar",
+            "lore": "Born in the Great Library of Aren, this capybara has read more books than there are leaves in the jungle. Seeks truth in every equation.",
+            "affiliation": "Grand Library",
+            "element": "Strategist / Ice",
+            "origin": "Bibliotheca Aeterna",
+            "description": "A tactical genius who always thinks three steps ahead.",
+            "stats": {
+                "logic": 95,
+                "creativity": 60,
+                "focus": 90,
+                "memory": 85,
+                "speed": 50
+            }
+        },
+        "dreamer": {
+            "title": "The Dreamer",
+            "lore": "Believes imagination is the strongest weapon. Spends days creating new worlds and creative solutions to old problems.",
+            "affiliation": "Art Club",
+            "element": "Visionary / Electro",
+            "origin": "Dream Nebula",
+            "description": "Their mind is a universe of infinite possibilities.",
+            "stats": {
+                "logic": 60,
+                "creativity": 100,
+                "focus": 50,
+                "memory": 70,
+                "speed": 75
+            }
+        },
+        "zen": {
+            "title": "Zen Master",
+            "lore": "Keeps calm even during the hardest exams. Their superpower is absolute concentration and inner peace.",
+            "affiliation": "Meditation Garden",
+            "element": "Monk / Dendro",
+            "origin": "Jade Forest",
+            "description": "Calm before, during, and after the storm.",
+            "stats": {
+                "logic": 80,
+                "creativity": 70,
+                "focus": 100,
+                "memory": 80,
+                "speed": 40
+            }
+        },
+        "warrior": {
+            "title": "The Warrior",
+            "lore": "Veteran of a thousand knowledge battles. Always ready to defend their answers and conquer new topics.",
+            "affiliation": "Debate League",
+            "element": "Fighter / Pyro",
+            "origin": "Bastion of Valor",
+            "description": "The unstoppable force that protects the weak.",
+            "stats": {
+                "logic": 70,
+                "creativity": 50,
+                "focus": 85,
+                "memory": 60,
+                "speed": 95
+            }
+        },
+        "attributes": {
+            "logic": "Logic",
+            "creativity": "Wit",
+            "focus": "Focus",
+            "memory": "Memory",
+            "speed": "Speed",
+            "affiliation": "Affiliation",
+            "element": "Vision"
+        },
+        "actions": {
+            "select": "Select Character",
+            "equipped": "Equipped",
+            "story": "Story",
+            "voices": "Voice Lines",
+            "friendship": "Friendship"
         }
     }
 }

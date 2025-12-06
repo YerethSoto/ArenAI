@@ -6,6 +6,10 @@
         "quiz": "Cuestionario",
         "battle": "Batalla",
         "battleLobby": "Lobby de Batalla",
+        "shop": "Tienda Premium",
+        "clan": "Sala de Clan",
+        "leaderboard": "Ranking",
+        "achievements": "Logros",
         "account": "Cuenta",
         "settings": "Configuración",
         "help": "Ayuda y Soporte",
@@ -105,18 +109,6 @@
         "congrats": "¡Felicidades {{name}}! Tu puntuación es {{score}} puntos",
         "topicsToReinforce": "Temas para reforzar",
         "backToMenu": "Volver al Menú Principal",
-        "rating": {
-            "perfect": "¡PERFECTO!",
-            "awesome": "¡IMPRESIONANTE!",
-            "veryGood": "¡MUY BIEN!",
-            "goodJob": "¡BIEN HECHO!",
-            "keepPracticing": "¡SIGUE PRACTICANDO!"
-        }
-    },
-    "battle": {
-        "title": "Batalla",
-        "rematch": "Revancha",
-        "backToMenu": "Volver al Menú",
         "victory": "¡VICTORIA!",
         "defeat": "¡DERROTA!",
         "draw": "¡EMPATE!",
@@ -634,6 +626,122 @@
             "exit": "Salir al Menú Principal",
             "yourTraits": "Tus Características:",
             "recommendations": "Recomendaciones para Ti:"
+        }
+    },
+    "achievements": {
+        "pageTitle": "Sala de Logros",
+        "totalScore": "Puntuación Total",
+        "filters": {
+            "all": "Todos",
+            "study": "Estudio",
+            "combat": "Combate",
+            "social": "Social"
+        },
+        "items": {
+            "quiz_master": {
+                "title": "Maestro del Quiz",
+                "description": "Completa 10 cuestionarios sin fallar."
+            },
+            "battle_champion": {
+                "title": "Campeón de la Arena",
+                "description": "Gana 5 batallas contra otros estudiantes."
+            },
+            "bookworm": {
+                "title": "Ratón de Biblioteca",
+                "description": "Lee 50 artículos de estudio."
+            },
+            "social_butterfly": {
+                "title": "Alma de la Fiesta",
+                "description": "Añade a 5 amigos a tu lista."
+            },
+            "streak_master": {
+                "title": "Imparable",
+                "description": "Mantén una racha de estudio de 7 días."
+            }
+        },
+        "ui": {
+            "reward": "Recompensa",
+            "progress": "Progreso",
+            "locked": "Bloqueado",
+            "unlocked": "Completado"
+        }
+    },
+    "avatars": {
+        "scholar": {
+            "title": "El Erudito",
+            "lore": "Nacido en la Gran Biblioteca de Aren, este capibara ha leído más libros que hojas tiene la selva. Busca la verdad en cada ecuación.",
+            "affiliation": "Gran Biblioteca",
+            "element": "Estratega / Hielo",
+            "origin": "Bibliotheca Aeterna",
+            "description": "Un genio táctico que siempre piensa tres pasos adelante.",
+            "stats": {
+                "logic": 95,
+                "creativity": 60,
+                "focus": 90,
+                "memory": 85,
+                "speed": 50
+            }
+        },
+        "dreamer": {
+            "title": "El Soñador",
+            "lore": "Cree que la imaginación es el arma más fuerte. Pasa sus días creando mundos nuevos y soluciones creativas a problemas viejos.",
+            "affiliation": "Club de Arte",
+            "element": "Visionario / Electro",
+            "origin": "Nebula Onírica",
+            "description": "Su mente es un universo de posibilidades infinitas.",
+            "stats": {
+                "logic": 60,
+                "creativity": 100,
+                "focus": 50,
+                "memory": 70,
+                "speed": 75
+            }
+        },
+        "zen": {
+            "title": "Maestro Zen",
+            "lore": "Mantiene la calma incluso en los exámenes más difíciles. Su superpoder es la concentración absoluta y la paz interior.",
+            "affiliation": "Jardín de Meditación",
+            "element": "Monje / Dendro",
+            "origin": "Bosque de Jade",
+            "description": "La calma antes, durante y después de la tormenta.",
+            "stats": {
+                "logic": 80,
+                "creativity": 70,
+                "focus": 100,
+                "memory": 80,
+                "speed": 40
+            }
+        },
+        "warrior": {
+            "title": "El Guerrero",
+            "lore": "Veterano de mil batallas de conocimiento. Siempre está listo para defender sus respuestas y conquistar nuevos temas.",
+            "affiliation": "Liga de Debates",
+            "element": "Luchador / Pyro",
+            "origin": "Bastión del Valor",
+            "description": "La fuerza imparable que protege a los débiles.",
+            "stats": {
+                "logic": 70,
+                "creativity": 50,
+                "focus": 85,
+                "memory": 60,
+                "speed": 95
+            }
+        },
+        "attributes": {
+            "logic": "Lógica",
+            "creativity": "Ingenio",
+            "focus": "Enfoque",
+            "memory": "Memoria",
+            "speed": "Velocidad",
+            "affiliation": "Afiliación",
+            "element": "Visión"
+        },
+        "actions": {
+            "select": "Seleccionar Personaje",
+            "equipped": "Equipado",
+            "story": "Historia",
+            "voices": "Voces",
+            "friendship": "Amistad"
         }
     }
 }
