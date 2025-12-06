@@ -12,6 +12,8 @@ import {
   IonCard,
   IonCardContent,
   IonMenuButton,
+  useIonViewWillLeave,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { menu, arrowForward, close } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
@@ -139,7 +141,89 @@ const BattleMinigame: React.FC = () => {
   const [scrollingTextPosition, setScrollingTextPosition] = useState(0);
 
   const scrollingTextRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<number | null>(null); // FIX: Added initial value null
+  const animationRef = useRef<number | null>(null);
+
+  // Audio refs
+  const bgmRef = useRef<HTMLAudioElement | null>(null);
+  const hitSoundRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Initialize Background Music
+    const bgm = new Audio("/assets/battlesong.mp3");
+    bgm.loop = true;
+    bgm.volume = 0; // Start at 0 for fade in
+    bgmRef.current = bgm;
+
+    // Initialize Hit Sound
+    const hit = new Audio("/assets/hit-sound.mp3");
+    hit.volume = 0.6;
+    hitSoundRef.current = hit;
+
+    // Play BGM
+    const playBGM = async () => {
+      try {
+        await bgm.play();
+      } catch (e) {
+        console.error("Autoplay prevented:", e);
+      }
+    };
+    playBGM();
+
+    // Volume Fade Logic
+    const FADE_DURATION = 3; // seconds
+    const MAX_VOLUME = 0.3; // Lower volume for background music
+
+    const handleTimeUpdate = () => {
+      const timeLeft = bgm.duration - bgm.currentTime;
+
+      if (timeLeft <= FADE_DURATION) {
+        // Fade out
+        bgm.volume = Math.max(0, (timeLeft / FADE_DURATION) * MAX_VOLUME);
+      } else if (bgm.currentTime <= FADE_DURATION) {
+        // Fade in
+        bgm.volume = Math.min(
+          MAX_VOLUME,
+          (bgm.currentTime / FADE_DURATION) * MAX_VOLUME
+        );
+      } else {
+        // Stable volume
+        bgm.volume = MAX_VOLUME;
+      }
+    };
+
+    bgm.addEventListener("timeupdate", handleTimeUpdate);
+
+    return () => {
+      bgm.removeEventListener("timeupdate", handleTimeUpdate);
+      bgm.pause();
+      bgmRef.current = null;
+      hitSoundRef.current = null;
+    };
+  }, []);
+
+  useIonViewWillLeave(() => {
+    if (bgmRef.current) {
+      bgmRef.current.pause();
+      bgmRef.current.currentTime = 0;
+    }
+  });
+
+  useIonViewWillEnter(() => {
+    if (bgmRef.current && bgmRef.current.paused) {
+      bgmRef.current
+        .play()
+        .catch((e) => console.error("Resume BGM failed:", e));
+    }
+  });
+
+  const playHitSound = () => {
+    if (hitSoundRef.current) {
+      hitSoundRef.current.currentTime = 0;
+      hitSoundRef.current
+        .play()
+        .catch((e) => console.error("Hit sound failed:", e));
+    }
+  };
 
   useEffect(() => {
     const scrollText = () => {
@@ -261,6 +345,9 @@ const BattleMinigame: React.FC = () => {
       setDamageAmount(damage);
       setDamageTarget("opponent");
 
+      // Play hit sound when animation connects (0.3s)
+      setTimeout(() => playHitSound(), 300);
+
       setTimeout(() => {
         setShowDamageAnimation(true);
         setOpponentHitAnimation(true);
@@ -286,6 +373,9 @@ const BattleMinigame: React.FC = () => {
       setOpponentAttackAnimation(true);
       setDamageAmount(damage);
       setDamageTarget("player");
+
+      // Play hit sound when animation connects (0.3s)
+      setTimeout(() => playHitSound(), 300);
 
       setTimeout(() => {
         setShowDamageAnimation(true);

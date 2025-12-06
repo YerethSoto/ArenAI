@@ -159,7 +159,7 @@ const Main_Student: React.FC = () => {
 
   const currentStudyRecommendation =
     STUDY_RECOMMENDATIONS_TEXT[
-    selectedSubject as keyof typeof STUDY_RECOMMENDATIONS_TEXT
+      selectedSubject as keyof typeof STUDY_RECOMMENDATIONS_TEXT
     ] || "";
 
   // Handlers
@@ -284,15 +284,17 @@ const Main_Student: React.FC = () => {
                 }}
               ></div>
               <div
-                className={`ms-switch-option ${viewMode === "rec" ? "active" : ""
-                  }`}
+                className={`ms-switch-option ${
+                  viewMode === "rec" ? "active" : ""
+                }`}
                 onClick={() => setViewMode("rec")}
               >
                 {t("mainStudent.recommendations")}
               </div>
               <div
-                className={`ms-switch-option ${viewMode === "que" ? "active" : ""
-                  }`}
+                className={`ms-switch-option ${
+                  viewMode === "que" ? "active" : ""
+                }`}
                 onClick={() => setViewMode("que")}
               >
                 {t("mainStudent.questions")}
@@ -356,11 +358,14 @@ const Main_Student: React.FC = () => {
             closedSrc="/assets/profile_picture_capybara_eyes_closed.png"
             winkSrc="/assets/profile_picture_capybara_wink.png"
             className="ms-mascot-image"
-            onClick={() => navigateTo("/profile")}
+            onClick={() => navigateTo("/chat")}
           />
         </div>
 
-        <div className="ms-nav-btn" onClick={() => navigateTo("/battleminigame")}>
+        <div
+          className="ms-nav-btn"
+          onClick={() => navigateTo("/battleminigame")}
+        >
           <IonIcon icon={americanFootballOutline} />
         </div>
         <div className="ms-nav-btn" onClick={() => navigateTo("/settings")}>

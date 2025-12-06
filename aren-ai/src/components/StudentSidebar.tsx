@@ -36,12 +36,12 @@ import {
   helpCircleSharp,
   exitOutline,
   exitSharp,
-  peopleOutline,
-  peopleSharp,
-  analyticsOutline,
-  timeOutline,
+  personOutline,
+  personSharp,
   americanFootballOutline,
   americanFootballSharp,
+  analyticsOutline,
+  timeOutline,
 } from "ionicons/icons";
 import "./StudentSidebar.css";
 
@@ -96,6 +96,12 @@ const appPages: AppPage[] = [
 ];
 
 const settingsPages: AppPage[] = [
+  {
+    titleKey: "sidebar.profile",
+    url: "/profile",
+    iosIcon: personOutline,
+    mdIcon: personSharp,
+  },
   {
     titleKey: "sidebar.settings",
     url: "/settings",
