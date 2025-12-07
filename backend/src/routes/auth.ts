@@ -27,10 +27,6 @@ router.post('/login', async (req, res, next) => {
     const { identifier, password } = loginSchema.parse(req.body);
 
     const user = await findUserByIdentifier(identifier);
-    console.log('DEBUG LOGIN: User found:', user ? user.username : 'null');
-    if (user) {
-      console.log('DEBUG LOGIN: first_login value:', user.first_login, 'Type:', typeof user.first_login);
-    }
 
     if (!user) {
       throw new ApiError(401, 'Invalid credentials');

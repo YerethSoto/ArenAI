@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAvatar } from "../context/AvatarContext";
 import {
   IonContent,
   IonPage,
@@ -46,6 +47,8 @@ interface LoginProps {
 // ============================================================================
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
+  const { getAvatarAssets } = useAvatar();
+  const avatarAssets = getAvatarAssets();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -203,9 +206,9 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                   </IonText>
                   <div className="logo-container">
                     <AnimatedMascot
-                      openSrc="/assets/profile_picture_capybara_eyes_open.png"
-                      closedSrc="/assets/profile_picture_capybara_eyes_closed.png"
-                      winkSrc="/assets/profile_picture_capybara_wink.png"
+                      openSrc={avatarAssets.open}
+                      closedSrc={avatarAssets.closed}
+                      winkSrc={avatarAssets.wink}
                       className="logo-image"
                     />
                   </div>

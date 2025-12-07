@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useAvatar } from "../context/AvatarContext";
 import {
   IonContent,
   IonPage,
@@ -134,6 +135,8 @@ const getColorForPercentage = (percentage: number) => {
 const Main_Student: React.FC = () => {
   const router = useIonRouter();
   const { t } = useTranslation();
+  const { getAvatarAssets } = useAvatar();
+  const avatarAssets = getAvatarAssets();
 
   // State variables
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
@@ -159,7 +162,7 @@ const Main_Student: React.FC = () => {
 
   const currentStudyRecommendation =
     STUDY_RECOMMENDATIONS_TEXT[
-    selectedSubject as keyof typeof STUDY_RECOMMENDATIONS_TEXT
+      selectedSubject as keyof typeof STUDY_RECOMMENDATIONS_TEXT
     ] || "";
 
   // Handlers
@@ -284,15 +287,17 @@ const Main_Student: React.FC = () => {
                 }}
               ></div>
               <div
-                className={`ms-switch-option ${viewMode === "rec" ? "active" : ""
-                  }`}
+                className={`ms-switch-option ${
+                  viewMode === "rec" ? "active" : ""
+                }`}
                 onClick={() => setViewMode("rec")}
               >
                 {t("mainStudent.recommendations")}
               </div>
               <div
-                className={`ms-switch-option ${viewMode === "que" ? "active" : ""
-                  }`}
+                className={`ms-switch-option ${
+                  viewMode === "que" ? "active" : ""
+                }`}
                 onClick={() => setViewMode("que")}
               >
                 {t("mainStudent.questions")}
@@ -352,15 +357,18 @@ const Main_Student: React.FC = () => {
 
         <div className="ms-mascot-container">
           <AnimatedMascot
-            openSrc="/assets/profile_picture_capybara_eyes_open.png"
-            closedSrc="/assets/profile_picture_capybara_eyes_closed.png"
-            winkSrc="/assets/profile_picture_capybara_wink.png"
+            openSrc={avatarAssets.open}
+            closedSrc={avatarAssets.closed}
+            winkSrc={avatarAssets.wink}
             className="ms-mascot-image"
-            onClick={() => navigateTo("/profile")}
+            onClick={() => navigateTo("/chat")}
           />
         </div>
 
-        <div className="ms-nav-btn" onClick={() => navigateTo("/battleminigame")}>
+        <div
+          className="ms-nav-btn"
+          onClick={() => navigateTo("/battleminigame")}
+        >
           <IonIcon icon={americanFootballOutline} />
         </div>
         <div className="ms-nav-btn" onClick={() => navigateTo("/settings")}>

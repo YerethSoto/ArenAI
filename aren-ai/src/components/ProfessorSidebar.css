@@ -157,25 +157,25 @@ ion-item:last-child::after {
   .menu-header {
     padding: 25px 16px 20px 16px;
   }
-  
+
   .teacher-avatar {
     width: 45px;
     height: 45px;
   }
-  
+
   .teacher-name {
     font-size: 1rem;
   }
-  
+
   .teacher-email {
     font-size: 0.8rem;
   }
-  
+
   ion-list-header {
     padding: 18px 12px 6px 12px;
     font-size: 0.85rem;
   }
-  
+
   ion-item {
     --padding-start: 12px;
     --padding-end: 12px;
@@ -187,48 +187,27 @@ ion-item:last-child::after {
   .menu-header {
     padding: 20px 12px 15px 12px;
   }
-  
+
   .teacher-info {
     gap: 12px;
   }
-  
+
   .teacher-avatar {
     width: 40px;
     height: 40px;
   }
-  
+
   .teacher-avatar ion-icon {
     font-size: 1.3rem;
   }
-  
+
   ion-label {
     font-size: 0.9rem;
   }
 }
 
-/* Scrollbar personalizado */
-ion-content::part(scroll) {
-  scrollbar-width: thin;
-  scrollbar-color: #8f6a56 #fff7dd;
-}
 
-ion-content::-webkit-scrollbar {
-  width: 6px;
-}
-
-ion-content::-webkit-scrollbar-track {
-  background: #fff7dd;
-}
-
-ion-content::-webkit-scrollbar-thumb {
-  background: #8f6a56;
-  border-radius: 3px;
-}
-
-ion-content::-webkit-scrollbar-thumb:hover {
-  background: #7a5a48;
-}
-.teacher-username{
+.teacher-username {
 
   font-size: 0.7rem;
   color: rgba(255, 255, 255, 0.6);

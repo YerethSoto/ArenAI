@@ -2,17 +2,14 @@
 @media (prefers-color-scheme: dark) {
   :root {
     /* Use light theme colors even in dark mode by default, overridden by specific dark theme classes */
-    --ion-background-color: #fdfbf7;
+    --ion-background-color: #f9f4e6;
     --ion-text-color: #2c3e50;
   }
 }
 
-
-/* Esta parte hay que cambiarla porque el default theme no se ve bien y los otros se ven feo por ahora voy a poner el azul como default */
-
-/*
 :root {
-  --ion-background-color: #fdfbf7;
+  /* Palette: Ultra Light Beige */
+  --ion-background-color: #f9f4e6;
   --ion-item-background: #ffffff;
   --ion-card-background: #ffffff;
 
@@ -20,96 +17,52 @@
   --ion-text-color-step-150: #415262;
   --ion-text-color-step-400: #6b7884;
 
-  --ion-color-primary: #8f6a56;
-  --ion-color-primary-rgb: 143, 106, 86;
+  /* Brown - Header & Bars (Estimated from Image) */
+  --ion-color-primary: #8d6b56;
+  --ion-color-primary-rgb: 141, 107, 86;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #7e5d4c;
-  --ion-color-primary-tint: #9a7967;
+  --ion-color-primary-shade: #7c5e4c;
+  --ion-color-primary-tint: #987a67;
 
-  --ion-color-secondary: #90beab;
+  /* Palette: Green (#90BEAB) - "Math" Bubble & Buttons */
+  --ion-color-secondary: #90BEAB;
   --ion-color-secondary-rgb: 144, 190, 171;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
   --ion-color-secondary-shade: #7fa796;
   --ion-color-secondary-tint: #9bc5b3;
 
-  --ion-color-tertiary: #3c7782;
-  --ion-color-tertiary-rgb: 60, 119, 130;
+  /* Palette: Green (#90BEAB) - Cards & Calendar Backgrounds (Solid) */
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
+
+  /* Palette: Dark Slate (#536E83) - Progress Circle */
+  --ion-color-tertiary: #536E83;
+  --ion-color-tertiary-rgb: 83, 110, 131;
   --ion-color-tertiary-contrast: #ffffff;
   --ion-color-tertiary-contrast-rgb: 255, 255, 255;
-  --ion-color-tertiary-shade: #356972;
-  --ion-color-tertiary-tint: #50858f;
+  --ion-color-tertiary-shade: #496173;
+  --ion-color-tertiary-tint: #647d8f;
 }
-
-
-*/
-
-
-:root {
-  --ion-background-color: #fdfbf7;
-  /* Cream/Paper Background */
-  --ion-item-background: #ffffff;
-  --ion-card-background: #ffffff;
-
-  --ion-text-color: #2c3e50;
-  --ion-text-color-step-150: #415262;
-  --ion-text-color-step-400: #6b7884;
-
-  /* Primary: Academic Brown */
-  --ion-color-primary: #8f6a56;
-  --ion-color-primary-rgb: 143, 106, 86;
-  --ion-color-primary-contrast: #ffffff;
-  --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #7e5d4c;
-  --ion-color-primary-tint: #9a7967;
-
-  /* Secondary: Sage Green */
-  --ion-color-secondary: #90beab;
-  --ion-color-secondary-rgb: 144, 190, 171;
-  --ion-color-secondary-contrast: #ffffff;
-  --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #7fa796;
-  --ion-color-secondary-tint: #9bc5b3;
-
-  /* Tertiary: Teal */
-  --ion-color-tertiary: #3c7782;
-  --ion-color-tertiary-rgb: 60, 119, 130;
-  --ion-color-tertiary-contrast: #ffffff;
-  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
-  --ion-color-tertiary-shade: #356972;
-  --ion-color-tertiary-tint: #50858f;
-}
-
-
-
 
 body.theme-navy {
-  --ion-background-color: #e3f2fd;
-  /* Light Blue Tint */
+  --ion-background-color: #f9f4e6;
   --ion-item-background: #ffffff;
   --ion-card-background: #ffffff;
   --ion-text-color: #0d47a1;
-  /* Deep Blue Text */
-
-  /* Primary: Classic Navy */
   --ion-color-primary: #002147;
-  /* Oxford Blue */
   --ion-color-primary-rgb: 0, 33, 71;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #001d3e;
   --ion-color-primary-tint: #1a3759;
-
-  /* Secondary: Royal Blue */
   --ion-color-secondary: #1565c0;
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
   --ion-color-secondary-rgb: 21, 101, 192;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
   --ion-color-secondary-shade: #1359a9;
   --ion-color-secondary-tint: #2c74c6;
-
-  /* Tertiary: Sky Blue */
   --ion-color-tertiary: #90caf9;
   --ion-color-tertiary-rgb: 144, 202, 249;
   --ion-color-tertiary-contrast: #000000;
@@ -118,32 +71,24 @@ body.theme-navy {
   --ion-color-tertiary-tint: #9bcfda;
 }
 
-/* =========================================
-   THEME: SAGE WISDOM (Natural Balance)
-   ========================================= */
 body.theme-sage {
   --ion-background-color: #f5f8f0;
   --ion-item-background: #ffffff;
   --ion-card-background: #ffffff;
   --ion-text-color: #2c3e50;
-
-  /* Primary: Sage Green */
   --ion-color-primary: #6b8e23;
   --ion-color-primary-rgb: 107, 142, 35;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #5e7d1f;
   --ion-color-primary-tint: #7a9939;
-
-  /* Secondary: Yellow Green */
   --ion-color-secondary: #9acd32;
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
   --ion-color-secondary-rgb: 154, 205, 50;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
   --ion-color-secondary-shade: #88b42c;
   --ion-color-secondary-tint: #a4d247;
-
-  /* Tertiary: Dark Olive */
   --ion-color-tertiary: #556b2f;
   --ion-color-tertiary-rgb: 85, 107, 47;
   --ion-color-tertiary-contrast: #ffffff;
@@ -152,32 +97,24 @@ body.theme-sage {
   --ion-color-tertiary-tint: #667a44;
 }
 
-/* =========================================
-   THEME: BURGUNDY BOOK (Traditional Library)
-   ========================================= */
 body.theme-burgundy {
   --ion-background-color: #faf6f1;
   --ion-item-background: #ffffff;
   --ion-card-background: #ffffff;
   --ion-text-color: #2c3e50;
-
-  /* Primary: Saddle Brown */
   --ion-color-primary: #8b4513;
   --ion-color-primary-rgb: 139, 69, 19;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #7a3d11;
   --ion-color-primary-tint: #97572b;
-
-  /* Secondary: Sienna */
   --ion-color-secondary: #a0522d;
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
   --ion-color-secondary-rgb: 160, 82, 45;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
   --ion-color-secondary-shade: #8d4828;
   --ion-color-secondary-tint: #aa6342;
-
-  /* Tertiary: Chocolate */
   --ion-color-tertiary: #d2691e;
   --ion-color-tertiary-rgb: 210, 105, 30;
   --ion-color-tertiary-contrast: #ffffff;
@@ -186,32 +123,24 @@ body.theme-burgundy {
   --ion-color-tertiary-tint: #d77835;
 }
 
-/* =========================================
-   THEME: BAMBOO GREEN (Fresh & Sustainable)
-   ========================================= */
 body.theme-bamboo {
   --ion-background-color: #f0f8f0;
   --ion-item-background: #ffffff;
   --ion-card-background: #ffffff;
   --ion-text-color: #2c3e50;
-
-  /* Primary: Bamboo Green */
   --ion-color-primary: #55a630;
   --ion-color-primary-rgb: 85, 166, 48;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #4b922a;
   --ion-color-primary-tint: #66af45;
-
-  /* Secondary: Lime Green */
   --ion-color-secondary: #80b918;
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
   --ion-color-secondary-rgb: 128, 185, 24;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
   --ion-color-secondary-shade: #71a315;
   --ion-color-secondary-tint: #8dc02f;
-
-  /* Tertiary: Hunter Green */
   --ion-color-tertiary: #2d6a4f;
   --ion-color-tertiary-rgb: 45, 106, 79;
   --ion-color-tertiary-contrast: #ffffff;
@@ -220,43 +149,67 @@ body.theme-bamboo {
   --ion-color-tertiary-tint: #427961;
 }
 
-/* =========================================
-   THEME: EARTH TONE (Natural Connection)
-   ========================================= */
 body.theme-earth {
   --ion-background-color: #f8f5f0;
   --ion-item-background: #ffffff;
   --ion-card-background: #ffffff;
   --ion-text-color: #2c3e50;
-
-  /* Primary: Warm Brown */
   --ion-color-primary: #a0826d;
   --ion-color-primary-rgb: 160, 130, 109;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #8d7260;
   --ion-color-primary-tint: #aa8f7c;
-
-  /* Secondary: Sand */
   --ion-color-secondary: #c9a690;
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
   --ion-color-secondary-rgb: 201, 166, 144;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
   --ion-color-secondary-shade: #b1927f;
   --ion-color-secondary-tint: #ceaf9b;
-
-  /* Tertiary: Clay */
   --ion-color-tertiary: #8b6f47;
   --ion-color-tertiary-rgb: 139, 111, 71;
   --ion-color-tertiary-contrast: #ffffff;
   --ion-color-tertiary-contrast-rgb: 255, 255, 255;
   --ion-color-tertiary-shade: #7a623e;
+  --ion-color-tertiary-shade: #7a623e;
   --ion-color-tertiary-tint: #977d59;
 }
 
-/* =========================================
-   DARK MODE OVERRIDES
-   ========================================= */
+body.theme-original-alter {
+  --ion-background-color: #f9f4e6;
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
+  --ion-text-color: #2c3e50;
+
+  /* Primary: Brown (Same as Original) */
+  --ion-color-primary: #8d6b56;
+  --ion-color-primary-rgb: 141, 107, 86;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #7c5e4c;
+  --ion-color-primary-tint: #987a67;
+
+  /* Secondary: Green (Same as Original) - Buttons stay green */
+  --ion-color-secondary: #90BEAB;
+  --ion-color-secondary-rgb: 144, 190, 171;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #7fa796;
+  --ion-color-secondary-tint: #9bc5b3;
+
+  /* Secondary Soft: BROWN tint (Different from Original) - Cards become brown */
+  --ion-color-secondary-soft: rgba(var(--ion-color-primary-rgb), 0.2);
+
+  /* Tertiary: Dark Slate (Same as Original) */
+  --ion-color-tertiary: #536E83;
+  --ion-color-tertiary-rgb: 83, 110, 131;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #496173;
+  --ion-color-tertiary-tint: #647d8f;
+}
+
 @media (prefers-color-scheme: dark) {
 
   /* Default (Professor) Dark */
@@ -269,7 +222,7 @@ body.theme-earth {
     --ion-text-color-step-400: #a0a0a0;
   }
 
-  /* Navy Dark */
+  /* Keep specific theme dark modes as previously defined mostly */
   body.theme-navy {
     --ion-background-color: #1a1f2e;
     --ion-item-background: #2c3e50;
@@ -279,7 +232,6 @@ body.theme-earth {
     --ion-text-color: #ecf0f1;
   }
 
-  /* Sage Dark */
   body.theme-sage {
     --ion-background-color: #1e2a1a;
     --ion-item-background: #2d3e26;
@@ -289,7 +241,6 @@ body.theme-earth {
     --ion-text-color: #e8f5e9;
   }
 
-  /* Burgundy Dark */
   body.theme-burgundy {
     --ion-background-color: #2a1f1a;
     --ion-item-background: #3e2e26;
@@ -299,7 +250,6 @@ body.theme-earth {
     --ion-text-color: #f5e6d3;
   }
 
-  /* Bamboo Dark */
   body.theme-bamboo {
     --ion-background-color: #1a2e1a;
     --ion-item-background: #263e26;
@@ -309,7 +259,6 @@ body.theme-earth {
     --ion-text-color: #e8f5e9;
   }
 
-  /* Earth Dark */
   body.theme-earth {
     --ion-background-color: #2a241f;
     --ion-item-background: #3e362e;
@@ -324,4 +273,42 @@ body.theme-earth {
 ion-app {
   --ion-background-color: var(--ion-background-color);
   --ion-text-color: var(--ion-text-color);
+}
+
+/* Global Custom Scrollbar */
+/* Apply to all elements to ensure variable inheritance from body class */
+*::-webkit-scrollbar,
+ion-content::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+*::-webkit-scrollbar-track,
+ion-content::-webkit-scrollbar-track {
+  background: rgba(var(--ion-color-primary-rgb), 0.05);
+  /* Very faint track */
+  border-radius: 4px;
+}
+
+/* Handle */
+*::-webkit-scrollbar-thumb,
+ion-content::-webkit-scrollbar-thumb {
+  background: rgba(var(--ion-color-primary-rgb), 0.5);
+  /* Semi-transparent handle */
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+/* Handle on hover */
+*::-webkit-scrollbar-thumb:hover,
+ion-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--ion-color-primary-rgb), 0.7);
+  /* Darker on hover */
+}
+
+/* Firefox support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--ion-color-primary-rgb), 0.5) rgba(var(--ion-color-primary-rgb), 0.05);
 }

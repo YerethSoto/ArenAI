@@ -144,7 +144,7 @@
 }
 
 .clan-notice {
-    background: #e3f2fd;
+    background: var(--ion-background-color);
     border-left: 4px solid var(--ion-color-primary);
     padding: 12px;
     border-radius: 8px;
