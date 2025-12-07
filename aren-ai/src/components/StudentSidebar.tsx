@@ -28,6 +28,8 @@ import {
   ribbon,
   ribbonOutline,
   ribbonSharp,
+  happyOutline,
+  happySharp,
   cartOutline,
   cartSharp,
   settingsOutline,
@@ -65,7 +67,6 @@ const appPages: AppPage[] = [
     iosIcon: schoolOutline,
     mdIcon: schoolSharp,
   },
-
   {
     titleKey: "sidebar.quiz",
     url: "/quiz",
@@ -73,12 +74,17 @@ const appPages: AppPage[] = [
     mdIcon: trophySharp,
   },
   {
+    titleKey: "sidebar.personalityQuiz",
+    url: "/personality-quiz",
+    iosIcon: happyOutline,
+    mdIcon: happySharp,
+  },
+  {
     titleKey: "sidebar.leaderboard",
     url: "/leaderboard",
     iosIcon: ribbonOutline,
     mdIcon: ribbonSharp,
   },
-
   {
     titleKey: "sidebar.battle",
     url: "/battlelobby",

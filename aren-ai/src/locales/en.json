@@ -4,6 +4,8 @@
         "mainMenu": "Main Menu",
         "chat": "Chat with Aren",
         "quiz": "Quiz",
+        "personalityQuiz": "Personality Quiz",
+        "leaderboard": "Leaderboard",
         "battle": "Battle",
         "battleLobby": "Battle Lobby",
         "achievements": "Achievements",
