@@ -27,6 +27,10 @@ router.post('/login', async (req, res, next) => {
     const { identifier, password } = loginSchema.parse(req.body);
 
     const user = await findUserByIdentifier(identifier);
+    console.log('DEBUG LOGIN: User found:', user ? user.username : 'null');
+    if (user) {
+      console.log('DEBUG LOGIN: first_login value:', user.first_login, 'Type:', typeof user.first_login);
+    }
 
     if (!user) {
       throw new ApiError(401, 'Invalid credentials');
@@ -55,11 +59,12 @@ router.post('/login', async (req, res, next) => {
         role: user.role,
         name: user.name,
         lastName: user.last_name,
+        first_login: user.first_login,
         institution: user.id_institution
           ? {
-              id: user.id_institution,
-              name: user.institution_name,
-            }
+            id: user.id_institution,
+            name: user.institution_name,
+          }
           : null,
       },
     });
@@ -141,6 +146,7 @@ router.post('/register', async (req, res, next) => {
         role: created.role,
         name: created.name,
         lastName: created.last_name,
+        first_login: created.first_login,
         institution: created.id_institution
           ? { id: created.id_institution, name: created.institution_name }
           : null,

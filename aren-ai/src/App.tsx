@@ -127,11 +127,7 @@ const App: React.FC = () => {
 
               {/* Authentication Routes */}
               <Route path="/login" exact={true}>
-                {userRole ? (
-                  <Redirect to={userRole === 'student' ? "/page/student" : "/page/professor"} />
-                ) : (
-                  <Login onLogin={handleLogin} />
-                )}
+                <Login onLogin={handleLogin} />
               </Route>
 
               <Route path="/Register" exact={true}>
