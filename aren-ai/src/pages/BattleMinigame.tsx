@@ -155,10 +155,16 @@ const BattleMinigame: React.FC = () => {
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [showCritical, setShowCritical] = useState(false);
 
+  // New Stats & Disconnect State
+  const [winStreak, setWinStreak] = useState(0);
+  const [utilizationIndex, setUtilizationIndex] = useState(0);
+  const [disconnectMessage, setDisconnectMessage] = useState("");
+
   const scrollingTextRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null);
   const bgmRef = useRef<HTMLAudioElement | null>(null);
   const hitSoundRef = useRef<HTMLAudioElement | null>(null);
+  const criticalSoundRef = useRef<HTMLAudioElement | null>(null);
 
   const playHitSound = () => {
     if (hitSoundRef.current) {
@@ -166,6 +172,15 @@ const BattleMinigame: React.FC = () => {
       hitSoundRef.current
         .play()
         .catch((e) => console.warn("Hit sound failed:", e));
+    }
+  };
+
+  const playCriticalSound = () => {
+    if (criticalSoundRef.current) {
+      criticalSoundRef.current.currentTime = 0;
+      criticalSoundRef.current
+        .play()
+        .catch((e) => console.warn("Critical sound failed:", e));
     }
   };
 
@@ -197,6 +212,7 @@ const BattleMinigame: React.FC = () => {
     // Handle Critical Visual
     if (data.isCritical) {
       setShowCritical(true);
+      playCriticalSound();
       setTimeout(() => setShowCritical(false), 2500);
     }
 
@@ -279,20 +295,37 @@ const BattleMinigame: React.FC = () => {
       );
 
       // 4. Game Over
-      socket.on("game_over", (data: { winnerId: string }) => {
-        console.log("Game Over:", data);
-        setIsTimerActive(false);
-        setTimeout(() => {
-          setWinner(
-            data.winnerId === socket.id
-              ? "player"
-              : data.winnerId === "draw"
-              ? "draw"
-              : "opponent"
-          );
-          setShowResults(true);
-        }, 2000);
-      });
+      socket.on(
+        "game_over",
+        (data: {
+          winnerId: string;
+          reason?: string;
+          stats?: { winStreak: number; utilizationIndex: number };
+        }) => {
+          console.log("Game Over:", data);
+          setIsTimerActive(false);
+
+          if (data.reason === "disconnect") {
+            setDisconnectMessage(t("battle.opponentDisconnected"));
+          }
+
+          if (data.stats) {
+            setWinStreak(data.stats.winStreak);
+            setUtilizationIndex(data.stats.utilizationIndex);
+          }
+
+          setTimeout(() => {
+            setWinner(
+              data.winnerId === socket.id
+                ? "player"
+                : data.winnerId === "draw"
+                ? "draw"
+                : "opponent"
+            );
+            setShowResults(true);
+          }, 2000);
+        }
+      );
     }
 
     return () => {
@@ -315,6 +348,10 @@ const BattleMinigame: React.FC = () => {
     const hit = new Audio("/assets/hit-sound.mp3");
     hit.volume = 0.6;
     hitSoundRef.current = hit;
+
+    const critical = new Audio("/assets/critical-hit-sound.mp3");
+    critical.volume = 0.7; // Slightly louder
+    criticalSoundRef.current = critical;
 
     const playBGM = async () => {
       try {
@@ -341,6 +378,7 @@ const BattleMinigame: React.FC = () => {
       bgm.pause();
       bgmRef.current = null;
       hitSoundRef.current = null;
+      criticalSoundRef.current = null;
     };
   }, []);
 
@@ -649,62 +687,58 @@ const BattleMinigame: React.FC = () => {
             </div>
           )}
         </div>
-        <IonModal isOpen={showResults} className="results-modal">
-          <div className="results-container">
-            <IonCard className="results-card">
-              <IonCardContent>
-                <div className="battle-results-section">
-                  <IonText>
-                    <h2 className="battle-result-title">
-                      {winner === "player" && t("battle.victory")}
-                      {winner === "opponent" && t("battle.defeat")}
-                      {winner === "draw" && t("battle.draw")}
-                    </h2>
-                  </IonText>
+        <IonModal
+          isOpen={showResults}
+          className="results-modal"
+          backdropDismiss={false}
+        >
+          <div className="premium-results-container">
+            {/* Victory / Defeat Header */}
+            <div className={`result-header ${winner}`}>
+              {disconnectMessage && (
+                <div className="disconnect-badge">{disconnectMessage}</div>
+              )}
+              <div className="result-title">
+                {winner === "player"
+                  ? "¡VICTORIA!"
+                  : winner === "opponent"
+                  ? "DERROTA"
+                  : "EMPATE"}
+              </div>
+            </div>
 
-                  <div className="battle-stats">
-                    <div className="battle-stat">
-                      <div className="stat-label">
-                        {t("battle.finalHealth")}
-                      </div>
-                      <div className="stat-value">
-                        {player.health}/{player.maxHealth}
-                      </div>
-                    </div>
-                    <div className="battle-stat">
-                      <div className="stat-label">
-                        {t("battle.opponentHealth")}
-                      </div>
-                      <div className="stat-value">
-                        {opponent.health}/{opponent.maxHealth}
-                      </div>
-                    </div>
-                    <div className="battle-stat">
-                      <div className="stat-label">{t("battle.score")}</div>
-                      <div className="stat-value">{player.score} pts</div>
-                    </div>
+            {/* Stats Display (Only show for Winner or Player) */}
+            <div className="result-stats-grid">
+              <div className="stat-box">
+                <span className="stat-label">Puntos</span>
+                <span className="stat-value">{player.score}</span>
+              </div>
+              {winner === "player" && (
+                <>
+                  <div className="stat-box highlight">
+                    <span className="stat-label">{t("battle.winStreak")}</span>
+                    <span className="stat-value">🔥 {winStreak}</span>
                   </div>
+                  <div className="stat-box highlight">
+                    <span className="stat-label">
+                      {t("battle.utilizationIndex")}
+                    </span>
+                    <span className="stat-value">⚡ {utilizationIndex}</span>
+                  </div>
+                </>
+              )}
+            </div>
 
-                  <div className="battle-actions">
-                    <IonButton
-                      expand="block"
-                      className="rematch-button"
-                      onClick={restartBattle}
-                    >
-                      {t("battle.rematch")}
-                    </IonButton>
-                    <IonButton
-                      expand="block"
-                      className="menu-button-primary"
-                      onClick={handleBackToMenu}
-                    >
-                      <IonIcon icon={arrowForward} slot="end" />
-                      {t("battle.backToMenu")}
-                    </IonButton>
-                  </div>
-                </div>
-              </IonCardContent>
-            </IonCard>
+            <div className="result-actions">
+              <IonButton
+                expand="block"
+                className="premium-lobby-btn"
+                onClick={handleBackToMenu}
+              >
+                {t("battle.backToLobby")}
+                <IonIcon icon={arrowForward} slot="end" />
+              </IonButton>
+            </div>
           </div>
         </IonModal>
       </IonContent>

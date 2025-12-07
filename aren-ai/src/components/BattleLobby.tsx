@@ -133,8 +133,8 @@ const BattleLobby: React.FC = () => {
                 {/* Speech bubble points to right/mascot */}
                 <div className="speech-bubble">
                   {isSearching
-                    ? "Looking for opponent..."
-                    : "I'm ready let's go!"}
+                    ? t("battleLobby.lookingStatus")
+                    : t("battleLobby.readyStatus")}
                 </div>
               </div>
 
@@ -168,7 +168,9 @@ const BattleLobby: React.FC = () => {
 
           {/* Middle Section: Opponent Card */}
           <div className="lobby-card opponent-section-card">
-            <div className="section-header-pill">Contrincante</div>
+            <div className="section-header-pill">
+              {t("battleLobby.opponent")}
+            </div>
 
             <div className="battle-type-toggle">
               <button
@@ -177,7 +179,7 @@ const BattleLobby: React.FC = () => {
                 }`}
                 onClick={() => setBattleType("quick")}
               >
-                Batalla rápida
+                {t("battleLobby.quickBattleBtn")}
               </button>
               <span className="toggle-sep">/</span>
               <button
@@ -186,7 +188,7 @@ const BattleLobby: React.FC = () => {
                 }`}
                 onClick={() => setBattleType("friend")}
               >
-                Batalla con amigos
+                {t("battleLobby.friendBattleBtn")}
               </button>
             </div>
 

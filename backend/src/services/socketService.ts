@@ -7,6 +7,8 @@ interface Player {
   score: number;
   health: number;
   maxHealth: number;
+  winStreak: number;
+  utilizationIndex: number;
 }
 
 interface GameState {
@@ -46,8 +48,8 @@ export const initSocket = (io: Server) => {
         activeGames[roomId] = {
           roomId,
           players: {
-            [p1.id]: { id: p1.id, name: p1.name, avatar: p1.avatar, score: 0, health: 100, maxHealth: 100 },
-            [p2.id]: { id: p2.id, name: p2.name, avatar: p2.avatar, score: 0, health: 100, maxHealth: 100 }
+            [p1.id]: { id: p1.id, name: p1.name, avatar: p1.avatar, score: 0, health: 100, maxHealth: 100, winStreak: 0, utilizationIndex: 0 },
+            [p2.id]: { id: p2.id, name: p2.name, avatar: p2.avatar, score: 0, health: 100, maxHealth: 100, winStreak: 0, utilizationIndex: 0 }
           },
           currentQuestionIndex: 0,
           roundStartTime: Date.now(),
@@ -99,12 +101,33 @@ export const initSocket = (io: Server) => {
       }
     });
 
-    // Emergency cleanup
+    // Emergency cleanup & Disconnect Handling
     socket.on('disconnect', () => {
       const idx = waitingQueue.findIndex(p => p.id === socket.id);
       if (idx !== -1) waitingQueue.splice(idx, 1);
       
-      // Handle active game disconnects if needed
+      // DISABLED: Aggressive disconnect handling caused connection issues.
+      /*
+      const gameId = Object.keys(activeGames).find(gid => activeGames[gid].players[socket.id]);
+      if (gameId) {
+          const game = activeGames[gameId];
+          const opponentId = Object.keys(game.players).find(pid => pid !== socket.id);
+          if (opponentId) {
+              // Auto-Win for opponent
+              game.players[opponentId].winStreak += 1;
+              game.players[opponentId].utilizationIndex += 5; 
+              io.to(game.roomId).emit('game_over', { 
+                  winnerId: opponentId,
+                  reason: 'disconnect',
+                  stats: {
+                      winStreak: game.players[opponentId].winStreak,
+                      utilizationIndex: game.players[opponentId].utilizationIndex
+                  }
+              });
+          }
+          delete activeGames[gameId];
+      }
+      */
     });
   });
 };
@@ -183,6 +206,14 @@ const resolveRound = (io: Server, game: GameState) => {
   if (game.players[p1Id].health <= 0) { gameOver = true; winnerId = p2Id; }
   else if (game.players[p2Id].health <= 0) { gameOver = true; winnerId = p1Id; }
 
+  if (gameOver && winnerId) {
+      const loserId = winnerId === p1Id ? p2Id : p1Id;
+      game.players[winnerId].winStreak += 1;
+      game.players[winnerId].utilizationIndex += 10;
+      game.players[loserId].winStreak = 0;
+      game.players[loserId].utilizationIndex += 2;
+  }
+
   // Send Results
   io.to(game.roomId).emit('round_result', {
     winnerId: roundWinnerId,
@@ -198,7 +229,12 @@ const resolveRound = (io: Server, game: GameState) => {
   
   if (gameOver) {
      setTimeout(() => {
-        io.to(game.roomId).emit('game_over', { winnerId });
+        const winnerStats = winnerId ? {
+            winStreak: game.players[winnerId].winStreak,
+            utilizationIndex: game.players[winnerId].utilizationIndex
+        } : undefined;
+
+        io.to(game.roomId).emit('game_over', { winnerId, stats: winnerStats });
         delete activeGames[game.roomId];
      }, 2000);
   } else {
