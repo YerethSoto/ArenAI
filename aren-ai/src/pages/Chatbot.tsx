@@ -15,6 +15,7 @@ import {
 } from "@ionic/react";
 import { micOutline, send, menu } from "ionicons/icons";
 import React, { useState, useRef, useEffect } from "react";
+import { useAvatar } from "../context/AvatarContext";
 import "./Chatbot.css";
 import StudentMenu from "../components/StudentMenu";
 import StudentSidebar from "../components/StudentSidebar";
@@ -31,6 +32,8 @@ interface Message {
 }
 
 const Chat: React.FC = () => {
+  const { getAvatarAssets } = useAvatar();
+  const avatarAssets = getAvatarAssets();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("Math");
@@ -236,9 +239,9 @@ const Chat: React.FC = () => {
                   <div className="avatar-container">
                     <AnimatedMascot
                       className="bot-avatar-image"
-                      openSrc="/assets/profile_picture_capybara_eyes_open.png"
-                      closedSrc="/assets/profile_picture_capybara_eyes_closed.png"
-                      winkSrc="/assets/profile_picture_capybara_wink.png"
+                      openSrc={avatarAssets.open}
+                      closedSrc={avatarAssets.closed}
+                      winkSrc={avatarAssets.wink}
                     />
                   </div>
                 )}
