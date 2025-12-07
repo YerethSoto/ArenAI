@@ -1,7 +1,8 @@
 /* CalendarSelector.css */
 
 .calendar-selector-container {
-    background-color: rgba(var(--ion-color-secondary-rgb), 0.1); /* Semi-transparent secondary */
+    background-color: var(--ion-color-secondary-soft);
+    /* Solid soft secondary */
     border-radius: 20px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
@@ -107,10 +108,11 @@
 }
 
 .cs-date-cell.selected {
-    background-color: var(--ion-color-primary); /* Blue/Primary color for selection */
+    background-color: var(--ion-color-primary);
+    /* Blue/Primary color for selection */
     color: white;
     font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .cs-dot {
