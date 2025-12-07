@@ -2,3 +2,4 @@
 backend/dist/
 /backend/cert
 **/node_modules/
+/backend/dist

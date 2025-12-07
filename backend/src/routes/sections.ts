@@ -37,7 +37,7 @@ router.post('/', async (req, res, next) => {
 
     let section;
     try {
-  section = await createSection({ sectionNumber: section_number, grade, institutionId: dbUser.id_institution });
+      section = await createSection({ sectionNumber: section_number, grade, institutionId: dbUser.id_institution });
     } catch (dbErr: any) {
       // Handle duplicate section (unique constraint on id_institution, name)
       if (dbErr?.code === 'ER_DUP_ENTRY' || (dbErr?.message && dbErr.message.includes('Duplicate'))) {
@@ -86,7 +86,7 @@ router.get('/:sectionId/students', async (req, res, next) => {
   }
 });
 
-router.post('/join', async (req, res) => {
+router.post('/join', async (req, res, next) => {
   // Section number (string) and grade (string)
   const bodySchema = z.object({
     section_number: z.string().min(1, 'Section number is required'),
@@ -112,7 +112,7 @@ router.post('/join', async (req, res) => {
 
     let section;
     try {
-  section = await createSection({ sectionNumber: section_number, grade, institutionId: dbUser.id_institution });
+      section = await createSection({ sectionNumber: section_number, grade, institutionId: dbUser.id_institution });
     } catch (dbErr: any) {
       // Handle duplicate section (unique constraint on id_institution, name)
       if (dbErr?.code === 'ER_DUP_ENTRY' || (dbErr?.message && dbErr.message.includes('Duplicate'))) {
