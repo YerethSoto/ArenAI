@@ -29,6 +29,7 @@ import {
   exitOutline,
   exitSharp,
   bookOutline,
+  documentTextOutline,
   clipboardOutline,
   glassesOutline
 } from 'ionicons/icons';
@@ -74,6 +75,12 @@ const appPages: AppPage[] = [
     url: '/student-section',
     iosIcon: analyticsOutline,
     mdIcon: analyticsSharp
+  },
+  {
+    title: 'Teacher Admin',
+    url: '/teacher-admin',
+    iosIcon: documentTextOutline,
+    mdIcon: documentTextOutline
   }
 ];
 

@@ -1,0 +1,79 @@
+// C:\ArenAI\ArenAI\backend\src\services\geminiService.ts
+
+import { GoogleGenAI } from '@google/genai';
+// import { appConfig } from '../config/env.js'; // Descomenta si usas tu config centralizada
+
+const PROJECT_ID = process.env.GOOGLE_CLOUD_PROJECT_ID;
+const LOCATION = process.env.GOOGLE_CLOUD_LOCATION;
+
+if (!PROJECT_ID || !LOCATION) {
+  console.warn("⚠️ ADVERTENCIA: GOOGLE_CLOUD_PROJECT_ID o GOOGLE_CLOUD_LOCATION no están definidos. El servicio de Gemini podría fallar.");
+}
+
+// CORRECCIÓN AQUÍ:
+const ai = new GoogleGenAI({
+  vertexai: true, // Esto activa el modo Vertex AI
+  location: LOCATION || 'us-central1',
+  project: PROJECT_ID || 'neat-resolver-478304-h4',
+});
+
+// Usamos el modelo 1.5 Flash que es rápido y económico en Vertex AI
+const GEMINI_MODEL = "gemini-1.5-flash"; 
+
+export async function generateContentWithGemini(prompt: string): Promise<string> {
+    try {
+        const response: any = await ai.models.generateContent({
+            model: GEMINI_MODEL,
+            contents: [{ role: "user", parts: [{ text: prompt }] }],
+        });
+
+        // Verificación robusta de la respuesta
+        // En algunas versiones del SDK, response.text es una función, en otras una propiedad.
+        if (response && response.text) {
+             return typeof response.text === 'function' ? response.text() : response.text;
+        }
+        
+        // Fallback si la estructura es diferente (acceso directo a candidatos)
+        if (response?.candidates?.[0]?.content?.parts?.[0]?.text) {
+            return response.candidates[0].content.parts[0].text;
+        }
+
+        return JSON.stringify(response);
+    } catch (error) {
+        console.error("Error generating content with Gemini:", error);
+        throw error;
+    }
+}
+
+/**
+ * Quick test function to verify connection.
+ */
+export async function checkGeminiConnection(): Promise<string> {
+    const prompt = "What is the capital of France? Answer with one word.";
+    console.log(`[Gemini Test] Sending prompt: ${prompt}`);
+    
+    try {
+        // Nota: en este SDK a veces se usa config como segundo argumento, 
+        // pero para generateContent suele ser el primero con las opciones.
+        const response: any = await ai.models.generateContent({
+            model: GEMINI_MODEL,
+            contents: [{ role: "user", parts: [{ text: prompt }] }],
+        });
+        
+        let text = '';
+        if (response.text) {
+            text = typeof response.text === 'function' ? response.text() : response.text;
+        } else if (response?.candidates?.[0]?.content?.parts?.[0]?.text) {
+             text = response.candidates[0].content.parts[0].text;
+        }
+        
+        return text;
+    } catch (error) {
+        console.error("Gemini connection test failed:", error);
+        // Mostrar detalles del error si es de Google Cloud
+        if (error instanceof Error) {
+            console.error("Detalles del error:", error.message);
+        }
+        throw error;
+    }
+}

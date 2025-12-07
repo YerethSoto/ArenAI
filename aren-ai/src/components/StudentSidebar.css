@@ -99,13 +99,13 @@ ion-item {
 
 ion-item.selected {
   --background: var(--ion-color-primary-tint);
-  --color: var(--ion-color-primary);
+  --color: white;
   font-weight: 500;
 }
 
 ion-item.selected-theme {
   --background: var(--ion-color-primary-tint);
-  --color: var(--ion-color-primary);
+  --color: white;
   font-weight: 500;
 }
 
@@ -115,7 +115,7 @@ ion-item ion-icon {
 }
 
 ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
+  color: white;
 }
 
 ion-item::part(native) {
