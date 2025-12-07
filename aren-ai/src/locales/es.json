@@ -25,6 +25,49 @@
         "formulaProgress": "Progreso: La barra muestra tu avance hacia la meta diaria.",
         "close": "Cerrar"
     },
+    "professor": {
+        "sidebar": {
+            "mainMenu": "Panel Principal",
+            "students": "Estudiantes",
+            "createSection": "Crear Sección",
+            "createTask": "Crear Tarea",
+            "studentSections": "Secciones de Estudiantes",
+            "teacherAdmin": "Herramientas Admin",
+            "settings": "Configuración",
+            "help": "Ayuda y Soporte",
+            "logout": "Cerrar Sesión",
+            "teaching": "Enseñanza",
+            "account": "Cuenta"
+        },
+        "menu": {
+            "allClasses": "Todas las Clases",
+            "classA": "Clase A",
+            "classB": "Clase B",
+            "allGrades": "Todos los Grados",
+            "grade9": "9° Grado",
+            "grade10": "10° Grado",
+            "allSections": "Todas las Secciones",
+            "section1": "Sección 1",
+            "section2": "Sección 2",
+            "allSubjects": "Todas las Materias",
+            "math": "Matemáticas",
+            "science": "Ciencias",
+            "history": "Historia"
+        },
+        "dashboard": {
+            "performance": "Rendimiento",
+            "average": "Promedio de Clase",
+            "compared": "comparado con semana anterior",
+            "classTopics": "Temas de Clase",
+            "insights": "Insights",
+            "needsAttention": "Requiere Atención",
+            "needsAttentionDesc": "3 estudiantes con dificultades en Álgebra",
+            "excellentProgress": "Progreso Excelente",
+            "excellentProgressDesc": "90% completado en Geometría",
+            "todaysClass": "Clase de Hoy",
+            "start": "Iniciar Clase"
+        }
+    },
     "mainStudent": {
         "brandSub": "Estudiante",
         "yourSubject": "Tu {{subject}}",

@@ -35,6 +35,7 @@ import Shop from "./pages/Shop";
 import Clan from "./pages/Clan";
 import Help from "./pages/Help";
 import ProfessorAdmin from "./pages/ProfessorAdmin";
+import ProfessorProfile from "./pages/ProfessorProfile";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AvatarProvider } from "./context/AvatarContext";
 
@@ -319,6 +320,14 @@ const App: React.FC = () => {
                 <Route path="/teacher-admin" exact={true}>
                   {userRole === "professor" ? (
                     <ProfessorAdmin />
+                  ) : (
+                    <Redirect to="/login" />
+                  )}
+                </Route>
+
+                <Route path="/professor-profile" exact={true}>
+                  {userRole === "professor" ? (
+                    <ProfessorProfile />
                   ) : (
                     <Redirect to="/login" />
                   )}

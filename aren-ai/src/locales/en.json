@@ -23,6 +23,49 @@
         "formulaProgress": "Progress: The bar shows your progress towards the daily goal.",
         "close": "Close"
     },
+    "professor": {
+        "sidebar": {
+            "mainMenu": "Dashboard",
+            "students": "Students",
+            "createSection": "Create Section",
+            "createTask": "Create Task",
+            "studentSections": "Student Sections",
+            "teacherAdmin": "Admin Tools",
+            "settings": "Settings",
+            "help": "Help & Support",
+            "logout": "Log Out",
+            "teaching": "Teaching",
+            "account": "Account"
+        },
+        "menu": {
+            "allClasses": "All Classes",
+            "classA": "Class A",
+            "classB": "Class B",
+            "allGrades": "All Grades",
+            "grade9": "9th Grade",
+            "grade10": "10th Grade",
+            "allSections": "All Sections",
+            "section1": "Section 1",
+            "section2": "Section 2",
+            "allSubjects": "All Subjects",
+            "math": "Math",
+            "science": "Science",
+            "history": "History"
+        },
+        "dashboard": {
+            "performance": "Performance",
+            "average": "Class Average",
+            "compared": "compared to last week",
+            "classTopics": "Class Topics",
+            "insights": "Insights",
+            "needsAttention": "Needs Attention",
+            "needsAttentionDesc": "3 students struggling in Algebra",
+            "excellentProgress": "Excellent Progress",
+            "excellentProgressDesc": "90% completion in Geometry",
+            "todaysClass": "Today's Class",
+            "start": "Start Class"
+        }
+    },
     "mainStudent": {
         "brandSub": "Student",
         "yourSubject": "Your {{subject}}",

@@ -11,25 +11,23 @@ import {
 } from '@ionic/react';
 
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   homeOutline,
   homeSharp,
-  schoolOutline,
-  schoolSharp,
+  peopleOutline,
+  peopleSharp,
   createOutline,
   createSharp,
   analyticsOutline,
   analyticsSharp,
-  peopleOutline,
-  peopleSharp,
+  documentTextOutline,
   settingsOutline,
   settingsSharp,
   helpCircleOutline,
   helpCircleSharp,
   exitOutline,
   exitSharp,
-  bookOutline,
-  documentTextOutline,
   clipboardOutline,
   glassesOutline
 } from 'ionicons/icons';
@@ -39,99 +37,81 @@ interface AppPage {
   url: string;
   iosIcon: string;
   mdIcon: string;
-  title: string;
+  titleKey: string; // Changed to translation key
 }
 
-const appPages: AppPage[] = [
-  {
-    title: 'Main Menu',
-    url: '/page/professor',
-    iosIcon: homeOutline,
-    mdIcon: homeSharp
-  },
-
-
-  {
-    title: 'Students',
-    url: '/folder/Students',
-    iosIcon: peopleOutline,
-    mdIcon: peopleSharp
-  },
-
-  {
-    title: 'Create Section',
-    url: '/class-creation',
-    iosIcon: createOutline,
-    mdIcon: createSharp
-  },
-  {
-    title: 'Create Task',
-    url: '/create-task',
-    iosIcon: clipboardOutline,
-    mdIcon: clipboardOutline
-  },
-  {
-    title: 'Student Sections',
-    url: '/student-section',
-    iosIcon: analyticsOutline,
-    mdIcon: analyticsSharp
-  },
-  {
-    title: 'Teacher Admin',
-    url: '/teacher-admin',
-    iosIcon: documentTextOutline,
-    mdIcon: documentTextOutline
-  }
-];
-
-const settingsPages: AppPage[] = [
-  {
-    title: 'Settings',
-    url: '/folder/Settings',
-    iosIcon: settingsOutline,
-    mdIcon: settingsSharp
-  },
-  {
-    title: 'Help & Support',
-    url: '/folder/Help',
-    iosIcon: helpCircleOutline,
-    mdIcon: helpCircleSharp
-  },
-  {
-    title: 'Logout',
-    url: '/login',
-    iosIcon: exitOutline,
-    mdIcon: exitSharp
-  }
-];
-
-// Interface for user data
-interface UserData {
-  name: string;
-  email: string;
-  username: string;
-}
-
-// Props interface for the sidebar
-interface ProfessorSidebarProps {
-  onLogout: () => void;
-}
-
-const ProfessorSidebar: React.FC<ProfessorSidebarProps> = ({ onLogout }) => {
+const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
   const location = useLocation();
+  const { t } = useTranslation();
+
+  const appPages: AppPage[] = [
+    {
+      titleKey: 'professor.sidebar.mainMenu',
+      url: '/page/professor',
+      iosIcon: homeOutline,
+      mdIcon: homeSharp
+    },
+    {
+      titleKey: 'professor.sidebar.students',
+      url: '/folder/Students',
+      iosIcon: peopleOutline,
+      mdIcon: peopleSharp
+    },
+    {
+      titleKey: 'professor.sidebar.createSection',
+      url: '/class-creation',
+      iosIcon: createOutline,
+      mdIcon: createSharp
+    },
+    {
+      titleKey: 'professor.sidebar.createTask',
+      url: '/create-task',
+      iosIcon: clipboardOutline,
+      mdIcon: clipboardOutline
+    },
+    {
+      titleKey: 'professor.sidebar.studentSections',
+      url: '/student-section',
+      iosIcon: analyticsOutline,
+      mdIcon: analyticsSharp
+    },
+    {
+      titleKey: 'professor.sidebar.teacherAdmin',
+      url: '/teacher-admin',
+      iosIcon: documentTextOutline,
+      mdIcon: documentTextOutline
+    }
+  ];
+
+  const settingsPages: AppPage[] = [
+    {
+      titleKey: 'professor.sidebar.settings',
+      url: '/folder/Settings',
+      iosIcon: settingsOutline,
+      mdIcon: settingsSharp
+    },
+    {
+      titleKey: 'professor.sidebar.help',
+      url: '/folder/Help',
+      iosIcon: helpCircleOutline,
+      mdIcon: helpCircleSharp
+    },
+    {
+      titleKey: 'professor.sidebar.logout',
+      url: '/login',
+      iosIcon: exitOutline,
+      mdIcon: exitSharp
+    }
+  ];
 
   // Get current user data from localStorage
-  const getUserData = (): UserData => {
+  const getUserData = () => {
     try {
       const storedData = localStorage.getItem('userData');
-      if (storedData) {
-        return JSON.parse(storedData);
-      }
+      if (storedData) return JSON.parse(storedData);
     } catch (error) {
       console.error('Error parsing user data:', error);
     }
-
-    // Fallback data if nothing is stored
     return {
       name: 'Prof. Rodriguez',
       email: 'prof.rodriguez@arenai.edu',
@@ -141,10 +121,9 @@ const ProfessorSidebar: React.FC<ProfessorSidebarProps> = ({ onLogout }) => {
 
   const currentUser = getUserData();
 
-  // Handle logout
   const handleLogout = () => {
     console.log('ProfessorSidebar: Logging out');
-    onLogout(); // Call the parent's logout function
+    onLogout();
   };
 
   return (
@@ -166,7 +145,7 @@ const ProfessorSidebar: React.FC<ProfessorSidebarProps> = ({ onLogout }) => {
 
         {/* Navegación principal */}
         <IonList id="main-list" lines="none">
-          <IonListHeader>Teaching</IonListHeader>
+          <IonListHeader>{t('professor.sidebar.teaching')}</IonListHeader>
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
@@ -178,7 +157,7 @@ const ProfessorSidebar: React.FC<ProfessorSidebarProps> = ({ onLogout }) => {
                   detail={false}
                 >
                   <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
-                  <IonLabel>{appPage.title}</IonLabel>
+                  <IonLabel>{t(appPage.titleKey)}</IonLabel>
                 </IonItem>
               </IonMenuToggle>
             );
@@ -187,37 +166,21 @@ const ProfessorSidebar: React.FC<ProfessorSidebarProps> = ({ onLogout }) => {
 
         {/* Configuración y ayuda */}
         <IonList id="settings-list" lines="none">
-          <IonListHeader>Account</IonListHeader>
+          <IonListHeader>{t('professor.sidebar.account')}</IonListHeader>
           {settingsPages.map((appPage, index) => {
-            if (appPage.title === 'Logout') {
-              return (
-                <IonMenuToggle key={index} autoHide={false}>
-                  <IonItem
-                    className={location.pathname === appPage.url ? 'selected' : ''}
-                    routerLink={appPage.url}
-                    routerDirection="none"
-                    lines="none"
-                    detail={false}
-                    onClick={handleLogout}
-                  >
-                    <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
-                    <IonLabel>{appPage.title}</IonLabel>
-                  </IonItem>
-                </IonMenuToggle>
-              );
-            }
-
+            const isLogout = appPage.url === '/login';
             return (
               <IonMenuToggle key={index} autoHide={false}>
                 <IonItem
-                  className={location.pathname === appPage.url ? 'selected' : ''}
+                  className={`${location.pathname === appPage.url ? 'selected' : ''} ${isLogout ? 'logout-item' : ''}`}
                   routerLink={appPage.url}
                   routerDirection="none"
                   lines="none"
                   detail={false}
+                  onClick={isLogout ? handleLogout : undefined}
                 >
                   <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
-                  <IonLabel>{appPage.title}</IonLabel>
+                  <IonLabel>{t(appPage.titleKey)}</IonLabel>
                 </IonItem>
               </IonMenuToggle>
             );

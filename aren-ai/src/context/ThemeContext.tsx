@@ -9,7 +9,7 @@ interface ThemeContextType {
     availableThemes: Theme[];
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [theme, setThemeState] = useState<Theme>('original');
@@ -19,32 +19,22 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         const savedTheme = localStorage.getItem('arenai-theme') as Theme;
         const userRole = localStorage.getItem('userRole');
 
-        // Only apply theme for students
-        if (userRole === 'student' && savedTheme) {
+        // Apply saved theme if it exists, otherwise default to original
+        if (savedTheme) {
             setTheme(savedTheme);
         } else {
-            // Professors always use original theme
             setTheme('original');
         }
     }, []);
 
     const setTheme = (newTheme: Theme) => {
-        const userRole = localStorage.getItem('userRole');
+        setThemeState(newTheme);
+        localStorage.setItem('arenai-theme', newTheme);
 
-        // Only allow theme changes for students
-        if (userRole === 'student') {
-            setThemeState(newTheme);
-            localStorage.setItem('arenai-theme', newTheme);
-
-            // Apply theme class to body
-            document.body.className = ''; // Clear existing classes
-            if (newTheme !== 'original') {
-                document.body.classList.add(`theme-${newTheme}`);
-            }
-        } else {
-            // Professors always stay on original theme
-            setThemeState('original');
-            document.body.className = ''; // Clear any theme classes
+        // Apply theme class to body
+        document.body.className = ''; // Clear existing classes
+        if (newTheme !== 'original') {
+            document.body.classList.add(`theme-${newTheme}`);
         }
     };
 
