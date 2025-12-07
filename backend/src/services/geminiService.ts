@@ -18,7 +18,7 @@ const ai = new GoogleGenAI({
 });
 
 // Usamos el modelo 1.5 Flash que es rápido y económico en Vertex AI
-const GEMINI_MODEL = "gemini-1.5-flash"; 
+const GEMINI_MODEL = "gemini-2.0-flash-lite-001"; 
 
 export async function generateContentWithGemini(prompt: string): Promise<string> {
     try {
@@ -49,7 +49,7 @@ export async function generateContentWithGemini(prompt: string): Promise<string>
  * Quick test function to verify connection.
  */
 export async function checkGeminiConnection(): Promise<string> {
-    const prompt = "What is the capital of France? Answer with one word.";
+    const prompt = "Hello how are you";
     console.log(`[Gemini Test] Sending prompt: ${prompt}`);
     
     try {

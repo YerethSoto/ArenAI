@@ -134,8 +134,8 @@ const Chat: React.FC = () => {
 
   // mandar mensaje
 
-  const OLLAMA_URL = "http://192.168.31.166:11434/api/generate";
-  const OLLAMA_MODEL = "gemma2:2b"; // Cambiado a gemma2:2b
+  // Endpoint del backend propio
+  const API_URL = "http://localhost:3002/ai/chat";
 
   const handleSendMessage = async () => {
     if (inputMessage.trim() === "") return;
@@ -154,35 +154,22 @@ const Chat: React.FC = () => {
     scrollToBottom();
 
     try {
-      const systemRules = `[Tus reglas de sistema aquí...]`;
-
-      const prompt = `<|system|>
-${systemRules}
-<|user|>
-${inputMessage}
-<|assistant|>
-`;
-
-      const response = await fetch(OLLAMA_URL, {
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: OLLAMA_MODEL,
-          prompt: prompt,
-          stream: false,
+          prompt: inputMessage, // Backend espera { prompt: string }
         }),
       });
 
-      if (!response.ok) throw new Error("Ollama no responde");
+      if (!response.ok) throw new Error("Error en la respuesta del servidor");
 
       const data = await response.json();
       const botResponse =
         data.response ||
-        "¡Hola Yereth! Veo que tienes una pregunta interesante sobre " +
-          selectedSubject +
-          ". ¿Por qué no empiezas escribiendo en tu cuaderno lo que ya sabes sobre este tema?";
+        "Lo siento, no pude procesar tu solicitud en este momento.";
 
       const botMessage: Message = {
         id: messageIdCounter.current++,
@@ -199,7 +186,7 @@ ${inputMessage}
       console.error("Detailed error:", error);
       const errorMessage: Message = {
         id: messageIdCounter.current++,
-        text: "⚠️ El servicio de IA no está disponible. Sugerencias:\n\n1. Verifica tu conexión a internet\n2. Intenta con una pregunta más corta\n3. Mientras, puedes escribir el problema en tu cuaderno",
+        text: "⚠️ Ocurrió un error al conectar con la IA. Por favor intenta denuevo.",
         isUser: false,
         timestamp: new Date(),
         displayedText: "",
