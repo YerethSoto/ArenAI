@@ -57,6 +57,10 @@ const StudentSettings: React.FC = () => {
                             <IonSelectOption value="es">Español</IonSelectOption>
                         </IonSelect>
                     </IonItem>
+
+                    <IonItem button routerLink="/personality-quiz" detail={true}>
+                        <IonLabel>{t('sidebar.personalityQuiz')}</IonLabel>
+                    </IonItem>
                 </IonList>
 
                 <div className="theme-preview-section">

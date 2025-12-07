@@ -73,12 +73,7 @@ const appPages: AppPage[] = [
     iosIcon: trophyOutline,
     mdIcon: trophySharp,
   },
-  {
-    titleKey: "sidebar.personalityQuiz",
-    url: "/personality-quiz",
-    iosIcon: happyOutline,
-    mdIcon: happySharp,
-  },
+
   {
     titleKey: "sidebar.leaderboard",
     url: "/leaderboard",

@@ -448,7 +448,9 @@ ion-menu-button {
   cursor: pointer;
 }
 
-.qr-overlay-body { padding-top: 6px; }
+.qr-overlay-body {
+  padding-top: 6px;
+}
 
 .qr-code-wrapper {
   display: flex;
@@ -457,7 +459,7 @@ ion-menu-button {
   padding: 10px;
   background: #fff;
   border-radius: 10px;
-  border: 1px solid rgba(143,106,86,0.12);
+  border: 1px solid rgba(143, 106, 86, 0.12);
   margin-bottom: 10px;
 }
 
@@ -484,7 +486,9 @@ ion-menu-button {
   margin-top: 8px;
 }
 
-.btn-copy, .btn-share, .btn-done {
+.btn-copy,
+.btn-share,
+.btn-done {
   background: #8f6a56;
   color: white;
   border: none;
@@ -493,7 +497,12 @@ ion-menu-button {
   cursor: pointer;
   font-weight: 600;
 }
-.btn-done { background: transparent; color: #8f6a56; border: 1px solid #8f6a56; }
+
+.btn-done {
+  background: transparent;
+  color: #8f6a56;
+  border: 1px solid #8f6a56;
+}
 
 @media (max-width: 768px) {
   .class-creation-content {
@@ -501,36 +510,36 @@ ion-menu-button {
     --padding-end: 12px;
     --padding-top: 15px;
   }
-  
+
   .page-title {
     font-size: 1.8rem;
   }
-  
+
   .page-subtitle {
     font-size: 1rem;
   }
-  
+
   .creation-card ion-card-content {
     padding: 24px 20px;
   }
-  
+
   .input-section {
     margin-bottom: 20px;
   }
-  
+
   .create-button {
     height: 50px;
     font-size: 1rem;
   }
-  
+
   .button-section {
     margin-top: 25px;
   }
-  
+
   .qr-modal {
     --width: 95%;
   }
-  
+
   .qr-code-wrapper {
     padding: 12px;
   }
@@ -540,19 +549,19 @@ ion-menu-button {
   .page-title {
     font-size: 1.6rem;
   }
-  
+
   .creation-card ion-card-content {
     padding: 20px 16px;
   }
-  
+
   .class-creation-content {
     --padding-top: 10px;
   }
-  
+
   .success-card ion-card-content {
     padding: 20px 16px;
   }
-  
+
   .qr-code-wrapper {
     transform: scale(0.9);
   }
@@ -729,24 +738,7 @@ ion-modal[style] {
   font-size: 0.9rem;
 }
 
-/* Scrollbar styling for grade list */
-.grade-list::-webkit-scrollbar {
-  width: 6px;
-}
 
-.grade-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 3px;
-}
-
-.grade-list::-webkit-scrollbar-thumb {
-  background: #8f6a56;
-  border-radius: 3px;
-}
-
-.grade-list::-webkit-scrollbar-thumb:hover {
-  background: #7a5a48;
-}
 
 /* Grade Selector Popup Styles */
 .grade-selector-container {
@@ -765,7 +757,8 @@ ion-modal[style] {
   min-height: 56px;
   display: flex;
   align-items: center;
-  z-index: 10; /* Aumentado para estar por encima */
+  z-index: 10;
+  /* Aumentado para estar por encima */
 }
 
 .grade-display {
@@ -794,17 +787,21 @@ ion-modal[style] {
 /* Popup flotante que se abre hacia ABAJO */
 .grade-selector-popup {
   position: absolute;
-  top: 100%; /* Cambiado de bottom: 100% a top: 100% */
+  top: 100%;
+  /* Cambiado de bottom: 100% a top: 100% */
   left: 0;
   right: 0;
-  margin-top: 4px; /* Cambiado de margin-bottom a margin-top */
-  z-index: 1000; /* Muy alto para estar por encima de todo */
+  margin-top: 4px;
+  /* Cambiado de margin-bottom a margin-top */
+  z-index: 1000;
+  /* Muy alto para estar por encima de todo */
 }
 
 .popup-content {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25); /* Sombra más pronunciada */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  /* Sombra más pronunciada */
   border: 1px solid #e0e0e0;
   overflow: hidden;
   max-height: 350px;
@@ -939,7 +936,8 @@ ion-modal[style] {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   border: 1px solid #e0e0e0;
   overflow: hidden;
-  max-height: 500px; /* Aumentado de 350px a 500px */
+  max-height: 500px;
+  /* Aumentado de 350px a 500px */
   display: flex;
   flex-direction: column;
 }
@@ -955,7 +953,8 @@ ion-modal[style] {
 }
 
 .grade-list {
-  max-height: 430px; /* Aumentado de 280px a 430px */
+  max-height: 430px;
+  /* Aumentado de 280px a 430px */
   overflow-y: auto;
   flex: 1;
 }
@@ -1014,11 +1013,13 @@ ion-modal[style] {
 
 /* Mostrar más elementos en la lista (aumentar el slice en el TSX también) */
 .grade-item {
-  min-height: 44px; /* Un poco más compacto para mostrar más elementos */
+  min-height: 44px;
+  /* Un poco más compacto para mostrar más elementos */
 }
 
 .grade-name {
-  margin: 10px 0; /* Menos margen para más elementos */
+  margin: 10px 0;
+  /* Menos margen para más elementos */
   font-size: 0.92rem;
 }
 
@@ -1072,13 +1073,15 @@ ion-modal[style] {
   left: 0;
   right: 0;
   margin-top: 4px;
-  z-index: 10000; /* MUY ALTO para estar por encima de TODO */
+  z-index: 10000;
+  /* MUY ALTO para estar por encima de TODO */
 }
 
 .popup-content {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3); /* Sombra más fuerte */
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  /* Sombra más fuerte */
   border: 1px solid #e0e0e0;
   overflow: hidden;
   max-height: 500px;
@@ -1162,16 +1165,17 @@ ion-modal[style] {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 90%;
-    max-width: 450px; /* Un poco más ancho */
+    max-width: 450px;
+    /* Un poco más ancho */
     max-height: 85vh;
     margin-top: 0;
     z-index: 10000;
   }
-  
+
   .popup-content {
     max-height: 80vh;
   }
-  
+
   .grade-list {
     max-height: 70vh;
   }
@@ -1187,24 +1191,29 @@ ion-modal[style] {
 /* LO MÁS IMPORTANTE: Asegurar que la tarjeta NO recorte el popup */
 .creation-card {
   position: relative;
-  z-index: 1; /* REDUCIDO para que no interfiera */
-  overflow: visible !important; /* PERMITIR que el contenido se salga */
+  z-index: 1;
+  /* REDUCIDO para que no interfiera */
+  overflow: visible !important;
+  /* PERMITIR que el contenido se salga */
 }
 
 .creation-card ion-card-content {
   position: relative;
-  overflow: visible !important; /* PERMITIR que el contenido se salga */
+  overflow: visible !important;
+  /* PERMITIR que el contenido se salga */
 }
 
 .class-creation-content {
   position: relative;
   z-index: 1;
-  overflow: visible !important; /* PERMITIR que el contenido se salga */
+  overflow: visible !important;
+  /* PERMITIR que el contenido se salga */
 }
 
 .class-creation-container {
   position: relative;
-  overflow: visible !important; /* PERMITIR que el contenido se salga */
+  overflow: visible !important;
+  /* PERMITIR que el contenido se salga */
 }
 
 /* Asegurar que el popup esté por encima de TODO */

@@ -234,3 +234,41 @@ ion-app {
   --ion-background-color: var(--ion-background-color);
   --ion-text-color: var(--ion-text-color);
 }
+
+/* Global Custom Scrollbar */
+/* Apply to all elements to ensure variable inheritance from body class */
+*::-webkit-scrollbar,
+ion-content::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+*::-webkit-scrollbar-track,
+ion-content::-webkit-scrollbar-track {
+  background: rgba(var(--ion-color-primary-rgb), 0.05);
+  /* Very faint track */
+  border-radius: 4px;
+}
+
+/* Handle */
+*::-webkit-scrollbar-thumb,
+ion-content::-webkit-scrollbar-thumb {
+  background: rgba(var(--ion-color-primary-rgb), 0.5);
+  /* Semi-transparent handle */
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+/* Handle on hover */
+*::-webkit-scrollbar-thumb:hover,
+ion-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--ion-color-primary-rgb), 0.7);
+  /* Darker on hover */
+}
+
+/* Firefox support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--ion-color-primary-rgb), 0.5) rgba(var(--ion-color-primary-rgb), 0.05);
+}
