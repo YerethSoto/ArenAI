@@ -12,6 +12,7 @@ import RegisterStudent from './pages/RegisterStudent';
 import Class_Creation from './pages/Class_Creation';
 import CreateTask from './pages/CreateTask';
 import StudentSectionPage from './pages/StudentScores';
+import StudentDetail from './pages/StudentDetail';
 import Quiz from './pages/Quiz';
 import PersonalityQuiz from './pages/PersonalityQuiz';
 import Main_Prof from './pages/Main_Prof';
@@ -28,6 +29,7 @@ import Leaderboard from './pages/Leaderboard';
 import Shop from './pages/Shop';
 import Clan from './pages/Clan';
 import Help from './pages/Help';
+import ProfessorAdmin from './pages/ProfessorAdmin';
 import { ThemeProvider } from './context/ThemeContext';
 
 /* Core CSS required for Ionic components to work properly */
@@ -170,9 +172,12 @@ const App: React.FC = () => {
               </Route>
 
               <Route path="/quiz" exact={true}>
-                {userRole === 'student' ? <PersonalityQuiz /> : <Redirect to="/login" />}
+                {userRole === 'student' ? <Quiz /> : <Redirect to="/login" />}
               </Route>
 
+              <Route path="/personality-quiz" exact={true}>
+                {userRole === 'student' ? <PersonalityQuiz /> : <Redirect to="/login" />}
+              </Route>
 
               <Route path="/battleminigame" exact={true}>
                 {userRole === 'student' ? <BattleMinigame></BattleMinigame> : <Redirect to="/login" />}
@@ -205,6 +210,16 @@ const App: React.FC = () => {
               {/* Students by section */}
               <Route path="/student-section" exact={true}>
                 {userRole === 'professor' ? <StudentSectionPage /> : <Redirect to="/login" />}
+              </Route>
+
+              {/* Student Detail Page */}
+              <Route path="/teacher-student-detail/:username/:subject" exact={true}>
+                {userRole === 'professor' ? <StudentDetail /> : <Redirect to="/login" />}
+              </Route>
+
+              {/* Professor Admin Page */}
+              <Route path="/teacher-admin" exact={true}>
+                {userRole === 'professor' ? <ProfessorAdmin /> : <Redirect to="/login" />}
               </Route>
 
               <Route path="/help" exact={true}>
