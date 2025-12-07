@@ -1,0 +1,195 @@
+/* CreateTask.css */
+
+.create-task-content {
+    --background: var(--ion-background-color);
+}
+
+.create-task-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Headers */
+ion-toolbar {
+    --background: var(--ion-color-primary);
+    --color: white;
+}
+
+ion-title {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+    color: var(--ion-color-primary);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.subsection-title {
+    font-size: 1.1rem;
+    color: var(--ion-text-color-step-150);
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+/* Sections */
+.form-section {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Segment/Toggle */
+.recipient-toggle ion-segment {
+    background: rgba(144, 190, 171, 0.2);
+    /* Secondary color with opacity */
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 20px;
+    /* Added spacing */
+}
+
+.recipient-toggle ion-segment-button {
+    --indicator-color: var(--ion-color-secondary);
+    --color: var(--ion-text-color-step-400);
+    --color-checked: white;
+    --border-radius: 8px;
+    font-weight: 500;
+}
+
+/* Inputs */
+.custom-select-item,
+.custom-input-item {
+    --background: #f8f9fa;
+    --border-radius: 12px;
+    --padding-start: 16px;
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+}
+
+.custom-select-item ion-label,
+.custom-input-item ion-label {
+    color: var(--ion-color-primary);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* Chips */
+.selected-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.selected-chips ion-chip {
+    background: var(--ion-color-secondary);
+    color: white;
+    font-weight: 500;
+}
+
+/* Task Type Cards */
+.task-type-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.type-card {
+    background: #f8f9fa;
+    border: 2px solid transparent;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.type-card:hover {
+    background: #f0f0f0;
+}
+
+.type-card.selected {
+    background: white;
+    border-color: var(--ion-color-tertiary);
+    box-shadow: 0 4px 12px rgba(60, 119, 130, 0.2);
+}
+
+.card-icon {
+    font-size: 32px;
+    color: var(--ion-text-color-step-400);
+    margin-bottom: 10px;
+}
+
+.type-card.selected .card-icon {
+    color: var(--ion-color-tertiary);
+}
+
+.type-card h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--ion-text-color);
+}
+
+.type-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--ion-text-color-step-400);
+}
+
+/* Range */
+.range-container {
+    padding: 10px 0;
+    margin-bottom: 15px;
+}
+
+/* Button */
+.create-button {
+    --background: var(--ion-color-primary);
+    --background-hover: var(--ion-color-primary-tint);
+    --border-radius: 12px;
+    height: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-top: 20px;
+    box-shadow: 0 4px 16px rgba(143, 106, 86, 0.3);
+    --color: white;
+    /* Ensure text is white */
+    color: white;
+    /* Fallback for some Android versions */
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .task-type-cards {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,766 @@
+{
+    "sidebar": {
+        "learning": "Learning",
+        "mainMenu": "Main Menu",
+        "chat": "Chat with Aren",
+        "quiz": "Quiz",
+        "personalityQuiz": "Personality Quiz",
+        "leaderboard": "Leaderboard",
+        "battle": "Battle",
+        "battleLobby": "Battle Lobby",
+        "achievements": "Achievements",
+        "account": "Account",
+        "settings": "Settings",
+        "help": "Help & Support",
+        "logout": "Logout",
+        "utilizationIndex": "Utilization Index:",
+        "timeUsed": "Time used today:",
+        "howCalculated": "How is it calculated?",
+        "formulaTitle": "How is it calculated?",
+        "formulaBody": "Index = log(1 + minutes of use) × 15 + (activities completed^1.5 × 6) + bonus",
+        "formulaBonus": "Bonus: +10 if you use more than 60 min, +8 if you complete 5 or more activities.",
+        "formulaGoal": "Daily Goal: {{goal}} points.",
+        "formulaProgress": "Progress: The bar shows your progress towards the daily goal.",
+        "close": "Close"
+    },
+    "mainStudent": {
+        "brandSub": "Student",
+        "yourSubject": "Your {{subject}}",
+        "recommendations": "Recommendations",
+        "questions": "Questions",
+        "studyRecommendation": "Study Recommendation",
+        "popularQuestions": "Popular Questions",
+        "weeks": {
+            "week1": "Intro to Derivatives",
+            "week2": "Week 2 - Functions and Graphs",
+            "week3": "Week 3 - Geometry Basics",
+            "week4": "Week 4 - Advanced Geometry",
+            "week5": "Week 5 - Trigonometry",
+            "week6": "Week 6 - Statistics & Probability",
+            "week7": "Week 7 - Calculus Introduction",
+            "week8": "Week 8 - Advanced Calculus",
+            "week9": "Week 9 - Number Theory",
+            "week10": "Week 10 - Mathematical Logic",
+            "week11": "Week 11 - Review & Applications",
+            "week12": "Week 12 - Final Projects"
+        },
+        "subjects": {
+            "Math": "Math",
+            "Science": "Science",
+            "SocialStudies": "Social Studies",
+            "Spanish": "Spanish"
+        },
+        "topics": {
+            "Algebra": "Algebra",
+            "Geometry": "Geometry",
+            "Calculus": "Calculus",
+            "Statistics": "Statistics",
+            "Trigonometry": "Trigonometry",
+            "Probability": "Probability",
+            "LinearEq": "Linear Eq",
+            "Functions": "Functions",
+            "Biology": "Biology",
+            "Chemistry": "Chemistry",
+            "Physics": "Physics",
+            "EarthSci": "Earth Sci",
+            "Astronomy": "Astronomy",
+            "EnvSci": "Env Sci",
+            "History": "History",
+            "Geography": "Geography",
+            "Civics": "Civics",
+            "Economics": "Economics",
+            "Culture": "Culture",
+            "Govt": "Govt",
+            "Vocab": "Vocab",
+            "Grammar": "Grammar",
+            "Reading": "Reading",
+            "Writing": "Writing",
+            "Speaking": "Speaking",
+            "Listening": "Listening"
+        }
+    },
+    "settings": {
+        "title": "Settings",
+        "appearance": "Appearance",
+        "theme": "Theme",
+        "language": "Language",
+        "themePreview": "Theme Preview",
+        "previewDesc": "This is how your components will look:",
+        "primaryTitle": "Primary Title",
+        "standardText": "This is standard text content.",
+        "primaryButton": "Primary Button",
+        "secondaryButton": "Secondary Button",
+        "tertiaryButton": "Tertiary Button",
+        "primaryCard": "Primary Card",
+        "cardDesc": "Card with primary background color.",
+        "outlineButton": "Outline Button",
+        "listItem": "List Item",
+        "listDesc": "With secondary text"
+    },
+    "chat": {
+        "title": "ArenAI Chat"
+    },
+    "quiz": {
+        "title": "Quiz",
+        "questions": "questions",
+        "points": "points",
+        "place": "place",
+        "congrats": "Congratulations {{name}}! Your score is {{score}} points",
+        "topicsToReinforce": "Topics to reinforce",
+        "backToMenu": "Back to Main Menu",
+        "rating": {
+            "perfect": "PERFECT!",
+            "awesome": "AWESOME!",
+            "veryGood": "VERY GOOD!",
+            "goodJob": "GOOD JOB!",
+            "keepPracticing": "KEEP PRACTICING!"
+        }
+    },
+    "battle": {
+        "title": "Battle",
+        "rematch": "Rematch",
+        "backToMenu": "Back to Menu",
+        "victory": "VICTORY!",
+        "defeat": "DEFEAT!",
+        "draw": "DRAW!",
+        "finalHealth": "Your final health",
+        "opponentHealth": "Opponent health",
+        "score": "Score",
+        "hp": "HP"
+    },
+    "battleLobby": {
+        "title": "Battle Arena",
+        "welcomeTitle": "Battle Arena",
+        "welcomeSubtitle": "Prove your knowledge against other students",
+        "searching": "Searching for opponent...",
+        "searchingDesc1": "Looking for a worthy opponent...",
+        "searchingDesc2": "Analyzing potential opponents...",
+        "battleId": "Battle ID: {{id}}",
+        "shareId": "Share this ID for a friend to join",
+        "cancelSearch": "Cancel search",
+        "chooseSubject": "Choose your subject",
+        "quickBattle": "Quick Battle",
+        "howToPlay": "How to play?",
+        "step1": {
+            "title": "Choose a subject",
+            "desc": "Select the topic you want to practice"
+        },
+        "step2": {
+            "title": "Wait for an opponent",
+            "desc": "The system will automatically find another player"
+        },
+        "step3": {
+            "title": "Answer questions",
+            "desc": "Each correct answer damages the opponent"
+        },
+        "step4": {
+            "title": "Win the battle!",
+            "desc": "Reduce opponent's health to zero"
+        },
+        "backToMenu": "Back to Main Menu",
+        "processing": "Processing...",
+        "cancelAlert": {
+            "header": "Cancel search",
+            "message": "Are you sure you want to cancel the opponent search?",
+            "continue": "Continue searching",
+            "cancel": "Cancel"
+        },
+        "error": "Error",
+        "subjects": {
+            "History": "History",
+            "HistoryDesc": "Battle with questions about historical events",
+            "Math": "Math",
+            "MathDesc": "Show your math skills",
+            "Science": "Science",
+            "ScienceDesc": "Questions about biology, chemistry and physics"
+        }
+    },
+    "personalityQuiz": {
+        "title": "Discover Your Learning Style",
+        "loading": "Loading your profile...",
+        "questions": [
+            {
+                "question": "How do you prefer to learn something new?",
+                "options": [
+                    "Listening to explanations and lectures",
+                    "Watching videos, images, or diagrams",
+                    "Doing experiments and touching objects",
+                    "Reading books and taking notes"
+                ],
+                "hint": "Think about your favorite learning method.",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "In a school project, what do you prefer to do?",
+                "options": [
+                    "Work alone and at my own pace",
+                    "Work with teammates",
+                    "Discover solutions on my own",
+                    "Follow clear step-by-step instructions"
+                ],
+                "hint": "Think about how you like to work.",
+                "learningType": [
+                    "intrapersonal",
+                    "collaborative",
+                    "discovery",
+                    "logical"
+                ]
+            },
+            {
+                "question": "What activity do you enjoy most in your free time?",
+                "options": [
+                    "Listening to music or podcasts",
+                    "Watching movies or browsing social media",
+                    "Doing sports or crafts",
+                    "Reading books or writing stories"
+                ],
+                "hint": "Select your favorite hobby.",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "When solving a difficult problem:",
+                "options": [
+                    "I talk out loud or discuss with someone",
+                    "I draw diagrams or mind maps",
+                    "I build models or simulate situations",
+                    "I write lists and analyze data"
+                ],
+                "hint": "Think about your problem-solving strategy.",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "logical"
+                ]
+            },
+            {
+                "question": "Do you like learning using technology?",
+                "options": [
+                    "Yes, I prefer online classes and videos",
+                    "Sometimes, depends on the subject",
+                    "I prefer traditional methods",
+                    "I like combining both"
+                ],
+                "hint": "Consider your technology preference.",
+                "learningType": [
+                    "online",
+                    "multimodal",
+                    "traditional",
+                    "multimodal"
+                ]
+            },
+            {
+                "question": "When you memorize information:",
+                "options": [
+                    "I repeat out loud several times",
+                    "I visualize images or scenes",
+                    "I write and rewrite notes",
+                    "I create logical associations"
+                ],
+                "hint": "Remember your memorization technique.",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "reading",
+                    "logical"
+                ]
+            },
+            {
+                "question": "Do you prefer working alone or with others?",
+                "options": [
+                    "Alone, I concentrate better",
+                    "With others, I learn more by sharing",
+                    "Depends on the task",
+                    "I like leading groups"
+                ],
+                "hint": "Think about your social learning style.",
+                "learningType": [
+                    "intrapersonal",
+                    "interpersonal",
+                    "multimodal",
+                    "interpersonal"
+                ]
+            },
+            {
+                "question": "When learning a new language:",
+                "options": [
+                    "I listen to conversations and music",
+                    "I watch movies with subtitles",
+                    "I practice speaking with native speakers",
+                    "I study grammar and write"
+                ],
+                "hint": "Consider your preferred method.",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "What type of instructions do you prefer?",
+                "options": [
+                    "Verbal explanations",
+                    "Video tutorials",
+                    "Practical demonstrations",
+                    "Detailed written manuals"
+                ],
+                "hint": "Think about which format you understand best.",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "When exploring a new topic:",
+                "options": [
+                    "I research on my own first",
+                    "I ask experts or teachers",
+                    "I experiment until I understand it",
+                    "I read articles and documents"
+                ],
+                "hint": "Remember your research approach.",
+                "learningType": [
+                    "discovery",
+                    "collaborative",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "Do you like studying with music?",
+                "options": [
+                    "Yes, it helps me concentrate",
+                    "No, I need total silence",
+                    "Depends on the task",
+                    "I prefer nature sounds"
+                ],
+                "hint": "Consider your ideal study environment.",
+                "learningType": [
+                    "auditory",
+                    "intrapersonal",
+                    "multimodal",
+                    "naturalist"
+                ]
+            },
+            {
+                "question": "In a class, you prefer the teacher to:",
+                "options": [
+                    "Explain verbally with examples",
+                    "Use visual presentations",
+                    "Do practical activities",
+                    "Assign readings and essays"
+                ],
+                "hint": "Think about your ideal class.",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "Do you like working with patterns and logic?",
+                "options": [
+                    "Yes, I love math",
+                    "No, I prefer creative subjects",
+                    "I like balancing both",
+                    "I prefer social and human subjects"
+                ],
+                "hint": "Consider your affinity for logic.",
+                "learningType": [
+                    "logical",
+                    "creative",
+                    "multimodal",
+                    "interpersonal"
+                ]
+            },
+            {
+                "question": "When learning about nature:",
+                "options": [
+                    "I prefer going out and observing",
+                    "I like classifying and organizing",
+                    "I learn by watching documentaries",
+                    "I read biology books"
+                ],
+                "hint": "Think about your connection with nature.",
+                "learningType": [
+                    "naturalist",
+                    "logical",
+                    "visual",
+                    "reading"
+                ]
+            },
+            {
+                "question": "Do you prefer making discoveries yourself?",
+                "options": [
+                    "Yes, I like exploring and experimenting",
+                    "No, I prefer being taught",
+                    "I combine both approaches",
+                    "I prefer researching in a group"
+                ],
+                "hint": "Remember your level of autonomy.",
+                "learningType": [
+                    "discovery",
+                    "traditional",
+                    "multimodal",
+                    "collaborative"
+                ]
+            }
+        ],
+        "results": {
+            "visual": {
+                "title": "You are a Visual Learner! 👁️",
+                "description": "You learn best through images, graphs, videos, and visual presentations. You have an excellent visual memory and prefer to see information.",
+                "traits": [
+                    "Exceptional visual memory",
+                    "Prefer diagrams and charts",
+                    "Think in images",
+                    "Understand better with mind maps"
+                ],
+                "recommendations": [
+                    "Use mind maps and diagrams",
+                    "Watch educational videos",
+                    "Use colors to organize notes",
+                    "Create your own infographics"
+                ]
+            },
+            "auditory": {
+                "title": "You are an Auditory Learner! 👂",
+                "description": "You learn best by listening. Verbal explanations, discussions, and podcasts are your strength. You remember what you hear better.",
+                "traits": [
+                    "Learn by listening",
+                    "Enjoy discussions",
+                    "Remember conversations easily",
+                    "Prefer verbal explanations"
+                ],
+                "recommendations": [
+                    "Listen to educational podcasts",
+                    "Record your classes",
+                    "Read out loud",
+                    "Participate in debates and discussions"
+                ]
+            },
+            "kinesthetic": {
+                "title": "You are a Kinesthetic Learner! 🤸",
+                "description": "You learn best by doing and touching. You need movement, practical experiments, and physical activities to learn effectively.",
+                "traits": [
+                    "Learn by doing",
+                    "Need movement",
+                    "Enjoy experiments",
+                    "Good at building things"
+                ],
+                "recommendations": [
+                    "Do practical experiments",
+                    "Use physical models",
+                    "Take active breaks",
+                    "Relate concepts to movements"
+                ]
+            },
+            "reading": {
+                "title": "You are a Reading/Writing Learner! 📚",
+                "description": "You learn best by reading and writing. Books, articles, and taking notes are essential for your learning process.",
+                "traits": [
+                    "Love reading and writing",
+                    "Take detailed notes",
+                    "Learn by writing",
+                    "Prefer structured texts"
+                ],
+                "recommendations": [
+                    "Read books and articles",
+                    "Write summaries",
+                    "Create lists and outlines",
+                    "Keep a learning journal"
+                ]
+            },
+            "logical": {
+                "title": "You are a Logical Learner! 🧮",
+                "description": "You learn best with logical reasoning, patterns, and structures. You like math, problems, and systematic analysis.",
+                "traits": [
+                    "Excellent at logic and math",
+                    "Recognize patterns easily",
+                    "Think in a structured way",
+                    "Enjoy solving problems"
+                ],
+                "recommendations": [
+                    "Use flowcharts",
+                    "Solve logical puzzles",
+                    "Organize information in tables",
+                    "Look for patterns in data"
+                ]
+            },
+            "interpersonal": {
+                "title": "You are an Interpersonal Learner! 🤝",
+                "description": "You learn best by interacting with others. Groups, discussions, and collaborative work boost your learning.",
+                "traits": [
+                    "Excellent in groups",
+                    "Understand people",
+                    "Enjoy collaborating",
+                    "Good at communicating"
+                ],
+                "recommendations": [
+                    "Form study groups",
+                    "Teach others",
+                    "Participate in group projects",
+                    "Use debates to learn"
+                ]
+            },
+            "intrapersonal": {
+                "title": "You are an Intrapersonal Learner! 🧘",
+                "description": "You learn best alone, through self-reflection. You need time to process internally and connect with your own thoughts.",
+                "traits": [
+                    "Prefer studying alone",
+                    "Reflective and self-aware",
+                    "Learn at your own pace",
+                    "Value your independence"
+                ],
+                "recommendations": [
+                    "Study in quiet environments",
+                    "Reflect on what you learned",
+                    "Keep a personal journal",
+                    "Set your own goals"
+                ]
+            },
+            "collaborative": {
+                "title": "You are a Collaborative Learner! 👥",
+                "description": "You learn best working in a team. Exchanging ideas and mutual support are fundamental to your academic success.",
+                "traits": [
+                    "Excellent at teamwork",
+                    "Share knowledge",
+                    "Support your classmates",
+                    "Learn by teaching"
+                ],
+                "recommendations": [
+                    "Join study groups",
+                    "Create team projects",
+                    "Use collaborative platforms",
+                    "Organize tutoring sessions"
+                ]
+            },
+            "discovery": {
+                "title": "You are a Discovery Learner! 🔍",
+                "description": "You learn best by exploring and discovering for yourself. Curiosity and experimentation are your best tools.",
+                "traits": [
+                    "Very curious and inquisitive",
+                    "Learn by experimenting",
+                    "Enjoy researching",
+                    "Autonomous in your learning"
+                ],
+                "recommendations": [
+                    "Do research projects",
+                    "Experiment freely",
+                    "Ask questions constantly",
+                    "Explore topics on your own"
+                ]
+            },
+            "online": {
+                "title": "You are a Digital Learner! 💻",
+                "description": "You learn best using technology and online resources. Digital platforms, apps, and online courses are ideal for you.",
+                "traits": [
+                    "Adapt well to technology",
+                    "Prefer digital resources",
+                    "Learn with apps and platforms",
+                    "Self-taught online"
+                ],
+                "recommendations": [
+                    "Use online courses (Coursera, Khan Academy)",
+                    "Try educational apps",
+                    "Watch tutorials on YouTube",
+                    "Join virtual communities"
+                ]
+            },
+            "naturalist": {
+                "title": "You are a Naturalist Learner! 🌿",
+                "description": "You learn best by connecting with nature. Classifying, observing, and understanding the natural world helps you learn.",
+                "traits": [
+                    "Connection with nature",
+                    "Observer of the environment",
+                    "Good at classifying",
+                    "Appreciate the natural world"
+                ],
+                "recommendations": [
+                    "Study outdoors",
+                    "Observe natural patterns",
+                    "Use examples from nature",
+                    "Visit natural science museums"
+                ]
+            },
+            "creative": {
+                "title": "You are a Creative Learner! 🎨",
+                "description": "You learn best through creativity and innovation. Art, music, and original projects boost your learning.",
+                "traits": [
+                    "Very creative and imaginative",
+                    "Think originally",
+                    "Enjoy artistic projects",
+                    "Innovative in your solutions"
+                ],
+                "recommendations": [
+                    "Use creative projects",
+                    "Draw and visualize concepts",
+                    "Create original presentations",
+                    "Relate topics to art"
+                ]
+            },
+            "multimodal": {
+                "title": "You are a Multimodal Learner! 🌟",
+                "description": "You learn best by combining multiple methods. You are flexible and adapt using different styles depending on the situation.",
+                "traits": [
+                    "Flexible in your methods",
+                    "Combine different styles",
+                    "Adapt easily",
+                    "Learn in multiple ways"
+                ],
+                "recommendations": [
+                    "Combine reading, videos, and practice",
+                    "Experiment with different methods",
+                    "Adapt your style to the topic",
+                    "Use varied resources"
+                ]
+            }
+        },
+        "ui": {
+            "progress": "Question",
+            "previous": "← Previous",
+            "restart": "Retake Quiz",
+            "exit": "Exit to Main Menu",
+            "yourTraits": "Your Traits:",
+            "recommendations": "Recommendations for You:"
+        }
+    },
+    "achievements": {
+        "pageTitle": "Hall of Achievements",
+        "totalScore": "Total Score",
+        "filters": {
+            "all": "All",
+            "study": "Study",
+            "combat": "Combat",
+            "social": "Social"
+        },
+        "items": {
+            "first_login": {
+                "title": "Fresh Start",
+                "description": "Log in for the first time."
+            },
+            "math_wizard": {
+                "title": "Math Wizard",
+                "description": "Get a perfect score in a Math quiz."
+            },
+            "quiz_master": {
+                "title": "Quiz Master",
+                "description": "Complete 10 quizzes without failing."
+            },
+            "battle_champion": {
+                "title": "Arena Champion",
+                "description": "Win 5 battles against other students."
+            },
+            "bookworm": {
+                "title": "Bookworm",
+                "description": "Read 50 study articles."
+            },
+            "social_butterfly": {
+                "title": "Social Butterfly",
+                "description": "Add 5 friends to your list."
+            },
+            "streak_master": {
+                "title": "Unstoppable",
+                "description": "Maintain a 7-day study streak."
+            }
+        },
+        "ui": {
+            "reward": "Reward",
+            "progress": "Progress",
+            "locked": "Locked",
+            "unlocked": "Completed"
+        }
+    },
+    "avatars": {
+        "scholar": {
+            "title": "The Scholar",
+            "lore": "Born in the Great Library of Aren, this capybara has read more books than there are leaves in the jungle. Seeks truth in every equation.",
+            "affiliation": "Grand Library",
+            "element": "Strategist / Ice",
+            "origin": "Bibliotheca Aeterna",
+            "description": "A tactical genius who always thinks three steps ahead.",
+            "stats": {
+                "logic": 95,
+                "creativity": 60,
+                "focus": 90,
+                "memory": 85,
+                "speed": 50
+            }
+        },
+        "dreamer": {
+            "title": "The Dreamer",
+            "lore": "Believes imagination is the strongest weapon. Spends days creating new worlds and creative solutions to old problems.",
+            "affiliation": "Art Club",
+            "element": "Visionary / Electro",
+            "origin": "Dream Nebula",
+            "description": "Their mind is a universe of infinite possibilities.",
+            "stats": {
+                "logic": 60,
+                "creativity": 100,
+                "focus": 50,
+                "memory": 70,
+                "speed": 75
+            }
+        },
+        "zen": {
+            "title": "Zen Master",
+            "lore": "Keeps calm even during the hardest exams. Their superpower is absolute concentration and inner peace.",
+            "affiliation": "Meditation Garden",
+            "element": "Monk / Dendro",
+            "origin": "Jade Forest",
+            "description": "Calm before, during, and after the storm.",
+            "stats": {
+                "logic": 80,
+                "creativity": 70,
+                "focus": 100,
+                "memory": 80,
+                "speed": 40
+            }
+        },
+        "warrior": {
+            "title": "The Warrior",
+            "lore": "Veteran of a thousand knowledge battles. Always ready to defend their answers and conquer new topics.",
+            "affiliation": "Debate League",
+            "element": "Fighter / Pyro",
+            "origin": "Bastion of Valor",
+            "description": "The unstoppable force that protects the weak.",
+            "stats": {
+                "logic": 70,
+                "creativity": 50,
+                "focus": 85,
+                "memory": 60,
+                "speed": 95
+            }
+        },
+        "attributes": {
+            "logic": "Logic",
+            "creativity": "Wit",
+            "focus": "Focus",
+            "memory": "Memory",
+            "speed": "Speed",
+            "affiliation": "Affiliation",
+            "element": "Vision"
+        },
+        "actions": {
+            "select": "Select Character",
+            "equipped": "Equipped",
+            "story": "Story",
+            "voices": "Voice Lines",
+            "friendship": "Friendship"
+        }
+    }
+}

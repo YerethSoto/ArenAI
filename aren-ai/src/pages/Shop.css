@@ -1,0 +1,338 @@
+/* Shop.css */
+.shop-page {
+    /* Uses page background */
+}
+
+.shop-header-toolbar {
+    --background: transparent;
+    --border-width: 0;
+}
+
+.shop-balance-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: 16px;
+}
+
+.shop-currency-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--ion-border-color);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.currency-icon {
+    font-size: 16px;
+}
+
+.curr-gold .currency-icon {
+    color: #f1c40f;
+}
+
+.curr-gems .currency-icon {
+    color: #2ecc71;
+}
+
+/* CATEGORY TABS */
+.shop-categories {
+    display: flex;
+    padding: 16px 20px;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.shop-cat-btn {
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    background: var(--ion-card-background);
+    color: var(--ion-color-medium);
+    border: 1px solid var(--ion-border-color);
+    transition: all 0.2s;
+}
+
+.shop-cat-btn.active {
+    background: var(--ion-color-primary);
+    color: var(--ion-color-primary-contrast);
+    border-color: var(--ion-color-primary);
+    box-shadow: 0 4px 10px rgba(var(--ion-color-primary-rgb), 0.3);
+}
+
+/* SHOP LAYOUT */
+.shop-content-container {
+    padding: 0 20px 40px;
+}
+
+.section-heading {
+    font-size: 18px;
+    font-weight: 900;
+    margin: 20px 0 16px;
+    color: var(--ion-text-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* FEATURED (CAROUSEL) */
+.featured-carousel {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    scroll-snap-type: x mandatory;
+}
+
+.featured-card {
+    min-width: 260px;
+    height: 160px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--ion-color-secondary), var(--ion-color-tertiary));
+    position: relative;
+    overflow: hidden;
+    scroll-snap-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    color: white;
+}
+
+.feat-bg-icon {
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    font-size: 140px;
+    opacity: 0.15;
+    transform: rotate(-15deg);
+}
+
+.feat-content {
+    z-index: 2;
+    max-width: 70%;
+}
+
+.feat-tag {
+    background: #e74c3c;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.feat-title {
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.feat-desc {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.feat-price {
+    margin-top: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 6px 12px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+/* ITEMS GRID */
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.item-card {
+    background: var(--ion-card-background);
+    border-radius: 16px;
+    border: 1px solid var(--ion-border-color);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.item-card:active {
+    transform: scale(0.97);
+}
+
+.item-visual {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: var(--ion-color-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.item-info {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.item-name {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: var(--ion-text-color);
+}
+
+.item-type {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--ion-color-medium);
+}
+
+.btn-buy {
+    width: 100%;
+    padding: 8px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-buy.can-afford {
+    background: var(--ion-color-primary);
+    color: var(--ion-color-primary-contrast);
+    box-shadow: 0 4px 10px rgba(var(--ion-color-primary-rgb), 0.2);
+}
+
+.btn-buy.owned {
+    background: var(--ion-color-light);
+    color: var(--ion-color-medium);
+    box-shadow: none;
+}
+
+.btn-buy.locked {
+    background: var(--ion-color-medium);
+    opacity: 0.5;
+    color: white;
+}
+
+/* PURCHASE MODAL */
+.purchase-modal-content {
+    background: var(--ion-card-background);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+}
+
+.purchase-icon-large {
+    font-size: 80px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+    animation: floatItem 3s infinite ease-in-out;
+}
+
+@keyframes floatItem {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.purchase-title {
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    color: var(--ion-text-color);
+}
+
+.purchase-desc {
+    color: var(--ion-color-medium);
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.purchase-price-tag {
+    font-size: 32px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.btn-confirm-purchase {
+    width: 100%;
+    max-width: 300px;
+    height: 56px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.success-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.success-checkmark {
+    font-size: 80px;
+    color: #2ecc71;
+    margin-bottom: 20px;
+    animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

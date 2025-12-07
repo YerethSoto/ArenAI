@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { useAvatar } from "../context/AvatarContext";
 import {
   IonContent,
   IonPage,
@@ -11,13 +12,13 @@ import {
   IonCol,
   IonIcon,
   IonCard,
-  IonCardContent
-} from '@ionic/react';
-import { person, key, eye, eyeOff } from 'ionicons/icons';
-import { useHistory } from 'react-router-dom';
-import './Login.css';
-import { getApiUrl } from '../config/api';
-import { buildUrl } from '../utils/api';
+  IonCardContent,
+} from "@ionic/react";
+import { person, key, eye, eyeOff } from "ionicons/icons";
+import { useHistory } from "react-router-dom";
+import "./Login.css";
+import { getApiUrl } from "../config/api";
+import AnimatedMascot from "../components/AnimatedMascot";
 
 // The real authentication happens via the backend API at POST /api/auth/login
 // We keep a small local type to represent the shape of the response's user
@@ -25,7 +26,7 @@ interface ApiUser {
   id: number;
   username: string;
   email: string;
-  role: 'professor' | 'student' | null;
+  role: "professor" | "student" | null;
   name: string;
   lastName?: string | null;
 }
@@ -35,7 +36,7 @@ interface ApiUser {
 // ============================================================================
 
 interface LoginProps {
-  onLogin: (role: 'professor' | 'student', userData?: any) => void;
+  onLogin: (role: "professor" | "student", userData?: any) => void;
 }
 
 // ============================================================================
@@ -43,17 +44,19 @@ interface LoginProps {
 // ============================================================================
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const { getAvatarAssets } = useAvatar();
+  const avatarAssets = getAvatarAssets();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const history = useHistory();
 
   // Recarga la página solo una vez al llegar a esta ruta
   useEffect(() => {
-    if (!window.location.hash.includes('#reloaded')) {
-      window.location.hash = '#reloaded';
+    if (!window.location.hash.includes("#reloaded")) {
+      window.location.hash = "#reloaded";
       window.location.reload();
     }
     // Si ya tiene el hash, no vuelve a recargar
@@ -61,21 +64,52 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsLoading(true);
     // Validate inputs
     if (!username.trim() || !password.trim()) {
-      setError('Please enter both username and password');
+      setError("Please enter both username and password");
+      setIsLoading(false);
+      return;
+    }
+
+    // MOCK LOGIN FOR LOCAL TESTING (Database Offline)
+    if (username === "prof" && password === "test") {
+      console.log("Using Mock Professor Login");
+      const mockProf = {
+        id: 999,
+        username: "prof",
+        email: "prof@test.com",
+        role: "professor",
+        name: "Mock Professor",
+      };
+      onLogin("professor", mockProf);
+      history.replace("/page/professor");
+      setIsLoading(false);
+      return;
+    }
+
+    if (username === "student" && password === "test") {
+      console.log("Using Mock Student Login");
+      const mockStudent = {
+        id: 888,
+        username: "student",
+        email: "student@test.com",
+        role: "student",
+        name: "Mock Student",
+      };
+      onLogin("student", mockStudent);
+      history.replace("/page/student");
       setIsLoading(false);
       return;
     }
 
     // Call backend API
     try {
-      const resp = await fetch('/api/auth/login', {
-        method: 'POST',
+      const resp = await fetch(getApiUrl("/api/auth/login"), {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ identifier: username, password }),
       });
@@ -83,7 +117,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       if (!resp.ok) {
         // Attempt to show server error message
         const errBody = await resp.json().catch(() => null);
-        setError(errBody?.message || 'Invalid username or password');
+        setError(errBody?.message || "Invalid username or password");
         setIsLoading(false);
         return;
       }
@@ -93,48 +127,43 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       // Persist token for subsequent requests
       if (data.token) {
         try {
-          localStorage.setItem('authToken', data.token);
+          localStorage.setItem("authToken", data.token);
         } catch (_) {
           // ignore storage errors
         }
       }
 
       // Call the onLogin callback with role and user data
-      onLogin(data.user.role ?? 'student', data.user);
+      onLogin(data.user.role ?? "student", data.user);
 
       // Clear form
-      setUsername('');
-      setPassword('');
+      setUsername("");
+      setPassword("");
 
       // Redirect to the appropriate dashboard
-      const redirectPath = data.user.role === 'student' ? '/page/student' : '/page/professor';
+      const redirectPath =
+        data.user.role === "student" ? "/page/student" : "/page/professor";
       history.replace(redirectPath);
     } catch (error) {
-      console.error('Login error', error);
-      setError('Unable to reach authentication server');
+      console.error("Login error", error);
+      setError("Unable to reach authentication server");
       setIsLoading(false);
     }
   };
 
   const handleTeacherLogin = () => {
     // Redirect to registration page
-    history.push('/register');
+    history.push("/register");
   };
 
   const handleStudentRegister = () => {
-    history.push('/register-student');
+    history.push("/register-student");
   };
 
   const handleForgotPassword = () => {
-    console.log('Forgot password clicked');
+    console.log("Forgot password clicked");
     // Logic for password recovery
-    setError('Password recovery feature coming soon!');
-  };
-
-  // Quick login for demo purposes (optional - remove in production)
-  const handleQuickLogin = (demoUsername: string, demoPassword: string) => {
-    setUsername(demoUsername);
-    setPassword(demoPassword);
+    setError("Password recovery feature coming soon!");
   };
 
   return (
@@ -150,33 +179,35 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     <h1 className="brand-title">Aren AI</h1>
                   </IonText>
                   <div className="logo-container">
-                    <img
-                      src="/assets/Capybara profile picture.png"
-                      alt="ArenAI Logo"
+                    <AnimatedMascot
+                      openSrc={avatarAssets.open}
+                      closedSrc={avatarAssets.closed}
+                      winkSrc={avatarAssets.wink}
                       className="logo-image"
                     />
                   </div>
                   <IonText>
-                    <p className="brand-subtitle">Ready to learn?</p>
+                    <p className="brand-subtitle">
+                      Less Monologues, more Dialogs
+                    </p>
                   </IonText>
                 </div>
-
-
-
 
                 {/* Card de login SOLO con campos */}
                 <IonCard className="login-card">
                   <IonCardContent>
                     <form onSubmit={handleLogin}>
-
                       {/* Error Message */}
                       {error && (
-                        <div className="error-message" style={{
-                          color: 'red',
-                          textAlign: 'center',
-                          marginBottom: '15px',
-                          fontSize: '0.9rem'
-                        }}>
+                        <div
+                          className="error-message"
+                          style={{
+                            color: "red",
+                            textAlign: "center",
+                            marginBottom: "15px",
+                            fontSize: "0.9rem",
+                          }}
+                        >
                           {error}
                         </div>
                       )}
@@ -187,7 +218,11 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                           <h3 className="input-label">Username</h3>
                         </IonText>
                         <IonItem className="input-item" lines="none">
-                          <IonIcon icon={person} slot="start" className="input-icon" />
+                          <IonIcon
+                            icon={person}
+                            slot="start"
+                            className="input-icon"
+                          />
                           <IonInput
                             type="text"
                             placeholder="Enter your username"
@@ -205,7 +240,11 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                           <h3 className="input-label">Password</h3>
                         </IonText>
                         <IonItem className="input-item" lines="none">
-                          <IonIcon icon={key} slot="start" className="input-icon" />
+                          <IonIcon
+                            icon={key}
+                            slot="start"
+                            className="input-icon"
+                          />
                           <IonInput
                             type={showPassword ? "text" : "password"}
                             placeholder="Enter your password"
@@ -235,7 +274,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                           Forgot password?
                         </IonButton>
                       </div>
-
                     </form>
                   </IonCardContent>
                 </IonCard>
@@ -249,7 +287,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     onClick={handleLogin}
                     disabled={isLoading}
                   >
-                    {isLoading ? 'LOGGING IN...' : 'LOGIN'}
+                    {isLoading ? "LOGGING IN..." : "LOGIN"}
                   </IonButton>
 
                   <IonButton
@@ -273,7 +311,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     Are you a student?
                   </IonButton>
                 </div>
-
               </IonCol>
             </IonRow>
           </IonGrid>

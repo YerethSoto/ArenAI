@@ -1,0 +1,149 @@
+/* StudentHeader.css */
+
+.student-header-container {
+    background: transparent;
+    box-shadow: none;
+    position: relative;
+    z-index: 100;
+}
+
+.student-toolbar {
+    --background: var(--ion-color-primary);
+    --min-height: 70px;
+    padding-top: 10px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    position: relative;
+    z-index: 100; /* Base level */
+}
+
+.sh-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 10px;
+}
+
+.sh-menu-btn-container {
+    margin-right: 10px;
+}
+
+.sh-menu-btn {
+    --color: var(--ion-color-primary-contrast);
+    font-size: 28px;
+}
+
+/* Absolute Brand Container */
+.sh-brand-container-absolute {
+    position: absolute;
+    top: 10px; /* Align with toolbar padding */
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 110; /* Higher than notch (101) */
+    pointer-events: none; /* Let clicks pass through if needed */
+}
+
+.sh-brand-name {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px;
+    color: var(--ion-color-primary-contrast);
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.sh-brand-sub {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 300;
+}
+
+/* Notch / Curved Tab */
+.sh-notch-container {
+    display: flex;
+    justify-content: center;
+    margin-top: -45px; /* Pull up MORE to overlap significantly */
+    position: relative;
+    z-index: 101; /* Above toolbar (100), Below Brand (110) */
+    pointer-events: none; /* Let clicks pass through container */
+}
+
+.sh-notch {
+    width: 200px;
+    height: 70px;
+    background-color: var(--ion-color-primary);
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto; /* Re-enable clicks */
+    position: relative;
+}
+
+/* Seamless Curves (Fillet) */
+.sh-notch::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -20px;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border-top-right-radius: 20px;
+    box-shadow: 5px -5px 0 0 var(--ion-color-primary);
+}
+
+.sh-notch::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -20px;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border-top-left-radius: 20px;
+    box-shadow: -5px -5px 0 0 var(--ion-color-primary);
+}
+
+.sh-subject-display {
+    width: 140px;
+    height: 45px;
+    background-color: var(--ion-color-secondary);
+    border-radius: 50%; /* Oval shape */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sh-subject-text {
+    color: var(--ion-color-secondary-contrast);
+    font-size: 18px;
+    font-weight: 500;
+    font-family: serif; /* Match the "Math" font in image */
+    letter-spacing: 1px;
+}
+
+/* Override StudentMenu styles when in header */
+.student-menu-container.header-variant .subject-trigger {
+    background: transparent;
+    border: none;
+    color: var(--ion-color-secondary-contrast);
+    font-size: 18px;
+    font-family: serif;
+    letter-spacing: 1px;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.student-menu-container.header-variant .dropdown-wrapper {
+    width: 100%;
+    height: 100%;
+}

@@ -1,5 +1,5 @@
 .class-join-content {
-  --background: #f6f8fa;
+  --background: var(--ion-background-color);
 }
 
 .class-join-container {
@@ -13,8 +13,8 @@
 .join-card {
   margin-top: 32px;
   border-radius: 18px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-  background: #fff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  background: var(--ion-card-background);
 }
 
 .input-section {
@@ -30,4 +30,5 @@ h2 {
   font-weight: 600;
   margin-bottom: 18px;
   text-align: center;
+  color: var(--ion-text-color);
 }

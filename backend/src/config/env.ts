@@ -27,6 +27,7 @@ const EnvSchema = z.object({
   DB_SSL_KEY_PATH: z.string().optional(),
   JWT_SECRET: z.string().min(16, 'JWT_SECRET must be at least 16 characters long'),
   JWT_EXPIRES_IN: z.string().optional().default('1h'),
+  GOOGLE_APPLICATION_CREDENTIALS: z.string().optional(),
 });
 
 const env = EnvSchema.parse(process.env);
@@ -39,6 +40,13 @@ const resolvePath = (filePath?: string) => {
   if (!filePath) return undefined;
   return path.isAbsolute(filePath) ? filePath : path.resolve(process.cwd(), filePath);
 };
+
+if (env.GOOGLE_APPLICATION_CREDENTIALS) {
+  const resolvedPath = resolvePath(env.GOOGLE_APPLICATION_CREDENTIALS);
+  if (resolvedPath) {
+    process.env.GOOGLE_APPLICATION_CREDENTIALS = resolvedPath;
+  }
+}
 
 export const appConfig = {
   port: Number(env.PORT),

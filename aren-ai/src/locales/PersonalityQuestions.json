@@ -1,0 +1,257 @@
+[
+  {
+    "type": "singleSelect",
+    "question": "¿Cómo prefieres aprender algo nuevo?",
+    "options": [
+      "Escuchando explicaciones y conferencias",
+      "Viendo videos, imágenes o diagramas",
+      "Haciendo experimentos y tocando objetos",
+      "Leyendo libros y tomando notas"
+    ],
+    "hint": "Piensa en tu método favorito para aprender.",
+    "learningType": [
+      "auditory",
+      "visual",
+      "kinesthetic",
+      "reading"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "En un proyecto escolar, ¿qué prefieres hacer?",
+    "options": [
+      "Trabajar solo y a mi propio ritmo",
+      "Trabajar con compañeros en equipo",
+      "Descubrir soluciones por mi cuenta",
+      "Seguir instrucciones claras paso a paso"
+    ],
+    "hint": "Piensa en cómo te gusta trabajar.",
+    "learningType": [
+      "intrapersonal",
+      "collaborative",
+      "discovery",
+      "logical"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "¿Qué actividad disfrutas más en tu tiempo libre?",
+    "options": [
+      "Escuchar música o podcasts",
+      "Ver películas o navegar en redes sociales",
+      "Hacer deportes o manualidades",
+      "Leer libros o escribir historias"
+    ],
+    "hint": "Selecciona tu pasatiempo favorito.",
+    "learningType": [
+      "auditory",
+      "visual",
+      "kinesthetic",
+      "reading"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "Al resolver un problema difícil:",
+    "options": [
+      "Hablo en voz alta o discuto con alguien",
+      "Dibujo diagramas o mapas mentales",
+      "Construyo modelos o simulo situaciones",
+      "Escribo listas y analizo datos"
+    ],
+    "hint": "Piensa en tu estrategia de resolución.",
+    "learningType": [
+      "auditory",
+      "visual",
+      "kinesthetic",
+      "logical"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "¿Te gusta aprender usando tecnología?",
+    "options": [
+      "Sí, prefiero clases y videos en línea",
+      "A veces, depende del tema",
+      "Prefiero métodos tradicionales",
+      "Me gusta combinar ambos"
+    ],
+    "hint": "Considera tu preferencia tecnológica.",
+    "learningType": [
+      "online",
+      "multimodal",
+      "traditional",
+      "multimodal"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "Cuando memorizas información:",
+    "options": [
+      "Repito en voz alta varias veces",
+      "Visualizo imágenes o escenas",
+      "Escribo y reescribo las notas",
+      "Creo asociaciones lógicas"
+    ],
+    "hint": "Recuerda tu técnica de memorización.",
+    "learningType": [
+      "auditory",
+      "visual",
+      "reading",
+      "logical"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "¿Prefieres trabajar solo o con otros?",
+    "options": [
+      "Solo, me concentro mejor",
+      "Con otros, aprendo más compartiendo",
+      "Depende de la tarea",
+      "Me gusta liderar grupos"
+    ],
+    "hint": "Piensa en tu estilo social de aprendizaje.",
+    "learningType": [
+      "intrapersonal",
+      "interpersonal",
+      "multimodal",
+      "interpersonal"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "Al aprender un idioma nuevo:",
+    "options": [
+      "Escucho conversaciones y música",
+      "Veo películas con subtítulos",
+      "Practico hablando con nativos",
+      "Estudio gramática y escribo"
+    ],
+    "hint": "Considera tu método preferido.",
+    "learningType": [
+      "auditory",
+      "visual",
+      "kinesthetic",
+      "reading"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "¿Qué tipo de instrucciones prefieres?",
+    "options": [
+      "Explicaciones verbales",
+      "Tutoriales en video",
+      "Demostraciones prácticas",
+      "Manuales escritos detallados"
+    ],
+    "hint": "Piensa en qué formato entiendes mejor.",
+    "learningType": [
+      "auditory",
+      "visual",
+      "kinesthetic",
+      "reading"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "Al explorar un tema nuevo:",
+    "options": [
+      "Investigo por mi cuenta primero",
+      "Pregunto a expertos o profesores",
+      "Experimento hasta entenderlo",
+      "Leo artículos y documentos"
+    ],
+    "hint": "Recuerda tu enfoque de investigación.",
+    "learningType": [
+      "discovery",
+      "collaborative",
+      "kinesthetic",
+      "reading"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "¿Te gusta estudiar con música?",
+    "options": [
+      "Sí, me ayuda a concentrarme",
+      "No, necesito silencio total",
+      "Depende de la tarea",
+      "Prefiero sonidos de la naturaleza"
+    ],
+    "hint": "Considera tu ambiente de estudio ideal.",
+    "learningType": [
+      "auditory",
+      "intrapersonal",
+      "multimodal",
+      "naturalist"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "En una clase, prefieres que el profesor:",
+    "options": [
+      "Explique verbalmente con ejemplos",
+      "Use presentaciones visuales",
+      "Haga actividades prácticas",
+      "Asigne lecturas y ensayos"
+    ],
+    "hint": "Piensa en tu clase ideal.",
+    "learningType": [
+      "auditory",
+      "visual",
+      "kinesthetic",
+      "reading"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "¿Te gusta trabajar con patrones y lógica?",
+    "options": [
+      "Sí, me encantan las matemáticas",
+      "No, prefiero temas creativos",
+      "Me gusta equilibrar ambos",
+      "Prefiero temas sociales y humanos"
+    ],
+    "hint": "Considera tu afinidad por la lógica.",
+    "learningType": [
+      "logical",
+      "creative",
+      "multimodal",
+      "interpersonal"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "Al aprender sobre la naturaleza:",
+    "options": [
+      "Prefiero salir y observar",
+      "Me gusta clasificar y organizar",
+      "Aprendo viendo documentales",
+      "Leo libros de biología"
+    ],
+    "hint": "Piensa en tu conexión con la naturaleza.",
+    "learningType": [
+      "naturalist",
+      "logical",
+      "visual",
+      "reading"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "¿Prefieres hacer descubrimientos por ti mismo?",
+    "options": [
+      "Sí, me gusta explorar y experimentar",
+      "No, prefiero que me enseñen",
+      "Combino ambos enfoques",
+      "Prefiero investigar en grupo"
+    ],
+    "hint": "Recuerda tu nivel de autonomía.",
+    "learningType": [
+      "discovery",
+      "traditional",
+      "multimodal",
+      "collaborative"
+    ]
+  }
+]

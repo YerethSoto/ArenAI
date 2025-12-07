@@ -1,142 +1,131 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
+import { useAvatar } from "../context/AvatarContext";
 import {
   IonContent,
-  IonHeader,
   IonPage,
-  IonToolbar,
-  IonCard,
-  IonCardContent,
-  IonButton,
-  IonText,
   IonIcon,
   IonMenuButton,
-  IonSelect,
-  IonSelectOption,
-  IonPopover
-} from '@ionic/react';
-import { 
-  chevronBack, 
-  chevronForward, 
-  person,
-  menu,
-  school,
-  chevronDown,
+  IonText,
+  useIonRouter,
+} from "@ionic/react";
+import {
   calculator,
-  bulb,
-  arrowForward,
-  book,
   flask,
   globe,
-  language
-} from 'ionicons/icons';
-import './Main_Student.css';
-import StudentSidebar from '../components/StudentSidebar';
-import StudentMenu from '../components/StudentMenu';
+  language,
+  book,
+  trophyOutline,
+  chatbubbleEllipsesOutline,
+  settingsOutline,
+  homeOutline,
+  americanFootballOutline,
+} from "ionicons/icons";
+import { useTranslation } from "react-i18next";
+import "./Main_Student.css";
+import StudentMenu from "../components/StudentMenu";
+import StudentHeader from "../components/StudentHeader";
+import AnimatedMascot from "../components/AnimatedMascot";
+import { CalendarSelector } from "../components/CalendarSelector";
 
 // ============================================================================
-// DATA VARIABLES - These will be replaced with API calls later
+// DATA VARIABLES
 // ============================================================================
 
-// Week data - This will come from API
 const WEEKS_DATA = [
-  { number: 1, name: "Week 1 - Algebraic Foundations" },
-  { number: 2, name: "Week 2 - Functions and Graphs" },
-  { number: 3, name: "Week 3 - Geometry Basics" },
-  { number: 4, name: "Week 4 - Advanced Geometry" },
-  { number: 5, name: "Week 5 - Trigonometry" },
-  { number: 6, name: "Week 6 - Statistics & Probability" },
-  { number: 7, name: "Week 7 - Calculus Introduction" },
-  { number: 8, name: "Week 8 - Advanced Calculus" },
-  { number: 9, name: "Week 9 - Number Theory" },
-  { number: 10, name: "Week 10 - Mathematical Logic" },
-  { number: 11, name: "Week 11 - Review & Applications" },
-  { number: 12, name: "Week 12 - Final Projects" }
+  { number: 1, nameKey: "mainStudent.weeks.week1" },
+  { number: 2, nameKey: "mainStudent.weeks.week2" },
+  { number: 3, nameKey: "mainStudent.weeks.week3" },
+  { number: 4, nameKey: "mainStudent.weeks.week4" },
+  { number: 5, nameKey: "mainStudent.weeks.week5" },
+  { number: 6, nameKey: "mainStudent.weeks.week6" },
+  { number: 7, nameKey: "mainStudent.weeks.week7" },
+  { number: 8, nameKey: "mainStudent.weeks.week8" },
+  { number: 9, nameKey: "mainStudent.weeks.week9" },
+  { number: 10, nameKey: "mainStudent.weeks.week10" },
+  { number: 11, nameKey: "mainStudent.weeks.week11" },
+  { number: 12, nameKey: "mainStudent.weeks.week12" },
 ];
 
-// Subject topics data - This will come from API
 const SUBJECT_TOPICS = {
-  'Math': [
-    { name: 'Algebra', percentage: 85 },
-    { name: 'Geometry', percentage: 65 },
-    { name: 'Calculus', percentage: 45 },
-    { name: 'Statistics', percentage: 78 },
-    { name: 'Trigonometry', percentage: 92 },
-    { name: 'Probability', percentage: 60 },
-    { name: 'Linear Equations', percentage: 72 },
-    { name: 'Functions', percentage: 68 }
+  Math: [
+    { nameKey: "mainStudent.topics.Algebra", percentage: 85, icon: "∑" },
+    { nameKey: "mainStudent.topics.Geometry", percentage: 45, icon: "📐" },
+    { nameKey: "mainStudent.topics.Calculus", percentage: 92, icon: "∫" },
+    { nameKey: "mainStudent.topics.Statistics", percentage: 60, icon: "📊" },
+    { nameKey: "mainStudent.topics.Trigonometry", percentage: 78, icon: "📐" },
+    { nameKey: "mainStudent.topics.Probability", percentage: 55, icon: "🎲" },
+    { nameKey: "mainStudent.topics.LinearEq", percentage: 72, icon: "x" },
+    { nameKey: "mainStudent.topics.Functions", percentage: 68, icon: "f(x)" },
   ],
-  'Science': [
-    { name: 'Biology', percentage: 75 },
-    { name: 'Chemistry', percentage: 62 },
-    { name: 'Physics', percentage: 58 },
-    { name: 'Earth Science', percentage: 81 },
-    { name: 'Astronomy', percentage: 67 },
-    { name: 'Environmental Science', percentage: 73 }
+  Science: [
+    { nameKey: "mainStudent.topics.Biology", percentage: 75, icon: "🧬" },
+    { nameKey: "mainStudent.topics.Chemistry", percentage: 62, icon: "🧪" },
+    { nameKey: "mainStudent.topics.Physics", percentage: 58, icon: "⚛️" },
+    { nameKey: "mainStudent.topics.EarthSci", percentage: 81, icon: "🌍" },
+    { nameKey: "mainStudent.topics.Astronomy", percentage: 67, icon: "🔭" },
+    { nameKey: "mainStudent.topics.EnvSci", percentage: 73, icon: "🌱" },
   ],
-  'Social Studies': [
-    { name: 'History', percentage: 70 },
-    { name: 'Geography', percentage: 65 },
-    { name: 'Civics', percentage: 78 },
-    { name: 'Economics', percentage: 55 },
-    { name: 'Culture', percentage: 82 },
-    { name: 'Government', percentage: 68 }
+  "Social Studies": [
+    { nameKey: "mainStudent.topics.History", percentage: 70, icon: "📜" },
+    { nameKey: "mainStudent.topics.Geography", percentage: 65, icon: "🗺️" },
+    { nameKey: "mainStudent.topics.Civics", percentage: 78, icon: "⚖️" },
+    { nameKey: "mainStudent.topics.Economics", percentage: 55, icon: "💰" },
+    { nameKey: "mainStudent.topics.Culture", percentage: 82, icon: "🎭" },
+    { nameKey: "mainStudent.topics.Govt", percentage: 68, icon: "🏛️" },
   ],
-  'Spanish': [
-    { name: 'Vocabulary', percentage: 80 },
-    { name: 'Grammar', percentage: 65 },
-    { name: 'Reading', percentage: 72 },
-    { name: 'Writing', percentage: 58 },
-    { name: 'Speaking', percentage: 75 },
-    { name: 'Listening', percentage: 70 }
-  ]
+  Spanish: [
+    { nameKey: "mainStudent.topics.Vocab", percentage: 80, icon: "🗣️" },
+    { nameKey: "mainStudent.topics.Grammar", percentage: 65, icon: "📝" },
+    { nameKey: "mainStudent.topics.Reading", percentage: 72, icon: "📖" },
+    { nameKey: "mainStudent.topics.Writing", percentage: 58, icon: "✍️" },
+    { nameKey: "mainStudent.topics.Speaking", percentage: 75, icon: "🎤" },
+    { nameKey: "mainStudent.topics.Listening", percentage: 70, icon: "👂" },
+  ],
 };
 
-// Study recommendations text - This will come from API
 const STUDY_RECOMMENDATIONS_TEXT = {
-  'Math': 'Focus on improving your performance in mathematics. Use targeted exercises and additional practice materials to reinforce understanding and build confidence in challenging areas like calculus and probability.',
-  'Science': 'Enhance science comprehension through hands-on experiments and real-world applications. You need more practice with physics concepts and chemical reactions.',
-  'Social Studies': 'Improve historical analysis and geographical understanding. Incorporate more primary source analysis and map reading activities to build critical thinking skills.',
-  'Spanish': 'Strengthen language acquisition through immersive activities. Focus on conversational practice and grammar reinforcement to improve overall fluency.'
+  Math: "Focus on improving your performance in mathematics. Use targeted exercises and additional practice materials to reinforce understanding and build confidence in challenging areas like calculus and probability.",
+  Science:
+    "Enhance science comprehension through hands-on experiments and real-world applications. You need more practice with physics concepts and chemical reactions.",
+  "Social Studies":
+    "Improve historical analysis and geographical understanding. Incorporate more primary source analysis and map reading activities to build critical thinking skills.",
+  Spanish:
+    "Strengthen language acquisition through immersive activities. Focus on conversational practice and grammar reinforcement to improve overall fluency.",
 };
 
-// Learning recommendations - This will come from API
-const LEARNING_RECOMMENDATIONS = {
-  'Math': 'Focus on practicing quadratic equations with real-world examples. Consider using visual aids to help understand the graphical representation of equations.',
-  'Science': 'Try hands-on experiments to help visualize scientific concepts. Use real-world examples to make the material more engaging and relatable.',
-  'Social Studies': 'Use interactive timelines and maps to understand historical context. Connect current events with past events to see patterns.',
-  'Spanish': 'Practice conversational Spanish through role-playing activities. Incorporate multimedia resources like videos and songs to improve listening comprehension.'
-};
-
-// Subject icons - This will come from API
-const SUBJECT_ICONS = {
-  'Math': calculator,
-  'Science': flask,
-  'Social Studies': globe,
-  'Spanish': language
-};
+const STUDENT_QUESTIONS = [
+  "How do I calculate the area under a curve using integrals?",
+  "What is the difference between a derivative and an integral?",
+  "Can you explain the chain rule again?",
+  "When should I use the quadratic formula?",
+  "What are the applications of trigonometry in real life?",
+];
 
 // ============================================================================
-// HELPER FUNCTIONS - These will remain the same
+// HELPER FUNCTIONS
 // ============================================================================
 
-const calculateOverallPerformance = (topics: Array<{name: string, percentage: number}>) => {
+const calculateOverallPerformance = (
+  topics: Array<{ nameKey: string; percentage: number }>
+) => {
   if (!topics || topics.length === 0) return 75;
   const sum = topics.reduce((total, topic) => total + topic.percentage, 0);
   return Math.round(sum / topics.length);
 };
 
-const getPerformanceClass = (percentage: number) => {
-  if (percentage >= 80) return 'excellent';
-  if (percentage >= 70) return 'good';
-  if (percentage >= 60) return 'average';
-  return 'poor';
-};
+// Helper for color interpolation (Red to Teal)
+const getColorForPercentage = (percentage: number) => {
+  const p = Math.max(0, Math.min(100, percentage)) / 100;
 
-const getRingChartColor = (percentage: number) => {
-  if (percentage >= 80) return '#4CAF50';
-  if (percentage >= 70) return '#90beab';
-  if (percentage >= 60) return '#FFC107';
-  return '#F44336';
+  // Interpolate between Red (#FF5252) and Teal (#78B8B0)
+  const startColor = { r: 255, g: 82, b: 82 }; // Red
+  const endColor = { r: 120, g: 184, b: 176 }; // #78B8B0
+
+  const r = Math.round(startColor.r + (endColor.r - startColor.r) * p);
+  const g = Math.round(startColor.g + (endColor.g - startColor.g) * p);
+  const b = Math.round(startColor.b + (endColor.b - startColor.b) * p);
+
+  return `rgb(${r}, ${g}, ${b})`;
 };
 
 // ============================================================================
@@ -144,417 +133,248 @@ const getRingChartColor = (percentage: number) => {
 // ============================================================================
 
 const Main_Student: React.FC = () => {
+  const router = useIonRouter();
+  const { t } = useTranslation();
+  const { getAvatarAssets } = useAvatar();
+  const avatarAssets = getAvatarAssets();
+
   // State variables
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
   const [overallPerformance, setOverallPerformance] = useState(82);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [selectedGrade, setSelectedGrade] = useState('7');
-  const [selectedSection, setSelectedSection] = useState('1');
-  const [selectedSubject, setSelectedSubject] = useState('Math');
+  const [selectedSubject, setSelectedSubject] = useState("Math");
   const [topics, setTopics] = useState<any[]>([]);
-  
-  // Refs for carousel
-  const carouselTrackRef = useRef<HTMLDivElement>(null);
-  const startXRef = useRef(0);
-  const currentXRef = useRef(0);
-  const isDraggingRef = useRef(false);
 
-  // Get current week data from variables
+  // New State for Redesign
+  const [viewMode, setViewMode] = useState<"rec" | "que">("rec");
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+  // Get current week data
   const currentWeek = WEEKS_DATA[currentWeekIndex];
 
   // Update topics and overall performance when subject changes
   useEffect(() => {
-    const newTopics = SUBJECT_TOPICS[selectedSubject as keyof typeof SUBJECT_TOPICS] || [];
+    const newTopics =
+      SUBJECT_TOPICS[selectedSubject as keyof typeof SUBJECT_TOPICS] || [];
     setTopics(newTopics);
     const newPerformance = calculateOverallPerformance(newTopics);
     setOverallPerformance(newPerformance);
-    setCurrentSlide(0);
   }, [selectedSubject]);
 
-  // Get current study recommendation and learning recommendation from variables
-  const currentStudyRecommendation = STUDY_RECOMMENDATIONS_TEXT[selectedSubject as keyof typeof STUDY_RECOMMENDATIONS_TEXT] || '';
-  const currentLearningRecommendation = LEARNING_RECOMMENDATIONS[selectedSubject as keyof typeof LEARNING_RECOMMENDATIONS] || '';
-  const currentSubjectIcon = SUBJECT_ICONS[selectedSubject as keyof typeof SUBJECT_ICONS] || book;
+  const currentStudyRecommendation =
+    STUDY_RECOMMENDATIONS_TEXT[
+      selectedSubject as keyof typeof STUDY_RECOMMENDATIONS_TEXT
+    ] || "";
 
-  // Week navigation handlers
+  // Handlers
   const handlePreviousWeek = () => {
-    if (currentWeekIndex > 0) {
-      setCurrentWeekIndex(currentWeekIndex - 1);
-    }
+    if (currentWeekIndex > 0) setCurrentWeekIndex(currentWeekIndex - 1);
   };
 
   const handleNextWeek = () => {
-    if (currentWeekIndex < WEEKS_DATA.length - 1) {
+    if (currentWeekIndex < WEEKS_DATA.length - 1)
       setCurrentWeekIndex(currentWeekIndex + 1);
-    }
   };
 
-  // Carousel handlers
-  const handlePreviousSlide = () => {
-    if (currentSlide > 0) {
-      setCurrentSlide(currentSlide - 1);
-    }
+  const handleNextQuestion = () => {
+    setCurrentQuestionIndex((prev) => (prev + 1) % STUDENT_QUESTIONS.length);
   };
 
-  const handleNextSlide = () => {
-    const slidesNeeded = Math.ceil(topics.length / 3);
-    if (currentSlide < slidesNeeded - 1) {
-      setCurrentSlide(currentSlide + 1);
-    }
+  const handlePrevQuestion = () => {
+    setCurrentQuestionIndex(
+      (prev) => (prev - 1 + STUDENT_QUESTIONS.length) % STUDENT_QUESTIONS.length
+    );
   };
 
-  const handlePracticeTopics = () => {
-    console.log(`Starting practice for ${selectedSubject}`);
+  const navigateTo = (path: string) => {
+    router.push(path, "forward", "push");
   };
 
-  const totalSlides = Math.ceil(topics.length / 3);
-
-  // Carousel swipe handlers (unchanged)
-  const handleTouchStart = (e: React.TouchEvent) => {
-    startXRef.current = e.touches[0].clientX;
-    isDraggingRef.current = true;
-    if (carouselTrackRef.current) {
-      carouselTrackRef.current.style.cursor = 'grabbing';
-      carouselTrackRef.current.style.transition = 'none';
-    }
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDraggingRef.current) return;
-    
-    currentXRef.current = e.touches[0].clientX;
-    const diff = startXRef.current - currentXRef.current;
-    
-    if (carouselTrackRef.current) {
-      carouselTrackRef.current.style.transform = `translateX(calc(-${currentSlide * 100}% - ${diff}px))`;
-    }
-  };
-
-  const handleTouchEnd = () => {
-    if (!isDraggingRef.current) return;
-    
-    isDraggingRef.current = false;
-    const diff = startXRef.current - currentXRef.current;
-    const threshold = 50;
-    
-    if (carouselTrackRef.current) {
-      carouselTrackRef.current.style.cursor = 'grab';
-      carouselTrackRef.current.style.transition = 'transform 0.3s ease';
-      carouselTrackRef.current.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }
-    
-    if (diff > threshold && currentSlide < totalSlides - 1) {
-      handleNextSlide();
-    } else if (diff < -threshold && currentSlide > 0) {
-      handlePreviousSlide();
-    }
-  };
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    startXRef.current = e.clientX;
-    isDraggingRef.current = true;
-    if (carouselTrackRef.current) {
-      carouselTrackRef.current.style.cursor = 'grabbing';
-      carouselTrackRef.current.style.transition = 'none';
-    }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDraggingRef.current) return;
-    
-    currentXRef.current = e.clientX;
-    const diff = startXRef.current - currentXRef.current;
-    
-    if (carouselTrackRef.current) {
-      carouselTrackRef.current.style.transform = `translateX(calc(-${currentSlide * 100}% - ${diff}px))`;
-    }
-  };
-
-  const handleMouseUp = () => {
-    if (!isDraggingRef.current) return;
-    
-    isDraggingRef.current = false;
-    const diff = startXRef.current - currentXRef.current;
-    const threshold = 50;
-    
-    if (carouselTrackRef.current) {
-      carouselTrackRef.current.style.cursor = 'grab';
-      carouselTrackRef.current.style.transition = 'transform 0.3s ease';
-      carouselTrackRef.current.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }
-    
-    if (diff > threshold && currentSlide < totalSlides - 1) {
-      handleNextSlide();
-    } else if (diff < -threshold && currentSlide > 0) {
-      handlePreviousSlide();
-    }
+  // Helper to get subject translation key
+  const getSubjectKey = (subject: string) => {
+    // Remove spaces for key lookup if needed, but our keys match simple names mostly
+    const keyMap: { [key: string]: string } = {
+      Math: "Math",
+      Science: "Science",
+      "Social Studies": "SocialStudies",
+      Spanish: "Spanish",
+    };
+    return `mainStudent.subjects.${keyMap[subject] || subject}`;
   };
 
   return (
-    <IonPage>
-
-
-
-
-    <IonHeader>
-  <IonToolbar>
-    <div className="header-content">
-      <IonMenuButton slot="start" className="menu-button enlarged-menu">
-        <IonIcon icon={menu} />
-      </IonMenuButton>
-      
-      <div className="header-center">
-        <StudentMenu
-          selectedSubject={selectedSubject}
-          onSubjectChange={setSelectedSubject}
-        />
-      </div>
-      
-      <div className="header-brand">
-        <div className="brand-text">
-          <div className="arenai">ArenAI</div>
-          <div className="student">Student</div>
-        </div>
-      </div>
-    </div>
-  </IonToolbar>
-</IonHeader>
-
-
-
-
-
-      
+    <IonPage className="main-student-page">
+      {/* Replaced Header with Component */}
+      <StudentHeader
+        showSubject={true}
+        selectedSubject={selectedSubject}
+        onSubjectChange={setSelectedSubject}
+      />
 
       <IonContent fullscreen class="main-student-content">
-        <div className="dashboard-container">
-          
-          {/* Week Selector Section */}
-          <div className="week-selector-section">
-            <div className="week-selector">
-              <IonButton 
-                fill="clear" 
-                className="week-nav-button"
-                onClick={handlePreviousWeek}
-                disabled={currentWeekIndex === 0}
-              >
-                <IonIcon icon={chevronBack} />
-              </IonButton>
-              
-              <div className="week-display">
-                <IonText>
-                  <h2 className="week-title">{currentWeek.name}</h2>
-                  <p className="section-info">Grade {selectedGrade} - Section {selectedSection}</p>
-                </IonText>
-              </div>
-              
-              <IonButton 
-                fill="clear" 
-                className="week-nav-button"
-                onClick={handleNextWeek}
-                disabled={currentWeekIndex === WEEKS_DATA.length - 1}
-              >
-                <IonIcon icon={chevronForward} />
-              </IonButton>
+        <div className="ms-container">
+          {/* Calendar Selector */}
+          <div className="ms-week-selector">
+            <CalendarSelector
+              onDateSelect={(date: any) => console.log("Selected date:", date)}
+              title={t("mainStudent.classSchedule") || "Class Schedule"}
+            />
+          </div>
+
+          {/* Stats Row: Subject + Grade */}
+          <div className="ms-stats-row">
+            <div className="ms-your-math-pill">
+              {t("mainStudent.yourSubject", {
+                subject: t(getSubjectKey(selectedSubject)),
+              })}
+            </div>
+            <div
+              className="ms-progress-circle"
+              style={{
+                border: `6px solid ${getColorForPercentage(
+                  overallPerformance
+                )}`,
+                boxShadow: `inset 0 0 0 3px white`, // White inner outline
+                color: "white",
+                width: "70px",
+                height: "70px",
+                borderRadius: "50%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontWeight: "bold",
+                fontSize: "18px",
+                backgroundColor: "var(--ion-color-secondary)",
+              }}
+            >
+              {overallPerformance}%
             </div>
           </div>
 
-          {/* Overall Performance Section */}
-          <div className="performance-container-new">
-            <div className="performance-background">
-              <div className="performance-content-wrapper">
-                <div className="performance-text-content">
-                  <div className="subject-pill-new">
-                    <IonText>
-                      <h3 className="subject-name-new">{selectedSubject}</h3>
-                    </IonText>
-                  </div>
-                  <IonText>
-                    <p className="performance-label-new">My Overall Performance</p>
-                  </IonText>
-                  <IonButton 
-                    fill="clear" 
-                    className="review-button-new"
-                  >
-                    View details <IonIcon icon={arrowForward} slot="end" />
-                  </IonButton>
-                </div>
-                
-                <div className="performance-chart-content">
-                  <div className="circle-wrapper">
-                    <div 
-                      className="performance-ring-chart"
+          {/* Topics Grid (Swipeable) */}
+          <div className="ms-topics-scroll-container">
+            <div className="ms-topics-track">
+              {topics.map((topic, index) => (
+                <div
+                  key={index}
+                  className="ms-topic-btn"
+                  onClick={() => navigateTo(`/subject/${selectedSubject}`)}
+                >
+                  <div className="ms-topic-fill-box">
+                    <div
+                      className="ms-topic-fill"
                       style={{
-                        '--percentage': `${overallPerformance}%`,
-                        '--ring-color': getRingChartColor(overallPerformance)
-                      } as React.CSSProperties}
+                        height: `${topic.percentage}%`,
+                        backgroundColor:
+                          topic.percentage < 60 ? "#FFC107" : "#78B8B0",
+                      }}
+                    ></div>
+                    <div className="ms-topic-icon">{topic.icon || "•"}</div>
+                  </div>
+                  <span className="ms-topic-label">{t(topic.nameKey)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom Section (Switch + Content) */}
+          <div className="ms-bottom-section">
+            <div className="ms-switch-container">
+              <div
+                className="ms-switch-bg"
+                style={{
+                  transform:
+                    viewMode === "rec" ? "translateX(0)" : "translateX(100%)",
+                }}
+              ></div>
+              <div
+                className={`ms-switch-option ${
+                  viewMode === "rec" ? "active" : ""
+                }`}
+                onClick={() => setViewMode("rec")}
+              >
+                {t("mainStudent.recommendations")}
+              </div>
+              <div
+                className={`ms-switch-option ${
+                  viewMode === "que" ? "active" : ""
+                }`}
+                onClick={() => setViewMode("que")}
+              >
+                {t("mainStudent.questions")}
+              </div>
+            </div>
+
+            <div className="ms-info-display">
+              {viewMode === "rec" ? (
+                <>
+                  <div className="ms-info-title">
+                    {t("mainStudent.studyRecommendation")}
+                  </div>
+                  <div className="ms-info-content">
+                    {currentStudyRecommendation}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="ms-info-title">
+                    {t("mainStudent.popularQuestions")}
+                  </div>
+                  <div className="ms-question-carousel">
+                    <div
+                      className="ms-carousel-arrow"
+                      onClick={handlePrevQuestion}
                     >
-                      <div className="ring-center">
-                        <IonText>
-                          <h2 className="performance-percentage">{overallPerformance}%</h2>
-                        </IonText>
-                      </div>
+                      &lt;
+                    </div>
+                    <div
+                      className="ms-info-content"
+                      style={{ padding: "0 10px" }}
+                    >
+                      {STUDENT_QUESTIONS[currentQuestionIndex]}
+                    </div>
+                    <div
+                      className="ms-carousel-arrow"
+                      onClick={handleNextQuestion}
+                    >
+                      &gt;
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Performance by Topic Section */}
-          <div className="topics-section">
-            <div className="section-header">
-              <IonText>
-                <h3 className="section-title">My Performance by Topic</h3>
-              </IonText>
-              {totalSlides > 1 && (
-                <div className="carousel-indicator-large">
-                  {currentSlide + 1} / {totalSlides}
-                </div>
+                </>
               )}
             </div>
-            
-            {topics.length > 0 ? (
-              <>
-                <div className="topics-carousel-container">
-                  <div 
-                    ref={carouselTrackRef}
-                    className="carousel-track" 
-                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={handleTouchEnd}
-                    onMouseDown={handleMouseDown}
-                    onMouseMove={handleMouseMove}
-                    onMouseUp={handleMouseUp}
-                    onMouseLeave={handleMouseUp}
-                  >
-                    {Array.from({ length: totalSlides }).map((_, slideIndex) => (
-                      <div key={slideIndex} className="carousel-slide">
-                        {topics.slice(slideIndex * 3, slideIndex * 3 + 3).map((topic, index) => (
-                          <IonCard key={`${slideIndex}-${index}`} className="topic-card">
-                            <IonCardContent>
-                              <div className="topic-header">
-                                <IonIcon icon={currentSubjectIcon} className="topic-icon" />
-                                <IonText>
-                                  <h4 className="topic-name">{topic.name}</h4>
-                                </IonText>
-                              </div>
-                              
-                              <div className="topic-progress">
-                                <IonText>
-                                  <p className={`topic-percentage ${getPerformanceClass(topic.percentage)}`}>
-                                    {topic.percentage}%
-                                  </p>
-                                </IonText>
-                                <div className="topic-progress-bar-container">
-                                  <div 
-                                    className={`topic-progress-bar ${getPerformanceClass(topic.percentage)}`}
-                                    style={{ width: `${topic.percentage}%` }}
-                                  ></div>
-                                </div>
-                              </div>
-                            </IonCardContent>
-                          </IonCard>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                {totalSlides > 1 && (
-                  <div className="carousel-controls">
-                    <IonButton 
-                      fill="clear" 
-                      size="small"
-                      className="carousel-button"
-                      onClick={handlePreviousSlide}
-                      disabled={currentSlide === 0}
-                    >
-                      <IonIcon icon={chevronBack} />
-                    </IonButton>
-                    
-                    <IonButton 
-                      fill="clear" 
-                      size="small"
-                      className="carousel-button"
-                      onClick={handleNextSlide}
-                      disabled={currentSlide === totalSlides - 1}
-                    >
-                      <IonIcon icon={chevronForward} />
-                    </IonButton>
-                  </div>
-                )}
-              </>
-            ) : (
-              <IonCard className="no-topics-card">
-                <IonCardContent>
-                  <IonText>
-                    <p className="no-topics-text">No topics available for {selectedSubject}</p>
-                  </IonText>
-                </IonCardContent>
-              </IonCard>
-            )}
           </div>
-
-          {/* Study Recommendations Section */}
-          <div className="study-section">
-            <IonText>
-              <h3 className="section-title">Study Recommendations</h3>
-            </IonText>
-            
-            <IonCard className="study-card">
-              <IonCardContent>
-                <div className="study-content">
-                  <IonIcon icon={person} className="study-icon" />
-                  <IonText>
-                    <p className="study-text">
-                      {currentStudyRecommendation}
-                    </p>
-                  </IonText>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-
-          {/* Today's Learning Section */}
-          <div className="todays-learning-section">
-            <IonText>
-              <h3 className="section-title">Today's Learning</h3>
-            </IonText>
-            
-            <IonCard className="learning-card">
-              <IonCardContent>
-                <div className="learning-header">
-                  <IonIcon icon={bulb} className="learning-icon" />
-                  <IonText>
-                    <h4 className="learning-title">Learning Recommendation</h4>
-                  </IonText>
-                </div>
-                
-                <IonText>
-                  <p className="learning-recommendation">
-                    {currentLearningRecommendation}
-                  </p>
-                </IonText>
-              </IonCardContent>
-            </IonCard>
-          </div>
-
-          {/* Practice Section */}
-          <div className="practice-section">
-            <IonButton 
-              expand="block" 
-              className="practice-topics-button"
-              onClick={handlePracticeTopics}
-            >
-              <IonIcon icon={school} slot="start" />
-              Practice {selectedSubject} Topics
-            </IonButton>
-          </div>
-
         </div>
       </IonContent>
+
+      {/* Bottom Navigation */}
+      <div className="ms-bottom-nav">
+        <div className="ms-nav-btn" onClick={() => navigateTo("/page/student")}>
+          <IonIcon icon={homeOutline} />
+        </div>
+        <div className="ms-nav-btn" onClick={() => navigateTo("/quiz")}>
+          <IonIcon icon={trophyOutline} />
+        </div>
+
+        <div className="ms-mascot-container">
+          <AnimatedMascot
+            openSrc={avatarAssets.open}
+            closedSrc={avatarAssets.closed}
+            winkSrc={avatarAssets.wink}
+            className="ms-mascot-image"
+            onClick={() => navigateTo("/chat")}
+          />
+        </div>
+
+        <div
+          className="ms-nav-btn"
+          onClick={() => navigateTo("/battleminigame")}
+        >
+          <IonIcon icon={americanFootballOutline} />
+        </div>
+        <div className="ms-nav-btn" onClick={() => navigateTo("/settings")}>
+          <IonIcon icon={settingsOutline} />
+        </div>
+      </div>
     </IonPage>
   );
 };

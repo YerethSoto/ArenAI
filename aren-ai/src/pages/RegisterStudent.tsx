@@ -16,7 +16,6 @@ import {
 import { person, key, business, arrowBack, eye, eyeOff } from 'ionicons/icons';
 import './RegisterStudent.css';
 import { useHistory } from 'react-router-dom';
-import { buildUrl } from '../utils/api';
 import { getApiUrl } from '../config/api';
 
 const RegisterStudent: React.FC = () => {
@@ -33,7 +32,7 @@ const RegisterStudent: React.FC = () => {
   const [passwordErrors, setPasswordErrors] = useState<string[]>([]);
   const history = useHistory();
 
-  // Validar contraseña
+  // Validar contrase単a
   const validatePassword = (password: string) => {
     const errors: string[] = [];
     if (password.length < 8) {
@@ -45,12 +44,14 @@ const RegisterStudent: React.FC = () => {
     if (!/(?=.*[A-Z])/.test(password)) {
       errors.push('At least one uppercase letter');
     }
+    /*
     if (!/(?=.*\d)/.test(password)) {
       errors.push('At least one number');
     }
     if (!/(?=.*[@$!%*?&])/.test(password)) {
       errors.push('At least one special character (@$!%*?&)');
     }
+      */
     return errors;
   };
 
@@ -62,7 +63,7 @@ const RegisterStudent: React.FC = () => {
 
     setFormData(newFormData);
 
-    // Validar contraseña cuando cambia
+    // Validar contrase単a cuando cambia
     if (field === 'password') {
       const errors = validatePassword(value);
       setPasswordErrors(errors);
@@ -78,14 +79,14 @@ const RegisterStudent: React.FC = () => {
       return;
     }
 
-    // Validar contraseña
+    // Validar contrase単a
     const passwordErrors = validatePassword(formData.password);
     if (passwordErrors.length > 0) {
       alert('Please fix password requirements:\n' + passwordErrors.join('\n'));
       return;
     }
 
-    // Validar que las contraseñas coincidan
+    // Validar que las contrase単as coincidan
     if (formData.password !== formData.confirmPassword) {
       alert('Passwords do not match');
       return;
@@ -94,7 +95,7 @@ const RegisterStudent: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const resp = await fetch('/api/auth/register-student', {
+      const resp = await fetch(getApiUrl('/api/auth/register-student'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

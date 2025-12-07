@@ -54,7 +54,6 @@ router.post('/', async (req, res, next) => {
   try {
     const body = schema.parse(req.body);
     const classRecord = await createClass({
-      professorId: body.professorId,
       name: body.name,
       subjectId: body.subjectId,
       sectionId: body.sectionId,
