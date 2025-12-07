@@ -44,7 +44,9 @@ const StudentSettings: React.FC = () => {
                         <IonSelect value={theme} onIonChange={handleThemeChange}>
                             {availableThemes.map((themeName) => (
                                 <IonSelectOption key={themeName} value={themeName}>
-                                    {themeName.charAt(0).toUpperCase() + themeName.slice(1)}
+                                    {themeName === 'original-alter'
+                                        ? 'Original (ALTER)'
+                                        : themeName.charAt(0).toUpperCase() + themeName.slice(1)}
                                 </IonSelectOption>
                             ))}
                         </IonSelect>

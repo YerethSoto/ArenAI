@@ -34,7 +34,7 @@
   --ion-color-secondary-tint: #9bc5b3;
 
   /* Palette: Green (#90BEAB) - Cards & Calendar Backgrounds (Solid) */
-  --ion-color-secondary-soft: #90BEAB;
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
 
   /* Palette: Dark Slate (#536E83) - Progress Circle */
   --ion-color-tertiary: #536E83;
@@ -57,6 +57,7 @@ body.theme-navy {
   --ion-color-primary-shade: #001d3e;
   --ion-color-primary-tint: #1a3759;
   --ion-color-secondary: #1565c0;
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
   --ion-color-secondary-rgb: 21, 101, 192;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
@@ -82,6 +83,7 @@ body.theme-sage {
   --ion-color-primary-shade: #5e7d1f;
   --ion-color-primary-tint: #7a9939;
   --ion-color-secondary: #9acd32;
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
   --ion-color-secondary-rgb: 154, 205, 50;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
@@ -107,6 +109,7 @@ body.theme-burgundy {
   --ion-color-primary-shade: #7a3d11;
   --ion-color-primary-tint: #97572b;
   --ion-color-secondary: #a0522d;
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
   --ion-color-secondary-rgb: 160, 82, 45;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
@@ -132,6 +135,7 @@ body.theme-bamboo {
   --ion-color-primary-shade: #4b922a;
   --ion-color-primary-tint: #66af45;
   --ion-color-secondary: #80b918;
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
   --ion-color-secondary-rgb: 128, 185, 24;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
@@ -157,6 +161,7 @@ body.theme-earth {
   --ion-color-primary-shade: #8d7260;
   --ion-color-primary-tint: #aa8f7c;
   --ion-color-secondary: #c9a690;
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
   --ion-color-secondary-rgb: 201, 166, 144;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
@@ -167,7 +172,42 @@ body.theme-earth {
   --ion-color-tertiary-contrast: #ffffff;
   --ion-color-tertiary-contrast-rgb: 255, 255, 255;
   --ion-color-tertiary-shade: #7a623e;
+  --ion-color-tertiary-shade: #7a623e;
   --ion-color-tertiary-tint: #977d59;
+}
+
+body.theme-original-alter {
+  --ion-background-color: #f9f4e6;
+  --ion-item-background: #ffffff;
+  --ion-card-background: #ffffff;
+  --ion-text-color: #2c3e50;
+
+  /* Primary: Brown (Same as Original) */
+  --ion-color-primary: #8d6b56;
+  --ion-color-primary-rgb: 141, 107, 86;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #7c5e4c;
+  --ion-color-primary-tint: #987a67;
+
+  /* Secondary: Green (Same as Original) - Buttons stay green */
+  --ion-color-secondary: #90BEAB;
+  --ion-color-secondary-rgb: 144, 190, 171;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #7fa796;
+  --ion-color-secondary-tint: #9bc5b3;
+
+  /* Secondary Soft: BROWN tint (Different from Original) - Cards become brown */
+  --ion-color-secondary-soft: rgba(var(--ion-color-primary-rgb), 0.2);
+
+  /* Tertiary: Dark Slate (Same as Original) */
+  --ion-color-tertiary: #536E83;
+  --ion-color-tertiary-rgb: 83, 110, 131;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #496173;
+  --ion-color-tertiary-tint: #647d8f;
 }
 
 @media (prefers-color-scheme: dark) {
