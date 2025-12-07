@@ -17,6 +17,8 @@ import {
 } from "@ionic/react";
 import { menu, arrowForward, close } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
+import { useLocation, useHistory } from "react-router-dom"; // Logic Fix
+import { socketService } from "../services/socket"; // Logic Fix
 import StudentMenu from "../components/StudentMenu";
 import StudentSidebar from "../components/StudentSidebar";
 import StudentHeader from "../components/StudentHeader";
@@ -36,7 +38,7 @@ interface Question {
 }
 
 interface BattlePlayer {
-  id: number;
+  id: string; // Changed to string for socket safety
   name: string;
   avatarName: string;
   health: number;
@@ -46,6 +48,13 @@ interface BattlePlayer {
 
 const BattleMinigame: React.FC = () => {
   const { t } = useTranslation();
+  const location = useLocation<{
+    roomId: string;
+    opponent: any;
+    myAvatar: any;
+  }>(); // Logic Fix
+  const history = useHistory(); // Logic Fix
+  const roomId = location.state?.roomId; // Logic Fix
 
   const handleLogout = () => {
     console.log("Logout clicked");
@@ -68,6 +77,7 @@ const BattleMinigame: React.FC = () => {
     };
   };
 
+  // Questions Data
   const questions: Question[] = [
     {
       id: 1,
@@ -102,19 +112,20 @@ const BattleMinigame: React.FC = () => {
 
   const currentUser = getUserData();
 
+  // Logic Fix: Initialize from location state
   const [player, setPlayer] = useState<BattlePlayer>({
-    id: 1,
+    id: "me",
     name: currentUser.name.split(" ")[0],
-    avatarName: "Aren",
+    avatarName: location.state?.myAvatar || "Aren",
     health: 100,
     maxHealth: 100,
     score: 0,
   });
 
   const [opponent, setOpponent] = useState<BattlePlayer>({
-    id: 2,
-    name: "Bot",
-    avatarName: "Capy",
+    id: "op",
+    name: location.state?.opponent?.name || "Bot",
+    avatarName: location.state?.opponent?.avatar || "Capy",
     health: 100,
     maxHealth: 100,
     score: 0,
@@ -142,59 +153,170 @@ const BattleMinigame: React.FC = () => {
 
   const scrollingTextRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null);
-
-  // Audio refs
   const bgmRef = useRef<HTMLAudioElement | null>(null);
   const hitSoundRef = useRef<HTMLAudioElement | null>(null);
 
+  // --- Socket Logic: Drive Game State ---
   useEffect(() => {
-    // Initialize Background Music
+    if (!roomId) return;
+
+    console.log("Connecting to Game Room:", roomId);
+    socketService.connect();
+    const socket = socketService.socket;
+
+    if (socket) {
+      // 1. Round Start: Received new question index
+      socket.on("round_start", (data: { questionIndex: number }) => {
+        console.log("Round Start:", data);
+
+        // Wait a moment if we were showing results/damage
+        setTimeout(() => {
+          setCurrentQuestion(data.questionIndex % questions.length);
+          resetRound();
+          showQuestion();
+        }, 500);
+      });
+
+      // 2. Opponent Answered (Optional Feedback)
+      socket.on("opponent_answered", () => {
+        console.log("Opponent Answered");
+        // Could show a bubble or indicator
+      });
+
+      // 3. Round Result: Received damage/winner info
+      socket.on(
+        "round_result",
+        (data: { winnerId: string; damage: number }) => {
+          console.log("Round Result:", data);
+          handleServerRoundResult(data);
+        }
+      );
+
+      // 4. Game Over
+      socket.on("game_over", (data: { winnerId: string }) => {
+        console.log("Game Over:", data);
+        setTimeout(() => {
+          setWinner(
+            data.winnerId === socket.id
+              ? "player"
+              : data.winnerId === "draw"
+              ? "draw"
+              : "opponent"
+          );
+          setShowResults(true);
+        }, 2000);
+      });
+    }
+
+    return () => {
+      if (socket) {
+        socket.off("round_start");
+        socket.off("opponent_answered");
+        socket.off("round_result");
+        socket.off("game_over");
+      }
+    };
+  }, [roomId]);
+
+  // Handle Server Result Animation
+  const handleServerRoundResult = (data: {
+    winnerId: string;
+    damage: number;
+  }) => {
+    const myId = socketService.socket?.id;
+    const isMeWinner = data.winnerId === myId;
+    const isDraw = data.winnerId === "draw";
+
+    setDamageAmount(data.damage);
+    setShowQuestionPopup(false);
+    setProgress(0);
+
+    if (isMeWinner) {
+      setPlayerAttackAnimation(true);
+      setDamageTarget("opponent");
+
+      setTimeout(() => playHitSound(), 300);
+      setTimeout(() => {
+        setShowDamageAnimation(true);
+        setOpponentHitAnimation(true);
+
+        setOpponent((prev) => {
+          const newHealth = Math.max(0, prev.health - data.damage);
+          return { ...prev, health: newHealth };
+        });
+        setPlayer((prev) => ({ ...prev, score: prev.score + 100 }));
+
+        // End animation cleanup happens via timeouts or next round
+      }, 600);
+    } else if (!isDraw) {
+      setOpponentAttackAnimation(true);
+      setDamageTarget("player");
+
+      setTimeout(() => playHitSound(), 300);
+      setTimeout(() => {
+        setShowDamageAnimation(true);
+        setPlayerHitAnimation(true);
+        setPlayer((prev) => {
+          const newHealth = Math.max(0, prev.health - data.damage);
+          return { ...prev, health: newHealth };
+        });
+      }, 600);
+    }
+
+    // Cleanup animations
+    setTimeout(() => {
+      setPlayerAttackAnimation(false);
+      setOpponentAttackAnimation(false);
+      setPlayerHitAnimation(false);
+      setOpponentHitAnimation(false);
+      setShowDamageAnimation(false);
+    }, 2500);
+  };
+
+  const resetRound = () => {
+    setSelectedAnswer(null);
+    setIsAnswered(false);
+    setShowDamageAnimation(false);
+    // Popup managed by showQuestion called in round_start
+    setPlayerAttackAnimation(false);
+    setOpponentAttackAnimation(false);
+    setPlayerHitAnimation(false);
+    setOpponentHitAnimation(false);
+  };
+
+  // --- Audio Logic ---
+  useEffect(() => {
     const bgm = new Audio("/assets/battlesong.mp3");
     bgm.loop = true;
-    bgm.volume = 0; // Start at 0 for fade in
+    bgm.volume = 0;
     bgmRef.current = bgm;
 
-    // Initialize Hit Sound
     const hit = new Audio("/assets/hit-sound.mp3");
     hit.volume = 0.6;
     hitSoundRef.current = hit;
 
-    // Play BGM
     const playBGM = async () => {
       try {
         await bgm.play();
       } catch (e) {
-        console.error("Autoplay prevented:", e);
+        console.warn("Autoplay prevented:", e);
       }
     };
     playBGM();
 
-    // Volume Fade Logic
-    const FADE_DURATION = 3; // seconds
-    const MAX_VOLUME = 0.3; // Lower volume for background music
-
-    const handleTimeUpdate = () => {
-      const timeLeft = bgm.duration - bgm.currentTime;
-
-      if (timeLeft <= FADE_DURATION) {
-        // Fade out
-        bgm.volume = Math.max(0, (timeLeft / FADE_DURATION) * MAX_VOLUME);
-      } else if (bgm.currentTime <= FADE_DURATION) {
-        // Fade in
-        bgm.volume = Math.min(
-          MAX_VOLUME,
-          (bgm.currentTime / FADE_DURATION) * MAX_VOLUME
-        );
+    // Volume Fade In
+    const FADE_DURATION = 3;
+    const MAX_VOLUME = 0.3;
+    const fadeIn = setInterval(() => {
+      if (bgm.volume < MAX_VOLUME) {
+        bgm.volume = Math.min(MAX_VOLUME, bgm.volume + 0.05);
       } else {
-        // Stable volume
-        bgm.volume = MAX_VOLUME;
+        clearInterval(fadeIn);
       }
-    };
-
-    bgm.addEventListener("timeupdate", handleTimeUpdate);
+    }, 500);
 
     return () => {
-      bgm.removeEventListener("timeupdate", handleTimeUpdate);
+      clearInterval(fadeIn);
       bgm.pause();
       bgmRef.current = null;
       hitSoundRef.current = null;
@@ -210,9 +332,7 @@ const BattleMinigame: React.FC = () => {
 
   useIonViewWillEnter(() => {
     if (bgmRef.current && bgmRef.current.paused) {
-      bgmRef.current
-        .play()
-        .catch((e) => console.error("Resume BGM failed:", e));
+      bgmRef.current.play().catch((e) => console.warn("Resume BGM failed:", e));
     }
   });
 
@@ -221,50 +341,39 @@ const BattleMinigame: React.FC = () => {
       hitSoundRef.current.currentTime = 0;
       hitSoundRef.current
         .play()
-        .catch((e) => console.error("Hit sound failed:", e));
+        .catch((e) => console.warn("Hit sound failed:", e));
     }
   };
 
+  // --- UI/Animation Logic ---
   useEffect(() => {
     const scrollText = () => {
       setScrollingTextPosition((prev) => {
         const textWidth = scrollingTextRef.current?.scrollWidth || 0;
         const containerWidth =
           scrollingTextRef.current?.parentElement?.offsetWidth || 0;
-
         if (textWidth > containerWidth) {
           const newPosition = prev - 0.5;
-          if (newPosition < -textWidth) {
-            return containerWidth;
-          }
+          if (newPosition < -textWidth) return containerWidth;
           return newPosition;
         }
         return 0;
       });
     };
-
     animationRef.current = requestAnimationFrame(function animate() {
       scrollText();
       animationRef.current = requestAnimationFrame(animate);
     });
-
     return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
   }, [currentQuestion]);
 
   useEffect(() => {
-    if (!isAnswered) {
-      setShowQuestionPopup(true);
-      setProgress(0);
-
+    if (!isAnswered && showQuestionPopup) {
       const duration = 8000;
       const interval = 50;
-      const steps = duration / interval;
-      const increment = 100 / steps;
-
+      const increment = 100 / (duration / interval);
       const progressTimer = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 100) {
@@ -274,44 +383,20 @@ const BattleMinigame: React.FC = () => {
           return prev + increment;
         });
       }, interval);
-
       const timer = setTimeout(() => {
         setShowQuestionPopup(false);
         clearInterval(progressTimer);
       }, duration);
-
       return () => {
         clearTimeout(timer);
         clearInterval(progressTimer);
       };
     }
-  }, [currentQuestion, isAnswered]);
+  }, [currentQuestion, isAnswered, showQuestionPopup]);
 
   const showQuestion = () => {
     setShowQuestionPopup(true);
     setProgress(0);
-
-    const duration = 8000;
-    const interval = 50;
-    const steps = duration / interval;
-    const increment = 100 / steps;
-
-    const progressTimer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(progressTimer);
-          return 100;
-        }
-        return prev + increment;
-      });
-    }, interval);
-
-    setTimeout(() => {
-      if (!isAnswered) {
-        setShowQuestionPopup(false);
-        clearInterval(progressTimer);
-      }
-    }, duration);
   };
 
   const closeQuestion = () => {
@@ -319,130 +404,32 @@ const BattleMinigame: React.FC = () => {
     setProgress(0);
   };
 
-  const calculateDamage = (isCorrect: boolean, timeTaken: number): number => {
-    if (!isCorrect) return 0;
-
-    let damage = 25;
-    if (timeTaken < 3) damage += 10;
-    else if (timeTaken < 5) damage += 5;
-
-    return damage;
-  };
-
   const handleAnswerSelect = (answerIndex: number) => {
     if (isAnswered) return;
-
-    const isCorrect = answerIndex === questions[currentQuestion].correctAnswer;
-    const damage = calculateDamage(isCorrect, 2);
 
     setSelectedAnswer(answerIndex);
     setIsAnswered(true);
     setShowQuestionPopup(false);
-    setProgress(0);
 
-    if (isCorrect) {
-      setPlayerAttackAnimation(true);
-      setDamageAmount(damage);
-      setDamageTarget("opponent");
-
-      // Play hit sound when animation connects (0.3s)
-      setTimeout(() => playHitSound(), 300);
-
-      setTimeout(() => {
-        setShowDamageAnimation(true);
-        setOpponentHitAnimation(true);
-      }, 600);
-
-      const newOpponentHealth = Math.max(0, opponent.health - damage);
-      setOpponent((prev) => ({
-        ...prev,
-        health: newOpponentHealth,
-        score: prev.score + damage,
-      }));
-
-      if (newOpponentHealth <= 0) {
-        setTimeout(() => {
-          setWinner("player");
-          setShowResults(true);
-          setPlayerAttackAnimation(false);
-          setOpponentHitAnimation(false);
-        }, 2000);
-        return;
-      }
-    } else {
-      setOpponentAttackAnimation(true);
-      setDamageAmount(damage);
-      setDamageTarget("player");
-
-      // Play hit sound when animation connects (0.3s)
-      setTimeout(() => playHitSound(), 300);
-
-      setTimeout(() => {
-        setShowDamageAnimation(true);
-        setPlayerHitAnimation(true);
-      }, 600);
-
-      const newPlayerHealth = Math.max(0, player.health - damage);
-      setPlayer((prev) => ({
-        ...prev,
-        health: newPlayerHealth,
-      }));
-
-      if (newPlayerHealth <= 0) {
-        setTimeout(() => {
-          setWinner("opponent");
-          setShowResults(true);
-          setOpponentAttackAnimation(false);
-          setPlayerHitAnimation(false);
-        }, 2000);
-        return;
-      }
+    // User local feedback (optional color change handled by getButtonColor)
+    // Emit to server
+    if (roomId) {
+      // Technically we can check correctness locally if we trust question list sync
+      const isCorrect =
+        answerIndex === questions[currentQuestion].correctAnswer;
+      socketService.socket?.emit("submit_answer", {
+        roomId,
+        correct: isCorrect,
+      });
     }
-
-    setTimeout(() => {
-      if (
-        currentQuestion < questions.length - 1 &&
-        player.health > 0 &&
-        opponent.health > 0
-      ) {
-        setCurrentQuestion((prev) => prev + 1);
-        setSelectedAnswer(null);
-        setIsAnswered(false);
-        setShowDamageAnimation(false);
-        setPlayerAttackAnimation(false);
-        setOpponentAttackAnimation(false);
-        setPlayerHitAnimation(false);
-        setOpponentHitAnimation(false);
-      } else {
-        setTimeout(() => {
-          if (player.health > opponent.health) {
-            setWinner("player");
-          } else if (opponent.health > player.health) {
-            setWinner("opponent");
-          } else {
-            setWinner("draw");
-          }
-          setShowResults(true);
-          setPlayerAttackAnimation(false);
-          setOpponentAttackAnimation(false);
-          setPlayerHitAnimation(false);
-          setOpponentHitAnimation(false);
-        }, 1000);
-      }
-    }, 2000);
+    // We do NOT update health/animations here. Wait for 'round_result' event.
   };
 
   const getButtonColor = (index: number) => {
     if (!isAnswered) return "";
-
-    if (index === questions[currentQuestion].correctAnswer) {
-      return "correct";
-    } else if (
-      index === selectedAnswer &&
-      index !== questions[currentQuestion].correctAnswer
-    ) {
-      return "incorrect";
-    }
+    const isCorrect = index === questions[currentQuestion].correctAnswer;
+    if (index === selectedAnswer) return isCorrect ? "correct" : "incorrect";
+    if (index === questions[currentQuestion].correctAnswer) return "correct"; // Reveal answer?
     return "";
   };
 
@@ -454,30 +441,24 @@ const BattleMinigame: React.FC = () => {
   };
 
   const handleBackToMenu = () => {
-    window.location.href = "/page/student";
+    history.replace("/page/student");
   };
 
   const restartBattle = () => {
+    // Just resets UI, server controls real state?
+    // For minigame, typically we just leave or rematch.
     setPlayer((prev) => ({ ...prev, health: 100, score: 0 }));
     setOpponent((prev) => ({ ...prev, health: 100, score: 0 }));
-    setCurrentQuestion(0);
-    setSelectedAnswer(null);
-    setIsAnswered(false);
-    setShowDamageAnimation(false);
+    resetRound();
     setShowResults(false);
     setWinner(null);
-    setShowQuestionPopup(true);
-    setProgress(0);
-    setPlayerAttackAnimation(false);
-    setOpponentAttackAnimation(false);
-    setPlayerHitAnimation(false);
-    setOpponentHitAnimation(false);
   };
 
   return (
     <IonPage>
       <StudentHeader pageTitle="battle.title" />
 
+      {/* Logic Fix: Re-enabled Sidebar */}
       <StudentSidebar onLogout={handleLogout} />
 
       <IonContent fullscreen={false} className="battle-content">
@@ -488,9 +469,7 @@ const BattleMinigame: React.FC = () => {
             <div className="character-container">
               <div className="health-bar enemy-health">
                 <div className="character-name-row">
-                  <span className="character-name">
-                    {opponent.name} - {opponent.avatarName}
-                  </span>
+                  <span className="character-name">{opponent.name}</span>
                 </div>
                 <div className="health-bar-container">
                   <div
@@ -512,7 +491,11 @@ const BattleMinigame: React.FC = () => {
               </div>
               <div className="avatar-wrapper">
                 <img
-                  src="/assets/battle_sprite_front_capybara.png"
+                  src={`/assets/battle_sprite_front_${opponent.avatarName.toLowerCase()}.png`}
+                  onError={(e) =>
+                    (e.currentTarget.src =
+                      "/assets/battle_sprite_front_capybara.png")
+                  } // Fallback
                   alt={opponent.avatarName}
                   className={`avatar-image ${
                     opponentAttackAnimation
@@ -530,7 +513,11 @@ const BattleMinigame: React.FC = () => {
             <div className="character-container">
               <div className="avatar-wrapper">
                 <img
-                  src="/assets/battle_sprite_back_capybara.png"
+                  src={`/assets/battle_sprite_back_${player.avatarName.toLowerCase()}.png`}
+                  onError={(e) =>
+                    (e.currentTarget.src =
+                      "/assets/battle_sprite_back_capybara.png")
+                  } // Fallback
                   alt={player.avatarName}
                   className={`avatar-image ${
                     playerAttackAnimation
@@ -543,9 +530,7 @@ const BattleMinigame: React.FC = () => {
               </div>
               <div className="health-bar player-health">
                 <div className="character-name-row">
-                  <span className="character-name">
-                    {player.name} - {player.avatarName}
-                  </span>
+                  <span className="character-name">{player.name}</span>
                 </div>
                 <div className="health-bar-container">
                   <div
