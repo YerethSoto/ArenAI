@@ -1,15 +1,22 @@
 import { db } from '../db/pool.js';
 export async function listSectionsByInstitution(institutionId) {
-    const result = await db.query(`SELECT id_section, name, grade, id_institution
+    const result = await db.query(`SELECT id_section, section_number, grade, id_institution
      FROM section
      WHERE id_institution = ?
-     ORDER BY grade, name`, [institutionId]);
+     ORDER BY grade, section_number`, [institutionId]);
     return result.rows;
 }
+export async function getSectionById(sectionId) {
+    const result = await db.query(`SELECT id_section, section_number, grade, id_institution
+     FROM section
+     WHERE id_section = ?
+     LIMIT 1`, [sectionId]);
+    return result.rows.at(0) ?? null;
+}
 export async function createSection(payload) {
-    const insertResult = await db.query(`INSERT INTO section (name, grade, id_institution)
-     VALUES (?, ?, ?)`, [payload.name, payload.grade, payload.institutionId]);
-    const newSection = await db.query(`SELECT id_section, name, grade, id_institution
+    const insertResult = await db.query(`INSERT INTO section (section_number, grade, id_institution)
+     VALUES (?, ?, ?)`, [payload.sectionNumber, payload.grade, payload.institutionId]);
+    const newSection = await db.query(`SELECT id_section, section_number, grade, id_institution
      FROM section
      WHERE id_section = ?`, [insertResult.rows[0].insertId]);
     return newSection.rows[0];

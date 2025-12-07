@@ -16,3 +16,7 @@ export function signAccessToken({ userId, username, role }) {
 export async function verifyPassword(plain, hash) {
     return bcrypt.compare(plain, hash);
 }
+export async function hashPassword(plain) {
+    const saltRounds = 10;
+    return bcrypt.hash(plain, saltRounds);
+}

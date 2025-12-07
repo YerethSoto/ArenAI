@@ -1,7 +1,39 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { createClass, assignTopicsToClass, enrollStudentsInClass, recordClassStudentTopicScores } from '../repositories/classRepository.js';
+import { createClass, assignTopicsToClass, enrollStudentsInClass, listClasses, recordClassStudentTopicScores } from '../repositories/classRepository.js';
 const router = Router();
+router.get('/', async (req, res, next) => {
+    const querySchema = z.object({
+        subjectId: z
+            .union([z.coerce.number().int().positive(), z.undefined()])
+            .optional()
+            .transform((value) => (typeof value === 'number' ? value : undefined)),
+        sectionId: z
+            .union([z.coerce.number().int().positive(), z.undefined()])
+            .optional()
+            .transform((value) => (typeof value === 'number' ? value : undefined)),
+        professorId: z
+            .union([z.coerce.number().int().positive(), z.undefined()])
+            .optional()
+            .transform((value) => (typeof value === 'number' ? value : undefined)),
+    });
+    try {
+        const filters = querySchema.parse({
+            subjectId: req.query.subjectId,
+            sectionId: req.query.sectionId,
+            professorId: req.query.professorId,
+        });
+        const classes = await listClasses({
+            subjectId: filters.subjectId,
+            sectionId: filters.sectionId,
+            professorId: filters.professorId,
+        });
+        res.json(classes);
+    }
+    catch (error) {
+        next(error);
+    }
+});
 router.post('/', async (req, res, next) => {
     const schema = z.object({
         professorId: z.number().int().positive(),
