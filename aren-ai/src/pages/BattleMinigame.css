@@ -758,4 +758,236 @@ body {
   .section-separator {
     margin: 1.9rem 0 -2rem 0;
   }
+  }
+
+
+
+.results-modal {
+  --background: rgba(0, 0, 0, 0.5);
+  --backdrop-opacity: 0.5;
+}
+
+.results-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.results-card {
+  background: var(--ion-card-background);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  margin: 0;
+  max-width: 500px;
+  width: 100%;
+}
+
+.results-card ion-card-content {
+  padding: 30px;
+}
+
+.battle-results-section {
+  text-align: center;
+}
+
+.battle-result-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0 0 15px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  color: #4caf50;
+}
+
+.battle-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.battle-stat {
+  background: var(--ion-item-background);
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  border: 2px solid var(--ion-item-background);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #666;
+  margin: 0 0 5px 0;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+  margin: 0;
+}
+
+.battle-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.rematch-button {
+  --background: #ff9800;
+  --background-activated: #f57c00;
+  --background-hover: #ffa726;
+  --color: white;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 16px rgba(255, 152, 0, 0.3);
+  font-weight: 600;
+  height: 50px;
+  text-transform: none;
+  font-size: 1.1rem;
+}
+
+.menu-button-primary {
+  --background: var(--ion-color-primary);
+  --background-activated: var(--ion-color-primary-shade);
+  --background-hover: var(--ion-color-primary-tint);
+  --color: white;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+  height: 50px;
+  text-transform: none;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .avatar-image {
+    width: 13rem;
+    height: 13rem;
+  }
+
+  .health-bar {
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+  }
+
+  .options-section {
+    min-height: 8rem;
+    flex: 1.3;
+  }
+
+  .enemy-section .avatar-wrapper {
+    margin-bottom: 0.6rem;
+  }
+
+  .player-section .avatar-wrapper {
+    margin-top: 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .avatar-image {
+    width: 11rem;
+    height: 11rem;
+  }
+
+  .health-bar {
+    width: 160px;
+    min-width: 160px;
+    max-width: 160px;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .character-name {
+    font-size: 0.8rem;
+  }
+
+  .hp-text {
+    font-size: 0.7rem;
+  }
+
+  .battle-stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .options-section {
+    min-height: 7rem;
+    flex: 1.4;
+  }
+
+  .option-button {
+    height: 2.8rem;
+    font-size: 0.9rem;
+  }
+
+  .enemy-section .avatar-wrapper {
+    margin-bottom: 0.4rem;
+  }
+
+  .player-section .avatar-wrapper {
+    margin-top: 0.4rem;
+  }
+
+  .section-separator {
+    margin: 1.9rem 0 -2rem 0;
+  }
+}
+
+/* --- Timer Bar (Sudden Death) --- */
+.timer-bar-container {
+  width: 90%;
+  height: 0.8rem; /* Matches style but slightly taller for visibility */
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  /* Static positioning */
+  margin: 5px auto 15px auto; /* Higher up (less top margin) */
+  overflow: hidden;
+  border: none; /* Removed border to match other bar */
+  z-index: 5;
+}
+
+.timer-bar-fill {
+  height: 100%;
+  background-color: var(--ion-color-secondary);
+  border-radius: 16px;
+  width: 100%;
+  transform-origin: left;
+}
+
+.timer-bar-fill.active {
+  animation: timer-countdown 8s linear forwards;
+}
+
+@keyframes timer-countdown {
+  0% { width: 100%; background-color: var(--ion-color-secondary); }
+  50% { background-color: #FFC107; }
+  100% { width: 0%; background-color: #F44336; }
+}
+
+/* --- Critical Hit Text --- */
+.critical-text-overlay {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Arial Black', Impact, sans-serif;
+  font-weight: 900;
+  font-size: 3rem;
+  color: #FF0000;
+  text-transform: uppercase;
+  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000;
+  pointer-events: none;
+  z-index: 2000;
+  animation: critical-pop 2s ease-out forwards;
+}
+
+@keyframes critical-pop {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+  15% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+  25% { transform: translate(-50%, -50%) scale(1.0); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -80%); }
 }

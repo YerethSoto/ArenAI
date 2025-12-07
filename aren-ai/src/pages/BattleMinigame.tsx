@@ -149,79 +149,42 @@ const BattleMinigame: React.FC = () => {
   const [opponentAttackAnimation, setOpponentAttackAnimation] = useState(false);
   const [playerHitAnimation, setPlayerHitAnimation] = useState(false);
   const [opponentHitAnimation, setOpponentHitAnimation] = useState(false);
+
   const [scrollingTextPosition, setScrollingTextPosition] = useState(0);
+  // New Mechanics State
+  const [isTimerActive, setIsTimerActive] = useState(false);
+  const [showCritical, setShowCritical] = useState(false);
 
   const scrollingTextRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | null>(null);
   const bgmRef = useRef<HTMLAudioElement | null>(null);
   const hitSoundRef = useRef<HTMLAudioElement | null>(null);
 
-  // --- Socket Logic: Drive Game State ---
-  useEffect(() => {
-    if (!roomId) return;
-
-    console.log("Connecting to Game Room:", roomId);
-    socketService.connect();
-    const socket = socketService.socket;
-
-    if (socket) {
-      // 1. Round Start: Received new question index
-      socket.on("round_start", (data: { questionIndex: number }) => {
-        console.log("Round Start:", data);
-
-        // Wait a moment if we were showing results/damage
-        setTimeout(() => {
-          setCurrentQuestion(data.questionIndex % questions.length);
-          resetRound();
-          showQuestion();
-        }, 500);
-      });
-
-      // 2. Opponent Answered (Optional Feedback)
-      socket.on("opponent_answered", () => {
-        console.log("Opponent Answered");
-        // Could show a bubble or indicator
-      });
-
-      // 3. Round Result: Received damage/winner info
-      socket.on(
-        "round_result",
-        (data: { winnerId: string; damage: number }) => {
-          console.log("Round Result:", data);
-          handleServerRoundResult(data);
-        }
-      );
-
-      // 4. Game Over
-      socket.on("game_over", (data: { winnerId: string }) => {
-        console.log("Game Over:", data);
-        setTimeout(() => {
-          setWinner(
-            data.winnerId === socket.id
-              ? "player"
-              : data.winnerId === "draw"
-              ? "draw"
-              : "opponent"
-          );
-          setShowResults(true);
-        }, 2000);
-      });
+  const playHitSound = () => {
+    if (hitSoundRef.current) {
+      hitSoundRef.current.currentTime = 0;
+      hitSoundRef.current
+        .play()
+        .catch((e) => console.warn("Hit sound failed:", e));
     }
+  };
 
-    return () => {
-      if (socket) {
-        socket.off("round_start");
-        socket.off("opponent_answered");
-        socket.off("round_result");
-        socket.off("game_over");
-      }
-    };
-  }, [roomId]);
+  const resetRound = () => {
+    setSelectedAnswer(null);
+    setIsAnswered(false);
+    setShowDamageAnimation(false);
+    // Popup managed by showQuestion called in round_start
+    setPlayerAttackAnimation(false);
+    setOpponentAttackAnimation(false);
+    setPlayerHitAnimation(false);
+    setOpponentHitAnimation(false);
+  };
 
   // Handle Server Result Animation
   const handleServerRoundResult = (data: {
     winnerId: string;
     damage: number;
+    isCritical?: boolean;
   }) => {
     const myId = socketService.socket?.id;
     const isMeWinner = data.winnerId === myId;
@@ -230,6 +193,12 @@ const BattleMinigame: React.FC = () => {
     setDamageAmount(data.damage);
     setShowQuestionPopup(false);
     setProgress(0);
+
+    // Handle Critical Visual
+    if (data.isCritical) {
+      setShowCritical(true);
+      setTimeout(() => setShowCritical(false), 2500);
+    }
 
     if (isMeWinner) {
       setPlayerAttackAnimation(true);
@@ -245,8 +214,6 @@ const BattleMinigame: React.FC = () => {
           return { ...prev, health: newHealth };
         });
         setPlayer((prev) => ({ ...prev, score: prev.score + 100 }));
-
-        // End animation cleanup happens via timeouts or next round
       }, 600);
     } else if (!isDraw) {
       setOpponentAttackAnimation(true);
@@ -273,16 +240,70 @@ const BattleMinigame: React.FC = () => {
     }, 2500);
   };
 
-  const resetRound = () => {
-    setSelectedAnswer(null);
-    setIsAnswered(false);
-    setShowDamageAnimation(false);
-    // Popup managed by showQuestion called in round_start
-    setPlayerAttackAnimation(false);
-    setOpponentAttackAnimation(false);
-    setPlayerHitAnimation(false);
-    setOpponentHitAnimation(false);
-  };
+  // --- Socket Logic: Drive Game State ---
+  useEffect(() => {
+    if (!roomId) return;
+
+    console.log("Connecting to Game Room:", roomId);
+    socketService.connect();
+    const socket = socketService.socket;
+
+    if (socket) {
+      // 1. Round Start
+      socket.on("round_start", (data: { questionIndex: number }) => {
+        console.log("Round Start:", data);
+
+        setTimeout(() => {
+          setCurrentQuestion(data.questionIndex % questions.length);
+          resetRound();
+          showQuestion();
+          setIsTimerActive(false);
+          setShowCritical(false);
+        }, 500);
+      });
+
+      // 2. Opponent Answered
+      socket.on("opponent_answered", () => {
+        console.log("Opponent Answered - Timer Started");
+        setIsTimerActive(true);
+      });
+
+      // 3. Round Result
+      socket.on(
+        "round_result",
+        (data: { winnerId: string; damage: number; isCritical?: boolean }) => {
+          console.log("Round Result:", data);
+          setIsTimerActive(false);
+          handleServerRoundResult(data);
+        }
+      );
+
+      // 4. Game Over
+      socket.on("game_over", (data: { winnerId: string }) => {
+        console.log("Game Over:", data);
+        setIsTimerActive(false);
+        setTimeout(() => {
+          setWinner(
+            data.winnerId === socket.id
+              ? "player"
+              : data.winnerId === "draw"
+              ? "draw"
+              : "opponent"
+          );
+          setShowResults(true);
+        }, 2000);
+      });
+    }
+
+    return () => {
+      if (socket) {
+        socket.off("round_start");
+        socket.off("opponent_answered");
+        socket.off("round_result");
+        socket.off("game_over");
+      }
+    };
+  }, [roomId]);
 
   // --- Audio Logic ---
   useEffect(() => {
@@ -335,15 +356,6 @@ const BattleMinigame: React.FC = () => {
       bgmRef.current.play().catch((e) => console.warn("Resume BGM failed:", e));
     }
   });
-
-  const playHitSound = () => {
-    if (hitSoundRef.current) {
-      hitSoundRef.current.currentTime = 0;
-      hitSoundRef.current
-        .play()
-        .catch((e) => console.warn("Hit sound failed:", e));
-    }
-  };
 
   // --- UI/Animation Logic ---
   useEffect(() => {
@@ -553,7 +565,19 @@ const BattleMinigame: React.FC = () => {
             </div>
           </div>
 
+          {/* Sudden Death Timer */}
+          <div className="timer-bar-container">
+            <div
+              className={`timer-bar-fill ${isTimerActive ? "active" : ""}`}
+            ></div>
+          </div>
+
           <div className="section-separator"></div>
+
+          {/* Critical Hit Overlay */}
+          {showCritical && (
+            <div className="critical-text-overlay">CRITICAL!</div>
+          )}
 
           <div className="options-section">
             <IonGrid>
