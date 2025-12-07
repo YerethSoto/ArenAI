@@ -1,51 +1,282 @@
 .student-score-section {
   margin-top: 20px;
-  padding: 10px;
+  padding: 20px;
+  animation: fadeIn 0.5s ease-in;
 }
 
-.average-score-bubble {
-  background-color: var(--ion-color-tertiary);
-  border-radius: 20px;
-  padding: 12px 20px;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header Title */
+.section-header {
   text-align: center;
-  margin: 0 auto 20px auto;
-  max-width: 300px;
-  font-weight: 600;
-  color: var(--ion-color-tertiary-contrast);
+  margin-bottom: 24px;
 }
 
-.student-bubble-card {
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgb(7, 4, 4);
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.5px;
+}
+
+/* Header Controls (Dropdowns) */
+.header-controls {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.filter-item {
+  --background: rgba(255, 255, 255, 0.2);
+  --border-radius: 12px;
+  --padding-start: 12px;
+  --min-height: 44px;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease;
+  color: #1f2937;
+  font-weight: 600;
+  min-width: 140px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.filter-item ion-label {
+  color: #1f2937;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+.filter-item ion-select {
+  color: #1f2937;
+  font-weight: 600;
+  --placeholder-color: #4b5563;
+  --placeholder-opacity: 0.8;
+}
+
+/* Average Score */
+.average-score-bubble {
+  background: linear-gradient(135deg, #7dd3fc 0%, #0ea5e9 100%);
+  border-radius: 20px;
+  padding: 18px 28px;
+  text-align: center;
+  margin: 0 auto 28px auto;
+  max-width: 400px;
+  font-weight: 700;
+  color: white;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.average-score-bubble::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
   width: 100%;
-  max-width: 500px;
-  min-height: 60px;
-  padding: 12px 20px;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.average-score-bubble:hover::before {
+  left: 100%;
+}
+
+.average-score-bubble:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.5);
+}
+
+.average-score-bubble h2 {
+  margin: 0;
+  font-size: 1.3rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: var(--ion-card-background);
-  margin-bottom: 16px;
+  justify-content: center;
+  gap: 12px;
 }
 
-.student-bubble-card h3 {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--ion-text-color);
+.average-icon {
+  font-size: 1.5rem;
 }
 
-.student-bubble-card p {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: bold;
-  color: var(--ion-text-color);
-  opacity: 0.8;
-}
-
+/* Student Cards */
 .student-score-grid {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.student-bubble-card {
+  border-radius: 16px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  max-width: 600px;
+  min-height: 70px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--ion-card-background);
+  margin-bottom: 0;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.student-bubble-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.student-bubble-card:hover::before {
+  opacity: 1;
+}
+
+.student-bubble-card:hover {
+  transform: translateX(4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  border-color: rgba(99, 102, 241, 0.1);
+}
+
+.student-bubble-card ion-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px !important;
+  width: 100%;
+}
+
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+
+.student-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+  flex-shrink: 0;
+}
+
+.student-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #536e83 !important;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.student-score {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #059669;
+  margin: 0;
+  padding: 6px 16px;
+  background: rgba(16, 185, 129, 0.1);
+  border-radius: 12px;
+  min-width: 70px;
+  text-align: center;
+}
+
+/* Score color variations */
+.score-high {
+  color: #059669;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.score-medium {
+  color: #d97706;
+  background: rgba(217, 119, 6, 0.1);
+}
+
+.score-low {
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  .average-score-bubble {
+    padding: 14px 20px;
+    max-width: 90%;
+  }
+
+  .average-score-bubble h2 {
+    font-size: 1.1rem;
+  }
+
+  .student-bubble-card {
+    max-width: 100%;
+  }
+
+  .student-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 0.95rem;
+  }
+
+  .student-name {
+    font-size: 0.95rem;
+  }
+
+  .student-score {
+    font-size: 1.05rem;
+    padding: 4px 12px;
+    min-width: 60px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .student-name {
+    color: #e5e5e5;
+  }
+
+  .student-bubble-card {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .student-bubble-card:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
 }
