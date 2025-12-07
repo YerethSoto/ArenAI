@@ -70,6 +70,7 @@ const App: React.FC = () => {
   const [userRole, setUserRole] = useState<"professor" | "student" | null>(
     null
   );
+  const [userData, setUserData] = useState<any>(null); // Add userData state
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -77,11 +78,23 @@ const App: React.FC = () => {
       | "professor"
       | "student"
       | null;
+    const savedUserData = localStorage.getItem("userData"); // Load user data
+
     if (savedRole) {
       setUserRole(savedRole);
     } else {
       setUserRole(null);
     }
+
+    if (savedUserData) {
+      try {
+        setUserData(JSON.parse(savedUserData));
+      } catch (e) {
+        console.error("Failed to parse user data", e);
+        setUserData(null);
+      }
+    }
+
     setIsLoading(false);
   }, []);
 
@@ -89,12 +102,14 @@ const App: React.FC = () => {
     setUserRole(role);
     localStorage.setItem("userRole", role);
     if (userData) {
+      setUserData(userData); // Set state
       localStorage.setItem("userData", JSON.stringify(userData));
     }
   };
 
   const handleLogout = () => {
     setUserRole(null);
+    setUserData(null); // Clear state
     localStorage.removeItem("userData");
     localStorage.removeItem("userRole");
   };
@@ -141,7 +156,9 @@ const App: React.FC = () => {
                     <Redirect
                       to={
                         userRole === "student"
-                          ? "/page/student"
+                          ? userData?.first_login
+                            ? "/personality-quiz"
+                            : "/page/student"
                           : "/page/professor"
                       }
                     />
@@ -156,7 +173,9 @@ const App: React.FC = () => {
                     <Redirect
                       to={
                         userRole === "student"
-                          ? "/page/student"
+                          ? userData?.first_login
+                            ? "/personality-quiz"
+                            : "/page/student"
                           : "/page/professor"
                       }
                     />
