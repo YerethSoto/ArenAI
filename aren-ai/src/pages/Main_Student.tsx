@@ -83,24 +83,6 @@ const SUBJECT_TOPICS = {
   ],
 };
 
-const STUDY_RECOMMENDATIONS_TEXT = {
-  Math: "Focus on improving your performance in mathematics. Use targeted exercises and additional practice materials to reinforce understanding and build confidence in challenging areas like calculus and probability.",
-  Science:
-    "Enhance science comprehension through hands-on experiments and real-world applications. You need more practice with physics concepts and chemical reactions.",
-  "Social Studies":
-    "Improve historical analysis and geographical understanding. Incorporate more primary source analysis and map reading activities to build critical thinking skills.",
-  Spanish:
-    "Strengthen language acquisition through immersive activities. Focus on conversational practice and grammar reinforcement to improve overall fluency.",
-};
-
-const STUDENT_QUESTIONS = [
-  "How do I calculate the area under a curve using integrals?",
-  "What is the difference between a derivative and an integral?",
-  "Can you explain the chain rule again?",
-  "When should I use the quadratic formula?",
-  "What are the applications of trigonometry in real life?",
-];
-
 // ============================================================================
 // HELPER FUNCTIONS
 // ============================================================================
@@ -160,10 +142,23 @@ const Main_Student: React.FC = () => {
     setOverallPerformance(newPerformance);
   }, [selectedSubject]);
 
-  const currentStudyRecommendation =
-    STUDY_RECOMMENDATIONS_TEXT[
-      selectedSubject as keyof typeof STUDY_RECOMMENDATIONS_TEXT
-    ] || "";
+  const subjectKeyMap: { [key: string]: string } = {
+    Math: "Math",
+    Science: "Science",
+    "Social Studies": "SocialStudies",
+    Spanish: "Spanish",
+  };
+
+  const currentStudyRecommendation = t(
+    `mainStudent.recommendationsText.${
+      subjectKeyMap[selectedSubject] || "Math"
+    }`
+  );
+
+  const questionKeys = ["q1", "q2", "q3", "q4", "q5"];
+  const currentQuestion = t(
+    `mainStudent.studentQuestions.${questionKeys[currentQuestionIndex]}`
+  );
 
   // Handlers
   const handlePreviousWeek = () => {
@@ -176,13 +171,11 @@ const Main_Student: React.FC = () => {
   };
 
   const handleNextQuestion = () => {
-    setCurrentQuestionIndex((prev) => (prev + 1) % STUDENT_QUESTIONS.length);
+    setCurrentQuestionIndex((prev) => (prev + 1) % 5);
   };
 
   const handlePrevQuestion = () => {
-    setCurrentQuestionIndex(
-      (prev) => (prev - 1 + STUDENT_QUESTIONS.length) % STUDENT_QUESTIONS.length
-    );
+    setCurrentQuestionIndex((prev) => (prev - 1 + 5) % 5);
   };
 
   const navigateTo = (path: string) => {
@@ -330,7 +323,7 @@ const Main_Student: React.FC = () => {
                       className="ms-info-content"
                       style={{ padding: "0 10px" }}
                     >
-                      {STUDENT_QUESTIONS[currentQuestionIndex]}
+                      {currentQuestion}
                     </div>
                     <div
                       className="ms-carousel-arrow"
@@ -365,10 +358,7 @@ const Main_Student: React.FC = () => {
           />
         </div>
 
-        <div
-          className="ms-nav-btn"
-          onClick={() => navigateTo("/battleminigame")}
-        >
+        <div className="ms-nav-btn" onClick={() => navigateTo("/battlelobby")}>
           <IonIcon icon={americanFootballOutline} />
         </div>
         <div className="ms-nav-btn" onClick={() => navigateTo("/settings")}>

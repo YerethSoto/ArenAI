@@ -15,6 +15,7 @@
         "settings": "Configuración",
         "help": "Ayuda y Soporte",
         "logout": "Cerrar Sesión",
+        "profile": "Perfil",
         "utilizationIndex": "Índice de utilización:",
         "timeUsed": "Tiempo de uso hoy:",
         "howCalculated": "¿Cómo se calcula?",
@@ -28,6 +29,19 @@
     "mainStudent": {
         "brandSub": "Estudiante",
         "yourSubject": "Tu {{subject}}",
+        "recommendationsText": {
+            "Math": "Concéntrate en mejorar tu rendimiento en matemáticas. Usa ejercicios específicos y materiales de práctica adicionales para reforzar la comprensión.",
+            "Science": "Mejora la comprensión científica a través de experimentos prácticos. Necesitas más práctica con conceptos de física.",
+            "SocialStudies": "Mejora el análisis histórico y la comprensión geográfica. Incorpora más análisis de fuentes primarias.",
+            "Spanish": "Fortalece la adquisición del idioma a través de actividades inmersivas. Céntrate en la práctica conversacional."
+        },
+        "studentQuestions": {
+            "q1": "¿Cómo calculo el área bajo una curva usando integrales?",
+            "q2": "¿Cuál es la diferencia entre una derivada y una integral?",
+            "q3": "¿Puedes explicar la regla de la cadena de nuevo?",
+            "q4": "¿Cuándo debo usar la fórmula cuadrática?",
+            "q5": "¿Cuáles son las aplicaciones de la trigonometría en la vida real?"
+        },
         "recommendations": "Recomendaciones",
         "questions": "Preguntas",
         "studyRecommendation": "Recomendación de Estudio",
@@ -116,7 +130,11 @@
         "finalHealth": "Tu salud final",
         "opponentHealth": "Salud del rival",
         "score": "Puntuación",
-        "hp": "HP"
+        "hp": "HP",
+        "winStreak": "Racha",
+        "utilizationIndex": "Utilización",
+        "opponentDisconnected": "¡Oponente desconectado!",
+        "backToLobby": "Volver al Lobby"
     },
     "battleLobby": {
         "title": "Arena de Batalla",
@@ -128,6 +146,11 @@
         "battleId": "ID de batalla: {{id}}",
         "shareId": "Comparte este ID para que un amigo se una",
         "cancelSearch": "Cancelar búsqueda",
+        "opponent": "Contrincante",
+        "friendBattleBtn": "Batalla con amigos",
+        "lookingStatus": "Buscando oponente...",
+        "readyStatus": "¡Estoy listo, vamos!",
+        "brandSub": "Batalla",
         "chooseSubject": "Elige tu materia",
         "quickBattle": "Batalla Rápida",
         "howToPlay": "¿Cómo jugar?",
