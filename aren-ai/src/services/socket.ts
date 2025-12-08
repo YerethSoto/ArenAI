@@ -1,6 +1,7 @@
 import { io, Socket } from 'socket.io-client';
 
 // Use environment or default to Cloud Backend
+// Use environment or default to Cloud Backend
 const CLOUD_URL = 'https://arenai-backend-271931294892.us-central1.run.app';
 const URL = import.meta.env.VITE_API_BASE_URL || CLOUD_URL;
 
