@@ -12,7 +12,6 @@ import {
 } from "@ionic/react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
 import { useLocation } from "react-router-dom";
 import {
   homeOutline,
@@ -38,12 +37,14 @@ import {
   helpCircleSharp,
   exitOutline,
   exitSharp,
-  personOutline,
-  personSharp,
-  americanFootballOutline,
-  americanFootballSharp,
+  peopleOutline,
+  peopleSharp,
   analyticsOutline,
   timeOutline,
+  americanFootballOutline,
+  americanFootballSharp,
+  personOutline,
+  personSharp,
 } from "ionicons/icons";
 import "./StudentSidebar.css";
 
@@ -73,7 +74,12 @@ const appPages: AppPage[] = [
     iosIcon: trophyOutline,
     mdIcon: trophySharp,
   },
-
+  {
+    titleKey: "sidebar.personalityQuiz",
+    url: "/personality-quiz",
+    iosIcon: happyOutline,
+    mdIcon: happySharp,
+  },
   {
     titleKey: "sidebar.leaderboard",
     url: "/leaderboard",
@@ -109,7 +115,6 @@ const settingsPages: AppPage[] = [
     iosIcon: settingsOutline,
     mdIcon: settingsSharp,
   },
-
   {
     titleKey: "sidebar.help",
     url: "/help",
@@ -137,7 +142,8 @@ interface StudentSidebarProps {
   onLogout: () => void;
 }
 
-// Cálculo simplificado del índice de utilización
+// Cálculo simplifi
+// do del índice de utilización
 // Ejemplo: Meta diaria de índice = 100
 // Índice = (tiempoDeUso * 0.7) + (actividadesCompletadas * 10) + otrosFactores
 function calcularIndiceUtilizacion({

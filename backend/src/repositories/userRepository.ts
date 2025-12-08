@@ -11,6 +11,7 @@ export interface UserRecord {
   id_institution: number | null;
   institution_name: string | null;
   profile_picture_name: string | null;
+  first_login: boolean;
 }
 
 export async function findUserByIdentifier(identifier: string) {
@@ -25,6 +26,7 @@ export async function findUserByIdentifier(identifier: string) {
         u.last_name,
         u.id_institution,
         u.profile_picture_name,
+        u.first_login,
         i.name_institution AS institution_name
        FROM \`user\` u
        LEFT JOIN institution i ON i.id_institution = u.id_institution
@@ -48,6 +50,7 @@ export async function findUserByUsername(username: string) {
         u.last_name,
         u.id_institution,
         u.profile_picture_name,
+        u.first_login,
         i.name_institution AS institution_name
        FROM \`user\` u
        LEFT JOIN institution i ON i.id_institution = u.id_institution
@@ -123,4 +126,27 @@ export async function createUser(payload: {
   } finally {
     client.release();
   }
+}
+
+export async function updateUser(idUser: number, data: Partial<UserRecord>) {
+  if (Object.keys(data).length === 0) return false;
+
+  const setClauses: string[] = [];
+  const values: any[] = [];
+
+  if (data.first_login !== undefined) {
+    setClauses.push('first_login = ?');
+    values.push(data.first_login);
+  }
+
+  // Add more fields here as needed in the future
+
+  if (setClauses.length === 0) return false;
+
+  values.push(idUser);
+
+  const sql = `UPDATE \`user\` SET ${setClauses.join(', ')} WHERE id_user = ?`;
+
+  const result = await db.query<any>(sql, values);
+  return (result.rows[0] as any).affectedRows > 0;
 }

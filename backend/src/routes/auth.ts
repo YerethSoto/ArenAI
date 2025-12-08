@@ -55,11 +55,12 @@ router.post('/login', async (req, res, next) => {
         role: user.role,
         name: user.name,
         lastName: user.last_name,
+        first_login: user.first_login,
         institution: user.id_institution
           ? {
-              id: user.id_institution,
-              name: user.institution_name,
-            }
+            id: user.id_institution,
+            name: user.institution_name,
+          }
           : null,
       },
     });
@@ -141,6 +142,7 @@ router.post('/register', async (req, res, next) => {
         role: created.role,
         name: created.name,
         lastName: created.last_name,
+        first_login: created.first_login,
         institution: created.id_institution
           ? { id: created.id_institution, name: created.institution_name }
           : null,

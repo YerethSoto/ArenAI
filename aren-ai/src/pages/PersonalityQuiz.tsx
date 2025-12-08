@@ -118,7 +118,7 @@ const PersonalityQuiz: React.FC = () => {
     if (!questions || questions.length === 0 || !learningTypes) {
         return (
             <IonPage>
-                <StudentHeader pageTitle={t('personalityQuiz.title')} showNotch={false} />
+                <StudentHeader pageTitle="personalityQuiz.title" showNotch={false} />
                 <IonContent fullscreen>
                     <div className="quiz-container">
                         <div className="loading-container">
@@ -135,7 +135,7 @@ const PersonalityQuiz: React.FC = () => {
 
         return (
             <IonPage>
-                <StudentHeader pageTitle={t('personalityQuiz.title')} showNotch={false} />
+                <StudentHeader pageTitle="personalityQuiz.title" showNotch={false} />
                 <IonContent fullscreen>
                     <div className="quiz-container">
                         <div className="results-card">
@@ -185,7 +185,7 @@ const PersonalityQuiz: React.FC = () => {
 
     return (
         <IonPage>
-            <StudentHeader pageTitle={t('personalityQuiz.title')} showNotch={false} />
+            <StudentHeader pageTitle="personalityQuiz.title" showNotch={false} />
             <IonContent fullscreen>
                 <div className="quiz-container">
                     <div className="question-card-container">

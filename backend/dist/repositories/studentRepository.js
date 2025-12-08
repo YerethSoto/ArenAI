@@ -27,3 +27,22 @@ export async function upsertStudentTopicScore(payload) {
      WHERE st.id_user = ? AND st.id_topic = ?`, [payload.userId, payload.topicId]);
     return result.rows[0];
 }
+export async function listStudentsBySection(sectionId) {
+    const result = await db.query(`SELECT
+        u.id_user,
+        u.username,
+        u.name,
+        u.last_name,
+        u.email,
+        u.phone_number,
+        us.role_in_section,
+        sp.email_guardian,
+        sp.score_average,
+        sp.quiz_streak
+     FROM user_section us
+     INNER JOIN \`user\` u ON u.id_user = us.id_user
+     INNER JOIN student_profile sp ON sp.id_user = u.id_user
+     WHERE us.id_section = ?
+     ORDER BY u.name, u.last_name, u.username`, [sectionId]);
+    return result.rows;
+}

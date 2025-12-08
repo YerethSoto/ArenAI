@@ -1,5 +1,14 @@
+import { readFileSync } from 'node:fs';
 import mysql from 'mysql2/promise';
 import { appConfig } from '../config/env.js';
+const sslConfig = appConfig.db.ssl
+    ? {
+        ca: readFileSync(appConfig.db.ssl.caPath),
+        cert: readFileSync(appConfig.db.ssl.certPath),
+        key: readFileSync(appConfig.db.ssl.keyPath),
+        rejectUnauthorized: true,
+    }
+    : undefined;
 const pool = mysql.createPool({
     host: appConfig.db.host,
     port: appConfig.db.port,
@@ -9,11 +18,7 @@ const pool = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 10,
     multipleStatements: true,
-    ssl: appConfig.db.ssl
-        ? {
-            rejectUnauthorized: false,
-        }
-        : undefined,
+    ssl: sslConfig,
 });
 async function runQuery(executor, sql, params = []) {
     const [rows] = await executor(sql, params);

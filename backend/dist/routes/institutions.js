@@ -62,7 +62,7 @@ router.get('/:institutionId/sections', async (req, res, next) => {
 router.post('/:institutionId/sections', async (req, res, next) => {
     const paramsSchema = z.object({ institutionId: z.coerce.number().int().positive() });
     const bodySchema = z.object({
-        name: z.string().min(1),
+        sectionNumber: z.string().min(1),
         grade: z.string().min(1),
     });
     try {
@@ -73,7 +73,7 @@ router.post('/:institutionId/sections', async (req, res, next) => {
             throw new ApiError(404, 'Institution not found');
         }
         const section = await createSection({
-            name: body.name,
+            sectionNumber: body.sectionNumber,
             grade: body.grade,
             institutionId,
         });

@@ -76,6 +76,45 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Update Onboarding Status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_login\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/students/{{studentUserId}}/onboarding",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "students",
+                "{{studentUserId}}",
+                "onboarding"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },

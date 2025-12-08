@@ -13,6 +13,7 @@
         "settings": "Settings",
         "help": "Help & Support",
         "logout": "Logout",
+        "profile": "Profile",
         "utilizationIndex": "Utilization Index:",
         "timeUsed": "Time used today:",
         "howCalculated": "How is it calculated?",
@@ -223,6 +224,19 @@
     "mainStudent": {
         "brandSub": "Student",
         "yourSubject": "Your {{subject}}",
+        "recommendationsText": {
+            "Math": "Focus on improving your performance in mathematics. Use targeted exercises and additional practice materials to reinforce understanding and build confidence in challenging areas like calculus and probability.",
+            "Science": "Enhance science comprehension through hands-on experiments and real-world applications. You need more practice with physics concepts and chemical reactions.",
+            "SocialStudies": "Improve historical analysis and geographical understanding. Incorporate more primary source analysis and map reading activities to build critical thinking skills.",
+            "Spanish": "Strengthen language acquisition through immersive activities. Focus on conversational practice and grammar reinforcement to improve overall fluency."
+        },
+        "studentQuestions": {
+            "q1": "How do I calculate the area under a curve using integrals?",
+            "q2": "What is the difference between a derivative and an integral?",
+            "q3": "Can you explain the chain rule again?",
+            "q4": "When should I use the quadratic formula?",
+            "q5": "What are the applications of trigonometry in real life?"
+        },
         "recommendations": "Recommendations",
         "questions": "Questions",
         "studyRecommendation": "Study Recommendation",
@@ -327,7 +341,11 @@
         "finalHealth": "Your final health",
         "opponentHealth": "Opponent health",
         "score": "Score",
-        "hp": "HP"
+        "hp": "HP",
+        "winStreak": "Win Streak",
+        "utilizationIndex": "Utilization Index",
+        "opponentDisconnected": "Opponent Disconnected!",
+        "backToLobby": "Back to Lobby"
     },
     "battleLobby": {
         "title": "Battle Arena",
@@ -339,6 +357,11 @@
         "battleId": "Battle ID: {{id}}",
         "shareId": "Share this ID for a friend to join",
         "cancelSearch": "Cancel search",
+        "opponent": "Opponent",
+        "friendBattleBtn": "Friend Battle",
+        "lookingStatus": "Looking for opponent...",
+        "readyStatus": "I'm ready let's go!",
+        "brandSub": "Battle",
         "chooseSubject": "Choose your subject",
         "quickBattle": "Quick Battle",
         "howToPlay": "How to play?",

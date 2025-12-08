@@ -1,0 +1,789 @@
+{
+    "sidebar": {
+        "learning": "学习",
+        "mainMenu": "主菜单",
+        "chat": "与其对话",
+        "quiz": "测验",
+        "personalityQuiz": "性格测试",
+        "leaderboard": "排行榜",
+        "battle": "对战",
+        "battleLobby": "对战大厅",
+        "achievements": "成就",
+        "account": "账户",
+        "settings": "设置",
+        "help": "帮助与支持",
+        "logout": "退出",
+        "profile": "个人资料",
+        "utilizationIndex": "使用指数:",
+        "timeUsed": "今日使用时间:",
+        "howCalculated": "如何计算?",
+        "formulaTitle": "如何计算?",
+        "formulaBody": "指数 = log(1 + 使用分钟数) × 15 + (完成活动数^1.5 × 6) + 奖励",
+        "formulaBonus": "奖励: 使用超过60分钟 +10, 完成5个或更多活动 +8。",
+        "formulaGoal": "每日目标: {{goal}} 分。",
+        "formulaProgress": "进度: 此条显示您每日目标的进度。",
+        "close": "关闭"
+    },
+    "mainStudent": {
+        "brandSub": "学生",
+        "yourSubject": "您的 {{subject}}",
+        "recommendationsText": {
+            "Math": "专注于提高您的数学成绩。使用针对性的练习和额外的练习材料来加强理解，并在微积分和概率等挑战性领域建立信心。",
+            "Science": "通过动手实验和实际应用增强科学理解。您需要更多关于物理概念和化学反应的练习。",
+            "SocialStudies": "提高历史分析和地理理解。结合更多第一手来源分析和地图阅读活动，以建立批判性思维技能。",
+            "Spanish": "通过沉浸式活动加强语言习得。专注于会话练习和语法强化，以提高整体流利度。"
+        },
+        "studentQuestions": {
+            "q1": "如何使用积分计算曲线下的面积？",
+            "q2": "导数和积分有什么区别？",
+            "q3": "你能再解释一下链式法则吗？",
+            "q4": "我什么时候应该使用二次公式？",
+            "q5": "三角学在现实生活中有哪些应用？"
+        },
+        "recommendations": "推荐",
+        "questions": "问题",
+        "studyRecommendation": "学习建议",
+        "popularQuestions": "热门问题",
+        "weeks": {
+            "week1": "导数入门",
+            "week2": "第二周 - 函数与图表",
+            "week3": "第三周 - 几何基础",
+            "week4": "第四周 - 高级几何",
+            "week5": "第五周 - 三角函数",
+            "week6": "第六周 - 统计与概率",
+            "week7": "第七周 - 微积分入门",
+            "week8": "第八周 - 高级微积分",
+            "week9": "第九周 - 数论",
+            "week10": "第十周 - 数理逻辑",
+            "week11": "第十一周 - 复习与应用",
+            "week12": "第十二周 - 最终项目"
+        },
+        "subjects": {
+            "Math": "数学",
+            "Science": "科学",
+            "SocialStudies": "社会研究",
+            "Spanish": "西班牙语"
+        },
+        "topics": {
+            "Algebra": "代数",
+            "Geometry": "几何",
+            "Calculus": "微积分",
+            "Statistics": "统计学",
+            "Trigonometry": "三角学",
+            "Probability": "概率论",
+            "LinearEq": "线性方程",
+            "Functions": "函数",
+            "Biology": "生物学",
+            "Chemistry": "化学",
+            "Physics": "物理学",
+            "EarthSci": "地球科学",
+            "Astronomy": "天文学",
+            "EnvSci": "环境科学",
+            "History": "历史",
+            "Geography": "地理",
+            "Civics": "公民学",
+            "Economics": "经济学",
+            "Culture": "文化",
+            "Govt": "政府",
+            "Vocab": "词汇",
+            "Grammar": "语法",
+            "Reading": "阅读",
+            "Writing": "写作",
+            "Speaking": "口语",
+            "Listening": "听力"
+        }
+    },
+    "settings": {
+        "title": "设置",
+        "appearance": "外观",
+        "theme": "主题",
+        "language": "语言",
+        "themePreview": "主题预览",
+        "previewDesc": "您的组件将如下所示:",
+        "primaryTitle": "主标题",
+        "standardText": "这是标准文本内容。",
+        "primaryButton": "主按钮",
+        "secondaryButton": "次按钮",
+        "tertiaryButton": "第三按钮",
+        "primaryCard": "主卡片",
+        "cardDesc": "带有主背景色的卡片。",
+        "outlineButton": "轮廓按钮",
+        "listItem": "列表项",
+        "listDesc": "带有次要文本"
+    },
+    "chat": {
+        "title": "ArenAI 聊天"
+    },
+    "quiz": {
+        "title": "测验",
+        "questions": "问题",
+        "points": "分",
+        "place": "名",
+        "congrats": "恭喜 {{name}}! 您的得分是 {{score}} 分",
+        "topicsToReinforce": "需要加强的主题",
+        "backToMenu": "返回主菜单",
+        "rating": {
+            "perfect": "完美!",
+            "awesome": "太棒了!",
+            "veryGood": "非常好!",
+            "goodJob": "干得好!",
+            "keepPracticing": "继续练习!"
+        }
+    },
+    "battle": {
+        "title": "对战",
+        "rematch": "重赛",
+        "backToMenu": "返回菜单",
+        "victory": "胜利!",
+        "defeat": "失败!",
+        "draw": "平局!",
+        "finalHealth": "您的最终生命值",
+        "opponentHealth": "对手生命值",
+        "score": "得分",
+        "hp": "生命值",
+        "winStreak": "连胜",
+        "utilizationIndex": "使用指数",
+        "opponentDisconnected": "对手已断开连接!",
+        "backToLobby": "返回大厅"
+    },
+    "battleLobby": {
+        "title": "对战竞技场",
+        "welcomeTitle": "对战竞技场",
+        "welcomeSubtitle": "与其他学生一较高下",
+        "searching": "正在寻找对手...",
+        "searchingDesc1": "正在为您寻找合适的对手...",
+        "searchingDesc2": "正在分析潜在对手...",
+        "battleId": "对战 ID: {{id}}",
+        "shareId": "分享此 ID 邀请朋友加入",
+        "cancelSearch": "取消搜索",
+        "opponent": "对手",
+        "friendBattleBtn": "好友对战",
+        "lookingStatus": "正在寻找对手...",
+        "readyStatus": "我准备好了，开始吧!",
+        "brandSub": "对战",
+        "chooseSubject": "选择您的科目",
+        "quickBattle": "快速对战",
+        "howToPlay": "如何玩?",
+        "step1": {
+            "title": "选择一个科目",
+            "desc": "选择您想练习的主题"
+        },
+        "step2": {
+            "title": "等待对手",
+            "desc": "系统将自动寻找另一名玩家"
+        },
+        "step3": {
+            "title": "回答问题",
+            "desc": "每个正确答案都会伤害对手"
+        },
+        "step4": {
+            "title": "赢得战斗!",
+            "desc": "将对手的生命值降至零"
+        },
+        "backToMenu": "返回主菜单",
+        "processing": "处理中...",
+        "cancelAlert": {
+            "header": "取消搜索",
+            "message": "您确定要取消寻找对手吗?",
+            "continue": "继续搜索",
+            "cancel": "取消"
+        },
+        "error": "错误",
+        "subjects": {
+            "History": "历史",
+            "HistoryDesc": "关于历史事件的问题",
+            "Math": "数学",
+            "MathDesc": "展示您的数学技能",
+            "Science": "科学",
+            "ScienceDesc": "生物、化学和物理问题"
+        }
+    },
+    "personalityQuiz": {
+        "title": "发现您的学习风格",
+        "loading": "正在加载您的个人资料...",
+        "questions": [
+            {
+                "question": "您更喜欢如何学习新事物?",
+                "options": [
+                    "听讲解和讲座",
+                    "看视频、图片或图表",
+                    "做实验和触摸物体",
+                    "阅读书籍和做笔记"
+                ],
+                "hint": "想想您最喜欢的学习方法。",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "在学校项目中，您更喜欢做什么?",
+                "options": [
+                    "独自按照自己的节奏工作",
+                    "与队友合作",
+                    "自己发现解决方案",
+                    "遵循清晰的步骤说明"
+                ],
+                "hint": "想想您喜欢如何工作。",
+                "learningType": [
+                    "intrapersonal",
+                    "collaborative",
+                    "discovery",
+                    "logical"
+                ]
+            },
+            {
+                "question": "您空闲时间最喜欢做什么活动?",
+                "options": [
+                    "听音乐或播客",
+                    "看电影或浏览社交媒体",
+                    "做运动或手工",
+                    "读书或写故事"
+                ],
+                "hint": "选择您最喜欢的爱好。",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "在解决难题时:",
+                "options": [
+                    "我会大声说出来或与人讨论",
+                    "我会画图表或思维导图",
+                    "我会建立模型或模拟情况",
+                    "我会写列表并分析数据"
+                ],
+                "hint": "想想您的解决问题策略。",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "logical"
+                ]
+            },
+            {
+                "question": "您喜欢使用科技学习吗?",
+                "options": [
+                    "是的，我更喜欢在线课程和视频",
+                    "有时候，取决于科目",
+                    "我更喜欢传统方法",
+                    "我喜欢结合两者"
+                ],
+                "hint": "考虑您的科技偏好。",
+                "learningType": [
+                    "online",
+                    "multimodal",
+                    "traditional",
+                    "multimodal"
+                ]
+            },
+            {
+                "question": "当您记忆信息时:",
+                "options": [
+                    "我会大声重复几次",
+                    "我会想象图像或场景",
+                    "我会反复写笔记",
+                    "我会创建逻辑关联"
+                ],
+                "hint": "回想您的记忆技巧。",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "reading",
+                    "logical"
+                ]
+            },
+            {
+                "question": "您更喜欢独自工作还是与他人一起?",
+                "options": [
+                    "独自一人，我更专心",
+                    "与他人一起，通过分享我学到更多",
+                    "取决于任务",
+                    "我喜欢领导小组"
+                ],
+                "hint": "想想您的社交学习风格。",
+                "learningType": [
+                    "intrapersonal",
+                    "interpersonal",
+                    "multimodal",
+                    "interpersonal"
+                ]
+            },
+            {
+                "question": "当学习新语言时:",
+                "options": [
+                    "我听对话和音乐",
+                    "我看带字幕的电影",
+                    "我练习与母语人士交谈",
+                    "我学习语法并写作"
+                ],
+                "hint": "考虑您喜欢的方法。",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "您更喜欢哪种类型的说明?",
+                "options": [
+                    "口头解释",
+                    "视频教程",
+                    "实际演示",
+                    "详细的书面手册"
+                ],
+                "hint": "想想您最能理解哪种形式。",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "当探索新主题时:",
+                "options": [
+                    "我先自己研究",
+                    "我问专家或老师",
+                    "我尝试直到理解",
+                    "我阅读文章和文件"
+                ],
+                "hint": "回想您的研究方法。",
+                "learningType": [
+                    "discovery",
+                    "collaborative",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "您喜欢听着音乐学习吗?",
+                "options": [
+                    "是的，它帮助我集中注意力",
+                    "不，我需要完全安静",
+                    "取决于任务",
+                    "我更喜欢大自然的声音"
+                ],
+                "hint": "考虑您理想的学习环境。",
+                "learningType": [
+                    "auditory",
+                    "intrapersonal",
+                    "multimodal",
+                    "naturalist"
+                ]
+            },
+            {
+                "question": "在课堂上，您更喜欢老师:",
+                "options": [
+                    "用例子口头解释",
+                    "使用视觉演示",
+                    "做实践活动",
+                    "布置阅读和论文"
+                ],
+                "hint": "想想您理想的课堂。",
+                "learningType": [
+                    "auditory",
+                    "visual",
+                    "kinesthetic",
+                    "reading"
+                ]
+            },
+            {
+                "question": "您喜欢处理模式和逻辑吗?",
+                "options": [
+                    "是的，我爱数学",
+                    "不，我更喜欢创意科目",
+                    "我喜欢两者的平衡",
+                    "我更喜欢社会和人文科目"
+                ],
+                "hint": "考虑您对逻辑的喜好。",
+                "learningType": [
+                    "logical",
+                    "creative",
+                    "multimodal",
+                    "interpersonal"
+                ]
+            },
+            {
+                "question": "当学习关于自然时:",
+                "options": [
+                    "我更喜欢出去观察",
+                    "我喜欢分类和整理",
+                    "我通过看纪录片学习",
+                    "我读生物书"
+                ],
+                "hint": "想想您与自然的联系。",
+                "learningType": [
+                    "naturalist",
+                    "logical",
+                    "visual",
+                    "reading"
+                ]
+            },
+            {
+                "question": "您更喜欢自己发现吗?",
+                "options": [
+                    "是的，我喜欢探索和实验",
+                    "不，我更喜欢被教导",
+                    "我结合两种方法",
+                    "我更喜欢小组研究"
+                ],
+                "hint": "回想您的自主程度。",
+                "learningType": [
+                    "discovery",
+                    "traditional",
+                    "multimodal",
+                    "collaborative"
+                ]
+            }
+        ],
+        "results": {
+            "visual": {
+                "title": "您是视觉学习者! 👁️",
+                "description": "您通过图像、图表、视频和视觉演示学习效果最好。您有极好的视觉记忆，更喜欢看信息。",
+                "traits": [
+                    "出色的视觉记忆",
+                    "更喜欢图表和图解",
+                    "用图像思考",
+                    "用思维导图理解更好"
+                ],
+                "recommendations": [
+                    "使用思维导图和图表",
+                    "观看教育视频",
+                    "使用颜色组织笔记",
+                    "创建自己的信息图表"
+                ]
+            },
+            "auditory": {
+                "title": "您是听觉学习者! 👂",
+                "description": "您通过听觉学习效果最好。口头解释、讨论和播客是您的强项。您更容易记住听到的内容。",
+                "traits": [
+                    "通过听觉学习",
+                    "享受讨论",
+                    "容易记住对话",
+                    "更喜欢口头解释"
+                ],
+                "recommendations": [
+                    "收听教育播客",
+                    "录下课程",
+                    "大声朗读",
+                    "参与辩论和讨论"
+                ]
+            },
+            "kinesthetic": {
+                "title": "您是动觉学习者! 🤸",
+                "description": "您通过做和触摸学习效果最好。您需要运动、实践实验和身体活动来有效学习。",
+                "traits": [
+                    "通过做来学习",
+                    "需要运动",
+                    "享受实验",
+                    "擅长构建东西"
+                ],
+                "recommendations": [
+                    "做实践实验",
+                    "使用物理模型",
+                    "进行活动休息",
+                    "将概念与动作联系起来"
+                ]
+            },
+            "reading": {
+                "title": "您是阅读/写作学习者! 📚",
+                "description": "您通过阅读和写作学习效果最好。书籍、文章和做笔记对您的学习过程至关重要。",
+                "traits": [
+                    "热爱阅读和写作",
+                    "做详细笔记",
+                    "通过写作学习",
+                    "更喜欢结构化文本"
+                ],
+                "recommendations": [
+                    "阅读书籍和文章",
+                    "写摘要",
+                    "创建列表和提纲",
+                    "保持学习日志"
+                ]
+            },
+            "logical": {
+                "title": "您是逻辑学习者! 🧮",
+                "description": "您通过逻辑推理、模式和结构学习效果最好。您喜欢数学、问题和系统分析。",
+                "traits": [
+                    "擅长逻辑和数学",
+                    "容易识别模式",
+                    "以结构化方式思考",
+                    "享受解决问题"
+                ],
+                "recommendations": [
+                    "使用流程图",
+                    "解决逻辑谜题",
+                    "用表格组织信息",
+                    "在数据中寻找模式"
+                ]
+            },
+            "interpersonal": {
+                "title": "您是人际学习者! 🤝",
+                "description": "您通过与他人互动学习效果最好。小组、讨论和协作工作能促进您的学习。",
+                "traits": [
+                    "擅长小组活动",
+                    "理解他人",
+                    "享受协作",
+                    "善于沟通"
+                ],
+                "recommendations": [
+                    "组建学习小组",
+                    "教别人",
+                    "参与小组项目",
+                    "通过辩论学习"
+                ]
+            },
+            "intrapersonal": {
+                "title": "您是内省学习者! 🧘",
+                "description": "您通过自我反思独自学习效果最好。您需要时间在内心处理并联系自己的想法。",
+                "traits": [
+                    "更喜欢独自学习",
+                    "反思和自我意识",
+                    "按自己的节奏学习",
+                    "重视独立性"
+                ],
+                "recommendations": [
+                    "在安静的环境中学习",
+                    "反思学到的东西",
+                    "写个人日记",
+                    "设定自己的目标"
+                ]
+            },
+            "collaborative": {
+                "title": "您是协作学习者! 👥",
+                "description": "您在团队中工作学习效果最好。交流想法和相互支持对您的学业成功至关重要。",
+                "traits": [
+                    "擅长团队合作",
+                    "分享知识",
+                    "支持同学",
+                    "通过教学学习"
+                ],
+                "recommendations": [
+                    "加入学习小组",
+                    "创建团队项目",
+                    "使用协作平台",
+                    "组织辅导课程"
+                ]
+            },
+            "discovery": {
+                "title": "您是探索学习者! 🔍",
+                "description": "您通过自己探索和发现学习效果最好。好奇心和实验是您最好的工具。",
+                "traits": [
+                    "非常好奇和爱问",
+                    "通过实验学习",
+                    "享受研究",
+                    "学习自主"
+                ],
+                "recommendations": [
+                    "做研究项目",
+                    "自由实验",
+                    "不断提问",
+                    "自己探索主题"
+                ]
+            },
+            "online": {
+                "title": "您是数字学习者! 💻",
+                "description": "您使用科技和在线资源学习效果最好。数字平台、应用程序和在线课程非常适合您。",
+                "traits": [
+                    "很好地适应科技",
+                    "更喜欢数字资源",
+                    "通过应用和平台学习",
+                    "在线自学"
+                ],
+                "recommendations": [
+                    "使用在线课程 (Coursera, Khan Academy)",
+                    "尝试教育应用",
+                    "在YouTube上看教程",
+                    "加入虚拟社区"
+                ]
+            },
+            "naturalist": {
+                "title": "您是自然学习者! 🌿",
+                "description": "您通过与自然联系学习效果最好。分类、观察和理解自然世界有助于您学习。",
+                "traits": [
+                    "与自然联系",
+                    "环境观察者",
+                    "擅长分类",
+                    "欣赏自然世界"
+                ],
+                "recommendations": [
+                    "在户外学习",
+                    "观察自然模式",
+                    "使用自然界的例子",
+                    "参观自然科学博物馆"
+                ]
+            },
+            "creative": {
+                "title": "您是创意学习者! 🎨",
+                "description": "您通过创造力和创新学习效果最好。艺术、音乐和原创项目能促进您的学习。",
+                "traits": [
+                    "非常有创意和想象力",
+                    "原创思考",
+                    "享受艺术项目",
+                    "解决方案创新"
+                ],
+                "recommendations": [
+                    "使用创意项目",
+                    "绘制和可视化概念",
+                    "创建原创演示",
+                    "将主题与艺术联系起来"
+                ]
+            },
+            "multimodal": {
+                "title": "您是多模式学习者! 🌟",
+                "description": "您结合多种方法学习效果最好。您很灵活，并通过不同的方式根据情况进行调整。",
+                "traits": [
+                    "方法灵活",
+                    "结合不同风格",
+                    "容易适应",
+                    "多种方式学习"
+                ],
+                "recommendations": [
+                    "结合阅读、视频和实践",
+                    "尝试不同方法",
+                    "根据主题调整风格",
+                    "使用多种资源"
+                ]
+            }
+        },
+        "ui": {
+            "progress": "问题",
+            "previous": "← 上一题",
+            "restart": "重新参加测验",
+            "exit": "退出到主菜单",
+            "yourTraits": "您的特征:",
+            "recommendations": "为您推荐:"
+        }
+    },
+    "achievements": {
+        "pageTitle": "成就殿堂",
+        "totalScore": "总分",
+        "filters": {
+            "all": "全部",
+            "study": "学习",
+            "combat": "战斗",
+            "social": "社交"
+        },
+        "items": {
+            "first_login": {
+                "title": "新的开始",
+                "description": "首次登录。"
+            },
+            "math_wizard": {
+                "title": "数学巫师",
+                "description": "在数学测验中获得满分。"
+            },
+            "quiz_master": {
+                "title": "测验大师",
+                "description": "连续完成10个测验且未失败。"
+            },
+            "battle_champion": {
+                "title": "竞技场冠军",
+                "description": "与其他学生战斗并获胜5次。"
+            },
+            "bookworm": {
+                "title": "书虫",
+                "description": "阅读50篇学习文章。"
+            },
+            "social_butterfly": {
+                "title": "社交达人",
+                "description": "添加5个朋友到您的列表。"
+            },
+            "streak_master": {
+                "title": "势不可挡",
+                "description": "保持7天的学习连胜。"
+            }
+        },
+        "ui": {
+            "reward": "奖励",
+            "progress": "进度",
+            "locked": "未解锁",
+            "unlocked": "已完成"
+        }
+    },
+    "avatars": {
+        "scholar": {
+            "title": "学者",
+            "lore": "出生于Aren大图书馆，这只水豚读过的书比丛林里的叶子还多。在每个方程中寻求真理。",
+            "affiliation": "大图书馆",
+            "element": "战略家 / 冰",
+            "origin": "永恒图书馆",
+            "description": "一个总是先想三步的战术天才。",
+            "stats": {
+                "logic": 95,
+                "creativity": 60,
+                "focus": 90,
+                "memory": 85,
+                "speed": 50
+            }
+        },
+        "dreamer": {
+            "title": "梦想家",
+            "lore": "相信想象力是最强的武器。整天创造新世界和老问题的创造性解决方案。",
+            "affiliation": "艺术俱乐部",
+            "element": "梦想家 / 电",
+            "origin": "梦幻星云",
+            "description": "他们的思想是一个充满无限可能性的宇宙。",
+            "stats": {
+                "logic": 60,
+                "creativity": 100,
+                "focus": 50,
+                "memory": 70,
+                "speed": 75
+            }
+        },
+        "zen": {
+            "title": "禅宗大师",
+            "lore": "即使在最难的考试中也能保持冷静。他们的超能力是绝对的专注和内心的平静。",
+            "affiliation": "冥想花园",
+            "element": "僧侣 / 草",
+            "origin": "翡翠森林",
+            "description": "暴风雨前、中、后的平静。",
+            "stats": {
+                "logic": 80,
+                "creativity": 70,
+                "focus": 100,
+                "memory": 80,
+                "speed": 40
+            }
+        },
+        "warrior": {
+            "title": "战士",
+            "lore": "千场知识战役的老兵。总是准备好捍卫自己的答案并征服新主题。",
+            "affiliation": "辩论联盟",
+            "element": "斗士 / 火",
+            "origin": "勇气堡垒",
+            "description": "保护弱者的不可阻挡的力量。",
+            "stats": {
+                "logic": 70,
+                "creativity": 50,
+                "focus": 85,
+                "memory": 60,
+                "speed": 95
+            }
+        },
+        "attributes": {
+            "logic": "逻辑",
+            "creativity": "智慧",
+            "focus": "专注",
+            "memory": "记忆",
+            "speed": "速度",
+            "affiliation": "所属",
+            "element": "愿景"
+        },
+        "actions": {
+            "select": "选择角色",
+            "equipped": "已装备",
+            "story": "故事",
+            "voices": "语音",
+            "friendship": "友谊"
+        }
+    }
+}

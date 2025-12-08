@@ -119,18 +119,20 @@ export async function createClass(payload: {
   name: string;
   subjectId: number;
   sectionId: number;
+  professorId: number;
   date?: string | null;
   aiSummary?: string | null;
   currentQuestionsSummary?: string | null;
   scoreAverage?: number | null;
 }) {
   const insertResult = await db.query<ResultSetHeader>(
-    `INSERT INTO class (name_class, id_subject, id_section, fecha, ai_summary, current_questions_summary, score_average)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO class (name_class, id_subject, id_section, id_professor, fecha, ai_summary, current_questions_summary, score_average)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       payload.name,
       payload.subjectId,
       payload.sectionId,
+      payload.professorId,
       payload.date ?? null,
       payload.aiSummary ?? null,
       payload.currentQuestionsSummary ?? null,
