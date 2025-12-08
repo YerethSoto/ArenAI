@@ -1,17 +1,32 @@
 import { io, Socket } from 'socket.io-client';
 
-// Use environment or default to localhost for dev
-const URL = 'http://localhost:3002'; // Might need to make this dynamic later
+// Use environment or default to Cloud Backend
+const CLOUD_URL = 'https://arenai-backend-271931294892.us-central1.run.app';
+const URL = import.meta.env.VITE_API_BASE_URL || CLOUD_URL;
 
 class SocketService {
   public socket: Socket | null = null;
 
   connect() {
     if (this.socket) return;
-    this.socket = io(URL);
+    
+    const token = localStorage.getItem('authToken');
+    
+    this.socket = io(URL, {
+      auth: {
+        token: token
+      },
+      transports: ['websocket', 'polling'], // Try websocket first, fall back to polling
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000
+    });
     
     this.socket.on('connect', () => {
       console.log('Connected to socket server', this.socket?.id);
+    });
+    
+    this.socket.on('connect_error', (err) => {
+        console.error('Socket connection error:', err);
     });
   }
 

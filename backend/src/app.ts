@@ -20,6 +20,11 @@ export function createApp() {
     res.json({ status: 'ok' });
   });
 
+  // Root route for Cloud Run health checks
+  app.get('/', (_req, res) => {
+    res.send('ArenAI Backend Running');
+  });
+
   app.use('/api', apiRouter);
   app.use('/ai', aiRouter);
 

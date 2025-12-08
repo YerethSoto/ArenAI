@@ -21,6 +21,7 @@ import StudentMenu from "../components/StudentMenu";
 import StudentSidebar from "../components/StudentSidebar";
 import StudentHeader from "../components/StudentHeader";
 import AnimatedMascot from "../components/AnimatedMascot";
+import { getApiUrl } from "../config/api";
 
 interface Message {
   id: number;
@@ -138,7 +139,7 @@ const Chat: React.FC = () => {
   // mandar mensaje
 
   // Endpoint del backend propio
-  const API_URL = "http://localhost:3002/ai/chat";
+  const API_URL = getApiUrl("/ai/chat");
 
   const handleSendMessage = async () => {
     if (inputMessage.trim() === "") return;
