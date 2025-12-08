@@ -183,6 +183,22 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.badges-header.clickable:hover {
+    opacity: 0.8;
+}
+
+.badges-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-arrow {
+    color: var(--ion-color-medium);
+    font-size: 18px;
 }
 
 .badges-header h3 {

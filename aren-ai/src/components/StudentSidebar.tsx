@@ -46,14 +46,9 @@ import {
   personOutline,
   personSharp,
 } from "ionicons/icons";
+import { AppPage } from "../types/user";
+import { getUserData } from "../utils/userUtils";
 import "./StudentSidebar.css";
-
-interface AppPage {
-  url: string;
-  iosIcon: string;
-  mdIcon: string;
-  titleKey: string;
-}
 
 const appPages: AppPage[] = [
   {
@@ -92,14 +87,6 @@ const appPages: AppPage[] = [
     iosIcon: americanFootballOutline,
     mdIcon: americanFootballSharp,
   },
-  /*
-  {
-    titleKey: 'sidebar.battleLobby',
-    url: '/battlelobby',
-    iosIcon: americanFootballOutline,
-    mdIcon: americanFootballSharp
-  },
-  */
 ];
 
 const settingsPages: AppPage[] = [
@@ -129,23 +116,12 @@ const settingsPages: AppPage[] = [
   },
 ];
 
-// Interface for user data
-interface UserData {
-  name: string;
-  email: string;
-  username: string;
-  userRole?: string;
-}
-
 // Props interface for the sidebar
 interface StudentSidebarProps {
   onLogout: () => void;
 }
 
-// Cálculo simplifi
-// do del índice de utilización
-// Ejemplo: Meta diaria de índice = 100
-// Índice = (tiempoDeUso * 0.7) + (actividadesCompletadas * 10) + otrosFactores
+// Cálculo simplificado del índice de utilización
 function calcularIndiceUtilizacion({
   tiempoDeUso,
   actividadesCompletadas,
@@ -153,10 +129,6 @@ function calcularIndiceUtilizacion({
   tiempoDeUso: number;
   actividadesCompletadas: number;
 }) {
-  // Ejemplo de fórmula compuesta y clara:
-  // - El tiempo de uso pondera más al principio y menos después (logarítmico)
-  // - Las actividades completadas tienen peso cuadrático
-  // - Hay un pequeño bonus si el usuario supera ciertos umbrales
   const usoLog = Math.log1p(tiempoDeUso) * 15;
   const actividadesPeso = Math.pow(actividadesCompletadas, 1.5) * 6;
   const bonus =
@@ -176,25 +148,6 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
     const timer = setTimeout(() => setShowAnimation(false), 1000); // duración de la animación
     return () => clearTimeout(timer);
   }, []);
-
-  // Get current user data from localStorage
-  const getUserData = (): UserData => {
-    try {
-      const storedData = localStorage.getItem("userData");
-      if (storedData) {
-        return JSON.parse(storedData);
-      }
-    } catch (error) {
-      console.error("Error parsing user data:", error);
-    }
-
-    // Fallback data if nothing is stored
-    return {
-      name: "Maria Garcia",
-      email: "maria.garcia@arenai.edu",
-      username: "maria.garcia",
-    };
-  };
 
   const currentUser = getUserData();
 

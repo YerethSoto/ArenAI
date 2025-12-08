@@ -36,6 +36,15 @@
   /* Palette: Green (#90BEAB) - Cards & Calendar Backgrounds (Solid) */
   --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
 
+  /* Global Layout Variables */
+  --page-padding: 20px;
+  --card-border-radius: 24px;
+  --button-border-radius: 30px;
+
+  /* Fonts */
+  --font-family-base: 'Open Sans', sans-serif;
+  --font-family-serif: serif;
+
   /* Palette: Dark Slate (#536E83) - Progress Circle */
   --ion-color-tertiary: #536E83;
   --ion-color-tertiary-rgb: 83, 110, 131;
@@ -43,6 +52,11 @@
   --ion-color-tertiary-contrast-rgb: 255, 255, 255;
   --ion-color-tertiary-shade: #496173;
   --ion-color-tertiary-tint: #647d8f;
+}
+
+/* Global Font Apply */
+ion-app {
+  font-family: var(--font-family-base);
 }
 
 body.theme-navy {

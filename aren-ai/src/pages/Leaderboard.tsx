@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { IonContent, IonPage, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonIcon, IonModal, IonButton } from '@ionic/react';
 import { trophy, ribbon, school, time, statsChart, close } from 'ionicons/icons';
+import PageTransition from '../components/PageTransition';
 import './Leaderboard.css';
 
+import { LeaderboardEntry } from '../types/student';
+
 // --- MOCK DATA GENERATOR ---
-const generateMockStudents = () => {
+const generateMockStudents = (): LeaderboardEntry[] => {
     const names = ["Ana S.", "Carlos M.", "Lucia R.", "Miguel T.", "Sofia V.", "Diego L.", "Valentina P.", "Mateo G.", "Isabella F.", "Liam J."];
     const avatars = ["👩‍🎓", "👨‍🎓", "🦊", "🤖", "🤠", "👽", "🦄", "🦁", "🐼", "🐯"];
 
@@ -57,71 +60,73 @@ const Leaderboard: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
 
-            <IonContent fullscreen>
-                <div className="leaderboard-header-section">
-                    <h1 className="leaderboard-title">Top Estudiantes</h1>
+            <IonContent fullscreen className="student-page-content">
+                <PageTransition>
+                    <div className="leaderboard-header-section">
+                        <h1 className="leaderboard-title">Top Estudiantes</h1>
 
-                    {/* PODIUM */}
-                    <div className="podium-container">
-                        {/* 2nd Place */}
-                        {top3[1] && (
-                            <div className="podium-spot rank-2" onClick={() => setSelectedStudent(top3[1])}>
-                                <div className="podium-avatar-wrapper">
-                                    <div className="podium-avatar">{top3[1].avatar}</div>
+                        {/* PODIUM */}
+                        <div className="podium-container">
+                            {/* 2nd Place */}
+                            {top3[1] && (
+                                <div className="podium-spot rank-2" onClick={() => setSelectedStudent(top3[1])}>
+                                    <div className="podium-avatar-wrapper">
+                                        <div className="podium-avatar">{top3[1].avatar}</div>
+                                    </div>
+                                    <div className="podium-base">
+                                        <div className="podium-rank-num">2</div>
+                                        <div className="podium-name">{top3[1].name}</div>
+                                        <div className="podium-score">{top3[1].totalScore} pts</div>
+                                    </div>
                                 </div>
-                                <div className="podium-base">
-                                    <div className="podium-rank-num">2</div>
-                                    <div className="podium-name">{top3[1].name}</div>
-                                    <div className="podium-score">{top3[1].totalScore} pts</div>
-                                </div>
-                            </div>
-                        )}
+                            )}
 
-                        {/* 1st Place */}
-                        {top3[0] && (
-                            <div className="podium-spot rank-1" onClick={() => setSelectedStudent(top3[0])}>
-                                <div className="podium-avatar-wrapper">
-                                    <IonIcon icon={trophy} className="crown-icon" />
-                                    <div className="podium-avatar">{top3[0].avatar}</div>
+                            {/* 1st Place */}
+                            {top3[0] && (
+                                <div className="podium-spot rank-1" onClick={() => setSelectedStudent(top3[0])}>
+                                    <div className="podium-avatar-wrapper">
+                                        <IonIcon icon={trophy} className="crown-icon" />
+                                        <div className="podium-avatar">{top3[0].avatar}</div>
+                                    </div>
+                                    <div className="podium-base">
+                                        <div className="podium-rank-num">1</div>
+                                        <div className="podium-name">{top3[0].name}</div>
+                                        <div className="podium-score">{top3[0].totalScore} pts</div>
+                                    </div>
                                 </div>
-                                <div className="podium-base">
-                                    <div className="podium-rank-num">1</div>
-                                    <div className="podium-name">{top3[0].name}</div>
-                                    <div className="podium-score">{top3[0].totalScore} pts</div>
-                                </div>
-                            </div>
-                        )}
+                            )}
 
-                        {/* 3rd Place */}
-                        {top3[2] && (
-                            <div className="podium-spot rank-3" onClick={() => setSelectedStudent(top3[2])}>
-                                <div className="podium-avatar-wrapper">
-                                    <div className="podium-avatar">{top3[2].avatar}</div>
+                            {/* 3rd Place */}
+                            {top3[2] && (
+                                <div className="podium-spot rank-3" onClick={() => setSelectedStudent(top3[2])}>
+                                    <div className="podium-avatar-wrapper">
+                                        <div className="podium-avatar">{top3[2].avatar}</div>
+                                    </div>
+                                    <div className="podium-base">
+                                        <div className="podium-rank-num">3</div>
+                                        <div className="podium-name">{top3[2].name}</div>
+                                        <div className="podium-score">{top3[2].totalScore} pts</div>
+                                    </div>
                                 </div>
-                                <div className="podium-base">
-                                    <div className="podium-rank-num">3</div>
-                                    <div className="podium-name">{top3[2].name}</div>
-                                    <div className="podium-score">{top3[2].totalScore} pts</div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                {/* RANKING LIST */}
-                <div className="ranking-list">
-                    {rest.map((student, idx) => (
-                        <div key={student.id} className="ranking-item" onClick={() => setSelectedStudent(student)}>
-                            <div className="ranking-num">{idx + 4}</div>
-                            <div className="ranking-avatar">{student.avatar}</div>
-                            <div className="ranking-info">
-                                <div className="ranking-name">{student.name}</div>
-                                <div className="ranking-detail">Nivel {Math.floor(student.totalScore / 500)} • {student.stats.arena} Trofeos</div>
-                            </div>
-                            <div className="ranking-total">{student.totalScore}</div>
+                            )}
                         </div>
-                    ))}
-                </div>
+                    </div>
+
+                    {/* RANKING LIST */}
+                    <div className="ranking-list">
+                        {rest.map((student, idx) => (
+                            <div key={student.id} className="ranking-item" onClick={() => setSelectedStudent(student)}>
+                                <div className="ranking-num">{idx + 4}</div>
+                                <div className="ranking-avatar">{student.avatar}</div>
+                                <div className="ranking-info">
+                                    <div className="ranking-name">{student.name}</div>
+                                    <div className="ranking-detail">Nivel {Math.floor(student.totalScore / 500)} • {student.stats.arena} Trofeos</div>
+                                </div>
+                                <div className="ranking-total">{student.totalScore}</div>
+                            </div>
+                        ))}
+                    </div>
+                </PageTransition>
 
                 {/* SCORE BREAKDOWN MODAL */}
                 <IonModal isOpen={!!selectedStudent} onDidDismiss={() => setSelectedStudent(null)} initialBreakpoint={0.5} breakpoints={[0, 0.5, 0.75]}>

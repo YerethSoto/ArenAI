@@ -9,6 +9,7 @@ import {
 import { menu } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import StudentMenu from "./StudentMenu";
+import { getSubjectKey } from "../utils/subjectUtils";
 import "./StudentHeader.css";
 
 interface StudentHeaderProps {
@@ -27,17 +28,6 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
   showNotch = true,
 }) => {
   const { t } = useTranslation();
-
-  // Helper to get subject translation key (reused logic)
-  const getSubjectKey = (subject: string) => {
-    const keyMap: { [key: string]: string } = {
-      Math: "Math",
-      Science: "Science",
-      "Social Studies": "SocialStudies",
-      Spanish: "Spanish",
-    };
-    return `mainStudent.subjects.${keyMap[subject] || subject}`;
-  };
 
   return (
     <IonHeader className="student-header-container">

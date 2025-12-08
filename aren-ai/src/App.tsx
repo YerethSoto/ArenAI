@@ -39,6 +39,7 @@ import ProfessorProfile from "./pages/ProfessorProfile";
 import ProfessorChat from "./pages/ProfessorChat";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AvatarProvider } from "./context/AvatarContext";
+import { SoundProvider } from "./context/SoundContext";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -47,6 +48,7 @@ import "@ionic/react/css/core.css";
 import "@ionic/react/css/normalize.css";
 import "@ionic/react/css/structure.css";
 import "@ionic/react/css/typography.css";
+import "./theme/shared.css"; /* Global Shared Styles */
 
 /* Optional CSS utils that can be commented out */
 import "@ionic/react/css/padding.css";
@@ -149,232 +151,234 @@ const App: React.FC = () => {
     <IonApp>
       <AvatarProvider>
         <ThemeProvider>
-          <IonReactRouter>
-            <IonSplitPane contentId="main" disabled={!userRole}>
-              {renderSidebar()}
-              <IonRouterOutlet id="main">
-                <Route path="/" exact={true}>
-                  {userRole ? (
-                    <Redirect
-                      to={
-                        userRole === "student"
-                          ? userData?.first_login
-                            ? "/personality-quiz"
-                            : "/page/student"
-                          : "/page/professor"
-                      }
-                    />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+          <SoundProvider>
+            <IonReactRouter>
+              <IonSplitPane contentId="main" disabled={!userRole}>
+                {renderSidebar()}
+                <IonRouterOutlet id="main">
+                  <Route path="/" exact={true}>
+                    {userRole ? (
+                      <Redirect
+                        to={
+                          userRole === "student"
+                            ? userData?.first_login
+                              ? "/personality-quiz"
+                              : "/page/student"
+                            : "/page/professor"
+                        }
+                      />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                {/* Authentication Routes */}
-                <Route path="/login" exact={true}>
-                  {userRole ? (
-                    <Redirect
-                      to={
-                        userRole === "student"
-                          ? userData?.first_login
-                            ? "/personality-quiz"
-                            : "/page/student"
-                          : "/page/professor"
-                      }
-                    />
-                  ) : (
-                    <Login onLogin={handleLogin} />
-                  )}
-                </Route>
+                  {/* Authentication Routes */}
+                  <Route path="/login" exact={true}>
+                    {userRole ? (
+                      <Redirect
+                        to={
+                          userRole === "student"
+                            ? userData?.first_login
+                              ? "/personality-quiz"
+                              : "/page/student"
+                            : "/page/professor"
+                        }
+                      />
+                    ) : (
+                      <Login onLogin={handleLogin} />
+                    )}
+                  </Route>
 
-                <Route path="/Register" exact={true}>
-                  <Register />
-                </Route>
-                <Route path="/register-student" exact={true}>
-                  <RegisterStudent />
-                </Route>
+                  <Route path="/Register" exact={true}>
+                    <Register />
+                  </Route>
+                  <Route path="/register-student" exact={true}>
+                    <RegisterStudent />
+                  </Route>
 
-                {/* Main Dashboard Routes */}
-                <Route path="/page/professor" exact={true}>
-                  {userRole === "professor" ? (
-                    <Main_Prof />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
-                <Route path="/page/student" exact={true}>
-                  {userRole === "student" ? (
-                    <Main_Student />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
-                <Route path="/leaderboard" exact={true}>
-                  {userRole === "student" ? (
-                    <Leaderboard />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
-                <Route path="/leaderboard" exact={true}>
-                  {userRole === "student" ? (
-                    <Leaderboard />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  {/* Main Dashboard Routes */}
+                  <Route path="/page/professor" exact={true}>
+                    {userRole === "professor" ? (
+                      <Main_Prof />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/student" exact={true}>
+                    {userRole === "student" ? (
+                      <Main_Student />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/leaderboard" exact={true}>
+                    {userRole === "student" ? (
+                      <Leaderboard />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/leaderboard" exact={true}>
+                    {userRole === "student" ? (
+                      <Leaderboard />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                {/* Additional Features */}
-                <Route path="/class-creation" exact={true}>
-                  {userRole === "professor" ? (
-                    <Class_Creation />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
-                <Route path="/create-task" exact={true}>
-                  {userRole === "professor" ? (
-                    <CreateTask />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  {/* Additional Features */}
+                  <Route path="/class-creation" exact={true}>
+                    {userRole === "professor" ? (
+                      <Class_Creation />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/create-task" exact={true}>
+                    {userRole === "professor" ? (
+                      <CreateTask />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                <Route path="/settings" exact={true}>
-                  {userRole === "student" ? (
-                    <StudentSettings />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  <Route path="/settings" exact={true}>
+                    {userRole === "student" ? (
+                      <StudentSettings />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                <Route path="/folder/:name" exact={true}>
-                  {userRole ? <Page /> : <Redirect to="/login" />}
-                </Route>
+                  <Route path="/folder/:name" exact={true}>
+                    {userRole ? <Page /> : <Redirect to="/login" />}
+                  </Route>
 
-                <Route path="/quiz" exact={true}>
-                  {userRole === "student" ? <Quiz /> : <Redirect to="/login" />}
-                </Route>
+                  <Route path="/quiz" exact={true}>
+                    {userRole === "student" ? <Quiz /> : <Redirect to="/login" />}
+                  </Route>
 
-                <Route path="/personality-quiz" exact={true}>
-                  {userRole === "student" ? (
-                    <PersonalityQuiz />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  <Route path="/personality-quiz" exact={true}>
+                    {userRole === "student" ? (
+                      <PersonalityQuiz />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                <Route path="/battleminigame" exact={true}>
-                  {userRole === "student" ? (
-                    <BattleMinigame></BattleMinigame>
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  <Route path="/battleminigame" exact={true}>
+                    {userRole === "student" ? (
+                      <BattleMinigame></BattleMinigame>
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                <Route path="/battlelobby" exact={true}>
-                  {userRole === "student" ? (
-                    <BattleLobby></BattleLobby>
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  <Route path="/battlelobby" exact={true}>
+                    {userRole === "student" ? (
+                      <BattleLobby></BattleLobby>
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                <Route path="/subject/:name" exact={true}>
-                  {userRole === "student" ? (
-                    <SubjectDetail />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  <Route path="/subject/:name" exact={true}>
+                    {userRole === "student" ? (
+                      <SubjectDetail />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                <Route path="/profile" exact={true}>
-                  {userRole === "student" ? (
-                    <StudentProfile />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  <Route path="/profile" exact={true}>
+                    {userRole === "student" ? (
+                      <StudentProfile />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                <Route path="/character-detail" exact={true}>
-                  {userRole === "student" ? (
-                    <CharacterDetail />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  <Route path="/character-detail" exact={true}>
+                    {userRole === "student" ? (
+                      <CharacterDetail />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                <Route path="/achievements" exact={true}>
-                  {userRole === "student" ? (
-                    <Achievements />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  <Route path="/achievements" exact={true}>
+                    {userRole === "student" ? (
+                      <Achievements />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                <Route path="/chat" exact={true}>
-                  {userRole ? <Chat /> : <Redirect to="/login" />}
-                </Route>
+                  <Route path="/chat" exact={true}>
+                    {userRole ? <Chat /> : <Redirect to="/login" />}
+                  </Route>
 
-                {/* Students by section */}
-                <Route path="/student-section" exact={true}>
-                  {userRole === "professor" ? (
-                    <StudentSectionPage />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  {/* Students by section */}
+                  <Route path="/student-section" exact={true}>
+                    {userRole === "professor" ? (
+                      <StudentSectionPage />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                {/* Student Detail Page */}
-                <Route
-                  path="/teacher-student-detail/:username/:subject"
-                  exact={true}
-                >
-                  {userRole === "professor" ? (
-                    <StudentDetail />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  {/* Student Detail Page */}
+                  <Route
+                    path="/teacher-student-detail/:username/:subject"
+                    exact={true}
+                  >
+                    {userRole === "professor" ? (
+                      <StudentDetail />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                {/* Professor Admin Page */}
-                <Route path="/teacher-admin" exact={true}>
-                  {userRole === "professor" ? (
-                    <ProfessorAdmin />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  {/* Professor Admin Page */}
+                  <Route path="/teacher-admin" exact={true}>
+                    {userRole === "professor" ? (
+                      <ProfessorAdmin />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                <Route path="/professor-profile" exact={true}>
-                  {userRole === "professor" ? (
-                    <ProfessorProfile />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  <Route path="/professor-profile" exact={true}>
+                    {userRole === "professor" ? (
+                      <ProfessorProfile />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                <Route path="/professor-chat" exact={true}>
-                  {userRole === "professor" ? (
-                    <ProfessorChat />
-                  ) : (
-                    <Redirect to="/login" />
-                  )}
-                </Route>
+                  <Route path="/professor-chat" exact={true}>
+                    {userRole === "professor" ? (
+                      <ProfessorChat />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
 
-                <Route path="/help" exact={true}>
-                  {userRole === "student" ? <Help /> : <Redirect to="/login" />}
-                </Route>
+                  <Route path="/help" exact={true}>
+                    {userRole === "student" ? <Help /> : <Redirect to="/login" />}
+                  </Route>
 
-                {/* Nueva ruta para unirse a clase por código o QR */}
-                <Route path="/join/:code?" exact={true}>
-                  <Class_Join />
-                </Route>
-              </IonRouterOutlet>
-            </IonSplitPane>
-          </IonReactRouter>
+                  {/* Nueva ruta para unirse a clase por código o QR */}
+                  <Route path="/join/:code?" exact={true}>
+                    <Class_Join />
+                  </Route>
+                </IonRouterOutlet>
+              </IonSplitPane>
+            </IonReactRouter>
+          </SoundProvider>
         </ThemeProvider>
       </AvatarProvider>
-    </IonApp>
+    </IonApp >
   );
 };
 

@@ -11,31 +11,20 @@ import {
     lockClosed
 } from 'ionicons/icons';
 import { useTranslation } from 'react-i18next';
+import PageTransition from '../components/PageTransition';
 import './Achievements.css';
 
-// ----------------------------------------------------------------------------
-// DATA DEFINITIONS (Ideally this comes from backend/context)
-// ----------------------------------------------------------------------------
+import { Achievement } from '../types/student';
 
-type AchievementCategory = 'study' | 'combat' | 'social';
-
-interface AchievementDef {
-    id: string;
-    category: AchievementCategory;
-    icon: string; // Emoji or Ionic icon name mapping could be used, simplified to Emoji for now or mapped below
-    maxProgress: number;
-    currentProgress: number; // In real app, this comes from user profile
-    rewardValue: number;
-    rewardType: 'XP' | 'Coins';
-}
+// ...
 
 const Achievements: React.FC = () => {
     const { t } = useTranslation();
     const router = useIonRouter();
-    const [filter, setFilter] = useState<'all' | AchievementCategory>('all');
+    const [filter, setFilter] = useState<'all' | 'study' | 'combat' | 'social'>('all');
 
-    // MOCK DATA
-    const ACHIEVEMENTS_DATA: AchievementDef[] = [
+    // MOCK DATA (Ideally moved to a service, but typing is the first step)
+    const ACHIEVEMENTS_DATA: Achievement[] = [
         { id: 'first_login', category: 'social', icon: '👋', maxProgress: 1, currentProgress: 1, rewardValue: 50, rewardType: 'XP' },
         { id: 'math_wizard', category: 'study', icon: '📐', maxProgress: 1, currentProgress: 1, rewardValue: 200, rewardType: 'XP' },
         { id: 'battle_champion', category: 'combat', icon: '⚔️', maxProgress: 5, currentProgress: 3, rewardValue: 100, rewardType: 'Coins' },
@@ -44,6 +33,8 @@ const Achievements: React.FC = () => {
         { id: 'streak_master', category: 'study', icon: '🔥', maxProgress: 7, currentProgress: 7, rewardValue: 500, rewardType: 'Coins' },
         { id: 'social_butterfly', category: 'social', icon: '🦋', maxProgress: 5, currentProgress: 2, rewardValue: 100, rewardType: 'XP' }
     ];
+
+    // ...
 
     // Filter Logic
     const filteredList = filter === 'all'
@@ -66,95 +57,97 @@ const Achievements: React.FC = () => {
 
             {/* Removed custom background div to allow global theme background */}
 
-            <IonContent fullscreen className="ach-content-wrapper">
-                <div className="ach-content">
+            <IonContent fullscreen className="student-page-content">
+                <PageTransition>
+                    <div className="ach-content">
 
-                    {/* Header */}
-                    <div className="ach-header">
-                        <button
-                            className="ach-back-btn"
-                            onClick={handleBack}
-                            style={{
-                                background: 'var(--ion-card-background)',
-                                border: 'none',
-                                borderRadius: '50%',
-                                width: '40px',
-                                height: '40px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                                color: 'var(--ion-color-dark)',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            <IonIcon icon={arrowBack} />
-                        </button>
-
-                        <div className="ach-total-score">
-                            <IonIcon icon={trophy} />
-                            <span>{totalScore} pts</span>
-                        </div>
-                    </div>
-
-                    <h1 className="ach-title">{t('achievements.pageTitle', 'Sala de Logros')}</h1>
-
-                    {/* Filters */}
-                    <div className="ach-filters">
-                        {(['all', 'study', 'combat', 'social'] as const).map(cat => (
+                        {/* Header */}
+                        <div className="ach-header">
                             <button
-                                key={cat}
-                                className={`ach-filter-btn ${filter === cat ? 'active' : ''}`}
-                                onClick={() => setFilter(cat)}
-                                data-cat={cat}
+                                className="ach-back-btn"
+                                onClick={handleBack}
+                                style={{
+                                    background: 'var(--ion-card-background)',
+                                    border: 'none',
+                                    borderRadius: '50%',
+                                    width: '40px',
+                                    height: '40px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                                    color: 'var(--ion-color-dark)',
+                                    cursor: 'pointer'
+                                }}
                             >
-                                {t(`achievements.filters.${cat}`)}
+                                <IonIcon icon={arrowBack} />
                             </button>
-                        ))}
-                    </div>
 
-                    {/* List */}
-                    <div className="ach-list">
-                        {filteredList.map(item => {
-                            const isUnlocked = item.currentProgress >= item.maxProgress;
-                            const percent = Math.min(100, (item.currentProgress / item.maxProgress) * 100);
+                            <div className="ach-total-score">
+                                <IonIcon icon={trophy} />
+                                <span>{totalScore} pts</span>
+                            </div>
+                        </div>
 
-                            return (
-                                <div
-                                    key={item.id}
-                                    className={`ach-card ${isUnlocked ? 'unlocked' : 'locked'}`}
-                                    data-cat={item.category}
+                        <h1 className="ach-title">{t('achievements.pageTitle', 'Sala de Logros')}</h1>
+
+                        {/* Filters */}
+                        <div className="ach-filters">
+                            {(['all', 'study', 'combat', 'social'] as const).map(cat => (
+                                <button
+                                    key={cat}
+                                    className={`ach-filter-btn ${filter === cat ? 'active' : ''}`}
+                                    onClick={() => setFilter(cat)}
+                                    data-cat={cat}
                                 >
-                                    <div className="ach-icon-wrapper">
-                                        {isUnlocked ? item.icon : <IonIcon icon={lockClosed} />}
+                                    {t(`achievements.filters.${cat}`)}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* List */}
+                        <div className="ach-list">
+                            {filteredList.map(item => {
+                                const isUnlocked = item.currentProgress >= item.maxProgress;
+                                const percent = Math.min(100, (item.currentProgress / item.maxProgress) * 100);
+
+                                return (
+                                    <div
+                                        key={item.id}
+                                        className={`student-card ach-card ${isUnlocked ? 'unlocked' : 'locked'}`}
+                                        data-cat={item.category}
+                                    >
+                                        <div className="ach-icon-wrapper">
+                                            {isUnlocked ? item.icon : <IonIcon icon={lockClosed} />}
+                                        </div>
+
+                                        <div className="ach-info">
+                                            <h3 className="ach-name">{t(`achievements.items.${item.id}.title`)}</h3>
+                                            <p className="ach-desc">{t(`achievements.items.${item.id}.description`)}</p>
+
+                                            <div className="ach-progress-container">
+                                                <div className="ach-progress-fill" style={{ width: `${percent}%` }}></div>
+                                            </div>
+
+                                            <div className="ach-progress-text">
+                                                <span>{isUnlocked ? t('achievements.ui.unlocked') : t('achievements.ui.progress')}</span>
+                                                <span>{item.currentProgress} / {item.maxProgress}</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Reward Badge */}
+                                        {isUnlocked && (
+                                            <div className="ach-reward-badge">
+                                                +{item.rewardValue} {item.rewardType}
+                                            </div>
+                                        )}
                                     </div>
+                                );
+                            })}
+                        </div>
 
-                                    <div className="ach-info">
-                                        <h3 className="ach-name">{t(`achievements.items.${item.id}.title`)}</h3>
-                                        <p className="ach-desc">{t(`achievements.items.${item.id}.description`)}</p>
-
-                                        <div className="ach-progress-container">
-                                            <div className="ach-progress-fill" style={{ width: `${percent}%` }}></div>
-                                        </div>
-
-                                        <div className="ach-progress-text">
-                                            <span>{isUnlocked ? t('achievements.ui.unlocked') : t('achievements.ui.progress')}</span>
-                                            <span>{item.currentProgress} / {item.maxProgress}</span>
-                                        </div>
-                                    </div>
-
-                                    {/* Reward Badge */}
-                                    {isUnlocked && (
-                                        <div className="ach-reward-badge">
-                                            +{item.rewardValue} {item.rewardType}
-                                        </div>
-                                    )}
-                                </div>
-                            );
-                        })}
                     </div>
-
-                </div>
+                </PageTransition>
             </IonContent>
         </IonPage>
     );

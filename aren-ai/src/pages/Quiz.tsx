@@ -10,7 +10,8 @@ import {
   IonIcon,
   IonModal,
   IonCard,
-  IonCardContent
+  IonCardContent,
+  useIonRouter,
 } from '@ionic/react';
 import { arrowForward } from 'ionicons/icons';
 import { useTranslation } from 'react-i18next';
@@ -18,11 +19,17 @@ import './Quiz.css';
 import StudentHeader from '../components/StudentHeader';
 import StudentSidebar from '../components/StudentSidebar';
 import { getUserData } from '../utils/userUtils';
+import PageTransition from '../components/PageTransition';
+import { useSound } from '../context/SoundContext';
+import { triggerConfetti } from '../utils/confettiUtils';
+
 const Quiz: React.FC = () => {
   const { t } = useTranslation();
+  const router = useIonRouter();
+  const { playSuccess } = useSound();
 
   const handleLogout = () => {
-    window.location.href = '/login';
+    router.push('/login', 'root', 'replace');
   };
 
   // Mock data for the quiz
@@ -243,15 +250,11 @@ const Quiz: React.FC = () => {
     // Move to next question after delay
     setTimeout(() => {
       if (currentQuestion < questions.length - 1) {
-        setCurrentQuestion(prev => prev + 1);
-        setSelectedAnswer(null);
-        setIsAnswered(false);
-        setStartTime(Date.now());
-        setShowPointsAnimation(false);
-      } else {
         // Quiz completed - show results
         setTimeout(() => {
           setShowResults(true);
+          playSuccess();
+          triggerConfetti();
         }, 1000);
       }
     }, 2000);
@@ -293,7 +296,7 @@ const Quiz: React.FC = () => {
   };
 
   const handleBackToMenu = () => {
-    window.location.href = '/page/student';
+    router.push('/page/student', 'back', 'pop');
   };
 
   return (
@@ -303,71 +306,73 @@ const Quiz: React.FC = () => {
       <StudentSidebar onLogout={handleLogout} />
 
       <IonContent fullscreen className="quiz-content">
-        <div className="quiz-container">
-          <div className="quiz-stats-bar" style={{ backgroundColor: 'var(--ion-color-primary)', borderColor: 'var(--ion-color-primary)' }}>
-            <div className="stat-box">
-              <div className="stat-number">{currentQuestion + 1}/15</div>
-              <div className="stat-label">{t('quiz.questions')}</div>
+        <PageTransition variant="fade">
+          <div className="quiz-container">
+            <div className="quiz-stats-bar" style={{ backgroundColor: 'var(--ion-color-primary)', borderColor: 'var(--ion-color-primary)' }}>
+              <div className="stat-box">
+                <div className="stat-number">{currentQuestion + 1}/15</div>
+                <div className="stat-label">{t('quiz.questions')}</div>
+              </div>
+              <div className="stat-box">
+                <div className="stat-number">{score} pts</div>
+                <div className="stat-label">{t('quiz.points')}</div>
+              </div>
+              <div className="stat-box">
+                <div className="stat-number">1ro</div>
+                <div className="stat-label">{t('quiz.place')}</div>
+              </div>
             </div>
-            <div className="stat-box">
-              <div className="stat-number">{score} pts</div>
-              <div className="stat-label">{t('quiz.points')}</div>
-            </div>
-            <div className="stat-box">
-              <div className="stat-number">1ro</div>
-              <div className="stat-label">{t('quiz.place')}</div>
-            </div>
-          </div>
 
-          <div className="image-section">
-            <img
-              src="/assets/capybara_sprite_normal.png"
-              alt="ArenAI Capybara"
-              className="quiz-image"
-            />
-            <div className="character-name-hexagon">
-              <IonText>
-                <p className="character-name">Aren</p>
-              </IonText>
+            <div className="image-section">
+              <img
+                src="/assets/capybara_sprite_normal.png"
+                alt="ArenAI Capybara"
+                className="quiz-image"
+              />
+              <div className="character-name-hexagon">
+                <IonText>
+                  <p className="character-name">Aren</p>
+                </IonText>
+              </div>
             </div>
-          </div>
 
-          <div className="question-section">
-            <div className="question-card">
-              <IonText>
-                <h2 className="question-title">
-                  {getQuestionText()}
-                </h2>
-              </IonText>
+            <div className="question-section">
+              <div className="question-card">
+                <IonText>
+                  <h2 className="question-title">
+                    {getQuestionText()}
+                  </h2>
+                </IonText>
+              </div>
             </div>
-          </div>
 
-          <div className="options-section">
-            <IonGrid>
-              <IonRow>
-                {questions[currentQuestion].options.map((option, index) => (
-                  <IonCol size="12" key={index}>
-                    <IonButton
-                      expand="block"
-                      className={`option-button ${getButtonColor(index)}`}
-                      onClick={() => handleAnswerSelect(index)}
-                      disabled={isAnswered}
-                    >
-                      {option}
-                    </IonButton>
-                  </IonCol>
-                ))}
-              </IonRow>
-            </IonGrid>
-          </div>
-
-          {/* Points Animation */}
-          {showPointsAnimation && (
-            <div className="points-animation">
-              +{animationPoints} pts!
+            <div className="options-section">
+              <IonGrid>
+                <IonRow>
+                  {questions[currentQuestion].options.map((option, index) => (
+                    <IonCol size="12" key={index}>
+                      <IonButton
+                        expand="block"
+                        className={`option-button ${getButtonColor(index)}`}
+                        onClick={() => handleAnswerSelect(index)}
+                        disabled={isAnswered}
+                      >
+                        {option}
+                      </IonButton>
+                    </IonCol>
+                  ))}
+                </IonRow>
+              </IonGrid>
             </div>
-          )}
-        </div>
+
+            {/* Points Animation */}
+            {showPointsAnimation && (
+              <div className="points-animation">
+                +{animationPoints} pts!
+              </div>
+            )}
+          </div>
+        </PageTransition>
 
         {/* Results Modal */}
         <IonModal isOpen={showResults} className="results-modal">

@@ -24,7 +24,6 @@ import {
     IonGrid,
     IonRow,
     IonCol,
-    IonCol,
     useIonToast,
     IonCheckbox
 } from '@ionic/react';
