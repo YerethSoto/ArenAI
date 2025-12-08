@@ -59,13 +59,167 @@
             "average": "Promedio de Clase",
             "compared": "comparado con semana anterior",
             "classTopics": "Temas de Clase",
-            "insights": "Insights",
+            "insightsLabel": "Insights",
             "needsAttention": "Requiere Atención",
             "needsAttentionDesc": "3 estudiantes con dificultades en Álgebra",
             "excellentProgress": "Progreso Excelente",
             "excellentProgressDesc": "90% completado en Geometría",
             "todaysClass": "Clase de Hoy",
-            "start": "Iniciar Clase"
+            "start": "Iniciar Clase",
+            "weeks": {
+                "week1": "Semana 1 - Fundamentos Algebraicos",
+                "week2": "Semana 2 - Funciones y Gráficas",
+                "week3": "Semana 3 - Conceptos Básicos de Geometría",
+                "week4": "Semana 4 - Geometría Avanzada",
+                "week5": "Semana 5 - Trigonometría",
+                "week6": "Semana 6 - Estadística y Probabilidad",
+                "week7": "Semana 7 - Introducción al Cálculo",
+                "week8": "Semana 8 - Cálculo Avanzado",
+                "week9": "Semana 9 - Teoría de Números",
+                "week10": "Semana 10 - Lógica Matemática",
+                "week11": "Semana 11 - Repaso y Aplicaciones",
+                "week12": "Semana 12 - Proyectos Finales"
+            },
+            "subjects": {
+                "Math": "Matemáticas",
+                "Science": "Ciencias",
+                "SocialStudies": "Estudios Sociales",
+                "Spanish": "Español"
+            },
+            "topics": {
+                "Algebra": "Álgebra",
+                "Geometry": "Geometría",
+                "Calculus": "Cálculo",
+                "Statistics": "Estadística",
+                "Trigonometry": "Trigonometría",
+                "Probability": "Probabilidad",
+                "LinearEq": "Ec. Lineales",
+                "Functions": "Funciones",
+                "Biology": "Biología",
+                "Chemistry": "Química",
+                "Physics": "Física",
+                "EarthSci": "Ciencias de la Tierra",
+                "Astronomy": "Astronomía",
+                "EnvSci": "Ciencias Amb.",
+                "History": "Historia",
+                "Geography": "Geografía",
+                "Civics": "Cívica",
+                "Economics": "Economía",
+                "Culture": "Cultura",
+                "Govt": "Gobierno",
+                "Vocab": "Vocabulario",
+                "Grammar": "Gramática",
+                "Reading": "Lectura",
+                "Writing": "Escritura",
+                "Speaking": "Habla",
+                "Listening": "Escucha"
+            },
+            "insights": {
+                "enforce": {
+                    "Math": "Concéntrese en mejorar el rendimiento estudiantil en matemáticas. Use ejercicios dirigidos y materiales de práctica adicionales para reforzar la comprensión y construir confianza en áreas desafiantes como cálculo y probabilidad.",
+                    "Science": "Mejore la comprensión científica a través de experimentos prácticos y aplicaciones del mundo real. Los estudiantes necesitan más práctica con conceptos de física y reacciones químicas.",
+                    "SocialStudies": "Mejore el análisis histórico y la comprensión geográfica. Incorpore más análisis de fuentes primarias y actividades de lectura de mapas para desarrollar habilidades de pensamiento crítico.",
+                    "Spanish": "Fortalezca la adquisición del idioma a través de actividades inmersivas. Concéntrese en la práctica conversacional y el refuerzo gramatical para mejorar la fluidez general."
+                },
+                "recommendation": {
+                    "Math": "Concéntrese en practicar ecuaciones cuadráticas con ejemplos del mundo real. Considere usar ayudas visuales para ayudar a los estudiantes a entender la representación gráfica de las ecuaciones.",
+                    "Science": "Incorpore experimentos prácticos para ayudar a los estudiantes a visualizar conceptos científicos. Use ejemplos del mundo real para hacer el material más atractivo y relacionable.",
+                    "SocialStudies": "Use líneas de tiempo interactivas y mapas para ayudar a los estudiantes a entender el contexto histórico. Fomente discusiones sobre eventos actuales para hacer conexiones con eventos pasados.",
+                    "Spanish": "Practique español conversacional a través de actividades de juego de roles. Incorpore recursos multimedia como videos y canciones para mejorar la comprensión auditiva."
+                }
+            }
+        },
+        "createTask": {
+            "title": "Crear Nueva Tarea",
+            "assignTo": "Asignar a",
+            "classes": "Clases",
+            "students": "Estudiantes",
+            "selectClasses": "Seleccionar Clases",
+            "selectStudents": "Seleccionar Estudiantes",
+            "chooseClasses": "Elegir Clases...",
+            "chooseStudents": "Elegir Estudiantes...",
+            "taskType": "Tipo de Tarea",
+            "quiz": "Cuestionario",
+            "quizDesc": "Generar un quiz con IA",
+            "requirement": "Requerimiento",
+            "requirementDesc": "Tarea manual o nota",
+            "quizDetails": "Detalles del Cuestionario",
+            "subject": "Materia",
+            "topic": "Tema",
+            "topicPlaceholder": "Ej., Álgebra, Arte Renacentista",
+            "questionCount": "Número de Preguntas",
+            "customPrompt": "Instrucciones Personalizadas (Opcional)",
+            "customPromptPlaceholder": "Añade instrucciones específicas para la generación con IA...",
+            "requirementDetails": "Detalles del Requerimiento",
+            "description": "Descripción de la Tarea / Nota",
+            "descriptionPlaceholder": "Describe los requerimientos de la tarea...",
+            "createBtn": "Crear Tarea",
+            "alerts": {
+                "selectRecipient": "Por favor selecciona al menos un destinatario.",
+                "fillSubjectTopic": "Por favor completa la Materia y el Tema para el cuestionario.",
+                "addNote": "Por favor añade una nota para el requerimiento.",
+                "success": "¡Tarea creada exitosamente!"
+            }
+        },
+        "classCreation": {
+            "title": "Crear una Sección",
+            "pageTitle": "Crear Nueva Sección",
+            "pageSubtitle": "Créala una vez, úsala por un año",
+            "gradeLevel": "Nivel de Grado",
+            "selectGrade": "Seleccionar grado",
+            "sectionNumber": "Número de Sección",
+            "selectSection": "Seleccionar número de sección",
+            "createBtn": "Crear Clase",
+            "creatingBtn": "Creando Clase...",
+            "aboutTitle": "Sobre la Creación de Secciones",
+            "aboutList": {
+                "step1": "1. Ingresa el grado y número de sección para crear automáticamente una nueva sección",
+                "step2": "2. Una vez creada obtendrás un Código QR, deja que los estudiantes lo escaneen para unirse",
+                "step3": "3. ¡Listo! ahora tus estudiantes estarán asignados a esta sección por el resto del año"
+            },
+            "alerts": {
+                "selectGrade": "Por favor selecciona un nivel de grado",
+                "selectSection": "Por favor selecciona un número de sección",
+                "loginRequired": "Debes iniciar sesión para crear una sección.",
+                "exists": "Ya existe una clase con ese grado y sección.",
+                "failed": "Error al crear la sección",
+                "serverError": "No se pudo contactar al servidor",
+                "noLink": "No hay enlace disponible para compartir.",
+                "linkCopied": "Enlace copiado al portapapeles",
+                "codeCopied": "Código de clase copiado al portapapeles",
+                "shareFailed": "Error al compartir"
+            },
+            "modal": {
+                "title": "Clase Creada",
+                "successMsg": "Tu clase Grado {{grade}} - Sección {{section}} ha sido creada.",
+                "classCode": "Código de Clase",
+                "scanQr": "Escanear QR para Unirse",
+                "share": "Compartir",
+                "copyLink": "Copiar Link",
+                "done": "Listo",
+                "copy": "Copiar"
+            }
+        },
+        "studentScores": {
+            "title": "Puntajes de Estudiantes",
+            "grade": "Grado",
+            "section": "Sección",
+            "selectGrade": "Seleccionar Grado",
+            "selectSection": "Seleccionar Sección",
+            "averageScore": "Promedio de Clase"
+        },
+        "profile": {
+            "title": "Perfil",
+            "role": "Profesor Senior de Matemáticas",
+            "editProfile": "Editar Perfil",
+            "appearance": "Apariencia",
+            "theme": "Tema",
+            "notifications": "Notificaciones",
+            "classAlerts": "Alertas de Clase",
+            "dnd": "No Molestar",
+            "support": "Soporte",
+            "helpCenter": "Centro de Ayuda",
+            "logout": "Cerrar Sesión"
         }
     },
     "mainStudent": {
@@ -122,6 +276,13 @@
             "Writing": "Escritura",
             "Speaking": "Habla",
             "Listening": "Escucha"
+        },
+        "aiAssistant": {
+            "title": "Asistente ArenAI",
+            "welcome": "¡Hola, Profesor! Soy tu asistente de IA. ¿En qué puedo ayudarte en tu clase hoy?",
+            "placeholder": "Pregunta sobre planes de lección, ideas o calificaciones...",
+            "error": "⚠️ Ocurrió un error. Por favor intenta de nuevo.",
+            "serverError": "Lo siento, no pude procesar tu solicitud."
         }
     },
     "settings": {
@@ -141,9 +302,6 @@
         "outlineButton": "Botón de Borde",
         "listItem": "Elemento de Lista",
         "listDesc": "Con texto secundario"
-    },
-    "chat": {
-        "title": "Chat ArenAI"
     },
     "quiz": {
         "title": "Cuestionario",

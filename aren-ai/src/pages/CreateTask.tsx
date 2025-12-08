@@ -24,7 +24,9 @@ import {
     IonGrid,
     IonRow,
     IonCol,
-    useIonToast
+    IonCol,
+    useIonToast,
+    IonCheckbox
 } from '@ionic/react';
 import {
     schoolOutline,
@@ -32,11 +34,26 @@ import {
     documentTextOutline,
     clipboardOutline,
     addCircleOutline,
-    createOutline
+    createOutline,
+    chevronDownOutline,
+    chevronUpOutline,
+    bookOutline
 } from 'ionicons/icons';
+import { useTranslation } from 'react-i18next';
 import './CreateTask.css';
 
+// Mock Topics Data (Matching Main_Prof structure but simplified keys if possible, or using the same keys)
+const TOPICS_BY_SUBJECT: { [key: string]: string[] } = {
+    'Mathematics': ['Algebra', 'Geometry', 'Calculus', 'Statistics', 'Trigonometry', 'Probability', 'LinearEq', 'Functions'],
+    'Science': ['Biology', 'Chemistry', 'Physics', 'EarthSci', 'Astronomy', 'EnvSci'],
+    'History': ['History', 'Geography', 'Civics', 'Economics', 'Culture', 'Govt'], // 'Social Studies' mapped to History for now or keep separate
+    'Literature': ['Vocab', 'Grammar', 'Reading', 'Writing', 'Speaking', 'Listening'], // Spanish/Lit mapping
+    'Computer Science': ['Algorithms', 'DataStructures', 'WebDev', 'Databases', 'AI', 'Networking'],
+    'Art': ['Painting', 'Sculpture', 'ArtHistory', 'ColorTheory', 'DigitalArt']
+};
+
 const CreateTask: React.FC = () => {
+    const { t } = useTranslation();
     const [recipientType, setRecipientType] = useState<'class' | 'student'>('class');
     const [selectedRecipients, setSelectedRecipients] = useState<string[]>([]);
     const [taskType, setTaskType] = useState<'quiz' | 'requirement'>('quiz');
@@ -44,7 +61,8 @@ const CreateTask: React.FC = () => {
 
     // Quiz State
     const [subject, setSubject] = useState('');
-    const [topic, setTopic] = useState('');
+    const [selectedTopics, setSelectedTopics] = useState<string[]>([]); // Changed from single topic string
+    const [isTopicsExpanded, setIsTopicsExpanded] = useState(false); // For accordion
     const [questionCount, setQuestionCount] = useState(5);
     const [customPrompt, setCustomPrompt] = useState('');
 
@@ -65,24 +83,22 @@ const CreateTask: React.FC = () => {
         { id: '4', name: 'Diana Prince' }
     ];
 
-    const subjects = [
-        'Mathematics', 'History', 'Science', 'Literature', 'Computer Science', 'Art'
-    ];
+    const subjects = Object.keys(TOPICS_BY_SUBJECT);
 
     const handleCreateTask = () => {
         // Validation
         if (selectedRecipients.length === 0) {
             present({
-                message: 'Please select at least one recipient.',
+                message: t('professor.createTask.alerts.selectRecipient'),
                 duration: 2000,
                 color: 'danger'
             });
             return;
         }
 
-        if (taskType === 'quiz' && (!subject || !topic)) {
+        if (taskType === 'quiz' && (!subject || selectedTopics.length === 0)) {
             present({
-                message: 'Please fill in Subject and Topic for the quiz.',
+                message: t('professor.createTask.alerts.fillSubjectTopic'), // Key might need update or text will just say "Topic"
                 duration: 2000,
                 color: 'danger'
             });
@@ -91,7 +107,7 @@ const CreateTask: React.FC = () => {
 
         if (taskType === 'requirement' && !note) {
             present({
-                message: 'Please add a note for the requirement.',
+                message: t('professor.createTask.alerts.addNote'),
                 duration: 2000,
                 color: 'danger'
             });
@@ -103,14 +119,24 @@ const CreateTask: React.FC = () => {
             recipientType,
             selectedRecipients,
             taskType,
-            quizData: taskType === 'quiz' ? { subject, topic, questionCount, customPrompt } : null,
+            quizData: taskType === 'quiz' ? { subject, selectedTopics, questionCount, customPrompt } : null,
             requirementData: taskType === 'requirement' ? { note } : null
         });
 
         present({
-            message: 'Task created successfully!',
+            message: t('professor.createTask.alerts.success'),
             duration: 2000,
             color: 'success'
+        });
+    };
+
+    const toggleTopic = (topicKey: string) => {
+        setSelectedTopics(prev => {
+            if (prev.includes(topicKey)) {
+                return prev.filter(t => t !== topicKey);
+            } else {
+                return [...prev, topicKey];
+            }
         });
     };
 
@@ -121,7 +147,7 @@ const CreateTask: React.FC = () => {
                     <IonButtons slot="start">
                         <IonBackButton defaultHref="/page/professor" />
                     </IonButtons>
-                    <IonTitle>Create New Task</IonTitle>
+                    <IonTitle>{t('professor.createTask.title')}</IonTitle>
                 </IonToolbar>
             </IonHeader>
 
@@ -131,27 +157,29 @@ const CreateTask: React.FC = () => {
                     {/* Recipient Section */}
                     <section className="form-section">
                         <h2 className="section-title">
-                            <IonIcon icon={schoolOutline} /> Assign To
+                            <IonIcon icon={schoolOutline} /> {t('professor.createTask.assignTo')}
                         </h2>
 
                         <div className="recipient-toggle">
                             <IonSegment value={recipientType} onIonChange={e => setRecipientType(e.detail.value as any)}>
                                 <IonSegmentButton value="class">
-                                    <IonLabel>Classes</IonLabel>
+                                    <IonLabel>{t('professor.createTask.classes')}</IonLabel>
                                 </IonSegmentButton>
                                 <IonSegmentButton value="student">
-                                    <IonLabel>Students</IonLabel>
+                                    <IonLabel>{t('professor.createTask.students')}</IonLabel>
                                 </IonSegmentButton>
                             </IonSegment>
                         </div>
 
                         <IonItem className="custom-select-item" lines="none">
-                            <IonLabel position="stacked">Select {recipientType === 'class' ? 'Classes' : 'Students'}</IonLabel>
+                            <IonLabel position="stacked">
+                                {recipientType === 'class' ? t('professor.createTask.selectClasses') : t('professor.createTask.selectStudents')}
+                            </IonLabel>
                             <IonSelect
                                 multiple={true}
                                 value={selectedRecipients}
                                 onIonChange={e => setSelectedRecipients(e.detail.value)}
-                                placeholder={`Choose ${recipientType === 'class' ? 'Classes' : 'Students'}...`}
+                                placeholder={recipientType === 'class' ? t('professor.createTask.chooseClasses') : t('professor.createTask.chooseStudents')}
                             >
                                 {recipientType === 'class'
                                     ? classes.map(c => <IonSelectOption key={c.id} value={c.id}>{c.name}</IonSelectOption>)
@@ -173,7 +201,7 @@ const CreateTask: React.FC = () => {
                     {/* Task Type Section */}
                     <section className="form-section">
                         <h2 className="section-title">
-                            <IonIcon icon={createOutline} /> Task Type
+                            <IonIcon icon={createOutline} /> {t('professor.createTask.taskType')}
                         </h2>
 
                         <div className="task-type-cards">
@@ -182,8 +210,8 @@ const CreateTask: React.FC = () => {
                                 onClick={() => setTaskType('quiz')}
                             >
                                 <div className="card-icon"><IonIcon icon={clipboardOutline} /></div>
-                                <h3>Quiz</h3>
-                                <p>Generate a quiz with AI</p>
+                                <h3>{t('professor.createTask.quiz')}</h3>
+                                <p>{t('professor.createTask.quizDesc')}</p>
                             </div>
 
                             <div
@@ -191,8 +219,8 @@ const CreateTask: React.FC = () => {
                                 onClick={() => setTaskType('requirement')}
                             >
                                 <div className="card-icon"><IonIcon icon={documentTextOutline} /></div>
-                                <h3>Requirement</h3>
-                                <p>Manual task or note</p>
+                                <h3>{t('professor.createTask.requirement')}</h3>
+                                <p>{t('professor.createTask.requirementDesc')}</p>
                             </div>
                         </div>
                     </section>
@@ -201,37 +229,67 @@ const CreateTask: React.FC = () => {
                     <section className="form-section input-area">
                         {taskType === 'quiz' ? (
                             <div className="quiz-form fade-in">
-                                <h3 className="subsection-title">Quiz Details</h3>
+                                <h3 className="subsection-title">{t('professor.createTask.quizDetails')}</h3>
 
-                                <IonGrid>
+                                <IonGrid className="no-padding-start">
                                     <IonRow>
-                                        <IonCol size="12" sizeMd="6">
+                                        <IonCol size="12">
                                             <IonItem className="custom-input-item" lines="none">
-                                                <IonLabel position="stacked">Subject</IonLabel>
+                                                <IonLabel position="stacked">{t('professor.createTask.subject')}</IonLabel>
                                                 <IonSelect
                                                     value={subject}
-                                                    onIonChange={e => setSubject(e.detail.value)}
-                                                    placeholder="Select Subject"
+                                                    onIonChange={e => {
+                                                        setSubject(e.detail.value);
+                                                        setSelectedTopics([]); // Reset topics on subject change
+                                                        setIsTopicsExpanded(true); // Auto expand when subject picked
+                                                    }}
+                                                    placeholder={t('professor.createTask.subject')}
                                                 >
                                                     {subjects.map(s => <IonSelectOption key={s} value={s}>{s}</IonSelectOption>)}
                                                 </IonSelect>
                                             </IonItem>
                                         </IonCol>
-                                        <IonCol size="12" sizeMd="6">
-                                            <IonItem className="custom-input-item" lines="none">
-                                                <IonLabel position="stacked">Topic</IonLabel>
-                                                <IonInput
-                                                    value={topic}
-                                                    onIonChange={e => setTopic(e.detail.value!)}
-                                                    placeholder="E.g., Algebra, Renaissance Art"
-                                                />
-                                            </IonItem>
-                                        </IonCol>
+
+                                        {subject && TOPICS_BY_SUBJECT[subject] && (
+                                            <IonCol size="12">
+                                                <div className="topics-expandable-container">
+                                                    <div
+                                                        className="topics-header"
+                                                        onClick={() => setIsTopicsExpanded(!isTopicsExpanded)}
+                                                    >
+                                                        <div className="topics-label">
+                                                            <IonIcon icon={bookOutline} className="topic-icon" />
+                                                            <span>{t('professor.createTask.selectTopics')} ({selectedTopics.length})</span>
+                                                        </div>
+                                                        <IonIcon icon={isTopicsExpanded ? chevronUpOutline : chevronDownOutline} />
+                                                    </div>
+
+                                                    {isTopicsExpanded && (
+                                                        <div className="topics-list fade-in-fast">
+                                                            {TOPICS_BY_SUBJECT[subject].map(topicKey => (
+                                                                <div
+                                                                    key={topicKey}
+                                                                    className={`topic-checkbox-item ${selectedTopics.includes(topicKey) ? 'selected' : ''}`}
+                                                                    onClick={() => toggleTopic(topicKey)}
+                                                                >
+                                                                    <div className={`checkbox-circle ${selectedTopics.includes(topicKey) ? 'checked' : ''}`}>
+                                                                        {selectedTopics.includes(topicKey) && <div className="inner-dot"></div>}
+                                                                    </div>
+                                                                    <span className="topic-name">
+                                                                        {t(`professor.dashboard.topics.${topicKey}`, topicKey)}
+                                                                    </span>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </IonCol>
+                                        )}
                                     </IonRow>
                                 </IonGrid>
 
                                 <div className="range-container">
-                                    <IonLabel>Number of Questions: {questionCount}</IonLabel>
+                                    <IonLabel>{t('professor.createTask.questionCount')}: {questionCount}</IonLabel>
                                     <IonRange
                                         min={1}
                                         max={20}
@@ -246,25 +304,25 @@ const CreateTask: React.FC = () => {
                                 </div>
 
                                 <IonItem className="custom-input-item" lines="none">
-                                    <IonLabel position="stacked">Custom Prompt Instructions (Optional)</IonLabel>
+                                    <IonLabel position="stacked">{t('professor.createTask.customPrompt')}</IonLabel>
                                     <IonTextarea
                                         rows={3}
                                         value={customPrompt}
                                         onIonChange={e => setCustomPrompt(e.detail.value!)}
-                                        placeholder="Add specific instructions for the AI generation..."
+                                        placeholder={t('professor.createTask.customPromptPlaceholder')}
                                     />
                                 </IonItem>
                             </div>
                         ) : (
                             <div className="requirement-form fade-in">
-                                <h3 className="subsection-title">Requirement Details</h3>
+                                <h3 className="subsection-title">{t('professor.createTask.requirementDetails')}</h3>
                                 <IonItem className="custom-input-item" lines="none">
-                                    <IonLabel position="stacked">Task Description / Note</IonLabel>
+                                    <IonLabel position="stacked">{t('professor.createTask.description')}</IonLabel>
                                     <IonTextarea
                                         rows={6}
                                         value={note}
                                         onIonChange={e => setNote(e.detail.value!)}
-                                        placeholder="Describe the task requirements..."
+                                        placeholder={t('professor.createTask.descriptionPlaceholder')}
                                     />
                                 </IonItem>
                             </div>
@@ -278,7 +336,7 @@ const CreateTask: React.FC = () => {
                             onClick={handleCreateTask}
                         >
                             <IonIcon slot="start" icon={addCircleOutline} />
-                            Create Task
+                            {t('professor.createTask.createBtn')}
                         </IonButton>
                     </div>
 

@@ -127,9 +127,10 @@ const ProfessorMenu: React.FC<ProfessorMenuProps> = ({
   const sections = ['1', '2', '3', '4'];
   // Map internal values to translation keys
   const subjects = [
-    { id: 'Math', label: t('professor.menu.math') },
-    { id: 'Science', label: t('professor.menu.science') },
-    { id: 'History', label: t('professor.menu.history') }
+    { id: 'Math', label: t('professor.dashboard.subjects.Math') },
+    { id: 'Science', label: t('professor.dashboard.subjects.Science') },
+    { id: 'Social Studies', label: t('professor.dashboard.subjects.SocialStudies') },
+    { id: 'Spanish', label: t('professor.dashboard.subjects.Spanish') }
   ];
 
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);

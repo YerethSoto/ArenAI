@@ -57,13 +57,167 @@
             "average": "Class Average",
             "compared": "compared to last week",
             "classTopics": "Class Topics",
-            "insights": "Insights",
+            "insightsLabel": "Insights",
             "needsAttention": "Needs Attention",
             "needsAttentionDesc": "3 students struggling in Algebra",
             "excellentProgress": "Excellent Progress",
             "excellentProgressDesc": "90% completion in Geometry",
             "todaysClass": "Today's Class",
-            "start": "Start Class"
+            "start": "Start Class",
+            "weeks": {
+                "week1": "Week 1 - Algebraic Foundations",
+                "week2": "Week 2 - Functions and Graphs",
+                "week3": "Week 3 - Geometry Basics",
+                "week4": "Week 4 - Advanced Geometry",
+                "week5": "Week 5 - Trigonometry",
+                "week6": "Week 6 - Statistics & Probability",
+                "week7": "Week 7 - Calculus Introduction",
+                "week8": "Week 8 - Advanced Calculus",
+                "week9": "Week 9 - Number Theory",
+                "week10": "Week 10 - Mathematical Logic",
+                "week11": "Week 11 - Review & Applications",
+                "week12": "Week 12 - Final Projects"
+            },
+            "subjects": {
+                "Math": "Math",
+                "Science": "Science",
+                "SocialStudies": "Social Studies",
+                "Spanish": "Spanish"
+            },
+            "topics": {
+                "Algebra": "Algebra",
+                "Geometry": "Geometry",
+                "Calculus": "Calculus",
+                "Statistics": "Statistics",
+                "Trigonometry": "Trigonometry",
+                "Probability": "Probability",
+                "LinearEq": "Linear Equations",
+                "Functions": "Functions",
+                "Biology": "Biology",
+                "Chemistry": "Chemistry",
+                "Physics": "Physics",
+                "EarthSci": "Earth Science",
+                "Astronomy": "Astronomy",
+                "EnvSci": "Environmental Science",
+                "History": "History",
+                "Geography": "Geography",
+                "Civics": "Civics",
+                "Economics": "Economics",
+                "Culture": "Culture",
+                "Govt": "Government",
+                "Vocab": "Vocabulary",
+                "Grammar": "Grammar",
+                "Reading": "Reading",
+                "Writing": "Writing",
+                "Speaking": "Speaking",
+                "Listening": "Listening"
+            },
+            "insights": {
+                "enforce": {
+                    "Math": "Focus on improving student performance in mathematics. Use targeted exercises and additional practice materials to reinforce understanding and build confidence in challenging areas like calculus and probability.",
+                    "Science": "Enhance science comprehension through hands-on experiments and real-world applications. Students need more practice with physics concepts and chemical reactions.",
+                    "SocialStudies": "Improve historical analysis and geographical understanding. Incorporate more primary source analysis and map reading activities to build critical thinking skills.",
+                    "Spanish": "Strengthen language acquisition through immersive activities. Focus on conversational practice and grammar reinforcement to improve overall fluency."
+                },
+                "recommendation": {
+                    "Math": "Focus on practicing quadratic equations with real-world examples. Consider using visual aids to help students understand the graphical representation of equations.",
+                    "Science": "Incorporate hands-on experiments to help students visualize scientific concepts. Use real-world examples to make the material more engaging and relatable.",
+                    "SocialStudies": "Use interactive timelines and maps to help students understand historical context. Encourage discussions about current events to make connections with past events.",
+                    "Spanish": "Practice conversational Spanish through role-playing activities. Incorporate multimedia resources like videos and songs to improve listening comprehension."
+                }
+            }
+        },
+        "createTask": {
+            "title": "Create New Task",
+            "assignTo": "Assign To",
+            "classes": "Classes",
+            "students": "Students",
+            "selectClasses": "Select Classes",
+            "selectStudents": "Select Students",
+            "chooseClasses": "Choose Classes...",
+            "chooseStudents": "Choose Students...",
+            "taskType": "Task Type",
+            "quiz": "Quiz",
+            "quizDesc": "Generate a quiz with AI",
+            "requirement": "Requirement",
+            "requirementDesc": "Manual task or note",
+            "quizDetails": "Quiz Details",
+            "subject": "Subject",
+            "topic": "Topic",
+            "topicPlaceholder": "E.g., Algebra, Renaissance Art",
+            "questionCount": "Number of Questions",
+            "customPrompt": "Custom Prompt Instructions (Optional)",
+            "customPromptPlaceholder": "Add specific instructions for the AI generation...",
+            "requirementDetails": "Requirement Details",
+            "description": "Task Description / Note",
+            "descriptionPlaceholder": "Describe the task requirements...",
+            "createBtn": "Create Task",
+            "alerts": {
+                "selectRecipient": "Please select at least one recipient.",
+                "fillSubjectTopic": "Please fill in Subject and Topic for the quiz.",
+                "addNote": "Please add a note for the requirement.",
+                "success": "Task created successfully!"
+            }
+        },
+        "classCreation": {
+            "title": "Create a Section",
+            "pageTitle": "Create New Section",
+            "pageSubtitle": "Create it once, use it for a year",
+            "gradeLevel": "Grade Level",
+            "selectGrade": "Select grade level",
+            "sectionNumber": "Section Number",
+            "selectSection": "Select section number",
+            "createBtn": "Create Class",
+            "creatingBtn": "Creating Class...",
+            "aboutTitle": "About Section Creation",
+            "aboutList": {
+                "step1": "1. Enter the grade and section number and automatically create a new section",
+                "step2": "2. Once created you will get a QR Code, let the students scan it to join the section",
+                "step3": "3. Done! now your students will be assigned to this section for the remainder of the year"
+            },
+            "alerts": {
+                "selectGrade": "Please select a grade level",
+                "selectSection": "Please select a section number",
+                "loginRequired": "You must be logged in to create a section.",
+                "exists": "A class with that grade and section already exists.",
+                "failed": "Failed to create section",
+                "serverError": "Unable to reach server",
+                "noLink": "No link available to share yet.",
+                "linkCopied": "Link copied to clipboard",
+                "codeCopied": "Class code copied to clipboard!",
+                "shareFailed": "Share failed"
+            },
+            "modal": {
+                "title": "Class Created",
+                "successMsg": "Your class Grade {{grade}} - Section {{section}} has been created.",
+                "classCode": "Class Code",
+                "scanQr": "Scan QR to Join",
+                "share": "Share",
+                "copyLink": "Copy Link",
+                "done": "Done",
+                "copy": "Copy"
+            }
+        },
+        "studentScores": {
+            "title": "Student Scores",
+            "grade": "Grade",
+            "section": "Section",
+            "selectGrade": "Select Grade",
+            "selectSection": "Select Section",
+            "averageScore": "Average Class Score"
+        },
+        "profile": {
+            "title": "Profile",
+            "role": "Senior Mathematics Professor",
+            "editProfile": "Edit Profile",
+            "appearance": "Appearance",
+            "theme": "Theme",
+            "notifications": "Notifications",
+            "classAlerts": "Class Alerts",
+            "dnd": "Do Not Disturb",
+            "support": "Support",
+            "helpCenter": "Help Center",
+            "logout": "Log Out"
         }
     },
     "mainStudent": {
@@ -120,6 +274,13 @@
             "Writing": "Writing",
             "Speaking": "Speaking",
             "Listening": "Listening"
+        },
+        "aiAssistant": {
+            "title": "ArenAI Assistant",
+            "welcome": "Hello, Professor! I am your AI assistant. How can I help with your class today?",
+            "placeholder": "Ask about lesson plans, ideas, or grading...",
+            "error": "⚠️ An error occurred. Please try again.",
+            "serverError": "Sorry, I couldn't process your request."
         }
     },
     "settings": {
@@ -139,9 +300,6 @@
         "outlineButton": "Outline Button",
         "listItem": "List Item",
         "listDesc": "With secondary text"
-    },
-    "chat": {
-        "title": "ArenAI Chat"
     },
     "quiz": {
         "title": "Quiz",

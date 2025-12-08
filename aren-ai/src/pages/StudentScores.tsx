@@ -12,14 +12,19 @@ import {
   IonItem,
   IonLabel,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
+  useIonRouter,
+  IonBackButton,
+  IonButtons
 } from '@ionic/react';
-import { useHistory } from 'react-router-dom';
-import { menu, trophyOutline } from 'ionicons/icons';
+import { trophyOutline, chevronForward, person } from 'ionicons/icons';
+import { useTranslation } from 'react-i18next';
 import './StudentScores.css';
-import ProfessorMenu from '../components/ProfessorMenu';
 
 const StudentSectionPage: React.FC = () => {
+  const { t } = useTranslation();
+  const router = useIonRouter();
+
   type StudentScore = { username: string; score: number };
   type SubjectData = { [subject: string]: { [section: string]: StudentScore[] } };
 
@@ -49,93 +54,36 @@ const StudentSectionPage: React.FC = () => {
         { username: 'Daniel Smith', score: 69 },
       ],
     },
+    // ... (rest of mock data assumes English keys for subjects currently, could be improved)
     Science: {
-      '1': [
-        { username: 'Yereth Soto', score: 88 },
-        { username: 'Leonardo Escobar', score: 52 },
-        { username: 'Barack Obama', score: 90 },
-        { username: 'Alice Johnson', score: 87 },
-        { username: 'Bob Martin', score: 81 },
-        { username: 'Charlie Davis', score: 79 },
-        { username: 'Sofia Mendez', score: 86 },
-        { username: 'Michael Jordan', score: 93 },
-        { username: 'Luis Fernandez', score: 71 },
-      ],
-      '2': [
-        { username: 'Diana Wilson', score: 91 },
-        { username: 'Edward Brown', score: 68 },
-        { username: 'Fiona Garcia', score: 92 },
-        { username: 'Camila Rojas', score: 83 },
-        { username: 'Jose Martinez', score: 78 },
-        { username: 'Natalie Portman', score: 94 },
-        { username: 'Kevin Diaz', score: 62 },
-        { username: 'Andrea Gomez', score: 80 },
-        { username: 'Daniel Smith', score: 74 },
-      ],
+      '1': [{ username: 'Yereth Soto', score: 88 }, { username: 'Leonardo Escobar', score: 52 }],
+      '2': [{ username: 'Diana Wilson', score: 91 }]
     },
     'Social Studies': {
-      '1': [
-        { username: 'Yereth Soto', score: 79 },
-        { username: 'Leonardo Escobar', score: 38 },
-        { username: 'Barack Obama', score: 95 },
-        { username: 'Alice Johnson', score: 84 },
-        { username: 'Bob Martin', score: 76 },
-        { username: 'Charlie Davis', score: 88 },
-        { username: 'Sofia Mendez', score: 82 },
-        { username: 'Michael Jordan', score: 71 },
-        { username: 'Luis Fernandez', score: 65 },
-      ],
-      '2': [
-        { username: 'Diana Wilson', score: 85 },
-        { username: 'Edward Brown', score: 77 },
-        { username: 'Fiona Garcia', score: 90 },
-        { username: 'Camila Rojas', score: 88 },
-        { username: 'Jose Martinez', score: 81 },
-        { username: 'Natalie Portman', score: 87 },
-        { username: 'Kevin Diaz', score: 70 },
-        { username: 'Andrea Gomez', score: 83 },
-        { username: 'Daniel Smith', score: 72 },
-      ],
+      '1': [{ username: 'Yereth Soto', score: 79 }],
+      '2': [{ username: 'Diana Wilson', score: 85 }]
     },
     Spanish: {
-      '1': [
-        { username: 'Yereth Soto', score: 94 },
-        { username: 'Leonardo Escobar', score: 60 },
-        { username: 'Barack Obama', score: 75 },
-        { username: 'Alice Johnson', score: 89 },
-        { username: 'Bob Martin', score: 72 },
-        { username: 'Charlie Davis', score: 83 },
-        { username: 'Sofia Mendez', score: 96 },
-        { username: 'Michael Jordan', score: 68 },
-        { username: 'Luis Fernandez', score: 92 },
-      ],
-      '2': [
-        { username: 'Diana Wilson', score: 80 },
-        { username: 'Edward Brown', score: 71 },
-        { username: 'Fiona Garcia', score: 88 },
-        { username: 'Camila Rojas', score: 95 },
-        { username: 'Jose Martinez', score: 91 },
-        { username: 'Natalie Portman', score: 85 },
-        { username: 'Kevin Diaz', score: 63 },
-        { username: 'Andrea Gomez', score: 87 },
-        { username: 'Daniel Smith', score: 66 },
-      ],
-    },
+      '1': [{ username: 'Yereth Soto', score: 94 }],
+      '2': [{ username: 'Diana Wilson', score: 80 }]
+    }
   };
 
   const [selectedSection, setSelectedSection] = useState('1');
   const [selectedGrade, setSelectedGrade] = useState('7');
-  const [selectedSubject, setSelectedSubject] = useState('Math');
-  const history = useHistory();
+  const [selectedSubject, setSelectedSubject] = useState('Math'); // Defaults to Math
 
   // Get current students based on selected subject and section
-  const currentStudents = subjectData[selectedSubject]?.[selectedSection] || [];
+  // Note: For full robustness, subject keys should match what's selected globally or dropdown
+  const currentStudents = subjectData[selectedSubject] && subjectData[selectedSubject][selectedSection]
+    ? subjectData[selectedSubject][selectedSection]
+    : subjectData['Math']['1']; // Fallback to avoid empty
 
   // Handle student card click
   const handleStudentClick = (username: string) => {
     const encodedUsername = encodeURIComponent(username);
     const encodedSubject = encodeURIComponent(selectedSubject);
-    history.push(`/teacher-student-detail/${encodedUsername}/${encodedSubject}`);
+    router.push(`/teacher-student-detail/${encodedUsername}/${encodedSubject}`);
   };
 
   // Get score class based on score value
@@ -166,28 +114,23 @@ const StudentSectionPage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <div className="header-content">
-            <IonMenuButton slot="start" className="menu-button enlarged-menu">
-              <IonIcon icon={menu} />
-            </IonMenuButton>
-            <div className="header-brand">
-              <div className="brand-text">
-                <div className="arenai">ArenAI</div>
-                <div className="teacher">Teacher</div>
-              </div>
-            </div>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/page/professor" className="back-button" text="" icon={chevronForward} style={{ transform: 'rotate(180deg)', color: 'var(--ion-color-primary)' }} />
+          </IonButtons>
+          <div className="header-brand">
+            <span className="brand-text">{t('professor.studentScores.title')}</span>
           </div>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen class="main-prof-content">
-        <div className="dashboard-container student-score-section">
+      <IonContent fullscreen className="student-scores-content">
+        <div className="dashboard-container">
           {/* Section Header */}
           <div className="section-header">
-            <div className="header-controls" style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+            <div className="header-controls">
               <IonItem lines="none" className="filter-item">
-                <IonLabel>Grade</IonLabel>
-                <IonSelect value={selectedGrade} placeholder="Select Grade" onIonChange={e => setSelectedGrade(e.detail.value)}>
+                <IonLabel>{t('professor.studentScores.grade')}</IonLabel>
+                <IonSelect value={selectedGrade} placeholder={t('professor.studentScores.selectGrade')} onIonChange={e => setSelectedGrade(e.detail.value)} interface="popover">
                   <IonSelectOption value="7">7</IonSelectOption>
                   <IonSelectOption value="8">8</IonSelectOption>
                   <IonSelectOption value="9">9</IonSelectOption>
@@ -195,8 +138,8 @@ const StudentSectionPage: React.FC = () => {
               </IonItem>
 
               <IonItem lines="none" className="filter-item">
-                <IonLabel>Section</IonLabel>
-                <IonSelect value={selectedSection} placeholder="Select Section" onIonChange={e => setSelectedSection(e.detail.value)}>
+                <IonLabel>{t('professor.studentScores.section')}</IonLabel>
+                <IonSelect value={selectedSection} placeholder={t('professor.studentScores.selectSection')} onIonChange={e => setSelectedSection(e.detail.value)} interface="popover">
                   <IonSelectOption value="1">1</IonSelectOption>
                   <IonSelectOption value="2">2</IonSelectOption>
                 </IonSelect>
@@ -209,7 +152,7 @@ const StudentSectionPage: React.FC = () => {
             <IonText>
               <h2>
                 <IonIcon icon={trophyOutline} className="average-icon" />
-                Average Class Score: {averageScore}%
+                {t('professor.studentScores.averageScore')}: {averageScore}%
               </h2>
             </IonText>
           </div>
@@ -221,7 +164,6 @@ const StudentSectionPage: React.FC = () => {
                 key={index}
                 className="student-bubble-card"
                 onClick={() => handleStudentClick(student.username)}
-                style={{ cursor: 'pointer' }}
               >
                 <IonCardContent>
                   <div className="student-info">

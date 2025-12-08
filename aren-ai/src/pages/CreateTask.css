@@ -8,17 +8,20 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+    padding-bottom: 50px;
 }
 
 /* Headers */
 ion-toolbar {
-    --background: var(--ion-color-primary);
-    --color: white;
+    --background: var(--ion-background-color);
+    --color: var(--ion-color-primary);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 ion-title {
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.5px;
+    color: var(--ion-text-color);
 }
 
 .section-title {
@@ -28,21 +31,21 @@ ion-title {
     font-size: 1.2rem;
     color: var(--ion-color-primary);
     margin-bottom: 15px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .subsection-title {
     font-size: 1.1rem;
     color: var(--ion-text-color-step-150);
     margin-bottom: 15px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 /* Sections */
 .form-section {
-    background: white;
-    border-radius: 16px;
-    padding: 20px;
+    background: var(--ion-card-background);
+    border-radius: 20px;
+    padding: 24px;
     margin-bottom: 25px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -50,38 +53,38 @@ ion-title {
 
 /* Segment/Toggle */
 .recipient-toggle ion-segment {
-    background: rgba(144, 190, 171, 0.2);
-    /* Secondary color with opacity */
-    border-radius: 12px;
-    padding: 4px;
-    margin-bottom: 20px;
-    /* Added spacing */
+    background: rgba(144, 190, 171, 0.15);
+    /* Soft secondary */
+    border-radius: 14px;
+    padding: 6px;
+    margin-bottom: 24px;
 }
 
 .recipient-toggle ion-segment-button {
     --indicator-color: var(--ion-color-secondary);
-    --color: var(--ion-text-color-step-400);
+    --color: var(--ion-text-color);
     --color-checked: white;
-    --border-radius: 8px;
-    font-weight: 500;
+    --border-radius: 10px;
+    font-weight: 600;
 }
 
 /* Inputs */
 .custom-select-item,
 .custom-input-item {
-    --background: #f8f9fa;
-    --border-radius: 12px;
+    --background: var(--ion-item-background, rgba(0, 0, 0, 0.03));
+    --border-radius: 14px;
     --padding-start: 16px;
     margin-bottom: 15px;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
 }
 
 .custom-select-item ion-label,
 .custom-input-item ion-label {
     color: var(--ion-color-primary);
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 8px;
+    font-size: 0.9rem;
 }
 
 /* Chips */
@@ -89,13 +92,14 @@ ion-title {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .selected-chips ion-chip {
     background: var(--ion-color-secondary);
     color: white;
-    font-weight: 500;
+    font-weight: 600;
+    border-radius: 12px;
 }
 
 /* Task Type Cards */
@@ -106,29 +110,31 @@ ion-title {
 }
 
 .type-card {
-    background: #f8f9fa;
+    background: var(--ion-item-background, rgba(0, 0, 0, 0.02));
     border: 2px solid transparent;
-    border-radius: 16px;
-    padding: 20px;
+    border-radius: 18px;
+    padding: 24px;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .type-card:hover {
-    background: #f0f0f0;
+    background: var(--ion-item-background, rgba(0, 0, 0, 0.05));
+    transform: translateY(-2px);
 }
 
 .type-card.selected {
-    background: white;
+    background: var(--ion-card-background);
     border-color: var(--ion-color-tertiary);
-    box-shadow: 0 4px 12px rgba(60, 119, 130, 0.2);
+    box-shadow: 0 8px 20px rgba(60, 119, 130, 0.15);
 }
 
 .card-icon {
-    font-size: 32px;
-    color: var(--ion-text-color-step-400);
-    margin-bottom: 10px;
+    font-size: 36px;
+    color: var(--ion-text-color-step-500, #999);
+    margin-bottom: 12px;
+    transition: color 0.3s;
 }
 
 .type-card.selected .card-icon {
@@ -136,9 +142,9 @@ ion-title {
 }
 
 .type-card h3 {
-    margin: 0 0 5px 0;
-    font-size: 1.1rem;
-    font-weight: 600;
+    margin: 0 0 6px 0;
+    font-size: 1.15rem;
+    font-weight: 700;
     color: var(--ion-text-color);
 }
 
@@ -146,28 +152,34 @@ ion-title {
     margin: 0;
     font-size: 0.9rem;
     color: var(--ion-text-color-step-400);
+    line-height: 1.4;
 }
 
 /* Range */
 .range-container {
-    padding: 10px 0;
-    margin-bottom: 15px;
+    padding: 15px 0;
+    margin-bottom: 20px;
+}
+
+.range-container ion-label {
+    font-weight: 600;
+    color: var(--ion-text-color);
+    margin-bottom: 10px;
+    display: block;
 }
 
 /* Button */
 .create-button {
     --background: var(--ion-color-primary);
     --background-hover: var(--ion-color-primary-tint);
-    --border-radius: 12px;
-    height: 50px;
-    font-weight: 600;
-    font-size: 1.1rem;
-    margin-top: 20px;
-    box-shadow: 0 4px 16px rgba(143, 106, 86, 0.3);
+    --border-radius: 14px;
+    height: 54px;
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-top: 30px;
+    box-shadow: 0 8px 24px rgba(143, 106, 86, 0.25);
     --color: white;
-    /* Ensure text is white */
     color: white;
-    /* Fallback for some Android versions */
 }
 
 /* Animations */
@@ -187,9 +199,173 @@ ion-title {
     }
 }
 
+/* Expandable Topics */
+.topics-expandable-container {
+    background: var(--ion-item-background, white);
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.topics-header {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: rgba(var(--ion-color-secondary-rgb), 0.05);
+}
+
+.topics-header:hover {
+    background: rgba(var(--ion-color-secondary-rgb), 0.1);
+}
+
+.topics-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+}
+
+.topic-icon {
+    color: var(--ion-color-secondary);
+    font-size: 1.2rem;
+}
+
+.topics-list {
+    background: var(--ion-item-background, white);
+    padding: 10px;
+    max-height: 400px;
+    /* Increased height for huge list */
+    overflow-y: auto;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.topics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.add-topic-container {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+.add-topic-btn {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: rgba(var(--ion-color-secondary-rgb), 0.04);
+    border: 1px dashed rgba(var(--ion-color-secondary-rgb), 0.3);
+    transition: all 0.2s;
+}
+
+.add-topic-btn:hover {
+    background: rgba(var(--ion-color-secondary-rgb), 0.08);
+}
+
+.add-circle {
+    border-color: var(--ion-color-secondary);
+    color: var(--ion-color-secondary);
+}
+
+.add-topic-input-wrapper {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid var(--ion-color-secondary);
+    border-radius: 10px;
+    padding: 0 10px;
+}
+
+.new-topic-input {
+    --padding-start: 8px;
+    font-size: 0.95rem;
+}
+
+.topic-checkbox-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+    background: rgba(0, 0, 0, 0.02);
+    /* Slight bg for cards */
+}
+
+.topic-checkbox-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.topic-checkbox-item.selected {
+    background: var(--ion-color-secondary);
+    color: white;
+}
+
+.checkbox-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--ion-color-medium);
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    background: white;
+    flex-shrink: 0;
+}
+
+.topic-checkbox-item.selected .checkbox-circle {
+    border-color: white;
+    background: white;
+}
+
+.inner-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--ion-color-secondary);
+    border-radius: 50%;
+}
+
+.topic-checkbox-item.selected .topic-name {
+    color: white;
+}
+
+.topic-name {
+    font-weight: 500;
+    color: var(--ion-text-color);
+    font-size: 0.9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fade-in-fast {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Utilities */
+.no-padding-start {
+    padding-left: 0 !important;
+}
+
 /* Responsive */
 @media (max-width: 576px) {
     .task-type-cards {
         grid-template-columns: 1fr;
+    }
+
+    .topics-grid {
+        grid-template-columns: 1fr;
+        /* Single column on mobile */
     }
 }

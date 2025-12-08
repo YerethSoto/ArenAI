@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
     IonContent,
     IonHeader,
@@ -12,9 +12,9 @@ import {
     IonToggle,
     IonSelect,
     IonSelectOption,
-    useIonRouter,
     IonBackButton,
-    IonButtons
+    IonButtons,
+    useIonRouter
 } from '@ionic/react';
 import {
     person,
@@ -27,11 +27,13 @@ import {
     colorPaletteOutline
 } from 'ionicons/icons';
 import { useTheme } from '../context/ThemeContext';
+import { useTranslation } from 'react-i18next';
 import './ProfessorProfile.css';
 
 const ProfessorProfile: React.FC = () => {
-    const router = useIonRouter();
     const { theme, setTheme, availableThemes } = useTheme();
+    const { t } = useTranslation();
+    const router = useIonRouter();
 
     const handleLogout = () => {
         // Clear local storage and redirect
@@ -48,16 +50,13 @@ const ProfessorProfile: React.FC = () => {
                     <IonButtons slot="start">
                         <IonBackButton defaultHref="/page/professor" className="back-button" text="" icon={chevronForward} style={{ transform: 'rotate(180deg)' }} />
                     </IonButtons>
-                    {/* Reuse new header style implicitly or standard toolbar text */}
-                    <div className="header-brand" style={{ right: 'auto', left: '50%', transform: 'translateX(-50%)', bottom: 'auto', top: '15px' }}>
-                        <div className="brand-text" style={{ alignItems: 'center' }}>
-                            <div className="arenai" style={{ color: 'var(--ion-color-primary)' }}>Profile</div>
-                        </div>
+                    <div className="header-brand">
+                        <span className="brand-text">{t('professor.profile.title')}</span>
                     </div>
                 </IonToolbar>
             </IonHeader>
 
-            <IonContent fullscreen class="prof-profile-content">
+            <IonContent fullscreen className="prof-profile-content">
                 <div className="profile-container">
 
                     {/* Profile Card */}
@@ -66,31 +65,31 @@ const ProfessorProfile: React.FC = () => {
                             <IonIcon icon={person} />
                         </div>
                         <h2 className="profile-name">Yereth Soto</h2>
-                        <p className="profile-title">Senior Mathematics Professor</p>
+                        <p className="profile-title">{t('professor.profile.role')}</p>
                         <p className="profile-email">yereth.soto@arenai.edu</p>
 
                         <IonButton fill="outline" className="edit-profile-btn">
                             <IonIcon slot="start" icon={createOutline} />
-                            Edit Profile
+                            {t('professor.profile.editProfile')}
                         </IonButton>
                     </div>
 
                     {/* Settings Group 1: Appearance */}
-                    <div>
-                        <h3 className="settings-section-title">Appearance</h3>
+                    <div className="settings-section">
+                        <h3 className="settings-section-title">{t('professor.profile.appearance')}</h3>
                         <IonList className="settings-list">
                             <IonItem className="settings-item" lines="full">
                                 <IonIcon icon={colorPaletteOutline} slot="start" />
-                                <IonLabel>Theme</IonLabel>
+                                <IonLabel>{t('professor.profile.theme')}</IonLabel>
                                 <IonSelect
                                     value={theme}
                                     interface="popover"
                                     onIonChange={e => setTheme(e.detail.value)}
-                                    style={{ maxWidth: '150px' }}
+                                    className="theme-select"
                                 >
-                                    {availableThemes.map(t => (
-                                        <IonSelectOption key={t} value={t}>
-                                            {t === 'original-alter' ? 'Original (ALTER)' : t.charAt(0).toUpperCase() + t.slice(1)}
+                                    {availableThemes.map(th => (
+                                        <IonSelectOption key={th} value={th}>
+                                            {th === 'original-alter' ? 'Original (ALTER)' : th.charAt(0).toUpperCase() + th.slice(1)}
                                         </IonSelectOption>
                                     ))}
                                 </IonSelect>
@@ -99,29 +98,29 @@ const ProfessorProfile: React.FC = () => {
                     </div>
 
                     {/* Settings Group 2: Notifications */}
-                    <div>
-                        <h3 className="settings-section-title">Notifications</h3>
+                    <div className="settings-section">
+                        <h3 className="settings-section-title">{t('professor.profile.notifications')}</h3>
                         <IonList className="settings-list">
                             <IonItem className="settings-item" lines="full">
                                 <IonIcon icon={notificationsOutline} slot="start" />
-                                <IonLabel>Class Alerts</IonLabel>
+                                <IonLabel>{t('professor.profile.classAlerts')}</IonLabel>
                                 <IonToggle slot="end" checked={true} color="primary" />
                             </IonItem>
                             <IonItem className="settings-item" lines="none">
                                 <IonIcon icon={moonOutline} slot="start" />
-                                <IonLabel>Do Not Disturb</IonLabel>
+                                <IonLabel>{t('professor.profile.dnd')}</IonLabel>
                                 <IonToggle slot="end" checked={false} color="primary" />
                             </IonItem>
                         </IonList>
                     </div>
 
                     {/* Settings Group 3: Support */}
-                    <div>
-                        <h3 className="settings-section-title">Support</h3>
+                    <div className="settings-section">
+                        <h3 className="settings-section-title">{t('professor.profile.support')}</h3>
                         <IonList className="settings-list">
                             <IonItem className="settings-item" button detail={true} lines="none">
                                 <IonIcon icon={helpCircleOutline} slot="start" />
-                                <IonLabel>Help Center</IonLabel>
+                                <IonLabel>{t('professor.profile.helpCenter')}</IonLabel>
                             </IonItem>
                         </IonList>
                     </div>
@@ -129,7 +128,7 @@ const ProfessorProfile: React.FC = () => {
                     {/* Logout */}
                     <IonButton expand="block" fill="outline" className="logout-btn" onClick={handleLogout}>
                         <IonIcon slot="start" icon={logOutOutline} />
-                        Log Out
+                        {t('professor.profile.logout')}
                     </IonButton>
 
                 </div>

@@ -1,138 +1,177 @@
 /* ProfessorProfile.css */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
 
 .prof-profile-content {
-    --background: #fdfdf9;
-    /* Clean Minimalist Off-White */
+    --background: var(--ion-background-color);
 }
 
 .profile-container {
     max-width: 600px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 30px;
 }
+
+/* Header styling */
+ion-header {
+    --background: var(--ion-background-color);
+    box-shadow: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+ion-toolbar {
+    --background: var(--ion-background-color);
+    --border-width: 0;
+}
+
+.header-brand {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    pointer-events: none;
+}
+
+.brand-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ion-text-color);
+    pointer-events: auto;
+}
+
+.back-button {
+    --color: var(--ion-color-primary);
+}
+
 
 /* Header Card */
 .profile-card {
-    background: white;
-    border-radius: 12px;
-    padding: 30px;
+    background: var(--ion-card-background);
+    border-radius: 24px;
+    padding: 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(143, 106, 86, 0.1);
-    position: relative;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    /* Modern soft shadow */
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .profile-avatar-large {
-    width: 100px;
-    height: 100px;
-    background: rgba(143, 106, 86, 0.1);
+    width: 110px;
+    height: 110px;
+    background: var(--ion-item-background, rgba(0, 0, 0, 0.03));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     color: var(--ion-color-primary);
-    font-size: 3rem;
-    border: 2px solid rgba(143, 106, 86, 0.2);
+    font-size: 3.5rem;
+    border: 4px solid var(--ion-background-color);
+    /* Cutout effect */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .profile-name {
     font-size: 1.5rem;
-    font-weight: 700;
-    color: #2c3e50;
-    margin: 0 0 5px 0;
+    font-weight: 800;
+    color: var(--ion-text-color);
+    margin: 0 0 6px 0;
 }
 
 .profile-title {
     font-size: 1rem;
     color: var(--ion-color-primary);
-    margin: 0 0 5px 0;
+    margin: 0 0 4px 0;
     font-weight: 600;
-    opacity: 0.9;
 }
 
 .profile-email {
     font-size: 0.9rem;
-    color: #7f8c8d;
-    margin: 0 0 20px 0;
+    color: var(--ion-text-color-step-400);
+    margin: 0 0 24px 0;
 }
 
 .edit-profile-btn {
     --color: var(--ion-color-primary);
-    --border-color: rgba(143, 106, 86, 0.3);
+    --border-color: var(--ion-color-primary);
+    --border-width: 1.5px;
     --border-radius: 20px;
-    height: 32px;
-    font-size: 0.85rem;
+    height: 36px;
+    font-size: 0.9rem;
     text-transform: none;
-    font-weight: 600;
-    --background-hover: rgba(143, 106, 86, 0.05);
+    font-weight: 700;
+    --background-hover: rgba(var(--ion-color-primary-rgb), 0.05);
 }
 
-/* Settings Section */
+/* Settings Sections */
+.settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .settings-section-title {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 700;
-    color: #95a5a6;
+    color: var(--ion-text-color-step-400);
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 12px;
-    padding-left: 8px;
+    margin: 0 0 0 12px;
 }
 
 .settings-list {
-    background: white;
-    border-radius: 12px;
+    background: var(--ion-card-background);
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-    border: 1px solid rgba(143, 106, 86, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.05);
     padding: 0;
 }
 
 .settings-item {
-    --background: white;
-    --color: #2c3e50;
+    --background: var(--ion-card-background);
+    --color: var(--ion-text-color);
     --border-color: rgba(0, 0, 0, 0.05);
     font-size: 1rem;
     font-weight: 500;
-    cursor: pointer;
+    --padding-start: 16px;
 }
 
 .settings-item ion-icon {
     margin-right: 16px;
-    color: #8f6a56;
-    /* Brown Icon */
-    opacity: 0.8;
+    color: var(--ion-color-primary);
+    background: rgba(var(--ion-color-primary-rgb), 0.1);
+    padding: 6px;
+    border-radius: 8px;
+    font-size: 20px;
 }
 
 .settings-item:hover {
-    --background: #fafafa;
+    --background: var(--ion-item-background, rgba(0, 0, 0, 0.02));
+}
+
+.theme-select {
+    padding-right: 16px;
+    color: var(--ion-text-color-step-300);
 }
 
 /* Logout Button */
 .logout-btn {
-    margin-top: 20px;
-    --background: white;
-    --color: #e74c3c;
-    --border-color: rgba(231, 76, 60, 0.2);
+    margin-top: 10px;
+    --background: transparent;
+    --color: var(--ion-color-danger);
+    --border-color: rgba(var(--ion-color-danger-rgb), 0.3);
     --border-width: 1px;
-    --border-style: solid;
-    --border-radius: 12px;
-    --box-shadow: 0 2px 8px rgba(231, 76, 60, 0.1);
-    font-weight: 600;
-    height: 50px;
+    --border-radius: 16px;
+    --box-shadow: none;
+    font-weight: 700;
+    height: 52px;
 }
 
 .logout-btn:hover {
-    --background: #fff5f5;
-}
-
-/* Back Button in Toolbar */
-.back-button {
-    --color: var(--ion-color-primary);
+    --background: rgba(var(--ion-color-danger-rgb), 0.05);
 }

@@ -36,6 +36,7 @@ import Clan from "./pages/Clan";
 import Help from "./pages/Help";
 import ProfessorAdmin from "./pages/ProfessorAdmin";
 import ProfessorProfile from "./pages/ProfessorProfile";
+import ProfessorChat from "./pages/ProfessorChat";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AvatarProvider } from "./context/AvatarContext";
 
@@ -328,6 +329,14 @@ const App: React.FC = () => {
                 <Route path="/professor-profile" exact={true}>
                   {userRole === "professor" ? (
                     <ProfessorProfile />
+                  ) : (
+                    <Redirect to="/login" />
+                  )}
+                </Route>
+
+                <Route path="/professor-chat" exact={true}>
+                  {userRole === "professor" ? (
+                    <ProfessorChat />
                   ) : (
                     <Redirect to="/login" />
                   )}

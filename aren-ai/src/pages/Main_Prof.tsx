@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   IonContent,
   IonHeader,
   IonPage,
   IonToolbar,
   IonButton,
-  IonText,
   IonIcon,
   IonMenuButton,
   useIonRouter,
@@ -15,101 +14,28 @@ import {
   chevronForward,
   menu,
   calculator,
-  bulb,
   flask,
   globe,
   language,
   trendingUp,
   alertCircle,
-  school,
+  bulb,
   homeOutline,
   peopleOutline,
   add,
   chatbubblesOutline,
   personOutline
 } from 'ionicons/icons';
-import './Main_Prof.css';
+import './Main_Prof.css'; // Ensure this CSS is updated next
 import ProfessorMenu from '../components/ProfessorMenu';
 import { useTranslation } from 'react-i18next';
 
-// Week data
-const WEEKS_DATA = [
-  { number: 1, name: "Week 1 - Algebraic Foundations" },
-  { number: 2, name: "Week 2 - Functions and Graphs" },
-  { number: 3, name: "Week 3 - Geometry Basics" },
-  { number: 4, name: "Week 4 - Advanced Geometry" },
-  { number: 5, name: "Week 5 - Trigonometry" },
-  { number: 6, name: "Week 6 - Statistics & Probability" },
-  { number: 7, name: "Week 7 - Calculus Introduction" },
-  { number: 8, name: "Week 8 - Advanced Calculus" },
-  { number: 9, name: "Week 9 - Number Theory" },
-  { number: 10, name: "Week 10 - Mathematical Logic" },
-  { number: 11, name: "Week 11 - Review & Applications" },
-  { number: 12, name: "Week 12 - Final Projects" }
-];
-
-const SUBJECT_TOPICS = {
-  'Math': [
-    { name: 'Algebra', percentage: 85 },
-    { name: 'Geometry', percentage: 65 },
-    { name: 'Calculus', percentage: 45 },
-    { name: 'Statistics', percentage: 78 },
-    { name: 'Trigonometry', percentage: 92 },
-    { name: 'Probability', percentage: 60 },
-    { name: 'Linear Equations', percentage: 72 },
-    { name: 'Functions', percentage: 68 }
-  ],
-  'Science': [
-    { name: 'Biology', percentage: 75 },
-    { name: 'Chemistry', percentage: 62 },
-    { name: 'Physics', percentage: 58 },
-    { name: 'Earth Science', percentage: 81 },
-    { name: 'Astronomy', percentage: 67 },
-    { name: 'Environmental Science', percentage: 73 }
-  ],
-  'Social Studies': [
-    { name: 'History', percentage: 70 },
-    { name: 'Geography', percentage: 65 },
-    { name: 'Civics', percentage: 78 },
-    { name: 'Economics', percentage: 55 },
-    { name: 'Culture', percentage: 82 },
-    { name: 'Government', percentage: 68 }
-  ],
-  'Spanish': [
-    { name: 'Vocabulary', percentage: 80 },
-    { name: 'Grammar', percentage: 65 },
-    { name: 'Reading', percentage: 72 },
-    { name: 'Writing', percentage: 58 },
-    { name: 'Speaking', percentage: 75 },
-    { name: 'Listening', percentage: 70 }
-  ]
-};
-
-const ENFORCE_TOPICS_TEXT = {
-  'Math': 'Focus on improving student performance in mathematics. Use targeted exercises and additional practice materials to reinforce understanding and build confidence in challenging areas like calculus and probability.',
-  'Science': 'Enhance science comprehension through hands-on experiments and real-world applications. Students need more practice with physics concepts and chemical reactions.',
-  'Social Studies': 'Improve historical analysis and geographical understanding. Incorporate more primary source analysis and map reading activities to build critical thinking skills.',
-  'Spanish': 'Strengthen language acquisition through immersive activities. Focus on conversational practice and grammar reinforcement to improve overall fluency.'
-};
-
-const CLASS_RECOMMENDATIONS = {
-  'Math': 'Focus on practicing quadratic equations with real-world examples. Consider using visual aids to help students understand the graphical representation of equations.',
-  'Science': 'Incorporate hands-on experiments to help students visualize scientific concepts. Use real-world examples to make the material more engaging and relatable.',
-  'Social Studies': 'Use interactive timelines and maps to help students understand historical context. Encourage discussions about current events to make connections with past events.',
-  'Spanish': 'Practice conversational Spanish through role-playing activities. Incorporate multimedia resources like videos and songs to improve listening comprehension.'
-};
-
-const SUBJECT_ICONS = {
+// Mapping for icons
+const SUBJECT_ICONS: { [key: string]: string } = {
   'Math': calculator,
   'Science': flask,
-  'Social Studies': globe,
+  'SocialStudies': globe,
   'Spanish': language
-};
-
-const calculateOverallPerformance = (topics: Array<{ name: string, percentage: number }>) => {
-  if (!topics || topics.length === 0) return 75;
-  const sum = topics.reduce((total, topic) => total + topic.percentage, 0);
-  return Math.round(sum / topics.length);
 };
 
 const getPerformanceClass = (percentage: number) => {
@@ -126,7 +52,6 @@ const getRingChartColor = (percentage: number) => {
   return '#F44336';
 };
 
-
 const Main_Prof: React.FC = () => {
   const router = useIonRouter();
   const { t } = useTranslation();
@@ -137,25 +62,105 @@ const Main_Prof: React.FC = () => {
   const [selectedSubject, setSelectedSubject] = useState('Math');
   const [topics, setTopics] = useState<any[]>([]);
 
-  const currentWeek = WEEKS_DATA[currentWeekIndex];
+  // Construct Weeks Data dynamically from i18n
+  const weeksData = [
+    { number: 1, name: t('professor.dashboard.weeks.week1') },
+    { number: 2, name: t('professor.dashboard.weeks.week2') },
+    { number: 3, name: t('professor.dashboard.weeks.week3') },
+    { number: 4, name: t('professor.dashboard.weeks.week4') },
+    { number: 5, name: t('professor.dashboard.weeks.week5') },
+    { number: 6, name: t('professor.dashboard.weeks.week6') },
+    { number: 7, name: t('professor.dashboard.weeks.week7') },
+    { number: 8, name: t('professor.dashboard.weeks.week8') },
+    { number: 9, name: t('professor.dashboard.weeks.week9') },
+    { number: 10, name: t('professor.dashboard.weeks.week10') },
+    { number: 11, name: t('professor.dashboard.weeks.week11') },
+    { number: 12, name: t('professor.dashboard.weeks.week12') },
+  ];
+
+  // Dummy Data Generators using i18n keys for topics
+  const getSubjectTopics = (subject: string) => {
+    switch (subject) {
+      case 'Math':
+        return [
+          { name: t('professor.dashboard.topics.Algebra'), percentage: 85 },
+          { name: t('professor.dashboard.topics.Geometry'), percentage: 65 },
+          { name: t('professor.dashboard.topics.Calculus'), percentage: 45 },
+          { name: t('professor.dashboard.topics.Statistics'), percentage: 78 },
+          { name: t('professor.dashboard.topics.Trigonometry'), percentage: 92 },
+          { name: t('professor.dashboard.topics.Probability'), percentage: 60 },
+          { name: t('professor.dashboard.topics.LinearEq'), percentage: 72 },
+          { name: t('professor.dashboard.topics.Functions'), percentage: 68 }
+        ];
+      case 'Science':
+        return [
+          { name: t('professor.dashboard.topics.Biology'), percentage: 75 },
+          { name: t('professor.dashboard.topics.Chemistry'), percentage: 62 },
+          { name: t('professor.dashboard.topics.Physics'), percentage: 58 },
+          { name: t('professor.dashboard.topics.EarthSci'), percentage: 81 },
+          { name: t('professor.dashboard.topics.Astronomy'), percentage: 67 },
+          { name: t('professor.dashboard.topics.EnvSci'), percentage: 73 }
+        ];
+      case 'Social Studies': // Matching the key used in state
+        return [
+          { name: t('professor.dashboard.topics.History'), percentage: 70 },
+          { name: t('professor.dashboard.topics.Geography'), percentage: 65 },
+          { name: t('professor.dashboard.topics.Civics'), percentage: 78 },
+          { name: t('professor.dashboard.topics.Economics'), percentage: 55 },
+          { name: t('professor.dashboard.topics.Culture'), percentage: 82 },
+          { name: t('professor.dashboard.topics.Govt'), percentage: 68 }
+        ];
+      case 'Spanish':
+        return [
+          { name: t('professor.dashboard.topics.Vocab'), percentage: 80 },
+          { name: t('professor.dashboard.topics.Grammar'), percentage: 65 },
+          { name: t('professor.dashboard.topics.Reading'), percentage: 72 },
+          { name: t('professor.dashboard.topics.Writing'), percentage: 58 },
+          { name: t('professor.dashboard.topics.Speaking'), percentage: 75 },
+          { name: t('professor.dashboard.topics.Listening'), percentage: 70 }
+        ];
+      default:
+        return [];
+    }
+  };
+
 
   useEffect(() => {
-    const newTopics = SUBJECT_TOPICS[selectedSubject as keyof typeof SUBJECT_TOPICS] || [];
+    const newTopics = getSubjectTopics(selectedSubject);
     setTopics(newTopics);
-    const newPerformance = calculateOverallPerformance(newTopics);
-    setOverallPerformance(newPerformance);
-  }, [selectedSubject]);
 
-  const currentEnforceText = ENFORCE_TOPICS_TEXT[selectedSubject as keyof typeof ENFORCE_TOPICS_TEXT] || '';
-  const currentClassRecommendation = CLASS_RECOMMENDATIONS[selectedSubject as keyof typeof CLASS_RECOMMENDATIONS] || '';
-  const currentSubjectIcon = SUBJECT_ICONS[selectedSubject as keyof typeof SUBJECT_ICONS] || calculator;
+    // Calculate average
+    if (newTopics.length > 0) {
+      const sum = newTopics.reduce((acc, curr) => acc + curr.percentage, 0);
+      setOverallPerformance(Math.round(sum / newTopics.length));
+    } else {
+      setOverallPerformance(0);
+    }
+
+  }, [selectedSubject, t]); // Re-run when subject or language changes
+
+  const currentWeek = weeksData[currentWeekIndex];
+
+  // Dynamic Insights
+  // Needs mapping for "Social Studies" vs key in JSON if there's a mismatch. 
+  // In JSON "SocialStudies" (no space). In state 'Social Studies' (space).
+  const getInsightKey = (subject: string) => {
+    if (subject === 'Social Studies') return 'SocialStudies';
+    return subject;
+  }
+
+  const subjectKey = getInsightKey(selectedSubject);
+
+  const currentEnforceText = t(`professor.dashboard.insights.enforce.${subjectKey}`, 'No insight available.');
+  const currentClassRecommendation = t(`professor.dashboard.insights.recommendation.${subjectKey}`, 'No recommendation available.');
+
 
   const handlePreviousWeek = () => {
     if (currentWeekIndex > 0) setCurrentWeekIndex(currentWeekIndex - 1);
   };
 
   const handleNextWeek = () => {
-    if (currentWeekIndex < WEEKS_DATA.length - 1) setCurrentWeekIndex(currentWeekIndex + 1);
+    if (currentWeekIndex < weeksData.length - 1) setCurrentWeekIndex(currentWeekIndex + 1);
   };
 
   return (
@@ -194,7 +199,10 @@ const Main_Prof: React.FC = () => {
           {/* 1. Overview Section Card */}
           <div className="prof-card performance-overview-card">
             <div className="performance-info">
-              <span className="subject-badge">{selectedSubject} • {selectedGrade}-{selectedSection}</span>
+              {/* Translate Subject Name if possible, or just display. Since state is 'Math', 'Science' we can try to translate. */}
+              <span className="subject-badge">
+                {t(`professor.subjects.${subjectKey}`, selectedSubject)} • {selectedGrade}-{selectedSection}
+              </span>
               <h1 className="performance-headline">{overallPerformance}% {t('professor.dashboard.performance')}</h1>
               <p className="performance-subtext">
                 {t('professor.dashboard.average')} <strong>+3%</strong> {t('professor.dashboard.compared')}.
@@ -205,7 +213,7 @@ const Main_Prof: React.FC = () => {
                   <IonIcon icon={chevronBack} />
                 </IonButton>
                 <div className="week-nav-text">{currentWeek.name}</div>
-                <IonButton fill="clear" size="small" className="week-nav-btn" onClick={handleNextWeek} disabled={currentWeekIndex === WEEKS_DATA.length - 1}>
+                <IonButton fill="clear" size="small" className="week-nav-btn" onClick={handleNextWeek} disabled={currentWeekIndex === weeksData.length - 1}>
                   <IonIcon icon={chevronForward} />
                 </IonButton>
               </div>
@@ -298,18 +306,18 @@ const Main_Prof: React.FC = () => {
           <IonIcon icon={homeOutline} />
           <span className="nav-label">{t('sidebar.mainMenu')}</span>
         </div>
-        <div className="prof-nav-btn">
+        <div className="prof-nav-btn" onClick={() => router.push('/student-section')}>
           <IonIcon icon={peopleOutline} />
           <span className="nav-label">{t('professor.sidebar.students')}</span>
         </div>
 
         <div className="prof-nav-fab-container">
-          <div className="prof-nav-fab">
+          <div className="prof-nav-fab" onClick={() => router.push('/create-task')}>
             <IonIcon icon={add} />
           </div>
         </div>
 
-        <div className="prof-nav-btn">
+        <div className="prof-nav-btn" onClick={() => router.push('/professor-chat')}>
           <IonIcon icon={chatbubblesOutline} />
           <span className="nav-label">{t('sidebar.chat')}</span>
         </div>
