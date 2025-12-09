@@ -23,6 +23,17 @@ import StudentHeader from "../components/StudentHeader";
 import AnimatedMascot from "../components/AnimatedMascot";
 import { getApiUrl } from "../config/api";
 
+// Asumiendo que tienes una forma de obtener datos del usuario, si no, usa localStorage
+const getUserContext = () => {
+  try {
+    const stored = localStorage.getItem("userData");
+    const user = stored ? JSON.parse(stored) : { name: "Invitado" };
+    return user;
+  } catch (e) {
+    return { name: "Invitado" };
+  }
+};
+
 interface Message {
   id: number;
   text: string;
@@ -157,6 +168,9 @@ const Chat: React.FC = () => {
     setInputMessage("");
     scrollToBottom();
 
+    const userData = getUserContext();
+    const performanceStats = "Bueno";
+
     try {
       const response = await fetch(API_URL, {
         method: "POST",
@@ -164,7 +178,15 @@ const Chat: React.FC = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          prompt: inputMessage, // Backend espera { prompt: string }
+          prompt: inputMessage,
+          userData: {
+            name: userData.name,
+          },
+          context: {
+            subject: selectedSubject,
+            level: "Educación Diversificada",
+            performance: performanceStats,
+          },
         }),
       });
 

@@ -20,20 +20,27 @@ const ai = new GoogleGenAI({
 // Usamos el modelo 1.5 Flash que es rápido y económico en Vertex AI
 const GEMINI_MODEL = "gemini-2.0-flash-lite-001"; 
 
-export async function generateContentWithGemini(prompt: string): Promise<string> {
+// Modificamos la función para aceptar un segundo parámetro: systemInstruction
+export async function generateContentWithGemini(userPrompt: string, systemInstruction?: string): Promise<string> {
     try {
+        // Combinamos la instrucción del sistema con la pregunta del usuario
+        // Esta técnica (Prepending) funciona perfecto en todos los modelos Flash/Pro
+        let finalPrompt = userPrompt;
+
+        if (systemInstruction) {
+            finalPrompt = `${systemInstruction}\n\n----------------\nPREGUNTA DEL USUARIO:\n${userPrompt}`;
+        }
+
         const response: any = await ai.models.generateContent({
             model: GEMINI_MODEL,
-            contents: [{ role: "user", parts: [{ text: prompt }] }],
+            contents: [{ role: "user", parts: [{ text: finalPrompt }] }],
         });
 
-        // Verificación robusta de la respuesta
-        // En algunas versiones del SDK, response.text es una función, en otras una propiedad.
+        // ... (Tu lógica de retorno existente) ...
         if (response && response.text) {
              return typeof response.text === 'function' ? response.text() : response.text;
         }
         
-        // Fallback si la estructura es diferente (acceso directo a candidatos)
         if (response?.candidates?.[0]?.content?.parts?.[0]?.text) {
             return response.candidates[0].content.parts[0].text;
         }

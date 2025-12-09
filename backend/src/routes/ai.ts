@@ -4,6 +4,7 @@
 import { checkGeminiConnection, generateContentWithGemini } from '../services/geminiService.js'; 
 import { Router } from 'express';
 import { ApiError } from '../middleware/errorHandler.js';
+import { STUDENT_SYSTEM_PROMPT } from '../config/prompts.js'; // Importamos la plantilla
 
 const router = Router();
 
@@ -29,14 +30,28 @@ router.get('/test-connection', async (req, res, next) => {
 // Ruta para el Chatbot: POST /ai/chat
 router.post('/chat', async (req, res, next) => {
   try {
-    const { prompt } = req.body;
+    // 1. Recibimos más datos del body
+    const { prompt, userData, context } = req.body;
     
     if (!prompt) {
       throw new ApiError(400, "El campo 'prompt' es requerido.");
     }
 
-    // Call the service
-    const aiResponse = await generateContentWithGemini(prompt);
+    // 2. Valores por defecto por si el frontend no envía algo
+    const name = userData?.name || "Estudiante";
+    const level = context?.level || "Secundaria"; // Ej: Primaria, Universidad
+    const subject = context?.subject || "General";
+    const performance = context?.performance || "Promedio"; // Ej: Bajo, Alto
+
+    // 3. Rellenamos la plantilla
+    let systemInstruction = STUDENT_SYSTEM_PROMPT
+      .replace('{NAME}', name)
+      .replace('{LEVEL}', level)
+      .replace('{SUBJECT}', subject)
+      .replace('{LEARNING_STYLE}', performance);
+
+    // 4. Llamamos al servicio con la instrucción
+    const aiResponse = await generateContentWithGemini(prompt, systemInstruction);
 
     res.json({
       response: aiResponse
