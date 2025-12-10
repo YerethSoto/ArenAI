@@ -22,6 +22,7 @@ import StudentSidebar from "../components/StudentSidebar";
 import StudentHeader from "../components/StudentHeader";
 import AnimatedMascot from "../components/AnimatedMascot";
 import { getApiUrl } from "../config/api";
+import { studentService } from "../services/studentService";
 
 // Asumiendo que tienes una forma de obtener datos del usuario, si no, usa localStorage
 const getUserContext = () => {
@@ -44,7 +45,7 @@ interface Message {
 }
 
 const Chat: React.FC = () => {
-  const { getAvatarAssets } = useAvatar();
+  const { getAvatarAssets, currentAvatar } = useAvatar();
   const avatarAssets = getAvatarAssets();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
@@ -53,6 +54,30 @@ const Chat: React.FC = () => {
   const contentRef = useRef<HTMLIonContentElement>(null);
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const messageIdCounter = useRef(1);
+
+  // Topics context state
+  const [currentTopics, setCurrentTopics] = useState<string[]>([]);
+
+  // Fetch topics when subject changes
+  useEffect(() => {
+    const fetchTopics = async () => {
+      try {
+        const subjectData = await studentService.getSubjectDetails(
+          selectedSubject
+        );
+        if (subjectData && subjectData.topics) {
+          const topicNames = subjectData.topics.map((t) => t.nameKey); // We'd ideally translate these in backend or here.
+          // For now sending keys or simple English names is safer if backend assumes English commands
+          // but the prompt says {CURRENT_TOPICS}.
+          // Let's assume we want readable names.
+          setCurrentTopics(topicNames);
+        }
+      } catch (err) {
+        console.error("Error fetching topics for context", err);
+      }
+    };
+    fetchTopics();
+  }, [selectedSubject]);
 
   const handleLogout = () => {};
 
@@ -168,8 +193,15 @@ const Chat: React.FC = () => {
     setInputMessage("");
     scrollToBottom();
 
-    const userData = getUserContext();
+    const userContext = getUserContext();
     const performanceStats = "Bueno";
+    const avatarName = localStorage.getItem("avatarName") || "Aren";
+
+    // Explicit Role Check from LocalStorage as fallback
+    const storedRole = localStorage.getItem("userRole");
+    const effectiveRole = userContext.role || storedRole || "student";
+
+    console.log("ENVIANDO ROL AL BACKEND:", effectiveRole);
 
     try {
       const response = await fetch(API_URL, {
@@ -180,12 +212,19 @@ const Chat: React.FC = () => {
         body: JSON.stringify({
           prompt: inputMessage,
           userData: {
-            name: userData.name,
+            name: userContext.name,
+            role: effectiveRole,
           },
           context: {
             subject: selectedSubject,
             level: "Educación Diversificada",
-            performance: performanceStats,
+            currentTopics: currentTopics.join(", "),
+            learningStyle: "Visual",
+            language: "es",
+          },
+          agentConfig: {
+            name: avatarName,
+            type: currentAvatar,
           },
         }),
       });

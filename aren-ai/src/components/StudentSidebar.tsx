@@ -48,6 +48,8 @@ import {
 } from "ionicons/icons";
 import { AppPage } from "../types/user";
 import { getUserData } from "../utils/userUtils";
+import AnimatedMascot from "./AnimatedMascot"; // Import Mascot
+import { useAvatar } from "../context/AvatarContext"; // Import Context
 import "./StudentSidebar.css";
 
 const appPages: AppPage[] = [
@@ -140,6 +142,9 @@ const META_DIARIA = 100;
 
 const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
   const { t } = useTranslation();
+  const { getAvatarAssets } = useAvatar(); // Hook for assets
+  const avatarAssets = getAvatarAssets();
+
   const [showAnimation, setShowAnimation] = useState(true);
   const location = useLocation();
 
@@ -189,19 +194,32 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
     100,
     Math.round((indiceUtilizacion / META_DIARIA) * 100)
   );
-
   // Estado para mostrar la ventanita de explicación
   const [showFormulaInfo, setShowFormulaInfo] = useState(false);
 
   return (
-    <IonMenu contentId="main">
+    <IonMenu contentId="main" type="overlay">
       <IonContent>
         {/* Header del menú */}
         <div className="menu-header">
+          <div
+            className="sidebar-mascot-wrapper"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: "5px", // Reduced
+              marginLeft: "0",
+            }}
+          >
+            <AnimatedMascot
+              openSrc={avatarAssets.open}
+              closedSrc={avatarAssets.closed}
+              winkSrc={avatarAssets.wink}
+              className="sidebar-mascot-img"
+              style={{ width: "120px", height: "120px", objectFit: "contain" }} // Reduced to 120px
+            />
+          </div>
           <div className="student-info">
-            <div className="student-avatar">
-              <IonIcon icon={schoolSharp} />
-            </div>
             <div className="student-details">
               <IonLabel className="student-name">{currentUser.name}</IonLabel>
               <IonNote className="student-email">{currentUser.email}</IonNote>

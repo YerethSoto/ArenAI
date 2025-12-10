@@ -1,5 +1,5 @@
 .menu-header {
-  padding: 20px 16px;
+  padding: 10px 16px; /* Reduced top/bottom padding */
   background: var(--ion-color-primary);
   color: var(--ion-color-primary-contrast);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -8,7 +8,7 @@
 .student-info {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px; /* Reduced gap */
 }
 
 .student-avatar {

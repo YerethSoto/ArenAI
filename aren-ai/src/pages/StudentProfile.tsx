@@ -6,6 +6,7 @@ import {
   useIonRouter,
   IonProgressBar,
   IonChip,
+  IonAlert,
 } from "@ionic/react";
 import {
   ribbonOutline,
@@ -36,6 +37,34 @@ const StudentProfile: React.FC = () => {
 
   // Get current assets
   const avatarAssets = getAvatarAssets();
+
+  // Avatar Name State (Per Avatar Type)
+  const [avatarNames, setAvatarNames] = useState<Record<string, string>>({
+    capybara: "Aren",
+    sloth: "Flash",
+  });
+  const [isEditingName, setIsEditingName] = useState(false);
+
+  React.useEffect(() => {
+    const storedNames = localStorage.getItem("avatar_names");
+    if (storedNames) {
+      setAvatarNames(JSON.parse(storedNames));
+    }
+  }, []);
+
+  // Get current name based on selected avatar
+  const currentName = avatarNames[currentAvatar] || "Aren";
+
+  const handleSaveName = (newName: string) => {
+    if (newName.trim()) {
+      const updatedNames = { ...avatarNames, [currentAvatar]: newName };
+      setAvatarNames(updatedNames);
+      localStorage.setItem("avatar_names", JSON.stringify(updatedNames));
+      // Also update single value for backward compatibility/Chatbot simplicity for now
+      localStorage.setItem("avatarName", newName);
+    }
+    setIsEditingName(false);
+  };
 
   // Mock User Data (Replace with real data later)
   const userData = {
@@ -101,12 +130,12 @@ const StudentProfile: React.FC = () => {
 
   return (
     <IonPage className="profile-page-premium">
-      <StudentHeader
-        pageTitle={t("profile.title") || "Perfil de Jugador"}
-        showNotch={false}
-      />
+      <StudentHeader pageTitle="Æ" showNotch={false} />
 
-      <IonContent fullscreen className="student-page-content profile-content-premium">
+      <IonContent
+        fullscreen
+        className="student-page-content profile-content-premium"
+      >
         <PageTransition>
           {/* HERO SECTION */}
           <div className="profile-hero-card">
@@ -133,16 +162,50 @@ const StudentProfile: React.FC = () => {
             <div className="player-identity">
               <h1 className="player-name">{userData.name}</h1>
               <div className="player-title-badge">
-                <IonIcon icon={medal} /> {userData.title}
+                Nombre del Æ: {currentName}
+                <IonIcon
+                  icon={pencilOutline}
+                  onClick={() => setIsEditingName(true)}
+                  style={{ marginLeft: "8px", cursor: "pointer" }}
+                />
               </div>
             </div>
+
+            <IonAlert
+              isOpen={isEditingName}
+              onDidDismiss={() => setIsEditingName(false)}
+              header="Nombre de tu Æ"
+              inputs={[
+                {
+                  name: "name",
+                  type: "text",
+                  placeholder: `Ej: ${
+                    currentAvatar === "sloth" ? "Flash" : "Aren"
+                  }`,
+                  value: currentName,
+                },
+              ]}
+              buttons={[
+                {
+                  text: "Cancelar",
+                  role: "cancel",
+                  handler: () => {
+                    setIsEditingName(false);
+                  },
+                },
+                {
+                  text: "Guardar",
+                  handler: (data) => {
+                    handleSaveName(data.name);
+                  },
+                },
+              ]}
+            />
 
             <div className="xp-status-container">
               <div className="xp-labels">
                 <span>LVL {userData.level}</span>
-                <span>
-                  {userData.xp} / {userData.nextLevelXp} XP
-                </span>
+                <span>Nivel de Amistad: {userData.xp}</span>
               </div>
               <IonProgressBar
                 value={xpPercentage}
@@ -184,7 +247,10 @@ const StudentProfile: React.FC = () => {
 
           {/* BADGES COLLECTION */}
           <div className="badges-section-premium">
-            <div className="badges-header clickable" onClick={() => router.push('/achievements')}>
+            <div
+              className="badges-header clickable"
+              onClick={() => router.push("/achievements")}
+            >
               <h3>
                 <IonIcon icon={ribbonOutline} /> Insignias
               </h3>
@@ -200,8 +266,9 @@ const StudentProfile: React.FC = () => {
               {badges.map((badge) => (
                 <div
                   key={badge.id}
-                  className={`badge-card-premium ${badge.unlocked ? "unlocked" : "locked"
-                    } ${badge.rarity}`}
+                  className={`badge-card-premium ${
+                    badge.unlocked ? "unlocked" : "locked"
+                  } ${badge.rarity}`}
                 >
                   <div className="badge-shine"></div>
                   <div className="badge-icon-premium">{badge.icon}</div>
