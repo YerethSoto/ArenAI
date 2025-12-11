@@ -43,13 +43,13 @@
 }
 
 .logo-image {
-  width: 120px;
-  height: 120px;
+  width: 240px;
+  height: 240px;
   border-radius: 50%;
   object-fit: contain;
   object-position: center;
-  box-shadow: 0 4px 20px rgba(143, 106, 86, 0.3);
-  border: 3px solid #8f6a56;
+  box-shadow: none; /* Remove halo */
+  border: none; /* Remove halo */
   background: transparent;
   animation: gentlePulse 4s ease-in-out infinite;
 }
@@ -228,11 +228,9 @@
 @keyframes gentlePulse {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 4px 20px rgba(143, 106, 86, 0.3);
   }
   50% {
-    transform: scale(1.03);
-    box-shadow: 0 6px 25px rgba(143, 106, 86, 0.4);
+    transform: scale(1.05);
   }
 }
 
@@ -247,8 +245,8 @@
   }
   
   .logo-image {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
   }
   
   .login-card ion-card-content {
@@ -270,8 +268,8 @@
   }
   
   .logo-image {
-    width: 90px;
-    height: 90px;
+    width: 180px;
+    height: 180px;
   }
   
   .login-card ion-card-content {

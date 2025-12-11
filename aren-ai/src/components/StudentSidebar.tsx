@@ -93,7 +93,7 @@ const appPages: AppPage[] = [
 
 const settingsPages: AppPage[] = [
   {
-    titleKey: "sidebar.profile",
+    titleKey: "Æ",
     url: "/profile",
     iosIcon: personOutline,
     mdIcon: personSharp,
@@ -198,10 +198,10 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
   const [showFormulaInfo, setShowFormulaInfo] = useState(false);
 
   return (
-    <IonMenu contentId="main" type="overlay">
+    <IonMenu contentId="main" id="student-menu">
       <IonContent>
         {/* Header del menú */}
-        <div className="menu-header">
+        <div className="student-menu-header">
           <div
             className="sidebar-mascot-wrapper"
             style={{
@@ -361,7 +361,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
         </div>
 
         {/* Información de la app */}
-        <div className="menu-footer">
+        <div className="student-menu-footer">
           <IonNote className="app-version">ArenAI v1.0.0</IonNote>
         </div>
       </IonContent>

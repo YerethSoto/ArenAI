@@ -154,11 +154,15 @@ const BattleLobby: React.FC = () => {
                   <div className="stat-unit">
                     <span className="stat-label">WIN RATE</span>
                     {/* Show -- if stats not loaded yet */}
-                    <span className="stat-val">{stats ? `${stats.winRate}%` : "--"}</span>
+                    <span className="stat-val">
+                      {stats ? `${stats.winRate}%` : "--"}
+                    </span>
                   </div>
                   <div className="stat-unit">
                     <span className="stat-label">STREAK</span>
-                    <span className="stat-val">{stats ? stats.streak : "--"}</span>
+                    <span className="stat-val">
+                      {stats ? stats.streak : "--"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -173,7 +177,9 @@ const BattleLobby: React.FC = () => {
                 <div className="happiness-bar-container">
                   <div
                     className="happiness-fill"
-                    style={{ width: stats ? `${stats.happiness * 100}%` : "0%" }}
+                    style={{
+                      width: stats ? `${stats.happiness * 100}%` : "0%",
+                    }}
                   ></div>
                 </div>
               </div>
@@ -187,16 +193,18 @@ const BattleLobby: React.FC = () => {
 
               <div className="battle-type-toggle">
                 <button
-                  className={`toggle-opt ${battleType === "quick" ? "selected" : ""
-                    }`}
+                  className={`toggle-opt ${
+                    battleType === "quick" ? "selected" : ""
+                  }`}
                   onClick={() => setBattleType("quick")}
                 >
-                  {t("battleLobby.quickBattleBtn")}
+                  {t("Batalla rápida")}
                 </button>
                 <span className="toggle-sep">/</span>
                 <button
-                  className={`toggle-opt ${battleType === "friend" ? "selected" : ""
-                    }`}
+                  className={`toggle-opt ${
+                    battleType === "friend" ? "selected" : ""
+                  }`}
                   onClick={() => setBattleType("friend")}
                 >
                   {t("battleLobby.friendBattleBtn")}
@@ -274,8 +282,9 @@ const BattleLobby: React.FC = () => {
 
         {/* Start Button in Center */}
         <div
-          className={`student-mascot-container battle-start-btn ${isSearching ? "disabled" : ""
-            }`}
+          className={`student-mascot-container battle-start-btn ${
+            isSearching ? "disabled" : ""
+          }`}
           onClick={handleStartBattle}
         >
           <IonIcon icon={flash} className="swords-icon" />

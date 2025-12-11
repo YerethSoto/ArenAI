@@ -8,10 +8,10 @@ import {
   IonMenu,
   IonMenuToggle,
   IonNote,
-} from '@ionic/react';
+} from "@ionic/react";
 
-import { useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   homeOutline,
   homeSharp,
@@ -29,9 +29,9 @@ import {
   exitOutline,
   exitSharp,
   clipboardOutline,
-  glassesOutline
-} from 'ionicons/icons';
-import './ProfessorSidebar.css';
+  glassesOutline,
+} from "ionicons/icons";
+import "./ProfessorSidebar.css";
 
 interface AppPage {
   url: string;
@@ -46,88 +46,88 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
 
   const appPages: AppPage[] = [
     {
-      titleKey: 'professor.sidebar.mainMenu',
-      url: '/page/professor',
+      titleKey: "professor.sidebar.mainMenu",
+      url: "/page/professor",
       iosIcon: homeOutline,
-      mdIcon: homeSharp
+      mdIcon: homeSharp,
     },
     {
-      titleKey: 'professor.sidebar.students',
-      url: '/folder/Students',
+      titleKey: "professor.sidebar.students",
+      url: "/folder/Students",
       iosIcon: peopleOutline,
-      mdIcon: peopleSharp
+      mdIcon: peopleSharp,
     },
     {
-      titleKey: 'professor.sidebar.createSection',
-      url: '/class-creation',
+      titleKey: "professor.sidebar.createSection",
+      url: "/class-creation",
       iosIcon: createOutline,
-      mdIcon: createSharp
+      mdIcon: createSharp,
     },
     {
-      titleKey: 'professor.sidebar.createTask',
-      url: '/create-task',
+      titleKey: "professor.sidebar.createTask",
+      url: "/create-task",
       iosIcon: clipboardOutline,
-      mdIcon: clipboardOutline
+      mdIcon: clipboardOutline,
     },
     {
-      titleKey: 'professor.sidebar.studentSections',
-      url: '/student-section',
+      titleKey: "professor.sidebar.studentSections",
+      url: "/student-section",
       iosIcon: analyticsOutline,
-      mdIcon: analyticsSharp
+      mdIcon: analyticsSharp,
     },
     {
-      titleKey: 'professor.sidebar.teacherAdmin',
-      url: '/teacher-admin',
+      titleKey: "professor.sidebar.teacherAdmin",
+      url: "/teacher-admin",
       iosIcon: documentTextOutline,
-      mdIcon: documentTextOutline
-    }
+      mdIcon: documentTextOutline,
+    },
   ];
 
   const settingsPages: AppPage[] = [
     {
-      titleKey: 'professor.sidebar.settings',
-      url: '/folder/Settings',
+      titleKey: "professor.sidebar.settings",
+      url: "/folder/Settings",
       iosIcon: settingsOutline,
-      mdIcon: settingsSharp
+      mdIcon: settingsSharp,
     },
     {
-      titleKey: 'professor.sidebar.help',
-      url: '/folder/Help',
+      titleKey: "professor.sidebar.help",
+      url: "/folder/Help",
       iosIcon: helpCircleOutline,
-      mdIcon: helpCircleSharp
+      mdIcon: helpCircleSharp,
     },
     {
-      titleKey: 'professor.sidebar.logout',
-      url: '/login',
+      titleKey: "professor.sidebar.logout",
+      url: "/login",
       iosIcon: exitOutline,
-      mdIcon: exitSharp
-    }
+      mdIcon: exitSharp,
+    },
   ];
 
   // Get current user data from localStorage
   const getUserData = () => {
     try {
-      const storedData = localStorage.getItem('userData');
+      const storedData = localStorage.getItem("userData");
       if (storedData) return JSON.parse(storedData);
     } catch (error) {
-      console.error('Error parsing user data:', error);
+      console.error("Error parsing user data:", error);
     }
     return {
-      name: 'Prof. Rodriguez',
-      email: 'prof.rodriguez@arenai.edu',
-      username: 'prof.rodriguez'
+      name: "Prof. Rodriguez",
+      email: "prof.rodriguez@arenai.edu",
+      username: "prof.rodriguez",
     };
   };
 
   const currentUser = getUserData();
 
   const handleLogout = () => {
-    console.log('ProfessorSidebar: Logging out');
+    console.log("ProfessorSidebar: Logging out");
     onLogout();
   };
 
   return (
-    <IonMenu contentId="main" type="overlay">
+    <IonMenu contentId="main">
       <IonContent>
         {/* Header del menú con datos dinámicos del usuario */}
         <div className="menu-header">
@@ -138,25 +138,34 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
             <div className="teacher-details">
               <IonLabel className="teacher-name">{currentUser.name}</IonLabel>
               <IonNote className="teacher-email">{currentUser.email}</IonNote>
-              <IonNote className="teacher-username">@{currentUser.username}</IonNote>
+              <IonNote className="teacher-username">
+                @{currentUser.username}
+              </IonNote>
             </div>
           </div>
         </div>
 
         {/* Navegación principal */}
         <IonList id="main-list" lines="none">
-          <IonListHeader>{t('professor.sidebar.teaching')}</IonListHeader>
+          <IonListHeader>{t("professor.sidebar.teaching")}</IonListHeader>
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
                 <IonItem
-                  className={location.pathname === appPage.url ? 'selected' : ''}
+                  className={
+                    location.pathname === appPage.url ? "selected" : ""
+                  }
                   routerLink={appPage.url}
                   routerDirection="none"
                   lines="none"
                   detail={false}
                 >
-                  <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
+                  <IonIcon
+                    aria-hidden="true"
+                    slot="start"
+                    ios={appPage.iosIcon}
+                    md={appPage.mdIcon}
+                  />
                   <IonLabel>{t(appPage.titleKey)}</IonLabel>
                 </IonItem>
               </IonMenuToggle>
@@ -166,20 +175,27 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
 
         {/* Configuración y ayuda */}
         <IonList id="settings-list" lines="none">
-          <IonListHeader>{t('professor.sidebar.account')}</IonListHeader>
+          <IonListHeader>{t("professor.sidebar.account")}</IonListHeader>
           {settingsPages.map((appPage, index) => {
-            const isLogout = appPage.url === '/login';
+            const isLogout = appPage.url === "/login";
             return (
               <IonMenuToggle key={index} autoHide={false}>
                 <IonItem
-                  className={`${location.pathname === appPage.url ? 'selected' : ''} ${isLogout ? 'logout-item' : ''}`}
+                  className={`${
+                    location.pathname === appPage.url ? "selected" : ""
+                  } ${isLogout ? "logout-item" : ""}`}
                   routerLink={appPage.url}
                   routerDirection="none"
                   lines="none"
                   detail={false}
                   onClick={isLogout ? handleLogout : undefined}
                 >
-                  <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
+                  <IonIcon
+                    aria-hidden="true"
+                    slot="start"
+                    ios={appPage.iosIcon}
+                    md={appPage.mdIcon}
+                  />
                   <IonLabel>{t(appPage.titleKey)}</IonLabel>
                 </IonItem>
               </IonMenuToggle>

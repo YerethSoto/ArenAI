@@ -23,10 +23,13 @@ import {
 } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import StudentHeader from "../components/StudentHeader";
+import AnimatedMascot from "../components/AnimatedMascot";
 import AvatarSelector from "../components/AvatarSelector";
 import { useAvatar } from "../context/AvatarContext";
 import PageTransition from "../components/PageTransition";
 import "./StudentProfile.css";
+
+import { getUserData } from "../utils/userUtils"; // Import user utils
 
 const StudentProfile: React.FC = () => {
   const { t } = useTranslation();
@@ -37,6 +40,9 @@ const StudentProfile: React.FC = () => {
 
   // Get current assets
   const avatarAssets = getAvatarAssets();
+
+  // Get real user data
+  const currentUser = getUserData();
 
   // Avatar Name State (Per Avatar Type)
   const [avatarNames, setAvatarNames] = useState<Record<string, string>>({
@@ -68,7 +74,7 @@ const StudentProfile: React.FC = () => {
 
   // Mock User Data (Replace with real data later)
   const userData = {
-    name: "Estudiante Modelo",
+    name: currentUser.name || "Estudiante", // Use real name
     level: 8,
     xp: 2450,
     nextLevelXp: 3000,
@@ -147,28 +153,42 @@ const StudentProfile: React.FC = () => {
                 onClick={() => router.push("/character-detail")}
               >
                 <div className="avatar-glow"></div>
-                <img
-                  src={avatarAssets.open}
-                  alt="Avatar"
+                <AnimatedMascot
+                  openSrc={avatarAssets.open}
+                  closedSrc={avatarAssets.closed}
+                  winkSrc={avatarAssets.wink}
                   className="main-avatar-img"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                  }}
                 />
                 <div className="edit-btn-circle">
                   <IonIcon icon={pencilOutline} />
                 </div>
-                <div className="level-badge-premium">{userData.level}</div>
               </div>
             </div>
 
             <div className="player-identity">
-              <h1 className="player-name">{userData.name}</h1>
-              <div className="player-title-badge">
-                Nombre del Æ: {currentName}
+              <h1 className="player-name">
+                {currentName}
                 <IonIcon
                   icon={pencilOutline}
                   onClick={() => setIsEditingName(true)}
-                  style={{ marginLeft: "8px", cursor: "pointer" }}
+                  style={{
+                    marginLeft: "10px",
+                    cursor: "pointer",
+                    fontSize: "0.6em",
+                    opacity: 0.7,
+                    verticalAlign: "middle",
+                  }}
                 />
-              </div>
+              </h1>
+              <div className="player-title-badge">Partner: {userData.name}</div>
             </div>
 
             <IonAlert

@@ -222,7 +222,7 @@
         }
     },
     "mainStudent": {
-        "brandSub": "Student",
+        "brandSub": "Æ",
         "yourSubject": "Your {{subject}}",
         "recommendationsText": {
             "Math": "Focus on improving your performance in mathematics. Use targeted exercises and additional practice materials to reinforce understanding and build confidence in challenging areas like calculus and probability.",

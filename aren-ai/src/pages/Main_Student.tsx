@@ -61,7 +61,7 @@ const Main_Student: React.FC = () => {
       try {
         const [fetchedWeeks, fetchedStats] = await Promise.all([
           studentService.getWeeks(),
-          studentService.getStudentStats()
+          studentService.getStudentStats(),
         ]);
         setWeeks(fetchedWeeks);
         // Stats can be used if we want global performance
@@ -76,10 +76,12 @@ const Main_Student: React.FC = () => {
   // Update topics and overall performance when subject changes
   useEffect(() => {
     const fetchSubjectData = async () => {
-      // Don't set full loading here to avoid screen flickering, 
+      // Don't set full loading here to avoid screen flickering,
       // maybe just a small loading indicator or skeleton on the list if needed.
       // For now we'll do a quick fetch.
-      const subjectData = await studentService.getSubjectDetails(selectedSubject);
+      const subjectData = await studentService.getSubjectDetails(
+        selectedSubject
+      );
       setTopics(subjectData.topics);
 
       const newPerformance = calculateOverallPerformance(subjectData.topics);
@@ -90,11 +92,12 @@ const Main_Student: React.FC = () => {
   }, [selectedSubject]);
 
   // Helper Functions
-  const calculateOverallPerformance = (
-    currentTopics: TopicProgress[]
-  ) => {
+  const calculateOverallPerformance = (currentTopics: TopicProgress[]) => {
     if (!currentTopics || currentTopics.length === 0) return 0;
-    const sum = currentTopics.reduce((total, topic) => total + topic.percentage, 0);
+    const sum = currentTopics.reduce(
+      (total, topic) => total + topic.percentage,
+      0
+    );
     return Math.round(sum / currentTopics.length);
   };
 
@@ -147,24 +150,61 @@ const Main_Student: React.FC = () => {
       <IonContent fullscreen class="student-page-content">
         <PageTransition variant="fade">
           <div className="ms-container">
-
             {/* Skeleton Loader for Main Content */}
             {isLoading ? (
-              <div style={{ padding: '20px' }}>
-                <IonSkeletonText animated style={{ width: '100%', height: '50px', borderRadius: '12px', marginBottom: '20px' }} />
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
-                  <IonSkeletonText animated style={{ width: '40%', height: '30px', borderRadius: '20px' }} />
-                  <IonSkeletonText animated style={{ width: '70px', height: '70px', borderRadius: '50%' }} />
+              <div style={{ padding: "20px" }}>
+                <IonSkeletonText
+                  animated
+                  style={{
+                    width: "100%",
+                    height: "50px",
+                    borderRadius: "12px",
+                    marginBottom: "20px",
+                  }}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "30px",
+                  }}
+                >
+                  <IonSkeletonText
+                    animated
+                    style={{
+                      width: "40%",
+                      height: "30px",
+                      borderRadius: "20px",
+                    }}
+                  />
+                  <IonSkeletonText
+                    animated
+                    style={{
+                      width: "70px",
+                      height: "70px",
+                      borderRadius: "50%",
+                    }}
+                  />
                 </div>
-                <IonSkeletonText animated style={{ width: '100%', height: '120px', borderRadius: '15px' }} />
+                <IonSkeletonText
+                  animated
+                  style={{
+                    width: "100%",
+                    height: "120px",
+                    borderRadius: "15px",
+                  }}
+                />
               </div>
             ) : (
               <>
                 {/* Calendar Selector */}
                 <div className="ms-week-selector">
                   <CalendarSelector
-                    onDateSelect={(date: any) => console.log("Selected date:", date)}
-                    title={t("mainStudent.classSchedule") || "Class Schedule"}
+                    onDateSelect={(date: any) =>
+                      console.log("Selected date:", date)
+                    }
+                    title={t("Clase prototipo") || "Class Schedule"}
                   />
                 </div>
 
@@ -205,7 +245,9 @@ const Main_Student: React.FC = () => {
                       <div
                         key={index}
                         className="ms-topic-btn"
-                        onClick={() => navigateTo(`/subject/${selectedSubject}`)}
+                        onClick={() =>
+                          navigateTo(`/subject/${selectedSubject}`)
+                        }
                       >
                         <div className="ms-topic-fill-box">
                           <div
@@ -216,9 +258,13 @@ const Main_Student: React.FC = () => {
                                 topic.percentage < 60 ? "#FFC107" : "#78B8B0",
                             }}
                           ></div>
-                          <div className="ms-topic-icon">{topic.icon || "•"}</div>
+                          <div className="ms-topic-icon">
+                            {topic.icon || "•"}
+                          </div>
                         </div>
-                        <span className="ms-topic-label">{t(topic.nameKey)}</span>
+                        <span className="ms-topic-label">
+                          {t(topic.nameKey)}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -231,19 +277,23 @@ const Main_Student: React.FC = () => {
                       className="ms-switch-bg"
                       style={{
                         transform:
-                          viewMode === "rec" ? "translateX(0)" : "translateX(100%)",
+                          viewMode === "rec"
+                            ? "translateX(0)"
+                            : "translateX(100%)",
                       }}
                     ></div>
                     <div
-                      className={`ms-switch-option ${viewMode === "rec" ? "active" : ""
-                        }`}
+                      className={`ms-switch-option ${
+                        viewMode === "rec" ? "active" : ""
+                      }`}
                       onClick={() => setViewMode("rec")}
                     >
                       {t("mainStudent.recommendations")}
                     </div>
                     <div
-                      className={`ms-switch-option ${viewMode === "que" ? "active" : ""
-                        }`}
+                      className={`ms-switch-option ${
+                        viewMode === "que" ? "active" : ""
+                      }`}
                       onClick={() => setViewMode("que")}
                     >
                       {t("mainStudent.questions")}
@@ -291,14 +341,16 @@ const Main_Student: React.FC = () => {
                 </div>
               </>
             )}
-
           </div>
         </PageTransition>
       </IonContent>
 
       {/* Bottom Navigation */}
       <div className="student-bottom-nav">
-        <div className="student-nav-btn" onClick={() => navigateTo("/page/student")}>
+        <div
+          className="student-nav-btn"
+          onClick={() => navigateTo("/page/student")}
+        >
           <IonIcon icon={homeOutline} />
         </div>
         <div className="student-nav-btn" onClick={() => navigateTo("/quiz")}>
@@ -315,10 +367,16 @@ const Main_Student: React.FC = () => {
           />
         </div>
 
-        <div className="student-nav-btn" onClick={() => navigateTo("/battlelobby")}>
+        <div
+          className="student-nav-btn"
+          onClick={() => navigateTo("/battlelobby")}
+        >
           <IonIcon icon={americanFootballOutline} />
         </div>
-        <div className="student-nav-btn" onClick={() => navigateTo("/settings")}>
+        <div
+          className="student-nav-btn"
+          onClick={() => navigateTo("/settings")}
+        >
           <IonIcon icon={settingsOutline} />
         </div>
       </div>
