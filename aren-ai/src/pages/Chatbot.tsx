@@ -199,9 +199,19 @@ const Chat: React.FC = () => {
 
     // Explicit Role Check from LocalStorage as fallback
     const storedRole = localStorage.getItem("userRole");
-    const effectiveRole = userContext.role || storedRole || "student";
+    // Force role from localStorage if available, otherwise default
+    const effectiveRole = storedRole || userContext.role || "student";
 
-    console.log("ENVIANDO ROL AL BACKEND:", effectiveRole);
+    // Force animal type from localStorage if available
+    const storedAvatarType = localStorage.getItem("selected_avatar");
+    const effectiveAvatarType = storedAvatarType || currentAvatar || "capybara";
+
+    console.log(
+      "ENVIANDO A BACKEND - ROL:",
+      effectiveRole,
+      "TIPO:",
+      effectiveAvatarType
+    );
 
     try {
       const response = await fetch(API_URL, {
@@ -224,7 +234,7 @@ const Chat: React.FC = () => {
           },
           agentConfig: {
             name: avatarName,
-            type: currentAvatar,
+            type: effectiveAvatarType,
           },
         }),
       });

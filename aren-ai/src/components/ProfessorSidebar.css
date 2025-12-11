@@ -6,16 +6,16 @@
 }
 
 /* Menu background - Fixed White */
-ion-menu {
+/* Menu background - Fixed White */
+#professor-menu {
   --background: #ffffff !important;
   background: #ffffff !important;
   box-shadow: none !important;
-  /* Remove shadow "side" */
   --box-shadow: none !important;
 }
 
 /* Ensure the content inside the menu is also opaque */
-ion-menu ion-content {
+#professor-menu ion-content {
   --background: #ffffff !important;
   background: #ffffff !important;
 }

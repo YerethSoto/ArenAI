@@ -46,7 +46,7 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
       <div className="sh-brand-container-absolute">
         <div className="sh-brand-name">ArenAI</div>
         <div className="sh-brand-sub">
-          {pageTitle ? t(pageTitle) : t("mainStudent.brandSub")}
+          {pageTitle ? t(pageTitle) : t("sidebar.student")}
         </div>
       </div>
 

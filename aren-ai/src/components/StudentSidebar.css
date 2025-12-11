@@ -1,12 +1,14 @@
 /* Scoped styles for the Student Menu to override global defaults */
 #student-menu {
-  --background: var(--ion-background-color);
-  box-shadow: 2px 0 10px rgba(0,0,0,0.1); /* Restore shadow if desired */
+  /* Set the internal variable, but let the host be transparent so the backdrop works */
+  --background: var(--ion-background-color, #ffffff);
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
 }
 
 /* Ensure content background adapts to theme */
 #student-menu ion-content {
-  --background: var(--ion-background-color);
+  --background: var(--ion-background-color, #ffffff);
+  background: var(--ion-background-color, #ffffff);
 }
 
 .student-menu-header {

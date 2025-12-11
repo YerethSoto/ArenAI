@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import {
   IonContent,
   IonIcon,
@@ -126,8 +127,12 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
     onLogout();
   };
 
+  useEffect(() => {
+    localStorage.setItem("userRole", "professor");
+  }, []);
+
   return (
-    <IonMenu contentId="main">
+    <IonMenu contentId="main" id="professor-menu">
       <IonContent>
         {/* Header del menú con datos dinámicos del usuario */}
         <div className="menu-header">
