@@ -6,171 +6,147 @@
 }
 
 /* Menu background - Fixed White */
-/* Menu background - Fixed White */
+/* Transparency Fix: Do not set background on the container */
 #professor-menu {
-  --background: #ffffff !important;
-  background: #ffffff !important;
-  box-shadow: none !important;
-  --box-shadow: none !important;
+  /* Only internal variable */
+  --background: var(--ion-background-color, #ffffff); 
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
 }
 
-/* Ensure the content inside the menu is also opaque */
 #professor-menu ion-content {
-  --background: #ffffff !important;
-  background: #ffffff !important;
+  --background: var(--ion-background-color, #ffffff);
+  background: var(--ion-background-color, #ffffff);
 }
 
-/* Force scrollbar to be opaque in sidebar */
-ion-menu ion-content::-webkit-scrollbar-track {
-  background: #ffffff !important;
+/* Header del menú - Vertical Layout like Student */
+.professor-menu-header {
+  padding: 30px 16px; 
+  background: var(--ion-color-primary); /* Use Primary (Brown) */
+  color: var(--ion-color-primary-contrast);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center;
 }
 
-ion-menu ion-content::-webkit-scrollbar-thumb {
-  background-color: rgba(143, 106, 86, 0.2) !important;
-  border-radius: 4px;
-}
-
-/* Header del menú - Adaptive */
-.menu-header {
-  background: var(--ion-background-color) !important;
-  padding: 40px 20px 20px 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.teacher-info {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.teacher-avatar {
-  width: 50px;
-  height: 50px;
-  background: rgba(143, 106, 86, 0.1);
-  /* Subtle brown tint */
+.teacher-avatar-large {
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 15px;
+  border: 4px solid rgba(255,255,255,0.3);
 }
 
-.teacher-avatar ion-icon {
-  font-size: 1.5rem;
-  color: #8f6a56;
+.teacher-avatar-large ion-icon {
+  font-size: 3rem;
+  color: var(--ion-color-primary-contrast);
 }
 
-.teacher-details {
-  flex: 1;
+.teacher-info-column {
+  width: 100%;
 }
 
 .teacher-name {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: #2c3e50;
-  margin: 0 0 2px 0;
-  display: block;
+  color: var(--ion-color-primary-contrast);
+  margin-bottom: 4px;
 }
 
 .teacher-email {
   font-size: 0.85rem;
-  color: #666;
-  margin: 0;
+  color: var(--ion-color-primary-contrast);
+  opacity: 0.9;
   display: block;
 }
 
 .teacher-username {
-  font-size: 0.75rem;
-  color: #999;
+  font-size: 0.8rem;
+  color: var(--ion-color-primary-contrast);
+  opacity: 0.8;
   display: block;
-  margin-top: 2px;
+  margin-bottom: 6px;
+}
+
+.teacher-role {
+  font-size: 0.75rem;
+  color: var(--ion-color-primary-contrast);
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  margin-top: 5px;
 }
 
 /* Listas del menú */
-ion-list {
+#prof-main-list,
+#prof-settings-list {
+  padding: 8px 0;
   background: transparent;
-  padding: 10px 0;
 }
 
 ion-list-header {
   --background: transparent;
-  --color: #8f6a56;
+  color: var(--ion-color-primary); /* Brown */
   font-weight: 700;
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 5px;
-  padding: 24px 20px 8px 20px;
+  padding-left: 20px;
 }
 
 /* Items del menú */
 ion-item {
   --background: transparent;
-  --background-activated: rgba(143, 106, 86, 0.08);
-  --background-hover: rgba(143, 106, 86, 0.04);
-  --color: #555;
-  /* Neutral dark grey */
+  --background-hover: var(--ion-color-primary-tint);
+  --color: var(--ion-text-color);
   --padding-start: 20px;
-  --padding-end: 20px;
-  --inner-padding-end: 0;
   margin: 2px 10px;
   border-radius: 8px;
   transition: all 0.2s ease;
   font-weight: 500;
 }
 
-ion-item:hover {
-  --color: #2c3e50;
-}
-
 ion-item.selected {
-  --background: rgba(143, 106, 86, 0.12);
-  /* Subtle brown active state */
-  --color: #8f6a56;
-  /* Active text color is brown */
+  --background: var(--ion-color-primary-tint);
+  --color: var(--ion-color-primary-contrast); /* White text on active */
   font-weight: 600;
 }
 
 ion-item ion-icon {
-  color: #999;
-  /* Inactive icon color */
-  font-size: 1.3rem;
+  color: var(--ion-color-primary);
   margin-right: 16px;
-  transition: color 0.2s;
-}
-
-ion-item:hover ion-icon {
-  color: #8f6a56;
 }
 
 ion-item.selected ion-icon {
-  color: #8f6a56;
-  /* Active icon color */
-}
-
-ion-label {
-  font-size: 0.95rem;
+  color: var(--ion-color-primary-contrast);
 }
 
 /* Footer del menú */
-.menu-footer {
+.professor-menu-footer {
   padding: 20px;
   text-align: center;
+  border-top: 1px solid var(--ion-color-step-100);
+  background: var(--ion-background-color);
   margin-top: auto;
 }
 
 .app-version {
   font-size: 0.75rem;
-  color: #ccc;
-}
-
-/* Reset border lines */
-ion-item::after {
-  display: none !important;
+  color: var(--ion-color-step-400);
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .menu-header {
-    padding: 30px 16px 20px 16px;
+  .professor-menu-header {
+    padding: 40px 16px 30px 16px;
   }
 }

@@ -16,6 +16,7 @@ import { micOutline, send, chevronForward } from "ionicons/icons";
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAvatar } from "../context/AvatarContext"; // Keeping context hook even if unused to match student structure
+import StudentHeader from "../components/StudentHeader";
 import "./ProfessorChat.css";
 
 // Fallback translations - Essential for stability
@@ -255,22 +256,12 @@ const ProfessorChat: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton
-              defaultHref="/page/professor"
-              className="back-button"
-              text=""
-              icon={chevronForward}
-              style={{ transform: "rotate(180deg)" }}
-            />
-          </IonButtons>
-          <div className="header-brand">
-            <span className="brand-text">{getT("title")}</span>
-          </div>
-        </IonToolbar>
-      </IonHeader>
+      {/* Reusing StudentHeader for visual consistency */}
+      <StudentHeader
+        pageTitle={getT("title")}
+        showSubject={false}
+        showNotch={false}
+      />
 
       <IonContent ref={contentRef} className="prof-chat-content">
         <div className="messages-container">
@@ -284,7 +275,6 @@ const ProfessorChat: React.FC = () => {
               >
                 {!message.isUser && shouldShowAvatar(index) && (
                   <div className="avatar-container">
-                    {/* Using a static professional AI logo/icon for Prof instead of mascot */}
                     <div className="bot-avatar-prof">
                       <img
                         src="/assets/icon/icon.png"

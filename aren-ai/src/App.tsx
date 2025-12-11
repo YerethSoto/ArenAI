@@ -37,6 +37,7 @@ import Help from "./pages/Help";
 import ProfessorAdmin from "./pages/ProfessorAdmin";
 import ProfessorProfile from "./pages/ProfessorProfile";
 import ProfessorChat from "./pages/ProfessorChat";
+import ProfessorSettings from "./pages/ProfessorSettings";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AvatarProvider } from "./context/AvatarContext";
 import { SoundProvider } from "./context/SoundContext";
@@ -255,7 +256,11 @@ const App: React.FC = () => {
                   </Route>
 
                   <Route path="/quiz" exact={true}>
-                    {userRole === "student" ? <Quiz /> : <Redirect to="/login" />}
+                    {userRole === "student" ? (
+                      <Quiz />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
                   </Route>
 
                   <Route path="/personality-quiz" exact={true}>
@@ -364,8 +369,20 @@ const App: React.FC = () => {
                     )}
                   </Route>
 
+                  <Route path="/professor-settings" exact={true}>
+                    {userRole === "professor" ? (
+                      <ProfessorSettings />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+
                   <Route path="/help" exact={true}>
-                    {userRole === "student" ? <Help /> : <Redirect to="/login" />}
+                    {userRole === "student" ? (
+                      <Help />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
                   </Route>
 
                   {/* Nueva ruta para unirse a clase por código o QR */}
@@ -378,7 +395,7 @@ const App: React.FC = () => {
           </SoundProvider>
         </ThemeProvider>
       </AvatarProvider>
-    </IonApp >
+    </IonApp>
   );
 };
 

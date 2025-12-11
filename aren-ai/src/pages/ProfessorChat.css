@@ -1,84 +1,47 @@
-/* ProfessorChat.css - Adapted from Chatbot.css for Professor Theme */
+/* ProfessorChat.css - Matched to Student Chatbot.css */
 
 .prof-chat-content {
     --background: var(--ion-background-color);
-    --padding-bottom: 150px !important;
 }
 
-/* Reusing Header Styles from other Prof pages */
-ion-header {
-    --background: var(--ion-background-color);
-    box-shadow: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-ion-toolbar {
-    --background: var(--ion-background-color);
-    --border-width: 0;
-}
-
-.header-brand {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    position: absolute;
-    left: 0;
-    pointer-events: none;
-}
-
-.brand-text {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--ion-text-color);
-    pointer-events: auto;
-}
-
-.back-button {
-    --color: var(--ion-color-primary);
-}
-
-
-/* Messages */
 .messages-container {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
+    padding: 20px 16px;
+    padding-bottom: 80px; /* Space for footer */
 }
 
-.message-list {
-    background: transparent;
-    padding: 0;
-}
-
+/* Bubbles */
 .message-wrapper {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end; /* Align bottom for avatar consistency */
     margin-bottom: 20px;
     width: 100%;
-}
-
-.user-wrapper {
-    justify-content: flex-end;
 }
 
 .bot-wrapper {
     justify-content: flex-start;
 }
 
-/* Avatar */
-.bot-avatar-prof {
-    width: 45px;
-    height: 45px;
+.user-wrapper {
+    justify-content: flex-end;
+}
+
+.avatar-container {
+    width: 40px;
+    height: 40px;
     margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.bot-avatar-prof {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: var(--ion-color-primary);
+    overflow: hidden;
+    background: #fff;
+    border: 2px solid var(--ion-color-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    flex-shrink: 0;
-    box-shadow: 0 4px 10px rgba(var(--ion-color-primary-rgb), 0.2);
 }
 
 .bot-avatar-prof img {
@@ -87,101 +50,81 @@ ion-toolbar {
     object-fit: cover;
 }
 
-
-/* Bubbles */
 .message-bubble {
-    max-width: 80%;
-    padding: 16px 20px;
+    max-width: 75%;
+    padding: 14px 18px;
     border-radius: 20px;
-    font-size: 1rem;
-    line-height: 1.5;
     position: relative;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.user-bubble {
-    background: var(--ion-color-primary);
-    color: white;
-    /* Always white on primary */
-    border-bottom-right-radius: 4px;
-    margin-left: 10px;
-}
-
-/* Ensure user text is white on primary background */
-.user-bubble .message-text,
-.user-bubble .message-timestamp {
-    color: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 .bot-bubble {
-    background: var(--ion-card-background);
-    color: var(--ion-text-color);
-    border-bottom-left-radius: 4px;
-    margin-right: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    background: #ffffff;
+    color: #444;
+    border-bottom-left-radius: 4px; /* Tail */
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+.user-bubble {
+    background: var(--ion-color-primary); /* Use Primary (Brown) or Secondary if desired */
+    color: var(--ion-color-primary-contrast);
+    border-bottom-right-radius: 4px; /* Tail */
 }
 
 .message-timestamp {
-    font-size: 0.75rem;
-    opacity: 0.7;
+    font-size: 0.7rem;
+    opacity: 0.6;
     margin-top: 6px;
     text-align: right;
     display: block;
 }
 
-/* Typing Indicator */
+/* Footer & Input */
+.chat-footer-prof {
+    --background: transparent;
+    padding: 10px;
+    background: var(--ion-background-color); /* Fallback */
+    border-top: none;
+}
+
+.chat-footer-prof ion-toolbar {
+    --background: transparent;
+    --border-width: 0;
+}
+
+.input-container-prof {
+    background: #ffffff;
+    border-radius: 30px;
+    padding: 4px 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08); /* Student style shadow */
+    border: 1px solid rgba(0,0,0,0.05);
+    /* Override old vars */
+    --background: #ffffff;
+    margin: 0;
+}
+
+.message-input-prof {
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --placeholder-opacity: 0.5;
+    font-size: 0.95rem;
+    --background: transparent;
+}
+
+.send-btn, .mic-btn {
+    --padding-start: 8px;
+    --padding-end: 8px;
+    color: var(--ion-color-primary);
+    width: 40px;
+    height: 40px;
+}
+
+/* Typing indicator */
 .typing-cursor {
     animation: blink 0.7s infinite;
     font-weight: bold;
     margin-left: 2px;
 }
-
-@keyframes blink {
-
-    0%,
-    50% {
-        opacity: 1;
-    }
-
-    51%,
-    100% {
-        opacity: 0;
-    }
-}
-
-/* Footer */
-.chat-footer-prof {
-    background: var(--ion-background-color) !important;
-    padding-bottom: env(safe-area-inset-bottom);
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.chat-footer-prof ion-toolbar {
-    --background: var(--ion-background-color) !important;
-    --padding-top: 10px;
-    --padding-bottom: 10px;
-}
-
-.input-container-prof {
-    --padding-start: 16px;
-    --inner-padding-end: 8px;
-    --background: var(--ion-item-background, #f5f5f5);
-    margin: 0 16px;
-    border-radius: 28px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.message-input-prof {
-    --padding-top: 12px;
-    --padding-bottom: 12px;
-    --padding-start: 8px;
-    font-size: 1rem;
-    max-height: 100px;
-    --color: var(--ion-text-color);
-    --placeholder-color: var(--ion-text-color-step-300);
-}
-
-.send-btn,
-.mic-btn {
-    --color: var(--ion-color-primary);
-}
+@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }

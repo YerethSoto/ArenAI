@@ -87,7 +87,7 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
   const settingsPages: AppPage[] = [
     {
       titleKey: "professor.sidebar.settings",
-      url: "/folder/Settings",
+      url: "/professor-settings",
       iosIcon: settingsOutline,
       mdIcon: settingsSharp,
     },
@@ -134,24 +134,23 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
   return (
     <IonMenu contentId="main" id="professor-menu">
       <IonContent>
-        {/* Header del menú con datos dinámicos del usuario */}
-        <div className="menu-header">
-          <div className="teacher-info">
-            <div className="teacher-avatar">
-              <IonIcon icon={glassesOutline} />
-            </div>
-            <div className="teacher-details">
-              <IonLabel className="teacher-name">{currentUser.name}</IonLabel>
-              <IonNote className="teacher-email">{currentUser.email}</IonNote>
-              <IonNote className="teacher-username">
-                @{currentUser.username}
-              </IonNote>
-            </div>
+        {/* Header del menú - Matches Student Vertical Layout */}
+        <div className="professor-menu-header">
+          <div className="teacher-avatar-large">
+            <IonIcon icon={glassesOutline} />
+          </div>
+          <div className="teacher-info-column">
+            <IonLabel className="teacher-name">{currentUser.name}</IonLabel>
+            <IonNote className="teacher-email">{currentUser.email}</IonNote>
+            <IonNote className="teacher-username">
+              @{currentUser.username}
+            </IonNote>
+            <IonNote className="teacher-role">Professor</IonNote>
           </div>
         </div>
 
         {/* Navegación principal */}
-        <IonList id="main-list" lines="none">
+        <IonList id="prof-main-list" lines="none">
           <IonListHeader>{t("professor.sidebar.teaching")}</IonListHeader>
           {appPages.map((appPage, index) => {
             return (
@@ -179,16 +178,17 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
         </IonList>
 
         {/* Configuración y ayuda */}
-        <IonList id="settings-list" lines="none">
+        <IonList id="prof-settings-list" lines="none">
           <IonListHeader>{t("professor.sidebar.account")}</IonListHeader>
           {settingsPages.map((appPage, index) => {
+            // Logic for settings items
             const isLogout = appPage.url === "/login";
             return (
               <IonMenuToggle key={index} autoHide={false}>
                 <IonItem
-                  className={`${
+                  className={
                     location.pathname === appPage.url ? "selected" : ""
-                  } ${isLogout ? "logout-item" : ""}`}
+                  }
                   routerLink={appPage.url}
                   routerDirection="none"
                   lines="none"
@@ -209,7 +209,7 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
         </IonList>
 
         {/* Información de la app */}
-        <div className="menu-footer">
+        <div className="professor-menu-footer">
           <IonNote className="app-version">ArenAI v1.0.0</IonNote>
         </div>
       </IonContent>
