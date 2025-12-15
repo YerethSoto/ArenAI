@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { IonPage, IonContent } from '@ionic/react';
 import { useIonRouter } from '@ionic/react';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +24,7 @@ interface QuizResult {
 const PersonalityQuiz: React.FC = () => {
     const router = useIonRouter();
     const { t, i18n } = useTranslation();
+    const contentRef = useRef<HTMLIonContentElement>(null);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState<number[]>([]);
     const [showResults, setShowResults] = useState(false);
@@ -42,8 +43,19 @@ const PersonalityQuiz: React.FC = () => {
         if (saved && learningTypes && learningTypes[saved]) {
             setSavedResultType(saved);
             setShowResults(true);
+        } else if (saved && learningTypes && !learningTypes[saved]) {
+            // Clear invalid saved type
+            console.log('Clearing invalid saved type:', saved);
+            localStorage.removeItem('personalityQuizResult');
         }
     }, [learningTypes]);
+
+    // Scroll to top when results are shown
+    useEffect(() => {
+        if (showResults && contentRef.current) {
+            contentRef.current.scrollToTop(300);
+        }
+    }, [showResults]);
 
     const handleOptionSelect = (optionIndex: number) => {
         const newAnswers = [...answers];
@@ -74,19 +86,20 @@ const PersonalityQuiz: React.FC = () => {
             }
         });
 
-        let dominantType = 'multimodal';
+        let dominantType = 'significant';
         let maxCount = 0;
 
         Object.entries(typeCounts).forEach(([type, count]) => {
-            if (count > maxCount) {
+            if (count > maxCount && learningTypes[type]) {
                 maxCount = count;
                 dominantType = type;
             }
         });
 
         const totalAnswers = currentAnswers.filter(a => a !== undefined).length;
+        // If no clear dominant type, use significant as fallback
         if (maxCount < totalAnswers * 0.25) {
-            dominantType = 'multimodal';
+            dominantType = 'significant';
         }
 
         return dominantType;
@@ -104,7 +117,14 @@ const PersonalityQuiz: React.FC = () => {
             return learningTypes[savedResultType];
         }
         const type = calculateResultType(answers);
-        return learningTypes[type] || learningTypes.multimodal;
+        console.log('Calculated type:', type);
+        console.log('Available types:', Object.keys(learningTypes));
+        // Always ensure we return a valid result
+        if (learningTypes[type]) {
+            return learningTypes[type];
+        }
+        // Fallback to significant if calculated type doesn't exist
+        return learningTypes.significant || Object.values(learningTypes)[0];
     };
 
     const restartQuiz = () => {
@@ -119,9 +139,9 @@ const PersonalityQuiz: React.FC = () => {
         return (
             <IonPage>
                 <StudentHeader pageTitle="personalityQuiz.title" showNotch={false} />
-                <IonContent fullscreen>
-                    <div className="quiz-container">
-                        <div className="loading-container">
+                <IonContent fullscreen ref={contentRef}>
+                    <div className="personality-quiz-container">
+                        <div className="personality-loading-container">
                             <p>{t('personalityQuiz.loading')}</p>
                         </div>
                     </div>
@@ -136,43 +156,43 @@ const PersonalityQuiz: React.FC = () => {
         return (
             <IonPage>
                 <StudentHeader pageTitle="personalityQuiz.title" showNotch={false} />
-                <IonContent fullscreen>
-                    <div className="quiz-container">
-                        <div className="results-card">
-                            <div className="results-content">
-                                <div className="results-icon">✨</div>
-                                <h2 className="results-title">{result.title}</h2>
-                                <p className="results-description">{result.description}</p>
+                <IonContent fullscreen ref={contentRef}>
+                    <div className="personality-quiz-container">
+                        <div className="personality-results-card">
+                            <div className="personality-results-content">
+                                <div className="personality-results-icon">✨</div>
+                                <h2 className="personality-results-title">{result.title}</h2>
+                                <p className="personality-results-description">{result.description}</p>
 
-                                <div className="traits-container">
-                                    <h3 className="traits-title">{t('personalityQuiz.ui.yourTraits')}</h3>
-                                    <ul className="traits-list">
+                                <div className="personality-traits-container">
+                                    <h3 className="personality-traits-title">{t('personalityQuiz.ui.yourTraits')}</h3>
+                                    <ul className="personality-traits-list">
                                         {result.traits.map((trait, index) => (
-                                            <li key={index} className="trait-item">
-                                                <span className="trait-bullet">✓</span>
+                                            <li key={index} className="personality-trait-item">
+                                                <span className="personality-trait-bullet">✓</span>
                                                 {trait}
                                             </li>
                                         ))}
                                     </ul>
                                 </div>
 
-                                <div className="traits-container recommendations">
-                                    <h3 className="traits-title">{t('personalityQuiz.ui.recommendations')}</h3>
-                                    <ul className="traits-list">
+                                <div className="personality-traits-container personality-recommendations">
+                                    <h3 className="personality-traits-title">{t('personalityQuiz.ui.recommendations')}</h3>
+                                    <ul className="personality-traits-list">
                                         {result.recommendations.map((rec, index) => (
-                                            <li key={index} className="trait-item">
-                                                <span className="trait-bullet">💡</span>
+                                            <li key={index} className="personality-trait-item">
+                                                <span className="personality-trait-bullet">💡</span>
                                                 {rec}
                                             </li>
                                         ))}
                                     </ul>
                                 </div>
 
-                                <button className="restart-button" onClick={restartQuiz}>
+                                <button className="personality-restart-button" onClick={restartQuiz}>
                                     {t('personalityQuiz.ui.restart')}
                                 </button>
 
-                                <button className="exit-button" onClick={() => router.push('/page/student', 'back')}>
+                                <button className="personality-exit-button" onClick={() => router.push('/page/student', 'back')}>
                                     {t('personalityQuiz.ui.exit')}
                                 </button>
                             </div>
@@ -186,7 +206,7 @@ const PersonalityQuiz: React.FC = () => {
     return (
         <IonPage>
             <StudentHeader pageTitle="personalityQuiz.title" showNotch={false} />
-            <IonContent fullscreen>
+            <IonContent fullscreen ref={contentRef}>
                 <div className="quiz-container">
                     <div className="question-card-container">
                         {/* Main Content */}
@@ -227,7 +247,7 @@ const PersonalityQuiz: React.FC = () => {
                             </div>
 
                             {/* Question Visual Icon */}
-                            <div className="question-visual-icon" style={{ fontSize: '48px', marginBottom: '16px', animation: 'bounce 2s infinite' }}>
+                            <div className="personality-question-visual-icon">
                                 {currentQuestionIndex % 5 === 0 ? '🤔' :
                                     currentQuestionIndex % 5 === 1 ? '💡' :
                                         currentQuestionIndex % 5 === 2 ? '✨' :
