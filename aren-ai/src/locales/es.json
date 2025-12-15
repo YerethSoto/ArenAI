@@ -635,212 +635,212 @@
             }
         ],
         "results": {
-            "visual": {
-                "title": "¡Eres un Aprendiz Visual! 👁️",
-                "description": "Aprendes mejor a través de imágenes, gráficos, videos y presentaciones visuales. Tienes una excelente memoria visual y prefieres ver la información.",
+            "associative": {
+                "title": "¡Aprendizaje Asociativo! 🔗",
+                "description": "Este tipo de aprendizaje se da cuando asocias estímulos externos o sucesos con una idea o comportamiento. Esta forma de aprender se caracteriza por ser profunda y efectiva, y se aplica mediante refuerzos positivos para incentivar hábitos de estudio o conductas específicas.",
                 "traits": [
-                    "Memoria visual excepcional",
-                    "Prefieres diagramas y gráficos",
-                    "Piensas en imágenes",
-                    "Entiendes mejor con mapas mentales"
+                    "Asocias experiencias con conceptos",
+                    "Los refuerzos te ayudan a aprender",
+                    "Conectas estímulos con respuestas",
+                    "Aprendizaje profundo y efectivo"
                 ],
                 "recommendations": [
-                    "Usa mapas mentales y diagramas",
-                    "Ve videos educativos",
-                    "Usa colores para organizar notas",
-                    "Crea infografías propias"
+                    "Usa recompensas al estudiar",
+                    "Crea asociaciones positivas con el estudio",
+                    "Relaciona conceptos con experiencias",
+                    "Establece rutinas de estudio consistentes"
                 ]
             },
-            "auditory": {
-                "title": "¡Eres un Aprendiz Auditivo! 👂",
-                "description": "Aprendes mejor escuchando. Las explicaciones verbales, discusiones y podcasts son tu fuerte. Recuerdas mejor lo que escuchas.",
+            "nonAssociative": {
+                "title": "¡Aprendizaje No Asociativo! 🔄",
+                "description": "Se produce cuando tu respuesta cambia ante un estímulo que se repite en el tiempo o es continuo, ya sea porque te acostumbras a él o porque terminas por interiorizarlo. Tu sensibilidad varía con el tiempo.",
                 "traits": [
-                    "Aprendes escuchando",
-                    "Disfrutas las discusiones",
-                    "Recuerdas conversaciones fácilmente",
-                    "Prefieres explicaciones verbales"
+                    "Te adaptas a estímulos repetidos",
+                    "Aprendes por habituación",
+                    "Tu sensibilidad cambia con el tiempo",
+                    "Interiorizas automáticamente"
                 ],
                 "recommendations": [
-                    "Escucha podcasts educativos",
-                    "Graba tus clases",
-                    "Lee en voz alta",
-                    "Participa en debates y discusiones"
+                    "Mantén ambientes de estudio consistentes",
+                    "Establece rutinas regulares",
+                    "Aprovecha la repetición espaciada",
+                    "Crea hábitos de estudio automáticos"
                 ]
             },
-            "kinesthetic": {
-                "title": "¡Eres un Aprendiz Kinestésico! 🤸",
-                "description": "Aprendes mejor haciendo y tocando. Necesitas movimiento, experimentos prácticos y actividades físicas para aprender efectivamente.",
+            "cooperative": {
+                "title": "¡Aprendizaje Cooperativo! 🤝",
+                "description": "En este tipo de aprendizaje trabajas en grupo con roles y funciones asignadas por el docente. El profesor hace los equipos, asigna roles y dirige el proceso. Es común en metodologías activas como el aprendizaje basado en retos.",
                 "traits": [
-                    "Aprendes haciendo",
-                    "Necesitas movimiento",
-                    "Disfrutas experimentos",
-                    "Bueno construyendo cosas"
+                    "Trabajas bien en equipos estructurados",
+                    "Sigues roles asignados efectivamente",
+                    "Aprendes con guía del profesor",
+                    "Excelente en trabajo organizado"
                 ],
                 "recommendations": [
-                    "Haz experimentos prácticos",
-                    "Usa modelos físicos",
-                    "Toma descansos activos",
-                    "Relaciona conceptos con movimientos"
-                ]
-            },
-            "reading": {
-                "title": "¡Eres un Aprendiz Lector/Escritor! 📚",
-                "description": "Aprendes mejor leyendo y escribiendo. Los libros, artículos y tomar notas son esenciales para tu proceso de aprendizaje.",
-                "traits": [
-                    "Amas leer y escribir",
-                    "Tomas notas detalladas",
-                    "Aprendes escribiendo",
-                    "Prefieres textos estructurados"
-                ],
-                "recommendations": [
-                    "Lee libros y artículos",
-                    "Escribe resúmenes",
-                    "Crea listas y esquemas",
-                    "Mantén un diario de aprendizaje"
-                ]
-            },
-            "logical": {
-                "title": "¡Eres un Aprendiz Lógico! 🧮",
-                "description": "Aprendes mejor con razonamiento lógico, patrones y estructuras. Te gustan las matemáticas, los problemas y el análisis sistemático.",
-                "traits": [
-                    "Excelente en lógica y matemáticas",
-                    "Reconoces patrones fácilmente",
-                    "Piensas de forma estructurada",
-                    "Disfrutas resolver problemas"
-                ],
-                "recommendations": [
-                    "Usa diagramas de flujo",
-                    "Resuelve acertijos lógicos",
-                    "Organiza información en tablas",
-                    "Busca patrones en los datos"
-                ]
-            },
-            "interpersonal": {
-                "title": "¡Eres un Aprendiz Interpersonal! 🤝",
-                "description": "Aprendes mejor interactuando con otros. Los grupos, discusiones y el trabajo colaborativo potencian tu aprendizaje.",
-                "traits": [
-                    "Excelente en grupos",
-                    "Entiendes a las personas",
-                    "Disfrutas colaborar",
-                    "Bueno comunicándote"
-                ],
-                "recommendations": [
-                    "Forma grupos de estudio",
-                    "Enseña a otros",
-                    "Participa en proyectos grupales",
-                    "Usa debates para aprender"
-                ]
-            },
-            "intrapersonal": {
-                "title": "¡Eres un Aprendiz Intrapersonal! 🧘",
-                "description": "Aprendes mejor solo, mediante autorreflexión. Necesitas tiempo para procesar internamente y conectar con tus propios pensamientos.",
-                "traits": [
-                    "Prefieres estudiar solo",
-                    "Reflexivo y autoconsciente",
-                    "Aprendes a tu ritmo",
-                    "Valoras tu independencia"
-                ],
-                "recommendations": [
-                    "Estudia en ambientes tranquilos",
-                    "Reflexiona sobre lo aprendido",
-                    "Lleva un diario personal",
-                    "Establece metas propias"
+                    "Participa activamente en grupos dirigidos",
+                    "Cumple tu rol en el equipo",
+                    "Colabora siguiendo las instrucciones",
+                    "Aprovecha proyectos de grupo estructurados"
                 ]
             },
             "collaborative": {
-                "title": "¡Eres un Aprendiz Colaborativo! 👥",
-                "description": "Aprendes mejor trabajando en equipo. El intercambio de ideas y el apoyo mutuo son fundamentales para tu éxito académico.",
+                "title": "¡Aprendizaje Colaborativo! 👥",
+                "description": "En el aprendizaje colaborativo el docente propone el tema o plantea un problema y tú decides con tus compañeros cómo abordar el proyecto, fomentando la autonomía y la toma de decisiones conjuntas.",
                 "traits": [
-                    "Excelente trabajando en equipo",
-                    "Compartes conocimientos",
-                    "Apoyas a tus compañeros",
-                    "Aprendes enseñando"
+                    "Excelente en trabajo autónomo en equipo",
+                    "Tomas decisiones junto a compañeros",
+                    "Manejas proyectos con autonomía",
+                    "Aprendes enseñando a otros"
                 ],
                 "recommendations": [
-                    "Únete a grupos de estudio",
-                    "Crea proyectos en equipo",
+                    "Únete a grupos de estudio autónomos",
+                    "Propón ideas en proyectos grupales",
                     "Usa plataformas colaborativas",
-                    "Organiza sesiones de tutoría"
+                    "Organiza sesiones de estudio en equipo"
+                ]
+            },
+            "emotional": {
+                "title": "¡Aprendizaje Emocional! ❤️",
+                "description": "Con él aprendes a conocer tus emociones y gestionarlas de forma eficiente. El aprendizaje emocional contribuye a tu bienestar y desarrollo personal, y favorece que tus relaciones interpersonales sean sanas.",
+                "traits": [
+                    "Reconoces y gestionas tus emociones",
+                    "Conectas emocionalmente con el aprendizaje",
+                    "Desarrollas inteligencia emocional",
+                    "Creas relaciones interpersonales sanas"
+                ],
+                "recommendations": [
+                    "Practica la reflexión sobre tus emociones",
+                    "Lleva un diario emocional",
+                    "Trabaja en inteligencia emocional",
+                    "Relaciona el aprendizaje con tus sentimientos"
+                ]
+            },
+            "experiential": {
+                "title": "¡Aprendizaje Experiencial! 🌟",
+                "description": "Consiste en aprender a partir de las situaciones que vives o incluso de los errores que cometes. Este tipo de aprendizaje puede diferir mucho según la persona y precisa de un cierto trabajo de autorreflexión.",
+                "traits": [
+                    "Aprendes de tus experiencias vividas",
+                    "Reflexionas sobre tus errores",
+                    "Valoras la práctica real",
+                    "Desarrollas aprendizaje personal"
+                ],
+                "recommendations": [
+                    "Participa en simulaciones prácticas",
+                    "Reflexiona sobre tus experiencias",
+                    "Aprende de tus errores",
+                    "Busca proyectos experienciales"
+                ]
+            },
+            "implicit": {
+                "title": "¡Aprendizaje Implícito! 🔮",
+                "description": "Se da cuando aprendes algo, generalmente, sin una intencionalidad. Sucede sin darte cuenta y casi de manera automática como, por ejemplo, las acciones de andar, hablar o moverte.",
+                "traits": [
+                    "Aprendes sin darte cuenta",
+                    "Adquieres habilidades automáticamente",
+                    "Interiorizas sin esfuerzo consciente",
+                    "Aprendizaje natural y fluido"
+                ],
+                "recommendations": [
+                    "Sumérgete en ambientes de aprendizaje",
+                    "Practica regularmente sin presión",
+                    "Aprende por inmersión",
+                    "Confía en tu aprendizaje natural"
+                ]
+            },
+            "explicit": {
+                "title": "¡Aprendizaje Explícito! 📝",
+                "description": "Este sí tiene una intención y también existe una conciencia: eres consciente de que estás aprendiendo. Te permite adquirir información nueva sobre personas, lugares y objetos, y requiere atención y ejercicio por parte de tu cerebro.",
+                "traits": [
+                    "Aprendes de forma consciente e intencional",
+                    "Te enfocas en el aprendizaje",
+                    "Adquieres conocimientos deliberadamente",
+                    "Requieres concentración activa"
+                ],
+                "recommendations": [
+                    "Establece metas de aprendizaje claras",
+                    "Dedica tiempo específico al estudio",
+                    "Toma notas detalladas",
+                    "Practica la atención plena al aprender"
+                ]
+            },
+            "memoristic": {
+                "title": "¡Aprendizaje Memorístico! 🧠",
+                "description": "Durante mucho tiempo fue el método predominante en educación. Se trata de fijar en la memoria y recordar conceptos casi de manera autómata. Aunque no siempre implica un entendimiento profundo, sigue siendo útil en algunos contextos.",
+                "traits": [
+                    "Excelente memoria para datos",
+                    "Retienes información mediante repetición",
+                    "Recuerdas hechos y conceptos",
+                    "Bueno en recuperación rápida"
+                ],
+                "recommendations": [
+                    "Usa técnicas de repetición espaciada",
+                    "Crea tarjetas de memoria (flashcards)",
+                    "Practica la recuperación activa",
+                    "Combina con comprensión profunda"
+                ]
+            },
+            "observational": {
+                "title": "¡Aprendizaje Observacional! 👁️",
+                "description": "Este tipo de aprendizaje requiere la participación de al menos dos personas: una más experta que realiza una acción dando ejemplo (modelo) y la que observa e imita o reproduce la actuación (aprendiz). Es clave en la enseñanza de habilidades prácticas y sociales.",
+                "traits": [
+                    "Aprendes observando a otros",
+                    "Imitas modelos efectivamente",
+                    "Aprendizaje visual y práctico",
+                    "Adquieres habilidades por demostración"
+                ],
+                "recommendations": [
+                    "Observa a expertos en acción",
+                    "Ve tutoriales y demostraciones",
+                    "Practica imitando técnicas",
+                    "Busca mentores y modelos a seguir"
                 ]
             },
             "discovery": {
-                "title": "¡Eres un Aprendiz por Descubrimiento! 🔍",
-                "description": "Aprendes mejor explorando y descubriendo por ti mismo. La curiosidad y la experimentación son tus mejores herramientas.",
+                "title": "¡Aprendizaje por Descubrimiento! 🔍",
+                "description": "Es uno de los tipos de aprendizaje más activos. Además de aprender participando, vas más allá: no te conformas solo con lo enseñado. Buscas información por tu cuenta, organizas los datos en tu esquema cognitivo y los relacionas con conocimientos previos.",
                 "traits": [
                     "Muy curioso e inquisitivo",
-                    "Aprendes experimentando",
-                    "Disfrutas investigar",
+                    "Aprendes experimentando e investigando",
+                    "Buscas información activamente",
                     "Autónomo en tu aprendizaje"
                 ],
                 "recommendations": [
                     "Realiza proyectos de investigación",
                     "Experimenta libremente",
                     "Haz preguntas constantemente",
-                    "Explora temas por tu cuenta"
+                    "Practica la indagación guiada"
                 ]
             },
-            "online": {
-                "title": "¡Eres un Aprendiz Digital! 💻",
-                "description": "Aprendes mejor usando tecnología y recursos en línea. Las plataformas digitales, apps y cursos online son ideales para ti.",
+            "receptive": {
+                "title": "¡Aprendizaje Receptivo! 📖",
+                "description": "Podría considerarse uno de los tipos de aprendizaje pasivos. Te limitas a recibir la información, ya sea vía oral, escrita o audiovisual, e interiorizas ese contenido para poder reproducirlo posteriormente. Es útil en determinados contextos.",
                 "traits": [
-                    "Te adaptas bien a la tecnología",
-                    "Prefieres recursos digitales",
-                    "Aprendes con apps y plataformas",
-                    "Autodidacta en línea"
+                    "Recibes información efectivamente",
+                    "Escuchas y asimilas bien",
+                    "Aprendes de conferencias y lectura",
+                    "Interiorizas contenido presentado"
                 ],
                 "recommendations": [
-                    "Usa cursos online (Coursera, Khan Academy)",
-                    "Prueba apps educativas",
-                    "Ve tutoriales en YouTube",
-                    "Únete a comunidades virtuales"
+                    "Asiste a conferencias y charlas",
+                    "Lee material estructurado",
+                    "Ve contenido educativo",
+                    "Combina con métodos activos"
                 ]
             },
-            "naturalist": {
-                "title": "¡Eres un Aprendiz Naturalista! 🌿",
-                "description": "Aprendes mejor conectándote con la naturaleza. Clasificar, observar y comprender el mundo natural te ayuda a aprender.",
+            "significant": {
+                "title": "¡Aprendizaje Significativo! ⭐",
+                "description": "De todos los tipos de aprendizaje, este es uno de los más efectivos. Consiste en recopilar, seleccionar y organizar la información que se te transmite para establecer una relación entre estos conocimientos nuevos y aquellos con los que ya contabas previamente.",
                 "traits": [
-                    "Conexión con la naturaleza",
-                    "Observador del entorno",
-                    "Bueno clasificando",
-                    "Aprecias el mundo natural"
+                    "Relacionas conocimientos nuevos con previos",
+                    "Construyes esquemas cognitivos",
+                    "Aprendizaje profundo y duradero",
+                    "Comprendes y aplicas efectivamente"
                 ],
                 "recommendations": [
-                    "Estudia al aire libre",
-                    "Observa patrones naturales",
-                    "Usa ejemplos de la naturaleza",
-                    "Visita museos de ciencias naturales"
-                ]
-            },
-            "creative": {
-                "title": "¡Eres un Aprendiz Creativo! 🎨",
-                "description": "Aprendes mejor a través de la creatividad y la innovación. El arte, la música y los proyectos originales potencian tu aprendizaje.",
-                "traits": [
-                    "Muy creativo e imaginativo",
-                    "Piensas de forma original",
-                    "Disfrutas proyectos artísticos",
-                    "Innovador en tus soluciones"
-                ],
-                "recommendations": [
-                    "Usa proyectos creativos",
-                    "Dibuja y visualiza conceptos",
-                    "Crea presentaciones originales",
-                    "Relaciona temas con arte"
-                ]
-            },
-            "multimodal": {
-                "title": "¡Eres un Aprendiz Multimodal! 🌟",
-                "description": "Aprendes mejor combinando múltiples métodos. Eres flexible y te adaptas usando diferentes estilos según la situación.",
-                "traits": [
-                    "Flexible en tus métodos",
-                    "Combinas diferentes estilos",
-                    "Te adaptas fácilmente",
-                    "Aprendes de múltiples formas"
-                ],
-                "recommendations": [
-                    "Combina lectura, videos y práctica",
-                    "Experimenta con diferentes métodos",
-                    "Adapta tu estilo según el tema",
-                    "Usa recursos variados"
+                    "Conecta conceptos nuevos con lo que sabes",
+                    "Usa mapas conceptuales",
+                    "Practica la transferencia de conocimientos",
+                    "Aplica lo aprendido a situaciones reales"
                 ]
             }
         },

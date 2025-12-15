@@ -150,12 +150,14 @@
 
 /* Image Section */
 .image-section {
-  flex: 1; /* Grow/Shrink */
+  flex: 1;
+  /* Grow/Shrink */
   display: flex;
   justify-content: center;
   align-items: flex-end;
   background: transparent;
-  min-height: 0; /* Allow shrinking */
+  min-height: 0;
+  /* Allow shrinking */
   position: relative;
   margin-bottom: 0;
   padding-bottom: 0;
@@ -164,7 +166,8 @@
 .quiz-image {
   width: auto;
   height: auto;
-  max-height: 35vh; /* Limit height */
+  max-height: 35vh;
+  /* Limit height */
   object-fit: contain;
   object-position: bottom;
   background: transparent;
@@ -201,18 +204,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0.5rem; /* Wider: less side padding */
-  margin-top: 0.5rem; /* Less space top */
-  margin-bottom: 0.5rem; /* Less space bottom */
+  padding: 0 0.5rem;
+  /* Wider: less side padding */
+  margin-top: 0.5rem;
+  /* Less space top */
+  margin-bottom: 0.5rem;
+  /* Less space bottom */
   width: 100%;
 }
 
 .question-card {
   background: var(--ion-color-primary);
   border-radius: 12px;
-  padding: 0.8rem 1rem; /* Smaller padding */
+  padding: 0.8rem 1rem;
+  /* Smaller padding */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  border: none; /* Remove border to avoid "border-like" look */
+  border: none;
+  /* Remove border to avoid "border-like" look */
   width: 100%;
   text-align: center;
   display: flex;
@@ -231,7 +239,8 @@
   border-width: 10px;
   border-style: solid;
   border-color: var(--ion-color-primary) transparent transparent transparent;
-  display: none; /* Hide the arrow if we want it flatter/cleaner and closer */
+  display: none;
+  /* Hide the arrow if we want it flatter/cleaner and closer */
 }
 
 .question-title {
@@ -241,14 +250,19 @@
   line-height: 1.2;
   font-family: 'Open Sans', sans-serif;
   width: 100%;
-  font-size: 0.95rem; /* Smaller text */
+  font-size: 0.95rem;
+  /* Smaller text */
 }
 
 /* Options Section */
 .options-section {
   padding: 0 1rem;
+  padding-top: 0.8rem;
   margin-bottom: 2rem;
   width: 100%;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .options-section ion-grid {
@@ -259,7 +273,7 @@
 .options-section ion-row {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
 }
 
 .option-button {
@@ -271,14 +285,14 @@
   --box-shadow: none;
   --border-width: 0;
   --border-style: none;
-  
+
   /* CRITICAL: Remove host padding */
   --padding-start: 0;
   --padding-end: 0;
   --padding-top: 0;
   --padding-bottom: 0;
   padding: 0;
-  
+
   margin: 0;
   text-transform: none;
   font-weight: 500;
@@ -287,8 +301,9 @@
   line-height: 1.2;
   font-family: 'Open Sans', sans-serif;
   height: auto;
-  min-height: 3rem;
+  min-height: 2rem;
   width: 100%;
+  font-size: 0.85rem;
 }
 
 .option-button::part(native) {
@@ -299,26 +314,13 @@
   justify-content: flex-start;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  padding: 0.8rem 1rem; /* Color fills this padding */
+  padding: 0.5rem 0.9rem;
   width: 100%;
   height: 100%;
   border-radius: 12px;
 }
 
-/* Container queries for button text sizing */
-@container options-container (min-height: 200px) {
-  .option-button {
-    font-size: clamp(0.8rem, 3vw, 1.1rem);
-    height: 3.2rem;
-  }
-}
-
-@container options-container (min-height: 250px) {
-  .option-button {
-    font-size: clamp(0.9rem, 3.5vw, 1.2rem);
-    height: 3.5rem;
-  }
-}
+/* Remove container queries to prevent height expansion */
 
 /* Fallback for browsers that don't support container queries */
 @supports not (container-type: size) {
@@ -617,11 +619,11 @@
   .quiz-image {
     width: 14rem;
   }
-  
+
   .image-section {
     min-height: 10rem;
   }
-  
+
   .question-section {
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -662,13 +664,16 @@
 @media (max-width: 480px) {
   .quiz-image {
     width: auto;
-    max-height: 20vh; /* Aggressively reduced for mobile */
+    max-height: 20vh;
+    /* Aggressively reduced for mobile */
   }
 
   .image-section {
     min-height: 0;
-    flex: 0 1 auto; /* Allow shrinking */
-    margin-bottom: 1.5rem; /* Space for hexagon */
+    flex: 0 1 auto;
+    /* Allow shrinking */
+    margin-bottom: 1.5rem;
+    /* Space for hexagon */
   }
 
   .character-name-hexagon {

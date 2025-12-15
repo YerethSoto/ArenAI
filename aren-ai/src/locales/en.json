@@ -645,212 +645,212 @@
             }
         ],
         "results": {
-            "visual": {
-                "title": "You are a Visual Learner! 👁️",
-                "description": "You learn best through images, graphs, videos, and visual presentations. You have an excellent visual memory and prefer to see information.",
+            "associative": {
+                "title": "Associative Learning! 🔗",
+                "description": "This type of learning occurs when you associate external stimuli or events with an idea or behavior. This way of learning is characterized by being deep and effective, and is applied through positive reinforcement to encourage study habits or specific behaviors.",
                 "traits": [
-                    "Exceptional visual memory",
-                    "Prefer diagrams and charts",
-                    "Think in images",
-                    "Understand better with mind maps"
+                    "Associate experiences with concepts",
+                    "Reinforcements help you learn",
+                    "Connect stimuli with responses",
+                    "Deep and effective learning"
                 ],
                 "recommendations": [
-                    "Use mind maps and diagrams",
-                    "Watch educational videos",
-                    "Use colors to organize notes",
-                    "Create your own infographics"
+                    "Use rewards when studying",
+                    "Create positive associations with studying",
+                    "Relate concepts to experiences",
+                    "Establish consistent study routines"
                 ]
             },
-            "auditory": {
-                "title": "You are an Auditory Learner! 👂",
-                "description": "You learn best by listening. Verbal explanations, discussions, and podcasts are your strength. You remember what you hear better.",
+            "nonAssociative": {
+                "title": "Non-Associative Learning! 🔄",
+                "description": "This occurs when your response changes to a stimulus that repeats over time or is continuous, either because you get used to it or because you internalize it. Your sensitivity varies over time.",
                 "traits": [
-                    "Learn by listening",
-                    "Enjoy discussions",
-                    "Remember conversations easily",
-                    "Prefer verbal explanations"
+                    "Adapt to repeated stimuli",
+                    "Learn through habituation",
+                    "Your sensitivity changes over time",
+                    "Internalize automatically"
                 ],
                 "recommendations": [
-                    "Listen to educational podcasts",
-                    "Record your classes",
-                    "Read out loud",
-                    "Participate in debates and discussions"
+                    "Maintain consistent study environments",
+                    "Establish regular routines",
+                    "Leverage spaced repetition",
+                    "Create automatic study habits"
                 ]
             },
-            "kinesthetic": {
-                "title": "You are a Kinesthetic Learner! 🤸",
-                "description": "You learn best by doing and touching. You need movement, practical experiments, and physical activities to learn effectively.",
+            "cooperative": {
+                "title": "Cooperative Learning! 🤝",
+                "description": "In this type of learning you work in groups with roles and functions assigned by the teacher. The professor forms teams, assigns roles, and directs the process. It's common in active methodologies like challenge-based learning.",
                 "traits": [
-                    "Learn by doing",
-                    "Need movement",
-                    "Enjoy experiments",
-                    "Good at building things"
+                    "Work well in structured teams",
+                    "Follow assigned roles effectively",
+                    "Learn with teacher guidance",
+                    "Excellent at organized work"
                 ],
                 "recommendations": [
-                    "Do practical experiments",
-                    "Use physical models",
-                    "Take active breaks",
-                    "Relate concepts to movements"
-                ]
-            },
-            "reading": {
-                "title": "You are a Reading/Writing Learner! 📚",
-                "description": "You learn best by reading and writing. Books, articles, and taking notes are essential for your learning process.",
-                "traits": [
-                    "Love reading and writing",
-                    "Take detailed notes",
-                    "Learn by writing",
-                    "Prefer structured texts"
-                ],
-                "recommendations": [
-                    "Read books and articles",
-                    "Write summaries",
-                    "Create lists and outlines",
-                    "Keep a learning journal"
-                ]
-            },
-            "logical": {
-                "title": "You are a Logical Learner! 🧮",
-                "description": "You learn best with logical reasoning, patterns, and structures. You like math, problems, and systematic analysis.",
-                "traits": [
-                    "Excellent at logic and math",
-                    "Recognize patterns easily",
-                    "Think in a structured way",
-                    "Enjoy solving problems"
-                ],
-                "recommendations": [
-                    "Use flowcharts",
-                    "Solve logical puzzles",
-                    "Organize information in tables",
-                    "Look for patterns in data"
-                ]
-            },
-            "interpersonal": {
-                "title": "You are an Interpersonal Learner! 🤝",
-                "description": "You learn best by interacting with others. Groups, discussions, and collaborative work boost your learning.",
-                "traits": [
-                    "Excellent in groups",
-                    "Understand people",
-                    "Enjoy collaborating",
-                    "Good at communicating"
-                ],
-                "recommendations": [
-                    "Form study groups",
-                    "Teach others",
-                    "Participate in group projects",
-                    "Use debates to learn"
-                ]
-            },
-            "intrapersonal": {
-                "title": "You are an Intrapersonal Learner! 🧘",
-                "description": "You learn best alone, through self-reflection. You need time to process internally and connect with your own thoughts.",
-                "traits": [
-                    "Prefer studying alone",
-                    "Reflective and self-aware",
-                    "Learn at your own pace",
-                    "Value your independence"
-                ],
-                "recommendations": [
-                    "Study in quiet environments",
-                    "Reflect on what you learned",
-                    "Keep a personal journal",
-                    "Set your own goals"
+                    "Participate actively in directed groups",
+                    "Fulfill your role on the team",
+                    "Collaborate following instructions",
+                    "Take advantage of structured group projects"
                 ]
             },
             "collaborative": {
-                "title": "You are a Collaborative Learner! 👥",
-                "description": "You learn best working in a team. Exchanging ideas and mutual support are fundamental to your academic success.",
+                "title": "Collaborative Learning! 👥",
+                "description": "In collaborative learning the teacher proposes the topic or poses a problem and you decide with your classmates how to approach the project, fostering autonomy and joint decision-making.",
                 "traits": [
-                    "Excellent at teamwork",
-                    "Share knowledge",
-                    "Support your classmates",
-                    "Learn by teaching"
+                    "Excellent at autonomous teamwork",
+                    "Make decisions with classmates",
+                    "Handle projects with autonomy",
+                    "Learn by teaching others"
                 ],
                 "recommendations": [
-                    "Join study groups",
-                    "Create team projects",
+                    "Join autonomous study groups",
+                    "Propose ideas in group projects",
                     "Use collaborative platforms",
-                    "Organize tutoring sessions"
+                    "Organize team study sessions"
+                ]
+            },
+            "emotional": {
+                "title": "Emotional Learning! ❤️",
+                "description": "With it you learn to know your emotions and manage them efficiently. Emotional learning contributes to your well-being and personal development, and favors healthy interpersonal relationships.",
+                "traits": [
+                    "Recognize and manage your emotions",
+                    "Connect emotionally with learning",
+                    "Develop emotional intelligence",
+                    "Create healthy interpersonal relationships"
+                ],
+                "recommendations": [
+                    "Practice reflection on your emotions",
+                    "Keep an emotional journal",
+                    "Work on emotional intelligence",
+                    "Relate learning to your feelings"
+                ]
+            },
+            "experiential": {
+                "title": "Experiential Learning! 🌟",
+                "description": "It consists of learning from the situations you live or even from the mistakes you make. This type of learning can vary greatly from person to person and requires a certain amount of self-reflection work.",
+                "traits": [
+                    "Learn from lived experiences",
+                    "Reflect on your mistakes",
+                    "Value real practice",
+                    "Develop personal learning"
+                ],
+                "recommendations": [
+                    "Participate in practical simulations",
+                    "Reflect on your experiences",
+                    "Learn from your mistakes",
+                    "Seek experiential projects"
+                ]
+            },
+            "implicit": {
+                "title": "Implicit Learning! 🔮",
+                "description": "This occurs when you learn something, generally, without intentionality. It happens without you realizing it and almost automatically, like walking, talking, or moving.",
+                "traits": [
+                    "Learn without realizing",
+                    "Acquire skills automatically",
+                    "Internalize without conscious effort",
+                    "Natural and fluid learning"
+                ],
+                "recommendations": [
+                    "Immerse yourself in learning environments",
+                    "Practice regularly without pressure",
+                    "Learn by immersion",
+                    "Trust your natural learning"
+                ]
+            },
+            "explicit": {
+                "title": "Explicit Learning! 📝",
+                "description": "This does have an intention and there is also awareness: you are conscious that you are learning. It allows you to acquire new information about people, places, and objects, and requires attention and exercise from your brain.",
+                "traits": [
+                    "Learn consciously and intentionally",
+                    "Focus on learning",
+                    "Acquire knowledge deliberately",
+                    "Require active concentration"
+                ],
+                "recommendations": [
+                    "Set clear learning goals",
+                    "Dedicate specific time to studying",
+                    "Take detailed notes",
+                    "Practice mindful learning"
+                ]
+            },
+            "memoristic": {
+                "title": "Memoristic Learning! 🧠",
+                "description": "For a long time it was the predominant method in education. It involves fixing concepts in memory and recalling them almost automatically. Although it doesn't always imply deep understanding, it remains useful in some contexts.",
+                "traits": [
+                    "Excellent memory for data",
+                    "Retain information through repetition",
+                    "Remember facts and concepts",
+                    "Good at quick retrieval"
+                ],
+                "recommendations": [
+                    "Use spaced repetition techniques",
+                    "Create memory flashcards",
+                    "Practice active retrieval",
+                    "Combine with deep understanding"
+                ]
+            },
+            "observational": {
+                "title": "Observational Learning! 👁️",
+                "description": "This type of learning requires at least two people: one more expert who performs an action as an example (model) and the one who observes and imitates or reproduces the action (learner). It's key in teaching practical and social skills.",
+                "traits": [
+                    "Learn by observing others",
+                    "Imitate models effectively",
+                    "Visual and practical learning",
+                    "Acquire skills through demonstration"
+                ],
+                "recommendations": [
+                    "Observe experts in action",
+                    "Watch tutorials and demonstrations",
+                    "Practice imitating techniques",
+                    "Seek mentors and role models"
                 ]
             },
             "discovery": {
-                "title": "You are a Discovery Learner! 🔍",
-                "description": "You learn best by exploring and discovering for yourself. Curiosity and experimentation are your best tools.",
+                "title": "Discovery Learning! 🔍",
+                "description": "It's one of the most active types of learning. Besides learning by participating, you go further: you don't settle for just what's taught. You search for information on your own, organize data in your cognitive schema, and relate it to previous knowledge.",
                 "traits": [
                     "Very curious and inquisitive",
-                    "Learn by experimenting",
-                    "Enjoy researching",
+                    "Learn by experimenting and researching",
+                    "Actively seek information",
                     "Autonomous in your learning"
                 ],
                 "recommendations": [
-                    "Do research projects",
+                    "Conduct research projects",
                     "Experiment freely",
                     "Ask questions constantly",
-                    "Explore topics on your own"
+                    "Practice guided inquiry"
                 ]
             },
-            "online": {
-                "title": "You are a Digital Learner! 💻",
-                "description": "You learn best using technology and online resources. Digital platforms, apps, and online courses are ideal for you.",
+            "receptive": {
+                "title": "Receptive Learning! 📖",
+                "description": "Could be considered one of the passive types of learning. You limit yourself to receiving information, whether oral, written, or audiovisual, and internalize that content to reproduce it later. It's useful in certain contexts.",
                 "traits": [
-                    "Adapt well to technology",
-                    "Prefer digital resources",
-                    "Learn with apps and platforms",
-                    "Self-taught online"
+                    "Receive information effectively",
+                    "Listen and assimilate well",
+                    "Learn from lectures and reading",
+                    "Internalize presented content"
                 ],
                 "recommendations": [
-                    "Use online courses (Coursera, Khan Academy)",
-                    "Try educational apps",
-                    "Watch tutorials on YouTube",
-                    "Join virtual communities"
+                    "Attend conferences and talks",
+                    "Read structured material",
+                    "Watch educational content",
+                    "Combine with active methods"
                 ]
             },
-            "naturalist": {
-                "title": "You are a Naturalist Learner! 🌿",
-                "description": "You learn best by connecting with nature. Classifying, observing, and understanding the natural world helps you learn.",
+            "significant": {
+                "title": "Significant Learning! ⭐",
+                "description": "Of all the types of learning, this is one of the most effective. It consists of collecting, selecting, and organizing the information transmitted to you to establish a relationship between this new knowledge and what you already had.",
                 "traits": [
-                    "Connection with nature",
-                    "Observer of the environment",
-                    "Good at classifying",
-                    "Appreciate the natural world"
+                    "Relate new knowledge to previous",
+                    "Build cognitive schemas",
+                    "Deep and lasting learning",
+                    "Understand and apply effectively"
                 ],
                 "recommendations": [
-                    "Study outdoors",
-                    "Observe natural patterns",
-                    "Use examples from nature",
-                    "Visit natural science museums"
-                ]
-            },
-            "creative": {
-                "title": "You are a Creative Learner! 🎨",
-                "description": "You learn best through creativity and innovation. Art, music, and original projects boost your learning.",
-                "traits": [
-                    "Very creative and imaginative",
-                    "Think originally",
-                    "Enjoy artistic projects",
-                    "Innovative in your solutions"
-                ],
-                "recommendations": [
-                    "Use creative projects",
-                    "Draw and visualize concepts",
-                    "Create original presentations",
-                    "Relate topics to art"
-                ]
-            },
-            "multimodal": {
-                "title": "You are a Multimodal Learner! 🌟",
-                "description": "You learn best by combining multiple methods. You are flexible and adapt using different styles depending on the situation.",
-                "traits": [
-                    "Flexible in your methods",
-                    "Combine different styles",
-                    "Adapt easily",
-                    "Learn in multiple ways"
-                ],
-                "recommendations": [
-                    "Combine reading, videos, and practice",
-                    "Experiment with different methods",
-                    "Adapt your style to the topic",
-                    "Use varied resources"
+                    "Connect new concepts to what you know",
+                    "Use concept maps",
+                    "Practice knowledge transfer",
+                    "Apply learning to real situations"
                 ]
             }
         },

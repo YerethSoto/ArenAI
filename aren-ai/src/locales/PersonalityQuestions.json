@@ -3,254 +3,254 @@
     "type": "singleSelect",
     "question": "¿Cómo prefieres aprender algo nuevo?",
     "options": [
-      "Escuchando explicaciones y conferencias",
-      "Viendo videos, imágenes o diagramas",
-      "Haciendo experimentos y tocando objetos",
-      "Leyendo libros y tomando notas"
+      "Relacionando con experiencias que ya viví",
+      "Observando cómo otros lo hacen primero",
+      "Explorando y descubriendo por mi cuenta",
+      "Recibiendo explicaciones claras y directas"
     ],
     "hint": "Piensa en tu método favorito para aprender.",
     "learningType": [
-      "auditory",
-      "visual",
-      "kinesthetic",
-      "reading"
+      "experiential",
+      "observational",
+      "discovery",
+      "receptive"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "Cuando aprendes algo nuevo, ¿qué pasa?",
+    "options": [
+      "Lo aprendo sin darme cuenta, automáticamente",
+      "Me enfoco conscientemente en entenderlo",
+      "Lo memorizo repitiéndolo muchas veces",
+      "Lo relaciono con lo que ya sé"
+    ],
+    "hint": "Considera cómo procesas la información nueva.",
+    "learningType": [
+      "implicit",
+      "explicit",
+      "memoristic",
+      "significant"
     ]
   },
   {
     "type": "singleSelect",
     "question": "En un proyecto escolar, ¿qué prefieres hacer?",
     "options": [
-      "Trabajar solo y a mi propio ritmo",
-      "Trabajar con compañeros en equipo",
+      "Trabajar en equipo con roles asignados por el profesor",
+      "Colaborar con compañeros decidiendo juntos cómo hacerlo",
       "Descubrir soluciones por mi cuenta",
       "Seguir instrucciones claras paso a paso"
     ],
     "hint": "Piensa en cómo te gusta trabajar.",
     "learningType": [
-      "intrapersonal",
+      "cooperative",
       "collaborative",
       "discovery",
-      "logical"
+      "receptive"
     ]
   },
   {
     "type": "singleSelect",
-    "question": "¿Qué actividad disfrutas más en tu tiempo libre?",
+    "question": "¿Cómo manejas tus emociones cuando estudias?",
     "options": [
-      "Escuchar música o podcasts",
-      "Ver películas o navegar en redes sociales",
-      "Hacer deportes o manualidades",
-      "Leer libros o escribir historias"
+      "Reconozco y gestiono mis emociones al estudiar",
+      "Aprendo de mis errores y experiencias pasadas",
+      "Observo cómo otros manejan situaciones similares",
+      "Memorizo técnicas y las aplico"
     ],
-    "hint": "Selecciona tu pasatiempo favorito.",
+    "hint": "Reflexiona sobre tu inteligencia emocional.",
     "learningType": [
-      "auditory",
-      "visual",
-      "kinesthetic",
-      "reading"
+      "emotional",
+      "experiential",
+      "observational",
+      "memoristic"
     ]
   },
   {
     "type": "singleSelect",
-    "question": "Al resolver un problema difícil:",
+    "question": "Al estudiar un tema difícil:",
     "options": [
-      "Hablo en voz alta o discuto con alguien",
-      "Dibujo diagramas o mapas mentales",
-      "Construyo modelos o simulo situaciones",
-      "Escribo listas y analizo datos"
+      "Busco activamente información adicional por mi cuenta",
+      "Espero que el profesor me lo explique completamente",
+      "Relaciono el tema con conocimientos previos",
+      "Lo memorizo aunque no lo entienda completamente"
     ],
-    "hint": "Piensa en tu estrategia de resolución.",
+    "hint": "Piensa en tu estrategia de estudio.",
     "learningType": [
-      "auditory",
-      "visual",
-      "kinesthetic",
-      "logical"
+      "discovery",
+      "receptive",
+      "significant",
+      "memoristic"
     ]
   },
   {
     "type": "singleSelect",
-    "question": "¿Te gusta aprender usando tecnología?",
+    "question": "¿Qué te ayuda más a recordar información?",
     "options": [
-      "Sí, prefiero clases y videos en línea",
-      "A veces, depende del tema",
-      "Prefiero métodos tradicionales",
-      "Me gusta combinar ambos"
-    ],
-    "hint": "Considera tu preferencia tecnológica.",
-    "learningType": [
-      "online",
-      "multimodal",
-      "traditional",
-      "multimodal"
-    ]
-  },
-  {
-    "type": "singleSelect",
-    "question": "Cuando memorizas información:",
-    "options": [
-      "Repito en voz alta varias veces",
-      "Visualizo imágenes o escenas",
-      "Escribo y reescribo las notas",
-      "Creo asociaciones lógicas"
+      "Asociarlo con experiencias o situaciones",
+      "Repetirlo hasta memorizarlo",
+      "Relacionarlo con lo que ya sé",
+      "Observar ejemplos prácticos"
     ],
     "hint": "Recuerda tu técnica de memorización.",
     "learningType": [
-      "auditory",
-      "visual",
-      "reading",
-      "logical"
+      "associative",
+      "memoristic",
+      "significant",
+      "observational"
     ]
   },
   {
     "type": "singleSelect",
-    "question": "¿Prefieres trabajar solo o con otros?",
+    "question": "Cuando te acostumbras a un sonido repetitivo (como el aire acondicionado):",
     "options": [
-      "Solo, me concentro mejor",
-      "Con otros, aprendo más compartiendo",
-      "Depende de la tarea",
-      "Me gusta liderar grupos"
+      "Dejo de notarlo con el tiempo",
+      "Conscientemente decido ignorarlo",
+      "Lo asocio con concentración o estudio",
+      "Me sigue molestando siempre"
+    ],
+    "hint": "Piensa en tu adaptación a estímulos.",
+    "learningType": [
+      "nonAssociative",
+      "explicit",
+      "associative",
+      "emotional"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "¿Prefieres trabajar en equipo o solo?",
+    "options": [
+      "En equipo con el profesor dirigiendo",
+      "En equipo decidiendo entre todos",
+      "Solo, explorando a mi manera",
+      "Solo, siguiendo una guía clara"
     ],
     "hint": "Piensa en tu estilo social de aprendizaje.",
     "learningType": [
-      "intrapersonal",
-      "interpersonal",
-      "multimodal",
-      "interpersonal"
+      "cooperative",
+      "collaborative",
+      "discovery",
+      "receptive"
     ]
   },
   {
     "type": "singleSelect",
-    "question": "Al aprender un idioma nuevo:",
+    "question": "Al aprender una habilidad práctica (como cocinar o tocar un instrumento):",
     "options": [
-      "Escucho conversaciones y música",
-      "Veo películas con subtítulos",
-      "Practico hablando con nativos",
-      "Estudio gramática y escribo"
+      "Observo a alguien experto hacerlo primero",
+      "Experimento hasta descubrir cómo funciona",
+      "Sigo recetas o partituras exactamente",
+      "Aprendo haciéndolo, basado en experiencias previas"
     ],
     "hint": "Considera tu método preferido.",
     "learningType": [
-      "auditory",
-      "visual",
-      "kinesthetic",
-      "reading"
-    ]
-  },
-  {
-    "type": "singleSelect",
-    "question": "¿Qué tipo de instrucciones prefieres?",
-    "options": [
-      "Explicaciones verbales",
-      "Tutoriales en video",
-      "Demostraciones prácticas",
-      "Manuales escritos detallados"
-    ],
-    "hint": "Piensa en qué formato entiendes mejor.",
-    "learningType": [
-      "auditory",
-      "visual",
-      "kinesthetic",
-      "reading"
-    ]
-  },
-  {
-    "type": "singleSelect",
-    "question": "Al explorar un tema nuevo:",
-    "options": [
-      "Investigo por mi cuenta primero",
-      "Pregunto a expertos o profesores",
-      "Experimento hasta entenderlo",
-      "Leo artículos y documentos"
-    ],
-    "hint": "Recuerda tu enfoque de investigación.",
-    "learningType": [
+      "observational",
       "discovery",
+      "receptive",
+      "experiential"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "¿Cómo construyes nuevo conocimiento?",
+    "options": [
+      "Conectándolo con lo que ya entiendo",
+      "Memorizando datos y hechos",
+      "Escuchando explicaciones del profesor",
+      "Descubriendo patrones por mi cuenta"
+    ],
+    "hint": "Piensa en cómo procesas información nueva.",
+    "learningType": [
+      "significant",
+      "memoristic",
+      "receptive",
+      "discovery"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "Al resolver un problema complejo:",
+    "options": [
+      "Lo relaciono con problemas similares que resolví",
+      "Busco patrones y soluciones nuevas",
+      "Sigo métodos que memoricé",
+      "Pido ayuda y escucho consejos"
+    ],
+    "hint": "Recuerda tu estrategia de resolución.",
+    "learningType": [
+      "significant",
+      "discovery",
+      "memoristic",
+      "receptive"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "¿Qué tipo de actividades prefieres en clase?",
+    "options": [
+      "Trabajo en equipo con roles definidos",
+      "Proyectos colaborativos con autonomía",
+      "Investigaciones independientes",
+      "Conferencias y exposiciones del profesor"
+    ],
+    "hint": "Selecciona tu actividad favorita.",
+    "learningType": [
+      "cooperative",
       "collaborative",
-      "kinesthetic",
-      "reading"
-    ]
-  },
-  {
-    "type": "singleSelect",
-    "question": "¿Te gusta estudiar con música?",
-    "options": [
-      "Sí, me ayuda a concentrarme",
-      "No, necesito silencio total",
-      "Depende de la tarea",
-      "Prefiero sonidos de la naturaleza"
-    ],
-    "hint": "Considera tu ambiente de estudio ideal.",
-    "learningType": [
-      "auditory",
-      "intrapersonal",
-      "multimodal",
-      "naturalist"
-    ]
-  },
-  {
-    "type": "singleSelect",
-    "question": "En una clase, prefieres que el profesor:",
-    "options": [
-      "Explique verbalmente con ejemplos",
-      "Use presentaciones visuales",
-      "Haga actividades prácticas",
-      "Asigne lecturas y ensayos"
-    ],
-    "hint": "Piensa en tu clase ideal.",
-    "learningType": [
-      "auditory",
-      "visual",
-      "kinesthetic",
-      "reading"
-    ]
-  },
-  {
-    "type": "singleSelect",
-    "question": "¿Te gusta trabajar con patrones y lógica?",
-    "options": [
-      "Sí, me encantan las matemáticas",
-      "No, prefiero temas creativos",
-      "Me gusta equilibrar ambos",
-      "Prefiero temas sociales y humanos"
-    ],
-    "hint": "Considera tu afinidad por la lógica.",
-    "learningType": [
-      "logical",
-      "creative",
-      "multimodal",
-      "interpersonal"
-    ]
-  },
-  {
-    "type": "singleSelect",
-    "question": "Al aprender sobre la naturaleza:",
-    "options": [
-      "Prefiero salir y observar",
-      "Me gusta clasificar y organizar",
-      "Aprendo viendo documentales",
-      "Leo libros de biología"
-    ],
-    "hint": "Piensa en tu conexión con la naturaleza.",
-    "learningType": [
-      "naturalist",
-      "logical",
-      "visual",
-      "reading"
-    ]
-  },
-  {
-    "type": "singleSelect",
-    "question": "¿Prefieres hacer descubrimientos por ti mismo?",
-    "options": [
-      "Sí, me gusta explorar y experimentar",
-      "No, prefiero que me enseñen",
-      "Combino ambos enfoques",
-      "Prefiero investigar en grupo"
-    ],
-    "hint": "Recuerda tu nivel de autonomía.",
-    "learningType": [
       "discovery",
-      "traditional",
-      "multimodal",
+      "receptive"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "Cuando aprendes de tus errores:",
+    "options": [
+      "Reflexiono sobre la experiencia y aprendo",
+      "Observo cómo otros evitan ese error",
+      "Memorizo qué no debo hacer",
+      "Investigo por qué ocurrió el error"
+    ],
+    "hint": "Piensa en cómo aprendes de los errores.",
+    "learningType": [
+      "experiential",
+      "observational",
+      "memoristic",
+      "discovery"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "Al estudiar para un examen:",
+    "options": [
+      "Repito y memorizo la información",
+      "Relaciono conceptos con lo que ya sé",
+      "Investigo más allá de lo enseñado",
+      "Repaso exactamente lo que explicó el profesor"
+    ],
+    "hint": "Considera tu técnica de estudio para exámenes.",
+    "learningType": [
+      "memoristic",
+      "significant",
+      "discovery",
+      "receptive"
+    ]
+  },
+  {
+    "type": "singleSelect",
+    "question": "¿Cómo aprendes mejor habilidades sociales?",
+    "options": [
+      "Observando e imitando a otros",
+      "Reflejando sobre mis propias emociones",
+      "Trabajando en equipos estructurados",
+      "Colaborando libremente con compañeros"
+    ],
+    "hint": "Piensa en tu aprendizaje social.",
+    "learningType": [
+      "observational",
+      "emotional",
+      "cooperative",
       "collaborative"
     ]
   }
