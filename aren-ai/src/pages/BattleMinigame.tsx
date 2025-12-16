@@ -484,7 +484,7 @@ const BattleMinigame: React.FC = () => {
     // or we rely on the lobby to manage connection start.
     // If we disconnect here, we lose the session if we just navigate back/forth.
     return () => {
-      // socketService.disconnect(); // RESTORED: Commented out to prevent connection loss
+      socketService.disconnect(); // RESTORED: Commented out to prevent connection loss
     };
   }, []);
 
@@ -493,7 +493,7 @@ const BattleMinigame: React.FC = () => {
       bgmRef.current.pause();
       bgmRef.current.currentTime = 0;
     }
-    // socketService.disconnect(); // RESTORED: Commented out to prevent connection loss
+    socketService.disconnect(); // RESTORED: Commented out to prevent connection loss
   });
 
   useIonViewWillEnter(() => {

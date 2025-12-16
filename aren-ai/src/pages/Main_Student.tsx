@@ -46,13 +46,20 @@ const Main_Student: React.FC = () => {
   const [weeks, setWeeks] = useState<WeekData[]>([]);
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
   const [overallPerformance, setOverallPerformance] = useState(0);
-  const [selectedSubject, setSelectedSubject] = useState("Math");
+  const [selectedSubject, setSelectedSubject] = useState(() => {
+    return localStorage.getItem("selectedSubject") || "Math";
+  });
   const [topics, setTopics] = useState<TopicProgress[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // New State for Redesign
   const [viewMode, setViewMode] = useState<"rec" | "que">("rec");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+  // Persist selectedSubject
+  useEffect(() => {
+    localStorage.setItem("selectedSubject", selectedSubject);
+  }, [selectedSubject]);
 
   // Initial Data Fetch
   useEffect(() => {
