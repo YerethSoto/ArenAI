@@ -81,32 +81,123 @@ const BattleMinigame: React.FC = () => {
   const questions: Question[] = [
     {
       id: 1,
-      question: "¿Cuál fue el año en que Costa Rica abolió su ejército?",
-      options: ["A. 1948", "B. 1821", "C. 1856", "D. 1921"],
+      question: "¿Cuál es la capital de Costa Rica?",
+      options: ["A. San José", "B. Alajuela", "C. Cartago", "D. Heredia"],
       correctAnswer: 0,
     },
     {
       id: 2,
-      question:
-        "¿Quién fue el presidente que eliminó el ejército costarricense?",
-      options: [
-        "A. Juan Rafael Mora Porras",
-        "B. José Figueres Ferrer",
-        "C. Ricardo Jiménez Oreamuno",
-        "D. Cleto González Víquez",
-      ],
-      correctAnswer: 1,
+      question: "¿En qué año se abolió el ejército en Costa Rica?",
+      options: ["A. 1948", "B. 1856", "C. 1821", "D. 1950"],
+      correctAnswer: 0,
     },
     {
       id: 3,
-      question: "¿Contra quiénes luchó Costa Rica en la Batalla de Rivas?",
+      question: "¿Quién es el héroe nacional que quemó el Mesón de Guerra?",
       options: [
-        "A. España",
-        "B. Nicaragua",
-        "C. Los filibusteros de William Walker",
-        "D. México",
+        "A. Juan Santamaría",
+        "B. Juan Rafael Mora Porras",
+        "C. Francisca Carrasco",
+        "D. José María Cañas",
       ],
-      correctAnswer: 2,
+      correctAnswer: 0,
+    },
+    {
+      id: 4,
+      question: "¿Cuál es el ave nacional de Costa Rica?",
+      options: ["A. Yigüirro", "B. Lapa Roja", "C. Tucán", "D. Quetzal"],
+      correctAnswer: 0,
+    },
+    {
+      id: 5,
+      question: "¿Cuándo se celebra la independencia de Costa Rica?",
+      options: [
+        "A. 15 de setiembre",
+        "B. 11 de abril",
+        "C. 25 de julio",
+        "D. 1 de mayo",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      id: 6,
+      question: "¿Cuál es el volcán más alto de Costa Rica?",
+      options: ["A. Irazú", "B. Poás", "C. Arenal", "D. Turrialba"],
+      correctAnswer: 0,
+    },
+    {
+      id: 7,
+      question: "¿Qué símbolo nacional representa el trabajo?",
+      options: [
+        "A. La Carreta",
+        "B. El Yigüirro",
+        "C. La Guaria Morada",
+        "D. La Antorcha",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      id: 8,
+      question: "¿Cuál es la flor nacional de Costa Rica?",
+      options: ["A. Guaria Morada", "B. Rosa", "C. Girasol", "D. Orquídea"],
+      correctAnswer: 0,
+    },
+    {
+      id: 9,
+      question: "¿Contra quiénes luchó Costa Rica en la Campaña de 1856?",
+      options: [
+        "A. Los filibusteros",
+        "B. Los españoles",
+        "C. Los ingleses",
+        "D. Los franceses",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      id: 10,
+      question: "¿Qué presidente decretó la abolición del ejército?",
+      options: [
+        "A. José Figueres Ferrer",
+        "B. Rafael Ángel Calderón",
+        "C. Teodoro Picado",
+        "D. Otilio Ulate",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      id: 11,
+      question: "¿Qué celebramos el 25 de julio?",
+      options: [
+        "A. Anexión del Partido de Nicoya",
+        "B. Independencia",
+        "C. Batalla de Rivas",
+        "D. Día de la Madre",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      id: 12,
+      question: "¿Cuál es la moneda oficial de Costa Rica?",
+      options: ["A. Colón", "B. Dólar", "C. Peso", "D. Real"],
+      correctAnswer: 0,
+    },
+    {
+      id: 13,
+      question: "¿Con qué país limita Costa Rica al norte?",
+      options: ["A. Nicaragua", "B. Panamá", "C. México", "D. Honduras"],
+      correctAnswer: 0,
+    },
+    {
+      id: 14,
+      question: "¿Qué prenda es típica del traje campesino costarricense?",
+      options: ["A. Chonete", "B. Sombrero de copa", "C. Boina", "D. Casco"],
+      correctAnswer: 0,
+    },
+    {
+      id: 15,
+      question: "¿Cuál es el instrumento musical nacional?",
+      options: ["A. Marimba", "B. Guitarra", "C. Violín", "D. Flauta"],
+      correctAnswer: 0,
     },
   ];
 
@@ -382,17 +473,29 @@ const BattleMinigame: React.FC = () => {
     };
   }, []);
 
+  // --- Navigation & Cleanup Logic ---
+  useEffect(() => {
+    // Force disconnect on unmount
+    return () => {
+      if (socketService.socket) {
+        socketService.disconnect();
+      }
+    };
+  }, []);
+
   useIonViewWillLeave(() => {
     if (bgmRef.current) {
       bgmRef.current.pause();
       bgmRef.current.currentTime = 0;
     }
+    socketService.disconnect();
   });
 
   useIonViewWillEnter(() => {
     if (bgmRef.current && bgmRef.current.paused) {
       bgmRef.current.play().catch((e) => console.warn("Resume BGM failed:", e));
     }
+    // Reconnect if needed (though useEffect [roomId] handles initial connect)
   });
 
   // --- UI/Animation Logic ---

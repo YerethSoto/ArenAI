@@ -106,8 +106,6 @@ export const initSocket = (io: Server) => {
       const idx = waitingQueue.findIndex(p => p.id === socket.id);
       if (idx !== -1) waitingQueue.splice(idx, 1);
       
-      // DISABLED: Aggressive disconnect handling caused connection issues.
-      /*
       const gameId = Object.keys(activeGames).find(gid => activeGames[gid].players[socket.id]);
       if (gameId) {
           const game = activeGames[gameId];
@@ -127,7 +125,6 @@ export const initSocket = (io: Server) => {
           }
           delete activeGames[gameId];
       }
-      */
     });
   });
 };
