@@ -17,8 +17,8 @@ import {
 } from "@ionic/react";
 import { menu, arrowForward, close } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
-import { useLocation, useHistory } from "react-router-dom"; // Logic Fix
-import { socketService } from "../services/socket"; // Logic Fix
+import { useLocation, useHistory } from "react-router-dom";
+import { socketService } from "../services/socket";
 import StudentMenu from "../components/StudentMenu";
 import StudentSidebar from "../components/StudentSidebar";
 import StudentHeader from "../components/StudentHeader";
@@ -52,9 +52,9 @@ const BattleMinigame: React.FC = () => {
     roomId: string;
     opponent: any;
     myAvatar: any;
-  }>(); // Logic Fix
-  const history = useHistory(); // Logic Fix
-  const roomId = location.state?.roomId; // Logic Fix
+  }>();
+  const history = useHistory();
+  const roomId = location.state?.roomId;
 
   const handleLogout = () => {
     console.log("Logout clicked");
@@ -81,26 +81,32 @@ const BattleMinigame: React.FC = () => {
   const questions: Question[] = [
     {
       id: 1,
-      question: "¿Cuál es la capital de Costa Rica?",
-      options: ["A. San José", "B. Alajuela", "C. Cartago", "D. Heredia"],
+      question: "¿Cuál fue el año en que Costa Rica abolió su ejército?",
+      options: ["A. 1948", "B. 1821", "C. 1856", "D. 1921"],
       correctAnswer: 0,
     },
     {
       id: 2,
-      question: "¿En qué año se abolió el ejército en Costa Rica?",
-      options: ["A. 1948", "B. 1856", "C. 1821", "D. 1950"],
-      correctAnswer: 0,
+      question:
+        "¿Quién fue el presidente que eliminó el ejército costarricense?",
+      options: [
+        "A. Juan Rafael Mora Porras",
+        "B. José Figueres Ferrer",
+        "C. Ricardo Jiménez Oreamuno",
+        "D. Cleto González Víquez",
+      ],
+      correctAnswer: 1,
     },
     {
       id: 3,
-      question: "¿Quién es el héroe nacional que quemó el Mesón de Guerra?",
+      question: "¿Contra quiénes luchó Costa Rica en la Batalla de Rivas?",
       options: [
-        "A. Juan Santamaría",
-        "B. Juan Rafael Mora Porras",
-        "C. Francisca Carrasco",
-        "D. José María Cañas",
+        "A. España",
+        "B. Nicaragua",
+        "C. Los filibusteros de William Walker",
+        "D. México",
       ],
-      correctAnswer: 0,
+      correctAnswer: 2,
     },
     {
       id: 4,
@@ -203,7 +209,6 @@ const BattleMinigame: React.FC = () => {
 
   const currentUser = getUserData();
 
-  // Logic Fix: Initialize from location state
   const [player, setPlayer] = useState<BattlePlayer>({
     id: "me",
     name: currentUser.name.split(" ")[0],
@@ -475,11 +480,11 @@ const BattleMinigame: React.FC = () => {
 
   // --- Navigation & Cleanup Logic ---
   useEffect(() => {
-    // Force disconnect on unmount
+    // We do NOT disconnect on unmount here to allow persistence,
+    // or we rely on the lobby to manage connection start.
+    // If we disconnect here, we lose the session if we just navigate back/forth.
     return () => {
-      if (socketService.socket) {
-        socketService.disconnect();
-      }
+      // socketService.disconnect(); // RESTORED: Commented out to prevent connection loss
     };
   }, []);
 
@@ -488,14 +493,13 @@ const BattleMinigame: React.FC = () => {
       bgmRef.current.pause();
       bgmRef.current.currentTime = 0;
     }
-    socketService.disconnect();
+    // socketService.disconnect(); // RESTORED: Commented out to prevent connection loss
   });
 
   useIonViewWillEnter(() => {
     if (bgmRef.current && bgmRef.current.paused) {
       bgmRef.current.play().catch((e) => console.warn("Resume BGM failed:", e));
     }
-    // Reconnect if needed (though useEffect [roomId] handles initial connect)
   });
 
   // --- UI/Animation Logic ---

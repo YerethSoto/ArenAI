@@ -55,7 +55,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [showThemeModal, setShowThemeModal] = useState(false);
-  const [pendingUser, setPendingUser] = useState<{ role: "professor" | "student", data: any } | null>(null);
+  const [pendingUser, setPendingUser] = useState<{
+    role: "professor" | "student";
+    data: any;
+  } | null>(null);
   const history = useHistory();
 
   // Recarga la página solo una vez al llegar a esta ruta
@@ -77,6 +80,51 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       setIsLoading(false);
       return;
     }
+
+    // --- DEV BYPASS ---
+    if (username === "student" && password === "test") {
+      console.log("Using Dev Bypass (Student)");
+      const dummyStudent = {
+        id: 999,
+        username: "student_test",
+        email: "student@test.com",
+        role: "student",
+        name: "Test Student",
+        first_login: false,
+      };
+      // Mock token
+      localStorage.setItem("authToken", "dev-test-token-student");
+      localStorage.setItem("userRole", "student");
+      localStorage.setItem("userData", JSON.stringify(dummyStudent));
+
+      setTimeout(() => {
+        completeLogin("student", dummyStudent, "/page/student");
+        setIsLoading(false);
+      }, 500);
+      return;
+    }
+
+    if (username === "professor" && password === "test") {
+      console.log("Using Dev Bypass (Professor)");
+      const dummyProf = {
+        id: 888,
+        username: "prof_test",
+        email: "prof@test.com",
+        role: "professor",
+        name: "Test Professor",
+      };
+      // Mock token
+      localStorage.setItem("authToken", "dev-test-token-prof");
+      localStorage.setItem("userRole", "professor");
+      localStorage.setItem("userData", JSON.stringify(dummyProf));
+
+      setTimeout(() => {
+        completeLogin("professor", dummyProf, "/page/professor");
+        setIsLoading(false);
+      }, 500);
+      return;
+    }
+    // ------------------
 
     // Call backend API
     try {
@@ -109,7 +157,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
       const role = data.user.role ?? "student";
       console.log("role", role);
-      if (role === 'student') {
+      if (role === "student") {
         // CORRECTION: Standard convention is first_login=true means IT IS THE FIRST LOGIN (Not Onboarded).
         // So if first_login is TRUE, we show the modal.
         // If first_login is FALSE, we skip to dashboard.
@@ -118,7 +166,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
         if (isFirstLogin) {
           // Show theme selection modal for students (First Time Flow)
-          localStorage.setItem('userRole', 'student');
+          localStorage.setItem("userRole", "student");
           setPendingUser({ role, data: data.user });
           setShowThemeModal(true);
           setIsLoading(false);
@@ -129,7 +177,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         // Direct login for professors
         completeLogin(role, data.user);
       }
-
     } catch (error) {
       console.error("Login error", error);
       setError("Unable to reach authentication server");
@@ -137,7 +184,11 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     }
   };
 
-  const completeLogin = (role: "professor" | "student", userData: any, targetPath?: string) => {
+  const completeLogin = (
+    role: "professor" | "student",
+    userData: any,
+    targetPath?: string
+  ) => {
     onLogin(role, userData);
 
     // Clear form
@@ -148,7 +199,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     if (targetPath) {
       history.replace(targetPath);
     } else {
-      const redirectPath = role === "student" ? "/page/student" : "/page/professor";
+      const redirectPath =
+        role === "student" ? "/page/student" : "/page/professor";
       history.replace(redirectPath);
     }
   };
@@ -161,14 +213,17 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       // Update backend to mark first_login as true (onboarding complete)
       try {
         const token = localStorage.getItem("authToken");
-        await fetch(getApiUrl(`/api/students/${pendingUser.data.id}/onboarding`), {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-          },
-          body: JSON.stringify({ first_login: true }),
-        });
+        await fetch(
+          getApiUrl(`/api/students/${pendingUser.data.id}/onboarding`),
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ first_login: true }),
+          }
+        );
       } catch (err) {
         console.error("Failed to update user onboarding status", err);
       }
@@ -348,7 +403,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         onDismiss={() => setShowThemeModal(false)}
         onThemeSelected={handleThemeSelection}
       />
-    </IonPage >
+    </IonPage>
   );
 };
 
