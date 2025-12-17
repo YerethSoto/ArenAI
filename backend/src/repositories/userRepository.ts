@@ -150,3 +150,11 @@ export async function updateUser(idUser: number, data: Partial<UserRecord>) {
   const result = await db.query<any>(sql, values);
   return (result.rows[0] as any).affectedRows > 0;
 }
+
+export async function linkUserToSection(userId: number, sectionId: number, roleInSection: string) {
+  const result = await db.query<any>(
+    `INSERT INTO user_section (id_user, id_section, role_in_section) VALUES (?, ?, ?)`,
+    [userId, sectionId, roleInSection]
+  );
+  return (result.rows[0] as any).affectedRows > 0;
+}

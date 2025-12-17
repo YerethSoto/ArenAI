@@ -10,6 +10,7 @@ export async function findUserByIdentifier(identifier) {
         u.last_name,
         u.id_institution,
         u.profile_picture_name,
+        u.first_login,
         i.name_institution AS institution_name
        FROM \`user\` u
        LEFT JOIN institution i ON i.id_institution = u.id_institution
@@ -28,6 +29,7 @@ export async function findUserByUsername(username) {
         u.last_name,
         u.id_institution,
         u.profile_picture_name,
+        u.first_login,
         i.name_institution AS institution_name
        FROM \`user\` u
        LEFT JOIN institution i ON i.id_institution = u.id_institution
@@ -81,4 +83,25 @@ export async function createUser(payload) {
     finally {
         client.release();
     }
+}
+export async function updateUser(idUser, data) {
+    if (Object.keys(data).length === 0)
+        return false;
+    const setClauses = [];
+    const values = [];
+    if (data.first_login !== undefined) {
+        setClauses.push('first_login = ?');
+        values.push(data.first_login);
+    }
+    // Add more fields here as needed in the future
+    if (setClauses.length === 0)
+        return false;
+    values.push(idUser);
+    const sql = `UPDATE \`user\` SET ${setClauses.join(', ')} WHERE id_user = ?`;
+    const result = await db.query(sql, values);
+    return result.rows[0].affectedRows > 0;
+}
+export async function linkUserToSection(userId, sectionId, roleInSection) {
+    const result = await db.query(`INSERT INTO user_section (id_user, id_section, role_in_section) VALUES (?, ?, ?)`, [userId, sectionId, roleInSection]);
+    return result.rows[0].affectedRows > 0;
 }

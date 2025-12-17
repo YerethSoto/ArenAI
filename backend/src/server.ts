@@ -9,10 +9,13 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "*", 
+    origin: "*",
     methods: ["GET", "POST"]
   },
-  transports: ['websocket', 'polling']
+  transports: ['websocket', 'polling'],
+  // Tuning for faster disconnect detection (Heartbeat)
+  pingInterval: 2000, // Send ping every 2 seconds
+  pingTimeout: 5000   // Wait 5 seconds for pong response before disconnecting
 });
 
 // Initialize Socket Logic

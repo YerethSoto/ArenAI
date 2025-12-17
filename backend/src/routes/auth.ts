@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { findUserByIdentifier, findUserByUsername, createUser } from '../repositories/userRepository.js';
+import { findUserByIdentifier, findUserByUsername, createUser, linkUserToSection } from '../repositories/userRepository.js';
 import { ApiError } from '../middleware/errorHandler.js';
 import { signAccessToken, verifyPassword, hashPassword } from '../services/authService.js';
-import { createInstitution } from '../repositories/institutionRepository.js';
-import { db } from '../db/pool.js';
+import { createInstitution, findInstitutionByName } from '../repositories/institutionRepository.js';
+import { getSectionById } from '../repositories/sectionRepository.js';
 
 const router = Router();
 
@@ -96,13 +96,9 @@ router.post('/register', async (req, res, next) => {
     // Resolve institution id: try to find by name, else create
     let idInstitution: number | null = null;
     if (body.institution && body.institution.trim()) {
-      const instResult = await db.query<any>(
-        `SELECT id_institution FROM institution WHERE name_institution = ? LIMIT 1`,
-        [body.institution.trim()]
-      );
-      const instRow = instResult.rows.at(0);
-      if (instRow) {
-        idInstitution = instRow.id_institution;
+      const instResult = await findInstitutionByName(body.institution.trim());
+      if (instResult) {
+        idInstitution = instResult.id_institution;
       } else {
         const created = await createInstitution({ name: body.institution.trim() });
         idInstitution = created.id_institution;
@@ -177,24 +173,16 @@ router.post('/register-student', async (req, res, next) => {
 
     // Resolve or create institution
     let idInstitution: number | null = null;
-    const instResult = await db.query<any>(
-      `SELECT id_institution FROM institution WHERE name_institution = ? LIMIT 1`,
-      [body.institution.trim()]
-    );
-    const instRow = instResult.rows.at(0);
-    if (instRow) {
-      idInstitution = instRow.id_institution;
+    const instResult = await findInstitutionByName(body.institution.trim());
+    if (instResult) {
+      idInstitution = instResult.id_institution;
     } else {
       const createdInst = await createInstitution({ name: body.institution.trim() });
       idInstitution = createdInst.id_institution;
     }
 
     // Verify section exists and belongs to institution
-    const secRes = await db.query<any>(
-      `SELECT id_section, id_institution FROM section WHERE id_section = ? LIMIT 1`,
-      [body.sectionId]
-    );
-    const secRow = secRes.rows.at(0);
+    const secRow = await getSectionById(body.sectionId);
     if (!secRow) {
       throw new ApiError(404, 'Section not found');
     }
@@ -222,11 +210,7 @@ router.post('/register-student', async (req, res, next) => {
     if (!created) throw new ApiError(500, 'Failed to create student user');
 
     // Link to section
-    await db.query(`INSERT INTO user_section (id_user, id_section, role_in_section) VALUES (?, ?, ?)`, [
-      created.id_user,
-      body.sectionId,
-      'student',
-    ]);
+    await linkUserToSection(created.id_user, body.sectionId, 'student');
 
     const { token, expiresIn } = signAccessToken({
       userId: created.id_user,

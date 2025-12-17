@@ -23,6 +23,7 @@ import StudentMenu from "../components/StudentMenu";
 import StudentSidebar from "../components/StudentSidebar";
 import StudentHeader from "../components/StudentHeader";
 import "./BattleMinigame.css";
+import { BattleQuestions } from "../data/questions";
 
 interface UserData {
   name: string;
@@ -77,135 +78,8 @@ const BattleMinigame: React.FC = () => {
     };
   };
 
-  // Questions Data
-  const questions: Question[] = [
-    {
-      id: 1,
-      question: "¿Cuál fue el año en que Costa Rica abolió su ejército?",
-      options: ["A. 1948", "B. 1821", "C. 1856", "D. 1921"],
-      correctAnswer: 0,
-    },
-    {
-      id: 2,
-      question:
-        "¿Quién fue el presidente que eliminó el ejército costarricense?",
-      options: [
-        "A. Juan Rafael Mora Porras",
-        "B. José Figueres Ferrer",
-        "C. Ricardo Jiménez Oreamuno",
-        "D. Cleto González Víquez",
-      ],
-      correctAnswer: 1,
-    },
-    {
-      id: 3,
-      question: "¿Contra quiénes luchó Costa Rica en la Batalla de Rivas?",
-      options: [
-        "A. España",
-        "B. Nicaragua",
-        "C. Los filibusteros de William Walker",
-        "D. México",
-      ],
-      correctAnswer: 2,
-    },
-    {
-      id: 4,
-      question: "¿Cuál es el ave nacional de Costa Rica?",
-      options: ["A. Yigüirro", "B. Lapa Roja", "C. Tucán", "D. Quetzal"],
-      correctAnswer: 0,
-    },
-    {
-      id: 5,
-      question: "¿Cuándo se celebra la independencia de Costa Rica?",
-      options: [
-        "A. 15 de setiembre",
-        "B. 11 de abril",
-        "C. 25 de julio",
-        "D. 1 de mayo",
-      ],
-      correctAnswer: 0,
-    },
-    {
-      id: 6,
-      question: "¿Cuál es el volcán más alto de Costa Rica?",
-      options: ["A. Irazú", "B. Poás", "C. Arenal", "D. Turrialba"],
-      correctAnswer: 0,
-    },
-    {
-      id: 7,
-      question: "¿Qué símbolo nacional representa el trabajo?",
-      options: [
-        "A. La Carreta",
-        "B. El Yigüirro",
-        "C. La Guaria Morada",
-        "D. La Antorcha",
-      ],
-      correctAnswer: 0,
-    },
-    {
-      id: 8,
-      question: "¿Cuál es la flor nacional de Costa Rica?",
-      options: ["A. Guaria Morada", "B. Rosa", "C. Girasol", "D. Orquídea"],
-      correctAnswer: 0,
-    },
-    {
-      id: 9,
-      question: "¿Contra quiénes luchó Costa Rica en la Campaña de 1856?",
-      options: [
-        "A. Los filibusteros",
-        "B. Los españoles",
-        "C. Los ingleses",
-        "D. Los franceses",
-      ],
-      correctAnswer: 0,
-    },
-    {
-      id: 10,
-      question: "¿Qué presidente decretó la abolición del ejército?",
-      options: [
-        "A. José Figueres Ferrer",
-        "B. Rafael Ángel Calderón",
-        "C. Teodoro Picado",
-        "D. Otilio Ulate",
-      ],
-      correctAnswer: 0,
-    },
-    {
-      id: 11,
-      question: "¿Qué celebramos el 25 de julio?",
-      options: [
-        "A. Anexión del Partido de Nicoya",
-        "B. Independencia",
-        "C. Batalla de Rivas",
-        "D. Día de la Madre",
-      ],
-      correctAnswer: 0,
-    },
-    {
-      id: 12,
-      question: "¿Cuál es la moneda oficial de Costa Rica?",
-      options: ["A. Colón", "B. Dólar", "C. Peso", "D. Real"],
-      correctAnswer: 0,
-    },
-    {
-      id: 13,
-      question: "¿Con qué país limita Costa Rica al norte?",
-      options: ["A. Nicaragua", "B. Panamá", "C. México", "D. Honduras"],
-      correctAnswer: 0,
-    },
-    {
-      id: 14,
-      question: "¿Qué prenda es típica del traje campesino costarricense?",
-      options: ["A. Chonete", "B. Sombrero de copa", "C. Boina", "D. Casco"],
-      correctAnswer: 0,
-    },
-    {
-      id: 15,
-      question: "¿Cuál es el instrumento musical nacional?",
-      options: ["A. Marimba", "B. Guitarra", "C. Violín", "D. Flauta"],
-      correctAnswer: 0,
-    },
-  ];
+  // Questions Data imported from src/data/questions.ts
+  const questions: Question[] = BattleQuestions;
 
   const currentUser = getUserData();
 
@@ -398,10 +272,11 @@ const BattleMinigame: React.FC = () => {
           reason?: string;
           stats?: { winStreak: number; utilizationIndex: number };
         }) => {
-          console.log("Game Over:", data);
+          console.log("Game Over Event Received:", data);
           setIsTimerActive(false);
 
           if (data.reason === "disconnect") {
+            console.log("Opponent Disconnected! Showing message.");
             setDisconnectMessage(t("battle.opponentDisconnected"));
           }
 
@@ -415,16 +290,36 @@ const BattleMinigame: React.FC = () => {
               data.winnerId === socket.id
                 ? "player"
                 : data.winnerId === "draw"
-                ? "draw"
-                : "opponent"
+                  ? "draw"
+                  : "opponent"
             );
             setShowResults(true);
           }, 2000);
         }
       );
+
+      // 5. Game Error (Zombie State / Server Restart)
+      socket.on("game_error", (data: { code: string; message: string }) => {
+        console.error("Game Error:", data);
+        alert(data.message || "An error occurred. Returning to menu.");
+        history.replace("/page/student");
+      });
+
+      // Check status on connect (in case of refresh/zombie state)
+      socket.emit("check_game_status", { roomId });
     }
 
+    // Handle Tab Close / Refresh instant disconnect
+    const handleBeforeUnload = () => {
+      if (socketService.socket) {
+        // We can manually emit if we want custom logic, but socket.disconnect() is standard
+        socketService.disconnect();
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
       if (socket) {
         socket.off("round_start");
         socket.off("opponent_answered");
@@ -484,7 +379,7 @@ const BattleMinigame: React.FC = () => {
     // or we rely on the lobby to manage connection start.
     // If we disconnect here, we lose the session if we just navigate back/forth.
     return () => {
-      socketService.disconnect(); // RESTORED: Commented out to prevent connection loss
+      // socketService.disconnect(); // RESTORED: Commented out to prevent connection loss
     };
   }, []);
 
@@ -493,7 +388,7 @@ const BattleMinigame: React.FC = () => {
       bgmRef.current.pause();
       bgmRef.current.currentTime = 0;
     }
-    socketService.disconnect(); // RESTORED: Commented out to prevent connection loss
+    // socketService.disconnect(); // RESTORED: Commented out to prevent connection loss
   });
 
   useIonViewWillEnter(() => {
@@ -650,17 +545,16 @@ const BattleMinigame: React.FC = () => {
                 <img
                   src={`/assets/battle_sprite_front_${opponent.avatarName.toLowerCase()}.png`}
                   onError={(e) =>
-                    (e.currentTarget.src =
-                      "/assets/battle_sprite_front_capybara.png")
+                  (e.currentTarget.src =
+                    "/assets/battle_sprite_front_capybara.png")
                   } // Fallback
                   alt={opponent.avatarName}
-                  className={`avatar-image ${
-                    opponentAttackAnimation
-                      ? "enemy-attack-animation"
-                      : opponentHitAnimation
+                  className={`avatar-image ${opponentAttackAnimation
+                    ? "enemy-attack-animation"
+                    : opponentHitAnimation
                       ? "damage-animation"
                       : ""
-                  }`}
+                    }`}
                 />
               </div>
             </div>
@@ -672,17 +566,16 @@ const BattleMinigame: React.FC = () => {
                 <img
                   src={`/assets/battle_sprite_back_${player.avatarName.toLowerCase()}.png`}
                   onError={(e) =>
-                    (e.currentTarget.src =
-                      "/assets/battle_sprite_back_capybara.png")
+                  (e.currentTarget.src =
+                    "/assets/battle_sprite_back_capybara.png")
                   } // Fallback
                   alt={player.avatarName}
-                  className={`avatar-image ${
-                    playerAttackAnimation
-                      ? "player-attack-animation"
-                      : playerHitAnimation
+                  className={`avatar-image ${playerAttackAnimation
+                    ? "player-attack-animation"
+                    : playerHitAnimation
                       ? "damage-animation"
                       : ""
-                  }`}
+                    }`}
                 />
               </div>
               <div className="health-bar player-health">
@@ -809,8 +702,8 @@ const BattleMinigame: React.FC = () => {
                 {winner === "player"
                   ? "¡VICTORIA!"
                   : winner === "opponent"
-                  ? "DERROTA"
-                  : "EMPATE"}
+                    ? "DERROTA"
+                    : "EMPATE"}
               </div>
             </div>
 

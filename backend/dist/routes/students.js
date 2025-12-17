@@ -2,7 +2,36 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { getStudentTopicProgress, upsertStudentTopicScore } from '../repositories/studentRepository.js';
 import { parseNumeric } from '../utils/transformers.js';
+import { updateUser } from '../repositories/userRepository.js';
+import { ApiError } from '../middleware/errorHandler.js';
 const router = Router();
+router.put('/:userId/onboarding', async (req, res, next) => {
+    const paramsSchema = z.object({ userId: z.coerce.number().int().positive() });
+    const bodySchema = z.object({
+        first_login: z.boolean(),
+    });
+    try {
+        const { userId } = paramsSchema.parse(req.params);
+        const body = bodySchema.parse(req.body);
+        // Authorization check
+        // req.user is populated by requireAuth middleware
+        const requestingUser = req.user;
+        if (!requestingUser || requestingUser.id !== userId) {
+            throw new ApiError(403, 'Forbidden');
+        }
+        // Role check: Ensure this is only for students if strictness is desired
+        // (Optional, but "handle in student only" implies student domain logic)
+        const updateData = {};
+        if (body.first_login !== undefined) {
+            updateData.first_login = body.first_login;
+        }
+        await updateUser(userId, updateData);
+        res.json({ success: true });
+    }
+    catch (error) {
+        next(error);
+    }
+});
 router.get('/:userId/progress', async (req, res, next) => {
     const paramsSchema = z.object({ userId: z.coerce.number().int().positive() });
     try {

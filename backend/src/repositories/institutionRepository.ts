@@ -16,6 +16,24 @@ export async function listInstitutions(): Promise<Array<Omit<Institution, 'score
   }));
 }
 
+export async function findInstitutionByName(name: string) {
+  const result = await db.query<Institution>(
+    `SELECT id_institution, name_institution, score_average
+     FROM institution
+     WHERE name_institution = ?
+     LIMIT 1`,
+    [name]
+  );
+
+  const institution = result.rows.at(0);
+  if (!institution) return null;
+
+  return {
+    ...institution,
+    score_average: parseNumeric(institution.score_average),
+  };
+}
+
 export async function getInstitutionById(id: number) {
   const result = await db.query<Institution>(
     `SELECT id_institution, name_institution, score_average
