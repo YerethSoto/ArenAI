@@ -81,9 +81,9 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       return;
     }
 
-    // --- DEV BYPASS ---
+    // --- DEV BYPASS (Student 1) ---
     if (username === "student" && password === "test") {
-      console.log("Using Dev Bypass (Student)");
+      console.log("Using Dev Bypass (Student 1)");
       const dummyStudent = {
         id: 999,
         username: "student_test",
@@ -99,6 +99,29 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
       setTimeout(() => {
         completeLogin("student", dummyStudent, "/page/student");
+        setIsLoading(false);
+      }, 500);
+      return;
+    }
+
+    // --- DEV BYPASS (Student 2) ---
+    if (username === "student2" && password === "test") {
+      console.log("Using Dev Bypass (Student 2)");
+      const dummyStudent2 = {
+        id: 998,
+        username: "student_test_2",
+        email: "student2@test.com",
+        role: "student",
+        name: "Test Student 2",
+        first_login: false,
+      };
+      // Mock token
+      localStorage.setItem("authToken", "dev-test-token-student-2");
+      localStorage.setItem("userRole", "student");
+      localStorage.setItem("userData", JSON.stringify(dummyStudent2));
+
+      setTimeout(() => {
+        completeLogin("student", dummyStudent2, "/page/student");
         setIsLoading(false);
       }, 500);
       return;
@@ -189,6 +212,14 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     userData: any,
     targetPath?: string
   ) => {
+    // Ensure fresh socket connection for new user
+    import("../services/socket").then(({ socketService }) => {
+      console.log(
+        "Login: Disconnecting previous socket to ensure fresh session."
+      );
+      socketService.disconnect();
+    });
+
     onLogin(role, userData);
 
     // Clear form

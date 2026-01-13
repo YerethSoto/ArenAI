@@ -105,6 +105,15 @@ const BattleMinigame: React.FC = () => {
   const hitSoundRef = useRef<HTMLAudioElement | null>(null);
   const criticalSoundRef = useRef<HTMLAudioElement | null>(null);
 
+  // --- Refs for Stale Closure Fix ---
+  const playersRef = useRef(players);
+  const myIdRef = useRef(myId);
+
+  useEffect(() => {
+    playersRef.current = players;
+    myIdRef.current = myId;
+  }, [players, myId]);
+
   // --- Computed ---
   const me = myId ? players[myId] : null;
   const opponentId = Object.keys(players).find((id) => id !== myId);
@@ -308,12 +317,23 @@ const BattleMinigame: React.FC = () => {
         }
 
         // Calculate Winner for Animation
+        // Calculate Winner for Animation (ROBUST LOOKUP)
+        const currentPlayers = playersRef.current;
         const currentSocketId = socket.id;
-        const isMe =
-          data.winnerId === currentSocketId || // Check Socket ID (Primary)
-          data.winnerId === myId || // Check User ID (Secondary)
-          (myId && players[myId] && players[myId].socketId === data.winnerId); // Check mapped Socket ID
 
+        // Find MY UserID by looking for my SocketID in the players list
+        // This is the most robust way because it bypasses string prefixes/formats.
+        const myRealId = Object.keys(currentPlayers).find(
+          (uid) => currentPlayers[uid].socketId === currentSocketId
+        );
+
+        console.log(
+          `[Animation Debug] Winner=${data.winnerId}, Me=${myRealId}, Sock=${currentSocketId}`
+        );
+
+        const isMe = data.winnerId === myRealId;
+
+        // Animation Sequence (matching Old Code)
         // Animation Sequence (matching Old Code)
         if (isMe) {
           setPlayerAttackAnim(true);
@@ -322,16 +342,26 @@ const BattleMinigame: React.FC = () => {
           setTimeout(() => {
             setShowDamageAnimation(true);
             setOpponentHitAnim(true); // Distinct Hit State
-            // Optimistic Health Update
+
+            // ROBUST HEALTH UPDATE: Use server authoritative data
             setPlayers((prev) => {
-              const oppId = Object.keys(prev).find((id) => id !== myId);
+              // Target is the Opponent (Not Me)
+              // We use myRealId to be consistent with the Derived Identity check above
+              const oppId = Object.keys(prev).find((id) => id !== myRealId);
+
+              // Fallback or safety check
               if (!oppId) return prev;
-              const currentH = prev[oppId].health;
+
+              // Use the Final Health sent by server for this ID
+              const finalHealth = data.healths
+                ? data.healths[oppId]
+                : prev[oppId].health - data.damage;
+
               return {
                 ...prev,
                 [oppId]: {
                   ...prev[oppId],
-                  health: Math.max(0, currentH - data.damage),
+                  health: Math.max(0, finalHealth),
                 },
               };
             });
@@ -343,15 +373,21 @@ const BattleMinigame: React.FC = () => {
           setTimeout(() => {
             setShowDamageAnimation(true);
             setPlayerHitAnim(true); // Distinct Hit State
-            // Optimistic Health Update
+
+            // ROBUST HEALTH UPDATE: Use server authoritative data
             setPlayers((prev) => {
-              if (!myId) return prev;
-              const currentH = prev[myId]?.health || 0;
+              // Target is ME (myRealId)
+              if (!myRealId) return prev; // Should not happen if logic holds
+
+              const finalHealth = data.healths
+                ? data.healths[myRealId]
+                : prev[myRealId]?.health - data.damage;
+
               return {
                 ...prev,
-                [myId]: {
-                  ...prev[myId],
-                  health: Math.max(0, currentH - data.damage),
+                [myRealId]: {
+                  ...prev[myRealId],
+                  health: Math.max(0, finalHealth),
                 },
               };
             });

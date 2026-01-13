@@ -31,6 +31,7 @@ interface GameState {
     
     // System
     roundTimeout?: NodeJS.Timeout;
+    isSuddenDeath?: boolean;
 }
 
 // --- State ---
@@ -81,13 +82,20 @@ export const initSocket = (io: Server) => {
 
         // --- 2. JOIN MATCH HANDLER (Explicit Sync Request) ---
         socket.on('join_match_session', (data: { roomId: string }) => {
-            // This is called by client on Mount
+            console.log(`[Socket] join_match_session: User=${userId} Room=${data.roomId}`);
             const game = activeGames[data.roomId];
-            if (game && game.players[userId]) {
-                // Resync
-                handleReconnection(io, socket, game, userId);
+            if (game) {
+                console.log(`[Socket] Game found. Players: ${Object.keys(game.players).join(', ')}`);
+                if (game.players[userId]) {
+                     console.log(`[Socket] Player authorized. Resyncing...`);
+                     handleReconnection(io, socket, game, userId);
+                } else {
+                     console.log(`[Socket] Player NOT in game players list.`);
+                     socket.emit('game_error', { code: 'NOT_FOUND', message: 'You are not in this match.' });
+                }
             } else {
-                socket.emit('game_error', { code: 'NOT_FOUND', message: 'Match not found or you are not in it.' });
+                console.log(`[Socket] Game NOT found for Room=${data.roomId}`);
+                socket.emit('game_error', { code: 'NOT_FOUND', message: 'Match not found.' });
             }
         });
 
@@ -136,11 +144,20 @@ export const initSocket = (io: Server) => {
 
             if (totalAnswers === totalPlayers) {
                 resolveRound(io, game);
+            } else if (!game.isSuddenDeath) {
+                // First Answer -> Trigger Sudden Death (10s)
+                game.isSuddenDeath = true;
+                if (game.roundTimeout) clearTimeout(game.roundTimeout);
+                
+                const suddenDeathDuration = 10;
+                game.roundEndTime = Date.now() + (suddenDeathDuration * 1000);
+                
+                game.roundTimeout = setTimeout(() => {
+                    resolveRound(io, game);
+                }, suddenDeathDuration * 1000);
+                
+                io.to(game.roomId).emit('sudden_death_start', { endTime: game.roundEndTime });
             }
-            // ELSE: We wait for the Hard Timer. 
-            // Or if we want the "Sudden Death" (8s after first answer) logic?
-            // User complained about "Hanging". Hard Timer is safer. 
-            // Let's stick to Hard Timer (20s max) OR All Answered.
         });
 
         socket.on('leave_match', (data: { roomId: string }) => {
@@ -196,6 +213,20 @@ const createMatch = (io: Server) => {
     s1?.join(roomId);
     s2?.join(roomId);
 
+    // Notify Match Found (Lobby -> Game Transition)
+    if (s1) {
+        s1.emit('match_found', {
+            roomId,
+            opponent: { name: p2.name, avatar: p2.avatar }
+        });
+    }
+    if (s2) {
+        s2.emit('match_found', {
+            roomId,
+            opponent: { name: p1.name, avatar: p1.avatar }
+        });
+    }
+
     // Start Round 1
     startRound(io, game);
 };
@@ -214,12 +245,22 @@ const startRound = (io: Server, game: GameState) => {
     // Clear any previous timer
     if (game.roundTimeout) clearTimeout(game.roundTimeout);
 
-    // Set HARD TIMEOUT
-    game.roundTimeout = setTimeout(() => {
-        console.log(`[Game ${game.roomId}] Hard Timeout Triggered`);
-        resolveRound(io, game); 
-    }, HARD_TIMEOUT_SEC * 1000);
+    // Set HARD TIMEOUT (safety fallback)
+    // User requested "never happen unless one student answers". 
+    // We set effectively INFINITE time (e.g. 24 hours) until first answer.
+    const MAX_WAIT_TIME = 86400; 
+    game.roundEndTime = Date.now() + (MAX_WAIT_TIME * 1000);
+    game.isSuddenDeath = false;
 
+    // We do NOT set a resolving timeout here anymore, or we set it for 24h.
+    game.roundTimeout = setTimeout(() => {
+        console.log(`[Game ${game.roomId}] Hard Timeout Triggered (24h limit)`);
+        resolveRound(io, game); 
+    }, MAX_WAIT_TIME * 1000);
+
+    // Emit 'round_ready' to signal client to reset UI state
+    io.to(game.roomId).emit('round_ready');
+    
     // Full Sync Emit
     emitGameState(io, game);
 };
@@ -357,6 +398,7 @@ const emitGameState = (io: Server, game: GameState, targetSocket?: Socket) => {
         status: game.status,
         currentQuestionIndex: game.currentQuestionIndex,
         roundEndTime: game.roundEndTime,
+        isSuddenDeath: game.isSuddenDeath,
         players: game.players, // Contains health, scores, hasAnswered
     };
     

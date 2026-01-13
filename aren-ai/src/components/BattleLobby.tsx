@@ -102,15 +102,18 @@ const BattleLobby: React.FC = () => {
   const handleStartBattle = () => {
     if (isSearching) return;
 
+    const storedUserData = JSON.parse(localStorage.getItem("userData") || "{}");
+    const realName = storedUserData.name || "Student";
+
     console.log("[BattleLobby] Joining queue as:", {
-      name: "Student",
+      name: realName,
       avatar: currentAvatar,
     });
     setIsSearching(true);
 
     // Simplest payload matching backend expectation
     socketService.socket?.emit("join_queue", {
-      name: "Student",
+      name: realName,
       avatar: currentAvatar,
     });
   };
