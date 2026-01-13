@@ -32,6 +32,7 @@ class SocketService {
   }
 
   disconnect() {
+    console.log("SocketService: disconnect() called. Socket exists?", !!this.socket);
     if (this.socket) {
       this.socket.disconnect();
       this.socket = null;

@@ -6,7 +6,7 @@ import {
   IonMenuButton,
   IonIcon,
 } from "@ionic/react";
-import { menu } from "ionicons/icons";
+import { menu, arrowBack } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import StudentMenu from "./StudentMenu";
 import { getSubjectKey } from "../utils/subjectUtils";
@@ -18,6 +18,8 @@ interface StudentHeaderProps {
   selectedSubject?: string;
   onSubjectChange?: (subject: string) => void;
   showNotch?: boolean;
+  showBackButton?: boolean;
+  onBack?: () => void;
 }
 
 const StudentHeader: React.FC<StudentHeaderProps> = ({
@@ -26,6 +28,8 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
   selectedSubject = "Math",
   onSubjectChange,
   showNotch = true,
+  showBackButton = false,
+  onBack,
 }) => {
   const { t } = useTranslation();
 
@@ -33,11 +37,17 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
     <IonHeader className="student-header-container">
       <IonToolbar color="primary" className="student-toolbar">
         <div className="sh-content">
-          {/* Menu Button */}
+          {/* Menu / Back Button */}
           <IonButtons slot="start" className="sh-menu-btn-container">
-            <IonMenuButton className="sh-menu-btn">
-              <IonIcon icon={menu} />
-            </IonMenuButton>
+            {showBackButton ? (
+              <IonMenuButton className="sh-menu-btn" onClick={onBack}>
+                <IonIcon icon={arrowBack} />
+              </IonMenuButton>
+            ) : (
+              <IonMenuButton className="sh-menu-btn">
+                <IonIcon icon={menu} />
+              </IonMenuButton>
+            )}
           </IonButtons>
         </div>
       </IonToolbar>

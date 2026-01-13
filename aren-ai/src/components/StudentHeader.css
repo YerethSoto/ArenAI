@@ -83,30 +83,9 @@
     position: relative;
 }
 
-/* Seamless Curves (Fillet) */
-.sh-notch::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -20px;
-    width: 20px;
-    height: 20px;
-    background: transparent;
-    border-top-right-radius: 20px;
-    box-shadow: 5px -5px 0 0 var(--ion-color-primary);
-}
-
-.sh-notch::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: -20px;
-    width: 20px;
-    height: 20px;
-    background: transparent;
-    border-top-left-radius: 20px;
-    box-shadow: -5px -5px 0 0 var(--ion-color-primary);
-}
+/* Seamless Curves (Fillet) - Removed per user request to fix artifacts */
+/* .sh-notch::before { ... } */
+/* .sh-notch::after { ... } */
 
 .sh-subject-display {
     width: 140px;

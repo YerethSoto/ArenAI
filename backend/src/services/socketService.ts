@@ -1,256 +1,368 @@
 import { Server, Socket } from 'socket.io';
+import jwt from 'jsonwebtoken';
+import { appConfig } from '../config/env.js';
+
+// --- Interfaces ---
 
 interface Player {
-  id: string;
-  name: string;
-  avatar: string;
-  score: number;
-  health: number;
-  maxHealth: number;
-  winStreak: number;
-  utilizationIndex: number;
+    userId: string;
+    socketId: string;
+    name: string;
+    avatar: string;
+    score: number;
+    health: number;
+    maxHealth: number;
+    winStreak: number;
+    utilizationIndex: number;
+    isDisconnected: boolean;
+    hasAnswered: boolean; // Track if they answered current round
 }
+
+type GameStatus = 'waiting' | 'playing' | 'round_result' | 'finished';
 
 interface GameState {
-  roomId: string;
-  players: Record<string, Player>;
-  currentQuestionIndex: number;
-  roundStartTime: number;
-  answers: Record<string, { time: number; correct: boolean }>;
+    roomId: string;
+    status: GameStatus;
+    players: Record<string, Player>; // Keyed by userId
+    currentQuestionIndex: number;
+    roundStartTime: number;
+    roundEndTime: number; // For Hard Timer
+    answers: Record<string, { time: number; correct: boolean }>;
+    
+    // System
+    roundTimeout?: NodeJS.Timeout;
 }
 
-const waitingQueue: { id: string; name: string; avatar: string }[] = [];
+// --- State ---
+
+const waitingQueue: { userId: string; name: string; avatar: string; socketId: string }[] = [];
+// Map roomId -> GameState
 const activeGames: Record<string, GameState> = {};
+// Map userId -> roomId
+const userGameMap: Record<string, string> = {};
+
+const ROUND_DURATION_SEC = 15; // Soft limit for users
+const HARD_TIMEOUT_SEC = 20;   // Hard limit to force resolution
 
 export const initSocket = (io: Server) => {
-  io.on('connection', (socket: Socket) => {
-    console.log('User connected:', socket.id);
-
-    // --- MATCHMAKING ---
-    socket.on('join_queue', (data: { name: string; avatar: string }) => {
-      console.log(`${data.name} joined queue`);
-
-      // Check if user is already in queue
-      const existingIndex = waitingQueue.findIndex(p => p.id === socket.id);
-      if (existingIndex !== -1) return;
-
-      waitingQueue.push({ id: socket.id, name: data.name, avatar: data.avatar });
-
-      if (waitingQueue.length >= 2) {
-        // Match found!
-        const p1 = waitingQueue.shift()!;
-        const p2 = waitingQueue.shift()!;
-        const roomId = `room_${Date.now()}`;
-
-        // Create Game State
-        activeGames[roomId] = {
-          roomId,
-          players: {
-            [p1.id]: { id: p1.id, name: p1.name, avatar: p1.avatar, score: 0, health: 100, maxHealth: 100, winStreak: 0, utilizationIndex: 0 },
-            [p2.id]: { id: p2.id, name: p2.name, avatar: p2.avatar, score: 0, health: 100, maxHealth: 100, winStreak: 0, utilizationIndex: 0 }
-          },
-          currentQuestionIndex: 0,
-          roundStartTime: Date.now(),
-          answers: {}
-        };
-
-        // Join Room
-        const s1 = io.sockets.sockets.get(p1.id);
-        const s2 = io.sockets.sockets.get(p2.id);
-
-        s1?.join(roomId);
-        s2?.join(roomId);
-        io.to(roomId).emit('round_start', { questionIndex: 0 });
-      }
-    });
-
-    // --- GAMEPLAY ---
-    socket.on('submit_answer', (data: { roomId: string; correct: boolean }) => {
-      const game = activeGames[data.roomId];
-      if (!game) {
-        socket.emit('game_error', { code: 'GAME_NOT_FOUND', message: 'Game session not found.' });
-        return;
-      }
-
-      // prevent double answer
-      if (game.answers[socket.id]) return;
-
-      const timeTaken = (Date.now() - game.roundStartTime) / 1000;
-      game.answers[socket.id] = { time: timeTaken, correct: data.correct };
-
-      // Notify ALL players that a player answered (triggers 8s timer for everyone)
-      io.to(data.roomId).emit('opponent_answered');
-
-      // Check if both answered
-      const playerIds = Object.keys(game.players);
-      const answerCount = Object.keys(game.answers).length;
-
-      if (answerCount === playerIds.length) {
-        // Both answered, resolve immediately
-        resolveRound(io, game);
-      } else if (answerCount === 1) {
-        // First answer received - Start 8s "Sudden Death" timer
-        // Store timeout to clear it if 2nd answer comes fast
-        (game as any).roundTimeout = setTimeout(() => {
-          resolveRound(io, game);
-        }, 8000);
-      }
-    });
-
-    socket.on('check_game_status', (data: { roomId: string }) => {
-      if (!activeGames[data.roomId]) {
-        socket.emit('game_error', { code: 'GAME_NOT_FOUND', message: 'Session invalid/expired.' });
-      }
-    });
-
-    // Emergency cleanup & Disconnect Handling
-    socket.on('disconnect', (reason) => {
-      console.log(`User disconnected: ${socket.id}, reason: ${reason}`);
-
-      const idx = waitingQueue.findIndex(p => p.id === socket.id);
-      if (idx !== -1) {
-        console.log(`Removing ${socket.id} from waiting queue`);
-        waitingQueue.splice(idx, 1);
-      }
-
-      const gameId = Object.keys(activeGames).find(gid => activeGames[gid].players[socket.id]);
-      if (gameId) {
-        const game = activeGames[gameId];
-        console.log(`Player ${socket.id} disconnected from active game ${gameId}`);
-
-        const opponentId = Object.keys(game.players).find(pid => pid !== socket.id);
-        if (opponentId) {
-          console.log(`Awarding win to opponent ${opponentId}`);
-          // Auto-Win for opponent
-          game.players[opponentId].winStreak += 1;
-          game.players[opponentId].utilizationIndex += 5;
-          io.to(game.roomId).emit('game_over', {
-            winnerId: opponentId,
-            reason: 'disconnect',
-            stats: {
-              winStreak: game.players[opponentId].winStreak,
-              utilizationIndex: game.players[opponentId].utilizationIndex
+    // Middleware: Lenient Auth (Try to get UserID, else use SocketID)
+    io.use((socket, next) => {
+        const token = socket.handshake.auth.token;
+        if (token) {
+            try {
+                const payload = jwt.verify(token, appConfig.auth.jwtSecret) as any;
+                socket.data.user = { id: String(payload.sub), username: payload.username };
+            } catch (e) {
+                // Invalid token? behave as guest/socket-only? 
+                // For this app, let's enforce randomness if invalid, or error.
+                // Better: error to force relogin if token is bad.
+                // return next(new Error("Authentication Invalid"));
+                // Fallback for dev/robustness:
+                socket.data.user = { id: 'guest_' + socket.id, username: 'Guest' };
             }
-          });
+        } else {
+             socket.data.user = { id: 'guest_' + socket.id, username: 'Guest' };
         }
-        delete activeGames[gameId];
-      } else {
-        console.log(`User ${socket.id} was not in an active game`);
-      }
+        next();
     });
-  });
+
+    io.on('connection', (socket: Socket) => {
+        const userId = socket.data.user.id;
+        console.log(`[Socket] Connected: ${userId} (${socket.id})`);
+
+        // --- 1. RECONNECTION CHECK ---
+        const existingGameId = userGameMap[userId];
+        if (existingGameId && activeGames[existingGameId]) {
+            const game = activeGames[existingGameId];
+            if (game.status !== 'finished') {
+                handleReconnection(io, socket, game, userId);
+            }
+        }
+
+        // --- 2. JOIN MATCH HANDLER (Explicit Sync Request) ---
+        socket.on('join_match_session', (data: { roomId: string }) => {
+            // This is called by client on Mount
+            const game = activeGames[data.roomId];
+            if (game && game.players[userId]) {
+                // Resync
+                handleReconnection(io, socket, game, userId);
+            } else {
+                socket.emit('game_error', { code: 'NOT_FOUND', message: 'Match not found or you are not in it.' });
+            }
+        });
+
+        // --- 3. MATCHMAKING ---
+        socket.on('join_queue', (data: { name: string; avatar: string }) => {
+            // Remove from queue if exists
+            const existingIdx = waitingQueue.findIndex(p => p.userId === userId);
+            if (existingIdx !== -1) waitingQueue.splice(existingIdx, 1);
+
+            waitingQueue.push({ userId, name: data.name, avatar: data.avatar, socketId: socket.id });
+            console.log(`[Queue] ${data.name} joined. Size: ${waitingQueue.length}`);
+
+            if (waitingQueue.length >= 2) {
+                createMatch(io);
+            }
+        });
+
+        // --- 4. GAMEPLAY ---
+        socket.on('submit_answer', (data: { roomId: string; correct: boolean }) => {
+            const game = activeGames[data.roomId];
+            if (!game || game.status !== 'playing') return;
+
+            // Check if player is in game
+            if (!game.players[userId]) return;
+
+            // Check if already answered
+            if (game.answers[userId]) return;
+
+            const timeTaken = (Date.now() - game.roundStartTime) / 1000;
+            game.answers[userId] = { time: timeTaken, correct: data.correct };
+            game.players[userId].hasAnswered = true;
+
+            // Notify everyone that SOMEONE answered (for UI "Waiting for opponent")
+            io.to(game.roomId).emit('opponent_answered', { userId });
+
+            // Check if all answered
+            const allAnswered = Object.values(game.players).every(p => !p.isDisconnected && (game.answers[p.userId] || p.isDisconnected));
+            // Note: If opponent is disconnected, we don't wait for them? 
+            // Better: 'allAnswered' means all ACTIVE players answered.
+            // But for FAIRNESS and SIMPLICITY in this 'Fixed Logic':
+            // If 2 players exist, we wait for 2 answers OR Timeout.
+            // We do NOT resolve early if one is just slow. We resolve early if BOTH answer.
+            
+            const totalPlayers = Object.keys(game.players).length;
+            const totalAnswers = Object.keys(game.answers).length;
+
+            if (totalAnswers === totalPlayers) {
+                resolveRound(io, game);
+            }
+            // ELSE: We wait for the Hard Timer. 
+            // Or if we want the "Sudden Death" (8s after first answer) logic?
+            // User complained about "Hanging". Hard Timer is safer. 
+            // Let's stick to Hard Timer (20s max) OR All Answered.
+        });
+
+        socket.on('leave_match', (data: { roomId: string }) => {
+            handleForfeit(io, userId, data.roomId, 'abandoned');
+        });
+
+        socket.on('disconnect', () => {
+             console.log(`[Socket] Disconnect: ${userId}`);
+             // If in queue
+             const qIdx = waitingQueue.findIndex(p => p.userId === userId);
+             if (qIdx !== -1) waitingQueue.splice(qIdx, 1);
+
+             // If in game
+             const gameId = userGameMap[userId];
+             if (gameId && activeGames[gameId]) {
+                 const game = activeGames[gameId];
+                 if (game.status !== 'finished') {
+                     if (game.players[userId]) {
+                         game.players[userId].isDisconnected = true;
+                         // Notify opponent
+                         io.to(gameId).emit('player_status_change', { userId, status: 'disconnected' });
+                     }
+                 }
+             }
+        });
+    });
+};
+
+const createMatch = (io: Server) => {
+    const p1 = waitingQueue.shift()!;
+    const p2 = waitingQueue.shift()!;
+    const roomId = `room_${Date.now()}`;
+
+    const game: GameState = {
+        roomId,
+        status: 'waiting',
+        players: {
+            [p1.userId]: { ...p1, score: 0, health: 100, maxHealth: 100, winStreak: 0, utilizationIndex: 0, isDisconnected: false, hasAnswered: false },
+            [p2.userId]: { ...p2, score: 0, health: 100, maxHealth: 100, winStreak: 0, utilizationIndex: 0, isDisconnected: false, hasAnswered: false }
+        },
+        currentQuestionIndex: 0,
+        roundStartTime: 0,
+        roundEndTime: 0,
+        answers: {}
+    };
+
+    activeGames[roomId] = game;
+    userGameMap[p1.userId] = roomId;
+    userGameMap[p2.userId] = roomId;
+
+    const s1 = io.sockets.sockets.get(p1.socketId);
+    const s2 = io.sockets.sockets.get(p2.socketId);
+    s1?.join(roomId);
+    s2?.join(roomId);
+
+    // Start Round 1
+    startRound(io, game);
+};
+
+const startRound = (io: Server, game: GameState) => {
+    if (game.status === 'finished') return;
+
+    game.status = 'playing';
+    game.roundStartTime = Date.now();
+    game.roundEndTime = Date.now() + (HARD_TIMEOUT_SEC * 1000);
+    game.answers = {};
+    
+    // Reset Round Flags
+    Object.values(game.players).forEach(p => p.hasAnswered = false);
+
+    // Clear any previous timer
+    if (game.roundTimeout) clearTimeout(game.roundTimeout);
+
+    // Set HARD TIMEOUT
+    game.roundTimeout = setTimeout(() => {
+        console.log(`[Game ${game.roomId}] Hard Timeout Triggered`);
+        resolveRound(io, game); 
+    }, HARD_TIMEOUT_SEC * 1000);
+
+    // Full Sync Emit
+    emitGameState(io, game);
 };
 
 const resolveRound = (io: Server, game: GameState) => {
-  // Clear any pending timeout since we are resolving now
-  if ((game as any).roundTimeout) {
-    clearTimeout((game as any).roundTimeout);
-    (game as any).roundTimeout = null;
-  }
+    if (game.status !== 'playing') return; // Prevent double resolution
 
-  const pIds = Object.keys(game.players);
-  const p1Id = pIds[0];
-  const p2Id = pIds[1];
+    game.status = 'round_result';
+    if (game.roundTimeout) clearTimeout(game.roundTimeout);
 
-  const a1 = game.answers[p1Id];
-  const a2 = game.answers[p2Id];
+    // Logic
+    const pIds = Object.keys(game.players);
+    const p1Id = pIds[0];
+    const p2Id = pIds[1];
 
-  // Handle timeout case: If answer is missing, treat as wrong (and very slow)
-  const a1Res = a1 || { time: 9999, correct: false };
-  const a2Res = a2 || { time: 9999, correct: false };
+    const a1 = game.answers[p1Id];
+    const a2 = game.answers[p2Id];
 
-  let damages: Record<string, number> = { [p1Id]: 0, [p2Id]: 0 };
-  let messages: Record<string, string> = { [p1Id]: '', [p2Id]: '' };
-  let isCritical = false;
-  let roundWinnerId: string | null = null;
-  let damageDealt = 0;
+    // Default: 9999s, incorrect
+    const a1Res = a1 || { time: 9999, correct: false };
+    const a2Res = a2 || { time: 9999, correct: false };
 
-  // Logic:
-  // Both Correct -> Faster one deals 5-8% (Speed)
-  // One Correct -> Deals 25-30% (Crit)
-  // Both Wrong -> No damage
+    let damageDealt = 0;
+    let roundWinnerId: string | null = null;
+    const damages = { [p1Id]: 0, [p2Id]: 0 };
+    const messages = { [p1Id]: '', [p2Id]: '' };
+    let isCritical = false;
 
-  if (a1Res.correct && a2Res.correct) {
-    // RACE Condition
-    roundWinnerId = a1Res.time < a2Res.time ? p1Id : p2Id;
-    damageDealt = Math.floor(Math.random() * 4) + 5; // 5-8 inclusive
+    if (a1Res.correct && a2Res.correct) {
+        roundWinnerId = a1Res.time < a2Res.time ? p1Id : p2Id;
+        damageDealt = Math.floor(Math.random() * 4) + 5;
+        const loser = roundWinnerId === p1Id ? p2Id : p1Id;
+        damages[loser] = damageDealt;
+        messages[roundWinnerId] = '¡Más rápido!';
+        messages[loser] = '¡Lento!';
+    } else if (a1Res.correct) {
+        roundWinnerId = p1Id;
+        damageDealt = Math.floor(Math.random() * 6) + 25;
+        damages[p2Id] = damageDealt;
+        messages[p1Id] = 'CRITICAL HIT';
+        messages[p2Id] = 'Wrong';
+        isCritical = true;
+    } else if (a2Res.correct) {
+        roundWinnerId = p2Id;
+        damageDealt = Math.floor(Math.random() * 6) + 25;
+        damages[p1Id] = damageDealt;
+        messages[p2Id] = 'CRITICAL HIT';
+        messages[p1Id] = 'Wrong';
+        isCritical = true;
+    } else {
+        // Both Wrong or Timeout
+        messages[p1Id] = 'Fallaste';
+        messages[p2Id] = 'Fallaste';
+        roundWinnerId = 'draw';
+    }
 
-    // Winner deals damage to Loser
-    const loser = roundWinnerId === p1Id ? p2Id : p1Id;
-    damages[loser] = damageDealt;
-    messages[roundWinnerId] = '¡Más rápido!';
-    messages[loser] = '¡Lento!';
-    isCritical = false;
-  } else if (a1Res.correct) {
-    // Only P1 Correct (CRIT)
-    roundWinnerId = p1Id;
-    damageDealt = Math.floor(Math.random() * 6) + 25; // 25-30 inclusive
-    damages[p2Id] = damageDealt;
-    messages[p1Id] = '¡GOLPE CRÍTICO!';
-    messages[p2Id] = 'Incorrecto';
-    isCritical = true;
-  } else if (a2Res.correct) {
-    // Only P2 Correct (CRIT)
-    roundWinnerId = p2Id;
-    damageDealt = Math.floor(Math.random() * 6) + 25; // 25-30 inclusive
-    damages[p1Id] = damageDealt;
-    messages[p2Id] = '¡GOLPE CRÍTICO!';
-    messages[p1Id] = 'Incorrecto';
-    isCritical = true;
-  } else {
-    // Both wrong
-    messages[p1Id] = 'Fallaste';
-    messages[p2Id] = 'Fallaste';
-    roundWinnerId = 'draw'; // Signal no winner
-  }
+    // Apply Damage
+    game.players[p1Id].health = Math.max(0, game.players[p1Id].health - damages[p1Id]);
+    game.players[p2Id].health = Math.max(0, game.players[p2Id].health - damages[p2Id]);
 
-  // Apply damage
-  game.players[p1Id].health = Math.max(0, game.players[p1Id].health - damages[p1Id]);
-  game.players[p2Id].health = Math.max(0, game.players[p2Id].health - damages[p2Id]);
+    // Check Game Over
+    let winnerId: string | null = null;
+    if (game.players[p1Id].health <= 0) winnerId = p2Id;
+    else if (game.players[p2Id].health <= 0) winnerId = p1Id;
 
-  // Check Game Over
-  let gameOver = false;
-  let winnerId: string | null = null;
+    // Emit Result
+    io.to(game.roomId).emit('round_result', {
+        winnerId: roundWinnerId,
+        damage: damageDealt,
+        damages,
+        healths: { [p1Id]: game.players[p1Id].health, [p2Id]: game.players[p2Id].health },
+        messages,
+        isCritical
+    });
 
-  if (game.players[p1Id].health <= 0) { gameOver = true; winnerId = p2Id; }
-  else if (game.players[p2Id].health <= 0) { gameOver = true; winnerId = p1Id; }
+    if (winnerId) {
+        game.status = 'finished';
+        io.to(game.roomId).emit('game_over', { winnerId });
+        // Cleanup
+        setTimeout(() => {
+            delete activeGames[game.roomId];
+            delete userGameMap[p1Id];
+            delete userGameMap[p2Id];
+        }, 5000);
+    } else {
+        // Next Round
+        setTimeout(() => {
+            game.currentQuestionIndex++;
+            startRound(io, game);
+        }, 3000); 
+    }
+};
 
-  if (gameOver && winnerId) {
-    const loserId = winnerId === p1Id ? p2Id : p1Id;
-    game.players[winnerId].winStreak += 1;
-    game.players[winnerId].utilizationIndex += 10;
-    game.players[loserId].winStreak = 0;
-    game.players[loserId].utilizationIndex += 2;
-  }
+const handleReconnection = (io: Server, socket: Socket, game: GameState, userId: string) => {
+    // Update socket ref
+    const p = game.players[userId];
+    if (p) {
+        p.socketId = socket.id;
+        p.isDisconnected = false;
+        socket.join(game.roomId);
+        
+        console.log(`[Reconnect] ${userId} rejoining ${game.roomId}`);
+        
+        // Notify others
+        io.to(game.roomId).emit('player_status_change', { userId, status: 'connected' });
+        
+        // Send Full State
+        emitGameState(io, game, socket);
+    }
+};
 
-  // Send Results
-  io.to(game.roomId).emit('round_result', {
-    winnerId: roundWinnerId,
-    damage: damageDealt,
-    damages, // Keep for legacy if needed, but updated frontend uses above
-    healths: { [p1Id]: game.players[p1Id].health, [p2Id]: game.players[p2Id].health },
-    messages,
-    isCritical
-  });
-
-  // Reset for next round
-  game.answers = {};
-
-  if (gameOver) {
+const handleForfeit = (io: Server, loserId: string, roomId: string, reason: string) => {
+    const game = activeGames[roomId];
+    if (!game || game.status === 'finished') return;
+    
+    game.status = 'finished';
+    if (game.roundTimeout) clearTimeout(game.roundTimeout);
+    
+    // Determine winner
+    const winnerId = Object.keys(game.players).find(pid => pid !== loserId);
+    
+    io.to(roomId).emit('game_over', { winnerId, reason });
+    
+    // Cleanup
     setTimeout(() => {
-      const winnerStats = winnerId ? {
-        winStreak: game.players[winnerId].winStreak,
-        utilizationIndex: game.players[winnerId].utilizationIndex
-      } : undefined;
+         delete activeGames[roomId];
+         Object.keys(game.players).forEach(uid => delete userGameMap[uid]);
+    }, 1000);
+};
 
-      io.to(game.roomId).emit('game_over', { winnerId, stats: winnerStats });
-      delete activeGames[game.roomId];
-    }, 2000);
-  } else {
-    setTimeout(() => {
-      game.currentQuestionIndex++;
-      game.roundStartTime = Date.now();
-      io.to(game.roomId).emit('round_start', { questionIndex: game.currentQuestionIndex });
-    }, 3000); // 3s delay to show animations
-  }
+// --- HELPER: Emit Full Snapshot ---
+const emitGameState = (io: Server, game: GameState, targetSocket?: Socket) => {
+    const payload = {
+        roomId: game.roomId,
+        status: game.status,
+        currentQuestionIndex: game.currentQuestionIndex,
+        roundEndTime: game.roundEndTime,
+        players: game.players, // Contains health, scores, hasAnswered
+    };
+    
+    if (targetSocket) {
+        targetSocket.emit('sync_state', payload);
+    } else {
+        io.to(game.roomId).emit('sync_state', payload);
+    }
 };

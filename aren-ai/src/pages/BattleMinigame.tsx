@@ -9,139 +9,117 @@ import {
   IonRow,
   IonCol,
   IonModal,
-  IonCard,
-  IonCardContent,
-  IonMenuButton,
   useIonViewWillLeave,
   useIonViewWillEnter,
 } from "@ionic/react";
-import { menu, arrowForward, close } from "ionicons/icons";
+import { arrowForward, close } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import { useLocation, useHistory } from "react-router-dom";
 import { socketService } from "../services/socket";
-import StudentMenu from "../components/StudentMenu";
 import StudentSidebar from "../components/StudentSidebar";
 import StudentHeader from "../components/StudentHeader";
 import "./BattleMinigame.css";
 import { BattleQuestions } from "../data/questions";
 
-interface UserData {
-  name: string;
-  email: string;
-  username: string;
-}
+// --- Interfaces (Must match Backend) ---
 
-interface Question {
-  id: number;
-  question: string;
-  options: string[];
-  correctAnswer: number;
-}
-
-interface BattlePlayer {
-  id: string; // Changed to string for socket safety
+interface Player {
+  userId: string;
+  socketId: string;
   name: string;
-  avatarName: string;
+  avatar: string;
+  score: number;
   health: number;
   maxHealth: number;
-  score: number;
+  winStreak: number;
+  utilizationIndex: number;
+  isDisconnected: boolean;
+  hasAnswered: boolean;
 }
+
+type GameStatus = "waiting" | "playing" | "round_result" | "finished";
+
+interface GameSnapshot {
+  roomId: string; // Unique
+  status: GameStatus;
+  players: Record<string, Player>;
+  currentQuestionIndex: number;
+  roundEndTime: number;
+  isSuddenDeath?: boolean; // New flag for visual timer
+}
+
+// --- Component ---
 
 const BattleMinigame: React.FC = () => {
   const { t } = useTranslation();
+  const history = useHistory();
   const location = useLocation<{
     roomId: string;
     opponent: any;
     myAvatar: any;
   }>();
-  const history = useHistory();
   const roomId = location.state?.roomId;
 
-  const handleLogout = () => {
-    console.log("Logout clicked");
-  };
+  // --- State ---
+  const [status, setStatus] = useState<GameStatus>("waiting");
+  const [players, setPlayers] = useState<Record<string, Player>>({});
+  const [questionIndex, setQuestionIndex] = useState(0);
 
-  const getUserData = (): UserData => {
-    try {
-      const storedData = localStorage.getItem("userData");
-      if (storedData) {
-        return JSON.parse(storedData);
-      }
-    } catch (error) {
-      console.error("Error parsing user data:", error);
-    }
+  // Visual Timer State
+  const [isSuddenDeath, setIsSuddenDeath] = useState(false);
+  const [visualTimeLeft, setVisualTimeLeft] = useState(0);
 
-    return {
-      name: "Estudiante",
-      email: "Error",
-      username: "Error",
-    };
-  };
-
-  // Questions Data imported from src/data/questions.ts
-  const questions: Question[] = BattleQuestions;
-
-  const currentUser = getUserData();
-
-  const [player, setPlayer] = useState<BattlePlayer>({
-    id: "me",
-    name: currentUser.name.split(" ")[0],
-    avatarName: location.state?.myAvatar || "Aren",
-    health: 100,
-    maxHealth: 100,
-    score: 0,
-  });
-
-  const [opponent, setOpponent] = useState<BattlePlayer>({
-    id: "op",
-    name: location.state?.opponent?.name || "Bot",
-    avatarName: location.state?.opponent?.avatar || "Capy",
-    health: 100,
-    maxHealth: 100,
-    score: 0,
-  });
-
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  // Derived Local State
+  const [myId, setMyId] = useState<string | null>(null);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [isAnswered, setIsAnswered] = useState(false);
-  const [showDamageAnimation, setShowDamageAnimation] = useState(false);
+  const [showQuestionPopup, setShowQuestionPopup] = useState(false); // Restore Popup
+
+  // UI/Animation State
+  const [showResults, setShowResults] = useState(false);
+  const [winnerId, setWinnerId] = useState<string | null>(null);
+
+  // Animation Triggers
+  const [playerAttackAnim, setPlayerAttackAnim] = useState(false);
+  const [opponentAttackAnim, setOpponentAttackAnim] = useState(false);
+  const [playerDamageAnim, setPlayerDamageAnim] = useState(false);
+  const [opponentDamageAnim, setOpponentDamageAnim] = useState(false);
   const [damageAmount, setDamageAmount] = useState(0);
+  const [showCritical, setShowCritical] = useState(false);
+  // Restored Features State
+  const [progress, setProgress] = useState(0);
+  const [playerHitAnim, setPlayerHitAnim] = useState(false);
+  const [opponentHitAnim, setOpponentHitAnim] = useState(false);
+  const [showDamageAnimation, setShowDamageAnimation] = useState(false);
   const [damageTarget, setDamageTarget] = useState<"player" | "opponent">(
     "opponent"
   );
-  const [showResults, setShowResults] = useState(false);
-  const [winner, setWinner] = useState<"player" | "opponent" | "draw" | null>(
-    null
-  );
-  const [showQuestionPopup, setShowQuestionPopup] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [playerAttackAnimation, setPlayerAttackAnimation] = useState(false);
-  const [opponentAttackAnimation, setOpponentAttackAnimation] = useState(false);
-  const [playerHitAnimation, setPlayerHitAnimation] = useState(false);
-  const [opponentHitAnimation, setOpponentHitAnimation] = useState(false);
 
-  const [scrollingTextPosition, setScrollingTextPosition] = useState(0);
-  // New Mechanics State
-  const [isTimerActive, setIsTimerActive] = useState(false);
-  const [showCritical, setShowCritical] = useState(false);
-
-  // New Stats & Disconnect State
-  const [winStreak, setWinStreak] = useState(0);
-  const [utilizationIndex, setUtilizationIndex] = useState(0);
-  const [disconnectMessage, setDisconnectMessage] = useState("");
-
+  // Scrolling Text
   const scrollingTextRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<number | null>(null);
+  const [scrollingTextPos, setScrollingTextPos] = useState(0);
+  const animRef = useRef<number | null>(null);
+
+  // Refs
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const bgmRef = useRef<HTMLAudioElement | null>(null);
   const hitSoundRef = useRef<HTMLAudioElement | null>(null);
   const criticalSoundRef = useRef<HTMLAudioElement | null>(null);
 
+  // --- Computed ---
+  const me = myId ? players[myId] : null;
+  const opponentId = Object.keys(players).find((id) => id !== myId);
+  const opponent = opponentId ? players[opponentId] : null;
+
+  const currentQuestion =
+    BattleQuestions[questionIndex % BattleQuestions.length];
+
+  // --- Audio Functions ---
   const playHitSound = () => {
     if (hitSoundRef.current) {
       hitSoundRef.current.currentTime = 0;
       hitSoundRef.current
         .play()
-        .catch((e) => console.warn("Hit sound failed:", e));
+        .catch((e) => console.warn("Hit sound failed", e));
     }
   };
 
@@ -150,219 +128,35 @@ const BattleMinigame: React.FC = () => {
       criticalSoundRef.current.currentTime = 0;
       criticalSoundRef.current
         .play()
-        .catch((e) => console.warn("Critical sound failed:", e));
+        .catch((e) => console.warn("Crit sound failed", e));
     }
   };
 
-  const resetRound = () => {
-    setSelectedAnswer(null);
-    setIsAnswered(false);
-    setShowDamageAnimation(false);
-    // Popup managed by showQuestion called in round_start
-    setPlayerAttackAnimation(false);
-    setOpponentAttackAnimation(false);
-    setPlayerHitAnimation(false);
-    setOpponentHitAnimation(false);
-  };
-
-  // Handle Server Result Animation
-  const handleServerRoundResult = (data: {
-    winnerId: string;
-    damage: number;
-    isCritical?: boolean;
-  }) => {
-    const myId = socketService.socket?.id;
-    const isMeWinner = data.winnerId === myId;
-    const isDraw = data.winnerId === "draw";
-
-    setDamageAmount(data.damage);
-    setShowQuestionPopup(false);
-    setProgress(0);
-
-    // Handle Critical Visual
-    if (data.isCritical) {
-      setShowCritical(true);
-      playCriticalSound();
-      setTimeout(() => setShowCritical(false), 2500);
-    }
-
-    if (isMeWinner) {
-      setPlayerAttackAnimation(true);
-      setDamageTarget("opponent");
-
-      setTimeout(() => playHitSound(), 300);
-      setTimeout(() => {
-        setShowDamageAnimation(true);
-        setOpponentHitAnimation(true);
-
-        setOpponent((prev) => {
-          const newHealth = Math.max(0, prev.health - data.damage);
-          return { ...prev, health: newHealth };
-        });
-        setPlayer((prev) => ({ ...prev, score: prev.score + 100 }));
-      }, 600);
-    } else if (!isDraw) {
-      setOpponentAttackAnimation(true);
-      setDamageTarget("player");
-
-      setTimeout(() => playHitSound(), 300);
-      setTimeout(() => {
-        setShowDamageAnimation(true);
-        setPlayerHitAnimation(true);
-        setPlayer((prev) => {
-          const newHealth = Math.max(0, prev.health - data.damage);
-          return { ...prev, health: newHealth };
-        });
-      }, 600);
-    }
-
-    // Cleanup animations
-    setTimeout(() => {
-      setPlayerAttackAnimation(false);
-      setOpponentAttackAnimation(false);
-      setPlayerHitAnimation(false);
-      setOpponentHitAnimation(false);
-      setShowDamageAnimation(false);
-    }, 2500);
-  };
-
-  // --- Socket Logic: Drive Game State ---
+  // --- Audio Lifecycle ---
   useEffect(() => {
-    if (!roomId) return;
-
-    console.log("Connecting to Game Room:", roomId);
-    socketService.connect();
-    const socket = socketService.socket;
-
-    if (socket) {
-      // 1. Round Start
-      socket.on("round_start", (data: { questionIndex: number }) => {
-        console.log("Round Start:", data);
-
-        setTimeout(() => {
-          setCurrentQuestion(data.questionIndex % questions.length);
-          resetRound();
-          showQuestion();
-          setIsTimerActive(false);
-          setShowCritical(false);
-        }, 500);
-      });
-
-      // 2. Opponent Answered
-      socket.on("opponent_answered", () => {
-        console.log("Opponent Answered - Timer Started");
-        setIsTimerActive(true);
-      });
-
-      // 3. Round Result
-      socket.on(
-        "round_result",
-        (data: { winnerId: string; damage: number; isCritical?: boolean }) => {
-          console.log("Round Result:", data);
-          setIsTimerActive(false);
-          handleServerRoundResult(data);
-        }
-      );
-
-      // 4. Game Over
-      socket.on(
-        "game_over",
-        (data: {
-          winnerId: string;
-          reason?: string;
-          stats?: { winStreak: number; utilizationIndex: number };
-        }) => {
-          console.log("Game Over Event Received:", data);
-          setIsTimerActive(false);
-
-          if (data.reason === "disconnect") {
-            console.log("Opponent Disconnected! Showing message.");
-            setDisconnectMessage(t("battle.opponentDisconnected"));
-          }
-
-          if (data.stats) {
-            setWinStreak(data.stats.winStreak);
-            setUtilizationIndex(data.stats.utilizationIndex);
-          }
-
-          setTimeout(() => {
-            setWinner(
-              data.winnerId === socket.id
-                ? "player"
-                : data.winnerId === "draw"
-                  ? "draw"
-                  : "opponent"
-            );
-            setShowResults(true);
-          }, 2000);
-        }
-      );
-
-      // 5. Game Error (Zombie State / Server Restart)
-      socket.on("game_error", (data: { code: string; message: string }) => {
-        console.error("Game Error:", data);
-        alert(data.message || "An error occurred. Returning to menu.");
-        history.replace("/page/student");
-      });
-
-      // Check status on connect (in case of refresh/zombie state)
-      socket.emit("check_game_status", { roomId });
-    }
-
-    // Handle Tab Close / Refresh instant disconnect
-    const handleBeforeUnload = () => {
-      if (socketService.socket) {
-        // We can manually emit if we want custom logic, but socket.disconnect() is standard
-        socketService.disconnect();
-      }
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-      if (socket) {
-        socket.off("round_start");
-        socket.off("opponent_answered");
-        socket.off("round_result");
-        socket.off("game_over");
-      }
-    };
-  }, [roomId]);
-
-  // --- Audio Logic ---
-  useEffect(() => {
+    // BGM
     const bgm = new Audio("/assets/battlesong.mp3");
     bgm.loop = true;
     bgm.volume = 0;
     bgmRef.current = bgm;
 
+    // SFX
     const hit = new Audio("/assets/hit-sound.mp3");
     hit.volume = 0.6;
     hitSoundRef.current = hit;
 
     const critical = new Audio("/assets/critical-hit-sound.mp3");
-    critical.volume = 0.7; // Slightly louder
+    critical.volume = 0.7;
     criticalSoundRef.current = critical;
 
-    const playBGM = async () => {
-      try {
-        await bgm.play();
-      } catch (e) {
-        console.warn("Autoplay prevented:", e);
-      }
-    };
-    playBGM();
-
-    // Volume Fade In
-    const FADE_DURATION = 3;
-    const MAX_VOLUME = 0.3;
+    // Fade In
     const fadeIn = setInterval(() => {
-      if (bgm.volume < MAX_VOLUME) {
-        bgm.volume = Math.min(MAX_VOLUME, bgm.volume + 0.05);
-      } else {
-        clearInterval(fadeIn);
-      }
+      if (bgm.volume < 0.3) bgm.volume += 0.05;
+      else clearInterval(fadeIn);
     }, 500);
+
+    // Initial Play
+    bgm.play().catch((e) => console.warn("Audio autoplay blocked", e));
 
     return () => {
       clearInterval(fadeIn);
@@ -373,22 +167,11 @@ const BattleMinigame: React.FC = () => {
     };
   }, []);
 
-  // --- Navigation & Cleanup Logic ---
-  useEffect(() => {
-    // We do NOT disconnect on unmount here to allow persistence,
-    // or we rely on the lobby to manage connection start.
-    // If we disconnect here, we lose the session if we just navigate back/forth.
-    return () => {
-      // socketService.disconnect(); // RESTORED: Commented out to prevent connection loss
-    };
-  }, []);
-
   useIonViewWillLeave(() => {
     if (bgmRef.current) {
       bgmRef.current.pause();
       bgmRef.current.currentTime = 0;
     }
-    // socketService.disconnect(); // RESTORED: Commented out to prevent connection loss
   });
 
   useIonViewWillEnter(() => {
@@ -397,35 +180,34 @@ const BattleMinigame: React.FC = () => {
     }
   });
 
-  // --- UI/Animation Logic ---
+  // --- Scrolling Text Animation ---
   useEffect(() => {
-    const scrollText = () => {
-      setScrollingTextPosition((prev) => {
-        const textWidth = scrollingTextRef.current?.scrollWidth || 0;
-        const containerWidth =
-          scrollingTextRef.current?.parentElement?.offsetWidth || 0;
-        if (textWidth > containerWidth) {
-          const newPosition = prev - 0.5;
-          if (newPosition < -textWidth) return containerWidth;
-          return newPosition;
+    const animate = () => {
+      setScrollingTextPos((prev) => {
+        const width = scrollingTextRef.current?.clientWidth || 0;
+        const parentWidth =
+          scrollingTextRef.current?.parentElement?.clientWidth || 0;
+        if (width > parentWidth) {
+          const next = prev - 0.5;
+          return next < -width ? parentWidth : next;
         }
         return 0;
       });
+      animRef.current = requestAnimationFrame(animate);
     };
-    animationRef.current = requestAnimationFrame(function animate() {
-      scrollText();
-      animationRef.current = requestAnimationFrame(animate);
-    });
-    return () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    };
+    animRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animRef.current!);
   }, [currentQuestion]);
 
+  // --- Restore Popup Progress Logic ---
   useEffect(() => {
-    if (!isAnswered && showQuestionPopup) {
+    if (showQuestionPopup && selectedAnswer === null) {
       const duration = 8000;
       const interval = 50;
       const increment = 100 / (duration / interval);
+
+      setProgress(0); // Reset start
+
       const progressTimer = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 100) {
@@ -435,88 +217,263 @@ const BattleMinigame: React.FC = () => {
           return prev + increment;
         });
       }, interval);
+
       const timer = setTimeout(() => {
         setShowQuestionPopup(false);
         clearInterval(progressTimer);
       }, duration);
+
       return () => {
         clearTimeout(timer);
         clearInterval(progressTimer);
       };
+    } else {
+      setProgress(0);
     }
-  }, [currentQuestion, isAnswered, showQuestionPopup]);
+  }, [currentQuestion, showQuestionPopup, selectedAnswer]);
 
-  const showQuestion = () => {
-    setShowQuestionPopup(true);
-    setProgress(0);
-  };
+  // --- Socket Logic ---
+  useEffect(() => {
+    if (!roomId) {
+      history.replace("/page/student");
+      return;
+    }
 
-  const closeQuestion = () => {
-    setShowQuestionPopup(false);
-    setProgress(0);
-  };
+    socketService.connect();
+    const socket = socketService.socket;
 
-  const handleAnswerSelect = (answerIndex: number) => {
-    if (isAnswered) return;
+    if (socket) {
+      // 1. Initial Sync Request
+      socket.emit("join_match_session", { roomId });
 
-    setSelectedAnswer(answerIndex);
-    setIsAnswered(true);
-    setShowQuestionPopup(false);
+      // 2. Listeners
+      socket.on("sync_state", (state: GameSnapshot) => {
+        console.log("[Sync] Received Snapshot:", state);
 
-    // User local feedback (optional color change handled by getButtonColor)
-    // Emit to server
-    if (roomId) {
-      // Technically we can check correctness locally if we trust question list sync
-      const isCorrect =
-        answerIndex === questions[currentQuestion].correctAnswer;
-      socketService.socket?.emit("submit_answer", {
-        roomId,
-        correct: isCorrect,
+        // Deduce ID logic (Same as before)
+        const myP = Object.values(state.players).find(
+          (p) => p.socketId === socket.id
+        );
+        if (myP) setMyId(myP.userId);
+        else {
+          const localUser = JSON.parse(
+            localStorage.getItem("userData") || "{}"
+          );
+          const matchName = Object.values(state.players).find(
+            (p) => p.name === localUser.name
+          );
+          if (matchName) setMyId(matchName.userId);
+        }
+
+        // Apply State
+        setStatus(state.status);
+        setPlayers(state.players);
+        setQuestionIndex(state.currentQuestionIndex);
+
+        // Sudden Death Sync
+        setIsSuddenDeath(!!state.isSuddenDeath);
+        if (state.isSuddenDeath && state.status === "playing") {
+          startCountdown(state.roundEndTime);
+        } else {
+          setVisualTimeLeft(0);
+        }
+
+        // Show Popup on new Round
+        if (state.status === "playing") {
+          // Only if we haven't answered yet?
+          // Actually popup is usually for reading logic.
+          // We can check if we just transitioned.
+          // Simplification: Always show popup if not answered.
+        }
       });
+
+      socket.on("round_ready", () => {
+        setSelectedAnswer(null); // Explicit reset
+        setShowQuestionPopup(true);
+        setIsSuddenDeath(false);
+        // Hide popup after time
+        setTimeout(() => setShowQuestionPopup(false), 5000);
+      });
+
+      socket.on("round_result", (data: any) => {
+        console.log("Round Result:", data);
+        setStatus("round_result");
+        setDamageAmount(data.damage);
+
+        // Critical
+        if (data.isCritical) {
+          setShowCritical(true);
+          playCriticalSound();
+          setTimeout(() => setShowCritical(false), 2500);
+        }
+
+        // Calculate Winner for Animation
+        const currentSocketId = socket.id;
+        const isMe =
+          data.winnerId === currentSocketId || // Check Socket ID (Primary)
+          data.winnerId === myId || // Check User ID (Secondary)
+          (myId && players[myId] && players[myId].socketId === data.winnerId); // Check mapped Socket ID
+
+        // Animation Sequence (matching Old Code)
+        if (isMe) {
+          setPlayerAttackAnim(true);
+          setDamageTarget("opponent");
+          setTimeout(() => playHitSound(), 300);
+          setTimeout(() => {
+            setShowDamageAnimation(true);
+            setOpponentHitAnim(true); // Distinct Hit State
+            // Optimistic Health Update
+            setPlayers((prev) => {
+              const oppId = Object.keys(prev).find((id) => id !== myId);
+              if (!oppId) return prev;
+              const currentH = prev[oppId].health;
+              return {
+                ...prev,
+                [oppId]: {
+                  ...prev[oppId],
+                  health: Math.max(0, currentH - data.damage),
+                },
+              };
+            });
+          }, 600);
+        } else if (data.winnerId !== "draw") {
+          setOpponentAttackAnim(true);
+          setDamageTarget("player");
+          setTimeout(() => playHitSound(), 300);
+          setTimeout(() => {
+            setShowDamageAnimation(true);
+            setPlayerHitAnim(true); // Distinct Hit State
+            // Optimistic Health Update
+            setPlayers((prev) => {
+              if (!myId) return prev;
+              const currentH = prev[myId]?.health || 0;
+              return {
+                ...prev,
+                [myId]: {
+                  ...prev[myId],
+                  health: Math.max(0, currentH - data.damage),
+                },
+              };
+            });
+          }, 600);
+        }
+
+        setTimeout(() => {
+          setPlayerAttackAnim(false);
+          setOpponentAttackAnim(false);
+          setPlayerHitAnim(false);
+          setOpponentHitAnim(false);
+          setShowDamageAnimation(false);
+        }, 2500);
+      });
+
+      socket.on("game_over", (data: { winnerId: string }) => {
+        setWinnerId(data.winnerId);
+        setShowResults(true);
+        setStatus("finished");
+      });
+
+      socket.on("opponent_answered", (data: { userId: string }) => {
+        setPlayers((prev) => ({
+          ...prev,
+          [data.userId]: { ...prev[data.userId], hasAnswered: true },
+        }));
+      });
+
+      // SUDDEN DEATH START
+      socket.on("sudden_death_start", (data: { endTime: number }) => {
+        setIsSuddenDeath(true);
+        startCountdown(data.endTime);
+      });
+
+      socket.on(
+        "player_status_change",
+        (data: { userId: string; status: string }) => {
+          setPlayers((prev) => ({
+            ...prev,
+            [data.userId]: {
+              ...prev[data.userId],
+              isDisconnected: data.status === "disconnected",
+            },
+          }));
+        }
+      );
     }
-    // We do NOT update health/animations here. Wait for 'round_result' event.
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+      socket?.off("sync_state");
+      socket?.off("round_result");
+      socket?.off("game_over");
+      socket?.off("sudden_death_start");
+    };
+  }, [roomId]);
+
+  const startCountdown = (endTime: number) => {
+    if (timerRef.current) clearInterval(timerRef.current);
+
+    // Initial Set (Fix Jump to 0%)
+    const initialLeft = Math.max(0, Math.ceil((endTime - Date.now()) / 1000));
+    setVisualTimeLeft(initialLeft);
+
+    timerRef.current = setInterval(() => {
+      const left = Math.max(0, Math.ceil((endTime - Date.now()) / 1000));
+      setVisualTimeLeft(left);
+      if (left <= 0 && timerRef.current) clearInterval(timerRef.current);
+    }, 1000);
   };
 
-  const getButtonColor = (index: number) => {
-    if (!isAnswered) return "";
-    const isCorrect = index === questions[currentQuestion].correctAnswer;
-    if (index === selectedAnswer) return isCorrect ? "correct" : "incorrect";
-    if (index === questions[currentQuestion].correctAnswer) return "correct"; // Reveal answer?
-    return "";
+  const handleAnswer = (idx: number) => {
+    if (status !== "playing" || selectedAnswer !== null) return;
+    setSelectedAnswer(idx);
+    setShowQuestionPopup(false); // Dismiss popup if open
+    const isCorrect = idx === currentQuestion.correctAnswer;
+    socketService.socket?.emit("submit_answer", { roomId, correct: isCorrect });
   };
 
-  const getHealthBarColor = (health: number, maxHealth: number) => {
-    const percentage = (health / maxHealth) * 100;
-    if (percentage > 60) return "#4CAF50";
-    if (percentage > 30) return "#FF9800";
-    return "#F44336";
+  const getHealthColor = (h: number, max: number) => {
+    if (h <= 0) return "#f44336";
+    const p = h / max;
+    return p > 0.6 ? "#4caf50" : p > 0.3 ? "#ff9800" : "#f44336";
   };
 
-  const handleBackToMenu = () => {
-    history.replace("/page/student");
-  };
-
-  const restartBattle = () => {
-    // Just resets UI, server controls real state?
-    // For minigame, typically we just leave or rematch.
-    setPlayer((prev) => ({ ...prev, health: 100, score: 0 }));
-    setOpponent((prev) => ({ ...prev, health: 100, score: 0 }));
-    resetRound();
-    setShowResults(false);
-    setWinner(null);
-  };
+  if (!me || !opponent) {
+    return (
+      <IonPage>
+        <div className="disconnect-overlay">
+          <div className="disconnect-spinner"></div>
+          <div className="disconnect-message">Connecting...</div>
+        </div>
+      </IonPage>
+    );
+  }
 
   return (
     <IonPage>
-      <StudentHeader pageTitle="battle.title" />
-
-      {/* Logic Fix: Re-enabled Sidebar */}
-      <StudentSidebar onLogout={handleLogout} />
+      <StudentHeader
+        pageTitle="battle.title"
+        showBackButton={true}
+        onBack={() => {
+          socketService.socket?.emit("leave_match", { roomId });
+          history.replace("/page/student");
+        }}
+      />
 
       <IonContent fullscreen={false} className="battle-content">
-        {" "}
-        {/* Changed fullscreen to false */}
         <div className="battle-container">
+          {/* Disconnect / Waiting Overlay */}
+          {(opponent.isDisconnected || status === "waiting") && (
+            <div className="disconnect-overlay">
+              <div className="disconnect-spinner"></div>
+              <div className="disconnect-message">
+                {opponent.isDisconnected
+                  ? "Opponent Disconnected..."
+                  : "Waiting for Next Round..."}
+              </div>
+            </div>
+          )}
+
+          {/* Opponent Section */}
           <div className="battle-section enemy-section">
             <div className="character-container">
               <div className="health-bar enemy-health">
@@ -528,7 +485,7 @@ const BattleMinigame: React.FC = () => {
                     className="health-bar-fill"
                     style={{
                       width: `${(opponent.health / opponent.maxHealth) * 100}%`,
-                      backgroundColor: getHealthBarColor(
+                      backgroundColor: getHealthColor(
                         opponent.health,
                         opponent.maxHealth
                       ),
@@ -537,79 +494,110 @@ const BattleMinigame: React.FC = () => {
                 </div>
                 <div className="hp-row">
                   <span className="hp-text">
-                    {t("battle.hp")}: {opponent.health}/{opponent.maxHealth}
+                    {opponent.health}/{opponent.maxHealth}
                   </span>
                 </div>
               </div>
               <div className="avatar-wrapper">
                 <img
-                  src={`/assets/battle_sprite_front_${opponent.avatarName.toLowerCase()}.png`}
+                  src={`/assets/battle_sprite_front_${opponent.avatar.toLowerCase()}.png`}
+                  className={`avatar-image ${
+                    opponentAttackAnim ? "enemy-attack-animation" : ""
+                  } ${opponentHitAnim ? "damage-animation" : ""}`}
                   onError={(e) =>
-                  (e.currentTarget.src =
-                    "/assets/battle_sprite_front_capybara.png")
-                  } // Fallback
-                  alt={opponent.avatarName}
-                  className={`avatar-image ${opponentAttackAnimation
-                    ? "enemy-attack-animation"
-                    : opponentHitAnimation
-                      ? "damage-animation"
-                      : ""
-                    }`}
+                    (e.currentTarget.src =
+                      "/assets/battle_sprite_front_capybara.png")
+                  }
                 />
               </div>
             </div>
           </div>
 
+          {/* Player Section */}
           <div className="battle-section player-section">
             <div className="character-container">
               <div className="avatar-wrapper">
                 <img
-                  src={`/assets/battle_sprite_back_${player.avatarName.toLowerCase()}.png`}
+                  src={`/assets/battle_sprite_back_${me.avatar.toLowerCase()}.png`}
+                  className={`avatar-image ${
+                    playerAttackAnim ? "player-attack-animation" : ""
+                  } ${playerHitAnim ? "damage-animation" : ""}`}
                   onError={(e) =>
-                  (e.currentTarget.src =
-                    "/assets/battle_sprite_back_capybara.png")
-                  } // Fallback
-                  alt={player.avatarName}
-                  className={`avatar-image ${playerAttackAnimation
-                    ? "player-attack-animation"
-                    : playerHitAnimation
-                      ? "damage-animation"
-                      : ""
-                    }`}
+                    (e.currentTarget.src =
+                      "/assets/battle_sprite_back_capybara.png")
+                  }
                 />
               </div>
               <div className="health-bar player-health">
                 <div className="character-name-row">
-                  <span className="character-name">{player.name}</span>
+                  <span className="character-name">{me.name}</span>
                 </div>
                 <div className="health-bar-container">
                   <div
                     className="health-bar-fill"
                     style={{
-                      width: `${(player.health / player.maxHealth) * 100}%`,
-                      backgroundColor: getHealthBarColor(
-                        player.health,
-                        player.maxHealth
-                      ),
+                      width: `${(me.health / me.maxHealth) * 100}%`,
+                      backgroundColor: getHealthColor(me.health, me.maxHealth),
                     }}
                   ></div>
                 </div>
                 <div className="hp-row">
                   <span className="hp-text">
-                    {t("battle.hp")}: {player.health}/{player.maxHealth}
+                    {me.health}/{me.maxHealth}
                   </span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Sudden Death Timer */}
-          <div className="timer-bar-container">
+          {/* Questions */}
+          {/* Sudden Death / Timer Bar (Moved here) */}
+          {/* Timer Bar (Always Visible, Slim, Green -> Red) */}
+          <div
+            className="timer-bar-container"
+            style={{
+              visibility: "visible", // Always visible per user request
+              height: "0.25rem", // Slimmer
+              background: "rgba(0,0,0,0.1)", // Transparent/Subtle track
+              width: "80%",
+              margin: "0 auto",
+              marginTop: "0.5rem",
+              marginBottom: "0.5rem",
+              borderRadius: "4px",
+              overflow: "hidden",
+            }}
+          >
             <div
-              className={`timer-bar-fill ${isTimerActive ? "active" : ""}`}
+              className="timer-bar-fill"
+              style={{
+                height: "100%",
+                // If not sudden death, it stays full green (infinite time).
+                // If sudden death (visualTimeLeft < 100), it depletes.
+                // User said "it should be green... only the color it is".
+                // If we want it to stay green until sudden death, we use logic:
+                background: !isSuddenDeath
+                  ? "#4caf50"
+                  : visualTimeLeft > 5
+                  ? "#4caf50"
+                  : visualTimeLeft > 2
+                  ? "#ff9800"
+                  : "#f44336",
+
+                // If not sudden death, width is 100%. If sudden death, calculated.
+                width: !isSuddenDeath
+                  ? "100%"
+                  : `${(visualTimeLeft / 10) * 100}%`,
+
+                transition: "width 1s linear, background-color 0.3s ease",
+              }}
             ></div>
           </div>
 
+          {/* Separator was here, removing global separator to rely on specific placement above.  */}
+          {/* Actually user said "two separator bars", checking if another exists. */}
+          {/* We have one in line 380, and one in 465. We should keep the one dividing player from questions. */}
+          {/* But we moved the Timer Bar ABOVE the separator. */}
+          {/* But we moved the Timer Bar ABOVE the separator. */}
           <div className="section-separator"></div>
 
           {/* Critical Hit Overlay */}
@@ -617,18 +605,31 @@ const BattleMinigame: React.FC = () => {
             <div className="critical-text-overlay">CRITICAL!</div>
           )}
 
-          <div className="options-section">
+          {/* Questions (Always rendered, disconnected if not playing) */}
+          <div
+            className="options-section"
+            style={{
+              opacity: status === "playing" ? 1 : 0.5,
+              pointerEvents: status === "playing" ? "auto" : "none",
+            }}
+          >
             <IonGrid>
               <IonRow>
-                {questions[currentQuestion].options.map((option, index) => (
-                  <IonCol size="12" key={index}>
+                {currentQuestion.options.map((opt, i) => (
+                  <IonCol size="12" key={i}>
                     <IonButton
                       expand="block"
-                      className={`option-button ${getButtonColor(index)}`}
-                      onClick={() => handleAnswerSelect(index)}
-                      disabled={isAnswered}
+                      className={`option-button ${
+                        selectedAnswer === i
+                          ? i === currentQuestion.correctAnswer
+                            ? "correct"
+                            : "incorrect"
+                          : ""
+                      }`}
+                      onClick={() => handleAnswer(i)}
+                      disabled={selectedAnswer !== null}
                     >
-                      {option}
+                      {opt}
                     </IonButton>
                   </IonCol>
                 ))}
@@ -636,22 +637,7 @@ const BattleMinigame: React.FC = () => {
             </IonGrid>
           </div>
 
-          <div className="bottom-question-bar" onClick={showQuestion}>
-            <div className="bottom-bar-content">
-              <div className="scrolling-text-container">
-                <div
-                  ref={scrollingTextRef}
-                  className="scrolling-text"
-                  style={{
-                    transform: `translateX(${scrollingTextPosition}px)`,
-                  }}
-                >
-                  {questions[currentQuestion].question}
-                </div>
-              </div>
-            </div>
-          </div>
-
+          {/* Question Popup Logic */}
           {showQuestionPopup && (
             <div className="question-popup-overlay">
               <div className="question-popup">
@@ -659,17 +645,15 @@ const BattleMinigame: React.FC = () => {
                   <IonButton
                     fill="clear"
                     className="close-button"
-                    onClick={closeQuestion}
+                    onClick={() => setShowQuestionPopup(false)}
                   >
                     <IonIcon icon={close} />
                   </IonButton>
                 </div>
                 <div className="question-content">
-                  <IonText>
-                    <h2 className="question-text">
-                      {questions[currentQuestion].question}
-                    </h2>
-                  </IonText>
+                  <div className="question-text">
+                    {currentQuestion.question}
+                  </div>
                 </div>
                 <div className="progress-container">
                   <div
@@ -681,62 +665,57 @@ const BattleMinigame: React.FC = () => {
             </div>
           )}
 
+          {/* Bottom Bar (Scrolling) */}
+          <div
+            className="bottom-question-bar"
+            onClick={() => setShowQuestionPopup(true)}
+          >
+            <div className="bottom-bar-content">
+              <div className="scrolling-text-container">
+                <div
+                  className="scrolling-text"
+                  ref={scrollingTextRef}
+                  style={{ transform: `translateX(${scrollingTextPos}px)` }}
+                >
+                  {currentQuestion.question}
+                </div>
+              </div>
+            </div>
+          </div>
+
           {showDamageAnimation && (
             <div className={`damage-popup ${damageTarget}`}>
               -{damageAmount}
             </div>
           )}
         </div>
+
         <IonModal
           isOpen={showResults}
           className="results-modal"
           backdropDismiss={false}
         >
           <div className="premium-results-container">
-            {/* Victory / Defeat Header */}
-            <div className={`result-header ${winner}`}>
-              {disconnectMessage && (
-                <div className="disconnect-badge">{disconnectMessage}</div>
-              )}
+            <div
+              className={`result-header ${
+                winnerId === myId ? "player" : "opponent"
+              }`}
+            >
               <div className="result-title">
-                {winner === "player"
-                  ? "¡VICTORIA!"
-                  : winner === "opponent"
-                    ? "DERROTA"
-                    : "EMPATE"}
+                {winnerId === myId
+                  ? "VICTORY!"
+                  : winnerId === "draw"
+                  ? "DRAW"
+                  : "DEFEAT"}
               </div>
             </div>
-
-            {/* Stats Display (Only show for Winner or Player) */}
-            <div className="result-stats-grid">
-              <div className="stat-box">
-                <span className="stat-label">Puntos</span>
-                <span className="stat-value">{player.score}</span>
-              </div>
-              {winner === "player" && (
-                <>
-                  <div className="stat-box highlight">
-                    <span className="stat-label">{t("battle.winStreak")}</span>
-                    <span className="stat-value">🔥 {winStreak}</span>
-                  </div>
-                  <div className="stat-box highlight">
-                    <span className="stat-label">
-                      {t("battle.utilizationIndex")}
-                    </span>
-                    <span className="stat-value">⚡ {utilizationIndex}</span>
-                  </div>
-                </>
-              )}
-            </div>
-
             <div className="result-actions">
               <IonButton
                 expand="block"
-                className="premium-lobby-btn"
-                onClick={handleBackToMenu}
+                className="rematch-button"
+                onClick={() => history.replace("/page/student")}
               >
-                {t("battle.backToLobby")}
-                <IonIcon icon={arrowForward} slot="end" />
+                Return to Menu <IonIcon icon={arrowForward} slot="end" />
               </IonButton>
             </div>
           </div>

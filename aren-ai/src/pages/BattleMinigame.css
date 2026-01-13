@@ -596,20 +596,6 @@ body {
     opacity: 1;
   }
 
-  80% {
-    transform: translateY(-80px) scale(1.1);
-    opacity: 0.8;
-  }
-
-  100% {
-    transform: translateY(-100px) scale(0.8);
-    opacity: 0;
-  }
-}
-
-.results-modal {
-  --background: rgba(0, 0, 0, 0.5);
-  --backdrop-opacity: 0.5;
 }
 
 .results-container {
@@ -1157,4 +1143,41 @@ body {
   height: 3.5rem;
   --box-shadow: 0 5px 15px rgba(255,255,255,0.2);
   font-size: 1.1rem;
+}
+
+.disconnect-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+}
+
+.disconnect-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 20px;
+}
+
+.disconnect-message {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  max-width: 80%;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
