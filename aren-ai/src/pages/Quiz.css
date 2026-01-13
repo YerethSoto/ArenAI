@@ -97,172 +97,226 @@
 }
 
 /* Quiz container - Responsive Height */
+/* Main Quiz Container */
 .quiz-container {
-  max-width: 37.2rem;
+  max-width: 800px; /* Wider container */
+  width: 95%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 20px;
   height: 100%;
-  justify-content: space-between;
-  padding-bottom: 1rem;
+  padding: 10px;
+  justify-content: flex-start;
 }
 
-/* Stats Bar - Adapts to Theme Primary Color */
+/* Stats Bar */
+
 .quiz-stats-bar {
   display: flex;
   justify-content: space-between;
   background-color: var(--ion-card-background) !important;
-  border-radius: 0.6375rem;
-  padding: 0.6375rem 0.95rem;
-  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
-  border: 0.125rem solid var(--ion-color-primary) !important;
-  margin-bottom: 0.95rem;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  border-radius: 20px;
+  padding: 15px 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--ion-color-primary) !important;
+  margin-bottom: 60px; /* Space for big mascot head */
 }
 
+/* Restored Stat Box Styles */
 .stat-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: var(--ion-card-background);
-  border-radius: 0.325rem;
-  padding: 0.45rem 0.7rem;
-  min-width: 4.7rem;
-  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+  background: var(--ion-card-background); /* Restored background */
+  border-radius: 8px;
+  padding: 8px 12px;
+  min-width: 80px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Restored shadow */
 }
 
 .stat-number {
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 1.1rem;
+  font-weight: 800;
   color: var(--ion-color-primary);
   margin: 0;
   line-height: 1.2;
 }
 
 .stat-label {
-  font-size: 0.5rem;
-  font-weight: 500;
-  color: var(--ion-color-primary);
-  margin: 0.25rem 0 0 0;
-  text-transform: lowercase;
-}
-
-/* Image Section */
-.image-section {
-  flex: 1;
-  /* Grow/Shrink */
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  background: transparent;
-  min-height: 0;
-  /* Allow shrinking */
-  position: relative;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.quiz-image {
-  width: auto;
-  height: auto;
-  max-height: 35vh;
-  /* Limit height */
-  object-fit: contain;
-  object-position: bottom;
-  background: transparent;
-  border-radius: 0;
-}
-
-/* Character Name Hexagon */
-.character-name-hexagon {
-  position: absolute;
-  bottom: -0.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--ion-card-background);
-  padding: 0.45rem 1.575rem;
-  border-radius: 1.2625rem;
-  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.2);
-  border: 0.125rem solid var(--ion-color-primary);
-  z-index: 10;
-  min-width: 9.075rem;
-  text-align: center;
-}
-
-.character-name {
-  font-size: 0.8rem;
+  font-size: 0.65rem;
   font-weight: 600;
-  color: var(--ion-color-primary);
-  margin: 0;
+  color: var(--ion-text-color);
+  margin-top: 5px;
   text-transform: uppercase;
-  letter-spacing: 0.03125rem;
+  letter-spacing: 0.5px;
 }
 
-/* Question Section */
-.question-section {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 0.5rem;
-  /* Wider: less side padding */
-  margin-top: 0.5rem;
-  /* Less space top */
-  margin-bottom: 0.5rem;
-  /* Less space bottom */
-  width: 100%;
+/* Combined wrapper */
+.quiz-card-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-top: 120px; /* Pushed down significantly per request (was 60px) */
+    gap: 20px; /* Space between Question and Answer cards */
 }
 
-.question-card {
-  background: var(--ion-color-primary);
-  border-radius: 12px;
-  padding: 0.8rem 1rem;
-  /* Smaller padding */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  border: none;
-  /* Remove border to avoid "border-like" look */
+/* Layer 1: Mascot (Behind) - 1.5x Bigger & Higher */
+.quiz-mascot-layer {
+    position: absolute;
+    top: -230px; /* Raised another 15% (was -200px) */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px; /* 1.5x bigger */
+    height: 300px;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    pointer-events: none;
+}
+
+.quiz-mascot-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+}
+
+/* Layer 2: Question Block (Middle) */
+.question-block {
+  /* Match PersonalityQuiz.css .pq-question-card styling logic */
+  background-color: rgba(255, 255, 255, 0.95); 
+  border-radius: 20px;
+  padding: 50px 20px 30px 20px; /* Top padding clears Name Pill */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border: 2px solid var(--ion-color-primary); /* Matching outline per request */
   width: 100%;
   text-align: center;
+  position: relative;
+  z-index: 10;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative;
-  transition: background-color 0.3s ease;
+  min-height: 140px;
+  margin-bottom: 30px; /* CRITICAL: Blank space between question and answers */
 }
 
-.question-card::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -10px;
-  border-width: 10px;
-  border-style: solid;
-  border-color: var(--ion-color-primary) transparent transparent transparent;
-  display: none;
-  /* Hide the arrow if we want it flatter/cleaner and closer */
+/* Layer 2.5: Answers Block (Separate Container) */
+.answers-block {
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    /* Transparent container, just holds buttons */
 }
 
+/* Layer 3: Name Pill (Top of Question) */
+.character-name-pill {
+    position: absolute;
+    top: -18px; 
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ion-card-background);
+    padding: 8px 24px;
+    border-radius: 20px;
+    border: 2px solid var(--ion-color-primary);
+    z-index: 20; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.character-name-text {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--ion-color-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Question Title */
 .question-title {
-  font-weight: 600;
-  color: var(--ion-color-primary-contrast);
+  font-weight: 700;
+  color: var(--ion-color-primary); /* Primary like Personality */
   margin: 0;
-  line-height: 1.2;
-  font-family: 'Open Sans', sans-serif;
+  line-height: 1.4;
+  font-size: 1.3rem;
   width: 100%;
-  font-size: 0.95rem;
-  /* Smaller text */
 }
 
-/* Options Section */
-.options-section {
-  padding: 0 1rem;
-  padding-top: 0.8rem;
-  margin-bottom: 2rem;
-  width: 100%;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
+/* Separator - Keeping it internal to Question Block if desired, or remove if splitting blocks totally? 
+   User said "do not connect... put blank space". 
+   If separating blocks, we don't need a line INSIDE the question block usually.
+   But if user wants a visual break inside, we keep it. 
+   I'll keep it but make it subtle just in case. */
+.quiz-separator {
+    display: none; /* Hide internal separator since we split the blocks manually */
+}
+
+/* Options Container */
+.options-container {
+    width: 100%;
+}
+
+.options-grid {
+    padding: 0;
+}
+
+/* Updated Option Buttons (Matching pq-option-btn style) */
+.option-button {
+  --background: var(--ion-card-background); /* White by default */
+  --color: var(--ion-text-color);
+  --border-radius: 15px;
+  --box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  --padding-start: 15px;
+  --padding-end: 15px;
+  
+  margin-bottom: 12px; /* Gap between buttons */
+  height: auto;
+  min-height: 4.5rem; /* Increased min-height for larger text */
+  font-weight: 600;
+  font-size: 2rem; /* Increased to 2x (was 1rem) */
+  text-transform: none;
+  transition: transform 0.2s;
+}
+
+.option-button:hover {
+    transform: translateY(-2px);
+    --box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+/* Dark Mode Overrides (Matching PersonalityQuiz) */
+@media (prefers-color-scheme: dark) {
+    .question-block {
+        background-color: #1e1e1e;
+        color: white;
+    }
+    .option-button {
+        --background: #2a2a2a;
+        --color: white;
+        --box-shadow: none;
+        border: 1px solid #333;
+    }
+    .question-title {
+        color: var(--ion-color-primary);
+    }
+    .character-name-pill {
+        background: #1e1e1e;
+    }
+}
+
+/* Dark Mode Overrides */
+@media (prefers-color-scheme: dark) {
+    .question-card {
+        background: #1e1e1e;
+    }
+    .option-button {
+        --background: #2c2c2c;
+        --color: #ffffff;
+    }
+    .quiz-separator {
+        background: rgba(255,255,255,0.1);
+    }
 }
 
 .options-section ion-grid {

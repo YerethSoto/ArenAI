@@ -201,46 +201,54 @@ const Quiz: React.FC = () => {
               </div>
             </div>
 
-            <div className="image-section">
-              <img
-                src="/assets/capybara_sprite_normal.png"
-                alt="ArenAI Capybara"
-                className="quiz-image"
-              />
-              <div className="character-name-hexagon">
-                <IonText>
-                  <p className="character-name">Aren</p>
-                </IonText>
+            {/* Combined Card Section with Floating Mascot and Interleaved Name */}
+            <div className="quiz-card-wrapper">
+              {/* 1. Mascot Image (Behind Question Block) */}
+              <div className="quiz-mascot-layer">
+                <img
+                  src="/assets/capybara_sprite_normal.png"
+                  alt="ArenAI Capybara"
+                  className="quiz-mascot-img"
+                />
               </div>
-            </div>
 
-            <div className="question-section">
-              <div className="question-card">
+              {/* 2. Question Block (Top Card) */}
+              <div className="question-block">
+                {/* Name Pill (Top of Question) */}
+                <div className="character-name-pill">
+                  <span className="character-name-text">Aren</span>
+                </div>
+
                 <IonText>
                   <h2 className="question-title">{getQuestionText()}</h2>
                 </IonText>
               </div>
-            </div>
 
-            <div className="options-section">
-              <IonGrid>
-                <IonRow>
-                  {activeQuestionList[currentQuestion].options.map(
-                    (option, index) => (
-                      <IonCol size="12" key={index}>
-                        <IonButton
-                          expand="block"
-                          className={`option-button ${getButtonColor(index)}`}
-                          onClick={() => handleAnswerSelect(index)}
-                          disabled={isAnswered}
-                        >
-                          {option}
-                        </IonButton>
-                      </IonCol>
-                    )
-                  )}
-                </IonRow>
-              </IonGrid>
+              {/* 3. Answers Block (Bottom - Separate) */}
+              <div className="answers-block">
+                <div className="options-container">
+                  <IonGrid className="options-grid">
+                    <IonRow>
+                      {activeQuestionList[currentQuestion].options.map(
+                        (option, index) => (
+                          <IonCol size="12" key={index}>
+                            <IonButton
+                              expand="block"
+                              className={`option-button ${getButtonColor(
+                                index
+                              )}`}
+                              onClick={() => handleAnswerSelect(index)}
+                              disabled={isAnswered}
+                            >
+                              {option}
+                            </IonButton>
+                          </IonCol>
+                        )
+                      )}
+                    </IonRow>
+                  </IonGrid>
+                </div>
+              </div>
             </div>
 
             {/* Points Animation */}

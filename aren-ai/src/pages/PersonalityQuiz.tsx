@@ -243,18 +243,8 @@ const PersonalityQuiz: React.FC = () => {
       <StudentHeader pageTitle="personalityQuiz.title" showNotch={false} />
       <IonContent fullscreen ref={contentRef} className="main-student-content">
         <div className="pq-container">
-          {/* Header / Intro Section (Like Main Student Pill) */}
+          {/* Header: Just Progress Pill now */}
           <div className="pq-header-section">
-            <div className="pq-mascot-wrapper-small">
-              <AnimatedMascot
-                className="pq-mascot-img-small"
-                openSrc={avatarAssets.open}
-                closedSrc={avatarAssets.closed}
-                winkSrc={avatarAssets.wink}
-              />
-            </div>
-
-            {/* Progress Pill matches ms-intro-pill style */}
             <div className="pq-progress-pill">
               <span className="pq-progress-label">
                 {t("personalityQuiz.ui.progress")}
@@ -271,9 +261,22 @@ const PersonalityQuiz: React.FC = () => {
             </div>
           </div>
 
-          {/* Content Card (Like Bottom Section in Main Student) */}
+          {/* Content Card with Attached Mascot */}
           <div className="pq-question-card">
+            {/* Floating Mascot - Attached to top */}
+            <div className="pq-floating-mascot-container">
+              <AnimatedMascot
+                className="pq-floating-mascot-img"
+                openSrc={avatarAssets.open}
+                closedSrc={avatarAssets.closed}
+                winkSrc={avatarAssets.wink}
+              />
+            </div>
+
             <h2 className="pq-question-text">{currentQuestion.question}</h2>
+
+            {/* Separator Line */}
+            <div className="pq-separator"></div>
 
             <div className="pq-options-list">
               {currentQuestion.options.map((option, index) => (

@@ -82,16 +82,37 @@
 }
 
 /* --- Content Card (Like Bottom Section in Main Student) --- */
+/* --- Content Card (Like Bottom Section in Main Student) --- */
 .pq-question-card {
     /* Matches ms-bottom-section style: Solid soft secondary or semi-transparent */
-    background-color: rgba(255, 255, 255, 0.6); /* Slightly more opaque for readability */
+    background-color: rgba(255, 255, 255, 0.6); 
     border-radius: 20px;
-    padding: 30px 20px;
+    padding: 60px 20px 30px 20px; /* Added Top Padding for Mascot overlap visual balance */
     flex: 1;
     display: flex;
     flex-direction: column;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    overflow-y: auto;
+    overflow-y: visible; /* CRITICAL: Allow mascot to stick out top */
+    position: relative;
+    margin-top: 60px; /* Push card down to make room for mascot head */
+}
+
+/* Floating Mascot Logic */
+.pq-floating-mascot-container {
+    position: absolute;
+    top: -65px; /* Pull up to stick out */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 130px;
+    height: 130px;
+    z-index: 10;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.15));
+}
+
+.pq-floating-mascot-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .pq-question-text {
@@ -99,8 +120,19 @@
     font-weight: 700;
     color: var(--ion-color-primary); /* Primary Title Color */
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     line-height: 1.4;
+    position: relative;
+    z-index: 2;
+}
+
+/* Separator Line */
+.pq-separator {
+    width: 100%;
+    height: 2px;
+    background: rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+    border-radius: 2px;
 }
 
 /* Options */
