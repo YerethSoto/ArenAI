@@ -366,6 +366,13 @@
         "chooseSubject": "Choose your subject",
         "quickBattle": "Quick Battle",
         "howToPlay": "How to play?",
+        "all": "All",
+        "school": "School",
+        "class": "Class",
+        "winRate": "WIN RATE",
+        "streak": "STREAK",
+        "findingMatch": "Finding match...",
+        "cancel": "Cancel",
         "step1": {
             "title": "Choose a subject",
             "desc": "Select the topic you want to practice"
@@ -400,6 +407,20 @@
             "ScienceDesc": "Questions about biology, chemistry and physics"
         }
     },
+    "calendar": {
+        "sun": "Sun",
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat",
+        "classProp": "Class Schedule"
+    },
+    "chat": {
+        "title": "Chat"
+    },
+    "Æ": "Æ",
     "personalityQuiz": {
         "title": "Discover Your Learning Style",
         "loading": "Loading your profile...",

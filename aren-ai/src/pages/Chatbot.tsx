@@ -289,7 +289,7 @@ const Chat: React.FC = () => {
   return (
     <IonPage>
       <StudentHeader
-        pageTitle="Chat"
+        pageTitle="chat.title"
         showSubject={true}
         selectedSubject={selectedSubject}
         onSubjectChange={setSelectedSubject}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IonIcon } from "@ionic/react";
 import { chevronBack, chevronForward } from "ionicons/icons";
+import { useTranslation } from "react-i18next";
 import "./CalendarSelector.css";
 
 interface CalendarSelectorProps {
@@ -12,6 +13,7 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
   onDateSelect,
   title = "Class Schedule",
 }) => {
+  const { t, i18n } = useTranslation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [weekDates, setWeekDates] = useState<Date[]>([]);
@@ -64,10 +66,21 @@ const CalendarSelector: React.FC<CalendarSelectorProps> = ({
   };
 
   const formatMonthYear = (date: Date) => {
-    return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    return date.toLocaleDateString(i18n.language, {
+      month: "long",
+      year: "numeric",
+    });
   };
 
-  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const days = [
+    t("calendar.sun"),
+    t("calendar.mon"),
+    t("calendar.tue"),
+    t("calendar.wed"),
+    t("calendar.thu"),
+    t("calendar.fri"),
+    t("calendar.sat"),
+  ];
 
   return (
     <div className="calendar-selector-container">

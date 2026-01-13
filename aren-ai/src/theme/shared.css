@@ -31,7 +31,7 @@
     cursor: pointer;
     transition: transform 0.2s;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-top: -20px;
+    margin-top: 15px;
 }
 
 .student-nav-btn:active {

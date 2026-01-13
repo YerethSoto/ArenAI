@@ -155,14 +155,18 @@ const BattleLobby: React.FC = () => {
 
                 <div className="stats-display">
                   <div className="stat-unit">
-                    <span className="stat-label">WIN RATE</span>
+                    <span className="stat-label">
+                      {t("battleLobby.winRate")}
+                    </span>
                     {/* Show -- if stats not loaded yet */}
                     <span className="stat-val">
                       {stats ? `${stats.winRate}%` : "--"}
                     </span>
                   </div>
                   <div className="stat-unit">
-                    <span className="stat-label">STREAK</span>
+                    <span className="stat-label">
+                      {t("battleLobby.streak")}
+                    </span>
                     <span className="stat-val">
                       {stats ? stats.streak : "--"}
                     </span>
@@ -201,7 +205,7 @@ const BattleLobby: React.FC = () => {
                   }`}
                   onClick={() => setBattleType("quick")}
                 >
-                  {t("Batalla rápida")}
+                  {t("battleLobby.quickBattle")}
                 </button>
                 <span className="toggle-sep">/</span>
                 <button
@@ -225,17 +229,18 @@ const BattleLobby: React.FC = () => {
                     >
                       <IonSegmentButton value="global">
                         <div className="seg-content">
-                          <IonIcon icon={globe} /> All
+                          <IonIcon icon={globe} /> {t("battleLobby.all")}
                         </div>
                       </IonSegmentButton>
                       <IonSegmentButton value="school">
                         <div className="seg-content">
-                          <IonIcon icon={school} /> School
+                          <IonIcon icon={school} /> {t("battleLobby.school")}
                         </div>
                       </IonSegmentButton>
                       <IonSegmentButton value="section">
                         <div className="seg-content">
-                          <IonIcon icon={searchOutline} /> Class
+                          <IonIcon icon={searchOutline} />{" "}
+                          {t("battleLobby.class")}
                         </div>
                       </IonSegmentButton>
                     </IonSegment>
@@ -260,9 +265,11 @@ const BattleLobby: React.FC = () => {
               {isSearching && (
                 <div className="active-status fade-in">
                   <div className="spinner-mini"></div>
-                  <span className="status-text">Finding match...</span>
+                  <span className="status-text">
+                    {t("battleLobby.findingMatch")}
+                  </span>
                   <span className="cancel-link" onClick={handleCancelSearch}>
-                    Cancel
+                    {t("battleLobby.cancel")}
                   </span>
                 </div>
               )}

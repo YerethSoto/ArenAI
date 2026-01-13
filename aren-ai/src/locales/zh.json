@@ -165,6 +165,13 @@
         "chooseSubject": "选择您的科目",
         "quickBattle": "快速对战",
         "howToPlay": "如何玩?",
+        "all": "全部",
+        "school": "学校",
+        "class": "班级",
+        "winRate": "胜率",
+        "streak": "连胜",
+        "findingMatch": "正在寻找...",
+        "cancel": "取消",
         "step1": {
             "title": "选择一个科目",
             "desc": "选择您想练习的主题"
@@ -199,6 +206,17 @@
             "ScienceDesc": "生物、化学和物理问题"
         }
     },
+    "calendar": {
+        "sun": "日",
+        "mon": "一",
+        "tue": "二",
+        "wed": "三",
+        "thu": "四",
+        "fri": "五",
+        "sat": "六",
+        "classProp": "课程表"
+    },
+    "Æ": "Æ",
     "personalityQuiz": {
         "title": "发现您的学习风格",
         "loading": "正在加载您的个人资料...",

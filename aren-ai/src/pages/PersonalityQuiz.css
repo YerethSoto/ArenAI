@@ -1,139 +1,110 @@
-.personality-quiz-container {
-    min-height: 100vh;
+/* PersonalityQuiz.css */
+
+/* Replicating Main Student Page Styles */
+.main-student-page {
+    background-color: #f9f4e6 !important;
+}
+
+.main-student-content {
+    --background: #f9f4e6 !important;
+}
+
+.pq-container {
+    padding: 20px;
+    height: 100%;
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    background: var(--ion-background-color);
-    padding: 100px 20px 20px 20px;
-    position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-/* Background animation circles */
-.personality-quiz-container::before,
-.personality-quiz-container::after {
-    content: '';
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    background: var(--ion-color-primary);
-    opacity: 0.1;
-    z-index: 0;
-    animation: personality-float 10s infinite ease-in-out;
-}
-
-.personality-quiz-container::before {
-    top: -50px;
-    left: -50px;
-    animation-delay: 0s;
-}
-
-.personality-quiz-container::after {
-    bottom: -50px;
-    right: -50px;
-    animation-delay: 5s;
-}
-
-@keyframes personality-float {
-
-    0%,
-    100% {
-        transform: translate(0, 0);
-    }
-
-    50% {
-        transform: translate(20px, 20px);
-    }
-}
-
-.personality-question-card-container {
-    width: 100%;
+    flex-direction: column;
+    gap: 20px;
     max-width: 600px;
-    min-height: 600px;
-    background: var(--ion-card-background, #ffffff);
-    border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    animation: personality-fadeIn 0.5s ease;
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
+    margin: 0 auto;
 }
 
-.personality-quiz-content {
-    padding: 40px;
+/* --- Header Section (Mascot + Progress) --- */
+.pq-header-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    flex: 1;
+    gap: 20px;
+    margin-top: 20px;
 }
 
-.personality-progress-circle {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    margin-bottom: 30px;
+.pq-mascot-wrapper-small {
+    width: 100px;
+    height: 100px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+.pq-mascot-img-small {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Progress Pill - Matching ms-intro-pill */
+.pq-progress-pill {
+    background-color: var(--ion-color-primary);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(var(--ion-color-primary-rgb), 0.3);
 }
 
-.personality-progress-svg {
-    transform: rotate(0deg);
-}
-
-.personality-progress-text {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.personality-progress-current {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--ion-color-primary);
-}
-
-.personality-progress-label {
-    font-size: 12px;
-    color: var(--ion-color-medium);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.personality-question-visual-icon {
-    font-size: 48px;
-    margin-bottom: 20px;
-    animation: personality-bounce 2s infinite;
-}
-
-@keyframes personality-bounce {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-.personality-question-text {
-    font-size: 24px;
+.pq-progress-label {
+    font-size: 14px;
     font-weight: 600;
-    color: var(--ion-text-color);
-    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pq-progress-track {
+    flex: 1;
+    margin: 0 15px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.pq-progress-bar {
+    height: 100%;
+    background: white;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+}
+
+.pq-progress-val {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* --- Content Card (Like Bottom Section in Main Student) --- */
+.pq-question-card {
+    /* Matches ms-bottom-section style: Solid soft secondary or semi-transparent */
+    background-color: rgba(255, 255, 255, 0.6); /* Slightly more opaque for readability */
+    border-radius: 20px;
+    padding: 30px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    overflow-y: auto;
+}
+
+.pq-question-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ion-color-primary); /* Primary Title Color */
+    text-align: center;
+    margin-bottom: 25px;
     line-height: 1.4;
 }
 
-.personality-options-container {
+/* Options */
+.pq-options-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -141,218 +112,219 @@
     margin-bottom: 20px;
 }
 
-.personality-option-button {
-    padding: 16px 20px;
-    border: 2px solid var(--ion-border-color, #e0e0e0);
-    border-radius: 12px;
-    background: transparent;
-    color: var(--ion-text-color);
-    font-size: 16px;
-    font-weight: 500;
+.pq-option-btn {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: white;
+    border: 2px solid transparent;
+    border-radius: 15px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: left;
-    width: 100%;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.personality-option-button:hover {
+.pq-option-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.pq-option-btn.selected {
     border-color: var(--ion-color-primary);
     background: rgba(var(--ion-color-primary-rgb), 0.05);
-    transform: translateY(-2px);
 }
 
-.personality-option-button.selected {
-    border-color: var(--ion-color-primary);
+.pq-opt-circle {
+    width: 32px;
+    height: 32px;
+    background: var(--ion-color-secondary); /* Secondary accent */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.pq-option-btn.selected .pq-opt-circle {
     background: var(--ion-color-primary);
-    color: var(--ion-color-primary-contrast);
-    box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
 }
 
-.personality-question-hint {
+.pq-opt-text {
+    font-size: 16px;
+    color: var(--ion-text-color);
+    font-weight: 500;
+    text-align: left;
+}
+
+/* Hint */
+.pq-hint-box {
+    background: rgba(var(--ion-color-warning-rgb), 0.1);
+    color: var(--ion-text-color-step-150);
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: auto;
     font-size: 14px;
-    color: var(--ion-color-medium);
-    margin-top: 10px;
-    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
 }
 
-.personality-nav-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    border: none;
+.pq-nav-back {
+    color: var(--ion-color-medium);
     background: transparent;
-    color: var(--ion-color-medium);
-    font-size: 14px;
+    border: none;
+    font-weight: 600;
     cursor: pointer;
-    transition: color 0.3s ease;
+    margin-top: 10px;
 }
 
-.personality-nav-button:hover {
-    color: var(--ion-color-primary);
+/* --- Results Mode --- */
+.pq-container.results-mode {
+    justify-content: center;
 }
 
-/* Results Card */
-.personality-results-card {
-    width: 100%;
-    max-width: 600px;
-    background: var(--ion-card-background, #ffffff);
-    border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-    animation: personality-slideUp 0.6s ease;
-    position: relative;
-    z-index: 1;
+.pq-mascot-area {
+    display: flex;
+    justify-content: center;
     margin-bottom: 20px;
 }
 
-@keyframes personality-slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.pq-mascot-wrapper {
+    width: 140px;
+    height: 140px;
 }
 
-.personality-results-content {
-    padding: 40px;
+.pq-mascot-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.pq-results-card {
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     text-align: center;
 }
 
-.personality-results-icon {
-    font-size: 64px;
-    margin-bottom: 20px;
-    animation: personality-popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes personality-popIn {
-    from {
-        transform: scale(0);
-    }
-
-    to {
-        transform: scale(1);
-    }
-}
-
-.personality-results-title {
+.pq-results-title {
+    color: var(--ion-color-primary);
     font-size: 28px;
-    font-weight: 700;
-    color: var(--ion-color-primary);
-    margin-bottom: 16px;
+    font-weight: 800;
+    margin-bottom: 10px;
 }
 
-.personality-results-description {
-    font-size: 16px;
+.pq-results-description {
     color: var(--ion-text-color);
+    margin-bottom: 25px;
     line-height: 1.6;
-    margin-bottom: 30px;
 }
 
-.personality-traits-container {
-    background: rgba(var(--ion-color-primary-rgb), 0.05);
-    border-radius: 16px;
+.pq-traits-container {
+    background: #f9f9f9;
+    border-radius: 15px;
     padding: 20px;
-    margin-bottom: 20px;
     text-align: left;
+    margin-bottom: 20px;
 }
 
-.personality-traits-title {
-    font-size: 18px;
-    font-weight: 600;
+.pq-traits-title {
     color: var(--ion-color-primary);
-    margin-bottom: 12px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid rgba(0,0,0,0.05);
+    padding-bottom: 5px;
 }
 
-.personality-traits-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.personality-trait-item {
+.pq-trait-item {
     display: flex;
     align-items: flex-start;
+    gap: 10px;
     margin-bottom: 8px;
     font-size: 15px;
-    color: var(--ion-text-color);
+    color: #444;
 }
 
-.personality-trait-bullet {
-    margin-right: 10px;
-    color: var(--ion-color-primary);
+.pq-trait-bullet {
+    color: var(--ion-color-success);
     font-weight: bold;
 }
 
-.personality-recommendations {
-    background: rgba(var(--ion-color-secondary-rgb), 0.1);
-}
-
-.personality-recommendations .personality-traits-title {
+.pq-recommendations .pq-traits-title {
     color: var(--ion-color-secondary);
 }
 
-.personality-recommendations .personality-trait-bullet {
+.pq-recommendations .pq-trait-bullet {
     color: var(--ion-color-secondary);
 }
 
-.personality-restart-button {
-    width: 100%;
-    padding: 16px;
+.pq-actions-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pq-restart-button {
     background: var(--ion-color-primary);
-    color: var(--ion-color-primary-contrast);
+    color: white;
     border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
-}
-
-.personality-restart-button:hover {
-    background: var(--ion-color-primary-shade);
-    transform: translateY(-2px);
-}
-
-.personality-exit-button {
-    width: 100%;
     padding: 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(var(--ion-color-primary-rgb), 0.3);
+}
+
+.pq-exit-button {
     background: transparent;
     color: var(--ion-color-medium);
-    border: 2px solid var(--ion-border-color, #e0e0e0);
+    border: 2px solid #eee;
+    padding: 14px;
     border-radius: 12px;
-    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
 }
 
-.personality-exit-button:hover {
-    border-color: var(--ion-color-medium);
-    color: var(--ion-text-color);
-}
-
-.personality-loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.pq-loading-container {
     height: 100%;
-    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: var(--ion-color-medium);
+    font-size: 18px;
 }
 
-/* Dark mode adjustments */
+/* Dark Mode Adjustments - Keeping Main Student logic */
 @media (prefers-color-scheme: dark) {
-
-    .personality-question-card-container,
-    .personality-results-card {
-        background: #1e1e1e;
+    .main-student-page, .main-student-content {
+        background-color: #121212 !important;
+        --background: #121212 !important;
     }
-
-    .personality-traits-container {
-        background: rgba(255, 255, 255, 0.05);
+    .pq-question-card, .pq-results-card {
+        background-color: #1e1e1e;
+        color: white;
+    }
+    .pq-option-btn {
+        background-color: #2a2a2a;
+        color: white;
+        border: 1px solid #333;
+    }
+    .pq-opt-text {
+        color: white;
+    }
+    .pq-traits-container {
+        background: #2a2a2a;
+    }
+    .pq-trait-item {
+        color: #ddd;
     }
 }

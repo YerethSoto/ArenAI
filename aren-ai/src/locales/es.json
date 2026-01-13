@@ -356,6 +356,13 @@
         "chooseSubject": "Elige tu materia",
         "quickBattle": "Batalla Rápida",
         "howToPlay": "¿Cómo jugar?",
+        "all": "Todos",
+        "school": "Escuela",
+        "class": "Clase",
+        "winRate": "TASA VIC.",
+        "streak": "RACHA",
+        "findingMatch": "Buscando...",
+        "cancel": "Cancelar",
         "step1": {
             "title": "Elige una materia",
             "desc": "Selecciona el tema que quieres practicar"
@@ -390,6 +397,20 @@
             "ScienceDesc": "Preguntas de biología, química y física"
         }
     },
+    "calendar": {
+        "sun": "Dom",
+        "mon": "Lun",
+        "tue": "Mar",
+        "wed": "Mié",
+        "thu": "Jue",
+        "fri": "Vie",
+        "sat": "Sáb",
+        "classProp": "Clase Prototipo"
+    },
+    "chat": {
+        "title": "Chat"
+    },
+    "Æ": "Æ",
     "personalityQuiz": {
         "title": "Descubre tu Estilo de Aprendizaje",
         "loading": "Cargando tu perfil...",
