@@ -23,6 +23,7 @@ import StudentHeader from "../components/StudentHeader";
 import AnimatedMascot from "../components/AnimatedMascot";
 import { getApiUrl } from "../config/api";
 import { studentService } from "../services/studentService";
+import { useTranslation } from "react-i18next";
 
 // Asumiendo que tienes una forma de obtener datos del usuario, si no, usa localStorage
 const getUserContext = () => {
@@ -45,6 +46,7 @@ interface Message {
 }
 
 const Chat: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const { getAvatarAssets, currentAvatar } = useAvatar();
   const avatarAssets = getAvatarAssets();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -66,10 +68,7 @@ const Chat: React.FC = () => {
           selectedSubject
         );
         if (subjectData && subjectData.topics) {
-          const topicNames = subjectData.topics.map((t) => t.nameKey); // We'd ideally translate these in backend or here.
-          // For now sending keys or simple English names is safer if backend assumes English commands
-          // but the prompt says {CURRENT_TOPICS}.
-          // Let's assume we want readable names.
+          const topicNames = subjectData.topics.map((t) => t.nameKey);
           setCurrentTopics(topicNames);
         }
       } catch (err) {
@@ -82,9 +81,17 @@ const Chat: React.FC = () => {
   const handleLogout = () => {};
 
   useEffect(() => {
+    const userContext = getUserContext();
+    const avatarName = localStorage.getItem("avatarName") || "Aren";
+    const avatarType = localStorage.getItem("selected_avatar") || "Capybara";
+
     const initialMessage: Message = {
       id: messageIdCounter.current++,
-      text: "¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte?",
+      text: t("mainStudent.aiAssistant.welcome", {
+        studentName: userContext.name || "Student",
+        tutorName: avatarName,
+        animalType: avatarType,
+      }),
       isUser: false,
       timestamp: new Date(),
       displayedText: "",
@@ -94,7 +101,7 @@ const Chat: React.FC = () => {
     setMessages([initialMessage]);
 
     setTimeout(() => {
-      startTypewriterEffect(initialMessage.id, initialMessage.text, 40);
+      startTypewriterEffect(initialMessage.id, initialMessage.text, 15);
     }, 500);
   }, []);
 
@@ -111,7 +118,7 @@ const Chat: React.FC = () => {
   const startTypewriterEffect = (
     messageId: number,
     fullText: string,
-    speed: number = 40
+    speed: number = 15
   ) => {
     let currentText = "";
     let charIndex = 0;
@@ -194,33 +201,33 @@ const Chat: React.FC = () => {
     scrollToBottom();
 
     const userContext = getUserContext();
-    const performanceStats = "Bueno";
+    const effectiveRole =
+      localStorage.getItem("userRole") || userContext.role || "student";
     const avatarName = localStorage.getItem("avatarName") || "Aren";
-
-    // Explicit Role Check from LocalStorage as fallback
-    const storedRole = localStorage.getItem("userRole");
-    // Force role from localStorage if available, otherwise default
-    const effectiveRole = storedRole || userContext.role || "student";
-
-    // Force animal type from localStorage if available
-    const storedAvatarType = localStorage.getItem("selected_avatar");
-    const effectiveAvatarType = storedAvatarType || currentAvatar || "capybara";
-
-    console.log(
-      "ENVIANDO A BACKEND - ROL:",
-      effectiveRole,
-      "TIPO:",
-      effectiveAvatarType
-    );
+    const effectiveAvatarType =
+      localStorage.getItem("selected_avatar") || currentAvatar || "capybara";
 
     try {
+      // Prepare localized history (last 10 messages)
+      const history = messages.slice(-10).map((m) => ({
+        role: m.isUser ? "user" : "model",
+        parts: [{ text: m.text }],
+      }));
+
+      const token = localStorage.getItem("token");
+      const headers: any = {
+        "Content-Type": "application/json",
+      };
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
       const response = await fetch(API_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: headers,
         body: JSON.stringify({
           prompt: inputMessage,
+          history: history,
           userData: {
             name: userContext.name,
             role: effectiveRole,
@@ -230,7 +237,7 @@ const Chat: React.FC = () => {
             level: "Educación Diversificada",
             currentTopics: currentTopics.join(", "),
             learningStyle: "Visual",
-            language: "es",
+            language: i18n.language || "es",
           },
           agentConfig: {
             name: avatarName,
@@ -256,7 +263,7 @@ const Chat: React.FC = () => {
       };
 
       setMessages((prev) => [...prev, botMessage]);
-      startTypewriterEffect(botMessage.id, botResponse, 30);
+      startTypewriterEffect(botMessage.id, botResponse, 15);
     } catch (error) {
       console.error("Detailed error:", error);
       const errorMessage: Message = {
@@ -268,7 +275,7 @@ const Chat: React.FC = () => {
         isTyping: true,
       };
       setMessages((prev) => [...prev, errorMessage]);
-      startTypewriterEffect(errorMessage.id, errorMessage.text, 30);
+      startTypewriterEffect(errorMessage.id, errorMessage.text, 15);
     }
   };
 
@@ -287,7 +294,7 @@ const Chat: React.FC = () => {
   };
 
   return (
-    <IonPage>
+    <IonPage className="chatbot-page">
       <StudentHeader
         pageTitle="chat.title"
         showSubject={true}
@@ -298,89 +305,79 @@ const Chat: React.FC = () => {
       <StudentSidebar onLogout={handleLogout} />
 
       <IonContent ref={contentRef} className="chat-content">
-        <div className="messages-container">
-          <IonList lines="none" className="message-list">
-            {messages.map((message, index) => (
+        <div className="chat-container">
+          {messages.map((message, index) => {
+            const showAvatar = shouldShowAvatar(index);
+            return (
               <div
                 key={message.id}
-                className={`message-wrapper ${
-                  message.isUser ? "user-wrapper" : "bot-wrapper"
-                } ${message.isTyping ? "typing" : ""}`}
+                className={`message-row ${message.isUser ? "user" : "bot"}`}
               >
-                {!message.isUser && shouldShowAvatar(index) && (
-                  <div className="avatar-container">
-                    <AnimatedMascot
-                      className="bot-avatar-image"
-                      openSrc={avatarAssets.open}
-                      closedSrc={avatarAssets.closed}
-                      winkSrc={avatarAssets.wink}
-                    />
-                  </div>
+                {!message.isUser && (
+                  <AnimatedMascot
+                    className={`chat-avatar bot ${showAvatar ? "" : "hidden"}`} // Handle visibility via CSS if needed, or conditional rendering
+                    openSrc={avatarAssets.open}
+                    closedSrc={avatarAssets.closed}
+                    winkSrc={avatarAssets.wink}
+                  />
+                  // Fallback or specific rendering if !showAvatar could be just invisible spacer
+                )}
+                {!message.isUser && !showAvatar && (
+                  <div style={{ width: 44 }} /> /* Spacer for alignment */
                 )}
 
                 <div
-                  className={`message-bubble ${
-                    message.isUser ? "user-bubble" : "bot-bubble"
-                  } ${message.isTyping ? "typing-bubble" : ""}`}
+                  className={`chat-bubble ${message.isUser ? "user" : "bot"}`}
                 >
-                  <div className="message-text">
+                  <div className="bubble-text">
                     {message.displayedText}
                     {message.isTyping && (
                       <span className="typing-cursor">|</span>
                     )}
                   </div>
-                  <div className="message-timestamp">
+                  <div className="bubble-time">
                     {formatTime(message.timestamp)}
                   </div>
                 </div>
 
-                {message.isUser && shouldShowAvatar(index) && (
-                  <div className="avatar-container">
-                    <img
-                      className="user-avatar-image"
-                      src="/assets/Capybara profile picture.png"
-                      alt="User"
-                    />
-                  </div>
+                {message.isUser && (
+                  <img
+                    className={`chat-avatar user ${showAvatar ? "" : "hidden"}`}
+                    src="/assets/Capybara profile picture.png"
+                    alt="User"
+                    style={{ opacity: showAvatar ? 1 : 0 }} // Simple visibility toggle
+                  />
                 )}
               </div>
-            ))}
-            <div ref={messagesEndRef} />
-          </IonList>
+            );
+          })}
+          <div ref={messagesEndRef} />
         </div>
       </IonContent>
 
-      <IonFooter className="chat-footer">
-        <IonToolbar>
-          <IonItem lines="none" className="input-container">
-            <IonTextarea
-              rows={1}
-              autoGrow={true}
-              value={inputMessage}
-              placeholder="Pregúntame lo que quieras..."
-              onIonInput={(e) => setInputMessage(e.detail.value!)}
-              onKeyPress={handleKeyPress}
-              className="message-input"
-            />
+      <div className="chat-footer">
+        <div className="input-pill">
+          <IonTextarea
+            rows={1}
+            autoGrow={true}
+            value={inputMessage}
+            placeholder={t("chat.placeholder", { name: getUserContext().name })}
+            onIonInput={(e) => setInputMessage(e.detail.value!)}
+            onKeyPress={handleKeyPress}
+            className="chat-input"
+          />
 
-            {inputMessage.trim() ? (
-              <IonButton
-                fill="clear"
-                slot="end"
-                className="send-btn"
-                onClick={handleSendMessage}
-                disabled={!inputMessage.trim()}
-              >
-                <IonIcon icon={send} />
-              </IonButton>
-            ) : (
-              <IonButton fill="clear" slot="end" className="mic-btn">
-                <IonIcon icon={micOutline} />
-              </IonButton>
-            )}
-          </IonItem>
-        </IonToolbar>
-      </IonFooter>
+          {inputMessage.trim() && (
+            <IonButton
+              fill="clear"
+              className="send-button"
+              onClick={handleSendMessage}
+            >
+              <IonIcon icon={send} slot="icon-only" />
+            </IonButton>
+          )}
+        </div>
+      </div>
     </IonPage>
   );
 };

@@ -4,6 +4,7 @@ import {
   IonToolbar,
   IonButtons,
   IonMenuButton,
+  IonButton,
   IonIcon,
 } from "@ionic/react";
 import { menu, arrowBack } from "ionicons/icons";
@@ -17,9 +18,11 @@ interface StudentHeaderProps {
   showSubject?: boolean;
   selectedSubject?: string;
   onSubjectChange?: (subject: string) => void;
+  menuOptions?: string[];
   showNotch?: boolean;
   showBackButton?: boolean;
   onBack?: () => void;
+  skipTranslation?: boolean;
 }
 
 const StudentHeader: React.FC<StudentHeaderProps> = ({
@@ -27,9 +30,11 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
   showSubject = false,
   selectedSubject = "Math",
   onSubjectChange,
+  menuOptions,
   showNotch = true,
   showBackButton = false,
   onBack,
+  skipTranslation = false,
 }) => {
   const { t } = useTranslation();
 
@@ -40,9 +45,9 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
           {/* Menu / Back Button */}
           <IonButtons slot="start" className="sh-menu-btn-container">
             {showBackButton ? (
-              <IonMenuButton className="sh-menu-btn" onClick={onBack}>
-                <IonIcon icon={arrowBack} />
-              </IonMenuButton>
+              <IonButton className="sh-menu-btn" onClick={onBack}>
+                <IonIcon icon={arrowBack} slot="icon-only" />
+              </IonButton>
             ) : (
               <IonMenuButton className="sh-menu-btn">
                 <IonIcon icon={menu} />
@@ -68,13 +73,31 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
               <div className="sh-subject-display">
                 {onSubjectChange ? (
                   <StudentMenu
-                    selectedSubject={t(getSubjectKey(selectedSubject))}
+                    selectedSubject={
+                      menuOptions
+                        ? skipTranslation
+                          ? selectedSubject
+                          : t(selectedSubject)
+                        : t(getSubjectKey(selectedSubject))
+                    }
                     onSubjectChange={onSubjectChange}
                     variant="header"
+                    options={
+                      menuOptions
+                        ? menuOptions.map((opt) => ({
+                            value: opt,
+                            label: t(opt),
+                          }))
+                        : undefined
+                    }
                   />
                 ) : (
                   <span className="sh-subject-text">
-                    {t(getSubjectKey(selectedSubject))}
+                    {menuOptions
+                      ? skipTranslation
+                        ? selectedSubject
+                        : t(selectedSubject)
+                      : t(getSubjectKey(selectedSubject))}
                   </span>
                 )}
               </div>

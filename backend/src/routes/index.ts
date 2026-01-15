@@ -11,6 +11,7 @@ import battleRouter from './battleRoutes.js';
 import chatRouter from './chatRoutes.js';
 import chatbotRouter from './chatbotRoutes.js';
 import assignmentRouter from './assignmentRoutes.js';
+import friendRouter from './friendRoutes.js';
 import { requireAuth } from '../middleware/auth.js';
 
 const router = Router();
@@ -28,5 +29,6 @@ router.use('/battles', battleRouter);
 router.use('/chats', chatRouter);
 router.use('/chatbot', chatbotRouter);
 router.use('/assignments', assignmentRouter);
+router.use('/friends', friendRouter);
 
 export const apiRouter = router;

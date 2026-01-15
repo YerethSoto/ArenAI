@@ -66,6 +66,12 @@ const appPages: AppPage[] = [
     mdIcon: schoolSharp,
   },
   {
+    titleKey: "sidebar.social",
+    url: "/chat-menu",
+    iosIcon: peopleOutline,
+    mdIcon: peopleSharp,
+  },
+  {
     titleKey: "sidebar.quiz",
     url: "/quiz",
     iosIcon: trophyOutline,

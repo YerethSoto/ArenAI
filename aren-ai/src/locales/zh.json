@@ -92,6 +92,13 @@
             "Writing": "写作",
             "Speaking": "口语",
             "Listening": "听力"
+        },
+        "aiAssistant": {
+            "title": "ArenAI 助手",
+            "welcome": "你好，{{studentName}}，我是{{tutorName}}，你的{{animalType}}人工智能助手。有什么可以帮你的吗？",
+            "placeholder": "询问关于课程计划、想法或评分...",
+            "error": "⚠️ 发生错误。请重试。",
+            "serverError": "抱歉，我无法处理您的请求。"
         }
     },
     "settings": {
@@ -113,7 +120,18 @@
         "listDesc": "带有次要文本"
     },
     "chat": {
-        "title": "ArenAI 聊天"
+        "title": "ArenAI 聊天",
+        "placeholder": "有什么我可以帮助你的吗，{{name}}？"
+    },
+    "chatMenu": {
+        "search": "搜索聊天...",
+        "addFriend": "输入用户名添加好友...",
+        "hint": "输入用户名以发送好友请求。",
+        "allChats": "所有聊天",
+        "friends": "好友",
+        "groups": "群组",
+        "friendRequests": "好友请求",
+        "noRequests": "没有新请求"
     },
     "quiz": {
         "title": "测验",

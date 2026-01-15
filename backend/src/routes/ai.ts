@@ -25,7 +25,7 @@ router.get('/test-connection', async (req, res, next) => {
 router.post('/chat', async (req, res, next) => {
   try {
     // 1. Recibimos más datos del body
-    const { prompt, userData, context, agentConfig } = req.body;
+    const { prompt, userData, context, agentConfig, history } = req.body;
     
     if (!prompt) {
       throw new ApiError(400, "El campo 'prompt' es requerido.");
@@ -74,7 +74,7 @@ router.post('/chat', async (req, res, next) => {
     }
 
     // 4. Llamamos al servicio con la instrucción
-    const aiResponse = await generateContentWithGemini(prompt, systemInstruction);
+    const aiResponse = await generateContentWithGemini(prompt, systemInstruction, history);
 
     res.json({
       response: aiResponse

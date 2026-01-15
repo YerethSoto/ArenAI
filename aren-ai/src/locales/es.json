@@ -27,6 +27,25 @@
         "formulaProgress": "Progreso: La barra muestra tu avance hacia la meta diaria.",
         "close": "Cerrar"
     },
+    "ChatOptions": {
+        "play": "Desafío",
+        "rename": "Cambiar Apodo",
+        "delete": "Eliminar Chat"
+    },
+    "chatMenu": {
+        "search": "Buscar chats...",
+        "addFriend": "Escribe usuario...",
+        "hint": "Ingresa un usuario para enviar solicitud...",
+        "allChats": "Chats",
+        "friends": "Amigos",
+        "groups": "Grupos",
+        "friendRequests": "Solicitudes de Amistad",
+        "noRequests": "Sin solicitudes nuevas"
+    },
+    "common": {
+        "save": "Guardar",
+        "cancel": "Cancelar"
+    },
     "professor": {
         "sidebar": {
             "mainMenu": "Panel Principal",
@@ -294,7 +313,7 @@
         },
         "aiAssistant": {
             "title": "Asistente ArenAI",
-            "welcome": "¡Hola, Profesor! Soy tu asistente de IA. ¿En qué puedo ayudarte en tu clase hoy?",
+            "welcome": "Hola, {{studentName}}, soy {{tutorName}}, tu asistente de IA {{animalType}}. ¿En qué puedo ayudarte?",
             "placeholder": "Pregunta sobre planes de lección, ideas o calificaciones...",
             "error": "⚠️ Ocurrió un error. Por favor intenta de nuevo.",
             "serverError": "Lo siento, no pude procesar tu solicitud."
@@ -408,8 +427,16 @@
         "classProp": "Clase Prototipo"
     },
     "chat": {
-        "title": "Chat"
+        "titleGeneric": "Chat",
+        "title": "Chat",
+        "placeholder": "¿En qué puedo ayudarte, {{name}}?",
+        "inputThinking": "¿En qué estás pensando?",
+        "changeNickname": "Cambiar Apodo",
+        "selectSubject": "Seleccionar Materia",
+        "confirmDelete": "¿Estás seguro de que deseas eliminar este chat?",
+        "inputPlaceholder": "Escribe un mensaje..."
     },
+
     "Æ": "Æ",
     "personalityQuiz": {
         "title": "Descubre tu Estilo de Aprendizaje",

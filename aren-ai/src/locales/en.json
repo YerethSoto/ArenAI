@@ -3,6 +3,8 @@
         "learning": "Learning",
         "mainMenu": "Main Menu",
         "chat": "Chat with Aren",
+        "chatWithAren": "Chat with Aren",
+        "social": "Chat Menu",
         "quiz": "Quiz",
         "personalityQuiz": "Personality Quiz",
         "leaderboard": "Leaderboard",
@@ -24,6 +26,25 @@
         "formulaGoal": "Daily Goal: {{goal}} points.",
         "formulaProgress": "Progress: The bar shows your progress towards the daily goal.",
         "close": "Close"
+    },
+    "ChatOptions": {
+        "play": "Challenge",
+        "rename": "Change Nickname",
+        "delete": "Delete Chat"
+    },
+    "chatMenu": {
+        "search": "Search chats...",
+        "addFriend": "Type username to add...",
+        "hint": "Enter a username to send a friend request.",
+        "allChats": "Chats",
+        "friends": "Friends",
+        "groups": "Groups",
+        "friendRequests": "Friend Requests",
+        "noRequests": "No new requests"
+    },
+    "common": {
+        "save": "Save",
+        "cancel": "Cancel"
     },
     "professor": {
         "sidebar": {
@@ -292,7 +313,7 @@
         },
         "aiAssistant": {
             "title": "ArenAI Assistant",
-            "welcome": "Hello, Professor! I am your AI assistant. How can I help with your class today?",
+            "welcome": "Hi, {{studentName}}, I'm {{tutorName}}, your {{animalType}} AI assistant. How can I help you?",
             "placeholder": "Ask about lesson plans, ideas, or grading...",
             "error": "⚠️ An error occurred. Please try again.",
             "serverError": "Sorry, I couldn't process your request."
@@ -418,7 +439,24 @@
         "classProp": "Class Schedule"
     },
     "chat": {
-        "title": "Chat"
+        "titleGeneric": "Chat",
+        "title": "Chat",
+        "placeholder": "How can I help you, {{name}}?",
+        "inputThinking": "What are you thinking about?",
+        "changeNickname": "Change Nickname",
+        "selectSubject": "Select Subject",
+        "confirmDelete": "Are you sure you want to delete this chat?",
+        "inputPlaceholder": "Type a message..."
+    },
+    "chatMenu": {
+        "search": "Search chats...",
+        "addFriend": "Type username to add...",
+        "hint": "Enter a username to send a friend request.",
+        "allChats": "All Chats",
+        "friends": "Friends",
+        "groups": "Groups",
+        "friendRequests": "Friend Requests",
+        "noRequests": "No new requests"
     },
     "Æ": "Æ",
     "personalityQuiz": {

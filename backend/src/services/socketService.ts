@@ -183,6 +183,31 @@ export const initSocket = (io: Server) => {
                  }
              }
         });
+
+
+        // --- 5. GENERIC CHAT (Student/P2P) ---
+        socket.on('join_chat', (data: { chatId: string }) => {
+            const { chatId } = data;
+            const roomName = `chat_${chatId}`;
+            socket.join(roomName);
+            console.log(`[Socket] ${userId} joined chat room: ${roomName}`);
+        });
+
+        socket.on('send_message', (data: { chatId: string; text: string; senderName?: string }) => {
+            const { chatId, text, senderName } = data;
+            const roomName = `chat_${chatId}`;
+            
+            // Broadcast to room (including sender, or exclude sender? Usually include for sync)
+            // But frontend adds optimistically. Let's broadcast to others.
+            socket.to(roomName).emit('receive_message', {
+                chatId,
+                text,
+                senderId: userId,
+                senderName: senderName || socket.data.user.username,
+                timestamp: new Date().toISOString()
+            });
+            console.log(`[Socket] Message in ${roomName} from ${userId}: ${text}`);
+        });
     });
 };
 

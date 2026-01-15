@@ -21,22 +21,49 @@ const ai = new GoogleGenAI({
 const GEMINI_MODEL = "gemini-2.0-flash-lite-001"; 
 
 // Modificamos la función para aceptar un segundo parámetro: systemInstruction
-export async function generateContentWithGemini(userPrompt: string, systemInstruction?: string): Promise<string> {
+// Modificamos la función para aceptar un segundo parámetro: systemInstruction
+// Y un tercer parámetro opcional: history
+export async function generateContentWithGemini(
+    userPrompt: string, 
+    systemInstruction?: string, 
+    history?: any[]
+): Promise<string> {
     try {
-        // Combinamos la instrucción del sistema con la pregunta del usuario
-        // Esta técnica (Prepending) funciona perfecto en todos los modelos Flash/Pro
-        let finalPrompt = userPrompt;
+        let contentsPayload: any[] = [];
 
-        if (systemInstruction) {
-            finalPrompt = `${systemInstruction}\n\n----------------\nPREGUNTA DEL USUARIO:\n${userPrompt}`;
+        // 1. If history exists, format it correctly
+        if (history && Array.isArray(history) && history.length > 0) {
+            // Ensure proper format for Gemini API
+            contentsPayload = history.map(msg => ({
+                role: msg.role === 'user' ? 'user' : 'model',
+                parts: msg.parts || [{ text: msg.message || "" }]
+            }));
         }
+
+        // 2. Construct the logical "Final Prompt" for the current turn
+        // We attach the System Instruction to the CURRENT user prompt effectively by formatting.
+        // Or we can just pretend the system instruction is a preamble. 
+        // For simplicity and robustness with this SDK:
+        // We will append the current user prompt to the contents list.
+        
+        let finalUserText = userPrompt;
+        
+        // If it's a fresh chat (no history), or we just want to reinforce the instruction:
+        if (systemInstruction) {
+             finalUserText = `${systemInstruction}\n\n----------------\nPREGUNTA DEL USUARIO:\n${userPrompt}`;
+        }
+
+        // Add the current interaction
+        contentsPayload.push({
+            role: "user",
+            parts: [{ text: finalUserText }]
+        });
 
         const response: any = await ai.models.generateContent({
             model: GEMINI_MODEL,
-            contents: [{ role: "user", parts: [{ text: finalPrompt }] }],
+            contents: contentsPayload,
         });
 
-        // ... (Tu lógica de retorno existente) ...
         if (response && response.text) {
              return typeof response.text === 'function' ? response.text() : response.text;
         }

@@ -20,6 +20,7 @@ import {
   settingsOutline,
   homeOutline,
   americanFootballOutline,
+  peopleOutline,
 } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import "./Main_Student.css";
@@ -356,9 +357,9 @@ const Main_Student: React.FC = () => {
       <div className="student-bottom-nav">
         <div
           className="student-nav-btn"
-          onClick={() => navigateTo("/page/student")}
+          onClick={() => navigateTo("/chat-menu")}
         >
-          <IonIcon icon={homeOutline} />
+          <IonIcon icon={peopleOutline} />
         </div>
         <div className="student-nav-btn" onClick={() => navigateTo("/quiz")}>
           <IonIcon icon={trophyOutline} />

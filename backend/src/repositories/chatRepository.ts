@@ -21,11 +21,44 @@ export async function getChatBetweenUsers(user1Id: number, user2Id: number) {
 }
 
 export async function getUserChats(userId: number) {
-    const result = await db.query<Chat>(
-        `SELECT * FROM chat WHERE id_user_1 = ? OR id_user_2 = ?`,
-        [userId, userId]
-    );
-    return result.rows;
+    const sql = `
+        SELECT 
+            c.id_chat as id,
+            CASE 
+                WHEN c.id_user_1 = ? THEN u2.name 
+                ELSE u1.name 
+            END as name,
+            CASE 
+                WHEN c.id_user_1 = ? THEN u2.username 
+                ELSE u1.username 
+            END as username,
+            CASE 
+                WHEN c.id_user_1 = ? THEN u2.profile_picture_name 
+                ELSE u1.profile_picture_name 
+            END as avatar,
+            '' as message, -- Placeholder until message content is added
+            c.friendship as is_friend,
+            -- Mock time/unread for now since message table is incomplete
+            'Just now' as time,
+            0 as unread
+        FROM chat c
+        LEFT JOIN user u1 ON c.id_user_1 = u1.id_user
+        LEFT JOIN user u2 ON c.id_user_2 = u2.id_user
+        WHERE c.id_user_1 = ? OR c.id_user_2 = ?
+    `;
+    
+    // We pass userId multiple times for the CASE statements and WHERE clause
+    const { rows } = await db.query(sql, [userId, userId, userId, userId, userId]);
+    
+    // Transform to match frontend expectations
+    return rows.map((row: any) => ({
+        id: row.id,
+        name: row.name || row.username || 'Unknown User',
+        avatar: row.avatar ? `/assets/avatars/${row.avatar}` : 'https://ionicframework.com/docs/img/demos/avatar.svg', // Fallback or path
+        message: row.message || 'Start a conversation',
+        time: row.time,
+        unread: row.unread
+    }));
 }
 
 export async function sendMessage(payload: {

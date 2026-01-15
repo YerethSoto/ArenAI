@@ -41,6 +41,8 @@ import ProfessorSettings from "./pages/ProfessorSettings";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AvatarProvider } from "./context/AvatarContext";
 import { SoundProvider } from "./context/SoundContext";
+import ChatMenu from "./pages/ChatMenu";
+import StudentChat from "./pages/StudentChat";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -321,6 +323,23 @@ const App: React.FC = () => {
 
                   <Route path="/chat" exact={true}>
                     {userRole ? <Chat /> : <Redirect to="/login" />}
+                  </Route>
+
+                  {/* Re-added New Chat Menu Route */}
+                  <Route path="/chat-menu" exact={true}>
+                    {userRole === "student" ? (
+                      <ChatMenu />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+
+                  <Route path="/student-chat/:id" exact={true}>
+                    {userRole === "student" ? (
+                      <StudentChat />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
                   </Route>
 
                   {/* Students by section */}
