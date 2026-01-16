@@ -12,7 +12,8 @@
 
 .battle-container {
     padding: 20px;
-    padding-bottom: 120px; /* Space for footer */
+    padding-bottom: 120px;
+    /* Space for footer */
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -46,7 +47,8 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    padding-top: 35px; /* Space for "Contrincante" pill */
+    padding-top: 35px;
+    /* Space for "Contrincante" pill */
 }
 
 /* --- Avatar Section Internal --- */
@@ -81,13 +83,15 @@
 }
 
 .speech-bubble {
-    background: var(--ion-card-background); /* White */
+    background: var(--ion-card-background);
+    /* White */
     border-radius: 18px;
     border-top-left-radius: 4px;
     padding: 16px;
     font-size: 14px;
     color: var(--ion-text-color);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* Softer shadow */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    /* Softer shadow */
     line-height: 1.4;
     font-weight: 600;
 }
@@ -95,37 +99,63 @@
 /* Stats */
 .stats-display {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    flex-direction: row;
+    gap: 24px;
     padding-left: 5px;
     width: 100%;
+    align-items: flex-start;
 }
 
 .stat-unit {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Prevent overflow */
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--ion-color-primary-rgb), 0.08);
+    /* Match stat-box */
+    border: 2px solid rgba(var(--ion-color-primary-rgb), 0.2);
+    /* Match stat-box */
+    border-radius: 16px;
+    padding: 24px 16px;
+    /* Match stat-box */
+    width: 100%;
+    box-shadow: none;
+    /* Remove wood shadow to match modal */
+    transition: transform 0.2s ease;
+}
+
+.stat-unit:hover {
+    transform: translateY(-4px);
+    /* Match stat-box hover */
+    border-color: rgba(var(--ion-color-primary-rgb), 0.4);
 }
 
 .stat-label {
     font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
-    letter-spacing: 1.5px;
-    font-size: 12px;
-    color: var(--ion-text-color-step-400); 
+    font-size: 11px;
+    /* Match stat-title */
+    font-weight: 600;
+    /* Match stat-title */
     text-transform: uppercase;
+    letter-spacing: 1.5px;
+    /* Match stat-title */
+    color: var(--ion-text-color-step-400);
+    /* Match stat-title */
+    margin-bottom: 8px;
+    /* Match stat-title */
 }
 
 .stat-val {
     font-family: 'Open Sans', sans-serif;
-    font-weight: 300; /* Ultra thin */
-    font-size: 20px; /* Reduced from 32px */
-    color: var(--ion-color-primary); 
+    /* Reset to standard font to match modal if needed, or keep sleek */
+    font-weight: 300;
+    /* Match stat-number */
+    font-size: 38px;
+    /* Match stat-number */
+    color: var(--ion-color-primary);
+    /* Match stat-number */
     line-height: 1;
-    word-break: break-word;
-    max-width: 80px; /* Constrain width */
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 /* Avatar Visual */
@@ -138,14 +168,15 @@
 
 .mascot-img-lg {
     width: 100%;
-    max-width: 220px; /* Increased from 170px */
-    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.1));
+    max-width: 220px;
+    /* Increased from 170px */
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.1));
 }
 
 .happiness-bar-container {
     width: 90%;
     height: 10px;
-    background: rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     margin-top: 10px;
     overflow: hidden;
@@ -153,7 +184,7 @@
 
 .happiness-fill {
     height: 100%;
-    background: #FFD54F; 
+    background: #FFD54F;
     border-radius: 5px;
 }
 
@@ -173,7 +204,8 @@
 }
 
 .battle-type-toggle {
-    background: rgba(var(--ion-color-primary-rgb), 0.08); /* Minimal tint */
+    background: rgba(var(--ion-color-primary-rgb), 0.08);
+    /* Minimal tint */
     padding: 10px 24px;
     border-radius: 30px;
     display: flex;
@@ -241,12 +273,13 @@
     border: 2px solid var(--ion-color-primary);
     width: 100%;
     max-width: 280px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 /* Reserved Status Bar */
 .status-bar-reserved {
-    height: 40px; /* Fixed height to prevent shift */
+    height: 40px;
+    /* Fixed height to prevent shift */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -269,7 +302,7 @@
 .spinner-mini {
     width: 14px;
     height: 14px;
-    border: 2px solid rgba(255,255,255,0.3);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     border-top: 2px solid white;
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -290,7 +323,7 @@
     width: 78px !important;
     height: 78px !important;
     top: -38px !important;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
     cursor: pointer;
     transition: transform 0.1s;
 }
@@ -310,13 +343,25 @@
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* ========= LOBBY LIST STYLES - INSIDE CARD ========= */
@@ -424,6 +469,7 @@
 
 /* Mobile Responsive */
 @media (max-width: 600px) {
+
     .lobby-table-header,
     .lobby-table-row {
         grid-template-columns: 1.5fr 1fr 1fr 0.8fr;
@@ -447,4 +493,3 @@
         font-size: 11px;
     }
 }
-

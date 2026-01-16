@@ -32,28 +32,45 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
     >
       <div className="new-result-container">
         {/* Player Matchup Header */}
+        {/* Player Matchup Header */}
         <div className="matchup-header">
-          <span className="player-name-left">
-            {Object.values(players).find((p) => p.userId !== myId)?.name ||
-              "Opponent"}
-          </span>
+          {/* Opponent Side */}
+          <div className="player-side left">
+            <span className="player-name-left">
+              {Object.values(players).find((p) => p.userId !== myId)?.name || "Opponent"}
+            </span>
+            <img
+              src="/assets/Capy_pfp.png"
+              alt="Opponent"
+              className="player-avatar"
+            />
+          </div>
+
           <span className="vs-icon">⚔️</span>
-          <span className="player-name-right">
-            {myId && players[myId] ? players[myId].name : "You"}
-          </span>
+
+          {/* Player Side */}
+          <div className="player-side right">
+            <span className="player-name-right">
+              {myId && players[myId] ? players[myId].name : "You"}
+            </span>
+            <img
+              src="/assets/Capy_pfp.png"
+              alt="Player"
+              className="player-avatar"
+            />
+          </div>
         </div>
 
         {/* Colored Win/Loss Message */}
         <div
-          className={`battle-outcome ${
-            winnerId === myId ? "win" : winnerId === "draw" ? "tie" : "loss"
-          }`}
+          className={`battle-outcome ${winnerId === myId ? "win" : winnerId === "draw" ? "tie" : "loss"
+            }`}
         >
           {winnerId === myId
             ? "You Won!"
             : winnerId === "draw"
-            ? "Draw"
-            : "You Lost"}
+              ? "Draw"
+              : "You Lost"}
         </div>
 
         {/* Motivational Quote */}
@@ -61,8 +78,8 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
           {winnerId === myId
             ? '"Victory belongs to those who believe in it the most and believe in it the longest."'
             : winnerId === "draw"
-            ? '"A worthy battle! Sometimes the best victories are the lessons learned."'
-            : '"Failure is the opportunity to begin again more intelligently. Keep pushing forward!"'}
+              ? '"A worthy battle! Sometimes the best victories are the lessons learned."'
+              : '"Failure is the opportunity to begin again more intelligently. Keep pushing forward!"'}
         </p>
 
         {/* Stats Cards */}

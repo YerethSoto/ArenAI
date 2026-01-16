@@ -14,68 +14,177 @@
 }
 
 .new-result-container {
-  background: var(--ion-card-background);
-  border-radius: 24px;
+  background: radial-gradient(circle at center, #ffffff 0%, #f9f9f9 100%);
+  border: 4px solid #EFEBE9;
+  /* Thick decorative border */
+  border-radius: 32px;
   padding: 40px 32px;
   text-align: center;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.2),
+    /* Deep float shadow */
+    0 0 0 8px rgba(255, 255, 255, 0.5) inset;
+  /* Inner glow/border */
+  position: relative;
+  overflow: hidden;
 }
+
+/* Decorative corner accents (optional, via pseudo-elements later if needed) */
 
 /* Player Matchup */
 .matchup-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 16px;
-  background: rgba(var(--ion-color-primary-rgb), 0.06);
-  border-radius: 16px;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #5D4037;
+  /* Dark wood background */
+  border-radius: 50px;
+  /* Pill shape */
   font-size: 16px;
-  font-weight: 600;
-  color: var(--ion-text-color);
+  font-weight: 700;
+  color: #FFF3E0;
+  /* Light text */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 0 auto;
+  width: auto;
+  min-width: 280px;
+  /* Ensure space */
+  max-width: 100%;
 }
 
-.player-name-left,
-.player-name-right {
+.player-side {
+  display: flex;
+  flex-direction: column;
+  /* Vertical stack */
+  align-items: center;
+  gap: 8px;
   flex: 1;
+  min-width: 0;
+}
+
+.player-side.left {
+  justify-content: flex-start;
+  /* Align top */
   text-align: center;
 }
 
+.player-side.right {
+  justify-content: flex-start;
+  /* Align top */
+  text-align: center;
+}
+
+.player-avatar {
+  width: 56px;
+  /* Slightly larger avatar */
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid #FFF3E0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.player-name-left {
+  flex: 0 0 auto;
+  white-space: normal;
+  overflow: visible;
+  line-height: 1.1;
+  font-family: 'Fredoka One', cursive;
+  /* Use title font for emphasis */
+  font-size: 20px;
+  /* Much larger */
+  color: #000000;
+  /* Black text for max visibility */
+  text-shadow: none;
+  word-wrap: break-word;
+}
+
+.player-name-right {
+  flex: 0 0 auto;
+  white-space: normal;
+  overflow: visible;
+  line-height: 1.1;
+  font-family: 'Fredoka One', cursive;
+  /* Use title font for emphasis */
+  font-size: 20px;
+  /* Much larger */
+  color: #000000;
+  /* Black text for max visibility */
+  text-shadow: none;
+  word-wrap: break-word;
+}
+
 .vs-icon {
-  font-size: 28px;
-  filter: grayscale(30%);
+  font-size: 32px;
+  /* Larger VS */
+  color: #FFD54F;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.4));
+  margin: 0 12px;
+  flex-shrink: 0;
+  align-self: center;
 }
 
 /* Win/Loss Message with Colors */
 .battle-outcome {
-  font-size: 52px;
-  font-weight: 700;
+  font-family: 'Fredoka One', cursive;
+  /* Game Title Font */
+  font-size: 56px;
+  /* Huge text */
+  font-weight: 400;
+  /* Fredoka handles bold feel */
   text-transform: uppercase;
-  letter-spacing: 1px;
-  animation: fadeInScale 0.6s ease-out;
-  margin: 8px 0;
+  letter-spacing: 2px;
+  margin: 16px 0;
+
+  /* Text Shadow for "Sticker" effect */
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.15);
+
+  animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Bouncy Pop */
 }
 
 .battle-outcome.win {
-  color: #4caf50; /* Green */
+  /* Gradient Text for Win */
+  background: linear-gradient(135deg, #66BB6A 0%, #43A047 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 6px rgba(76, 175, 80, 0.3));
+  /* Glow */
 }
 
 .battle-outcome.loss {
-  color: #f44336; /* Red */
+  background: linear-gradient(135deg, #EF5350 0%, #E53935 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 6px rgba(244, 67, 54, 0.3));
 }
 
 .battle-outcome.tie {
-  color: var(--ion-color-primary); /* Theme color */
+  background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-primary-shade) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-@keyframes fadeInScale {
+@keyframes popIn {
   0% {
-    transform: scale(0.7);
+    transform: scale(0.5);
     opacity: 0;
   }
+
+  60% {
+    transform: scale(1.1);
+    /* Over-shoot */
+  }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -96,49 +205,63 @@
 .stats-cards {
   display: flex;
   gap: 16px;
-  margin: 8px 0;
+  margin: 16px 0;
 }
 
 .stat-box {
   flex: 1;
-  background: rgba(var(--ion-color-primary-rgb), 0.08);
-  border: 2px solid rgba(var(--ion-color-primary-rgb), 0.2);
-  border-radius: 16px;
-  padding: 24px 16px;
+  background: #FFF8E1;
+  /* Cream background */
+  border: 2px solid #D7CCC8;
+  border-radius: 20px;
+  padding: 20px 16px;
   transition: transform 0.2s ease;
+  box-shadow: 0 4px 0 #D7CCC8;
+  /* Cartoon 3D depth */
 }
 
 .stat-box:hover {
   transform: translateY(-4px);
+  border-color: var(--ion-color-primary);
+  box-shadow: 0 6px 0 var(--ion-color-primary);
 }
 
 .stat-title {
+  font-family: 'Open Sans', sans-serif;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--ion-text-color-step-400);
+  letter-spacing: 1px;
+  color: #8D6E63;
   margin-bottom: 8px;
 }
 
 .stat-number {
-  font-size: 38px;
-  font-weight: 300;
-  color: var(--ion-color-primary);
+  font-family: 'Fredoka One', cursive;
+  /* Match title */
+  font-size: 32px;
+  font-weight: 400;
+  color: #5D4037;
   line-height: 1;
 }
 
 /* Action Button */
 .lobby-return-btn {
-  --background: var(--ion-color-primary);
-  --background-hover: var(--ion-color-primary-shade);
-  --border-radius: 14px;
-  --padding-top: 16px;
-  --padding-bottom: 16px;
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: 0.5px;
-  margin-top: 8px;
+  --background: linear-gradient(135deg, #8D6E63 0%, #5D4037 100%);
+  --background-hover: linear-gradient(135deg, #A1887F 0%, #6D4C41 100%);
+  --border-radius: 50px;
+  --padding-top: 20px;
+  --padding-bottom: 20px;
+  --box-shadow: 0 8px 16px rgba(93, 64, 55, 0.3);
+
+  font-family: 'Fredoka One', cursive;
+  font-weight: 400;
+  font-size: 18px;
+  letter-spacing: 1px;
+  margin-top: 16px;
+  text-transform: uppercase;
+  overflow: visible;
+  /* Allow shadow */
 }
 
 /* Mobile Responsive */
