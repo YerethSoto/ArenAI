@@ -1,0 +1,171 @@
+/* BRAND NEW Battle Result Modal - Centered & Beautiful */
+
+.battle-result-modal {
+  --width: 90%;
+  --max-width: 450px;
+  --height: auto;
+  --border-radius: 24px;
+}
+
+.battle-result-modal::part(content) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.new-result-container {
+  background: var(--ion-card-background);
+  border-radius: 24px;
+  padding: 40px 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Player Matchup */
+.matchup-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(var(--ion-color-primary-rgb), 0.06);
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ion-text-color);
+}
+
+.player-name-left,
+.player-name-right {
+  flex: 1;
+  text-align: center;
+}
+
+.vs-icon {
+  font-size: 28px;
+  filter: grayscale(30%);
+}
+
+/* Win/Loss Message with Colors */
+.battle-outcome {
+  font-size: 52px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  animation: fadeInScale 0.6s ease-out;
+  margin: 8px 0;
+}
+
+.battle-outcome.win {
+  color: #4caf50; /* Green */
+}
+
+.battle-outcome.loss {
+  color: #f44336; /* Red */
+}
+
+.battle-outcome.tie {
+  color: var(--ion-color-primary); /* Theme color */
+}
+
+@keyframes fadeInScale {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Motivational Quote */
+.motivational-text {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--ion-text-color-step-400);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0 8px;
+}
+
+/* Stats Cards */
+.stats-cards {
+  display: flex;
+  gap: 16px;
+  margin: 8px 0;
+}
+
+.stat-box {
+  flex: 1;
+  background: rgba(var(--ion-color-primary-rgb), 0.08);
+  border: 2px solid rgba(var(--ion-color-primary-rgb), 0.2);
+  border-radius: 16px;
+  padding: 24px 16px;
+  transition: transform 0.2s ease;
+}
+
+.stat-box:hover {
+  transform: translateY(-4px);
+}
+
+.stat-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--ion-text-color-step-400);
+  margin-bottom: 8px;
+}
+
+.stat-number {
+  font-size: 38px;
+  font-weight: 300;
+  color: var(--ion-color-primary);
+  line-height: 1;
+}
+
+/* Action Button */
+.lobby-return-btn {
+  --background: var(--ion-color-primary);
+  --background-hover: var(--ion-color-primary-shade);
+  --border-radius: 14px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  margin-top: 8px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 576px) {
+  .new-result-container {
+    padding: 32px 24px;
+    gap: 20px;
+  }
+
+  .battle-outcome {
+    font-size: 40px;
+  }
+
+  .matchup-header {
+    font-size: 14px;
+    gap: 12px;
+  }
+
+  .vs-icon {
+    font-size: 24px;
+  }
+
+  .stat-number {
+    font-size: 32px;
+  }
+
+  .motivational-text {
+    font-size: 13px;
+  }
+}

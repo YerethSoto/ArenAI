@@ -122,19 +122,139 @@ export const initSocket = (io: Server) => {
             }
         });
 
-        // --- 3. MATCHMAKING ---
-        socket.on('join_queue', (data: { name: string; avatar: string }) => {
-            // Remove from queue if exists
-            const existingIdx = waitingQueue.findIndex(p => p.userId === userId);
-            if (existingIdx !== -1) waitingQueue.splice(existingIdx, 1);
+        // --- 3. HOSTED GAMES LIST ---
+        
+        // Host a new Game
+        socket.on('create_game', (data: { name: string; avatar: string }) => {
+            const roomId = `room_${Date.now()}_${userId}`;
+            
+            // Mock Data for Filters
+            const mockSchoolId = "school_123";
+            const mockSectionId = parseInt(userId) ? (parseInt(userId) % 2 === 0 ? "10-1" : "10-2") : "10-1";
 
-            waitingQueue.push({ userId, name: data.name, avatar: data.avatar, socketId: socket.id });
-            console.log(`[Queue] ${data.name} joined. Size: ${waitingQueue.length}`);
+            const p1: Player = {
+                userId,
+                socketId: socket.id,
+                name: data.name,
+                avatar: data.avatar,
+                score: 0,
+                health: 100,
+                maxHealth: 100,
+                winStreak: 0,
+                utilizationIndex: 0,
+                isDisconnected: false,
+                hasAnswered: false
+            };
 
-            if (waitingQueue.length >= 2) {
-                createMatch(io);
+            const game: GameState = {
+                roomId,
+                status: 'waiting',
+                players: { [userId]: p1 },
+                currentQuestionIndex: 0,
+                roundStartTime: 0,
+                roundEndTime: 0, // 24h hard limit only starts when round starts
+                answers: {},
+                // Metadata for Listing
+                hostName: data.name,
+                schoolId: mockSchoolId,
+                sectionId: mockSectionId
+            } as any; // Cast to allow extra props for listing
+
+            activeGames[roomId] = game;
+            userGameMap[userId] = roomId;
+            socket.join(roomId);
+
+            console.log(`[Game] Hosted by ${data.name}: ${roomId}`);
+            socket.emit('game_created', { roomId });
+            
+            // Broadcast new game list to everyone in lobby? 
+            // Better: Client polls or we subscribe. For now, we can broadcast 'games_list_update'
+            io.emit('games_list_update', getOpenGames());
+        });
+
+        // Get List
+        socket.on('get_games', () => {
+            socket.emit('games_list', getOpenGames());
+        });
+
+        // Join Specific Game
+        socket.on('join_game', (data: { roomId: string; name: string; avatar: string }) => {
+            const game = activeGames[data.roomId];
+            if (!game) {
+                socket.emit('error', { message: 'Game not found' });
+                return;
+            }
+            if (Object.keys(game.players).length >= 2) {
+                socket.emit('error', { message: 'Game is full' });
+                return;
+            }
+
+            // Join Logic
+            const p2: Player = {
+                userId,
+                socketId: socket.id,
+                name: data.name,
+                avatar: data.avatar,
+                score: 0,
+                health: 100,
+                maxHealth: 100,
+                winStreak: 0,
+                utilizationIndex: 0,
+                isDisconnected: false,
+                hasAnswered: false
+            };
+
+            game.players[userId] = p2;
+            userGameMap[userId] = game.roomId;
+            socket.join(game.roomId);
+
+            // Notify Host
+            const hostId = Object.keys(game.players).find(id => id !== userId);
+            const host = game.players[hostId!];
+            
+            // Notify both as "match_found" to transition UI
+            // P2 Perspective
+            socket.emit('match_found', {
+                roomId: game.roomId,
+                opponent: { name: host.name, avatar: host.avatar }
+            });
+
+            // Host Perspective
+            if (host) {
+                 const hostSocket = io.sockets.sockets.get(host.socketId);
+                 if (hostSocket) {
+                     hostSocket.emit('match_found', {
+                        roomId: game.roomId,
+                        opponent: { name: p2.name, avatar: p2.avatar }
+                     });
+                 }
+            }
+
+            // Start Game
+            // Update List (Remove full game)
+            io.emit('games_list_update', getOpenGames());
+            
+            startRound(io, game);
+        });
+
+        // Cancel Game (Host abandons before match starts)
+        socket.on('cancel_game', (data: { roomId: string }) => {
+            const game = activeGames[data.roomId];
+            if (!game) return;
+
+            // Verify caller is the host (owner of this game)
+            if (game.players[userId]) {
+                console.log(`[Game] Host ${userId} cancelled game ${data.roomId}`);
+                delete activeGames[data.roomId];
+                delete userGameMap[userId];
+                
+                // Broadcast updated list
+                io.emit('games_list_update', getOpenGames());
             }
         });
+
+        // Deprecated: Queue (Keeping logic commented or removed if purely list based now)
+        // socket.on('join_queue', ...);
 
         // --- 4. GAMEPLAY ---
         socket.on('submit_answer', (data: { roomId: string; correct: boolean }) => {
@@ -455,4 +575,17 @@ const emitGameState = (io: Server, game: GameState, targetSocket?: Socket) => {
     } else {
         io.to(game.roomId).emit('sync_state', payload);
     }
+};
+
+// --- HELPER: Get Open Games List ---
+const getOpenGames = () => {
+    return Object.values(activeGames)
+        .filter(g => g.status === 'waiting')
+        .map(g => ({
+            roomId: g.roomId,
+            hostName: (g as any).hostName,
+            hostAvatar: Object.values(g.players)[0]?.avatar,
+            schoolId: (g as any).schoolId,
+            sectionId: (g as any).sectionId
+        }));
 };

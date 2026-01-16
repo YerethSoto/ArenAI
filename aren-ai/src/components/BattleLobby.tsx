@@ -10,6 +10,7 @@ import {
   IonSegmentButton,
   IonLabel,
 } from "@ionic/react";
+import { useIonViewWillEnter } from "@ionic/react";
 import {
   trophyOutline,
   homeOutline,
@@ -30,6 +31,7 @@ import "./BattleLobby.css";
 import "../pages/Main_Student.css";
 import { studentService } from "../services/studentService";
 import { StudentStats } from "../types/student";
+import { battleStatsService } from "../services/battleStats";
 import PageTransition from "../components/PageTransition";
 
 const BattleLobby: React.FC = () => {
@@ -45,24 +47,33 @@ const BattleLobby: React.FC = () => {
   const [friendName, setFriendName] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState("Math");
+  const [openGames, setOpenGames] = useState<any[]>([]);
 
-  // Stats State (fetched from service)
-  const [stats, setStats] = useState<StudentStats | null>(null);
+  // Stats State (use real battle stats from localStorage)
+  const [winRate, setWinRate] = useState(0);
+  const [streak, setStreak] = useState(0);
 
   useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const data = await studentService.getStudentStats();
-        setStats(data);
-      } catch (err) {
-        console.error("Failed to load battle stats", err);
-      }
+    // Load battle stats
+    const loadStats = () => {
+      const wr = battleStatsService.getWinRate();
+      const st = battleStatsService.getStats().streak;
+      setWinRate(wr);
+      setStreak(st);
     };
-    fetchStats();
+    loadStats();
   }, []);
 
-  // Socket
-  useEffect(() => {
+  // Refresh stats when view enters (after returning from battle)
+  useIonViewWillEnter(() => {
+    const wr = battleStatsService.getWinRate();
+    const st = battleStatsService.getStats().streak;
+    setWinRate(wr);
+    setStreak(st);
+  });
+
+  // Socket - Connect Early Like ChatMenu
+  useIonViewWillEnter(() => {
     console.log("[BattleLobby] Connecting to socket...");
     socketService.connect();
     const socket = socketService.socket;
@@ -90,14 +101,34 @@ const BattleLobby: React.FC = () => {
         console.log("[BattleLobby] Socket connected:", socket.id)
       );
       socket.on("match_found", handleMatchFound);
+
+      // List Listeners
+      socket.on("games_list", (games) => {
+        console.log("Received games list:", games);
+        setOpenGames(games);
+      });
+      socket.on("games_list_update", (games) => {
+        console.log("Updated games list:", games);
+        setOpenGames(games);
+      });
+      socket.on("game_created", (data) => {
+        console.log("Game created, waiting...", data);
+        // We stay in lobby but show "Waiting" status
+      });
+
+      // Initial Fetch
+      socket.emit("get_games");
     }
 
     return () => {
       if (socket) {
         socket.off("match_found", handleMatchFound);
+        socket.off("games_list");
+        socket.off("games_list_update");
+        socket.off("game_created");
       }
     };
-  }, [history, currentAvatar]);
+  });
 
   const handleStartBattle = () => {
     if (isSearching) return;
@@ -105,21 +136,47 @@ const BattleLobby: React.FC = () => {
     const storedUserData = JSON.parse(localStorage.getItem("userData") || "{}");
     const realName = storedUserData.name || "Student";
 
-    console.log("[BattleLobby] Joining queue as:", {
+    console.log("[BattleLobby] Hosting game as:", {
       name: realName,
       avatar: currentAvatar,
     });
     setIsSearching(true);
 
-    // Simplest payload matching backend expectation
-    socketService.socket?.emit("join_queue", {
+    // Host Game
+    socketService.socket?.emit("create_game", {
+      name: realName,
+      avatar: currentAvatar,
+    });
+  };
+
+  const handleJoinGame = (roomId: string) => {
+    const storedUserData = JSON.parse(localStorage.getItem("userData") || "{}");
+    const realName = storedUserData.name || "Student";
+
+    console.log("[BattleLobby] Joining game:", roomId);
+    socketService.socket?.emit("join_game", {
+      roomId,
       name: realName,
       avatar: currentAvatar,
     });
   };
 
   const handleCancelSearch = () => {
-    console.log("[BattleLobby] Cancelling search (UI only)");
+    console.log("[BattleLobby] Cancelling search");
+
+    // Find and cancel our hosted game
+    const myGame = openGames.find((g) => {
+      const storedUserData = JSON.parse(
+        localStorage.getItem("userData") || "{}"
+      );
+      return g.hostName === (storedUserData.name || "Student");
+    });
+
+    if (myGame) {
+      console.log("[BattleLobby] Removing game from lobby:", myGame.roomId);
+      socketService.socket?.emit("cancel_game", { roomId: myGame.roomId });
+    }
+
     setIsSearching(false);
   };
 
@@ -158,18 +215,13 @@ const BattleLobby: React.FC = () => {
                     <span className="stat-label">
                       {t("battleLobby.winRate")}
                     </span>
-                    {/* Show -- if stats not loaded yet */}
-                    <span className="stat-val">
-                      {stats ? `${stats.winRate}%` : "--"}
-                    </span>
+                    <span className="stat-val">{winRate}%</span>
                   </div>
                   <div className="stat-unit">
                     <span className="stat-label">
                       {t("battleLobby.streak")}
                     </span>
-                    <span className="stat-val">
-                      {stats ? stats.streak : "--"}
-                    </span>
+                    <span className="stat-val">{streak}</span>
                   </div>
                 </div>
               </div>
@@ -181,15 +233,22 @@ const BattleLobby: React.FC = () => {
                   alt="Mascot"
                   className="mascot-img-lg"
                 />
-                <div className="happiness-bar-container">
-                  <div
-                    className="happiness-fill"
-                    style={{
-                      width: stats ? `${stats.happiness * 100}%` : "0%",
-                    }}
-                  ></div>
-                </div>
               </div>
+            </div>
+
+            {/* Status Bar - Between Cards */}
+            <div className="status-bar-reserved">
+              {isSearching && (
+                <div className="active-status fade-in">
+                  <div className="spinner-mini"></div>
+                  <span className="status-text">
+                    {t("battleLobby.findingMatch")}
+                  </span>
+                  <span className="cancel-link" onClick={handleCancelSearch}>
+                    {t("battleLobby.cancel")}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Middle Section: Opponent Card */}
@@ -258,21 +317,74 @@ const BattleLobby: React.FC = () => {
                   </div>
                 )}
               </div>
-            </div>
 
-            {/* Reserved Status Bar Area */}
-            <div className="status-bar-reserved">
-              {isSearching && (
-                <div className="active-status fade-in">
-                  <div className="spinner-mini"></div>
-                  <span className="status-text">
-                    {t("battleLobby.findingMatch")}
-                  </span>
-                  <span className="cancel-link" onClick={handleCancelSearch}>
-                    {t("battleLobby.cancel")}
-                  </span>
-                </div>
-              )}
+              {/* Lobby List Table - INSIDE Card */}
+              <div className="lobby-list-container">
+                {isSearching ? (
+                  <div className="lobby-waiting-state">
+                    <div className="spinner-mini"></div>
+                    <span>Waiting for opponent...</span>
+                  </div>
+                ) : (
+                  <div className="lobby-table-wrapper">
+                    <div className="lobby-table-header">
+                      <div className="col-host">
+                        {t("battleLobby.lobbyHost")}
+                      </div>
+                      <div className="col-subject">
+                        {t("battleLobby.lobbySubject")}
+                      </div>
+                      <div className="col-school">
+                        {t("battleLobby.lobbySchool")}
+                      </div>
+                      <div className="col-section">
+                        {t("battleLobby.lobbySection")}
+                      </div>
+                    </div>
+                    <div className="lobby-table-body">
+                      {openGames.length === 0 ? (
+                        <div className="lobby-empty-state">
+                          <span>{t("battleLobby.noGamesAvailable")}</span>
+                        </div>
+                      ) : (
+                        openGames
+                          .filter((g) => {
+                            if (quickScope === "global") return true;
+                            if (quickScope === "school")
+                              return g.schoolId === "school_123";
+                            return g.sectionId === "10-1";
+                          })
+                          .filter((g) => g.roomId) // Filter out invalid games
+                          .map((game) => (
+                            <div
+                              key={game.roomId}
+                              className="lobby-table-row"
+                              onClick={() => handleJoinGame(game.roomId)}
+                            >
+                              <div className="col-host">
+                                <img
+                                  src={`https://ui-avatars.com/api/?name=${game.hostName}&background=random`}
+                                  alt="host"
+                                  className="host-avatar-mini"
+                                />
+                                <span>{game.hostName}</span>
+                              </div>
+                              <div className="col-subject">
+                                {selectedSubject}
+                              </div>
+                              <div className="col-school">
+                                {game.schoolId || "ArenAI School"}
+                              </div>
+                              <div className="col-section">
+                                {game.sectionId || "10-1"}
+                              </div>
+                            </div>
+                          ))
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </PageTransition>

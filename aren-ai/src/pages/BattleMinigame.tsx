@@ -18,8 +18,11 @@ import { useLocation, useHistory } from "react-router-dom";
 import { socketService } from "../services/socket";
 import StudentSidebar from "../components/StudentSidebar";
 import StudentHeader from "../components/StudentHeader";
+import BattleResultModal from "../components/BattleResultModal";
 import "./BattleMinigame.css";
+import "./BattleResultsStats.css";
 import { BattleQuestions } from "../data/questions";
+import { battleStatsService } from "../services/battleStats";
 
 // --- Interfaces (Must match Backend) ---
 
@@ -77,6 +80,7 @@ const BattleMinigame: React.FC = () => {
   // UI/Animation State
   const [showResults, setShowResults] = useState(false);
   const [winnerId, setWinnerId] = useState<string | null>(null);
+  const [battleStats, setBattleStats] = useState({ winRate: 0, streak: 0 });
 
   // Animation Triggers
   const [playerAttackAnim, setPlayerAttackAnim] = useState(false);
@@ -404,6 +408,35 @@ const BattleMinigame: React.FC = () => {
       });
 
       socket.on("game_over", (data: { winnerId: string }) => {
+        console.log("[Game Over] Winner:", data.winnerId);
+
+        // Determine if we won
+        const myRealId = Object.keys(playersRef.current).find(
+          (uid) => playersRef.current[uid].socketId === socket.id
+        );
+
+        // Record result and get updated stats
+        if (data.winnerId === myRealId) {
+          const stats = battleStatsService.recordWin();
+          setBattleStats({
+            winRate: battleStatsService.getWinRate(),
+            streak: stats.streak,
+          });
+        } else if (data.winnerId && data.winnerId !== "draw") {
+          const stats = battleStatsService.recordLoss();
+          setBattleStats({
+            winRate: battleStatsService.getWinRate(),
+            streak: stats.streak,
+          });
+        } else {
+          // Draw - just get current stats
+          const stats = battleStatsService.getStats();
+          setBattleStats({
+            winRate: battleStatsService.getWinRate(),
+            streak: stats.streak,
+          });
+        }
+
         setWinnerId(data.winnerId);
         setShowResults(true);
         setStatus("finished");
@@ -726,36 +759,14 @@ const BattleMinigame: React.FC = () => {
           )}
         </div>
 
-        <IonModal
+
+        <BattleResultModal
           isOpen={showResults}
-          className="results-modal"
-          backdropDismiss={false}
-        >
-          <div className="premium-results-container">
-            <div
-              className={`result-header ${
-                winnerId === myId ? "player" : "opponent"
-              }`}
-            >
-              <div className="result-title">
-                {winnerId === myId
-                  ? "VICTORY!"
-                  : winnerId === "draw"
-                  ? "DRAW"
-                  : "DEFEAT"}
-              </div>
-            </div>
-            <div className="result-actions">
-              <IonButton
-                expand="block"
-                className="rematch-button"
-                onClick={() => history.replace("/page/student")}
-              >
-                Return to Menu <IonIcon icon={arrowForward} slot="end" />
-              </IonButton>
-            </div>
-          </div>
-        </IonModal>
+          winnerId={winnerId}
+          myId={myId}
+          players={players}
+          battleStats={battleStats}
+        />
       </IonContent>
     </IonPage>
   );

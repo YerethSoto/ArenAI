@@ -2,8 +2,15 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
-  appName: 'ArenAi',
-  webDir: 'dist'
+  appName: 'ArenAI',
+  webDir: 'dist',
+  plugins: {
+    StatusBar: {
+      visible: false,
+      style: 'DARK',
+      overlaysWebView: true,
+    },
+  },
 };
 
 
