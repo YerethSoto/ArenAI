@@ -1,0 +1,619 @@
+/* ArenEntityPage.css - Professional Storybook Theme */
+
+/* 1. PALETTE & VARIABLES */
+.ae-page {
+    --ae-primary: #5D4037;
+    /* Dark Wood / Graphite */
+    --ae-secondary: #8D6E63;
+    /* Soft Earth */
+    --ae-accent: #FF7043;
+    /* Warm Orange */
+    --ae-cream: #FFF8E1;
+    /* High Contrast Cream */
+    --ae-paper: #FFF3E0;
+    /* Background Paper */
+    --ae-border: 3px solid #5D4037;
+    --ae-radius: 24px;
+    --ae-shadow: 4px 4px 0px rgba(93, 64, 55, 0.2);
+
+    --ae-font-title: 'Fredoka One', 'Varela Round', cursive;
+    --ae-font-body: 'Quicksand', sans-serif;
+}
+
+/* 2. BACKGROUND */
+.ae-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.ae-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 243, 224, 0.15);
+    /* Slight warmth filter */
+}
+
+/* 3. LAYOUT */
+.ae-content-wrapper {
+    --background: transparent !important;
+}
+
+.ae-scroll-content {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 70px;
+    /* Header Space */
+    padding-bottom: 140px;
+    /* Footer Space */
+}
+
+/* 4. TITLE OVAL */
+.ae-header-section {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 10px 0;
+    z-index: 20;
+}
+
+.ae-name-container {
+    background: rgba(255, 248, 225, 0.9);
+    /* Transparent Cream */
+    border: 4px solid var(--ae-primary);
+    border-radius: 50%;
+    /* Perfect Oval */
+    padding: 10px 50px;
+    box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
+    position: relative;
+    min-width: 300px;
+    transform: rotate(-1deg);
+    transition: transform 0.2s ease;
+    backdrop-filter: blur(4px);
+}
+
+.ae-name-container:hover {
+    transform: rotate(0deg) scale(1.02);
+}
+
+.ae-name-input {
+    font-family: var(--ae-font-title);
+    font-size: 2rem;
+    color: var(--ae-primary);
+    background: transparent;
+    border: none;
+    text-align: center;
+    width: 100%;
+    outline: none;
+    padding: 0;
+    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
+}
+
+.ae-name-edit-icon {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ae-secondary);
+    font-size: 1.2rem;
+}
+
+/* 5. MAIN CONTENT SPLIT */
+.ae-main-split {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* Vertical Center */
+    gap: 40px;
+    padding: 0 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    flex: 1;
+    /* Grow to fill space */
+}
+
+/* LEFT: INFO CARD (Text on Semi-Transparent BG) */
+.ae-lore-container {
+    background: rgba(0, 0, 0, 0.6);
+    /* Semi-transparent dark */
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    flex: 1;
+    max-width: 450px;
+    /* Soft glow/shadow */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    /* Glassmorphism */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #FFF;
+    margin-bottom: 20px;
+    /* Space on mobile */
+    animation: fadeIn 0.5s ease;
+}
+
+.ae-lore-text {
+    font-family: var(--ae-font-body);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #FFF;
+    font-weight: 500;
+    text-align: left;
+    margin-bottom: 24px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 0 4px;
+}
+
+/* STAT CARDS LAYOUT */
+.ae-simple-stats {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ae-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 10px;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.ae-stat-card:hover {
+    transform: translateX(4px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* STAT ICON WRAPPERS */
+.ae-stat-icon-wrapper {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.ae-stat-icon-wrapper.win {
+    background: linear-gradient(135deg, #FFD54F, #FFCA28);
+    color: #5D4037;
+}
+
+.ae-stat-icon-wrapper.usage {
+    background: linear-gradient(135deg, #AB47BC, #8E24AA);
+    color: #FFF;
+}
+
+.ae-stat-icon-wrapper.date {
+    background: linear-gradient(135deg, #26A69A, #00897B);
+    color: #FFF;
+}
+
+/* STAT TEXTS */
+.ae-stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.ae-stat-label {
+    font-family: var(--ae-font-body);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.ae-stat-value {
+    font-family: var(--ae-font-title);
+    font-size: 1.1rem;
+    color: #FFF;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.ae-stat-value.success {
+    color: #FFD54F;
+    /* Match icon gold */
+}
+
+.ae-stat-value.small {
+    font-size: 0.95rem;
+    /* For long dates */
+}
+
+/* RIGHT: CHARACTER SPRITE */
+.ae-sprite-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    /* Stack sprite + badge */
+    justify-content: flex-end;
+    /* Align bottom */
+    align-items: center;
+    position: relative;
+    height: 60vh;
+    z-index: 10;
+}
+
+.ae-sprite-img {
+    max-width: 100%;
+    max-height: 85%;
+    /* Leave room for text */
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(8px 8px 0px rgba(0, 0, 0, 0.2));
+    z-index: 5;
+    transition: transform 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.ae-sprite-img:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.ae-sprite-img.jumping {
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1.02);
+    }
+
+    40% {
+        transform: translateY(-30px) scale(0.95, 1.05);
+    }
+
+    60% {
+        transform: translateY(0) scale(1.05, 0.95);
+    }
+
+    75% {
+        transform: translateY(-10px) scale(1);
+    }
+}
+
+/* FRIENDSHIP BADGE (Below Sprite) */
+.ae-friendship-badge {
+    background: rgba(255, 255, 255, 0.9);
+    border: 3px solid var(--ae-primary);
+    border-radius: 20px;
+    /* Pill shape */
+    padding: 8px 24px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 20;
+    margin-bottom: 20px;
+    /* Lift off very bottom if needed */
+    animation: popIn 0.4s 0.2s backwards;
+}
+
+.ae-friendship-label {
+    font-family: var(--ae-font-body);
+    font-weight: 700;
+    color: var(--ae-primary);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.ae-friendship-value {
+    font-family: var(--ae-font-title);
+    font-size: 1.4rem;
+    color: #D81B60;
+    /* Heart pink/red */
+}
+
+.ae-sprite-shadow {
+    position: absolute;
+    bottom: 40px;
+    /* Adjusted due to flexbox */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    filter: blur(8px);
+    z-index: 1;
+}
+
+/* 6. DUEL LINKS SELECTOR (Semi-Circle Arc) */
+.ae-duel-selector-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 180px;
+    /* Taller for rotation */
+    z-index: 100;
+    background: radial-gradient(circle at bottom center, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    pointer-events: none;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ae-duel-selector-container.hidden {
+    transform: translateY(120%);
+}
+
+.ae-header-wrapper {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    position: relative;
+}
+
+.ae-header-wrapper.hidden {
+    transform: translateY(-120%);
+}
+
+.ae-friendship-badge {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.ae-friendship-badge.hidden {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.ae-carousel-arc {
+    position: relative;
+    width: 0;
+    /* Center point */
+    height: 100%;
+    margin-bottom: 40px;
+    /* Lift up */
+    display: flex;
+    align-items: center;
+    /* Center vertically in the container if needed */
+}
+
+/* Base Card Style */
+.ae-duel-card {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* Centered by parent width 0 */
+    width: 80px;
+    /* TCG Aspect Ratio roughly 2.5 : 3.5 */
+    height: 110px;
+    background: #2b2b2b;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: auto;
+    cursor: pointer;
+    transform-origin: bottom center;
+    /* Rotate like a fan */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    /* Border padding */
+}
+
+/* Card Frame (The internal colored border) */
+.ae-card-frame {
+    width: 100%;
+    height: 100%;
+    background: #4E342E;
+    border: 1px solid #FFCCBC;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.ae-card-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Active State */
+.ae-duel-card.active {
+    z-index: 200 !important;
+    filter: drop-shadow(0 0 10px #FF7043);
+    /* Glow */
+}
+
+.ae-duel-card.active .ae-card-frame {
+    border: 2px solid #FF7043;
+}
+
+/* Locked / Placeholder */
+.ae-duel-card.locked {
+    background: #1a1a1a;
+    cursor: default;
+}
+
+.ae-duel-card.locked .ae-card-frame {
+    background: #2b2b2b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-color: #555;
+}
+
+.ae-lock-content {
+    font-size: 1.5rem;
+    opacity: 0.5;
+}
+
+
+/* ANIMATIONS */
+@keyframes popIn {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* MODAL STYLES */
+.ae-custom-modal {
+    --width: 90%;
+    --max-width: 400px;
+    --height: auto;
+    --border-radius: 24px;
+    --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.ae-custom-modal::part(content) {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow: visible;
+}
+
+.ae-modal-content {
+    background: rgba(255, 248, 225, 0.85);
+    /* Transparent Cream */
+    border: 4px solid rgba(93, 64, 55, 0.8);
+    /* Transparent Wood */
+    border-radius: 24px;
+    padding: 24px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    /* Glass effect */
+}
+
+.ae-modal-content::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    border: 2px dashed rgba(93, 64, 55, 0.2);
+    border-radius: 18px;
+    pointer-events: none;
+}
+
+.ae-modal-title {
+    font-family: var(--ae-font-title);
+    color: var(--ae-primary);
+    font-size: 1.8rem;
+    margin: 0 0 24px 0;
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+}
+
+.ae-input-wrapper {
+    background: rgba(255, 255, 255, 0.4);
+    /* More transparent */
+    border: 2px solid rgba(141, 110, 99, 0.6);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 24px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.ae-modal-input-field {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--ae-font-body);
+    font-size: 1.2rem;
+    text-align: center;
+    color: #5D4037;
+    font-weight: 600;
+}
+
+.ae-modal-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.ae-modal-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    font-family: var(--ae-font-title);
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s;
+    text-transform: uppercase;
+}
+
+.ae-modal-btn:active {
+    transform: scale(0.95);
+}
+
+.ae-modal-btn.cancel {
+    background: #E0E0E0;
+    color: #757575;
+    border: 2px solid #BDBDBD;
+}
+
+.ae-modal-btn.save {
+    background: #FF7043;
+    color: #FFF;
+    border: 2px solid #D84315;
+    box-shadow: 0 4px 0 #D84315;
+    margin-bottom: 4px;
+    /* Account for 3d effect */
+}
+
+.ae-modal-btn.save:active {
+    box-shadow: 0 0 0 #D84315;
+    transform: translateY(4px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .ae-main-split {
+        flex-direction: column;
+        /* Stacked */
+        justify-content: flex-start;
+        gap: 10px;
+        margin-top: -10px;
+    }
+
+    .ae-lore-container {
+        width: 100%;
+        max-width: 100%;
+        order: 2;
+        /* Info below character on mobile */
+        margin-bottom: 20px;
+    }
+
+    .ae-sprite-container {
+        height: 45vh;
+        width: 100%;
+        order: 1;
+        /* Character on top */
+    }
+}

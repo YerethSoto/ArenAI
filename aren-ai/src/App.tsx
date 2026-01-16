@@ -43,6 +43,7 @@ import { AvatarProvider } from "./context/AvatarContext";
 import { SoundProvider } from "./context/SoundContext";
 import ChatMenu from "./pages/ChatMenu";
 import StudentChat from "./pages/StudentChat";
+import ArenEntityPage from "./pages/ArenEntityPage";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -308,6 +309,14 @@ const App: React.FC = () => {
                   <Route path="/character-detail" exact={true}>
                     {userRole === "student" ? (
                       <CharacterDetail />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+
+                  <Route path="/aren-entity" exact={true}>
+                    {userRole === "student" ? (
+                      <ArenEntityPage />
                     ) : (
                       <Redirect to="/login" />
                     )}

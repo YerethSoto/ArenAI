@@ -436,7 +436,24 @@
         "confirmDelete": "¿Estás seguro de que deseas eliminar este chat?",
         "inputPlaceholder": "Escribe un mensaje..."
     },
-
+    "arenEntity": {
+        "title": "Entidad Aren",
+        "statsLog": "Registro de Estadísticas",
+        "friendship": "Amistad",
+        "battlesWon": "Batallas Ganadas",
+        "changeName": "Cambiar Nombre",
+        "nicknamePlaceholder": "Escribe un apodo...",
+        "names": {
+            "capybara": "Capibara",
+            "sloth": "Perezoso"
+        },
+        "lore": {
+            "capybara": "Nacido en los tranquilos humedales del Pantanal en Brasil, {{name}} creció rodeado de diversa vida silvestre. Conocido por su naturaleza amigable, a menudo organiza reuniones en la orilla del río donde animales de todas las especies conviven en paz. Un verdadero embajador de la relajación y la armonía.",
+            "sloth": "Proveniente de las exuberantes y brumosas copas de los árboles de Costa Rica, {{name}} ha dominado el arte de la conservación de energía. Un observador meticuloso que desciende solo cuando es absolutamente necesario; ha visto cambiar el bosque durante décadas, ganando sabiduría a través de la observación silenciosa."
+        },
+        "timesSummoned": "Veces Invocado",
+        "firstEncounter": "Primer Encuentro"
+    },
     "Æ": "Æ",
     "personalityQuiz": {
         "title": "Descubre tu Estilo de Aprendizaje",

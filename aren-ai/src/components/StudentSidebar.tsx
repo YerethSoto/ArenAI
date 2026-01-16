@@ -100,7 +100,7 @@ const appPages: AppPage[] = [
 const settingsPages: AppPage[] = [
   {
     titleKey: "Æ",
-    url: "/profile",
+    url: "/aren-entity",
     iosIcon: personOutline,
     mdIcon: personSharp,
   },

@@ -98,12 +98,14 @@ const CharacterDetail: React.FC = () => {
       id: "capybara",
       name: "Capibara",
       icon: "/assets/profile_picture_capybara_eyes_open.png",
+      background: "/assets/Pond.jpg",
       lore: "El amigo de todos.",
     },
     {
       id: "sloth",
       name: "Perezoso",
       icon: "/assets/profile_picture_sloth_eyes_open.png",
+      background: "/assets/RainForest.jpg",
       lore: "Lento pero seguro.",
     },
   ];
@@ -142,12 +144,18 @@ const CharacterDetail: React.FC = () => {
   const currentTheme = THEME_MAP[previewAvatar] || "cryo";
   const stats = getStats(previewAvatar);
 
+  const currentBackground = AVATAR_OPTIONS.find(a => a.id === previewAvatar)?.background || "";
+
   return (
     <IonPage className="character-detail-page" data-theme={currentTheme}>
-      <div className="cd-background">
-        <div className="cd-nebula"></div>
-        <div className="cd-stars-1"></div>
-        <div className="cd-stars-2"></div>
+      <div
+        className="cd-background"
+        style={{
+          backgroundImage: `url(${currentBackground})`,
+        }}
+      >
+        {/* Storybook Overlay for texture (optional) */}
+        <div className="cd-texture-overlay"></div>
       </div>
 
       <IonContent fullscreen className="cd-content-wrapper">
@@ -225,9 +233,8 @@ const CharacterDetail: React.FC = () => {
 
               {/* Equip Button */}
               <button
-                className={`cd-equip-btn ${
-                  currentAvatar === previewAvatar ? "equipped" : ""
-                }`}
+                className={`cd-equip-btn ${currentAvatar === previewAvatar ? "equipped" : ""
+                  }`}
                 onClick={handleEquip}
                 style={{
                   marginTop: "20px",
@@ -264,9 +271,8 @@ const CharacterDetail: React.FC = () => {
               {AVATAR_OPTIONS.map((opt) => (
                 <div
                   key={opt.id}
-                  className={`cd-avatar-thumb ${
-                    previewAvatar === opt.id ? "active" : ""
-                  }`}
+                  className={`cd-avatar-thumb ${previewAvatar === opt.id ? "active" : ""
+                    }`}
                   onClick={() => setPreviewAvatar(opt.id)}
                 >
                   <img
