@@ -49,9 +49,8 @@ const getChatNickname = (chatId: string) => {
   try {
     const stored = localStorage.getItem("friendNicknames");
     const nicknames = stored ? JSON.parse(stored) : {};
-    // Use chatId as Key (assuming chatId corresponds to userId for P2P, logic might vary if strictly chatId)
-    // For P2P usually chat ID is the other user's ID
-    return nicknames[chatId] || null;
+    // Ensure strict string lookup
+    return nicknames[String(chatId)] || null;
   } catch (e) {
     return null;
   }
@@ -128,7 +127,7 @@ const StudentChat: React.FC = () => {
 
     const stored = localStorage.getItem("friendNicknames");
     const nicknames = stored ? JSON.parse(stored) : {};
-    nicknames[id] = nicknameInput; // Saving by ID
+    nicknames[String(id)] = nicknameInput; // Saving by ID as string
     localStorage.setItem("friendNicknames", JSON.stringify(nicknames));
 
     setChatName(nicknameInput);
@@ -305,6 +304,7 @@ const StudentChat: React.FC = () => {
         onSubjectChange={handleHeaderOption}
         showBackButton={true}
         onBack={() => history.push("/chat-menu")}
+        skipTranslation={true}
       />
 
       <IonContent fullscreen className="chat-content" ref={contentRef}>
