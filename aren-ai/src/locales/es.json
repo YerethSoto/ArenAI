@@ -243,6 +243,38 @@
             "logout": "Cerrar Sesión"
         }
     },
+    "studentProfile": {
+        "title": "Perfil",
+        "stats": {
+            "learningStats": "Estadísticas de Aprendizaje",
+            "battleStats": "Estadísticas de Batalla",
+            "bestSubject": "Mejor Materia",
+            "average": "Promedio",
+            "top10": "Top 10%",
+            "exactSciences": "Ciencias Exactas",
+            "humanities": "Humanidades",
+            "languages": "Idiomas",
+            "arts": "Artes"
+        },
+        "subjects": {
+            "Math": "Matemáticas",
+            "Science": "Ciencias",
+            "History": "Historia",
+            "English": "Inglés"
+        },
+        "achievements": {
+            "title": "Logros",
+            "battle": "Batalla",
+            "learning": "Aprendizaje",
+            "social": "Social"
+        },
+        "labels": {
+            "streak": "Racha",
+            "wins": "Victorias",
+            "friends": "Amigos",
+            "gpa": "Promedio"
+        }
+    },
     "mainStudent": {
         "brandSub": "Æ",
         "yourSubject": "Tu {{subject}}",

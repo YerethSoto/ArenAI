@@ -207,34 +207,44 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
     <IonMenu contentId="main" id="student-menu">
       <IonContent>
         {/* Header del menú */}
-        <div className="student-menu-header">
-          <div
-            className="sidebar-mascot-wrapper"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: "5px", // Reduced
-              marginLeft: "0",
-            }}
-          >
-            <AnimatedMascot
-              openSrc={avatarAssets.open}
-              closedSrc={avatarAssets.closed}
-              winkSrc={avatarAssets.wink}
-              className="sidebar-mascot-img"
-              style={{ width: "120px", height: "120px", objectFit: "contain" }} // Reduced to 120px
-            />
-          </div>
-          <div className="student-info">
-            <div className="student-details">
-              <IonLabel className="student-name">{currentUser.name}</IonLabel>
-              <IonNote className="student-email">{currentUser.email}</IonNote>
-              <IonNote className="student-username">
-                @{currentUser.username}
-              </IonNote>
-              <IonNote className="student-role">Student</IonNote>
+        <div
+          className="student-menu-header clickable-header"
+          onClick={() => {
+            // Close menu first if needed, or just navigate
+            // Using a simple window location or router hook would be best, 
+            // but we can use Link wrapper or just an onClick handler if we have router
+            // converting to click handler on the container
+          }}
+        >
+          <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
+            <div
+              className="sidebar-mascot-wrapper"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "5px", // Reduced
+                marginLeft: "0",
+              }}
+            >
+              <AnimatedMascot
+                openSrc={avatarAssets.open}
+                closedSrc={avatarAssets.closed}
+                winkSrc={avatarAssets.wink}
+                className="sidebar-mascot-img"
+                style={{ width: "120px", height: "120px", objectFit: "contain" }} // Reduced to 120px
+              />
             </div>
-          </div>
+            <div className="student-info">
+              <div className="student-details">
+                <IonLabel className="student-name">{currentUser.name}</IonLabel>
+                <IonNote className="student-email">{currentUser.email}</IonNote>
+                <IonNote className="student-username">
+                  @{currentUser.username}
+                </IonNote>
+                <IonNote className="student-role">Student</IonNote>
+              </div>
+            </div>
+          </Link>
         </div>
 
         {/* Navegación principal */}
