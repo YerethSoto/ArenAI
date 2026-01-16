@@ -1,6 +1,7 @@
 import { Server, Socket } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import { appConfig } from '../config/env.js';
+import { getUserChats } from '../repositories/chatRepository.js';
 
 // --- Interfaces ---
 
@@ -67,9 +68,31 @@ export const initSocket = (io: Server) => {
         next();
     });
 
-    io.on('connection', (socket: Socket) => {
+    io.on('connection', async (socket: Socket) => {
         const userId = socket.data.user.id;
         console.log(`[Socket] Connected: ${userId} (${socket.id})`);
+
+        // ===== CRITICAL: AUTO-JOIN CHAT ROOMS =====
+        // This ensures users receive messages even if they haven't opened the chat yet
+        // Without this, first-time app users won't get any messages
+        try {
+            // Only join if user has a real ID (not guest)
+            if (!userId.startsWith('guest_')) {
+                const userIdNum = parseInt(userId);
+                if (!isNaN(userIdNum)) {
+                    const chats = await getUserChats(userIdNum);
+                    chats.forEach((chat: any) => {
+                        const roomName = `chat_${chat.id}`;
+                        socket.join(roomName);
+                        console.log(`[Socket] Auto-joined ${userId} to room: ${roomName}`);
+                    });
+                    console.log(`[Socket] ${userId} joined ${chats.length} chat rooms automatically`);
+                }
+            }
+        } catch (error) {
+            console.error(`[Socket] Failed to auto-join chat rooms for ${userId}:`, error);
+        }
+        // ===== END AUTO-JOIN =====
 
         // --- 1. RECONNECTION CHECK ---
         const existingGameId = userGameMap[userId];

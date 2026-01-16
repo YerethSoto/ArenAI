@@ -74,10 +74,10 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
                 {onSubjectChange ? (
                   <StudentMenu
                     selectedSubject={
-                      menuOptions
-                        ? skipTranslation
-                          ? selectedSubject
-                          : t(selectedSubject)
+                      skipTranslation
+                        ? selectedSubject
+                        : menuOptions
+                        ? t(selectedSubject)
                         : t(getSubjectKey(selectedSubject))
                     }
                     onSubjectChange={onSubjectChange}
@@ -93,10 +93,10 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
                   />
                 ) : (
                   <span className="sh-subject-text">
-                    {menuOptions
-                      ? skipTranslation
-                        ? selectedSubject
-                        : t(selectedSubject)
+                    {skipTranslation
+                      ? selectedSubject
+                      : menuOptions
+                      ? t(selectedSubject)
                       : t(getSubjectKey(selectedSubject))}
                   </span>
                 )}
