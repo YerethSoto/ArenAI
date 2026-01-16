@@ -1,47 +1,34 @@
 /* CharacterDetail.css */
-/* 1. VARIABLES & THEMES */
+
+/* ... (previous variables remain the same) ... */
+
+/* 1. VARIABLES & THEMES (Storybook Style) */
 .character-detail-page {
-    /* Default (Cryo/Scholar) */
-    --cd-primary: #00f2ff;
-    --cd-secondary: #007cc0;
-    --cd-glow: rgba(0, 242, 255, 0.4);
-    --cd-nebula: radial-gradient(circle at 50% 120%, rgba(0, 140, 255, 0.3), transparent 70%);
-    --cd-font-title: 'Cinzel Decorative', cursive;
-    /* Magic/Ancient */
+    /* Storybook Palette */
+    --cd-primary: #5D4037;
+    /* Dark Wood / Graphite - for outlines */
+    --cd-secondary: #8D6E63;
+    /* Softer Earth Tone */
+    --cd-accent: #FF7043;
+    /* Warm Orange/Terra Cotta */
+    --cd-bg-paper: #FFF3E0;
+    /* Cream / Old Paper */
+    --cd-card-bg: #FFF8E1;
+    /* High Contrast Opaque Cream */
+    --cd-selected-glow: rgba(255, 112, 67, 0.4);
+
+    /* Typography */
+    --cd-font-title: 'Fredoka One', 'Varela Round', cursive;
+    /* Rounded, friendly */
+    --cd-font-body: 'Quicksand', sans-serif;
+
+    /* Style Tokens */
+    --sd-border-radius: 24px;
+    --sd-border-width: 3px;
+    --sd-shadow: 4px 4px 0px rgba(93, 64, 55, 0.2);
 }
 
-/* Electro (Dreamer) - Purple/Pink */
-.character-detail-page[data-theme='electro'] {
-    --cd-primary: #d900ff;
-    --cd-secondary: #8c00ff;
-    --cd-glow: rgba(217, 0, 255, 0.4);
-    --cd-nebula: radial-gradient(circle at 50% 120%, rgba(140, 0, 255, 0.3), transparent 70%);
-    --cd-font-title: 'Orbitron', sans-serif;
-    /* Future/Space */
-}
-
-/* Dendro (Zen) - Green/Gold */
-.character-detail-page[data-theme='dendro'] {
-    --cd-primary: #00ff9d;
-    --cd-secondary: #00b341;
-    --cd-glow: rgba(0, 255, 157, 0.4);
-    --cd-nebula: radial-gradient(circle at 50% 120%, rgba(0, 180, 65, 0.3), transparent 70%);
-    --cd-font-title: 'Philosopher', sans-serif;
-    /* Organic/Flowing */
-}
-
-/* Pyro (Warrior) - Red/Orange */
-.character-detail-page[data-theme='pyro'] {
-    --cd-primary: #ff4800;
-    --cd-secondary: #ffaa00;
-    --cd-glow: rgba(255, 72, 0, 0.4);
-    --cd-nebula: radial-gradient(circle at 50% 120%, rgba(255, 0, 0, 0.3), transparent 70%);
-    --cd-font-title: 'Russo One', sans-serif;
-    /* Strong/Military */
-}
-
-
-/* 2. BACKGROUND LAYERS (The "Chamber") */
+/* ... (Background layers remain same) ... */
 .cd-background {
     position: fixed;
     top: 0;
@@ -50,501 +37,310 @@
     height: 100%;
     z-index: 0;
     pointer-events: none;
-    overflow: hidden;
-    background: #080810;
-    animation: voidBreath 8s ease-in-out infinite alternate;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.5s ease-in-out;
 }
 
-@keyframes voidBreath {
-    from {
-        background-color: #050508;
-    }
-
-    to {
-        background-color: #101018;
-    }
-}
-
-/* Nebula / Element Glow at bottom */
-.cd-nebula {
+.cd-texture-overlay {
     position: absolute;
-    bottom: -20%;
-    left: -20%;
-    width: 140%;
-    height: 80%;
-    background: var(--cd-nebula);
-    filter: blur(60px);
-    opacity: 0.8;
-    animation: nebulaPulse 6s ease-in-out infinite alternate;
-    mix-blend-mode: screen;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    mix-blend-mode: multiply;
 }
-
-@keyframes nebulaPulse {
-    0% {
-        transform: scale(1) translateY(0);
-        opacity: 0.6;
-    }
-
-    100% {
-        transform: scale(1.1) translateY(-20px);
-        opacity: 0.9;
-    }
-}
-
-/* Stars Layer 1 (Small) */
-.cd-stars-1 {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    box-shadow:
-        10vw 10vh 0 white, 20vw 80vh 1px white, 80vw 10vh 0 white,
-        90vw 90vh 1px white, 50vw 50vh 0 white, 30vw 30vh 1px white,
-        15vw 40vh 0 white, 70vw 60vh 1px white;
-    border-radius: 50%;
-    animation: starsTwinkle 4s ease-in-out infinite alternate;
-    opacity: 0.8;
-}
-
-@keyframes starsTwinkle {
-    0% {
-        opacity: 0.3;
-        transform: scale(0.8);
-    }
-
-    100% {
-        opacity: 1;
-        transform: scale(1.2);
-    }
-}
-
-/* Stars Layer 2 (Floating Dust) */
-.cd-stars-2 {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: transparent;
-    box-shadow:
-        15vw 15vh 0 rgba(255, 255, 255, 0.6), 65vw 45vh 1px rgba(255, 255, 255, 0.6),
-        35vw 75vh 0 rgba(255, 255, 255, 0.6), 85vw 25vh 1px rgba(255, 255, 255, 0.6);
-    border-radius: 50%;
-    animation: dustFloat 20s linear infinite;
-}
-
-@keyframes dustFloat {
-    from {
-        transform: translateY(0) rotate(0deg);
-    }
-
-    to {
-        transform: translateY(-100px) rotate(45deg);
-    }
-}
-
 
 /* 3. MAIN LAYOUT & HEADER */
 .cd-content-wrapper {
     --background: transparent;
-    animation: pageEntrance 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-@keyframes pageEntrance {
-    0% {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
 }
 
 .cd-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 10;
+    min-height: 100%;
+    position: relative;
     display: flex;
     flex-direction: column;
 }
 
-/* Header Controls (Back Button) */
 .cd-header {
-    padding: 16px;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    position: absolute;
-    /* Float */
+    padding: 20px;
+    position: fixed;
+    width: 100%;
+    z-index: 200;
     top: 0;
     left: 0;
-    z-index: 100;
 }
 
 .cd-back-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: 8px 16px;
+    background: var(--cd-bg-paper);
+    border: var(--sd-border-width) solid var(--cd-primary);
+    color: var(--cd-primary);
+    padding: 10px 20px;
     border-radius: 50px;
+    font-weight: 800;
+    box-shadow: var(--sd-shadow);
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    backdrop-filter: blur(10px);
+    gap: 8px;
+    transition: transform 0.1s;
     cursor: pointer;
-    transition: all 0.2s;
 }
 
 .cd-back-btn:active {
-    background: var(--cd-primary);
-    transform: scale(0.95);
+    transform: translateY(2px);
+    box-shadow: 2px 2px 0px rgba(93, 64, 55, 0.2);
 }
 
-/* NEW: TITLE OVERLAY (Name Above) */
-.cd-title-overlay {
-    position: absolute;
-    top: 15%;
-    /* Visual sweet spot */
-    right: 5%;
-    /* Align to right slightly for slant effect or center? Request: "Arriba de lado" */
-    /* Let's try Centered but pushed top */
-    left: 0;
-    right: 0;
-    text-align: center;
-    z-index: 20;
-    pointer-events: none;
-    /* Let clicks pass */
-    transform: skewY(-5deg);
-    /* "De lado" subtle tilt */
-}
-
-.cd-char-title-big {
-    font-family: var(--cd-font-title);
-}
-
-.cd-char-subtitle-big {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    color: var(--cd-secondary);
-    font-size: 16px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    margin-top: 5px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-    animation: titleEntrance 1s ease-out 0.2s backwards;
-}
-
-@keyframes titleEntrance {
-    from {
-        opacity: 0;
-        transform: translateY(-50px) skewY(10deg);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) skewY(0);
-    }
-}
-
-
-/* 4. CONTENT GRID */
 .cd-main-grid {
     flex: 1;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-bottom: 120px;
-    padding-top: 100px;
-    /* Space for the title */
 }
 
-/* Left: Avatar Showcase */
+/* LEFT PANEL (SHOWCASE) */
 .cd-left-panel {
-    min-height: 40vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
-    /* Force Left alignment visual */
-    margin-right: auto;
+    height: 60vh;
+    /* Reduced on mobile */
     width: 100%;
+    padding-top: 60px;
 }
 
-.cd-character-img {
-    height: 350px;
-    max-height: 50vh;
-    object-fit: contain;
-    filter: drop-shadow(0 0 20px var(--cd-glow));
-    animation: charFloat 6s ease-in-out infinite;
-    z-index: 2;
-    /* Move slightly left to create space for lore on desktop */
-    transform: translateX(-20px);
+/* Moved Title inside left panel */
+.cd-title-overlay {
+    margin-bottom: 20px;
+    text-align: center;
+    z-index: 20;
+}
+
+.cd-char-title-big {
+    font-family: var(--cd-font-title);
+    font-size: 3rem;
+    color: var(--cd-bg-paper);
+    text-shadow:
+        3px 3px 0px var(--cd-primary),
+        -1px -1px 0px var(--cd-primary),
+        1px -1px 0px var(--cd-primary),
+        -1px 1px 0px var(--cd-primary),
+        1px 1px 0px var(--cd-primary);
+    margin: 0;
+    line-height: 1.1;
+}
+
+.cd-char-subtitle-big {
+    background: var(--cd-primary);
+    color: var(--cd-bg-paper);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-top: 8px;
+    box-shadow: var(--sd-shadow);
+    border: 2px solid white;
 }
 
 .cd-element-bg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 300px;
-    color: var(--cd-primary);
-    opacity: 0.1;
-    z-index: 1;
+    display: none;
+    /* Hide on mobile to save space */
 }
 
-@keyframes charFloat {
-
-    0%,
-    100% {
-        transform: translateY(0) translateX(-20px);
-    }
-
-    50% {
-        transform: translateY(-20px) translateX(-20px);
-    }
+.cd-character-img {
+    height: 65%;
+    max-height: 50vh;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.3));
+    z-index: 2;
+    transition: transform 0.3s ease;
 }
 
-
-/* Right: Info Card */
+/* RIGHT PANEL (LIBRARY GRID) */
 .cd-right-panel {
-    padding: 24px;
-    /* Glassmorphism */
-    background: linear-gradient(180deg, rgba(15, 15, 20, 0.7) 0%, rgba(5, 5, 10, 0.95) 100%);
-    backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    margin-top: -40px;
-    /* Overlap */
-    z-index: 5;
-    position: relative;
-    animation: slideInUp 0.8s ease-out 0.4s backwards;
-}
-
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(100px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.cd-story-section {
-    margin-bottom: 20px;
-}
-
-.cd-story-text {
-    font-size: 15px;
-    line-height: 1.6;
-    color: #e0e0e0;
-    font-style: italic;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    border-radius: 10px;
-    border-left: 3px solid var(--cd-primary);
-}
-
-
-/* Attributes */
-.cd-attributes-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 30px;
-}
-
-.cd-attr-box {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 12px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--cd-card-bg);
+    border-top: var(--sd-border-width) solid var(--cd-primary);
+    border-radius: 30px 30px 0 0;
+    padding: 30px 20px 40px 20px;
     display: flex;
     flex-direction: column;
-}
-
-.cd-attr-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 5px;
-}
-
-.cd-attr-value {
-    font-size: 14px;
-    font-weight: 700;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-
-/* Radar Chart Box */
-.cd-radar-container {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 20px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.cd-chart-title {
-    margin-bottom: 10px;
-    font-size: 12px;
-    text-transform: uppercase;
-    color: #aaa;
-}
-
-/* SVG Chart Styles */
-.cd-radar-svg {
-    width: 180px;
-    height: 180px;
-}
-
-.radar-bg {
-    fill: rgba(255, 255, 255, 0.02);
-    stroke: rgba(255, 255, 255, 0.1);
-    stroke-width: 1;
-}
-
-.radar-shape {
-    fill: var(--cd-glow);
-    stroke: var(--cd-primary);
-    stroke-width: 2;
-}
-
-
-/* 5. BOTTOM BAR */
-.cd-bottom-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100px;
-    z-index: 100;
-    /* Clean gradient to fade out info text */
-    background: linear-gradient(to top, #080810 40%, transparent 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.cd-avatar-list {
-    display: flex;
     gap: 20px;
-    padding: 10px 0;
-
-    /* Center logic */
-    justify-content: center;
-    width: 100%;
-}
-
-.cd-avatar-thumb {
-    width: 65px;
-    height: 65px;
-    /* border-radius: 50%; */
-    border-radius: 12px;
-    /* Square/Card style */
-    background: #222;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0px -4px 20px rgba(0, 0, 0, 0.2);
     position: relative;
-    overflow: hidden;
-    flex-shrink: 0;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    opacity: 0.6;
-    cursor: pointer;
-    filter: grayscale(0.8);
+    z-index: 5;
+    margin-top: -40px;
+    min-height: 50vh;
+    /* Ensure it takes up space */
 }
 
-.cd-avatar-thumb img {
+.cd-library-header h2 {
+    font-family: var(--cd-font-title);
+    color: var(--cd-primary);
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.cd-library-header p {
+    margin: 4px 0 0 0;
+    color: var(--cd-secondary);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* AVATAR GRID */
+.avatar-library-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.library-item {
+    aspect-ratio: 1/1;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+.library-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: filter 0.2s;
 }
 
-/* Active State (Selection + Equipped) */
-.cd-avatar-thumb.active {
-    opacity: 1;
-    transform: translateY(-15px) scale(1.15) rotate(3deg);
-    /* "Card pop" effect */
-    border-color: var(--cd-primary);
-    box-shadow: 0 10px 25px var(--cd-glow);
-    filter: grayscale(0);
-    z-index: 10;
+/* Hover/Active State */
+.library-item:active {
+    transform: scale(0.95);
 }
 
-.cd-avatar-thumb.active::after {
-    content: 'EQUIPPED';
+.library-item.selected {
+    border: 3px solid var(--cd-primary);
+    box-shadow: 0 0 0 4px var(--cd-selected-glow);
+    transform: scale(1.05);
+    z-index: 2;
+}
+
+.library-item.equipped::after {
+    content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--cd-primary);
-    color: black;
-    font-size: 8px;
-    font-weight: 900;
-    text-align: center;
-    text-transform: uppercase;
-    padding: 2px 0;
+    inset: 0;
+    border: 4px solid #AED581;
+    border-radius: 14px;
+    /* Slightly less than parent */
+    pointer-events: none;
 }
 
+.equipped-badge {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background: #AED581;
+    color: #33691E;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
 
-/* DESKTOP LAYOUT (Strict Left/Right) */
+/* EQUIP BUTTON */
+.cd-equip-btn {
+    border: var(--sd-border-width) solid var(--cd-primary) !important;
+    box-shadow: var(--sd-shadow);
+    color: var(--cd-primary) !important;
+    font-family: var(--cd-font-title);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 16px !important;
+    font-size: 1.2rem !important;
+    border-radius: 16px !important;
+    transition: all 0.1s;
+    background: white !important;
+    position: sticky;
+    bottom: 20px;
+    /* Float at bottom */
+    width: 100%;
+    margin-top: auto;
+    /* Push to bottom if space available */
+    z-index: 100;
+}
+
+.cd-equip-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0px 0px 0px rgba(93, 64, 55, 0.2);
+}
+
+.cd-equip-btn.equipped {
+    background: #AED581 !important;
+    color: #33691E !important;
+}
+
+/* REMOVE OLD BOTTOM BAR */
+.cd-bottom-bar {
+    display: none;
+}
+
+/* DESKTOP RESPONSIVE */
 @media (min-width: 768px) {
-    .cd-title-overlay {
-        top: 20px;
-        right: 40px;
-        left: 0;
-        font-size: 60px;
-    }
-
     .cd-main-grid {
         flex-direction: row;
-        align-items: center;
-        padding-top: 0;
-        /* Title is absolute */
+        align-items: stretch;
+        height: 100vh;
+        overflow: hidden;
     }
 
     .cd-left-panel {
-        flex: 1;
         height: 100%;
-        justify-content: center;
+        width: 45%;
+        /* Slightly smaller picture area */
+        padding-top: 0;
     }
 
     .cd-character-img {
-        height: 70%;
-        max-height: 80vh;
-        transform: none;
-        /* Reset mobile tweak */
-        animation: charFloat Desktop 6s ease-in-out infinite;
+        height: 80%;
+        max-height: 85vh;
+    }
+
+    .cd-title-overlay {
+        text-align: left;
+        position: absolute;
+        top: 30px;
+        left: 40px;
+    }
+
+    .cd-char-title-big {
+        font-size: 4rem;
     }
 
     .cd-right-panel {
-        flex: 1;
-        height: 80%;
-        margin: 0 40px 0 0;
-        background: rgba(0, 0, 0, 0.5);
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        max-width: 500px;
+        width: 55%;
+        margin-top: 0;
+        height: 100%;
+        border-radius: 0;
+        border-left: var(--sd-border-width) solid var(--cd-primary);
+        border-top: none;
         overflow-y: auto;
+        padding: 40px;
+    }
+
+    .avatar-library-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 20px;
     }
 }

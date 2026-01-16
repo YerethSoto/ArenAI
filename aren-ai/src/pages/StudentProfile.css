@@ -1,277 +1,489 @@
-/* Base Layout */
+/* STUDENT PROFILE - PROFESSIONAL OVERHAUL */
+
+/* Variable Definitions for Theme Adaptability */
+:root {
+    --profile-card-bg-light: rgba(255, 255, 255, 0.9);
+    --profile-card-bg-dark: rgba(30, 30, 30, 0.85);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    --gold-gradient: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+    --blue-gradient: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    --purple-gradient: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+}
+
 .profile-page-premium {
-    --background: var(--ion-background-color);
+    --ion-background-color: #f4f5f8;
+    /* Light gray base */
+}
+
+/* Dark Mode Adjustments */
+@media (prefers-color-scheme: dark) {
+    .profile-page-premium {
+        --ion-background-color: #121212;
+    }
 }
 
 .profile-content-premium {
-    --padding-top: 0;
-    --background: var(--ion-background-color);
+    --padding-bottom: 40px;
 }
 
-/* HERO CARD */
+/* CSS OVERRIDE FOR TRANSPARENT HEADER */
+.profile-page-premium ion-header {
+    box-shadow: none !important;
+}
+
+.profile-page-premium ion-toolbar {
+    --background: transparent !important;
+    --border-width: 0 !important;
+    box-shadow: none !important;
+}
+
+/* 1. HERO CARD - CENTERED & CLEAN */
 .profile-hero-card {
-    background: linear-gradient(135deg, var(--ion-color-secondary) 0%, var(--ion-color-primary) 100%);
-    padding: 100px 20px 60px 20px;
-    /* Increased top padding to clear header */
+    background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-tertiary) 100%);
+    padding: 100px 20px 40px 20px;
+    /* Increased top padding for status bar/header area */
     text-align: center;
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
     position: relative;
     overflow: visible;
-    /* Changed to visible to allow badges to pop if needed, but mainly for safety */
     color: white;
-    box-shadow: 0 10px 30px rgba(var(--ion-color-primary-rgb), 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-bottom: 25px;
+    margin-top: -85px;
+    /* Pull up to cover header area entirely (estimated height) */
 }
 
 .profile-bg-pattern {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 0.1;
-    background-image: radial-gradient(white 1px, transparent 1px);
-    background-size: 20px 20px;
-}
-
-/* AVATAR */
-.avatar-section {
-    position: relative;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.avatar-frame-premium {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    /* border: 4px solid white; Removed border as requested implicitly or just the halo? "Remove the halo that surrounds" usually refers to glow/shadow. Let's keep a thin border if needed but remove shadow. */
-    border: none; 
-    position: relative;
-    /* background: rgba(255, 255, 255, 0.2); Removed background to be cleaner */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: none; /* Removed Halo */
-    z-index: 2;
-}
-
-.main-avatar-img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    border-radius: 50%; /* Ensure it's round */
+    background-image: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 20%);
+    opacity: 0.6;
+    pointer-events: none;
 }
 
-.edit-btn-circle {
+/* AVATAR CENTERED */
+.avatar-section-centered {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 15px auto;
+}
+
+.avatar-frame-premium.large {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.avatar-frame-premium.large:active {
+    transform: scale(0.95);
+}
+
+.avatar-halo {
     position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 36px;
-    height: 36px;
-    background: var(--ion-color-tertiary);
-    border: 3px solid white;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 255, 255, 0.3);
+    animation: spin 10s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.edit-icon-badge {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: var(--ion-color-secondary);
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-    color: var(--ion-color-tertiary-contrast);
-}
-
-.level-badge-premium {
-    position: absolute;
-    top: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #f1c40f;
-    color: #333;
-    font-weight: 900;
-    padding: 4px 10px;
-    border-radius: 12px;
+    color: white;
     font-size: 14px;
-    border-radius: 16px;
-    margin-top: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.xp-labels {
+/* IDENTITY */
+.player-identity-centered h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0;
+    color: white;
     display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    opacity: 0.9;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-.xp-progress-bar {
-    --background: rgba(255, 255, 255, 0.2);
-    --progress-background: #00e676;
-    height: 10px;
-    border-radius: 5px;
+.edit-name-icon {
+    font-size: 0.6em;
+    opacity: 0.7;
+    cursor: pointer;
 }
 
-/* STATS DECK */
-.profile-stats-deck {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
+.identity-subtitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 4px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* 2. QUICK STATS - GRID WRAP (No Scroll) */
+.quick-stats-scroll {
+    display: flex;
+    flex-wrap: wrap;
+    /* Allow wrapping */
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    padding-bottom: 10px;
+}
+
+.quick-stat-item {
+    background: rgba(0, 0, 0, 0.2);
+    /* Darker background for contrast on gradient */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    padding: 10px 15px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1 1 40%;
+    /* Grow to fill space, basis 40% to fit 2 per row */
+    min-width: 130px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s;
+}
+
+.quick-stat-item:active {
+    transform: translateY(2px);
+}
+
+.qs-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+}
+
+.qs-icon.fire {
+    background: var(--ion-color-danger);
+    box-shadow: 0 4px 10px rgba(var(--ion-color-danger-rgb), 0.4);
+}
+
+.qs-icon.blue {
+    background: var(--ion-color-secondary);
+    box-shadow: 0 4px 10px rgba(var(--ion-color-secondary-rgb), 0.4);
+}
+
+.qs-icon.purple {
+    background: #9b59b6;
+    box-shadow: 0 4px 10px rgba(155, 89, 182, 0.4);
+}
+
+.qs-icon.gold {
+    background: #f39c12;
+    box-shadow: 0 4px 10px rgba(243, 156, 18, 0.4);
+}
+
+.qs-data {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.qs-value {
+    font-size: 16px;
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+}
+
+.qs-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+}
+
+/* 3. CONTENT CONTAINER - Floating Cards */
+.profile-content-container {
     padding: 0 20px;
-    margin-top: -30px;
+    margin-top: -20px;
+    /* Pull up slightly */
     position: relative;
     z-index: 10;
 }
 
-.stat-item-premium {
-    background: var(--ion-card-background, white);
-    border-radius: 20px;
-    padding: 15px 10px;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-}
-
-.stat-icon-circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
+.section-header-modern {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 20px;
-}
-
-.stat-item-premium.blue .stat-icon-circle {
-    background: rgba(52, 152, 219, 0.1);
-    color: #3498db;
-}
-
-.stat-item-premium.fire .stat-icon-circle {
-    background: rgba(231, 76, 60, 0.1);
-    color: #e74c3c;
-}
-
-.stat-item-premium.green .stat-icon-circle {
-    background: rgba(46, 204, 113, 0.1);
-    color: #2ecc71;
-}
-
-.stat-num {
-    display: block;
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--ion-text-color);
-}
-
-.stat-lbl {
-    font-size: 11px;
-    color: var(--ion-color-medium);
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-/* BADGES */
-.badges-section-premium {
-    padding: 30px 20px;
-}
-
-.badges-header {
-    display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    cursor: pointer;
+    margin: 25px 0 15px 0;
 }
 
-.badges-header.clickable:hover {
-    opacity: 0.8;
-}
-
-.badges-header-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.header-arrow {
-    color: var(--ion-color-medium);
+.section-header-modern h3 {
     font-size: 18px;
-}
-
-.badges-header h3 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.badges-count {
-    background: var(--ion-color-light);
-    padding: 4px 10px;
-    border-radius: 10px;
-    font-size: 12px;
     font-weight: 700;
+    color: var(--ion-text-color);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.badges-grid-premium {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+.header-badge {
+    background: var(--ion-color-light);
+    color: var(--ion-text-color);
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* GOLD CARD REDESIGN */
+.stat-card-gold {
+    background: var(--gold-gradient);
+    border-radius: 24px;
+    padding: 20px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(243, 156, 18, 0.3);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
     gap: 15px;
 }
 
-.badge-card-premium {
-    background: var(--ion-card-background, white);
+.highlight-icon.glass-bg {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     border-radius: 16px;
-    padding: 15px 5px;
-    text-align: center;
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.highlight-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.highlight-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.highlight-value {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 2px 0;
+}
+
+.highlight-sub {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.highlight-badge {
+    background: white;
+    color: #f39c12;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 8px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 4. MODERN ACCORDIONS - Floating Style */
+.floating-accordions {
+    background: transparent;
+}
+
+.modern-accordion {
+    background: var(--ion-card-background, #fff);
+    border-radius: 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    /* Subtle shadow */
     overflow: hidden;
-    transition: transform 0.2s;
-    border: 1px solid transparent;
 }
 
-.badge-card-premium.unlocked {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+/* Dark mode compatibility */
+@media (prefers-color-scheme: dark) {
+    .modern-accordion {
+        background: #1e1e1e;
+        border: 1px solid #333;
+    }
 }
 
-.badge-card-premium.locked {
-    opacity: 0.5;
+.accordion-header-modern {
+    --background: transparent;
+    --color: var(--ion-text-color);
+    --padding-start: 16px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.accordion-content-modern {
+    background: transparent;
+    padding-top: 0 !important;
+}
+
+/* STAT ROW STYLING */
+.modern-stat-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding: 8px;
+    border-radius: 12px;
+    background: var(--ion-color-step-50, #f9f9f9);
+    /* Slight contrast background */
+}
+
+@media (prefers-color-scheme: dark) {
+    .modern-stat-row {
+        background: rgba(255, 255, 255, 0.05);
+    }
+}
+
+.ms-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.ms-info {
+    flex: 1;
+}
+
+.ms-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.ms-subject {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.ms-score {
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.ms-progress {
+    height: 6px;
+    border-radius: 3px;
+}
+
+/* 5. MICRO BADGES GRID */
+.badges-grid-micro {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+}
+
+.micro-badge {
+    aspect-ratio: 1/1;
+    background: var(--ion-color-step-50, #f9f9f9);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    text-align: center;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+}
+
+/* Badge States */
+.micro-badge.locked {
     filter: grayscale(1);
-    background: var(--ion-color-light);
+    opacity: 0.5;
 }
 
-.badge-icon-premium {
-    font-size: 32px;
-    margin-bottom: 8px;
-    position: relative;
-    z-index: 2;
+.micro-badge.unlocked.epic {
+    border-color: #9b59b6;
+    background: rgba(155, 89, 182, 0.1);
 }
 
-.badge-name {
-    font-size: 11px;
+.micro-badge.unlocked.legendary {
+    border-color: #f1c40f;
+    background: rgba(241, 196, 15, 0.1);
+}
+
+.micro-badge.unlocked.rare {
+    border-color: #3498db;
+    background: rgba(52, 152, 219, 0.1);
+}
+
+.micro-badge.unlocked.common {
+    border-color: #2ecc71;
+    background: rgba(46, 204, 113, 0.1);
+}
+
+.mb-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.mb-name {
+    font-size: 10px;
     font-weight: 600;
     line-height: 1.2;
-    position: relative;
-    z-index: 2;
-}
-
-/* Rarity Styles */
-.badge-card-premium.legendary {
-    border: 1px solid #f1c40f;
-    background: linear-gradient(to bottom, rgba(241, 196, 15, 0.05), rgba(241, 196, 15, 0.15));
-}
-
-.badge-card-premium.epic {
-    border: 1px solid #9b59b6;
-    background: linear-gradient(to bottom, rgba(155, 89, 182, 0.05), rgba(155, 89, 182, 0.15));
-}
-
-.badge-card-premium.rare {
-    border: 1px solid #3498db;
 }

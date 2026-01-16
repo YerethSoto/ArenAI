@@ -79,9 +79,8 @@ const AvatarSelector: React.FC<AvatarSelectorProps> = ({
           {AVATAR_OPTIONS.map((opt) => (
             <div
               key={opt.id}
-              className={`as-icon-btn ${
-                previewAvatar === opt.id ? "selected" : ""
-              }`}
+              className={`as-icon-btn ${previewAvatar === opt.id ? "selected" : ""
+                }`}
               onClick={() => setPreviewAvatar(opt.id)}
             >
               <img src={opt.icon} alt={opt.id} />

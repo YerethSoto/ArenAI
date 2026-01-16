@@ -23,6 +23,7 @@ interface StudentHeaderProps {
   showBackButton?: boolean;
   onBack?: () => void;
   skipTranslation?: boolean;
+  onSubjectClick?: () => void;
 }
 
 const StudentHeader: React.FC<StudentHeaderProps> = ({
@@ -35,6 +36,7 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
   showBackButton = false,
   onBack,
   skipTranslation = false,
+  onSubjectClick,
 }) => {
   const { t } = useTranslation();
 
@@ -70,7 +72,10 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
         <div className="sh-notch-container">
           <div className="sh-notch">
             {showSubject ? (
-              <div className="sh-subject-display">
+              <div
+                className={`sh-subject-display ${onSubjectClick ? 'interactive' : ''}`}
+                onClick={onSubjectClick}
+              >
                 {onSubjectChange ? (
                   <StudentMenu
                     selectedSubject={
@@ -85,9 +90,9 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
                     options={
                       menuOptions
                         ? menuOptions.map((opt) => ({
-                            value: opt,
-                            label: t(opt),
-                          }))
+                          value: opt,
+                          label: t(opt),
+                        }))
                         : undefined
                     }
                   />

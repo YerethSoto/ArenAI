@@ -14,7 +14,8 @@
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
     position: relative;
-    z-index: 100; /* Base level */
+    z-index: 100;
+    /* Base level */
 }
 
 .sh-content {
@@ -36,13 +37,16 @@
 /* Absolute Brand Container */
 .sh-brand-container-absolute {
     position: absolute;
-    top: 10px; /* Align with toolbar padding */
+    top: 10px;
+    /* Align with toolbar padding */
     right: 15px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    z-index: 110; /* Higher than notch (101) */
-    pointer-events: none; /* Let clicks pass through if needed */
+    z-index: 110;
+    /* Higher than notch (101) */
+    pointer-events: none;
+    /* Let clicks pass through if needed */
 }
 
 .sh-brand-name {
@@ -64,10 +68,13 @@
 .sh-notch-container {
     display: flex;
     justify-content: center;
-    margin-top: -45px; /* Pull up MORE to overlap significantly */
+    margin-top: -45px;
+    /* Pull up MORE to overlap significantly */
     position: relative;
-    z-index: 101; /* Above toolbar (100), Below Brand (110) */
-    pointer-events: none; /* Let clicks pass through container */
+    z-index: 101;
+    /* Above toolbar (100), Below Brand (110) */
+    pointer-events: none;
+    /* Let clicks pass through container */
 }
 
 .sh-notch {
@@ -79,7 +86,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: auto; /* Re-enable clicks */
+    pointer-events: auto;
+    /* Re-enable clicks */
     position: relative;
 }
 
@@ -91,18 +99,31 @@
     width: 140px;
     height: 45px;
     background-color: var(--ion-color-secondary);
-    border-radius: 50%; /* Oval shape */
+    border-radius: 50%;
+    /* Oval shape */
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background 0.2s;
+}
+
+.sh-subject-display.interactive {
+    cursor: pointer;
+}
+
+.sh-subject-display.interactive:active {
+    transform: scale(0.95);
+    background: #FFCCBC;
+    /* Lighter shade interact */
 }
 
 .sh-subject-text {
     color: var(--ion-color-secondary-contrast);
     font-size: 18px;
     font-weight: 500;
-    font-family: serif; /* Match the "Math" font in image */
+    font-family: serif;
+    /* Match the "Math" font in image */
     letter-spacing: 1px;
 }
 

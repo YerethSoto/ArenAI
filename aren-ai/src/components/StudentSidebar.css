@@ -2,7 +2,7 @@
 #student-menu {
   /* Set the internal variable, but let the host be transparent so the backdrop works */
   --background: var(--ion-background-color, #ffffff);
-  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Ensure content background adapts to theme */
@@ -12,14 +12,24 @@
 }
 
 .student-menu-header {
-  padding: 20px 16px; 
+  padding: 20px 16px;
   background: var(--ion-color-primary);
-  color: var(--ion-color-primary-contrast); /* Use theme contrast */
+  color: var(--ion-color-primary-contrast);
+  /* Use theme contrast */
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
+  transition: background 0.2s;
+}
+
+.student-menu-header.clickable-header {
+  cursor: pointer;
+}
+
+.student-menu-header.clickable-header:hover {
+  background: var(--ion-color-primary-shade);
 }
 
 .student-info {
@@ -37,7 +47,8 @@
 .student-name {
   font-size: 1.2rem;
   font-weight: 700;
-  color: var(--ion-color-primary-contrast); /* Adaptable contrast */
+  color: var(--ion-color-primary-contrast);
+  /* Adaptable contrast */
   display: block;
   margin-bottom: 4px;
   line-height: 1.3;

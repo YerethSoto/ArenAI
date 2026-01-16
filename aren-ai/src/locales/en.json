@@ -3,7 +3,6 @@
         "learning": "Learning",
         "mainMenu": "Main Menu",
         "chat": "Chat with Aren",
-        "chatWithAren": "Chat with Aren",
         "social": "Chat Menu",
         "quiz": "Quiz",
         "personalityQuiz": "Personality Quiz",
@@ -447,15 +446,23 @@
         "confirmDelete": "Are you sure you want to delete this chat?",
         "inputPlaceholder": "Type a message..."
     },
-    "chatMenu": {
-        "search": "Search chats...",
-        "addFriend": "Type username to add...",
-        "hint": "Enter a username to send a friend request.",
-        "allChats": "All Chats",
-        "friends": "Friends",
-        "groups": "Groups",
-        "friendRequests": "Friend Requests",
-        "noRequests": "No new requests"
+    "arenEntity": {
+        "title": "Aren Entity",
+        "statsLog": "Stats Log",
+        "friendship": "Friendship",
+        "battlesWon": "Battles Won",
+        "changeName": "Change Name",
+        "nicknamePlaceholder": "Enter a nickname...",
+        "names": {
+            "capybara": "Capybara",
+            "sloth": "Sloth"
+        },
+        "lore": {
+            "capybara": "Born in the tranquil wetlands of the Pantanal in Brazil, {{name}} grew up surrounded by diverse wildlife. Known for their amicable nature, they often host gatherings by the riverbank where animals of all species mingle in peace. A true ambassador of relaxation and harmony.",
+            "sloth": "Hailing from the lush, misty canopies of Costa Rica, {{name}} has mastered the art of energy conservation. A meticulous observer who descends only when absolutely necessary, they have watched the forest change over decades, gaining wisdom through silent observation."
+        },
+        "timesSummoned": "Times Summoned",
+        "firstEncounter": "First Encounter"
     },
     "Æ": "Æ",
     "personalityQuiz": {
