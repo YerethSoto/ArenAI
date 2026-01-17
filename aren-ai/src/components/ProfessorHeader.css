@@ -84,19 +84,31 @@
     padding: 0 15px;
 }
 
-/* Oval display - Balanced fill */
+/* Transparent container - dropdowns area */
 .ph-dropdowns-display {
-    width: 290px;  /* comfortable width */
-    height: 50px;
-    background-color: var(--ion-color-secondary);
-    border-radius: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 4px;
     padding: 0 10px;
+    background: transparent;
+    position: relative;
+}
+
+/* Oval shape behind text - matches student button style */
+/* 1.5x bigger and positioned to straddle the semicircle edge */
+.ph-text-oval {
+    width: 270px;   /* 180 * 1.5 */
+    height: 72px;   /* 48 * 1.5 */
+    background-color: var(--ion-color-secondary);
+    border-radius: 50%;  /* Creates the oval/ellipse like student */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, background 0.2s;
+    gap: 4px;
+    margin-top: 30px;  /* Raised to match student header button positioning */
 }
 
 /* Responsive */
@@ -106,9 +118,10 @@
         height: 110px;
     }
     
-    .ph-dropdowns-display {
-        width: 260px;
-        gap: 2px;
+    .ph-text-oval {
+        width: 240px;   /* 160 * 1.5 */
+        height: 63px;   /* 42 * 1.5 */
+        margin-top: 25px;
     }
     
     .ph-brand-name {
@@ -126,9 +139,10 @@
         height: 100px;
     }
     
-    .ph-dropdowns-display {
-        width: 230px;
-        gap: 1px;
+    .ph-text-oval {
+        width: 210px;   /* 140 * 1.5 */
+        height: 57px;   /* 38 * 1.5 */
+        margin-top: 20px;
     }
     
     .ph-brand-name {

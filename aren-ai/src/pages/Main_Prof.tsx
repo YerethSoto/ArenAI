@@ -111,17 +111,19 @@ const Main_Prof: React.FC = () => {
         <div className="ph-notch-container">
           <div className="ph-notch">
             <div className="ph-dropdowns-display">
-              <ProfessorMenu
-                selectedGrade={selectedGrade}
-                selectedSection={selectedSection}
-                selectedSubject={t(
-                  "professor.dashboard.subjects." +
-                    selectedSubject.replace(/\s+/g, "")
-                )}
-                onGradeChange={setSelectedGrade}
-                onSectionChange={setSelectedSection}
-                onSubjectChange={setSelectedSubject}
-              />
+              <div className="ph-text-oval">
+                <ProfessorMenu
+                  selectedGrade={selectedGrade}
+                  selectedSection={selectedSection}
+                  selectedSubject={t(
+                    "professor.dashboard.subjects." +
+                      selectedSubject.replace(/\s+/g, "")
+                  )}
+                  onGradeChange={setSelectedGrade}
+                  onSectionChange={setSelectedSection}
+                  onSubjectChange={setSelectedSubject}
+                />
+              </div>
             </div>
           </div>
         </div>

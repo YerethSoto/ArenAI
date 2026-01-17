@@ -25,23 +25,20 @@
   display: inline-block;
 }
 
-/* Dropdown trigger - Inside green oval */
-/* Dropdown trigger - Inside green oval */
-/* Dropdown trigger - Inside green oval */
-/* Dropdown trigger - Inside green oval */
+/* Dropdown trigger - compact for oval */
 .dropdown-trigger {
   cursor: pointer;
-  padding: 8px 8px; /* Restored comfortably */
+  padding: 4px 2px;  /* Reduced padding */
   border-radius: 10px;
   background: transparent;
   color: var(--ion-color-secondary-contrast);  /* White on green */
-  font-size: 15px; /* Restored size */
+  font-size: 22px;  /* 27 * 0.8 */
   font-weight: 600;
   font-family: serif;
   letter-spacing: 0.5px;
   transition: all 0.2s ease;
   user-select: none;
-  min-width: 30px;
+  min-width: 20px;  /* Reduced */
   text-align: center;
   flex: 1;
 }
@@ -65,8 +62,8 @@
   color: var(--ion-color-secondary-contrast);  /* White divider */
   opacity: 0.7;
   font-weight: 300;
-  font-size: 16px;
-  margin: 0 3px;
+  font-size: 22px;  /* Match text size */
+  margin: 0 1px;  /* Reduced margin */
   font-family: serif;
   flex-shrink: 0;
 }
@@ -115,32 +112,32 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .dropdown-trigger {
-    font-size: 14px;
-    padding: 7px 12px;
+    font-size: 19px;  /* 24 * 0.8 */
+    padding: 3px 1px;
   }
   
   .subject-trigger {
-    min-width: 70px;
+    min-width: 50px;
   }
   
   .divider {
-    font-size: 14px;
+    font-size: 19px;
   }
 }
 
 @media (max-width: 480px) {
   .dropdown-trigger {
-    font-size: 13px;
-    padding: 6px 10px;
-    min-width: 35px;
+    font-size: 17px;  /* 21 * 0.8 */
+    padding: 2px 1px;
+    min-width: 15px;
   }
   
   .subject-trigger {
-    min-width: 60px;
+    min-width: 40px;
   }
   
   .divider {
-    font-size: 13px;
-    margin: 0 2px;
+    font-size: 17px;
+    margin: 0 1px;
   }
 }
