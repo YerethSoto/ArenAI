@@ -44,6 +44,8 @@ import { SoundProvider } from "./context/SoundContext";
 import ChatMenu from "./pages/ChatMenu";
 import StudentChat from "./pages/StudentChat";
 import ArenEntityPage from "./pages/ArenEntityPage";
+import { socketService } from "./services/socket";
+import { chatStorage } from "./services/chatStorage";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -105,6 +107,52 @@ const App: React.FC = () => {
 
     setIsLoading(false);
   }, []);
+
+  // === GLOBAL CHAT MESSAGE LISTENER ===
+  // This stays active after login, always receiving messages
+  useEffect(() => {
+    if (!userRole) return; // Only run when logged in
+
+    console.log("[App] Setting up global chat listener");
+    socketService.connect();
+    const socket = socketService.socket;
+
+    if (socket) {
+      // Remove any existing listener
+      socket.off("receive_message");
+
+      socket.on("receive_message", (data: any) => {
+        const targetChatId = data.chatId || data.senderId;
+
+        console.log(`[App Global Listener] Message received:`, {
+          chatId: targetChatId,
+          text: data.text.substring(0, 30),
+          timestamp: data.timestamp,
+        });
+
+        // Save to chatStorage (single source of truth)
+        if (targetChatId) {
+          chatStorage.saveMessage(targetChatId, {
+            id: Date.now() + Math.random(),
+            text: data.text,
+            isUser: false,
+            timestamp: data.timestamp,
+            senderName: data.senderName || "Friend",
+          });
+          console.log(
+            `[App] Saved message to chatStorage for chat ${targetChatId}`
+          );
+        }
+      });
+    }
+
+    return () => {
+      if (socketService.socket) {
+        socketService.socket.off("receive_message");
+        console.log("[App] Cleaned up global chat listener");
+      }
+    };
+  }, [userRole]); // Re-run when userRole changes (login/logout)
 
   const handleLogin = (role: "professor" | "student", userData?: any) => {
     setUserRole(role);

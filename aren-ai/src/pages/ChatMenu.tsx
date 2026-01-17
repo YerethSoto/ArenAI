@@ -28,6 +28,7 @@ import { getApiUrl } from "../config/api";
 import { useTranslation } from "react-i18next";
 import { useIonViewWillEnter, useIonViewWillLeave } from "@ionic/react";
 import { socketService } from "../services/socket";
+import { chatStorage } from "../services/chatStorage";
 
 const ChatMenu: React.FC = () => {
   const { t } = useTranslation();
@@ -121,36 +122,29 @@ const ChatMenu: React.FC = () => {
           const currentMap = new Map(currentChats.map((c) => [c.id, c]));
 
           const enrichedChats = backendChats.map((chat: any) => {
-            const historyKey = `chat_history_${chat.id}`;
-            const storedHistory = localStorage.getItem(historyKey);
+            // Get last message from chatStorage for accurate preview
+            const lastMsg = chatStorage.getLastMessage(chat.id);
 
-            let lastMsg = chat.message;
+            let message = chat.message;
             let timestamp = chat.time;
 
-            if (storedHistory) {
-              try {
-                const messages = JSON.parse(storedHistory);
-                if (messages && messages.length > 0) {
-                  const last = messages[messages.length - 1];
-                  lastMsg = last.text;
-                  timestamp = last.timestamp;
-                }
-              } catch (e) {}
+            if (lastMsg) {
+              message = lastMsg.text;
+              timestamp = lastMsg.timestamp;
             }
 
-            // PRESERVE LOCAL UNREAD COUNT (don't let backend reset it)
-            const currentChat = currentMap.get(chat.id);
-            const unreadCount = currentChat?.unread ?? chat.unread ?? 0;
+            //USE CHATSTORAGE FOR UNREAD COUNT (source of truth)
+            const unreadCount = chatStorage.getUnreadCount(chat.id);
 
             return {
               ...chat,
-              message: lastMsg,
+              message: message,
               rawTime: new Date(timestamp),
               time:
                 typeof timestamp === "string"
                   ? formatTime(timestamp)
                   : formatTime(timestamp.toISOString()),
-              unread: unreadCount, // Keep local count
+              unread: unreadCount,
             };
           });
 
@@ -186,93 +180,24 @@ const ChatMenu: React.FC = () => {
     socketService.connect();
     const socket = socketService.socket;
 
-    // We'll use a named handler function workaround by removing ALL listeners for this event
-    // since this component is the main consumer.
-    if (socket) {
-      socket.off("receive_message"); // Remove all previous listeners for this event
-
-      socket.on("receive_message", (data: any) => {
-        // ===== CRITICAL FIX: PERSIST MESSAGE IMMEDIATELY =====
-        // This ensures messages are saved even if user isn't viewing the chat
-        // Without this, messages only update the preview but never reach StudentChat
-        try {
-          const targetChatId = data.chatId || data.senderId;
-          if (targetChatId) {
-            const historyKey = `chat_history_${targetChatId}`;
-            const existingHistory = localStorage.getItem(historyKey);
-            const history = existingHistory ? JSON.parse(existingHistory) : [];
-
-            // Check for duplicates before adding
-            const isDuplicate = history.some(
-              (msg: any) =>
-                msg.text === data.text &&
-                Math.abs(
-                  new Date(msg.timestamp).getTime() -
-                    new Date(data.timestamp).getTime()
-                ) < 1000
-            );
-
-            if (!isDuplicate) {
-              const newMessage = {
-                id: Date.now() + Math.random(), // Unique ID
-                text: data.text,
-                isUser: false,
-                timestamp: data.timestamp,
-                senderName: data.senderName || "Friend",
-              };
-              history.push(newMessage);
-              localStorage.setItem(historyKey, JSON.stringify(history));
-              console.log(
-                `[ChatMenu] Saved message to localStorage for chat ${targetChatId}`
-              );
-            }
-          }
-        } catch (e) {
-          console.error("[ChatMenu] Failed to persist message:", e);
-        }
-        // ===== END PERSISTENCE =====
-
-        // Update Chat List in Real Time (for preview/badge)
-        setChats((prevChats) => {
-          const newChats = [...prevChats];
-          const chatIndex = newChats.findIndex(
-            (c) => c.id == data.chatId || c.id_user == data.senderId
-          );
-
-          if (chatIndex > -1) {
-            const chat = newChats[chatIndex];
-            // Simple debounce: if message is same as last, ignore UI update
-            if (
-              chat.message === data.text &&
-              new Date(chat.rawTime).getTime() ===
-                new Date(data.timestamp).getTime()
-            ) {
-              return prevChats;
-            }
-
-            chat.message = data.text;
-            chat.time = formatTime(new Date().toISOString());
-            chat.rawTime = new Date();
-
-            // INCREMENT UNREAD IN LOCALSTORAGE (source of truth)
-            incrementUnread(chat.id);
-            chat.unread = getUnreadCount(chat.id);
-
-            newChats.splice(chatIndex, 1);
-            newChats.unshift(chat);
-            return newChats;
-          } else {
-            fetchChats();
-            return prevChats;
-          }
-        });
-      });
-    }
+    // NOTE: Message receiving is now handled globally in App.tsx
+    // ChatMenu just reads from chatStorage and updates UI
+    // Poll every 1 second to update unread counts from chatStorage
+    const pollInterval = setInterval(() => {
+      setChats((prevChats) =>
+        prevChats.map((chat) => ({
+          ...chat,
+          unread: chatStorage.getUnreadCount(chat.id),
+          message: chatStorage.getLastMessage(chat.id)?.text || chat.message,
+          time: chatStorage.getLastMessage(chat.id)?.timestamp
+            ? formatTime(chatStorage.getLastMessage(chat.id)!.timestamp as any)
+            : chat.time,
+        }))
+      );
+    }, 1000);
 
     return () => {
-      if (socketService.socket) {
-        socketService.socket.off("receive_message");
-      }
+      clearInterval(pollInterval);
     };
   });
 
@@ -586,7 +511,9 @@ const ChatMenu: React.FC = () => {
                   detail={false}
                   className="chat-item"
                   onClick={() => {
-                    // Clear unread count for this chat
+                    // Mark messages as read in storage
+                    chatStorage.markAsRead(chat.id);
+                    // Update UI
                     setChats((prev) =>
                       prev.map((c) =>
                         c.id === chat.id ? { ...c, unread: 0 } : c

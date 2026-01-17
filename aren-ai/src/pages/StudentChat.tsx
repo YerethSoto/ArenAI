@@ -27,11 +27,12 @@ import {
 } from "ionicons/icons";
 import React, { useState, useRef, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import "./Chatbot.css"; // Reuse existing styles
+import "./Chatbot.css";
 import StudentHeader from "../components/StudentHeader";
 import { getApiUrl } from "../config/api";
 import { useTranslation } from "react-i18next";
 import { socketService } from "../services/socket";
+import { chatStorage } from "../services/chatStorage";
 import { useIonViewWillEnter } from "@ionic/react";
 
 // Helper to get User Context
@@ -76,6 +77,7 @@ const StudentChat: React.FC = () => {
   const messageIdCounter = useRef(1);
   const [chatName, setChatName] = useState("Student");
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const displayedTimestampsRef = useRef<Set<string>>(new Set()); // Track displayed messages
 
   // Modals State
   const [showOptionsModal, setShowOptionsModal] = useState(false); // Can double as "Actions" if not using StudentMenu directly
@@ -134,74 +136,85 @@ const StudentChat: React.FC = () => {
     setShowNicknameModal(false);
   };
 
-  // Initialize Socket
+  //REMOVED: Socket listener - ChatMenu now handles all incoming messages
+  // We just read from chatStorage
   useEffect(() => {
+    // Mark messages as read when viewing this chat
+    chatStorage.markAsRead(id);
+
+    // IMPORTANT: Still need to join the chat room so backend knows where to deliver messages
     socketService.connect();
     if (socketService.socket) {
       socketService.socket.emit("join_chat", { chatId: id });
-
-      socketService.socket.on("receive_message", (data: any) => {
-        // data: { chatId, text, senderId, senderName, timestamp }
-        const newMessage: Message = {
-          id: messageIdCounter.current++,
-          text: data.text,
-          isUser: false,
-          timestamp: new Date(data.timestamp),
-          senderName: data.senderName,
-          displayedText: "",
-          isTyping: true,
-        };
-
-        // Persist (append to existing)
-        saveMessageToLocal(id, newMessage);
-
-        setMessages((prev) => [...prev, newMessage]);
-        startTypewriterEffect(newMessage.id, newMessage.text, 15);
-      });
+      console.log(`[StudentChat] Joined chat room ${id}`);
     }
-
-    return () => {
-      if (socketService.socket) {
-        socketService.socket.off("receive_message");
-      }
-    };
   }, [id]);
 
-  // Load History
+  // Load Messages from chatStorage
   useEffect(() => {
     const context = getUserContext();
-    // Try to find chat metadata (e.g. Friend Name) from localStorage chats
-    // For now, minimal:
-    setChatName(`Chat ${id}`); // Placeholder logic for name
+    setChatName(`Chat ${id}`);
 
-    const stored = localStorage.getItem(`chat_history_${id}`);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        // Convert strings back to dates if needed, or keep strings
-        const parsedMessages = parsed.map((m: any) => ({
+    // Clear timestamp tracking when switching chats
+    displayedTimestampsRef.current.clear();
+
+    // Load messages from chatStorage
+    const storedMessages = chatStorage.getMessages(id);
+    if (storedMessages.length > 0) {
+      const parsedMessages = storedMessages.map((m: any) => {
+        displayedTimestampsRef.current.add(
+          String(new Date(m.timestamp).getTime())
+        );
+        return {
           ...m,
           timestamp: new Date(m.timestamp),
-          displayedText: m.text, // History is already typed
+          displayedText: m.text,
           isTyping: false,
-        }));
-        setMessages(parsedMessages);
-        if (parsedMessages.length > 0) {
-          messageIdCounter.current =
-            Math.max(...parsedMessages.map((m: any) => m.id)) + 1;
-        }
-      } catch (e) {
-        console.error("Failed load chat history", e);
-      }
+        };
+      });
+      setMessages(parsedMessages);
+      messageIdCounter.current =
+        Math.max(...parsedMessages.map((m: any) => m.id)) + 1;
     }
+
+    // Poll for new messages every 500ms
+    const pollInterval = setInterval(() => {
+      const latestMessages = chatStorage.getMessages(id);
+
+      // Only process messages we haven't displayed yet
+      latestMessages.forEach((msg) => {
+        const msgTimestamp = String(new Date(msg.timestamp).getTime());
+
+        if (!displayedTimestampsRef.current.has(msgTimestamp)) {
+          displayedTimestampsRef.current.add(msgTimestamp);
+
+          const processedMsg = {
+            ...msg,
+            id: messageIdCounter.current++,
+            timestamp: new Date(msg.timestamp),
+            displayedText: "",
+            isTyping: true,
+          };
+          setMessages((prev) => [...prev, processedMsg]);
+          startTypewriterEffect(processedMsg.id, msg.text, 15);
+        }
+      });
+    }, 500);
+
+    return () => clearInterval(pollInterval);
   }, [id]);
 
   const saveMessageToLocal = (chatId: string, msg: Message) => {
-    const key = `chat_history_${chatId}`;
-    const existing = localStorage.getItem(key);
-    let list = existing ? JSON.parse(existing) : [];
-    list.push(msg);
-    localStorage.setItem(key, JSON.stringify(list));
+    // Use chatStorage service instead of direct localStorage
+    chatStorage.saveMessage(chatId, {
+      id: msg.id,
+      text: msg.text,
+      isUser: msg.isUser,
+      timestamp: msg.timestamp,
+      senderName: msg.senderName,
+      displayedText: msg.displayedText,
+      isTyping: msg.isTyping,
+    });
   };
 
   // Typewriter Effect (Copied from Chatbot)
@@ -280,6 +293,9 @@ const StudentChat: React.FC = () => {
       displayedText: inputMessage, // User messages show immediately
       isTyping: false,
     };
+
+    // CRITICAL: Track this timestamp so polling doesn't re-add it
+    displayedTimestampsRef.current.add(String(newMessage.timestamp.getTime()));
 
     saveMessageToLocal(id, newMessage);
 
