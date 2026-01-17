@@ -430,6 +430,193 @@
     border-radius: 3px;
 }
 
+/* PARENT CATEGORY STYLING */
+.parent-category-accordion {
+    margin-top: 20px;
+    background: transparent;
+}
+
+.parent-accordion-card {
+    background: var(--ion-card-background);
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.category-header {
+    --background: transparent;
+    --min-height: 60px;
+    --padding-start: 16px;
+    --inner-padding-end: 16px;
+}
+
+.category-header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.category-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ion-text-color);
+}
+
+.category-badge {
+    background: var(--ion-color-light);
+    color: var(--ion-text-color);
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.category-content {
+    padding: 0 10px 10px 10px;
+    background: var(--ion-background-color);
+}
+
+/* Accordion Styling - Aggressive Minimalist / Compressed */
+.subject-accordion-group {
+    margin-top: 0;
+    /* Remove top margin since it's nested */
+    padding-top: 5px;
+    background: transparent;
+    /* Transparent in nest */
+    border-radius: 0;
+    box-shadow: none;
+    /* No shadow in nest */
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    /* No gap in nest for true list feel? or keep small gap? User said 'compressed'. */
+}
+
+/* Dark Mode support for container */
+@media (prefers-color-scheme: dark) {
+    .subject-accordion-group {
+        background: #1e1e1e;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+}
+
+.subject-accordion {
+    background: transparent !important;
+    border-radius: 0 !important;
+    margin-bottom: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Remove border from last item */
+.subject-accordion:last-child {
+    border-bottom: none !important;
+}
+
+.subject-accordion.accordion-expanded {
+    background: rgba(var(--ion-color-primary-rgb), 0.03) !important;
+    /* Slight tint when open */
+    transform: none !important;
+    z-index: 1;
+}
+
+.accordion-header-item {
+    --background: transparent;
+    --padding-start: 10px;
+    --inner-padding-end: 10px;
+    --min-height: 44px;
+    /* Standard compact list height */
+}
+
+.ms-top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+    width: 100%;
+    padding: 2px 0;
+}
+
+.ms-subject-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--ion-text-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ms-subject-title::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ion-color-medium);
+}
+
+.subject-accordion.accordion-expanded .ms-subject-title::before {
+    background: var(--ion-color-primary);
+}
+
+.ms-score-badge {
+    background: transparent;
+    color: var(--ion-color-medium);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.subject-accordion.accordion-expanded .ms-score-badge {
+    color: var(--ion-color-primary);
+    font-weight: 700;
+}
+
+.mini-progress-bar {
+    display: none;
+}
+
+.accordion-content {
+    background: transparent !important;
+    /* Let container bg show */
+    padding: 10px 15px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.stat-detail-row {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    gap: 12px;
+}
+
+.sd-item {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background: var(--ion-background-color);
+    padding: 12px 8px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    align-items: center;
+}
+
+.sd-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    color: var(--ion-color-medium);
+    margin-bottom: 6px;
+}
+
+.sd-value {
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--ion-color-dark);
+}
+
 /* 5. MICRO BADGES GRID */
 .badges-grid-micro {
     display: grid;
@@ -486,4 +673,39 @@
     font-size: 10px;
     font-weight: 600;
     line-height: 1.2;
+}
+
+
+/* XP Progress Bar */
+.xp-progress-container {
+    width: 80%;
+    margin: 8px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.xp-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.xp-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #FFC107, #FF9800);
+    border-radius: 10px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.xp-text-detail {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    opacity: 0.8;
 }

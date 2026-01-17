@@ -15,6 +15,8 @@ import PageTransition from '../components/PageTransition';
 import './Achievements.css';
 
 import { Achievement } from '../types/student';
+import { achievementsService } from '../services/achievementsService';
+import { useIonViewWillEnter } from '@ionic/react';
 
 // ...
 
@@ -23,32 +25,25 @@ const Achievements: React.FC = () => {
     const router = useIonRouter();
     const [filter, setFilter] = useState<'all' | 'study' | 'combat' | 'social'>('all');
 
-    // MOCK DATA (Ideally moved to a service, but typing is the first step)
-    const ACHIEVEMENTS_DATA: Achievement[] = [
-        { id: 'first_login', category: 'social', icon: '👋', maxProgress: 1, currentProgress: 1, rewardValue: 50, rewardType: 'XP' },
-        { id: 'math_wizard', category: 'study', icon: '📐', maxProgress: 1, currentProgress: 1, rewardValue: 200, rewardType: 'XP' },
-        { id: 'battle_champion', category: 'combat', icon: '⚔️', maxProgress: 5, currentProgress: 3, rewardValue: 100, rewardType: 'Coins' },
-        { id: 'quiz_master', category: 'study', icon: '🧠', maxProgress: 10, currentProgress: 4, rewardValue: 300, rewardType: 'XP' },
-        { id: 'bookworm', category: 'study', icon: '📚', maxProgress: 50, currentProgress: 12, rewardValue: 150, rewardType: 'XP' },
-        { id: 'streak_master', category: 'study', icon: '🔥', maxProgress: 7, currentProgress: 7, rewardValue: 500, rewardType: 'Coins' },
-        { id: 'social_butterfly', category: 'social', icon: '🦋', maxProgress: 5, currentProgress: 2, rewardValue: 100, rewardType: 'XP' }
-    ];
+    const [achievements, setAchievements] = useState<Achievement[]>([]);
 
-    // ...
+    useIonViewWillEnter(() => {
+        setAchievements(achievementsService.getAchievements());
+    });
 
     // Filter Logic
     const filteredList = filter === 'all'
-        ? ACHIEVEMENTS_DATA
-        : ACHIEVEMENTS_DATA.filter(a => a.category === filter);
+        ? achievements
+        : achievements.filter(a => a.category === filter);
 
     const handleBack = () => {
         router.goBack();
     };
 
     // Calculate Totals
-    const totalUnlocked = ACHIEVEMENTS_DATA.filter(a => a.currentProgress >= a.maxProgress).length;
-    const totalScore = ACHIEVEMENTS_DATA.reduce((acc, curr) => {
-        return curr.currentProgress >= curr.maxProgress ? acc + 10 : acc; // Arbitrary score points
+    const totalUnlocked = achievements.filter(a => a.currentProgress >= a.maxProgress).length;
+    const totalScore = achievements.reduce((acc, curr) => {
+        return curr.currentProgress >= curr.maxProgress ? acc + 10 : acc;
     }, 0);
 
 
@@ -122,8 +117,8 @@ const Achievements: React.FC = () => {
                                         </div>
 
                                         <div className="ach-info">
-                                            <h3 className="ach-name">{t(`achievements.items.${item.id}.title`)}</h3>
-                                            <p className="ach-desc">{t(`achievements.items.${item.id}.description`)}</p>
+                                            <h3 className="ach-name">{item.titleKey ? t(item.titleKey) : item.name}</h3>
+                                            <p className="ach-desc">{item.descKey ? t(item.descKey) : ''}</p>
 
                                             <div className="ach-progress-container">
                                                 <div className="ach-progress-fill" style={{ width: `${percent}%` }}></div>

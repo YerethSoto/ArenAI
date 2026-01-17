@@ -23,6 +23,7 @@ import "./BattleMinigame.css";
 import "./BattleResultsStats.css";
 import { BattleQuestions } from "../data/questions";
 import { battleStatsService } from "../services/battleStats";
+import { progressionService } from "../services/progressionService";
 
 // --- Interfaces (Must match Backend) ---
 
@@ -81,6 +82,7 @@ const BattleMinigame: React.FC = () => {
   const [showResults, setShowResults] = useState(false);
   const [winnerId, setWinnerId] = useState<string | null>(null);
   const [battleStats, setBattleStats] = useState({ winRate: 0, streak: 0 });
+  const [xpGained, setXpGained] = useState(0);
 
   // Animation Triggers
   const [playerAttackAnim, setPlayerAttackAnim] = useState(false);
@@ -416,18 +418,21 @@ const BattleMinigame: React.FC = () => {
         );
 
         // Record result and get updated stats
+        let xpGained = 0;
         if (data.winnerId === myRealId) {
           const stats = battleStatsService.recordWin();
           setBattleStats({
             winRate: battleStatsService.getWinRate(),
             streak: stats.streak,
           });
+          xpGained = 100;
         } else if (data.winnerId && data.winnerId !== "draw") {
           const stats = battleStatsService.recordLoss();
           setBattleStats({
             winRate: battleStatsService.getWinRate(),
             streak: stats.streak,
           });
+          xpGained = 25;
         } else {
           // Draw - just get current stats
           const stats = battleStatsService.getStats();
@@ -435,8 +440,14 @@ const BattleMinigame: React.FC = () => {
             winRate: battleStatsService.getWinRate(),
             streak: stats.streak,
           });
+          xpGained = 50;
         }
 
+        // Award XP
+        const { leveledUp, stats: progStats } = progressionService.addXp(xpGained);
+        console.log(`[Battle] XP Awarded: +${xpGained}. Leveled Up: ${leveledUp}. New Level: ${progStats.level}`);
+
+        setXpGained(xpGained);
         setWinnerId(data.winnerId);
         setShowResults(true);
         setStatus("finished");
@@ -570,12 +581,11 @@ const BattleMinigame: React.FC = () => {
               <div className="avatar-wrapper">
                 <img
                   src={`/assets/battle_sprite_front_${opponent.avatar.toLowerCase()}.png`}
-                  className={`avatar-image ${
-                    opponentAttackAnim ? "enemy-attack-animation" : ""
-                  } ${opponentHitAnim ? "damage-animation" : ""}`}
+                  className={`avatar-image ${opponentAttackAnim ? "enemy-attack-animation" : ""
+                    } ${opponentHitAnim ? "damage-animation" : ""}`}
                   onError={(e) =>
-                    (e.currentTarget.src =
-                      "/assets/battle_sprite_front_capybara.png")
+                  (e.currentTarget.src =
+                    "/assets/battle_sprite_front_capybara.png")
                   }
                 />
               </div>
@@ -588,12 +598,11 @@ const BattleMinigame: React.FC = () => {
               <div className="avatar-wrapper">
                 <img
                   src={`/assets/battle_sprite_back_${me.avatar.toLowerCase()}.png`}
-                  className={`avatar-image ${
-                    playerAttackAnim ? "player-attack-animation" : ""
-                  } ${playerHitAnim ? "damage-animation" : ""}`}
+                  className={`avatar-image ${playerAttackAnim ? "player-attack-animation" : ""
+                    } ${playerHitAnim ? "damage-animation" : ""}`}
                   onError={(e) =>
-                    (e.currentTarget.src =
-                      "/assets/battle_sprite_back_capybara.png")
+                  (e.currentTarget.src =
+                    "/assets/battle_sprite_back_capybara.png")
                   }
                 />
               </div>
@@ -647,10 +656,10 @@ const BattleMinigame: React.FC = () => {
                 background: !isSuddenDeath
                   ? "#4caf50"
                   : visualTimeLeft > 5
-                  ? "#4caf50"
-                  : visualTimeLeft > 2
-                  ? "#ff9800"
-                  : "#f44336",
+                    ? "#4caf50"
+                    : visualTimeLeft > 2
+                      ? "#ff9800"
+                      : "#f44336",
 
                 // If not sudden death, width is 100%. If sudden death, calculated.
                 width: !isSuddenDeath
@@ -688,13 +697,12 @@ const BattleMinigame: React.FC = () => {
                   <IonCol size="12" key={i}>
                     <IonButton
                       expand="block"
-                      className={`option-button ${
-                        selectedAnswer === i
-                          ? i === currentQuestion.correctAnswer
-                            ? "correct"
-                            : "incorrect"
-                          : ""
-                      }`}
+                      className={`option-button ${selectedAnswer === i
+                        ? i === currentQuestion.correctAnswer
+                          ? "correct"
+                          : "incorrect"
+                        : ""
+                        }`}
                       onClick={() => handleAnswer(i)}
                       disabled={selectedAnswer !== null}
                     >
@@ -766,6 +774,7 @@ const BattleMinigame: React.FC = () => {
           myId={myId}
           players={players}
           battleStats={battleStats}
+          xpGained={xpGained}
         />
       </IonContent>
     </IonPage>

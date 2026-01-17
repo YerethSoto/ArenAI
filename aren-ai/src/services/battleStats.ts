@@ -10,6 +10,9 @@ interface BattleStats {
 
 const STORAGE_KEY = 'aren_battle_stats';
 
+
+import { achievementsService } from './achievementsService';
+
 export const battleStatsService = {
   // Get current stats
   getStats(): BattleStats {
@@ -29,16 +32,24 @@ export const battleStatsService = {
   recordWin() {
     const stats = this.getStats();
     stats.wins += 1;
-    
+
     // Update streak
     if (stats.lastResult === 'win') {
       stats.streak += 1;
     } else {
       stats.streak = 1;
     }
-    
+
     stats.lastResult = 'win';
     localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
+
+    // CHECK ACHIEVEMENTS
+    achievementsService.checkAchievement('battle_wins', stats.wins);
+    if (stats.streak > 0) {
+      achievementsService.checkAchievement('streak', stats.streak);
+    }
+    achievementsService.checkAchievement('battles_played', stats.wins + stats.losses);
+
     return stats;
   },
 
@@ -49,6 +60,13 @@ export const battleStatsService = {
     stats.streak = 0; // Reset streak on loss
     stats.lastResult = 'loss';
     localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
+
+    // Check battles played
+    achievementsService.checkAchievement('battles_played', stats.wins + stats.losses);
+
+    // Reset Streak Achievement Tracking
+    achievementsService.checkAchievement('streak', 0);
+
     return stats;
   },
 
