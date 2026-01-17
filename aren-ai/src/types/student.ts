@@ -27,7 +27,9 @@ export interface Achievement {
     maxProgress: number;
     currentProgress: number;
     rewardValue: number;
-    rewardType: 'XP' | 'Coins';
+    rewardType: 'XP' | 'Coins' | 'Item';
+    titleKey?: string;
+    descKey?: string;
     unlocked?: boolean; // Derived optional
     name?: string; // Optional for UI mapping
     rarity?: 'common' | 'rare' | 'epic' | 'legendary'; // For profile badges

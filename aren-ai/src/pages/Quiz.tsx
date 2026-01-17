@@ -23,6 +23,8 @@ import PageTransition from "../components/PageTransition";
 import { useSound } from "../context/SoundContext";
 import { triggerConfetti } from "../utils/confettiUtils";
 import { QuizQuestionBanks } from "../data/questions";
+import { progressionService } from "../services/progressionService";
+import { learningStatsService } from "../services/learningStatsService";
 
 const Quiz: React.FC = () => {
   const { t } = useTranslation();
@@ -114,6 +116,21 @@ const Quiz: React.FC = () => {
       } else {
         // End of Quiz
         setTimeout(() => {
+          // 1. Save Quiz Result
+          learningStatsService.saveResult({
+            subject: selectedSubject,
+            score: score,
+            correctCount: correctAnswers,
+            totalQuestions: activeQuestionList.length,
+            timestamp: Date.now()
+          });
+
+          // 2. Award XP (XP = Score)
+          if (score > 0) {
+            progressionService.addXp(score);
+            console.log(`[Quiz] XP Awarded: +${score}`);
+          }
+
           setShowResults(true);
           playSuccess();
           triggerConfetti();

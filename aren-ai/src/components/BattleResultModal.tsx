@@ -13,6 +13,7 @@ interface BattleResultModalProps {
     winRate: number;
     streak: number;
   };
+  xpGained: number;
 }
 
 const BattleResultModal: React.FC<BattleResultModalProps> = ({
@@ -21,6 +22,7 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
   myId,
   players,
   battleStats,
+  xpGained
 }) => {
   const history = useHistory();
 
@@ -82,7 +84,6 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
               : '"Failure is the opportunity to begin again more intelligently. Keep pushing forward!"'}
         </p>
 
-        {/* Stats Cards */}
         <div className="stats-cards">
           <div className="stat-box">
             <div className="stat-title">Win Rate</div>
@@ -91,6 +92,10 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
           <div className="stat-box">
             <div className="stat-title">Streak</div>
             <div className="stat-number">{battleStats.streak}</div>
+          </div>
+          <div className="stat-box">
+            <div className="stat-title">XP</div>
+            <div className="stat-number" style={{ color: '#FFD700' }}>+{xpGained}</div>
           </div>
         </div>
 

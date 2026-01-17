@@ -8,6 +8,8 @@ import {
   checkmarkCircle,
 } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
+import { progressionService } from "../services/progressionService";
+import { IonToast } from "@ionic/react";
 import { useAvatar } from "../context/AvatarContext";
 import "./CharacterDetail.css";
 
@@ -20,9 +22,15 @@ import "./CharacterDetail.css";
 const CharacterDetail: React.FC = () => {
   const { t } = useTranslation();
   const router = useIonRouter();
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   // User global context
   const { currentAvatar, setAvatar } = useAvatar();
+
+  // Get User Level
+  const userStats = progressionService.getStats();
+  const userLevel = userStats.level;
 
   // Use local state for preview, sync with global on mount/change
   const [previewAvatar, setPreviewAvatar] = useState<string>(currentAvatar);
@@ -34,23 +42,8 @@ const CharacterDetail: React.FC = () => {
       icon: "/assets/profile_picture_capybara_eyes_open.png",
       background: "/assets/Pond.jpg",
       lore: "El amigo de todos.",
-      theme: "cryo"
-    },
-    {
-      id: "capybara_wink",
-      name: "Capi Guiño",
-      icon: "/assets/profile_picture_capybara_wink.png",
-      background: "/assets/Pond.jpg",
-      lore: "Un guiño amistoso.",
-      theme: "cryo"
-    },
-    {
-      id: "capybara_sleep",
-      name: "Capi Zen",
-      icon: "/assets/profile_picture_capybara_eyes_closed.png",
-      background: "/assets/Pond.jpg",
-      lore: "Meditando en paz.",
-      theme: "cryo"
+      theme: "cryo",
+      requiredLevel: 1
     },
     {
       id: "sloth",
@@ -58,23 +51,35 @@ const CharacterDetail: React.FC = () => {
       icon: "/assets/profile_picture_sloth_eyes_open.png",
       background: "/assets/RainForest.jpg",
       lore: "Lento pero seguro.",
-      theme: "dendro"
+      theme: "dendro",
+      requiredLevel: 5
     },
     {
-      id: "sloth_wink",
-      name: "Perezoso Feliz",
-      icon: "/assets/profile_picture_sloth_winking.png",
-      background: "/assets/RainForest.jpg",
-      lore: "Disfrutando el momento.",
-      theme: "dendro"
+      id: "owl",
+      name: "Búho Sabio",
+      icon: "/assets/OWL.JPG",
+      background: "/assets/Pond.jpg", // Using existing background for now
+      lore: "La sabiduría es poder.",
+      theme: "anemo",
+      requiredLevel: 10
     },
     {
-      id: "sloth_sleep",
-      name: "Perezoso Dormilón",
-      icon: "/assets/profile_picture_sloth_eyes_closed.png",
-      background: "/assets/RainForest.jpg",
-      lore: "Cinco minutos más...",
-      theme: "dendro"
+      id: "fox",
+      name: "Zorro Astuto",
+      icon: "/assets/FOX.jpg",
+      background: "/assets/RainForest.jpg", // Using existing background for now
+      lore: "Rápido y audaz.",
+      theme: "pyro",
+      requiredLevel: 15
+    },
+    {
+      id: "axol",
+      name: "Ajolote Místico",
+      icon: "/assets/AXOL.jpg",
+      background: "/assets/Pond.jpg", // Using existing background for now
+      lore: "Un tesoro escondido.",
+      theme: "hydro",
+      requiredLevel: 20
     },
   ];
 
@@ -84,6 +89,15 @@ const CharacterDetail: React.FC = () => {
 
   const handleEquip = () => {
     setAvatar(previewAvatar as any);
+  };
+
+  const handleSelect = (avatar: any) => {
+    if (userLevel >= avatar.requiredLevel) {
+      setPreviewAvatar(avatar.id);
+    } else {
+      setToastMessage(`Level ${avatar.requiredLevel} required to unlock!`);
+      setShowToast(true);
+    }
   };
 
   const selectedAvatarData = AVATAR_OPTIONS.find(a => a.id === previewAvatar) || AVATAR_OPTIONS[0];
@@ -144,16 +158,19 @@ const CharacterDetail: React.FC = () => {
               </div>
 
               <div className="avatar-library-grid">
-                {AVATAR_OPTIONS.map((avatar) => (
-                  <div
-                    key={avatar.id}
-                    className={`library-item ${previewAvatar === avatar.id ? "selected" : ""} ${currentAvatar === avatar.id ? "equipped" : ""}`}
-                    onClick={() => setPreviewAvatar(avatar.id)}
-                  >
-                    <img src={avatar.icon} alt={avatar.name} loading="lazy" />
-                    {currentAvatar === avatar.id && <div className="equipped-badge"><IonIcon icon={checkmarkCircle} /></div>}
-                  </div>
-                ))}
+                {AVATAR_OPTIONS.map((avatar) => {
+                  const isLocked = userLevel < avatar.requiredLevel;
+                  return (
+                    <div
+                      key={avatar.id}
+                      className={`library-item ${previewAvatar === avatar.id ? "selected" : ""} ${currentAvatar === avatar.id ? "equipped" : ""} ${isLocked ? "locked" : ""}`}
+                      onClick={() => handleSelect(avatar)}
+                    >
+                      <img src={avatar.icon} alt={avatar.name} loading="lazy" />
+                      {currentAvatar === avatar.id && <div className="equipped-badge"><IonIcon icon={checkmarkCircle} /></div>}
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Equip Button - Floating at bottom of panel */}
@@ -168,6 +185,15 @@ const CharacterDetail: React.FC = () => {
                 )}
               </button>
             </div>
+
+            <IonToast
+              isOpen={showToast}
+              onDidDismiss={() => setShowToast(false)}
+              message={toastMessage}
+              duration={2000}
+              color="dark"
+              position="top"
+            />
           </div>
         </div>
       </IonContent>

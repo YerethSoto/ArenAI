@@ -243,6 +243,36 @@
     pointer-events: none;
 }
 
+/* Unlocked/Default State handled by default styles */
+
+.library-item.locked {
+    filter: grayscale(1);
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.library-item.locked::after {
+    content: '🔒';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.library-item.locked:active {
+    transform: none;
+    /* No click animation */
+}
+
+/* Override equipped badge if locked (shouldnt happen but safety) */
+.library-item.locked .equipped-badge {
+    display: none;
+}
+
 .equipped-badge {
     position: absolute;
     bottom: 2px;
