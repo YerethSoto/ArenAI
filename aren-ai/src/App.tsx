@@ -382,9 +382,9 @@ const App: React.FC = () => {
                     {userRole ? <Chat /> : <Redirect to="/login" />}
                   </Route>
 
-                  {/* Re-added New Chat Menu Route */}
+                  {/* Re-added New Chat Menu Route - Now for both Students and Professors */}
                   <Route path="/chat-menu" exact={true}>
-                    {userRole === "student" ? (
+                    {userRole === "student" || userRole === "professor" ? (
                       <ChatMenu />
                     ) : (
                       <Redirect to="/login" />
@@ -392,7 +392,7 @@ const App: React.FC = () => {
                   </Route>
 
                   <Route path="/student-chat/:id" exact={true}>
-                    {userRole === "student" ? (
+                    {userRole === "student" || userRole === "professor" ? (
                       <StudentChat />
                     ) : (
                       <Redirect to="/login" />

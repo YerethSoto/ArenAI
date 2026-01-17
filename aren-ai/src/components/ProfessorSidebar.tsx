@@ -31,7 +31,13 @@ import {
   exitSharp,
   clipboardOutline,
   glassesOutline,
+  chatbubbleEllipsesOutline,
+  chatbubbleEllipsesSharp,
+  personOutline,
+  personSharp,
 } from "ionicons/icons";
+import AnimatedMascot from "./AnimatedMascot";
+import { useAvatar } from "../context/AvatarContext";
 import "./ProfessorSidebar.css";
 
 interface AppPage {
@@ -44,6 +50,8 @@ interface AppPage {
 const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
   const location = useLocation();
   const { t } = useTranslation();
+  const { getAvatarAssets } = useAvatar();
+  const avatarAssets = getAvatarAssets();
 
   const appPages: AppPage[] = [
     {
@@ -51,6 +59,12 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
       url: "/page/professor",
       iosIcon: homeOutline,
       mdIcon: homeSharp,
+    },
+    {
+      titleKey: "professor.sidebar.chat",
+      url: "/chat-menu",
+      iosIcon: chatbubbleEllipsesOutline,
+      mdIcon: chatbubbleEllipsesSharp,
     },
     {
       titleKey: "professor.sidebar.students",
@@ -85,6 +99,12 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
   ];
 
   const settingsPages: AppPage[] = [
+    {
+      titleKey: "professor.sidebar.profile",
+      url: "/professor-profile",
+      iosIcon: personOutline,
+      mdIcon: personSharp,
+    },
     {
       titleKey: "professor.sidebar.settings",
       url: "/professor-settings",
@@ -136,8 +156,13 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
       <IonContent>
         {/* Header del menú - Matches Student Vertical Layout */}
         <div className="professor-menu-header">
-          <div className="teacher-avatar-large">
-            <IonIcon icon={glassesOutline} />
+          <div className="professor-mascot-container">
+            <AnimatedMascot
+              openSrc={avatarAssets.open}
+              closedSrc={avatarAssets.closed}
+              winkSrc={avatarAssets.wink}
+              className="professor-mascot-avatar"
+            />
           </div>
           <div className="teacher-info-column">
             <IonLabel className="teacher-name">{currentUser.name}</IonLabel>

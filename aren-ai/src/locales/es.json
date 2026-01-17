@@ -58,7 +58,9 @@
             "help": "Ayuda y Soporte",
             "logout": "Cerrar Sesión",
             "teaching": "Enseñanza",
-            "account": "Cuenta"
+            "account": "Cuenta",
+            "chat": "Menú de Chat",
+            "profile": "Perfil"
         },
         "menu": {
             "allClasses": "Todas las Clases",
@@ -87,6 +89,12 @@
             "excellentProgressDesc": "90% completado en Geometría",
             "todaysClass": "Clase de Hoy",
             "start": "Iniciar Clase",
+            "classSchedule": "Horario de Clases",
+            "yourClass": "Su Clase de {{subject}}",
+            "recommendations": "Consejos de Enseñanza",
+            "questions": "Preguntas de Estudiantes",
+            "studyRecommendation": "Recomendación de Enseñanza",
+            "popularQuestions": "Pregunta Común de Estudiante",
             "weeks": {
                 "week1": "Semana 1 - Fundamentos Algebraicos",
                 "week2": "Semana 2 - Funciones y Gráficas",

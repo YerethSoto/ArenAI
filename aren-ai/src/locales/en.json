@@ -57,7 +57,9 @@
             "help": "Help & Support",
             "logout": "Log Out",
             "teaching": "Teaching",
-            "account": "Account"
+            "account": "Account",
+            "chat": "Chat Menu",
+            "profile": "Profile"
         },
         "menu": {
             "allClasses": "All Classes",
@@ -86,6 +88,12 @@
             "excellentProgressDesc": "90% completion in Geometry",
             "todaysClass": "Today's Class",
             "start": "Start Class",
+            "classSchedule": "Class Schedule",
+            "yourClass": "Your {{subject}} Class",
+            "recommendations": "Teaching Tips",
+            "questions": "Student Questions",
+            "studyRecommendation": "Teaching Recommendation",
+            "popularQuestions": "Common Student Question",
             "weeks": {
                 "week1": "Week 1 - Algebraic Foundations",
                 "week2": "Week 2 - Functions and Graphs",

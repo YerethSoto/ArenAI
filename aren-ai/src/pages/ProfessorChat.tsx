@@ -1,25 +1,18 @@
 import {
   IonButton,
   IonContent,
-  IonFooter,
-  IonHeader,
-  IonIcon,
-  IonItem,
-  IonList,
   IonPage,
   IonTextarea,
-  IonToolbar,
-  IonButtons,
-  IonBackButton,
+  IonIcon,
 } from "@ionic/react";
-import { micOutline, send, chevronForward } from "ionicons/icons";
+import { send } from "ionicons/icons";
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useAvatar } from "../context/AvatarContext"; // Keeping context hook even if unused to match student structure
+import { useAvatar } from "../context/AvatarContext";
 import StudentHeader from "../components/StudentHeader";
 import "./ProfessorChat.css";
 
-// Fallback translations - Essential for stability
+// Fallback translations
 const CHAT_TRANSLATIONS: any = {
   es: {
     title: "Asistente ArenAI",
@@ -49,12 +42,10 @@ interface Message {
 }
 
 const ProfessorChat: React.FC = () => {
-  // Exact hooks from Student Chat
-  const { getAvatarAssets } = useAvatar(); // Hook presence maintained
-  const avatarAssets = getAvatarAssets(); // Hook presence maintained
+  const { getAvatarAssets } = useAvatar();
+  const avatarAssets = getAvatarAssets();
   const { i18n } = useTranslation();
 
-  // Helper to get translation based on current language
   const getT = (key: string) => {
     const lang = i18n.language?.startsWith("es") ? "es" : "en";
     return CHAT_TRANSLATIONS[lang][key] || CHAT_TRANSLATIONS["en"][key];
@@ -62,13 +53,10 @@ const ProfessorChat: React.FC = () => {
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
-  // const [selectedSubject, setSelectedSubject] = useState("Math"); // Student specific, removed for prof
-  const messagesEndRef = useRef<HTMLDivElement>(null); // Kept but unused for scrolling if we use contentRef, but Student has it
   const contentRef = useRef<HTMLIonContentElement>(null);
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const messageIdCounter = useRef(1);
 
-  // Initial Message - Logic matched exactly with Student Chat (empty dep array)
   useEffect(() => {
     const initialMessage: Message = {
       id: messageIdCounter.current++,
@@ -84,9 +72,8 @@ const ProfessorChat: React.FC = () => {
     setTimeout(() => {
       startTypewriterEffect(initialMessage.id, initialMessage.text, 40);
     }, 500);
-  }, []); // Empty dependency array -> Same as Student
+  }, []);
 
-  // Clean up intervals on unmount
   useEffect(() => {
     return () => {
       if (typingIntervalRef.current) {
@@ -95,7 +82,6 @@ const ProfessorChat: React.FC = () => {
     };
   }, []);
 
-  // Typewriter effect for bot messages
   const startTypewriterEffect = (
     messageId: number,
     fullText: string,
@@ -177,12 +163,6 @@ const ProfessorChat: React.FC = () => {
     setInputMessage("");
     scrollToBottom();
 
-    // DEBUG: Print localStorage info
-    console.log("--- PROFESSOR CHAT DEBUG ---");
-    console.log("localStorage keys:", Object.keys(localStorage));
-    console.log("userRole:", localStorage.getItem("userRole"));
-    console.log("userData:", localStorage.getItem("userData"));
-
     const storedRole = localStorage.getItem("userRole") || "professor";
     const storedUserDataStr = localStorage.getItem("userData");
     const storedUserData = storedUserDataStr
@@ -199,7 +179,7 @@ const ProfessorChat: React.FC = () => {
           prompt: inputMessage,
           userData: {
             name: storedUserData.name,
-            role: storedRole, // Explicitly sending professor role
+            role: storedRole,
           },
           context: {
             level: "Professor Dashboard",
@@ -246,100 +226,75 @@ const ProfessorChat: React.FC = () => {
     }
   };
 
-  // Copied from Student Chat
-  const shouldShowAvatar = (currentIndex: number) => {
-    if (currentIndex === 0) return true;
-    const currentMessage = messages[currentIndex];
-    const previousMessage = messages[currentIndex - 1];
-    return currentMessage.isUser !== previousMessage.isUser;
-  };
-
   return (
-    <IonPage>
-      {/* Reusing StudentHeader for visual consistency */}
+    <IonPage className="chatbot-page">
       <StudentHeader
-        pageTitle={getT("title")}
+        pageTitle="professor.chat.title"
         showSubject={false}
         showNotch={false}
       />
 
-      <IonContent ref={contentRef} className="prof-chat-content">
-        <div className="messages-container">
-          <IonList lines="none" className="message-list">
-            {messages.map((message, index) => (
-              <div
-                key={message.id}
-                className={`message-wrapper ${
-                  message.isUser ? "user-wrapper" : "bot-wrapper"
-                } ${message.isTyping ? "typing" : ""}`}
-              >
-                {!message.isUser && shouldShowAvatar(index) && (
-                  <div className="avatar-container">
-                    <div className="bot-avatar-prof">
-                      <img
-                        src="/assets/icon/icon.png"
-                        alt="AI"
-                        onError={(e) => {
-                          e.currentTarget.src =
-                            "https://placehold.co/60x60?text=AI";
-                        }}
-                      />
-                    </div>
-                  </div>
-                )}
-
-                <div
-                  className={`message-bubble ${
-                    message.isUser ? "user-bubble" : "bot-bubble"
-                  } ${message.isTyping ? "typing-bubble" : ""}`}
-                >
-                  <div className="message-text">
-                    {message.displayedText}
-                    {message.isTyping && (
-                      <span className="typing-cursor">|</span>
-                    )}
-                  </div>
-                  <div className="message-timestamp">
-                    {formatTime(message.timestamp)}
-                  </div>
+      <IonContent ref={contentRef} className="chat-content">
+        <div className="chat-container">
+          {messages.map((msg, index) => (
+            <div
+              key={msg.id}
+              className={`message-row ${msg.isUser ? "user" : "bot"}`}
+            >
+              {!msg.isUser && (
+                <div className="chat-avatar bot">
+                  <img
+                    src="/assets/icon/icon.png"
+                    alt="AI"
+                    onError={(e) => {
+                      e.currentTarget.src =
+                        "https://placehold.co/60x60?text=AI";
+                    }}
+                  />
                 </div>
+              )}
+
+              <div className={`chat-bubble ${msg.isUser ? "user" : "bot"}`}>
+                <div className="bubble-text">
+                  {msg.displayedText}
+                  {msg.isTyping && <span className="cursor">|</span>}
+                </div>
+                <div className="bubble-time">{formatTime(msg.timestamp)}</div>
               </div>
-            ))}
-          </IonList>
+
+              {msg.isUser && (
+                <img
+                  className="chat-avatar user"
+                  src="https://ui-avatars.com/api/?name=Professor"
+                  alt="Me"
+                />
+              )}
+            </div>
+          ))}
         </div>
       </IonContent>
 
-      <IonFooter className="chat-footer-prof">
-        <IonToolbar>
-          <IonItem lines="none" className="input-container-prof">
-            <IonTextarea
-              rows={1}
-              autoGrow={true}
-              value={inputMessage}
-              placeholder={getT("placeholder")}
-              onIonInput={(e) => setInputMessage(e.detail.value!)}
-              onKeyPress={handleKeyPress}
-              className="message-input-prof"
-            />
-
-            {inputMessage.trim() ? (
-              <IonButton
-                fill="clear"
-                slot="end"
-                className="send-btn"
-                onClick={handleSendMessage}
-                disabled={!inputMessage.trim()}
-              >
-                <IonIcon icon={send} />
-              </IonButton>
-            ) : (
-              <IonButton fill="clear" slot="end" className="mic-btn">
-                <IonIcon icon={micOutline} />
-              </IonButton>
-            )}
-          </IonItem>
-        </IonToolbar>
-      </IonFooter>
+      <div className="chat-footer">
+        <div className="input-pill">
+          <IonTextarea
+            placeholder={getT("placeholder")}
+            value={inputMessage}
+            onIonInput={(e) => setInputMessage(e.detail.value!)}
+            autoGrow={true}
+            rows={1}
+            className="chat-input"
+            onKeyDown={handleKeyPress}
+          />
+          <IonButton
+            fill="clear"
+            className="send-btn"
+            onClick={handleSendMessage}
+            disabled={!inputMessage.trim()}
+          >
+            <IonIcon icon={send} slot="icon-only" />
+          </IonButton>
+        </div>
+      </div>
     </IonPage>
   );
 };

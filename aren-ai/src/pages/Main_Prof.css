@@ -1,454 +1,245 @@
-/* Main_Prof.css - Professional Redesign (Matching Main_Student Aesthetic) */
+/* Main_Student.css */
 
-/* Import Open Sans font */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nixie+One&display=swap');
-
-* {
-  font-family: 'Open Sans', sans-serif;
+.main-student-page {
+  background-color: #f9f4e6 !important;
 }
 
-/* Background color - Adaptive to theme */
-.main-prof-content {
-  --background: var(--ion-background-color) !important;
-  --padding-top: 20px;
-  --padding-bottom: 120px;
-  --padding-start: 16px;
-  --padding-end: 16px;
+.main-student-content {
+  --background: #f9f4e6 !important;
 }
 
-/* Header styling */
-ion-header {
-  --background: var(--ion-background-color) !important;
-  box-shadow: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-ion-toolbar {
-  --background: var(--ion-background-color) !important;
-  --color: var(--ion-color-primary);
-  --border-width: 0 !important;
-}
-
-/* Dashboard container */
-.dashboard-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 10px;
+/* Content Container */
+.ms-container {
+  padding: 80px 20px 120px 20px;
+  /* Increased bottom padding for nav */
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
-/* ---- Cards General Style ---- */
-.prof-card {
-  background: var(--ion-card-background, #fff);
-  border-radius: 20px;
-  /* Matching Student aesthetic */
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  /* More pronounced shadow */
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.prof-card:hover {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-  transform: translateY(-2px);
-}
-
-.prof-card-header {
-  padding: 16px 20px;
+/* Week/Topic Selector */
+.ms-week-selector {
   display: flex;
-  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.ms-intro-pill {
+  background-color: var(--ion-color-primary);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 25px;
+  display: flex;
   justify-content: space-between;
-  /* border-bottom removed for cleaner look or very subtle */
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-}
-
-.prof-card-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--ion-color-primary);
-  margin: 0;
-  display: flex;
   align-items: center;
-  gap: 8px;
+  width: 100%;
 }
 
-.prof-card-content {
-  padding: 20px;
+.ms-nav-arrow {
+  font-weight: bold;
+  font-size: 18px;
+  padding: 0 10px;
+  --color: white;
 }
 
-/* ---- Overview Section (Top) ---- */
-
-/* Performance Panel */
-.performance-overview-card {
+/* Stats Section */
+.ms-stats-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 30px;
-  gap: 30px;
-  background: var(--ion-card-background);
-  /* ensure theme adaptive */
-}
-
-.performance-info {
-  flex: 1;
-}
-
-.subject-badge {
-  display: inline-block;
-  padding: 6px 14px;
-  background: var(--ion-color-primary);
-  /* Use primary color */
-  color: var(--ion-color-primary-contrast);
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.performance-headline {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: var(--ion-text-color);
-  margin: 0 0 8px 0;
-}
-
-.performance-subtext {
-  color: var(--ion-text-color-step-400, #666);
-  font-size: 1rem;
-  margin: 0;
-  line-height: 1.5;
-}
-
-/* Week Selector inside Card */
-.week-nav-minimal {
-  display: flex;
   align-items: center;
-  gap: 15px;
-  margin-top: 24px;
-  background: var(--ion-item-background, rgba(0, 0, 0, 0.03));
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 6px 16px;
-  border-radius: 30px;
-  width: fit-content;
 }
 
-.week-nav-btn {
-  --padding-start: 8px;
-  --padding-end: 8px;
-  height: 32px;
-  margin: 0;
-  --color: var(--ion-color-primary);
+.ms-your-math-pill {
+  background-color: var(--ion-color-primary);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 16px;
 }
 
-.week-nav-text {
-  font-weight: 600;
-  color: var(--ion-text-color);
-  font-size: 0.95rem;
-  min-width: 150px;
-  /* Prevent jumping */
-  text-align: center;
-}
-
-
-/* ---- Topic Performance (Horizontal Scroll) ---- */
-.topics-scroll-container {
+.ms-progress-circle {
+  width: 60px;
+  height: 60px;
+  background-color: var(--ion-color-secondary);
+  border-radius: 50%;
   display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  padding-bottom: 12px;
-  scrollbar-width: thin;
-  padding-left: 4px;
-  /* Space for shadow / hover effect */
-  padding-right: 4px;
-}
-
-.topic-mini-card {
-  min-width: 170px;
-  background: var(--ion-card-background);
-  border-radius: 16px;
-  padding: 18px;
-  border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  transition: all 0.2s;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
   cursor: pointer;
+  scroll-snap-align: start;
+  min-width: 70px;
 }
 
-.topic-mini-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+.ms-progress-circle::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
 }
 
-.topic-mini-header {
-  font-size: 0.95rem;
-  font-weight: 600;
+/* Topics Grid (Scrollable) */
+.ms-topics-scroll-container {
+  /* Semi-transparent secondary background */
+  /* Solid soft secondary background */
+  background-color: var(--ion-color-secondary-soft);
+  padding: 15px;
+  border-radius: 15px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+
+}
+
+
+
+.ms-topics-track {
+  display: flex;
+  gap: 15px;
+  min-width: min-content;
+}
+
+.ms-topic-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  scroll-snap-align: start;
+  min-width: 70px;
+}
+
+.ms-topic-fill-box {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.5);
+  /* Lighter bg for contrast */
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ms-topic-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #78B8B0;
+  transition: height 0.5s ease;
+  z-index: 1;
+}
+
+.ms-topic-icon {
+  position: relative;
+  z-index: 2;
+  font-size: 24px;
+  color: #555;
+}
+
+.ms-topic-label {
+  font-size: 11px;
   color: var(--ion-text-color);
+  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 70px;
+  font-weight: 500;
 }
 
-.topic-mini-stat {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--ion-color-secondary);
-}
-
-.topic-mini-stat.average {
-  color: #f39c12;
-}
-
-.topic-mini-stat.poor {
-  color: #e74c3c;
-}
-
-.mini-progress {
-  height: 6px;
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.mini-progress-bar {
-  height: 100%;
-  background: var(--ion-color-secondary);
-  border-radius: 3px;
-}
-
-/* ---- Insights Grid (Bottom) ---- */
-.insights-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-
-.insight-content {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-.insight-text-box p {
-  margin: 0;
-  font-size: 0.95rem;
-  color: var(--ion-text-color-step-300, #555);
-  line-height: 1.6;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-
-  .overview-grid,
-  .insights-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .performance-overview-card {
-    flex-direction: column;
-    text-align: center;
-    padding: 24px;
-  }
-
-  .performance-info {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .week-nav-minimal {
-    margin: 20px auto 0;
-    width: 100%;
-    justify-content: space-between;
-  }
-}
-
-
-/* Header Elements Redesign */
-
-/* Menu Button */
-.menu-button.enlarged-menu {
-  --color: var(--ion-color-primary) !important;
-  margin: 0;
-  transform: scale(1.1);
-}
-
-/* Header Brand */
-.header-brand {
+/* Bottom Section with Switch */
+.ms-bottom-section {
+  /* Semi-transparent secondary background */
+  /* Solid soft secondary background */
+  background-color: var(--ion-color-secondary-soft);
+  border-radius: 10px;
+  padding: 15px;
+  min-height: 200px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  line-height: 1;
+  gap: 15px;
 }
 
-.arenai {
-  color: var(--ion-text-color);
-  /* Adaptive */
-  font-size: 1.2rem;
-  font-weight: 800;
-  line-height: 1;
-  font-family: 'Nixie One', cursive;
-}
-
-.teacher {
-  color: var(--ion-color-primary);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  margin-top: 2px;
-  font-family: 'Nixie One', cursive;
-  text-transform: uppercase;
-}
-
-/* ---- Bottom Nav (Floating style like student) ---- */
-.prof-bottom-nav {
-  height: 80px;
-  background-color: var(--ion-color-primary);
-  /* Matching student nav color */
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.ms-switch-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: 10px;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-  z-index: 100;
-  gap: 10px;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.prof-nav-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255, 255, 255, 0.7);
-  width: 60px;
-  gap: 4px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  padding: 4px;
+  position: relative;
   cursor: pointer;
-  transition: all 0.2s;
 }
 
-.prof-nav-btn.active {
-  color: white;
-  transform: translateY(-2px);
-}
-
-.prof-nav-btn ion-icon {
-  font-size: 24px;
-}
-
-.nav-label {
-  font-size: 10px;
-  font-weight: 600;
-}
-
-/* Center FAB */
-.prof-nav-fab-container {
-  width: 70px;
-  height: 70px;
-  background-color: var(--ion-color-secondary);
-  /* Matching student accent */
-  border-radius: 50%;
-  position: relative;
-  top: -25px;
-  border: 6px solid var(--ion-color-primary);
-  /* Blend with bar */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  margin: 0 10px;
-  transition: transform 0.2s;
-}
-
-.prof-nav-fab-container:active {
-  transform: scale(0.95);
-}
-
-.prof-nav-fab ion-icon {
-  font-size: 32px;
-  color: white;
-}
-
-/* Add cutout effect pseudo elements if needed, referencing Main_Student.css */
-.prof-nav-fab-container::before {
-  content: '';
-  position: absolute;
-  bottom: 6px;
-  left: -28px;
-  width: 30px;
-  height: 30px;
-  background: transparent;
-  border-bottom-right-radius: 30px;
-  box-shadow: 10px 10px 0 0 var(--ion-color-primary);
-  z-index: -1;
-  pointer-events: none;
-}
-
-.prof-nav-fab-container::after {
-  content: '';
-  position: absolute;
-  bottom: 6px;
-  right: -28px;
-  width: 30px;
-  height: 30px;
-  background: transparent;
-  border-bottom-left-radius: 30px;
-  box-shadow: -10px 10px 0 0 var(--ion-color-primary);
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* Ring Chart from Main_Prof.tsx inline style support */
-.performance-ring-chart {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  background: conic-gradient(var(--ring-color, var(--ion-color-secondary)) 0% var(--percentage, 0%),
-      rgba(0, 0, 0, 0.05) var(--percentage, 0%) 100%);
-  /* Softer track */
-}
-
-.performance-ring-chart::before {
-  content: '';
-  position: absolute;
-  width: 80%;
-  /* Relative size */
-  height: 80%;
-  background: var(--ion-card-background);
-  /* White/Dark center */
-  border-radius: 50%;
-  z-index: 1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
-}
-
-.ring-center {
-  position: relative;
+.ms-switch-option {
+  flex: 1;
+  text-align: center;
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--ion-text-color-step-400);
   z-index: 2;
+  transition: color 0.3s;
+}
+
+.ms-switch-option.active {
+  color: var(--ion-color-primary-contrast);
+  font-weight: bold;
+}
+
+.ms-switch-bg {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  height: calc(100% - 8px);
+  background-color: var(--ion-color-primary);
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+  z-index: 1;
+}
+
+.ms-info-display {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ms-info-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--ion-color-primary);
   text-align: center;
 }
 
-.performance-percentage {
-  font-size: 2.5rem;
-  font-weight: 800;
+.ms-info-content {
+  font-size: 14px;
   color: var(--ion-text-color);
-  margin: 0;
+  line-height: 1.5;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.ms-question-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.ms-carousel-arrow {
+  color: var(--ion-color-primary);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+/* Bottom Nav removed - now using shared.css */
