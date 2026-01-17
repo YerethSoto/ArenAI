@@ -100,10 +100,13 @@
 .stats-display {
     display: flex;
     flex-direction: row;
-    gap: 24px;
-    padding-left: 5px;
+    gap: 12px;
+    /* Reduced gap */
     width: 100%;
-    align-items: flex-start;
+    align-items: center;
+    /* Center alignment */
+    margin-top: auto;
+    /* Push to bottom if flex column */
 }
 
 .stat-unit {
@@ -112,50 +115,44 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(var(--ion-color-primary-rgb), 0.08);
-    /* Match stat-box */
-    border: 2px solid rgba(var(--ion-color-primary-rgb), 0.2);
-    /* Match stat-box */
+    background: rgba(255, 255, 255, 0.4);
+    /* Lighter, glass-like background */
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    /* Cleaner border */
     border-radius: 16px;
-    padding: 24px 16px;
-    /* Match stat-box */
+    padding: 12px 8px;
+    /* Reduced padding */
     width: 100%;
-    box-shadow: none;
-    /* Remove wood shadow to match modal */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    /* Subtle shadow */
     transition: transform 0.2s ease;
 }
 
 .stat-unit:hover {
-    transform: translateY(-4px);
-    /* Match stat-box hover */
-    border-color: rgba(var(--ion-color-primary-rgb), 0.4);
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.6);
 }
 
 .stat-label {
     font-family: 'Open Sans', sans-serif;
-    font-size: 11px;
-    /* Match stat-title */
-    font-weight: 600;
-    /* Match stat-title */
+    font-size: 10px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    /* Match stat-title */
-    color: var(--ion-text-color-step-400);
-    /* Match stat-title */
-    margin-bottom: 8px;
-    /* Match stat-title */
+    letter-spacing: 1px;
+    color: var(--ion-color-dark);
+    /* Darker text for readability */
+    opacity: 0.6;
+    margin-bottom: 4px;
 }
 
 .stat-val {
     font-family: 'Open Sans', sans-serif;
-    /* Reset to standard font to match modal if needed, or keep sleek */
-    font-weight: 300;
-    /* Match stat-number */
-    font-size: 38px;
-    /* Match stat-number */
-    color: var(--ion-color-primary);
-    /* Match stat-number */
-    line-height: 1;
+    font-weight: 800;
+    font-size: 24px;
+    /* Reduced from 38px */
+    color: var(--ion-color-dark);
+    /* Darker text */
+    line-height: 1.2;
 }
 
 /* Avatar Visual */
@@ -278,15 +275,25 @@
 
 /* Reserved Status Bar */
 .status-bar-reserved {
-    height: 40px;
-    /* Fixed height to prevent shift */
+    position: relative;
+    /* Anchor for absolute child */
+    height: 0;
+    /* Remove height so it doesn't take space */
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: -10px;
+    margin-top: -20px;
+    /* Pull it up into the gap */
+    z-index: 10;
+    /* Ensure it floats on top */
 }
 
 .active-status {
+    position: absolute;
+    /* Float freely */
+    top: 0;
+    /* Align relative to parent */
     display: flex;
     align-items: center;
     gap: 10px;
@@ -296,7 +303,7 @@
     border-radius: 20px;
     font-size: 13px;
     font-weight: 600;
-    box-shadow: 0 4px 10px rgba(var(--ion-color-primary-rgb), 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .spinner-mini {

@@ -3,6 +3,7 @@ import { IonButton, IonIcon, IonModal } from "@ionic/react";
 import { arrowForward } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import "./BattleResultModal.css";
+import { getAvatarPath } from "../utils/avatarUtils";
 
 interface BattleResultModalProps {
   isOpen: boolean;
@@ -26,6 +27,11 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
 }) => {
   const history = useHistory();
 
+  // Helper to get opponent ID
+  const opponentId = Object.keys(players).find(id => id !== myId);
+  const opponent = opponentId ? players[opponentId] : null;
+  const me = myId ? players[myId] : null;
+
   return (
     <IonModal
       isOpen={isOpen}
@@ -34,15 +40,14 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
     >
       <div className="new-result-container">
         {/* Player Matchup Header */}
-        {/* Player Matchup Header */}
         <div className="matchup-header">
           {/* Opponent Side */}
           <div className="player-side left">
             <span className="player-name-left">
-              {Object.values(players).find((p) => p.userId !== myId)?.name || "Opponent"}
+              {opponent ? opponent.name : "Opponent"}
             </span>
             <img
-              src="/assets/Capy_pfp.png"
+              src={getAvatarPath(opponent?.avatar || "capybara")}
               alt="Opponent"
               className="player-avatar"
             />
@@ -53,10 +58,10 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
           {/* Player Side */}
           <div className="player-side right">
             <span className="player-name-right">
-              {myId && players[myId] ? players[myId].name : "You"}
+              {me ? me.name : "You"}
             </span>
             <img
-              src="/assets/Capy_pfp.png"
+              src={getAvatarPath(me?.avatar || "capybara")}
               alt="Player"
               className="player-avatar"
             />
