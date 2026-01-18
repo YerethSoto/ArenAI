@@ -205,7 +205,15 @@ const ChatMenu: React.FC = () => {
     const interval = setInterval(() => {
       fetchRequests(); // Keep requests polling
     }, 10000);
-    return () => clearInterval(interval);
+
+    // Start periodic sync of chat messages to database (every 10 minutes)
+    chatStorage.startPeriodicSync();
+
+    return () => {
+      clearInterval(interval);
+      // Note: We don't stop periodic sync here because we want it to continue
+      // even when navigating away from ChatMenu
+    };
   }, []);
 
   const fetchRequests = async () => {
@@ -318,7 +326,7 @@ const ChatMenu: React.FC = () => {
     if (stored) {
       try {
         setLocalNicknames(JSON.parse(stored));
-      } catch (e) {}
+      } catch (e) { }
     }
   }, []);
 
@@ -381,9 +389,8 @@ const ChatMenu: React.FC = () => {
               placeholder={
                 isAddFriendMode ? t("chatMenu.addFriend") : t("chatMenu.search")
               }
-              className={`custom-searchbar ${
-                isAddFriendMode ? "add-mode" : ""
-              }`}
+              className={`custom-searchbar ${isAddFriendMode ? "add-mode" : ""
+                }`}
               showClearButton="focus"
               animated
             />
@@ -401,9 +408,8 @@ const ChatMenu: React.FC = () => {
             <div className="notification-btn-wrapper">
               <IonButton
                 onClick={() => setShowNotifications(!showNotifications)}
-                className={`notification-btn ${
-                  showNotifications ? "active" : ""
-                }`}
+                className={`notification-btn ${showNotifications ? "active" : ""
+                  }`}
                 shape="round"
                 fill="clear"
               >
@@ -483,61 +489,61 @@ const ChatMenu: React.FC = () => {
         <IonList className="chat-list" lines="full">
           {isAddFriendMode && searchText.length >= 3
             ? searchResults.map((user) => (
-                <IonItem key={user.id_user} className="chat-item">
-                  <IonAvatar slot="start" className="chat-avatar">
-                    <img
-                      src={`https://ui-avatars.com/api/?name=${user.name}`}
-                      alt={user.name}
-                    />
-                  </IonAvatar>
-                  <IonLabel>
-                    <h2>{UI_getUserName(user)}</h2>
-                    <p>@{user.username}</p>
-                  </IonLabel>
-                  <IonButton
-                    slot="end"
-                    fill="outline"
-                    shape="round"
-                    onClick={() => sendRequest(user.id_user)}
-                  >
-                    Add
-                  </IonButton>
-                </IonItem>
-              ))
-            : chats.map((chat) => (
-                <IonItem
-                  key={chat.id}
-                  button
-                  detail={false}
-                  className="chat-item"
-                  onClick={() => {
-                    // Mark messages as read in storage
-                    chatStorage.markAsRead(chat.id);
-                    // Update UI
-                    setChats((prev) =>
-                      prev.map((c) =>
-                        c.id === chat.id ? { ...c, unread: 0 } : c
-                      )
-                    );
-                    history.push(`/student-chat/${chat.id}`);
-                  }}
+              <IonItem key={user.id_user} className="chat-item">
+                <IonAvatar slot="start" className="chat-avatar">
+                  <img
+                    src={`https://ui-avatars.com/api/?name=${user.name}`}
+                    alt={user.name}
+                  />
+                </IonAvatar>
+                <IonLabel>
+                  <h2>{UI_getUserName(user)}</h2>
+                  <p>@{user.username}</p>
+                </IonLabel>
+                <IonButton
+                  slot="end"
+                  fill="outline"
+                  shape="round"
+                  onClick={() => sendRequest(user.id_user)}
                 >
-                  <IonAvatar slot="start" className="chat-avatar">
-                    <img src={chat.avatar} alt={chat.name} />
-                  </IonAvatar>
-                  <IonLabel className="chat-info">
-                    <div className="chat-header">
-                      {/* Use nickname if available */}
-                      <h2>{UI_getUserName(chat)}</h2>
-                      <span className="chat-time">{chat.time}</span>
-                    </div>
-                    <p className="chat-preview">{chat.message}</p>
-                  </IonLabel>
-                  {chat.unread > 0 && (
-                    <div className="unread-badge">{chat.unread}</div>
-                  )}
-                </IonItem>
-              ))}
+                  Add
+                </IonButton>
+              </IonItem>
+            ))
+            : chats.map((chat) => (
+              <IonItem
+                key={chat.id}
+                button
+                detail={false}
+                className="chat-item"
+                onClick={() => {
+                  // Mark messages as read in storage
+                  chatStorage.markAsRead(chat.id);
+                  // Update UI
+                  setChats((prev) =>
+                    prev.map((c) =>
+                      c.id === chat.id ? { ...c, unread: 0 } : c
+                    )
+                  );
+                  history.push(`/student-chat/${chat.id}`);
+                }}
+              >
+                <IonAvatar slot="start" className="chat-avatar">
+                  <img src={chat.avatar} alt={chat.name} />
+                </IonAvatar>
+                <IonLabel className="chat-info">
+                  <div className="chat-header">
+                    {/* Use nickname if available */}
+                    <h2>{UI_getUserName(chat)}</h2>
+                    <span className="chat-time">{chat.time}</span>
+                  </div>
+                  <p className="chat-preview">{chat.message}</p>
+                </IonLabel>
+                {chat.unread > 0 && (
+                  <div className="unread-badge">{chat.unread}</div>
+                )}
+              </IonItem>
+            ))}
         </IonList>
 
         <IonModal

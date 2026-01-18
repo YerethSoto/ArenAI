@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     IonPage,
     IonHeader,
@@ -16,7 +16,8 @@ import {
     IonIcon,
     IonModal,
     IonButton,
-    IonMenuButton
+    IonMenuButton,
+    IonSpinner
 } from '@ionic/react';
 import { useParams } from 'react-router-dom';
 import {
@@ -33,6 +34,7 @@ import {
 import { PieChart, Pie, Cell, BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './StudentDetail.css';
 import ProfessorMenu from '../components/ProfessorMenu';
+import { getApiUrl } from '../config/api';
 
 interface StudentDetailParams {
     username: string;
@@ -54,16 +56,58 @@ const StudentDetail: React.FC = () => {
 
     const [selectedSubject, setSelectedSubject] = useState<SubjectFeedback | null>(null);
     const [showModal, setShowModal] = useState(false);
-
-    const studentData = {
+    const [loading, setLoading] = useState(true);
+    const [studentData, setStudentData] = useState({
         name: decodedUsername,
-        overallScore: 82,
-        quizzesCompleted: 15,
-        battlesWon: 8,
-        totalBattles: 12,
-        studyTime: 45,
-        classRank: 3,
-    };
+        overallScore: 0,
+        quizzesCompleted: 0,
+        battlesWon: 0,
+        totalBattles: 0,
+        studyTime: 45, // Not in DB, keep as placeholder
+        classRank: 0,
+    });
+
+    // Fetch student stats from API
+    useEffect(() => {
+        const fetchStudentStats = async () => {
+            try {
+                setLoading(true);
+                const token = localStorage.getItem('authToken');
+                // Get student ID from URL params or fetch by username
+                // For now we'll use a placeholder approach - in production you'd get the actual userId
+                const userStr = localStorage.getItem('user');
+                const currentUser = userStr ? JSON.parse(userStr) : null;
+                const userId = currentUser?.id;
+
+                if (userId) {
+                    const response = await fetch(getApiUrl(`api/students/${userId}/stats`), {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json',
+                        },
+                    });
+
+                    if (response.ok) {
+                        const stats = await response.json();
+                        setStudentData(prev => ({
+                            ...prev,
+                            quizzesCompleted: stats.quizzesCompleted || 0,
+                            battlesWon: stats.battlesWon || 0,
+                            totalBattles: stats.totalBattles || 0,
+                            classRank: stats.classRank || 0,
+                            overallScore: stats.quizAvgScore || 0,
+                        }));
+                    }
+                }
+            } catch (err) {
+                console.error('Error fetching student stats:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchStudentStats();
+    }, [decodedUsername]);
 
     const subjectFeedback: SubjectFeedback[] = [
         {
