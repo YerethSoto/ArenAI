@@ -263,7 +263,7 @@ const Main_Prof: React.FC = () => {
         </div>
         <div
           className="student-nav-btn"
-          onClick={() => navigateTo("/professor-admin")}
+          onClick={() => navigateTo("/page/ai-quiz-generator")}
         >
           <IonIcon icon={clipboardOutline} />
         </div>

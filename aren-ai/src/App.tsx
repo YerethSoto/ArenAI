@@ -38,6 +38,8 @@ import ProfessorAdmin from "./pages/ProfessorAdmin";
 import ProfessorProfile from "./pages/ProfessorProfile";
 import ProfessorChat from "./pages/ProfessorChat";
 import ProfessorSettings from "./pages/ProfessorSettings";
+import AIQuizGenerator from "./pages/AIQuizGenerator";
+import QuizPreview from "./pages/QuizPreview";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AvatarProvider } from "./context/AvatarContext";
 import { SoundProvider } from "./context/SoundContext";
@@ -289,6 +291,20 @@ const App: React.FC = () => {
                   <Route path="/create-task" exact={true}>
                     {userRole === "professor" ? (
                       <CreateTask />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/ai-quiz-generator" exact={true}>
+                    {userRole === "professor" ? (
+                      <AIQuizGenerator />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/quiz-preview" exact={true}>
+                    {userRole === "professor" ? (
+                      <QuizPreview />
                     ) : (
                       <Redirect to="/login" />
                     )}
