@@ -4,19 +4,19 @@ import {
   IonContent,
   IonHeader,
   IonToolbar,
-  IonMenuButton,
   IonModal,
   IonIcon,
 } from "@ionic/react";
 import {
-  menu,
   createOutline,
   trashOutline,
   addCircleOutline,
-  checkmark,
+  checkmarkOutline,
   refreshOutline,
+  arrowBackOutline,
 } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 import PageTransition from "../components/PageTransition";
 import "../components/StudentHeader.css";
 import "./QuizPreview.css";
@@ -52,6 +52,10 @@ interface AIQuestion {
 
 const QuizPreview: React.FC = () => {
   const { t } = useTranslation();
+  const history = useHistory();
+
+  // Ownership state - check if this is user's quiz
+  const [isOwned, setIsOwned] = useState(true);
 
   // Quiz state
   const [quizName, setQuizName] = useState("Generated Quiz");
@@ -61,7 +65,56 @@ const QuizPreview: React.FC = () => {
   // Load generated quiz from sessionStorage on mount
   useEffect(() => {
     const storedQuiz = sessionStorage.getItem("generatedQuiz");
-    if (storedQuiz) {
+    const previewQuiz = sessionStorage.getItem("previewQuiz");
+
+    // If loaded from QuizMenu (preview), use previewQuiz and set isOwned
+    if (previewQuiz) {
+      try {
+        const parsed = JSON.parse(previewQuiz);
+        if (parsed.quizName) setQuizName(parsed.quizName);
+        if (parsed.isOwned !== undefined) setIsOwned(parsed.isOwned);
+
+        if (parsed.questions && Array.isArray(parsed.questions)) {
+          const transformedQuestions: Question[] = parsed.questions.map(
+            (q: AIQuestion, index: number) => {
+              const correctOptions = q.correct_options || [1];
+              return {
+                id: `q${index + 1}`,
+                text: q.question_text,
+                topic: q.topic || "General",
+                points: q.points || 1.0,
+                allowMultipleSelection: q.allow_multiple_selection || false,
+                answers: [
+                  {
+                    id: `q${index + 1}-a1`,
+                    text: q.option_1,
+                    isCorrect: correctOptions.includes(1),
+                  },
+                  {
+                    id: `q${index + 1}-a2`,
+                    text: q.option_2,
+                    isCorrect: correctOptions.includes(2),
+                  },
+                  {
+                    id: `q${index + 1}-a3`,
+                    text: q.option_3,
+                    isCorrect: correctOptions.includes(3),
+                  },
+                  {
+                    id: `q${index + 1}-a4`,
+                    text: q.option_4,
+                    isCorrect: correctOptions.includes(4),
+                  },
+                ],
+              };
+            }
+          );
+          setQuestions(transformedQuestions);
+        }
+      } catch (error) {
+        console.error("Error parsing preview quiz:", error);
+      }
+    } else if (storedQuiz) {
       try {
         const parsed = JSON.parse(storedQuiz);
 
@@ -274,9 +327,12 @@ const QuizPreview: React.FC = () => {
         <IonToolbar className="student-toolbar">
           <div className="sh-content">
             <div className="sh-menu-btn-container">
-              <IonMenuButton className="sh-menu-btn">
-                <IonIcon icon={menu} />
-              </IonMenuButton>
+              <button
+                className="preview-back-btn"
+                onClick={() => history.goBack()}
+              >
+                <IonIcon icon={arrowBackOutline} />
+              </button>
             </div>
           </div>
           <div className="sh-brand-container-absolute">
@@ -286,16 +342,18 @@ const QuizPreview: React.FC = () => {
         </IonToolbar>
         <div className="sh-notch-container">
           <div className="sh-notch">
-            <div
-              className="sh-subject-display interactive"
-              onClick={handleRegenerate}
-            >
-              <IonIcon
-                icon={refreshOutline}
-                style={{ marginRight: "6px", fontSize: "16px" }}
-              />
-              <span className="sh-subject-text">Regenerate</span>
-            </div>
+            {isOwned && (
+              <div
+                className="sh-subject-display interactive"
+                onClick={handleRegenerate}
+              >
+                <IonIcon
+                  icon={refreshOutline}
+                  style={{ marginRight: "6px", fontSize: "16px" }}
+                />
+                <span className="sh-subject-text">Regenerate</span>
+              </div>
+            )}
           </div>
         </div>
       </IonHeader>
@@ -375,7 +433,7 @@ const QuizPreview: React.FC = () => {
                       <div className="preview-answer-checkbox">
                         {answer.isCorrect && (
                           <IonIcon
-                            icon={checkmark}
+                            icon={checkmarkOutline}
                             className="preview-checkmark"
                           />
                         )}
@@ -405,8 +463,18 @@ const QuizPreview: React.FC = () => {
 
       {/* Footer */}
       <div className="preview-footer">
-        <div className="preview-save-btn" onClick={handleSaveQuiz}>
-          Save
+        <div
+          className="preview-save-btn"
+          onClick={
+            isOwned
+              ? handleSaveQuiz
+              : () => {
+                  // Add to my quizzes functionality would go here
+                  console.log("Adding quiz to my collection...");
+                }
+          }
+        >
+          {isOwned ? "Save" : "Add"}
         </div>
       </div>
 
