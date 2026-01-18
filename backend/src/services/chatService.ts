@@ -6,4 +6,5 @@ export const chatService = {
     getUserChats: chatRepo.getUserChats,
     sendMessage: chatRepo.sendMessage,
     getMessages: chatRepo.getChatMessages,
+    bulkSaveMessages: chatRepo.bulkSaveMessages,
 };

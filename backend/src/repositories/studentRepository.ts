@@ -80,3 +80,104 @@ export async function listStudentsBySection(sectionId: number) {
 
   return result.rows;
 }
+
+export interface StudentStats {
+  quizzes_completed: number;
+  quiz_avg_score: number;
+  battles_won: number;
+  total_battles: number;
+  class_rank: number | null;
+}
+
+export async function getStudentStats(userId: number): Promise<StudentStats> {
+  // Get quiz stats
+  const quizResult = await db.query<{ quiz_count: number; avg_score: number }>(
+    `SELECT 
+        COUNT(*) as quiz_count,
+        COALESCE(AVG(score), 0) as avg_score
+     FROM quiz_student
+     WHERE id_student = ?`,
+    [userId]
+  );
+
+  // Get battle stats
+  const battleResult = await db.query<{ wins: number; total: number }>(
+    `SELECT 
+        SUM(CASE 
+          WHEN (id_user_1 = ? AND winner = 1) OR (id_user_2 = ? AND winner = 0) 
+          THEN 1 ELSE 0 
+        END) as wins,
+        COUNT(*) as total
+     FROM battle_minigame
+     WHERE id_user_1 = ? OR id_user_2 = ?`,
+    [userId, userId, userId, userId]
+  );
+
+  // Get class rank (based on quiz average)
+  const rankResult = await db.query<{ rank: number }>(
+    `SELECT COUNT(*) + 1 as rank
+     FROM (
+       SELECT id_student, AVG(score) as avg_score
+       FROM quiz_student
+       WHERE score IS NOT NULL
+       GROUP BY id_student
+     ) scores
+     WHERE avg_score > (
+       SELECT COALESCE(AVG(score), 0)
+       FROM quiz_student
+       WHERE id_student = ?
+     )`,
+    [userId]
+  );
+
+  const quizStats = quizResult.rows[0] || { quiz_count: 0, avg_score: 0 };
+  const battleStats = battleResult.rows[0] || { wins: 0, total: 0 };
+  const rank = rankResult.rows[0]?.rank || null;
+
+  return {
+    quizzes_completed: quizStats.quiz_count,
+    quiz_avg_score: Math.round(quizStats.avg_score),
+    battles_won: battleStats.wins || 0,
+    total_battles: battleStats.total || 0,
+    class_rank: rank,
+  };
+}
+
+export interface SubjectScore {
+  subject_id: number;
+  subject_name: string;
+  score: number;
+  color: string;
+}
+
+const SUBJECT_COLORS: { [key: string]: string } = {
+  'Math': '#3b82f6',
+  'Science': '#10b981',
+  'Social Studies': '#f59e0b',
+  'Spanish': '#ec4899',
+  'default': '#667eea',
+};
+
+export async function getStudentSubjectScores(userId: number): Promise<SubjectScore[]> {
+  const result = await db.query<{ id_subject: number; name_subject: string; avg_score: number }>(
+    `SELECT 
+        s.id_subject,
+        s.name_subject,
+        COALESCE(AVG(st.score), 0) as avg_score
+     FROM subject s
+     LEFT JOIN topic t ON t.id_subject = s.id_subject
+     LEFT JOIN student_topic st ON st.id_topic = t.id_topic AND st.id_user = ?
+     GROUP BY s.id_subject, s.name_subject
+     HAVING avg_score > 0
+     ORDER BY s.name_subject`,
+    [userId]
+  );
+
+  return result.rows.map(row => ({
+    subject_id: row.id_subject,
+    subject_name: row.name_subject,
+    score: Math.round(row.avg_score),
+    color: SUBJECT_COLORS[row.name_subject] || SUBJECT_COLORS['default'],
+  }));
+}
+
