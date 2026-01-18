@@ -663,6 +663,93 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "Leaderboard",
+            "item": [
+                {
+                    "name": "Get Leaderboard",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/leaderboard",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "leaderboard"
+                            ],
+                            "query": [
+                                {
+                                    "key": "sectionId",
+                                    "value": "{{sectionId}}",
+                                    "disabled": true
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Student Stats",
+            "item": [
+                {
+                    "name": "Get Student Stats",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/students/{{studentUserId}}/stats",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "students",
+                                "{{studentUserId}}",
+                                "stats"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Student Subjects",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/students/{{studentUserId}}/subjects",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "students",
+                                "{{studentUserId}}",
+                                "subjects"
+                            ]
+                        }
+                    }
+                }
+            ]
         }
     ],
     "variable": [

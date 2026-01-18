@@ -29,6 +29,7 @@ import {
 import './Main_Prof.css'; // Ensure this CSS is updated next
 import ProfessorMenu from '../components/ProfessorMenu';
 import { useTranslation } from 'react-i18next';
+import { getApiUrl } from '../config/api';
 
 // Mapping for icons
 const SUBJECT_ICONS: { [key: string]: string } = {
@@ -126,17 +127,57 @@ const Main_Prof: React.FC = () => {
 
 
   useEffect(() => {
-    const newTopics = getSubjectTopics(selectedSubject);
-    setTopics(newTopics);
+    const fetchTopicsFromAPI = async () => {
+      try {
+        const token = localStorage.getItem('authToken');
+        const userStr = localStorage.getItem('user');
+        const user = userStr ? JSON.parse(userStr) : null;
+        const userId = user?.id;
 
-    // Calculate average
-    if (newTopics.length > 0) {
-      const sum = newTopics.reduce((acc, curr) => acc + curr.percentage, 0);
-      setOverallPerformance(Math.round(sum / newTopics.length));
-    } else {
-      setOverallPerformance(0);
-    }
+        if (userId) {
+          // Try to fetch topic progress from API
+          const response = await fetch(getApiUrl(`api/students/${userId}/progress`), {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
 
+          if (response.ok) {
+            const progressData = await response.json();
+            // Filter by selected subject and transform
+            const subjectTopics = progressData
+              .filter((p: any) => p.subject_name.toLowerCase().includes(selectedSubject.toLowerCase()))
+              .map((p: any) => ({
+                name: t(`professor.dashboard.topics.${p.topic_name}`, p.topic_name),
+                percentage: p.score || 0,
+              }));
+
+            if (subjectTopics.length > 0) {
+              setTopics(subjectTopics);
+              const sum = subjectTopics.reduce((acc: number, curr: any) => acc + curr.percentage, 0);
+              setOverallPerformance(Math.round(sum / subjectTopics.length));
+              return;
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching topics from API:', err);
+      }
+
+      // Fallback to local data if API fails or no data
+      const newTopics = getSubjectTopics(selectedSubject);
+      setTopics(newTopics);
+
+      if (newTopics.length > 0) {
+        const sum = newTopics.reduce((acc, curr) => acc + curr.percentage, 0);
+        setOverallPerformance(Math.round(sum / newTopics.length));
+      } else {
+        setOverallPerformance(0);
+      }
+    };
+
+    fetchTopicsFromAPI();
   }, [selectedSubject, t]); // Re-run when subject or language changes
 
   const currentWeek = weeksData[currentWeekIndex];
