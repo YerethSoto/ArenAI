@@ -15,7 +15,6 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import RegisterStudent from "./pages/RegisterStudent";
 import Class_Creation from "./pages/Class_Creation";
-import CreateTask from "./pages/CreateTask";
 import StudentSectionPage from "./pages/StudentScores";
 import StudentDetail from "./pages/StudentDetail";
 import Quiz from "./pages/Quiz";
@@ -38,6 +37,9 @@ import ProfessorAdmin from "./pages/ProfessorAdmin";
 import ProfessorProfile from "./pages/ProfessorProfile";
 import ProfessorChat from "./pages/ProfessorChat";
 import ProfessorSettings from "./pages/ProfessorSettings";
+import AIQuizGenerator from "./pages/AIQuizGenerator";
+import QuizPreview from "./pages/QuizPreview";
+import TaskAssignment from "./pages/TaskAssignment";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AvatarProvider } from "./context/AvatarContext";
 import { SoundProvider } from "./context/SoundContext";
@@ -286,9 +288,23 @@ const App: React.FC = () => {
                       <Redirect to="/login" />
                     )}
                   </Route>
-                  <Route path="/create-task" exact={true}>
+                  <Route path="/page/task-assignment" exact={true}>
                     {userRole === "professor" ? (
-                      <CreateTask />
+                      <TaskAssignment />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/ai-quiz-generator" exact={true}>
+                    {userRole === "professor" ? (
+                      <AIQuizGenerator />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/quiz-preview" exact={true}>
+                    {userRole === "professor" ? (
+                      <QuizPreview />
                     ) : (
                       <Redirect to="/login" />
                     )}
@@ -382,9 +398,9 @@ const App: React.FC = () => {
                     {userRole ? <Chat /> : <Redirect to="/login" />}
                   </Route>
 
-                  {/* Re-added New Chat Menu Route */}
+                  {/* Re-added New Chat Menu Route - Now for both Students and Professors */}
                   <Route path="/chat-menu" exact={true}>
-                    {userRole === "student" ? (
+                    {userRole === "student" || userRole === "professor" ? (
                       <ChatMenu />
                     ) : (
                       <Redirect to="/login" />
@@ -392,7 +408,7 @@ const App: React.FC = () => {
                   </Route>
 
                   <Route path="/student-chat/:id" exact={true}>
-                    {userRole === "student" ? (
+                    {userRole === "student" || userRole === "professor" ? (
                       <StudentChat />
                     ) : (
                       <Redirect to="/login" />

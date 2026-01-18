@@ -3,6 +3,7 @@ import { IonButton, IonIcon, IonModal } from "@ionic/react";
 import { arrowForward } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import "./BattleResultModal.css";
+import { getAvatarPath } from "../utils/avatarUtils";
 
 interface BattleResultModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ interface BattleResultModalProps {
     winRate: number;
     streak: number;
   };
+  xpGained: number;
 }
 
 const BattleResultModal: React.FC<BattleResultModalProps> = ({
@@ -21,8 +23,14 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
   myId,
   players,
   battleStats,
+  xpGained
 }) => {
   const history = useHistory();
+
+  // Helper to get opponent ID
+  const opponentId = Object.keys(players).find(id => id !== myId);
+  const opponent = opponentId ? players[opponentId] : null;
+  const me = myId ? players[myId] : null;
 
   return (
     <IonModal
@@ -32,15 +40,14 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
     >
       <div className="new-result-container">
         {/* Player Matchup Header */}
-        {/* Player Matchup Header */}
         <div className="matchup-header">
           {/* Opponent Side */}
           <div className="player-side left">
             <span className="player-name-left">
-              {Object.values(players).find((p) => p.userId !== myId)?.name || "Opponent"}
+              {opponent ? opponent.name : "Opponent"}
             </span>
             <img
-              src="/assets/Capy_pfp.png"
+              src={getAvatarPath(opponent?.avatar || "capybara")}
               alt="Opponent"
               className="player-avatar"
             />
@@ -51,10 +58,10 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
           {/* Player Side */}
           <div className="player-side right">
             <span className="player-name-right">
-              {myId && players[myId] ? players[myId].name : "You"}
+              {me ? me.name : "You"}
             </span>
             <img
-              src="/assets/Capy_pfp.png"
+              src={getAvatarPath(me?.avatar || "capybara")}
               alt="Player"
               className="player-avatar"
             />
@@ -82,7 +89,6 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
               : '"Failure is the opportunity to begin again more intelligently. Keep pushing forward!"'}
         </p>
 
-        {/* Stats Cards */}
         <div className="stats-cards">
           <div className="stat-box">
             <div className="stat-title">Win Rate</div>
@@ -91,6 +97,10 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
           <div className="stat-box">
             <div className="stat-title">Streak</div>
             <div className="stat-number">{battleStats.streak}</div>
+          </div>
+          <div className="stat-box">
+            <div className="stat-title">XP</div>
+            <div className="stat-number" style={{ color: '#FFD700' }}>+{xpGained}</div>
           </div>
         </div>
 

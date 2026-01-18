@@ -1,0 +1,550 @@
+import React, { useState, useEffect } from "react";
+import {
+  IonPage,
+  IonContent,
+  IonHeader,
+  IonToolbar,
+  IonMenuButton,
+  IonModal,
+  IonIcon,
+} from "@ionic/react";
+import {
+  menu,
+  createOutline,
+  trashOutline,
+  addCircleOutline,
+  checkmark,
+  refreshOutline,
+} from "ionicons/icons";
+import { useTranslation } from "react-i18next";
+import PageTransition from "../components/PageTransition";
+import "../components/StudentHeader.css";
+import "./QuizPreview.css";
+
+// Quiz data structure matching database schema
+interface Answer {
+  id: string;
+  text: string;
+  isCorrect: boolean;
+}
+
+interface Question {
+  id: string;
+  text: string;
+  topic: string;
+  points: number;
+  allowMultipleSelection: boolean;
+  answers: Answer[];
+}
+
+// Interface for AI-generated question format
+interface AIQuestion {
+  question_text: string;
+  topic: string;
+  points: number;
+  allow_multiple_selection: boolean;
+  option_1: string;
+  option_2: string;
+  option_3: string;
+  option_4: string;
+  correct_options: number[];
+}
+
+const QuizPreview: React.FC = () => {
+  const { t } = useTranslation();
+
+  // Quiz state
+  const [quizName, setQuizName] = useState("Generated Quiz");
+  const [quizDescription, setQuizDescription] = useState("");
+  const [questions, setQuestions] = useState<Question[]>([]);
+
+  // Load generated quiz from sessionStorage on mount
+  useEffect(() => {
+    const storedQuiz = sessionStorage.getItem("generatedQuiz");
+    if (storedQuiz) {
+      try {
+        const parsed = JSON.parse(storedQuiz);
+
+        // Set quiz name if provided
+        if (parsed.quizName) {
+          setQuizName(parsed.quizName);
+        }
+
+        // Transform AI questions to component format
+        if (parsed.questions && Array.isArray(parsed.questions)) {
+          const transformedQuestions: Question[] = parsed.questions.map(
+            (q: AIQuestion, index: number) => {
+              const correctOptions = q.correct_options || [1];
+              return {
+                id: `q${index + 1}`,
+                text: q.question_text,
+                topic: q.topic || "General",
+                points: q.points || 1.0,
+                allowMultipleSelection: q.allow_multiple_selection || false,
+                answers: [
+                  {
+                    id: `q${index + 1}-a1`,
+                    text: q.option_1,
+                    isCorrect: correctOptions.includes(1),
+                  },
+                  {
+                    id: `q${index + 1}-a2`,
+                    text: q.option_2,
+                    isCorrect: correctOptions.includes(2),
+                  },
+                  {
+                    id: `q${index + 1}-a3`,
+                    text: q.option_3,
+                    isCorrect: correctOptions.includes(3),
+                  },
+                  {
+                    id: `q${index + 1}-a4`,
+                    text: q.option_4,
+                    isCorrect: correctOptions.includes(4),
+                  },
+                ],
+              };
+            }
+          );
+          setQuestions(transformedQuestions);
+        }
+      } catch (error) {
+        console.error("Error parsing stored quiz:", error);
+      }
+    }
+  }, []);
+
+  // Modal states
+  const [showNameModal, setShowNameModal] = useState(false);
+  const [tempName, setTempName] = useState("");
+
+  const [showQuestionModal, setShowQuestionModal] = useState(false);
+  const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
+  const [tempQuestionText, setTempQuestionText] = useState("");
+  const [tempQuestionPoints, setTempQuestionPoints] = useState("1.00");
+  const [tempAllowMultiple, setTempAllowMultiple] = useState(false);
+
+  const [showAnswerModal, setShowAnswerModal] = useState(false);
+  const [editingAnswer, setEditingAnswer] = useState<{
+    questionId: string;
+    answer: Answer;
+  } | null>(null);
+  const [tempAnswerText, setTempAnswerText] = useState("");
+  const [tempAnswerCorrect, setTempAnswerCorrect] = useState(false);
+
+  // Name modal handlers
+  const openNameModal = () => {
+    setTempName(quizName);
+    setShowNameModal(true);
+  };
+
+  const saveQuizName = () => {
+    if (tempName.trim()) {
+      setQuizName(tempName.trim());
+    }
+    setShowNameModal(false);
+  };
+
+  // Question modal handlers
+  const openQuestionModal = (question: Question) => {
+    setEditingQuestion(question);
+    setTempQuestionText(question.text);
+    setTempQuestionPoints(question.points.toFixed(2));
+    setTempAllowMultiple(question.allowMultipleSelection);
+    setShowQuestionModal(true);
+  };
+
+  const saveQuestion = () => {
+    if (editingQuestion && tempQuestionText.trim()) {
+      const points = parseFloat(tempQuestionPoints) || 1.0;
+      setQuestions((prev) =>
+        prev.map((q) =>
+          q.id === editingQuestion.id
+            ? {
+                ...q,
+                text: tempQuestionText.trim(),
+                points: Math.min(3.0, Math.max(1.0, points)),
+                allowMultipleSelection: tempAllowMultiple,
+              }
+            : q
+        )
+      );
+    }
+    setShowQuestionModal(false);
+    setEditingQuestion(null);
+  };
+
+  const deleteQuestion = () => {
+    if (editingQuestion) {
+      setQuestions((prev) => prev.filter((q) => q.id !== editingQuestion.id));
+    }
+    setShowQuestionModal(false);
+    setEditingQuestion(null);
+  };
+
+  // Answer modal handlers
+  const openAnswerModal = (questionId: string, answer: Answer) => {
+    setEditingAnswer({ questionId, answer });
+    setTempAnswerText(answer.text);
+    setTempAnswerCorrect(answer.isCorrect);
+    setShowAnswerModal(true);
+  };
+
+  const saveAnswer = () => {
+    if (editingAnswer) {
+      setQuestions((prev) =>
+        prev.map((q) =>
+          q.id === editingAnswer.questionId
+            ? {
+                ...q,
+                answers: q.answers.map((a) =>
+                  a.id === editingAnswer.answer.id
+                    ? {
+                        ...a,
+                        text: tempAnswerText.trim(),
+                        isCorrect: tempAnswerCorrect,
+                      }
+                    : a
+                ),
+              }
+            : q
+        )
+      );
+    }
+    setShowAnswerModal(false);
+    setEditingAnswer(null);
+  };
+
+  const deleteAnswer = () => {
+    if (editingAnswer) {
+      setQuestions((prev) =>
+        prev.map((q) =>
+          q.id === editingAnswer.questionId
+            ? {
+                ...q,
+                answers: q.answers.filter(
+                  (a) => a.id !== editingAnswer.answer.id
+                ),
+              }
+            : q
+        )
+      );
+    }
+    setShowAnswerModal(false);
+    setEditingAnswer(null);
+  };
+
+  // Add new question
+  const addNewQuestion = () => {
+    const newId = `q${Date.now()}`;
+    const newQuestion: Question = {
+      id: newId,
+      text: "New question text here...",
+      topic: "General",
+      points: 1.0,
+      allowMultipleSelection: false,
+      answers: [
+        { id: `${newId}-a1`, text: "Answer 1", isCorrect: true },
+        { id: `${newId}-a2`, text: "Answer 2", isCorrect: false },
+        { id: `${newId}-a3`, text: "Answer 3", isCorrect: false },
+        { id: `${newId}-a4`, text: "Answer 4", isCorrect: false },
+      ],
+    };
+    setQuestions((prev) => [...prev, newQuestion]);
+  };
+
+  // Regenerate quiz handler
+  const handleRegenerate = () => {
+    console.log("Regenerating quiz...");
+    window.location.href = "/page/ai-quiz-generator";
+  };
+
+  // Save quiz handler
+  const handleSaveQuiz = () => {
+    console.log("Saving quiz:", { quizName, quizDescription, questions });
+    // TODO: Implement actual save logic to backend
+  };
+
+  // Calculate total points
+  const totalPoints = questions.reduce((sum, q) => sum + q.points, 0);
+
+  return (
+    <IonPage className="quiz-preview-page">
+      <IonHeader className="student-header-container">
+        <IonToolbar className="student-toolbar">
+          <div className="sh-content">
+            <div className="sh-menu-btn-container">
+              <IonMenuButton className="sh-menu-btn">
+                <IonIcon icon={menu} />
+              </IonMenuButton>
+            </div>
+          </div>
+          <div className="sh-brand-container-absolute">
+            <span className="sh-brand-name">ArenAI</span>
+            <span className="sh-brand-sub">Preview</span>
+          </div>
+        </IonToolbar>
+        <div className="sh-notch-container">
+          <div className="sh-notch">
+            <div
+              className="sh-subject-display interactive"
+              onClick={handleRegenerate}
+            >
+              <IonIcon
+                icon={refreshOutline}
+                style={{ marginRight: "6px", fontSize: "16px" }}
+              />
+              <span className="sh-subject-text">Regenerate</span>
+            </div>
+          </div>
+        </div>
+      </IonHeader>
+
+      <IonContent className="quiz-preview-content">
+        <PageTransition>
+          <div className="preview-container">
+            {/* Quiz Title */}
+            <div className="preview-title-section">
+              <span className="preview-quiz-name" onClick={openNameModal}>
+                {quizName}
+                <IonIcon icon={createOutline} className="preview-edit-icon" />
+              </span>
+              <div className="preview-separator">
+                <div className="preview-line"></div>
+                <span className="preview-center">❧</span>
+                <div className="preview-line"></div>
+              </div>
+              <div className="preview-total-points">
+                Total: {totalPoints.toFixed(2)} pts
+              </div>
+            </div>
+
+            {/* Questions */}
+            {questions.map((question, qIndex) => (
+              <div key={question.id} className="preview-question-card">
+                {/* Question Header */}
+                <div className="preview-question-header">
+                  <div className="preview-question-info">
+                    <span className="preview-question-number">
+                      Question {qIndex + 1}
+                    </span>
+                    <span className="preview-question-points">
+                      {question.points.toFixed(2)} pts
+                    </span>
+                    {question.allowMultipleSelection && (
+                      <span className="preview-question-type">Multiple</span>
+                    )}
+                  </div>
+                  <div className="preview-question-actions">
+                    <button
+                      className="preview-action-btn"
+                      onClick={() => openQuestionModal(question)}
+                    >
+                      <IonIcon icon={createOutline} />
+                    </button>
+                    <button
+                      className="preview-action-btn delete"
+                      onClick={() => {
+                        setEditingQuestion(question);
+                        deleteQuestion();
+                      }}
+                    >
+                      <IonIcon icon={trashOutline} />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Question Text */}
+                <div
+                  className="preview-question-text"
+                  onClick={() => openQuestionModal(question)}
+                >
+                  {question.text}
+                </div>
+
+                {/* Answers */}
+                <div className="preview-answers-grid">
+                  {question.answers.map((answer) => (
+                    <div
+                      key={answer.id}
+                      className={`preview-answer-item ${
+                        answer.isCorrect ? "correct" : ""
+                      }`}
+                      onClick={() => openAnswerModal(question.id, answer)}
+                    >
+                      <div className="preview-answer-checkbox">
+                        {answer.isCorrect && (
+                          <IonIcon
+                            icon={checkmark}
+                            className="preview-checkmark"
+                          />
+                        )}
+                      </div>
+                      <span className="preview-answer-text">{answer.text}</span>
+                      <IonIcon
+                        icon={createOutline}
+                        className="preview-answer-edit"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Add Question Button */}
+            <div className="preview-add-question" onClick={addNewQuestion}>
+              <IonIcon icon={addCircleOutline} />
+              Add Question
+            </div>
+
+            {/* Footer Spacer */}
+            <div className="preview-footer-spacer"></div>
+          </div>
+        </PageTransition>
+      </IonContent>
+
+      {/* Footer */}
+      <div className="preview-footer">
+        <div className="preview-save-btn" onClick={handleSaveQuiz}>
+          Save
+        </div>
+      </div>
+
+      {/* Quiz Name Modal */}
+      <IonModal
+        isOpen={showNameModal}
+        onDidDismiss={() => setShowNameModal(false)}
+        className="preview-edit-modal"
+      >
+        <div className="preview-modal-inner">
+          <h2 className="preview-modal-title">Quiz Name</h2>
+          <input
+            type="text"
+            className="preview-answer-input"
+            value={tempName}
+            onChange={(e) => setTempName(e.target.value)}
+            placeholder="Enter quiz name"
+          />
+          <div className="preview-modal-buttons">
+            <button
+              className="preview-modal-btn cancel"
+              onClick={() => setShowNameModal(false)}
+            >
+              Cancel
+            </button>
+            <button className="preview-modal-btn save" onClick={saveQuizName}>
+              Save
+            </button>
+          </div>
+        </div>
+      </IonModal>
+
+      {/* Question Edit Modal */}
+      <IonModal
+        isOpen={showQuestionModal}
+        onDidDismiss={() => setShowQuestionModal(false)}
+        className="preview-edit-modal"
+      >
+        <div className="preview-modal-inner">
+          <h2 className="preview-modal-title">Edit Question</h2>
+          <textarea
+            className="preview-question-textarea"
+            value={tempQuestionText}
+            onChange={(e) => setTempQuestionText(e.target.value)}
+            placeholder="Enter question text..."
+          />
+
+          {/* Points Input */}
+          <div className="preview-points-row">
+            <span className="preview-toggle-label">Points (1.00 - 3.00)</span>
+            <input
+              type="number"
+              className="preview-points-input"
+              value={tempQuestionPoints}
+              onChange={(e) => setTempQuestionPoints(e.target.value)}
+              min="1.00"
+              max="3.00"
+              step="0.50"
+            />
+          </div>
+
+          {/* Multiple Selection Toggle */}
+          <div className="preview-correct-toggle">
+            <span className="preview-toggle-label">Allow Multiple Answers</span>
+            <div
+              className={`preview-toggle-switch ${
+                tempAllowMultiple ? "active" : ""
+              }`}
+              onClick={() => setTempAllowMultiple(!tempAllowMultiple)}
+            >
+              <div className="preview-toggle-knob"></div>
+            </div>
+          </div>
+
+          <div className="preview-modal-buttons">
+            <button
+              className="preview-modal-btn cancel"
+              onClick={() => setShowQuestionModal(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="preview-modal-btn delete"
+              onClick={deleteQuestion}
+            >
+              Delete
+            </button>
+            <button className="preview-modal-btn save" onClick={saveQuestion}>
+              Save
+            </button>
+          </div>
+        </div>
+      </IonModal>
+
+      {/* Answer Edit Modal */}
+      <IonModal
+        isOpen={showAnswerModal}
+        onDidDismiss={() => setShowAnswerModal(false)}
+        className="preview-edit-modal"
+      >
+        <div className="preview-modal-inner">
+          <h2 className="preview-modal-title">Edit Answer</h2>
+          <input
+            type="text"
+            className="preview-answer-input"
+            value={tempAnswerText}
+            onChange={(e) => setTempAnswerText(e.target.value)}
+            placeholder="Enter answer text"
+          />
+          <div className="preview-correct-toggle">
+            <span className="preview-toggle-label">Correct Answer</span>
+            <div
+              className={`preview-toggle-switch ${
+                tempAnswerCorrect ? "active" : ""
+              }`}
+              onClick={() => setTempAnswerCorrect(!tempAnswerCorrect)}
+            >
+              <div className="preview-toggle-knob"></div>
+            </div>
+          </div>
+          <div className="preview-modal-buttons">
+            <button
+              className="preview-modal-btn cancel"
+              onClick={() => setShowAnswerModal(false)}
+            >
+              Cancel
+            </button>
+            <button className="preview-modal-btn delete" onClick={deleteAnswer}>
+              Delete
+            </button>
+            <button className="preview-modal-btn save" onClick={saveAnswer}>
+              Save
+            </button>
+          </div>
+        </div>
+      </IonModal>
+    </IonPage>
+  );
+};
+
+export default QuizPreview;

@@ -34,6 +34,8 @@ import { useTranslation } from "react-i18next";
 import { socketService } from "../services/socket";
 import { chatStorage } from "../services/chatStorage";
 import { useIonViewWillEnter } from "@ionic/react";
+import { useAvatar } from "../context/AvatarContext";
+import { getAvatarPath } from "../utils/avatarUtils";
 
 // Helper to get User Context
 const getUserContext = () => {
@@ -70,6 +72,7 @@ interface Message {
 const StudentChat: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const { currentAvatar } = useAvatar();
   const { id } = useParams<{ id: string }>(); // Chat ID or User ID
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
@@ -370,9 +373,7 @@ const StudentChat: React.FC = () => {
               {msg.isUser && (
                 <img
                   className="chat-avatar user"
-                  src={`https://ui-avatars.com/api/?name=${
-                    getUserContext().name
-                  }`}
+                  src={getAvatarPath(currentAvatar)}
                   alt="Me"
                 />
               )}
