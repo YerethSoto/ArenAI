@@ -1061,5 +1061,18 @@
             "voices": "Voice Lines",
             "friendship": "Friendship"
         }
+    },
+    "editProfile": {
+        "title": "Edit Profile",
+        "subtitle": "Update your personal information",
+        "firstName": "First Name",
+        "firstNamePlaceholder": "Enter your first name",
+        "lastName": "Last Name",
+        "lastNamePlaceholder": "Enter your last name",
+        "email": "Email",
+        "emailPlaceholder": "Enter your email",
+        "save": "Save Changes",
+        "saveSuccess": "Profile updated successfully",
+        "nameRequired": "Name is required"
     }
 }
