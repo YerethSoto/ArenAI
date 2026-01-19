@@ -1,6 +1,13 @@
+/* StudentSettings.css - Solid background to prevent bleed-through */
+
+.student-settings-content {
+    --background: #f9f4e6 !important;
+    background-color: #f9f4e6 !important;
+}
+
 .theme-preview-section {
     margin-top: 20px;
-    padding: 0 10px;
+    padding: 0 16px;
 }
 
 .theme-preview-section h3 {
