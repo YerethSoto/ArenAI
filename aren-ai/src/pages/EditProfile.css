@@ -1,0 +1,143 @@
+/* EditProfile.css - Premium Edit Profile Page */
+
+.edit-profile-content {
+    --padding-bottom: 40px;
+}
+
+/* HERO SECTION */
+.edit-hero-card {
+    background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-tertiary) 100%);
+    padding: 100px 20px 50px 20px;
+    text-align: center;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+    margin-top: -85px;
+}
+
+.edit-hero-content h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 8px 0;
+    color: white;
+}
+
+.edit-hero-content p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+/* FORM CONTAINER */
+.edit-form-container {
+    padding: 0 24px;
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* INPUT GROUP */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333333 !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 4px;
+}
+
+.input-label ion-icon {
+    color: #666666 !important;
+    font-size: 1.1rem;
+}
+
+/* Dark mode fix for labels */
+@media (prefers-color-scheme: dark) {
+    .input-label {
+        color: #e0e0e0 !important;
+    }
+
+    .input-label ion-icon {
+        color: #aaaaaa !important;
+    }
+}
+
+/* MODERN INPUT STYLING */
+.modern-input {
+    --background: var(--ion-card-background);
+    --border-radius: 16px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --min-height: 56px;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+}
+
+.modern-input:focus-within {
+    border-color: var(--ion-color-primary);
+    box-shadow: 0 4px 20px rgba(var(--ion-color-primary-rgb), 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+    .modern-input {
+        --background: #1e1e1e;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .modern-input:focus-within {
+        border-color: var(--ion-color-primary);
+    }
+}
+
+.modern-input ion-input {
+    --placeholder-color: var(--ion-text-color-step-400);
+    --placeholder-opacity: 0.6;
+    font-size: 1rem;
+}
+
+/* SAVE BUTTON */
+.save-button {
+    --background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--ion-color-tertiary) 100%);
+    --border-radius: 20px;
+    --box-shadow: 0 8px 24px rgba(var(--ion-color-primary-rgb), 0.3);
+    height: 56px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: none;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+.save-button:hover {
+    --box-shadow: 0 12px 32px rgba(var(--ion-color-primary-rgb), 0.4);
+    transform: translateY(-2px);
+}
+
+.save-button:active {
+    transform: translateY(0);
+}
+
+.save-button ion-spinner {
+    width: 24px;
+    height: 24px;
+}
+
+/* Back Button */
+.back-button {
+    --color: white;
+}

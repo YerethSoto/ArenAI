@@ -128,7 +128,12 @@ export async function createUser(payload: {
   }
 }
 
-export async function updateUser(idUser: number, data: Partial<UserRecord>) {
+export async function updateUser(idUser: number, data: Partial<{
+  first_login: boolean;
+  name: string;
+  last_name: string;
+  email: string;
+}>) {
   if (Object.keys(data).length === 0) return false;
 
   const setClauses: string[] = [];
@@ -139,7 +144,20 @@ export async function updateUser(idUser: number, data: Partial<UserRecord>) {
     values.push(data.first_login);
   }
 
-  // Add more fields here as needed in the future
+  if (data.name !== undefined) {
+    setClauses.push('name = ?');
+    values.push(data.name);
+  }
+
+  if (data.last_name !== undefined) {
+    setClauses.push('last_name = ?');
+    values.push(data.last_name);
+  }
+
+  if (data.email !== undefined) {
+    setClauses.push('email = ?');
+    values.push(data.email);
+  }
 
   if (setClauses.length === 0) return false;
 
