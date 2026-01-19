@@ -55,39 +55,67 @@ Eres un Asistente Académico experto para profesores en ArenAI.
 
 // ==========================================
 // 3. PROMPT GENERADOR DE QUIZZES (JSON)
+// Only generates questions - quiz metadata comes from UI
+// Matches quiz_question table schema
 // ==========================================
 export const QUIZ_GENERATOR_PROMPT = `
 <role>
-Eres un motor estricto de generación de datos. Tu salida será procesada por una máquina (API).
+Eres un motor estricto de generación de preguntas educativas. Tu salida será procesada por una API.
+IMPORTANTE: Tu respuesta debe ser ÚNICAMENTE un JSON válido. Sin markdown, sin explicaciones.
 </role>
 
 <task_parameters>
 - Materia: {SUBJECT}
-- Nivel: {LEVEL}
-- Temas Permitidos: {TOPICS_LIST}
-- Cantidad: {QUESTION_COUNT} preguntas
-- Idioma del contenido: {LANGUAGE}
-- Nombre del estudiante objetivo: {STUDENT_NAME}
-- Instrucción extra: "{CUSTOM_PROMPT}"
+- Nivel Educativo: Grado {LEVEL}
+- Temas: {TOPICS_LIST}
+- Cantidad de preguntas: {QUESTION_COUNT}
+- Idioma: {LANGUAGE}
+- Instrucciones adicionales: {CUSTOM_PROMPT}
 </task_parameters>
 
+<difficulty_and_points>
+Asigna puntos según la dificultad de cada pregunta:
+- Preguntas básicas/memorización: 1.00 puntos
+- Preguntas de comprensión: 1.50 puntos
+- Preguntas de aplicación: 2.00 puntos
+- Preguntas de análisis/síntesis: 2.50 puntos
+- Preguntas desafiantes/avanzadas: 3.00 puntos
+
+El nivel (Grado {LEVEL}) influye en la complejidad:
+- Grados 1-3: Mayoría básicas (1.00-1.50 pts)
+- Grados 4-6: Mix de básicas y comprensión (1.00-2.00 pts)
+- Grados 7-9: Mix con aplicación (1.50-2.50 pts)
+- Grados 10-12: Incluir análisis (1.50-3.00 pts)
+</difficulty_and_points>
+
+<question_types>
+Genera una mezcla de tipos:
+1. **Selección Única (allow_multiple_selection: false)**: Una respuesta correcta. correct_options: [1]
+2. **Selección Múltiple (allow_multiple_selection: true)**: Múltiples correctas. correct_options: [1, 3]
+
+Aproximadamente 70% selección única, 30% selección múltiple.
+</question_types>
+
 <strict_constraints>
-1. **Solo JSON:** Tu respuesta debe ser ÚNICAMENTE un objeto JSON válido. No incluyas markdown (\`\`\`json), ni saludos, ni explicaciones.
-2. **Idioma:** Todo el texto visible para el usuario (preguntas y opciones) debe estar traducido y adaptado culturalmente al idioma {LANGUAGE}.
-3. **Consistencia de Temas:** El campo "topic" dentro de cada pregunta debe ser UNA COPIA EXACTA (mismo texto/spelling) de uno de los valores en {TOPICS_LIST}.
-4. **Personalización:** En el texto de la "question", incluye ocasionalmente el nombre {STUDENT_NAME} para hacerlo sentir personalizado (ej: "{STUDENT_NAME}, si tienes 5 manzanas...").
+1. **SOLO JSON:** Tu respuesta debe ser ÚNICAMENTE el JSON. NO markdown, NO explicaciones.
+2. **IDIOMA:** Todo el contenido en {LANGUAGE}.
+3. **4 OPCIONES:** Siempre incluye exactamente 4 opciones.
+4. **correct_options:** Array de números 1-4 indicando respuestas correctas.
 </strict_constraints>
 
 <json_schema>
-Debes seguir esta estructura exacta:
 {
-  "title": "String (Título del quiz en {LANGUAGE})",
   "questions": [
     {
-      "question": "String (Texto de la pregunta)",
-      "options": ["String (Opción 1)", "String (Opción 2)", "String (Opción 3)", "String (Opción 4)"],
-      "correctAnswer": Number (0-3),
-      "topic": "String (Valor exacto de {TOPICS_LIST})"
+      "question_text": "String",
+      "topic": "String (de {TOPICS_LIST})",
+      "points": Number (1.00 a 3.00),
+      "allow_multiple_selection": Boolean,
+      "option_1": "String",
+      "option_2": "String",
+      "option_3": "String",
+      "option_4": "String",
+      "correct_options": [Number]
     }
   ]
 }

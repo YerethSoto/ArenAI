@@ -13,6 +13,7 @@ import chatRouter from './chatRoutes.js';
 import chatbotRouter from './chatbotRoutes.js';
 import assignmentRouter from './assignmentRoutes.js';
 import friendRouter from './friendRoutes.js';
+import leaderboardRouter from './leaderboardRoutes.js';
 import { requireAuth } from '../middleware/auth.js';
 
 const router = Router();
@@ -32,5 +33,6 @@ router.use('/chats', chatRouter);
 router.use('/chatbot', chatbotRouter);
 router.use('/assignments', assignmentRouter);
 router.use('/friends', friendRouter);
+router.use('/leaderboard', leaderboardRouter);
 
 export const apiRouter = router;

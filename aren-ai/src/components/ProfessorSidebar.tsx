@@ -80,9 +80,15 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
     },
     {
       titleKey: "professor.sidebar.createTask",
-      url: "/create-task",
+      url: "/page/task-assignment",
       iosIcon: clipboardOutline,
       mdIcon: clipboardOutline,
+    },
+    {
+      titleKey: "professor.sidebar.quizGenerator",
+      url: "/page/ai-quiz-generator",
+      iosIcon: glassesOutline,
+      mdIcon: glassesOutline,
     },
     {
       titleKey: "professor.sidebar.studentSections",
