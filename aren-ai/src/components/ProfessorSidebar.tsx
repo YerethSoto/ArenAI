@@ -35,6 +35,8 @@ import {
   chatbubbleEllipsesSharp,
   personOutline,
   personSharp,
+  calendarOutline,
+  calendarSharp,
 } from "ionicons/icons";
 import AnimatedMascot from "./AnimatedMascot";
 import { useAvatar } from "../context/AvatarContext";
@@ -68,9 +70,15 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
     },
     {
       titleKey: "professor.sidebar.students",
-      url: "/folder/Students",
+      url: "/prof-students",
       iosIcon: peopleOutline,
       mdIcon: peopleSharp,
+    },
+    {
+      titleKey: "professor.sidebar.attendance",
+      url: "/prof-attendance",
+      iosIcon: calendarOutline,
+      mdIcon: calendarSharp,
     },
     {
       titleKey: "professor.sidebar.createSection",

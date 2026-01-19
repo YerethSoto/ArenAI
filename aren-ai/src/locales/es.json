@@ -50,6 +50,7 @@
         "sidebar": {
             "mainMenu": "Panel Principal",
             "students": "Estudiantes",
+            "attendance": "Asistencia",
             "createSection": "Crear Sección",
             "createTask": "Crear Tarea",
             "quizGenerator": "Generador de Quiz",
@@ -62,6 +63,14 @@
             "account": "Cuenta",
             "chat": "Menú de Chat",
             "profile": "Perfil"
+        },
+        "attendance": {
+            "title": "Asistencia",
+            "markAllPresent": "Todos Presentes",
+            "markAllAbsent": "Todos Ausentes",
+            "searchPlaceholder": "Buscar estudiante...",
+            "present": "Presente",
+            "absent": "Ausente"
         },
         "menu": {
             "allClasses": "Todas las Clases",
@@ -250,6 +259,15 @@
             "support": "Soporte",
             "helpCenter": "Centro de Ayuda",
             "logout": "Cerrar Sesión"
+        },
+        "students": {
+            "title": "Estudiantes",
+            "attendance": "Asistencia",
+            "profiles": "Perfiles",
+            "average": "Promedio",
+            "quizzes": "Quizzes",
+            "wins": "Victorias",
+            "streak": "Racha"
         }
     },
     "studentProfile": {

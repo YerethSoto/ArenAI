@@ -41,6 +41,8 @@ import ProfessorSettings from "./pages/ProfessorSettings";
 import AIQuizGenerator from "./pages/AIQuizGenerator";
 import QuizPreview from "./pages/QuizPreview";
 import TaskAssignment from "./pages/TaskAssignment";
+import ProfessorStudents from "./pages/ProfessorStudents";
+import ProfessorAttendance from "./pages/ProfessorAttendance";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AvatarProvider } from "./context/AvatarContext";
 import { SoundProvider } from "./context/SoundContext";
@@ -289,6 +291,20 @@ const App: React.FC = () => {
                       <Redirect to="/login" />
                     )}
                   </Route>
+                  <Route path="/prof-students" exact={true}>
+                    {userRole === "professor" ? (
+                      <ProfessorStudents />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/prof-attendance" exact={true}>
+                    {userRole === "professor" ? (
+                      <ProfessorAttendance />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
                   <Route path="/page/task-assignment" exact={true}>
                     {userRole === "professor" ? (
                       <TaskAssignment />
@@ -317,10 +333,6 @@ const App: React.FC = () => {
                     ) : (
                       <Redirect to="/login" />
                     )}
-                  </Route>
-
-                  <Route path="/folder/:name" exact={true}>
-                    {userRole ? <Page /> : <Redirect to="/login" />}
                   </Route>
 
                   <Route path="/quiz" exact={true}>
@@ -489,6 +501,11 @@ const App: React.FC = () => {
                   {/* Nueva ruta para unirse a clase por código o QR */}
                   <Route path="/join/:code?" exact={true}>
                     <Class_Join />
+                  </Route>
+
+                  {/* Generic folder route - must be LAST to avoid capturing specific routes */}
+                  <Route path="/folder/:name" exact={true}>
+                    {userRole ? <Page /> : <Redirect to="/login" />}
                   </Route>
                 </IonRouterOutlet>
               </IonSplitPane>

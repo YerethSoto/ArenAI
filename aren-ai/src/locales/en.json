@@ -49,6 +49,7 @@
         "sidebar": {
             "mainMenu": "Dashboard",
             "students": "Students",
+            "attendance": "Attendance",
             "createSection": "Create Section",
             "createTask": "Create Task",
             "quizGenerator": "Quiz Generator",
@@ -61,6 +62,14 @@
             "account": "Account",
             "chat": "Chat Menu",
             "profile": "Profile"
+        },
+        "attendance": {
+            "title": "Attendance",
+            "markAllPresent": "Mark All Present",
+            "markAllAbsent": "Mark All Absent",
+            "searchPlaceholder": "Search student...",
+            "present": "Present",
+            "absent": "Absent"
         },
         "menu": {
             "allClasses": "All Classes",
@@ -249,6 +258,15 @@
             "support": "Support",
             "helpCenter": "Help Center",
             "logout": "Log Out"
+        },
+        "students": {
+            "title": "Students",
+            "attendance": "Attendance",
+            "profiles": "Profiles",
+            "average": "Average",
+            "quizzes": "Quizzes",
+            "wins": "Wins",
+            "streak": "Streak"
         }
     },
     "mainStudent": {
