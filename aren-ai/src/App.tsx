@@ -41,8 +41,6 @@ import ProfessorSettings from "./pages/ProfessorSettings";
 import AIQuizGenerator from "./pages/AIQuizGenerator";
 import QuizPreview from "./pages/QuizPreview";
 import TaskAssignment from "./pages/TaskAssignment";
-import ProfessorStudents from "./pages/ProfessorStudents";
-import ProfessorAttendance from "./pages/ProfessorAttendance";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AvatarProvider } from "./context/AvatarContext";
 import { SoundProvider } from "./context/SoundContext";
@@ -322,6 +320,13 @@ const App: React.FC = () => {
                   <Route path="/page/quiz-preview" exact={true}>
                     {userRole === "professor" ? (
                       <QuizPreview />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/quiz-menu" exact={true}>
+                    {userRole === "professor" ? (
+                      <QuizMenu />
                     ) : (
                       <Redirect to="/login" />
                     )}
