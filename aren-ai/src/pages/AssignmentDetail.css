@@ -1,0 +1,654 @@
+/* AssignmentDetail.css - Refined with scrollable island */
+
+.assignment-detail-page {
+  background-color: #f9f4e6 !important;
+}
+
+.assignment-detail-content {
+  --background: #f9f4e6 !important;
+}
+
+/* Fix header line */
+.assignment-detail-page .student-header-container ion-toolbar::after,
+.assignment-detail-page ion-header::after {
+  display: none !important;
+}
+
+.assignment-detail-page ion-header {
+  --border-width: 0 !important;
+}
+
+/* Back Button */
+.detail-back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.detail-back-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.detail-back-btn ion-icon {
+  font-size: 24px;
+  color: white;
+}
+
+/* ========== MAIN CONTAINER ========== */
+.detail-main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ========== HORIZONTAL SNAP SCROLL CONTAINER ========== */
+.submissions-scroll-container {
+  flex: 1;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  width: 100%;
+}
+
+.submissions-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.submissions-scroll-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ========== SINGLE SUBMISSION CARD ========== */
+.submission-snap-card {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-width: 100%;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 0 20px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* ========== STUDENT HEADER ISLAND (Now inside scroll) ========== */
+.student-header-island {
+  flex-shrink: 0;
+  padding: 20px;
+  min-height: 160px;
+  border-radius: 0 0 24px 24px;
+  margin: 0 -20px 15px -20px; /* Extend to edges */
+  transition: background 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Score-based backgrounds */
+.student-header-island.score-excellent {
+  background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+}
+
+.student-header-island.score-good {
+  background: linear-gradient(135deg, #fdd835 0%, #f9a825 100%);
+}
+
+.student-header-island.score-fair {
+  background: linear-gradient(135deg, #fb8c00 0%, #ef6c00 100%);
+}
+
+.student-header-island.score-poor {
+  background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
+}
+
+.student-header-island.score-none {
+  background: linear-gradient(135deg, #78909c 0%, #546e7a 100%);
+}
+
+/* Decorative circles */
+.island-decoration {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+.island-decoration.d1 {
+  width: 120px;
+  height: 120px;
+  top: -30px;
+  right: -30px;
+}
+
+.island-decoration.d2 {
+  width: 80px;
+  height: 80px;
+  bottom: -20px;
+  left: 20px;
+}
+
+/* Student Name Row */
+.island-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  position: relative;
+  z-index: 2;
+}
+
+.island-student-name {
+  font-family: 'Georgia', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.island-total-score {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.island-score-value {
+  font-family: 'Georgia', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.island-score-max {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+/* Progress Bars Container */
+.island-progress-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.island-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.island-progress-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  min-width: 65px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.island-progress-bar {
+  flex: 1;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.island-progress-fill {
+  height: 100%;
+  background: white;
+  border-radius: 5px;
+  transition: width 0.4s ease;
+}
+
+.island-progress-value {
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  min-width: 42px;
+  text-align: right;
+}
+
+/* Submission Status */
+.island-status {
+  margin-top: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.island-status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.island-status-badge.submitted {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+}
+
+.island-status-badge.needs-review {
+  background: #ffeb3b;
+  color: #5d4037;
+}
+
+.island-status-badge.not-submitted {
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+}
+
+/* Section bars */
+.submission-section {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(141, 110, 99, 0.08) 0%, rgba(141, 110, 99, 0.03) 100%);
+  border-bottom: 1px solid rgba(141, 110, 99, 0.1);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Georgia', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+}
+
+.section-title ion-icon {
+  font-size: 20px;
+  color: var(--ion-color-secondary);
+}
+
+.section-status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.section-status-badge.complete {
+  background: rgba(76, 175, 80, 0.15);
+  color: #2e7d32;
+}
+
+.section-status-badge.pending {
+  background: rgba(255, 152, 0, 0.15);
+  color: #e65100;
+}
+
+.section-status-badge.not-started {
+  background: rgba(158, 158, 158, 0.15);
+  color: #616161;
+}
+
+.section-content {
+  padding: 16px;
+}
+
+/* Grade Input in Section */
+.section-grade-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: rgba(var(--ion-color-secondary-rgb), 0.08);
+  border-top: 1px solid rgba(141, 110, 99, 0.1);
+}
+
+.grade-label {
+  font-size: 13px;
+  color: var(--ion-color-primary);
+  font-weight: 500;
+}
+
+.grade-input-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.grade-input-small {
+  width: 50px;
+  padding: 6px 10px;
+  border: 2px solid var(--ion-color-secondary);
+  border-radius: 8px;
+  font-family: 'Georgia', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+  text-align: center;
+  background: white;
+}
+
+.grade-input-small:focus {
+  outline: none;
+  border-color: var(--ion-color-primary);
+}
+
+.grade-max-label {
+  font-size: 14px;
+  color: var(--ion-color-primary);
+  opacity: 0.6;
+}
+
+.grade-save-mini {
+  padding: 6px 14px;
+  border-radius: 15px;
+  background: var(--ion-color-secondary);
+  color: white;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.grade-save-mini:hover {
+  background: var(--ion-color-secondary-shade);
+}
+
+/* Text Content */
+.text-content {
+  font-size: 14px;
+  color: var(--ion-color-primary);
+  line-height: 1.7;
+  white-space: pre-wrap;
+  background: rgba(141, 110, 99, 0.03);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* Quiz Results */
+.quiz-result-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid rgba(141, 110, 99, 0.08);
+}
+
+.quiz-result-item:last-child {
+  border-bottom: none;
+}
+
+.quiz-result-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.quiz-result-icon.correct {
+  background: #e8f5e9;
+  color: #4caf50;
+}
+
+.quiz-result-icon.incorrect {
+  background: #ffebee;
+  color: #f44336;
+}
+
+.quiz-result-icon ion-icon {
+  font-size: 14px;
+}
+
+.quiz-result-content {
+  flex: 1;
+}
+
+.quiz-result-question {
+  font-size: 13px;
+  color: var(--ion-color-primary);
+  margin-bottom: 4px;
+}
+
+.quiz-result-answer {
+  font-size: 12px;
+  color: var(--ion-color-primary);
+  opacity: 0.7;
+}
+
+.quiz-result-points {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ion-color-secondary);
+}
+
+/* AI Study Progress */
+.ai-study-progress {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.ai-progress-bar {
+  flex: 1;
+  height: 10px;
+  background: rgba(141, 110, 99, 0.15);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.ai-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ion-color-secondary) 0%, #4caf50 100%);
+  border-radius: 5px;
+  transition: width 0.3s;
+}
+
+.ai-progress-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+  min-width: 45px;
+}
+
+/* Not Submitted State */
+.not-submitted-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  padding: 50px 20px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.not-submitted-icon {
+  font-size: 64px;
+  color: #9e9e9e;
+  margin-bottom: 15px;
+}
+
+.not-submitted-text {
+  font-family: 'Georgia', serif;
+  font-size: 18px;
+  color: var(--ion-color-primary);
+  margin-bottom: 8px;
+}
+
+.not-submitted-hint {
+  font-size: 13px;
+  color: var(--ion-color-primary);
+  opacity: 0.6;
+}
+
+/* ========== BOTTOM STUDENT BAR (Transparent) ========== */
+.student-bottom-bar {
+  flex-shrink: 0;
+  background: transparent; /* Match page background */
+  padding: 12px 0;
+  border-top: 1px solid rgba(141, 110, 99, 0.1);
+}
+
+.student-btn-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 0 20px;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.student-btn-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.student-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+  flex-shrink: 0;
+  min-width: 100px;
+  text-align: center;
+}
+
+.student-chip:hover {
+  transform: scale(1.05);
+}
+
+.student-chip.selected {
+  border-color: var(--ion-color-primary);
+  transform: scale(1.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* Color coded chips */
+.student-chip.score-excellent {
+  background: linear-gradient(135deg, #81c784 0%, #4caf50 100%);
+  color: white;
+}
+
+.student-chip.score-good {
+  background: linear-gradient(135deg, #fff176 0%, #fdd835 100%);
+  color: #5d4037;
+}
+
+.student-chip.score-fair {
+  background: linear-gradient(135deg, #ffb74d 0%, #ff9800 100%);
+  color: white;
+}
+
+.student-chip.score-poor {
+  background: linear-gradient(135deg, #e57373 0%, #f44336 100%);
+  color: white;
+}
+
+.student-chip.score-none {
+  background: linear-gradient(135deg, #bdbdbd 0%, #9e9e9e 100%);
+  color: white;
+}
+
+.student-chip-name {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+
+.student-chip-score {
+  font-size: 10px;
+  opacity: 0.9;
+}
+
+/* ========== TOTAL GRADE EDITOR ========== */
+.total-grade-editor {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--ion-color-primary) 0%, #3e2723 100%);
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-grade-label {
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.total-grade-input-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.total-grade-input {
+  width: 60px;
+  padding: 8px 12px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  font-family: 'Georgia', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.total-grade-input:focus {
+  outline: none;
+  border-color: white;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.total-grade-max {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.total-grade-save {
+  padding: 10px 24px;
+  border-radius: 20px;
+  background: white;
+  color: var(--ion-color-primary);
+  border: none;
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.total-grade-save:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}

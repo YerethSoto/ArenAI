@@ -11,7 +11,6 @@ import {
   IonButton,
   IonModal,
   IonSearchbar,
-  IonLoading,
   useIonToast,
 } from "@ionic/react";
 import {
@@ -225,13 +224,7 @@ const AIQuizGenerator: React.FC = () => {
         })
       );
 
-      present({
-        message: `Generated ${result.data.questions.length} questions!`,
-        duration: 1500,
-        color: "success",
-      });
-
-      // Navigate to preview page
+      // Navigate directly to preview page
       history.push("/page/quiz-preview");
     } catch (error: any) {
       console.error("Error generating quiz:", error);
@@ -280,12 +273,22 @@ const AIQuizGenerator: React.FC = () => {
 
   return (
     <IonPage className="ai-quiz-page">
-      {/* Loading Overlay */}
-      <IonLoading
+      {/* Custom Loading Modal */}
+      <IonModal
         isOpen={isLoading}
-        message="Generating quiz with AI..."
-        spinner="crescent"
-      />
+        className="quiz-loading-modal"
+        backdropDismiss={false}
+      >
+        <div className="quiz-loading-inner">
+          <div className="quiz-loading-spinner">
+            <div className="spinner-ring"></div>
+            <div className="spinner-ring"></div>
+            <div className="spinner-ring"></div>
+          </div>
+          <h3 className="quiz-loading-title">Generating Quiz</h3>
+          <p className="quiz-loading-text">AI is creating your questions...</p>
+        </div>
+      </IonModal>
 
       {/* Header */}
       <IonHeader className="student-header-container">

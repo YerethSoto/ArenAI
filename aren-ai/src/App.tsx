@@ -42,6 +42,8 @@ import AIQuizGenerator from "./pages/AIQuizGenerator";
 import QuizPreview from "./pages/QuizPreview";
 import TaskAssignment from "./pages/TaskAssignment";
 import QuizMenu from "./pages/QuizMenu";
+import AssignmentsMenu from "./pages/AssignmentsMenu";
+import AssignmentDetail from "./pages/AssignmentDetail";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AvatarProvider } from "./context/AvatarContext";
 import { SoundProvider } from "./context/SoundContext";
@@ -314,6 +316,20 @@ const App: React.FC = () => {
                   <Route path="/page/quiz-menu" exact={true}>
                     {userRole === "professor" ? (
                       <QuizMenu />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/assignments-menu" exact={true}>
+                    {userRole === "professor" ? (
+                      <AssignmentsMenu />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/assignment-detail/:id" exact={true}>
+                    {userRole === "professor" ? (
+                      <AssignmentDetail />
                     ) : (
                       <Redirect to="/login" />
                     )}

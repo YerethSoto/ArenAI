@@ -6,6 +6,7 @@ import {
   IonToolbar,
   IonModal,
   IonIcon,
+  useIonToast,
 } from "@ionic/react";
 import {
   createOutline,
@@ -18,6 +19,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import PageTransition from "../components/PageTransition";
+import { getApiUrl } from "../config/api";
 import "../components/StudentHeader.css";
 import "./QuizPreview.css";
 
@@ -53,6 +55,7 @@ interface AIQuestion {
 const QuizPreview: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const [present] = useIonToast();
 
   // Ownership state - check if this is user's quiz
   const [isOwned, setIsOwned] = useState(true);
@@ -74,7 +77,62 @@ const QuizPreview: React.FC = () => {
         if (parsed.quizName) setQuizName(parsed.quizName);
         if (parsed.isOwned !== undefined) setIsOwned(parsed.isOwned);
 
-        if (parsed.questions && Array.isArray(parsed.questions)) {
+        // If from database, fetch questions from API
+        if (parsed.fromDatabase && parsed.quizId) {
+          const token =
+            localStorage.getItem("authToken") || localStorage.getItem("token");
+          fetch(getApiUrl(`/api/quizzes/${parsed.quizId}/full`), {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.quiz?.questions) {
+                const transformedQuestions: Question[] =
+                  data.quiz.questions.map((q: any, index: number) => {
+                    const correctOptions =
+                      typeof q.correct_options === "string"
+                        ? JSON.parse(q.correct_options)
+                        : q.correct_options || [1];
+                    return {
+                      id: `q${index + 1}`,
+                      text: q.question_text,
+                      topic: "General",
+                      points: parseFloat(q.points) || 1.0,
+                      allowMultipleSelection:
+                        q.allow_multiple_selection || false,
+                      answers: [
+                        {
+                          id: `q${index + 1}-a1`,
+                          text: q.option_1,
+                          isCorrect: correctOptions.includes(1),
+                        },
+                        {
+                          id: `q${index + 1}-a2`,
+                          text: q.option_2,
+                          isCorrect: correctOptions.includes(2),
+                        },
+                        {
+                          id: `q${index + 1}-a3`,
+                          text: q.option_3 || "",
+                          isCorrect: correctOptions.includes(3),
+                        },
+                        {
+                          id: `q${index + 1}-a4`,
+                          text: q.option_4 || "",
+                          isCorrect: correctOptions.includes(4),
+                        },
+                      ].filter((a) => a.text), // Remove empty answers
+                    };
+                  });
+                setQuestions(transformedQuestions);
+              }
+            })
+            .catch((err) =>
+              console.error("Error fetching quiz questions:", err)
+            );
+        } else if (parsed.questions && Array.isArray(parsed.questions)) {
           const transformedQuestions: Question[] = parsed.questions.map(
             (q: AIQuestion, index: number) => {
               const correctOptions = q.correct_options || [1];
@@ -312,10 +370,76 @@ const QuizPreview: React.FC = () => {
     window.location.href = "/page/ai-quiz-generator";
   };
 
-  // Save quiz handler
-  const handleSaveQuiz = () => {
-    console.log("Saving quiz:", { quizName, quizDescription, questions });
-    // TODO: Implement actual save logic to backend
+  // Save quiz handler - calls backend API
+  const handleSaveQuiz = async () => {
+    try {
+      // Get token - try both possible keys
+      const token =
+        localStorage.getItem("authToken") || localStorage.getItem("token");
+      const userStr =
+        localStorage.getItem("userData") || localStorage.getItem("user");
+      const user = userStr ? JSON.parse(userStr) : null;
+
+      if (!token || !user?.id) {
+        present({
+          message: "Please log in to save quizzes",
+          duration: 2000,
+          color: "warning",
+        });
+        return;
+      }
+
+      // Transform questions to backend format
+      const questionsPayload = questions.map((q) => {
+        // Find which answers are correct and convert to 1-indexed options
+        const correctOptions = q.answers
+          .map((a, idx) => (a.isCorrect ? idx + 1 : null))
+          .filter((idx) => idx !== null);
+
+        return {
+          questionText: q.text,
+          topicId: null, // Would need topic selection
+          points: q.points,
+          allowMultiple: q.allowMultipleSelection,
+          option1: q.answers[0]?.text || "",
+          option2: q.answers[1]?.text || "",
+          option3: q.answers[2]?.text || null,
+          option4: q.answers[3]?.text || null,
+          correctOptions: JSON.stringify(correctOptions),
+        };
+      });
+
+      const response = await fetch(getApiUrl("/api/quizzes"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          professorId: user.id,
+          subjectId: 1, // Default subject - would need selection
+          name: quizName,
+          description: quizDescription,
+          level: "intermediate",
+          language: "en",
+          questions: questionsPayload,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save quiz");
+      }
+
+      // Navigate directly to quiz library after save (no toast)
+      history.push("/page/quiz-menu");
+    } catch (error) {
+      console.error("Error saving quiz:", error);
+      present({
+        message: "Failed to save quiz. Please try again.",
+        duration: 2000,
+        color: "danger",
+      });
+    }
   };
 
   // Calculate total points

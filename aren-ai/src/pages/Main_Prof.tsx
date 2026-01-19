@@ -18,12 +18,13 @@ import {
   analyticsOutline,
   chevronBackOutline,
   chevronForwardOutline,
-} from 'ionicons/icons';
-import './Main_Prof.css';
-import '../components/ProfessorHeader.css';
-import ProfessorMenu from '../components/ProfessorMenu';
-import { useTranslation } from 'react-i18next';
-import { getApiUrl } from '../config/api';
+  libraryOutline,
+} from "ionicons/icons";
+import "./Main_Prof.css";
+import "../components/ProfessorHeader.css";
+import ProfessorMenu from "../components/ProfessorMenu";
+import { useTranslation } from "react-i18next";
+import { getApiUrl } from "../config/api";
 import AnimatedMascot from "../components/AnimatedMascot";
 import { CalendarSelector } from "../components/CalendarSelector";
 import { TopicProgress } from "../types/student";
@@ -47,42 +48,55 @@ const Main_Prof: React.FC = () => {
   useEffect(() => {
     const fetchTopicsFromAPI = async () => {
       try {
-        const token = localStorage.getItem('authToken');
-        const userStr = localStorage.getItem('user');
+        const token = localStorage.getItem("authToken");
+        const userStr = localStorage.getItem("user");
         const user = userStr ? JSON.parse(userStr) : null;
         const userId = user?.id;
 
         if (userId) {
           // Try to fetch topic progress from API
-          const response = await fetch(getApiUrl(`api/students/${userId}/progress`), {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          });
+          const response = await fetch(
+            getApiUrl(`api/students/${userId}/progress`),
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
 
           if (response.ok) {
             const progressData = await response.json();
             // Filter by selected subject and transform
             const subjectTopics = progressData
-              .filter((p: any) => p.subject_name.toLowerCase().includes(selectedSubject.toLowerCase()))
+              .filter((p: any) =>
+                p.subject_name
+                  .toLowerCase()
+                  .includes(selectedSubject.toLowerCase())
+              )
               .map((p: any) => ({
-                name: t(`professor.dashboard.topics.${p.topic_name}`, p.topic_name),
+                name: t(
+                  `professor.dashboard.topics.${p.topic_name}`,
+                  p.topic_name
+                ),
                 nameKey: p.topic_name,
                 percentage: p.score || 0,
-                icon: '📚', // Default icon for API data
+                icon: "📚", // Default icon for API data
               }));
 
             if (subjectTopics.length > 0) {
               setTopics(subjectTopics);
-              const sum = subjectTopics.reduce((acc: number, curr: any) => acc + curr.percentage, 0);
+              const sum = subjectTopics.reduce(
+                (acc: number, curr: any) => acc + curr.percentage,
+                0
+              );
               setOverallPerformance(Math.round(sum / subjectTopics.length));
               return;
             }
           }
         }
       } catch (err) {
-        console.error('Error fetching topics from API:', err);
+        console.error("Error fetching topics from API:", err);
         // No fallback - just leave empty
         setTopics([]);
         setOverallPerformance(0);
@@ -93,17 +107,23 @@ const Main_Prof: React.FC = () => {
   }, [selectedSubject, t]); // Re-run when subject or language changes
 
   // Dynamic Insights
-  // Needs mapping for "Social Studies" vs key in JSON if there's a mismatch. 
+  // Needs mapping for "Social Studies" vs key in JSON if there's a mismatch.
   // In JSON "SocialStudies" (no space). In state 'Social Studies' (space).
   const getInsightKey = (subject: string) => {
-    if (subject === 'Social Studies') return 'SocialStudies';
+    if (subject === "Social Studies") return "SocialStudies";
     return subject;
-  }
+  };
 
   const subjectKey = getInsightKey(selectedSubject);
 
-  const currentEnforceText = t(`professor.dashboard.insights.enforce.${subjectKey}`, 'No insight available.');
-  const currentClassRecommendation = t(`professor.dashboard.insights.recommendation.${subjectKey}`, 'No recommendation available.');
+  const currentEnforceText = t(
+    `professor.dashboard.insights.enforce.${subjectKey}`,
+    "No insight available."
+  );
+  const currentClassRecommendation = t(
+    `professor.dashboard.insights.recommendation.${subjectKey}`,
+    "No recommendation available."
+  );
 
   const navigateTo = (path: string) => router.push(path);
 
@@ -142,7 +162,7 @@ const Main_Prof: React.FC = () => {
                   selectedSection={selectedSection}
                   selectedSubject={t(
                     "professor.dashboard.subjects." +
-                    selectedSubject.replace(/\s+/g, "")
+                      selectedSubject.replace(/\s+/g, "")
                   )}
                   onGradeChange={setSelectedGrade}
                   onSectionChange={setSelectedSection}
@@ -158,7 +178,7 @@ const Main_Prof: React.FC = () => {
           <div className="ms-container">
             <div className="ms-week-selector">
               <CalendarSelector
-                onDateSelect={() => { }}
+                onDateSelect={() => {}}
                 title={t("professor.dashboard.classSchedule")}
               />
             </div>
@@ -167,7 +187,7 @@ const Main_Prof: React.FC = () => {
                 {t("professor.dashboard.yourClass", {
                   subject: t(
                     "professor.dashboard.subjects." +
-                    selectedSubject.replace(/\s+/g, "")
+                      selectedSubject.replace(/\s+/g, "")
                   ),
                 })}
               </div>
@@ -218,15 +238,17 @@ const Main_Prof: React.FC = () => {
             <div className="ms-bottom-section">
               <div className="ms-switch-container">
                 <div
-                  className={`ms-switch-option ${viewMode === "rec" ? "active" : ""
-                    }`}
+                  className={`ms-switch-option ${
+                    viewMode === "rec" ? "active" : ""
+                  }`}
                   onClick={() => setViewMode("rec")}
                 >
                   {t("professor.dashboard.recommendations")}
                 </div>
                 <div
-                  className={`ms-switch-option ${viewMode === "que" ? "active" : ""
-                    }`}
+                  className={`ms-switch-option ${
+                    viewMode === "que" ? "active" : ""
+                  }`}
                   onClick={() => setViewMode("que")}
                 >
                   {t("professor.dashboard.questions")}
@@ -259,7 +281,7 @@ const Main_Prof: React.FC = () => {
                       <IonIcon
                         icon={chevronBackOutline}
                         className="ms-carousel-arrow"
-                        onClick={() => { }}
+                        onClick={() => {}}
                       />
                       <div className="ms-info-content">
                         How can I better explain concepts to my students?
@@ -267,7 +289,7 @@ const Main_Prof: React.FC = () => {
                       <IonIcon
                         icon={chevronForwardOutline}
                         className="ms-carousel-arrow"
-                        onClick={() => { }}
+                        onClick={() => {}}
                       />
                     </div>
                   </>
@@ -286,9 +308,9 @@ const Main_Prof: React.FC = () => {
         </div>
         <div
           className="student-nav-btn"
-          onClick={() => navigateTo("/page/ai-quiz-generator")}
+          onClick={() => navigateTo("/page/quiz-menu")}
         >
-          <IonIcon icon={clipboardOutline} />
+          <IonIcon icon={libraryOutline} />
         </div>
         <div className="student-mascot-container">
           <AnimatedMascot
@@ -301,9 +323,9 @@ const Main_Prof: React.FC = () => {
         </div>
         <div
           className="student-nav-btn"
-          onClick={() => navigateTo("/student-section")}
+          onClick={() => navigateTo("/page/ai-quiz-generator")}
         >
-          <IonIcon icon={analyticsOutline} />
+          <IonIcon icon={clipboardOutline} />
         </div>
         <div
           className="student-nav-btn"

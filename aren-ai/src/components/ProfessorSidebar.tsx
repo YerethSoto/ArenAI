@@ -97,6 +97,12 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
       mdIcon: documentTextOutline,
     },
     {
+      titleKey: "professor.sidebar.assignments",
+      url: "/page/assignments-menu",
+      iosIcon: clipboardOutline,
+      mdIcon: clipboardOutline,
+    },
+    {
       titleKey: "professor.sidebar.studentSections",
       url: "/student-section",
       iosIcon: analyticsOutline,

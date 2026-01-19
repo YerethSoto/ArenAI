@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   IonPage,
   IonContent,
@@ -9,6 +9,7 @@ import {
   IonToolbar,
   IonMenuButton,
   useIonToast,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import {
   menu,
@@ -26,6 +27,7 @@ import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import ProfessorMenu from "../components/ProfessorMenu";
 import PageTransition from "../components/PageTransition";
+import { getApiUrl } from "../config/api";
 import "./QuizMenu.css";
 import "../components/ProfessorHeader.css";
 
@@ -186,9 +188,10 @@ const QuizMenu: React.FC = () => {
   const [selectedSubject, setSelectedSubject] = useState("Math");
   const [currentSection, setCurrentSection] = useState("7-1");
 
-  // Quiz lists
-  const [myQuizzes, setMyQuizzes] = useState<Quiz[]>(MY_QUIZZES);
-  const [popularQuizzes, setPopularQuizzes] = useState<Quiz[]>(POPULAR_QUIZZES);
+  // Quiz lists - start empty, fetch from DB
+  const [myQuizzes, setMyQuizzes] = useState<Quiz[]>([]);
+  const [popularQuizzes, setPopularQuizzes] = useState<Quiz[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // Search state
   const [mySearch, setMySearch] = useState("");
@@ -198,6 +201,175 @@ const QuizMenu: React.FC = () => {
   const [selectedQuiz, setSelectedQuiz] = useState<Quiz | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [userRating, setUserRating] = useState(0);
+
+  // Fetch quizzes from database
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      try {
+        const token =
+          localStorage.getItem("authToken") || localStorage.getItem("token");
+        const userStr =
+          localStorage.getItem("userData") || localStorage.getItem("user");
+        const user = userStr ? JSON.parse(userStr) : null;
+
+        if (token && user?.id) {
+          // Fetch professor's own quizzes
+          const response = await fetch(
+            getApiUrl(`/api/quizzes/professor/${user.id}`),
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            // Transform database format to UI format
+            const quizzes: Quiz[] = (data.quizzes || []).map((q: any) => {
+              // Create placeholder questions based on count
+              const questionCount = q.question_count || 0;
+              const placeholderQuestions = Array.from(
+                { length: questionCount },
+                (_, i) => ({
+                  text: `Question ${i + 1}`,
+                  points: 1,
+                })
+              );
+
+              return {
+                id: String(q.id_quiz),
+                name: q.quiz_name,
+                subject: q.id_subject === 1 ? "Math" : "Science",
+                grade: 7,
+                description: q.description || "",
+                topics: [],
+                questions: placeholderQuestions,
+                createdAt: q.created_at || new Date().toISOString(),
+                creatorId: String(q.id_professor),
+                creatorName: "You",
+                downloads: 0,
+                rating: 0,
+                ratingCount: 0,
+                isOwned: true,
+              };
+            });
+            setMyQuizzes(quizzes);
+          }
+
+          // Also fetch public quizzes for Popular section
+          const publicResponse = await fetch(
+            getApiUrl(`/api/quizzes/public?excludeUser=${user.id}`),
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (publicResponse.ok) {
+            const publicData = await publicResponse.json();
+            const publicQuizzes: Quiz[] = (publicData.quizzes || []).map(
+              (q: any) => {
+                const questionCount = q.question_count || 0;
+                const placeholderQuestions = Array.from(
+                  { length: questionCount },
+                  (_, i) => ({
+                    text: `Question ${i + 1}`,
+                    points: 1,
+                  })
+                );
+
+                return {
+                  id: String(q.id_quiz),
+                  name: q.quiz_name,
+                  subject: q.id_subject === 1 ? "Math" : "Science",
+                  grade: 7,
+                  description: q.description || "",
+                  topics: [],
+                  questions: placeholderQuestions,
+                  createdAt: q.created_at || new Date().toISOString(),
+                  creatorId: String(q.id_professor),
+                  creatorName:
+                    q.first_name && q.last_name
+                      ? `Prof. ${q.last_name}`
+                      : "Anonymous",
+                  downloads: q.downloads || 0,
+                  rating: parseFloat(q.avg_rating) || 0,
+                  ratingCount: q.rating_count || 0,
+                  isOwned: false,
+                };
+              }
+            );
+            setPopularQuizzes(publicQuizzes);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching quizzes:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuizzes();
+  }, []);
+
+  // Auto-reload quizzes when page becomes visible (e.g., after saving a new quiz)
+  useIonViewWillEnter(() => {
+    const reloadQuizzes = async () => {
+      const token =
+        localStorage.getItem("authToken") || localStorage.getItem("token");
+      const userStr =
+        localStorage.getItem("userData") || localStorage.getItem("user");
+      const user = userStr ? JSON.parse(userStr) : null;
+
+      if (token && user?.id) {
+        try {
+          const response = await fetch(
+            getApiUrl(`/api/quizzes/professor/${user.id}`),
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            const quizzes: Quiz[] = (data.quizzes || []).map((q: any) => {
+              const questionCount = q.question_count || 0;
+              const placeholderQuestions = Array.from(
+                { length: questionCount },
+                (_, i) => ({
+                  text: `Question ${i + 1}`,
+                  points: 1,
+                })
+              );
+
+              return {
+                id: String(q.id_quiz),
+                name: q.quiz_name,
+                subject: q.id_subject === 1 ? "Math" : "Science",
+                grade: 7,
+                description: q.description || "",
+                topics: [],
+                questions: placeholderQuestions,
+                createdAt: q.created_at || new Date().toISOString(),
+                creatorId: String(q.id_professor),
+                creatorName: "You",
+                downloads: 0,
+                rating: 0,
+                ratingCount: 0,
+                isOwned: true,
+              };
+            });
+            setMyQuizzes(quizzes);
+          }
+        } catch (error) {
+          console.error("Error reloading quizzes:", error);
+        }
+      }
+    };
+    reloadQuizzes();
+  });
 
   // Format date
   const formatDate = (dateStr: string) => {
@@ -290,19 +462,12 @@ const QuizMenu: React.FC = () => {
     sessionStorage.setItem(
       "previewQuiz",
       JSON.stringify({
+        quizId: quiz.id, // Include quiz ID for fetching from database
         quizName: quiz.name,
         subject: quiz.subject,
         isOwned: quiz.isOwned,
-        questions: quiz.questions.map((q, i) => ({
-          question_text: q.text,
-          points: q.points,
-          topic: quiz.topics[0] || "General",
-          option_1: "Option A",
-          option_2: "Option B",
-          option_3: "Option C",
-          option_4: "Option D",
-          correct_options: [1],
-        })),
+        fromDatabase: true, // Flag to indicate we need to fetch questions from API
+        questions: [], // Empty - will be fetched from API
       })
     );
     history.push("/page/quiz-preview");
