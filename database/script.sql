@@ -413,6 +413,25 @@ BEGIN
   END IF;
 END;
 
+create table friend_requests
+(
+    id_request  int auto_increment
+        primary key,
+    id_sender   int                                                                not null,
+    id_receiver int                                                                not null,
+    status      enum ('pending', 'accepted', 'rejected') default 'pending'         null,
+    created_at  timestamp                                default CURRENT_TIMESTAMP null,
+    updated_at  timestamp                                default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
+    constraint unique_request
+        unique (id_sender, id_receiver),
+    constraint fk_fr_receiver
+        foreign key (id_receiver) references user (id_user)
+            on delete cascade,
+    constraint fk_fr_sender
+        foreign key (id_sender) references user (id_user)
+            on delete cascade
+);
+
 create table message
 (
     id_message int auto_increment
@@ -446,18 +465,20 @@ create table quiz
 (
     id_quiz      int auto_increment
         primary key,
-    id_professor int         null,
-    quiz_name    varchar(50) null,
-    id_subject   int         not null,
-    id_section   int         not null,
-    id_class     int         not null,
+    id_professor int                                     not null,
+    id_subject   int                                     not null,
+    quiz_name    varchar(100)                            not null,
+    description  varchar(500)                            null,
+    level        varchar(20)                             not null,
+    language     varchar(20)                             null,
+    created_at   timestamp     default CURRENT_TIMESTAMP null,
+    is_public    tinyint(1)    default 1                 null,
+    downloads    int           default 0                 null,
+    avg_rating   decimal(2, 1) default 0.0               null,
+    rating_count int           default 0                 null,
     constraint quiz_ibfk_1
-        foreign key (id_class) references class (id_class),
-    constraint quiz_ibfk_2
         foreign key (id_professor) references user (id_user),
-    constraint quiz_ibfk_3
-        foreign key (id_section) references section (id_section),
-    constraint quiz_ibfk_4
+    constraint quiz_ibfk_2
         foreign key (id_subject) references subject (id_subject)
 );
 
@@ -465,17 +486,27 @@ create table assignment
 (
     id_assignment          int auto_increment
         primary key,
-    id_section             int      null,
-    due_time               date     null,
-    id_quiz                int      null,
-    win_battle_requirement smallint null,
-    id_subject             int      null,
+    id_professor           int                                    not null,
+    id_section             int                                    null,
+    due_time               date                                   null,
+    id_quiz                int                                    null,
+    win_battle_requirement smallint                               null,
+    id_subject             int                                    null,
+    min_battle_wins        int          default 0                 null,
+    title                  varchar(255) default 'Assignment'      not null,
+    description            text                                   null,
+    due_date               datetime                               null,
+    min_win_streak         int          default 0                 null,
+    required_text_response tinyint(1)   default 0                 null,
+    created_at             timestamp    default CURRENT_TIMESTAMP null,
     constraint assignment_ibfk_1
         foreign key (id_subject) references subject (id_subject),
     constraint assignment_ibfk_2
         foreign key (id_quiz) references quiz (id_quiz),
     constraint assignment_ibfk_3
-        foreign key (id_section) references section (id_section)
+        foreign key (id_section) references section (id_section),
+    constraint fk_assignment_professor
+        foreign key (id_professor) references user (id_user)
 );
 
 create index id_quiz
@@ -487,31 +518,100 @@ create index id_section
 create index id_subject
     on assignment (id_subject);
 
-create index id_class
-    on quiz (id_class);
+create table assignment_submission
+(
+    id_submission       int auto_increment
+        primary key,
+    id_assignment       int                                                                              not null,
+    id_student          int                                                                              not null,
+    status              enum ('NOT_STARTED', 'IN_PROGRESS', 'SUBMITTED', 'GRADED') default 'NOT_STARTED' null,
+    win_streak_achieved int                                                        default 0             null,
+    text_response       text                                                                             null,
+    started_at          datetime                                                                         null,
+    submitted_at        datetime                                                                         null,
+    graded_at           datetime                                                                         null,
+    grade               decimal(5, 2)                                                                    null,
+    feedback            text                                                                             null,
+    constraint unique_student_assignment
+        unique (id_assignment, id_student),
+    constraint fk_sub_assignment
+        foreign key (id_assignment) references assignment (id_assignment)
+            on delete cascade,
+    constraint fk_sub_student
+        foreign key (id_student) references user (id_user)
+            on delete cascade
+);
+
+create index idx_sub_status
+    on assignment_submission (status);
+
+create index idx_sub_student
+    on assignment_submission (id_student);
+
+create table assignment_target
+(
+    id_assignment_target int auto_increment
+        primary key,
+    id_assignment        int                         not null,
+    target_type          enum ('SECTION', 'STUDENT') not null,
+    target_id            int                         not null,
+    constraint fk_target_assignment
+        foreign key (id_assignment) references assignment (id_assignment)
+            on delete cascade
+);
+
+create index idx_target_assignment
+    on assignment_target (id_assignment);
+
+create index idx_target_lookup
+    on assignment_target (target_type, target_id);
 
 create index id_professor
     on quiz (id_professor);
 
-create index id_section
-    on quiz (id_section);
-
 create index id_subject
     on quiz (id_subject);
 
+create table quiz_attempt
+(
+    id_attempt       int auto_increment
+        primary key,
+    id_quiz          int                        not null,
+    id_student       int                        not null,
+    started_at       datetime                   not null,
+    finished_at      datetime                   null,
+    total_score      decimal(5, 2) default 0.00 null,
+    focus_lost_count int           default 0    null,
+    constraint quiz_attempt_ibfk_1
+        foreign key (id_quiz) references quiz (id_quiz)
+            on delete cascade,
+    constraint quiz_attempt_ibfk_2
+        foreign key (id_student) references user (id_user)
+);
+
+create index id_quiz
+    on quiz_attempt (id_quiz);
+
+create index id_student
+    on quiz_attempt (id_student);
+
 create table quiz_question
 (
-    id_quiz_question int auto_increment
+    id_question              int auto_increment
         primary key,
-    id_quiz          int          not null,
-    id_topic         int          null,
-    question         varchar(500) not null,
-    answer1          varchar(50)  null,
-    answer2          varchar(50)  null,
-    answer3          varchar(50)  null,
-    answer4          varchar(50)  null,
+    id_quiz                  int                        not null,
+    id_topic                 int                        null,
+    question_text            text                       not null,
+    points                   decimal(5, 2) default 1.00 null,
+    allow_multiple_selection tinyint(1)    default 0    null,
+    option_1                 varchar(255)               not null,
+    option_2                 varchar(255)               not null,
+    option_3                 varchar(255)               null,
+    option_4                 varchar(255)               null,
+    correct_options          varchar(50)                not null,
     constraint quiz_question_ibfk_1
-        foreign key (id_quiz) references quiz (id_quiz),
+        foreign key (id_quiz) references quiz (id_quiz)
+            on delete cascade,
     constraint quiz_question_ibfk_2
         foreign key (id_topic) references topic (id_topic)
 );
@@ -522,85 +622,49 @@ create index id_quiz
 create index id_topic
     on quiz_question (id_topic);
 
-create table quiz_student
+create table quiz_rating
 (
-    id_quiz_student int auto_increment
+    id_rating  int auto_increment
         primary key,
-    id_quiz         int null,
-    id_student      int null,
-    score           int null,
-    constraint quiz_student_ibfk_1
-        foreign key (id_quiz) references quiz (id_quiz),
-    constraint quiz_student_ibfk_2
-        foreign key (id_student) references user (id_user)
-);
-
-create table assignment_student
-(
-    id_assignment_student int auto_increment
-        primary key,
-    id_assignment         int                  null,
-    id_student            int                  null,
-    complete              tinyint(1) default 0 null,
-    id_quiz_student       int                  null,
-    constraint assignment_student_ibfk_1
-        foreign key (id_quiz_student) references quiz_student (id_quiz_student),
-    constraint assignment_student_ibfk_2
-        foreign key (id_student) references user (id_user),
-    constraint assignment_student_ibfk_3
-        foreign key (id_assignment) references assignment (id_assignment)
-);
-
-create index id_assignment
-    on assignment_student (id_assignment);
-
-create index id_quiz_student
-    on assignment_student (id_quiz_student);
-
-create index id_student
-    on assignment_student (id_student);
-
-create table assignment_student_battle
-(
-    id_assignment_student_battle int auto_increment
-        primary key,
-    id_assignment_student        int null,
-    id_battle_minigame           int null,
-    constraint assignment_student_battle_ibfk_1
-        foreign key (id_battle_minigame) references battle_minigame (id_battle_minigame),
-    constraint assignment_student_battle_ibfk_2
-        foreign key (id_assignment_student) references assignment_student (id_assignment)
-);
-
-create index id_assignment_student
-    on assignment_student_battle (id_assignment_student);
-
-create index id_battle_minigame
-    on assignment_student_battle (id_battle_minigame);
-
-create index id_quiz
-    on quiz_student (id_quiz);
-
-create index id_student
-    on quiz_student (id_student);
-
-create table quiz_topic
-(
-    id_quiz_topic int auto_increment
-        primary key,
-    id_quiz       int null,
-    id_topic      int null,
-    constraint quiz_topic_ibfk_1
-        foreign key (id_topic) references topic (id_topic),
-    constraint quiz_topic_ibfk_2
+    id_quiz    int                                 not null,
+    id_user    int                                 not null,
+    rating     tinyint                             not null,
+    created_at timestamp default CURRENT_TIMESTAMP null,
+    constraint unique_quiz_user_rating
+        unique (id_quiz, id_user),
+    constraint quiz_rating_ibfk_1
         foreign key (id_quiz) references quiz (id_quiz)
+            on delete cascade,
+    constraint quiz_rating_ibfk_2
+        foreign key (id_user) references user (id_user),
+    check ((`rating` >= 1) and (`rating` <= 5))
 );
 
-create index id_quiz
-    on quiz_topic (id_quiz);
+create index id_user
+    on quiz_rating (id_user);
 
-create index id_topic
-    on quiz_topic (id_topic);
+create table quiz_response
+(
+    id_response        int auto_increment
+        primary key,
+    id_attempt         int                        not null,
+    id_question        int                        not null,
+    selected_options   varchar(50)                null,
+    is_correct         tinyint(1)    default 0    null,
+    points_awarded     decimal(5, 2) default 0.00 null,
+    time_taken_seconds decimal(5, 2)              null,
+    constraint quiz_response_ibfk_1
+        foreign key (id_attempt) references quiz_attempt (id_attempt)
+            on delete cascade,
+    constraint quiz_response_ibfk_2
+        foreign key (id_question) references quiz_question (id_question)
+);
+
+create index id_attempt
+    on quiz_response (id_attempt);
+
+create index id_question
+    on quiz_response (id_question);
 
 create table student_profile
 (
@@ -631,22 +695,30 @@ create table student_topic
             on delete cascade
 );
 
-
-CREATE TABLE IF NOT EXISTS friend_requests (
-    id_request INT AUTO_INCREMENT PRIMARY KEY,
-    id_sender INT NOT NULL,
-    id_receiver INT NOT NULL,
-    status ENUM('pending', 'accepted', 'rejected') DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_fr_sender FOREIGN KEY (id_sender) REFERENCES user(id_user) ON DELETE CASCADE,
-    CONSTRAINT fk_fr_receiver FOREIGN KEY (id_receiver) REFERENCES user(id_user) ON DELETE CASCADE,
-    UNIQUE KEY unique_request (id_sender, id_receiver)
-);
-
-
 create index idx_student_topic__user
     on student_topic (id_user);
+
+create table submission_quiz_score
+(
+    id            int auto_increment
+        primary key,
+    id_submission int                                     not null,
+    id_quiz       int                                     not null,
+    score         decimal(5, 2) default 0.00              null,
+    max_score     decimal(5, 2) default 100.00            null,
+    completed_at  datetime      default CURRENT_TIMESTAMP null,
+    constraint unique_submission_quiz
+        unique (id_submission, id_quiz),
+    constraint fk_sqs_quiz
+        foreign key (id_quiz) references quiz (id_quiz)
+            on delete cascade,
+    constraint fk_sqs_submission
+        foreign key (id_submission) references assignment_submission (id_submission)
+            on delete cascade
+);
+
+create index idx_sqs_submission
+    on submission_quiz_score (id_submission);
 
 create table user_section
 (
@@ -661,5 +733,13 @@ create table user_section
         foreign key (id_user) references user (id_user)
             on delete cascade
 );
+
+create definer = root@`%` event cleanup_expired_refresh_tokens on schedule
+    every '1' DAY
+        starts '2026-01-17 02:20:51'
+    enable
+    do
+    DELETE FROM refresh_tokens
+  WHERE expires_at < NOW() OR revoked = TRUE;
 
 

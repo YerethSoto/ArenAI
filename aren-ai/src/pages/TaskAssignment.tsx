@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   IonPage,
   IonContent,
@@ -19,22 +19,29 @@ import {
   closeOutline,
 } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 import ProfessorMenu from "../components/ProfessorMenu";
 import PageTransition from "../components/PageTransition";
+import { getApiUrl } from "../config/api";
 import "./TaskAssignment.css";
 import "../components/ProfessorHeader.css";
+import { useProfessorFilters } from "../hooks/useProfessorFilters";
 
-// Mock sections data
-const MOCK_SECTIONS = [
-  { id: "1", name: "7-1 Math", grade: 7, subject: "Math" },
-  { id: "2", name: "7-2 Math", grade: 7, subject: "Math" },
-  { id: "3", name: "8-1 Math", grade: 8, subject: "Math" },
-  { id: "4", name: "8-2 Science", grade: 8, subject: "Science" },
-  { id: "5", name: "9-1 History", grade: 9, subject: "History" },
-  { id: "6", name: "9-2 Math", grade: 9, subject: "Math" },
-  { id: "7", name: "10-1 Math", grade: 10, subject: "Math" },
-  { id: "8", name: "10-2 Science", grade: 10, subject: "Science" },
-];
+// Section interface for API data
+interface Section {
+  id: number;
+  sectionNumber: string;
+  grade: string;
+  name: string;
+}
+
+// Student interface
+interface Student {
+  id: number;
+  username: string;
+  name: string;
+  lastName: string;
+}
 
 const GRADES = [7, 8, 9, 10, 11, 12];
 
@@ -113,21 +120,46 @@ const MOCK_QUIZZES: MockQuiz[] = [
 
 const TaskAssignment: React.FC = () => {
   const { t } = useTranslation();
+  const history = useHistory();
   const [present] = useIonToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Current context (from header)
-  const [selectedGrade, setSelectedGrade] = useState(7);
-  const [selectedSubject, setSelectedSubject] = useState("Math");
-  const [currentSection, setCurrentSection] = useState("7-1");
+  // Current context (from global hook)
+  const {
+    selectedGrade,
+    setSelectedGrade,
+    selectedSection,
+    setSelectedSection,
+    selectedSubject,
+    setSelectedSubject,
+  } = useProfessorFilters();
 
-  // Assignment state
-  const [assignmentName, setAssignmentName] = useState("Calculus assignment");
-  const [dueDate, setDueDate] = useState("2026-11-26");
-  const [assignedSections, setAssignedSections] = useState<string[]>(["1"]);
-  const [points, setPoints] = useState(10);
+  // Sections and students from DB
+  const [sections, setSections] = useState<Section[]>([]);
+  const [students, setStudents] = useState<Student[]>([]);
+  const [loadingSections, setLoadingSections] = useState(true);
+  const [loadingStudents, setLoadingStudents] = useState(false);
+
+  // Assignment mode: section or student
+  const [assignMode, setAssignMode] = useState<"section" | "student">(
+    "section",
+  );
+  const [selectedStudentId, setSelectedStudentId] = useState<number | null>(
+    null,
+  );
+  const [studentSearch, setStudentSearch] = useState("");
+
+  // Assignment state - defaults: points=0, dueDate=today
+  const today = new Date().toISOString().split("T")[0];
+  const [assignmentName, setAssignmentName] = useState(
+    t("taskAssignment.defaultTitle"),
+  );
+  const [dueDate, setDueDate] = useState(today);
+  const [assignedSections, setAssignedSections] = useState<string[]>([]);
+  const [points, setPoints] = useState(0);
   const [instructions, setInstructions] = useState("");
-  const [battlesCount, setBattlesCount] = useState(3);
-  const [agentTime, setAgentTime] = useState(30); // in minutes
+  const [battlesCount, setBattlesCount] = useState(0);
+  const [agentTime, setAgentTime] = useState(0); // in minutes - default to 0
 
   // Modal states
   const [showNameModal, setShowNameModal] = useState(false);
@@ -162,14 +194,97 @@ const TaskAssignment: React.FC = () => {
   const [quizFilterGrade, setQuizFilterGrade] = useState<number | null>(null);
   const [quizFilterTopics, setQuizFilterTopics] = useState<string[]>([]);
   const [quizSortOrder, setQuizSortOrder] = useState<"newest" | "oldest">(
-    "newest"
+    "newest",
   );
   const [tempFilterGrade, setTempFilterGrade] = useState<number | null>(null);
   const [tempFilterTopics, setTempFilterTopics] = useState<string[]>([]);
   const [tempSortOrder, setTempSortOrder] = useState<"newest" | "oldest">(
-    "newest"
+    "newest",
   );
   const [topicSearch, setTopicSearch] = useState("");
+
+  // Fetch sections from API on mount
+  useEffect(() => {
+    const fetchSections = async () => {
+      try {
+        const token =
+          localStorage.getItem("authToken") || localStorage.getItem("token");
+        console.log("Fetching sections, token exists:", !!token);
+
+        if (!token) {
+          console.error("No auth token found");
+          setLoadingSections(false);
+          return;
+        }
+
+        const url = getApiUrl("/api/sections/institution");
+        console.log("Fetching from:", url);
+
+        const response = await fetch(url, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        console.log("Response status:", response.status);
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Sections data:", data);
+          const sectionsList = data.sections || [];
+          setSections(sectionsList);
+
+          // Auto-select section based on global filter
+          // Find section matching selectedGrade and selectedSection (name)
+          const defaultSec = sectionsList.find(
+            (s: Section) =>
+              String(s.grade) === String(selectedGrade) &&
+              (s.name === selectedSection ||
+                s.name === `Section ${selectedSection}` ||
+                s.name === `${selectedGrade}-${selectedSection}`),
+          );
+          if (defaultSec) {
+            setTempSections([String(defaultSec.id)]);
+            setAssignedSections([String(defaultSec.id)]);
+          }
+        } else {
+          const errorText = await response.text();
+          console.error("Error fetching sections:", response.status, errorText);
+        }
+      } catch (error) {
+        console.error("Error fetching sections:", error);
+      } finally {
+        setLoadingSections(false);
+      }
+    };
+    fetchSections();
+  }, [selectedGrade, selectedSection]); // Re-run when context changes to update default assignment?
+  // Actually we probably only want to set default on mount or explicit change?
+  // Let's keep it dependent so it auto-updates the "Assign to" if user changes header.
+
+  // Fetch students when a section is selected
+  const fetchStudentsForSection = async (sectionId: number) => {
+    setLoadingStudents(true);
+    try {
+      const token =
+        localStorage.getItem("authToken") || localStorage.getItem("token");
+      if (!token) return;
+
+      const response = await fetch(
+        getApiUrl(`/api/sections/${sectionId}/students`),
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setStudents(data || []);
+      }
+    } catch (error) {
+      console.error("Error fetching students:", error);
+    } finally {
+      setLoadingStudents(false);
+    }
+  };
 
   // Name modal handlers
   const openNameModal = () => {
@@ -230,20 +345,24 @@ const TaskAssignment: React.FC = () => {
 
   // Get display text for assigned sections
   const getAssignedText = () => {
-    if (assignedSections.length === 0) return "Select";
+    if (assignedSections.length === 0)
+      return `${selectedGrade}-${selectedSection}` || "Select";
     if (assignedSections.length === 1) {
-      const section = MOCK_SECTIONS.find((s) => s.id === assignedSections[0]);
-      return section?.name.split(" ")[0] || "1";
+      const section = sections.find(
+        (s: Section) => String(s.id) === assignedSections[0],
+      );
+      return section?.name || "1 section";
     }
     return `${assignedSections.length} sections`;
   };
 
   // Filter sections based on search and grade
-  const filteredSections = MOCK_SECTIONS.filter((section) => {
+  const filteredSections = sections.filter((section: Section) => {
     const matchesSearch = section.name
       .toLowerCase()
       .includes(sectionSearch.toLowerCase());
-    const matchesGrade = filterGrade === null || section.grade === filterGrade;
+    const matchesGrade =
+      filterGrade === null || section.grade === String(filterGrade);
     return matchesSearch && matchesGrade;
   });
 
@@ -293,7 +412,10 @@ const TaskAssignment: React.FC = () => {
       quizFilterTopics.length === 0 ||
       quiz.topics.some((t) => quizFilterTopics.includes(t));
 
-    return matchesSearch && matchesGrade && matchesTopics;
+    // Subject filter (global)
+    const matchesSubject = quiz.subject === selectedSubject;
+
+    return matchesSearch && matchesGrade && matchesTopics && matchesSubject;
   }).sort((a, b) => {
     const dateA = new Date(a.createdAt).getTime();
     const dateB = new Date(b.createdAt).getTime();
@@ -355,8 +477,8 @@ const TaskAssignment: React.FC = () => {
     setShowAgentModal(false);
   };
 
-  // Assign handler
-  const handleAssign = () => {
+  // Assign handler - save to database
+  const handleAssign = async () => {
     if (assignedSections.length === 0) {
       present({
         message: "Please select at least one section",
@@ -366,21 +488,68 @@ const TaskAssignment: React.FC = () => {
       return;
     }
 
-    console.log("Assigning task:", {
-      name: assignmentName,
-      dueDate,
-      sections: assignedSections,
-      points,
-      instructions,
-      battles: battlesCount,
-      agentTime,
-    });
+    setIsSubmitting(true);
 
-    present({
-      message: "Task assigned successfully!",
-      duration: 2000,
-      color: "success",
-    });
+    try {
+      // Get auth token and user
+      const token =
+        localStorage.getItem("authToken") || localStorage.getItem("token");
+      const userStr =
+        localStorage.getItem("userData") || localStorage.getItem("user");
+      const user = userStr ? JSON.parse(userStr) : null;
+
+      if (!token || !user?.id) {
+        present({
+          message: "Please log in to create assignments",
+          duration: 2000,
+          color: "warning",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Create assignment (single assignment, not per section)
+      // Use first selected section or default section from header
+      const sectionId =
+        assignedSections.length > 0 ? assignedSections[0] : null;
+
+      const response = await fetch(getApiUrl("/api/assignments"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: assignmentName,
+          description: instructions || null,
+          sectionId: sectionId ? Number(sectionId) : null,
+          professorId: user.id,
+          subjectId: 1, // Default subject
+          dueTime: dueDate,
+          quizId: selectedQuizId ? Number(selectedQuizId) : null,
+          winBattleRequirement: battlesCount > 0 ? battlesCount : null,
+          minBattleWins: battlesCount > 0 ? battlesCount : 0,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error("Server error:", errorData);
+        throw new Error(errorData.error || "Failed to create assignment");
+      }
+
+      // Navigate to assignments menu (no toast notification)
+      history.push("/page/assignments-menu");
+    } catch (error) {
+      console.error("Error creating assignment:", error);
+      present({
+        message: "Failed to create assignment. Please try again.",
+        duration: 2000,
+        color: "danger",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -410,17 +579,15 @@ const TaskAssignment: React.FC = () => {
               <div className="ph-text-oval">
                 <ProfessorMenu
                   selectedGrade={String(selectedGrade)}
-                  selectedSection={currentSection.split("-")[1] || "1"}
+                  selectedSection={selectedSection}
                   selectedSubject={t(
                     "professor.dashboard.subjects." +
-                      selectedSubject.replace(/\s+/g, "")
+                      selectedSubject.replace(/\s+/g, ""),
                   )}
                   onGradeChange={(grade) =>
                     setSelectedGrade(parseInt(grade, 10))
                   }
-                  onSectionChange={(section) =>
-                    setCurrentSection(`${selectedGrade}-${section}`)
-                  }
+                  onSectionChange={setSelectedSection}
                   onSubjectChange={setSelectedSubject}
                 />
               </div>
@@ -447,11 +614,15 @@ const TaskAssignment: React.FC = () => {
 
             {/* Details Card */}
             <div className="task-card">
-              <div className="task-card-title">Details</div>
+              <div className="task-card-title">
+                {t("taskAssignment.pageTitle")}
+              </div>
 
               {/* Due Date Row */}
               <div className="task-details-row" onClick={openDateModal}>
-                <span className="task-details-label">Due date</span>
+                <span className="task-details-label">
+                  {t("taskAssignment.dueDate")}
+                </span>
                 <span className="task-details-value">
                   {formatDate(dueDate)}
                 </span>
@@ -459,13 +630,17 @@ const TaskAssignment: React.FC = () => {
 
               {/* Assign To Row */}
               <div className="task-details-row" onClick={openSectionModal}>
-                <span className="task-details-label">Assign to</span>
+                <span className="task-details-label">
+                  {t("taskAssignment.assignToSections")}
+                </span>
                 <span className="task-details-value">{getAssignedText()}</span>
               </div>
 
               {/* Points Row */}
               <div className="task-details-row" onClick={openPointsModal}>
-                <span className="task-details-label">Points</span>
+                <span className="task-details-label">
+                  {t("taskAssignment.points")}
+                </span>
                 <span className="task-details-value">{points}</span>
               </div>
 
@@ -475,7 +650,7 @@ const TaskAssignment: React.FC = () => {
                   className="task-instructions-input"
                   value={instructions}
                   onChange={(e) => setInstructions(e.target.value)}
-                  placeholder="Add specific instructions for the AI..."
+                  placeholder={t("taskAssignment.instructions")}
                   rows={3}
                 />
               </div>
@@ -490,7 +665,9 @@ const TaskAssignment: React.FC = () => {
                 <div className="task-slider-grid">
                   {/* Battles Column */}
                   <div className="task-slider-column">
-                    <span className="task-slider-label">Assign battles</span>
+                    <span className="task-slider-label">
+                      {t("taskAssignment.battlesRequired")}
+                    </span>
                     <div
                       className="task-value-circle"
                       onClick={openBattlesModal}
@@ -518,7 +695,9 @@ const TaskAssignment: React.FC = () => {
 
                   {/* Agent Time Column */}
                   <div className="task-slider-column">
-                    <span className="task-slider-label">Study with Agent</span>
+                    <span className="task-slider-label">
+                      {t("taskAssignment.studyWithAgentTime")}
+                    </span>
                     <div className="task-value-circle" onClick={openAgentModal}>
                       {agentTime}
                     </div>
@@ -546,7 +725,9 @@ const TaskAssignment: React.FC = () => {
 
             {/* Your Quizzes Card */}
             <div className="task-card">
-              <div className="task-card-title">Your quizzes</div>
+              <div className="task-card-title">
+                {t("assignment.yourQuizzes")}
+              </div>
 
               {/* Quiz Search with Filter Button */}
               <div className="task-quiz-search-row">
@@ -554,7 +735,7 @@ const TaskAssignment: React.FC = () => {
                   className="task-quiz-searchbar"
                   value={quizSearch}
                   onIonInput={(e) => setQuizSearch(e.detail.value || "")}
-                  placeholder="Search for quizzes..."
+                  placeholder={t("taskAssignment.searchQuizzes")}
                 />
                 <button
                   className={`task-quiz-filter-btn ${
@@ -573,8 +754,10 @@ const TaskAssignment: React.FC = () => {
 
               {/* Sort indicator */}
               <div className="task-quiz-sort-indicator">
-                Sorted by:{" "}
-                {quizSortOrder === "newest" ? "Newest first" : "Oldest first"}
+                {t("taskAssignment.sortedBy")}{" "}
+                {quizSortOrder === "newest"
+                  ? t("taskAssignment.newestFirst")
+                  : t("taskAssignment.oldestFirst")}
               </div>
 
               {/* Quiz List Grid */}
@@ -605,12 +788,16 @@ const TaskAssignment: React.FC = () => {
                       <div className="task-quiz-info">
                         <span className="task-quiz-name">{quiz.name}</span>
                         <span className="task-quiz-subject">
-                          {quiz.subject} • Grade {quiz.grade}
+                          {t(
+                            "professor.dashboard.subjects." +
+                              quiz.subject.replace(/\s+/g, ""),
+                          )}{" "}
+                          • {t("taskAssignment.gradeFilter")} {quiz.grade}
                         </span>
                       </div>
                     </div>
                     <div className="task-quiz-date">
-                      Created: {formatQuizDate(quiz.createdAt)}
+                      {t("quizMenu.created")}: {formatQuizDate(quiz.createdAt)}
                     </div>
                     <div className="task-quiz-topics">
                       {quiz.topics.map((topic, i) => (
@@ -627,7 +814,7 @@ const TaskAssignment: React.FC = () => {
                         setShowQuizDetailModal(true);
                       }}
                     >
-                      View Details
+                      {t("taskAssignment.viewDetails")}
                     </button>
                   </div>
                 ))}
@@ -643,7 +830,7 @@ const TaskAssignment: React.FC = () => {
       {/* Footer */}
       <div className="task-footer">
         <div className="task-assign-btn" onClick={handleAssign}>
-          Assign
+          {t("taskAssignment.assign")}
         </div>
       </div>
 
@@ -654,23 +841,23 @@ const TaskAssignment: React.FC = () => {
         className="task-modal"
       >
         <div className="task-modal-inner">
-          <h2 className="task-modal-title">Assignment Name</h2>
+          <h2 className="task-modal-title">{t("taskAssignment.editName")}</h2>
           <input
             type="text"
             className="task-modal-input"
             value={tempName}
             onChange={(e) => setTempName(e.target.value)}
-            placeholder="Enter assignment name"
+            placeholder={t("taskAssignment.enterName")}
           />
           <div className="task-modal-buttons">
             <button
               className="task-modal-btn cancel"
               onClick={() => setShowNameModal(false)}
             >
-              Cancel
+              {t("taskAssignment.cancel")}
             </button>
             <button className="task-modal-btn save" onClick={saveName}>
-              Save
+              {t("taskAssignment.save")}
             </button>
           </div>
         </div>
@@ -683,7 +870,7 @@ const TaskAssignment: React.FC = () => {
         className="task-modal"
       >
         <div className="task-modal-inner">
-          <h2 className="task-modal-title">Due Date</h2>
+          <h2 className="task-modal-title">{t("taskAssignment.dueDate")}</h2>
           <div className="task-date-picker">
             <input
               type="date"
@@ -696,10 +883,10 @@ const TaskAssignment: React.FC = () => {
               className="task-modal-btn cancel"
               onClick={() => setShowDateModal(false)}
             >
-              Cancel
+              {t("taskAssignment.cancel")}
             </button>
             <button className="task-modal-btn save" onClick={saveDate}>
-              Save
+              {t("taskAssignment.save")}
             </button>
           </div>
         </div>
@@ -713,12 +900,14 @@ const TaskAssignment: React.FC = () => {
       >
         <div className="task-section-modal-content">
           <div className="task-section-header">
-            <h2 className="task-section-title">Assign to Sections</h2>
+            <h2 className="task-section-title">
+              {t("taskAssignment.assignToSections")}
+            </h2>
             <IonSearchbar
               className="task-section-search"
               value={sectionSearch}
               onIonInput={(e) => setSectionSearch(e.detail.value || "")}
-              placeholder="Search sections..."
+              placeholder={t("taskAssignment.searchSections")}
             />
           </div>
 
@@ -730,7 +919,7 @@ const TaskAssignment: React.FC = () => {
               }`}
               onClick={() => setFilterGrade(null)}
             >
-              All
+              {t("taskAssignment.all")}
             </div>
             {GRADES.map((grade) => (
               <div
@@ -740,47 +929,56 @@ const TaskAssignment: React.FC = () => {
                 }`}
                 onClick={() => setFilterGrade(grade)}
               >
-                Grade {grade}
+                {t("taskAssignment.gradeFilter")} {grade}
               </div>
             ))}
           </div>
 
           {/* Section List */}
           <div className="task-section-list">
-            {filteredSections.map((section) => (
-              <div
-                key={section.id}
-                className={`task-section-item ${
-                  tempSections.includes(section.id) ? "selected" : ""
-                }`}
-                onClick={() => toggleSection(section.id)}
-              >
-                <div className="task-section-checkbox">
-                  {tempSections.includes(section.id) && (
-                    <IonIcon
-                      icon={checkmark}
-                      style={{ color: "white", fontSize: "14px" }}
-                    />
-                  )}
-                </div>
-                <span className="task-section-name">{section.name}</span>
-                <span className="task-section-grade">
-                  Grade {section.grade}
-                </span>
+            {loadingSections ? (
+              <div style={{ padding: "20px", textAlign: "center" }}>
+                {t("taskAssignment.loadingSections")}
               </div>
-            ))}
+            ) : filteredSections.length === 0 ? (
+              <div style={{ padding: "20px", textAlign: "center" }}>
+                {t("taskAssignment.noSectionsFound")}
+              </div>
+            ) : (
+              filteredSections.map((section) => (
+                <div
+                  key={section.id}
+                  className={`task-section-item ${
+                    tempSections.includes(String(section.id)) ? "selected" : ""
+                  }`}
+                  onClick={() => toggleSection(String(section.id))}
+                >
+                  <div className="task-section-checkbox">
+                    {tempSections.includes(String(section.id)) && (
+                      <IonIcon
+                        icon={checkmark}
+                        style={{ color: "white", fontSize: "14px" }}
+                      />
+                    )}
+                  </div>
+                  <span className="task-section-name">{section.name}</span>
+                  <span className="task-section-grade">
+                    {t("taskAssignment.gradeFilter")} {section.grade}
+                  </span>
+                </div>
+              ))
+            )}
           </div>
 
-          {/* Footer */}
           <div className="task-section-footer">
             <button
               className="task-modal-btn cancel"
               onClick={() => setShowSectionModal(false)}
             >
-              Cancel
+              {t("taskAssignment.cancel")}
             </button>
             <button className="task-modal-btn save" onClick={saveSections}>
-              Save ({tempSections.length})
+              {t("taskAssignment.save")} ({tempSections.length})
             </button>
           </div>
         </div>
@@ -793,7 +991,7 @@ const TaskAssignment: React.FC = () => {
         className="task-modal"
       >
         <div className="task-modal-inner">
-          <h2 className="task-modal-title">Points</h2>
+          <h2 className="task-modal-title">{t("taskAssignment.points")}</h2>
           <input
             type="number"
             className="task-modal-input"
@@ -808,10 +1006,10 @@ const TaskAssignment: React.FC = () => {
               className="task-modal-btn cancel"
               onClick={() => setShowPointsModal(false)}
             >
-              Cancel
+              {t("taskAssignment.cancel")}
             </button>
             <button className="task-modal-btn save" onClick={savePoints}>
-              Save
+              {t("taskAssignment.save")}
             </button>
           </div>
         </div>
@@ -824,7 +1022,9 @@ const TaskAssignment: React.FC = () => {
         className="task-modal"
       >
         <div className="task-modal-inner">
-          <h2 className="task-modal-title">Number of Battles</h2>
+          <h2 className="task-modal-title">
+            {t("taskAssignment.battlesRequired")}
+          </h2>
           <input
             type="number"
             className="task-modal-input"
@@ -839,10 +1039,10 @@ const TaskAssignment: React.FC = () => {
               className="task-modal-btn cancel"
               onClick={() => setShowBattlesModal(false)}
             >
-              Cancel
+              {t("taskAssignment.cancel")}
             </button>
             <button className="task-modal-btn save" onClick={saveBattles}>
-              Save
+              {t("taskAssignment.save")}
             </button>
           </div>
         </div>
@@ -855,7 +1055,9 @@ const TaskAssignment: React.FC = () => {
         className="task-modal"
       >
         <div className="task-modal-inner">
-          <h2 className="task-modal-title">Study Time</h2>
+          <h2 className="task-modal-title">
+            {t("taskAssignment.studyWithAgentTime")}
+          </h2>
           <div className="task-time-picker">
             <div className="task-time-group">
               <input
@@ -867,7 +1069,9 @@ const TaskAssignment: React.FC = () => {
                 min={0}
                 max={3}
               />
-              <span className="task-time-label">Hours</span>
+              <span className="task-time-label">
+                {t("taskAssignment.hours")}
+              </span>
             </div>
             <span className="task-time-separator">:</span>
             <div className="task-time-group">
@@ -880,7 +1084,9 @@ const TaskAssignment: React.FC = () => {
                 min={0}
                 max={59}
               />
-              <span className="task-time-label">Minutes</span>
+              <span className="task-time-label">
+                {t("taskAssignment.minutes")}
+              </span>
             </div>
           </div>
           <div className="task-modal-buttons">
@@ -888,10 +1094,10 @@ const TaskAssignment: React.FC = () => {
               className="task-modal-btn cancel"
               onClick={() => setShowAgentModal(false)}
             >
-              Cancel
+              {t("taskAssignment.cancel")}
             </button>
             <button className="task-modal-btn save" onClick={saveAgentTime}>
-              Save
+              {t("taskAssignment.save")}
             </button>
           </div>
         </div>
@@ -908,10 +1114,15 @@ const TaskAssignment: React.FC = () => {
             <div className="task-quiz-detail-header">
               <h2 className="task-quiz-detail-title">{selectedQuiz.name}</h2>
               <span className="task-quiz-detail-subject">
-                {selectedQuiz.subject} • Grade {selectedQuiz.grade}
+                {t(
+                  "professor.dashboard.subjects." +
+                    selectedQuiz.subject.replace(/\s+/g, ""),
+                )}{" "}
+                • {t("taskAssignment.gradeFilter")} {selectedQuiz.grade}
               </span>
               <span className="task-quiz-detail-date">
-                Created: {formatQuizDate(selectedQuiz.createdAt)}
+                {t("quizMenu.created")}:{" "}
+                {formatQuizDate(selectedQuiz.createdAt)}
               </span>
             </div>
 
@@ -920,7 +1131,9 @@ const TaskAssignment: React.FC = () => {
             </p>
 
             <div className="task-quiz-detail-section">
-              <h3 className="task-quiz-detail-section-title">Topics</h3>
+              <h3 className="task-quiz-detail-section-title">
+                {t("taskAssignment.topics")}
+              </h3>
               <div className="task-quiz-detail-topics">
                 {selectedQuiz.topics.map((topic, i) => (
                   <span key={i} className="task-quiz-topic-chip">
@@ -932,7 +1145,7 @@ const TaskAssignment: React.FC = () => {
 
             <div className="task-quiz-detail-section">
               <h3 className="task-quiz-detail-section-title">
-                Questions ({selectedQuiz.questions.length})
+                {t("quiz.questions")} ({selectedQuiz.questions.length})
               </h3>
               <div className="task-quiz-detail-questions">
                 {selectedQuiz.questions.slice(0, 3).map((q, i) => (
@@ -957,7 +1170,7 @@ const TaskAssignment: React.FC = () => {
                 className="task-modal-btn cancel"
                 onClick={() => setShowQuizDetailModal(false)}
               >
-                Close
+                {t("sidebar.close")}
               </button>
               <button
                 className="task-modal-btn save"
@@ -966,7 +1179,7 @@ const TaskAssignment: React.FC = () => {
                   setShowQuizDetailModal(false);
                 }}
               >
-                Select Quiz
+                {t("taskAssignment.selectQuiz")}
               </button>
             </div>
           </div>
@@ -980,7 +1193,9 @@ const TaskAssignment: React.FC = () => {
       >
         <div className="task-quiz-filter-content">
           <div className="task-quiz-filter-header">
-            <h2 className="task-quiz-filter-title">Filter Quizzes</h2>
+            <h2 className="task-quiz-filter-title">
+              {t("taskAssignment.filterQuizzes")}
+            </h2>
             <button
               className="task-quiz-filter-close"
               onClick={() => setShowQuizFilterModal(false)}
@@ -991,7 +1206,9 @@ const TaskAssignment: React.FC = () => {
 
           {/* Sort Order */}
           <div className="task-quiz-filter-section">
-            <h3 className="task-quiz-filter-section-title">Sort By</h3>
+            <h3 className="task-quiz-filter-section-title">
+              {t("taskAssignment.sortBy")}
+            </h3>
             <div className="task-quiz-sort-buttons">
               <button
                 className={`task-quiz-sort-btn ${
@@ -999,7 +1216,7 @@ const TaskAssignment: React.FC = () => {
                 }`}
                 onClick={() => setTempSortOrder("newest")}
               >
-                Newest First
+                {t("taskAssignment.newestFirst")}
               </button>
               <button
                 className={`task-quiz-sort-btn ${
@@ -1007,14 +1224,16 @@ const TaskAssignment: React.FC = () => {
                 }`}
                 onClick={() => setTempSortOrder("oldest")}
               >
-                Oldest First
+                {t("taskAssignment.oldestFirst")}
               </button>
             </div>
           </div>
 
           {/* Grade Filter */}
           <div className="task-quiz-filter-section">
-            <h3 className="task-quiz-filter-section-title">Grade</h3>
+            <h3 className="task-quiz-filter-section-title">
+              {t("taskAssignment.gradeFilter")}
+            </h3>
             <div className="task-quiz-grade-chips">
               <div
                 className={`task-quiz-grade-chip ${
@@ -1022,7 +1241,7 @@ const TaskAssignment: React.FC = () => {
                 }`}
                 onClick={() => setTempFilterGrade(null)}
               >
-                All
+                {t("taskAssignment.all")}
               </div>
               {GRADES.map((grade) => (
                 <div
@@ -1041,7 +1260,7 @@ const TaskAssignment: React.FC = () => {
           {/* Topics Filter */}
           <div className="task-quiz-filter-section">
             <h3 className="task-quiz-filter-section-title">
-              Topics{" "}
+              {t("taskAssignment.topics")}{" "}
               {tempFilterTopics.length > 0 && `(${tempFilterTopics.length})`}
             </h3>
             <IonSearchbar
@@ -1052,7 +1271,7 @@ const TaskAssignment: React.FC = () => {
             />
             <div className="task-quiz-topic-grid">
               {AVAILABLE_TOPICS.filter((t) =>
-                t.toLowerCase().includes(topicSearch.toLowerCase())
+                t.toLowerCase().includes(topicSearch.toLowerCase()),
               ).map((topic) => (
                 <div
                   key={topic}
@@ -1081,10 +1300,10 @@ const TaskAssignment: React.FC = () => {
               className="task-modal-btn cancel"
               onClick={clearQuizFilters}
             >
-              Clear All
+              {t("taskAssignment.clearAll")}
             </button>
             <button className="task-modal-btn save" onClick={applyQuizFilters}>
-              Apply Filters
+              {t("taskAssignment.applyFilters")}
             </button>
           </div>
         </div>

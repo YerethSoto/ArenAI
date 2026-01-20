@@ -486,17 +486,27 @@ create table assignment
 (
     id_assignment          int auto_increment
         primary key,
-    id_section             int      null,
-    due_time               date     null,
-    id_quiz                int      null,
-    win_battle_requirement smallint null,
-    id_subject             int      null,
+    id_professor           int                                    not null,
+    id_section             int                                    null,
+    due_time               date                                   null,
+    id_quiz                int                                    null,
+    win_battle_requirement smallint                               null,
+    id_subject             int                                    null,
+    min_battle_wins        int          default 0                 null,
+    title                  varchar(255) default 'Assignment'      not null,
+    description            text                                   null,
+    due_date               datetime                               null,
+    min_win_streak         int          default 0                 null,
+    required_text_response tinyint(1)   default 0                 null,
+    created_at             timestamp    default CURRENT_TIMESTAMP null,
     constraint assignment_ibfk_1
         foreign key (id_subject) references subject (id_subject),
     constraint assignment_ibfk_2
         foreign key (id_quiz) references quiz (id_quiz),
     constraint assignment_ibfk_3
-        foreign key (id_section) references section (id_section)
+        foreign key (id_section) references section (id_section),
+    constraint fk_assignment_professor
+        foreign key (id_professor) references user (id_user)
 );
 
 create index id_quiz
@@ -508,48 +518,53 @@ create index id_section
 create index id_subject
     on assignment (id_subject);
 
-create table assignment_student
+create table assignment_submission
 (
-    id_assignment_student int auto_increment
+    id_submission       int auto_increment
         primary key,
-    id_assignment         int                  null,
-    id_student            int                  null,
-    complete              tinyint(1) default 0 null,
-    id_quiz_student       int                  null,
-    constraint assignment_student_ibfk_1
-        foreign key (id_quiz_student) references quiz_student (id_quiz_student),
-    constraint assignment_student_ibfk_2
-        foreign key (id_student) references user (id_user),
-    constraint assignment_student_ibfk_3
+    id_assignment       int                                                                              not null,
+    id_student          int                                                                              not null,
+    status              enum ('NOT_STARTED', 'IN_PROGRESS', 'SUBMITTED', 'GRADED') default 'NOT_STARTED' null,
+    win_streak_achieved int                                                        default 0             null,
+    text_response       text                                                                             null,
+    started_at          datetime                                                                         null,
+    submitted_at        datetime                                                                         null,
+    graded_at           datetime                                                                         null,
+    grade               decimal(5, 2)                                                                    null,
+    feedback            text                                                                             null,
+    constraint unique_student_assignment
+        unique (id_assignment, id_student),
+    constraint fk_sub_assignment
         foreign key (id_assignment) references assignment (id_assignment)
+            on delete cascade,
+    constraint fk_sub_student
+        foreign key (id_student) references user (id_user)
+            on delete cascade
 );
 
-create index id_assignment
-    on assignment_student (id_assignment);
+create index idx_sub_status
+    on assignment_submission (status);
 
-create index id_quiz_student
-    on assignment_student (id_quiz_student);
+create index idx_sub_student
+    on assignment_submission (id_student);
 
-create index id_student
-    on assignment_student (id_student);
-
-create table assignment_student_battle
+create table assignment_target
 (
-    id_assignment_student_battle int auto_increment
+    id_assignment_target int auto_increment
         primary key,
-    id_assignment_student        int null,
-    id_battle_minigame           int null,
-    constraint assignment_student_battle_ibfk_1
-        foreign key (id_battle_minigame) references battle_minigame (id_battle_minigame),
-    constraint assignment_student_battle_ibfk_2
-        foreign key (id_assignment_student) references assignment_student (id_assignment)
+    id_assignment        int                         not null,
+    target_type          enum ('SECTION', 'STUDENT') not null,
+    target_id            int                         not null,
+    constraint fk_target_assignment
+        foreign key (id_assignment) references assignment (id_assignment)
+            on delete cascade
 );
 
-create index id_assignment_student
-    on assignment_student_battle (id_assignment_student);
+create index idx_target_assignment
+    on assignment_target (id_assignment);
 
-create index id_battle_minigame
-    on assignment_student_battle (id_battle_minigame);
+create index idx_target_lookup
+    on assignment_target (target_type, target_id);
 
 create index id_professor
     on quiz (id_professor);
@@ -682,6 +697,28 @@ create table student_topic
 
 create index idx_student_topic__user
     on student_topic (id_user);
+
+create table submission_quiz_score
+(
+    id            int auto_increment
+        primary key,
+    id_submission int                                     not null,
+    id_quiz       int                                     not null,
+    score         decimal(5, 2) default 0.00              null,
+    max_score     decimal(5, 2) default 100.00            null,
+    completed_at  datetime      default CURRENT_TIMESTAMP null,
+    constraint unique_submission_quiz
+        unique (id_submission, id_quiz),
+    constraint fk_sqs_quiz
+        foreign key (id_quiz) references quiz (id_quiz)
+            on delete cascade,
+    constraint fk_sqs_submission
+        foreign key (id_submission) references assignment_submission (id_submission)
+            on delete cascade
+);
+
+create index idx_sqs_submission
+    on submission_quiz_score (id_submission);
 
 create table user_section
 (

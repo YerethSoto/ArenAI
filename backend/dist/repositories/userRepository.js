@@ -93,7 +93,18 @@ export async function updateUser(idUser, data) {
         setClauses.push('first_login = ?');
         values.push(data.first_login);
     }
-    // Add more fields here as needed in the future
+    if (data.name !== undefined) {
+        setClauses.push('name = ?');
+        values.push(data.name);
+    }
+    if (data.last_name !== undefined) {
+        setClauses.push('last_name = ?');
+        values.push(data.last_name);
+    }
+    if (data.email !== undefined) {
+        setClauses.push('email = ?');
+        values.push(data.email);
+    }
     if (setClauses.length === 0)
         return false;
     values.push(idUser);

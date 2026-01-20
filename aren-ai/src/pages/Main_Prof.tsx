@@ -23,6 +23,7 @@ import {
 import "./Main_Prof.css";
 import "../components/ProfessorHeader.css";
 import ProfessorMenu from "../components/ProfessorMenu";
+import { useProfessorFilters } from "../hooks/useProfessorFilters";
 import { useTranslation } from "react-i18next";
 import { getApiUrl } from "../config/api";
 import AnimatedMascot from "../components/AnimatedMascot";
@@ -36,11 +37,14 @@ const Main_Prof: React.FC = () => {
   const { getAvatarAssets } = useAvatar();
   const avatarAssets = getAvatarAssets();
 
-  const [selectedGrade, setSelectedGrade] = useState("7");
-  const [selectedSection, setSelectedSection] = useState("1");
-  const [selectedSubject, setSelectedSubject] = useState(
-    () => localStorage.getItem("prof_selectedSubject") || "Math"
-  );
+  const {
+    selectedGrade,
+    setSelectedGrade,
+    selectedSection,
+    setSelectedSection,
+    selectedSubject,
+    setSelectedSubject,
+  } = useProfessorFilters();
   const [topics, setTopics] = useState<TopicProgress[]>([]);
   const [overallPerformance, setOverallPerformance] = useState(0);
   const [viewMode, setViewMode] = useState<"rec" | "que">("rec");
@@ -62,7 +66,7 @@ const Main_Prof: React.FC = () => {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
               },
-            }
+            },
           );
 
           if (response.ok) {
@@ -72,12 +76,12 @@ const Main_Prof: React.FC = () => {
               .filter((p: any) =>
                 p.subject_name
                   .toLowerCase()
-                  .includes(selectedSubject.toLowerCase())
+                  .includes(selectedSubject.toLowerCase()),
               )
               .map((p: any) => ({
                 name: t(
                   `professor.dashboard.topics.${p.topic_name}`,
-                  p.topic_name
+                  p.topic_name,
                 ),
                 nameKey: p.topic_name,
                 percentage: p.score || 0,
@@ -88,7 +92,7 @@ const Main_Prof: React.FC = () => {
               setTopics(subjectTopics);
               const sum = subjectTopics.reduce(
                 (acc: number, curr: any) => acc + curr.percentage,
-                0
+                0,
               );
               setOverallPerformance(Math.round(sum / subjectTopics.length));
               return;
@@ -118,11 +122,11 @@ const Main_Prof: React.FC = () => {
 
   const currentEnforceText = t(
     `professor.dashboard.insights.enforce.${subjectKey}`,
-    "No insight available."
+    "No insight available.",
   );
   const currentClassRecommendation = t(
     `professor.dashboard.insights.recommendation.${subjectKey}`,
-    "No recommendation available."
+    "No recommendation available.",
   );
 
   const navigateTo = (path: string) => router.push(path);
@@ -158,13 +162,15 @@ const Main_Prof: React.FC = () => {
             <div className="ph-dropdowns-display">
               <div className="ph-text-oval">
                 <ProfessorMenu
-                  selectedGrade={selectedGrade}
+                  selectedGrade={String(selectedGrade)}
                   selectedSection={selectedSection}
                   selectedSubject={t(
                     "professor.dashboard.subjects." +
-                      selectedSubject.replace(/\s+/g, "")
+                      selectedSubject.replace(/\s+/g, ""),
                   )}
-                  onGradeChange={setSelectedGrade}
+                  onGradeChange={(grade) =>
+                    setSelectedGrade(parseInt(grade, 10))
+                  }
                   onSectionChange={setSelectedSection}
                   onSubjectChange={setSelectedSubject}
                 />
@@ -187,7 +193,7 @@ const Main_Prof: React.FC = () => {
                 {t("professor.dashboard.yourClass", {
                   subject: t(
                     "professor.dashboard.subjects." +
-                      selectedSubject.replace(/\s+/g, "")
+                      selectedSubject.replace(/\s+/g, ""),
                   ),
                 })}
               </div>
@@ -195,7 +201,7 @@ const Main_Prof: React.FC = () => {
                 className="ms-progress-circle"
                 style={{
                   border: `6px solid ${getColorForPercentage(
-                    overallPerformance
+                    overallPerformance,
                   )}`,
                   boxShadow: "inset 0 0 0 3px white",
                   color: "white",

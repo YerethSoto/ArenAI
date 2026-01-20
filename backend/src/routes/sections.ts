@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { ApiError } from '../middleware/errorHandler.js';
-import { getSectionById } from '../repositories/sectionRepository.js';
+import { getSectionById, listSectionsByInstitution, listAllSections } from '../repositories/sectionRepository.js';
 import { listStudentsBySection } from '../repositories/studentRepository.js';
 import { findUserByUsername } from '../repositories/userRepository.js';
 import { parseNumeric } from '../utils/transformers.js';
@@ -9,6 +9,46 @@ import { parseNumeric } from '../utils/transformers.js';
 import { createSection } from '../repositories/sectionRepository.js';
 
 const router = Router();
+
+// GET /api/sections/institution - get sections for current user's institution
+router.get('/institution', async (req, res, next) => {
+  try {
+    const user = req.user;
+    if (!user || !user.id) {
+      throw new ApiError(401, 'Unauthorized');
+    }
+
+    // Fetch user from DB to get id_institution
+    const dbUser = await findUserByUsername(user.username);
+    if (!dbUser) {
+      throw new ApiError(404, 'User not found');
+    }
+    
+    let sections;
+    if (dbUser.id_institution) {
+      // User has institution - get sections for that institution
+      sections = await listSectionsByInstitution(dbUser.id_institution);
+    } else {
+      // User has no institution - get all sections as fallback
+      console.log('User has no institution, returning all sections');
+      sections = await listAllSections();
+    }
+    
+    console.log(`Returning ${sections.length} sections`);
+    
+    res.json({
+      sections: sections.map(s => ({
+        id: s.id_section,
+        sectionNumber: s.section_number,
+        grade: s.grade,
+        name: `${s.grade}-${s.section_number}`,
+      }))
+    });
+  } catch (error) {
+    console.error('Error in GET /api/sections/institution:', error);
+    next(error);
+  }
+});
 
 // POST /api/sections - create a new section (teacher only)
 router.post('/', async (req, res, next) => {

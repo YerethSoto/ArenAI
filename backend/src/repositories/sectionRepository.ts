@@ -14,6 +14,18 @@ export async function listSectionsByInstitution(institutionId: number) {
   return result.rows;
 }
 
+// List all sections (fallback when user has no institution)
+export async function listAllSections() {
+  const result = await db.query<Section>(
+    `SELECT id_section, section_number, grade, id_institution
+     FROM section
+     ORDER BY grade, section_number
+     LIMIT 100`
+  );
+
+  return result.rows;
+}
+
 export async function getSectionById(sectionId: number) {
   const result = await db.query<Section>(
     `SELECT id_section, section_number, grade, id_institution

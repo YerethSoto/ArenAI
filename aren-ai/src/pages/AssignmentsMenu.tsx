@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   IonPage,
   IonContent,
@@ -7,6 +7,7 @@ import {
   IonHeader,
   IonToolbar,
   IonMenuButton,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import {
   menu,
@@ -18,8 +19,10 @@ import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import ProfessorMenu from "../components/ProfessorMenu";
 import PageTransition from "../components/PageTransition";
+import { getApiUrl } from "../config/api";
 import "./AssignmentsMenu.css";
 import "../components/ProfessorHeader.css";
+import { useProfessorFilters } from "../hooks/useProfessorFilters";
 
 // Assignment interface
 interface Assignment {
@@ -35,164 +38,147 @@ interface Assignment {
   isOngoing: boolean;
   pendingReviews: number;
   colorStyle: number;
-  averageScore: number; // Average score of students who completed
+  averageScore: number;
 }
-
-// Mock data - Ongoing Assignments
-const ONGOING_ASSIGNMENTS: Assignment[] = [
-  {
-    id: "ongoing1",
-    name: "History of Psychology",
-    instructions: "Complete all questions in the psychology history quiz.",
-    dueDate: "2026-01-25",
-    totalPoints: 100,
-    topics: ["Psychology"],
-    hasTextSubmission: true,
-    studentsTotal: 35,
-    studentsCompleted: 10,
-    isOngoing: true,
-    pendingReviews: 3,
-    colorStyle: 1,
-    averageScore: 82,
-  },
-  {
-    id: "ongoing2",
-    name: "Introduction to AI",
-    instructions: "Complete the introductory AI concepts quiz.",
-    dueDate: "2026-01-28",
-    totalPoints: 50,
-    topics: ["Technology", "AI"],
-    hasTextSubmission: false,
-    studentsTotal: 35,
-    studentsCompleted: 15,
-    isOngoing: true,
-    pendingReviews: 0,
-    colorStyle: 2,
-    averageScore: 76,
-  },
-  {
-    id: "ongoing3",
-    name: "Statistics",
-    instructions: "Complete the statistics fundamentals homework.",
-    dueDate: "2026-01-22",
-    totalPoints: 25,
-    topics: ["Math", "Statistics"],
-    hasTextSubmission: true,
-    studentsTotal: 35,
-    studentsCompleted: 28,
-    isOngoing: true,
-    pendingReviews: 5,
-    colorStyle: 3,
-    averageScore: 88,
-  },
-  {
-    id: "ongoing4",
-    name: "Creative Writing",
-    instructions: "Write a short story on the given topic.",
-    dueDate: "2026-01-30",
-    totalPoints: 40,
-    topics: ["English"],
-    hasTextSubmission: true,
-    studentsTotal: 35,
-    studentsCompleted: 12,
-    isOngoing: true,
-    pendingReviews: 8,
-    colorStyle: 4,
-    averageScore: 71,
-  },
-  {
-    id: "ongoing5",
-    name: "Geography Quiz",
-    instructions: "Complete the world geography assessment.",
-    dueDate: "2026-01-26",
-    totalPoints: 30,
-    topics: ["Geography"],
-    hasTextSubmission: false,
-    studentsTotal: 35,
-    studentsCompleted: 20,
-    isOngoing: true,
-    pendingReviews: 0,
-    colorStyle: 5,
-    averageScore: 79,
-  },
-  {
-    id: "ongoing6",
-    name: "Biology Lab Report",
-    instructions: "Submit your lab report on cell structure.",
-    dueDate: "2026-01-29",
-    totalPoints: 50,
-    topics: ["Biology"],
-    hasTextSubmission: true,
-    studentsTotal: 35,
-    studentsCompleted: 8,
-    isOngoing: true,
-    pendingReviews: 2,
-    colorStyle: 1,
-    averageScore: 85,
-  },
-];
-
-// Mock data - Previous Assignments
-const PREVIOUS_ASSIGNMENTS: Assignment[] = [
-  {
-    id: "prev1",
-    name: "History of Psychology",
-    instructions: "Complete the introductory psychology quiz.",
-    dueDate: "2026-01-10",
-    totalPoints: 50,
-    topics: ["Psychology"],
-    hasTextSubmission: true,
-    studentsTotal: 35,
-    studentsCompleted: 33,
-    isOngoing: false,
-    pendingReviews: 1,
-    colorStyle: 1,
-    averageScore: 84,
-  },
-  {
-    id: "prev2",
-    name: "Introduction Assignment",
-    instructions: "Introduce yourself and your learning goals.",
-    dueDate: "2026-01-05",
-    totalPoints: 10,
-    topics: ["General"],
-    hasTextSubmission: true,
-    studentsTotal: 35,
-    studentsCompleted: 35,
-    isOngoing: false,
-    pendingReviews: 0,
-    colorStyle: 2,
-    averageScore: 92,
-  },
-  {
-    id: "prev3",
-    name: "Statistics",
-    instructions: "Complete the basic statistics quiz.",
-    dueDate: "2025-12-20",
-    totalPoints: 40,
-    topics: ["Math", "Statistics"],
-    hasTextSubmission: false,
-    studentsTotal: 35,
-    studentsCompleted: 34,
-    isOngoing: false,
-    pendingReviews: 0,
-    colorStyle: 3,
-    averageScore: 78,
-  },
-];
 
 const AssignmentsMenu: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
 
   // Header state
-  const [selectedGrade, setSelectedGrade] = useState(7);
-  const [selectedSubject, setSelectedSubject] = useState("Math");
-  const [currentSection, setCurrentSection] = useState("7-1");
+  // Header state (Global)
+  const {
+    selectedGrade,
+    setSelectedGrade,
+    selectedSection,
+    setSelectedSection,
+    selectedSubject,
+    setSelectedSubject,
+  } = useProfessorFilters();
+
+  // Assignment lists - start empty, fetch from DB
+  const [assignments, setAssignments] = useState<Assignment[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // Search state
   const [ongoingSearch, setOngoingSearch] = useState("");
   const [previousSearch, setPreviousSearch] = useState("");
+
+  // Fetch assignments from database
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      try {
+        const token =
+          localStorage.getItem("authToken") || localStorage.getItem("token");
+        const userStr =
+          localStorage.getItem("userData") || localStorage.getItem("user");
+        const user = userStr ? JSON.parse(userStr) : null;
+
+        if (token && user?.id) {
+          const response = await fetch(
+            getApiUrl(`/api/assignments/professor/${user.id}`),
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            // Transform database format to UI format
+            const now = new Date();
+            const transformed: Assignment[] = (data.assignments || []).map(
+              (a: any, index: number) => {
+                const dueDate = a.due_time ? new Date(a.due_time) : new Date();
+                const isOngoing = dueDate >= now;
+
+                return {
+                  id: String(a.id_assignment),
+                  name: a.title || `Assignment ${a.id_assignment}`,
+                  instructions: a.description || a.instructions || "",
+                  dueDate: a.due_time || new Date().toISOString(),
+                  totalPoints: a.total_points || 100,
+                  topics: a.subject_name ? [a.subject_name] : [],
+                  hasTextSubmission: false,
+                  studentsTotal: Number(a.students_total) || 0,
+                  studentsCompleted: Number(a.students_completed) || 0,
+                  isOngoing,
+                  pendingReviews: 0,
+                  colorStyle: (index % 5) + 1,
+                  averageScore: 0,
+                };
+              },
+            );
+            setAssignments(transformed);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching assignments:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAssignments();
+  }, []);
+
+  // Auto-reload when page becomes visible
+  useIonViewWillEnter(() => {
+    const reloadAssignments = async () => {
+      const token =
+        localStorage.getItem("authToken") || localStorage.getItem("token");
+      const userStr =
+        localStorage.getItem("userData") || localStorage.getItem("user");
+      const user = userStr ? JSON.parse(userStr) : null;
+
+      if (token && user?.id) {
+        try {
+          const response = await fetch(
+            getApiUrl(`/api/assignments/professor/${user.id}`),
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            },
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            const now = new Date();
+            const transformed: Assignment[] = (data.assignments || []).map(
+              (a: any, index: number) => {
+                const dueDate = a.due_time ? new Date(a.due_time) : new Date();
+                const isOngoing = dueDate >= now;
+
+                return {
+                  id: String(a.id_assignment),
+                  name: a.title || `Assignment ${a.id_assignment}`,
+                  instructions: a.description || a.instructions || "",
+                  dueDate: a.due_time || new Date().toISOString(),
+                  totalPoints: a.total_points || 100,
+                  topics: a.subject_name ? [a.subject_name] : [],
+                  hasTextSubmission: false,
+                  studentsTotal: Number(a.students_total) || 0,
+                  studentsCompleted: Number(a.students_completed) || 0,
+                  isOngoing,
+                  pendingReviews: 0,
+                  colorStyle: (index % 5) + 1,
+                  averageScore: 0,
+                };
+              },
+            );
+            setAssignments(transformed);
+          }
+        } catch (error) {
+          console.error("Error reloading assignments:", error);
+        }
+      }
+    };
+    reloadAssignments();
+  });
+
+  // Split into ongoing and previous
+  const ongoingAssignments = assignments.filter((a) => a.isOngoing);
+  const previousAssignments = assignments.filter((a) => !a.isOngoing);
 
   // Format date
   const formatDate = (dateStr: string) => {
@@ -218,20 +204,20 @@ const AssignmentsMenu: React.FC = () => {
   };
 
   // Filter assignments
-  const filteredOngoing = ONGOING_ASSIGNMENTS.filter(
+  const filteredOngoing = ongoingAssignments.filter(
     (a) =>
       a.name.toLowerCase().includes(ongoingSearch.toLowerCase()) ||
       a.topics.some((t) =>
-        t.toLowerCase().includes(ongoingSearch.toLowerCase())
-      )
+        t.toLowerCase().includes(ongoingSearch.toLowerCase()),
+      ),
   );
 
-  const filteredPrevious = PREVIOUS_ASSIGNMENTS.filter(
+  const filteredPrevious = previousAssignments.filter(
     (a) =>
       a.name.toLowerCase().includes(previousSearch.toLowerCase()) ||
       a.topics.some((t) =>
-        t.toLowerCase().includes(previousSearch.toLowerCase())
-      )
+        t.toLowerCase().includes(previousSearch.toLowerCase()),
+      ),
   );
 
   // Render assignment card
@@ -317,17 +303,15 @@ const AssignmentsMenu: React.FC = () => {
               <div className="ph-text-oval">
                 <ProfessorMenu
                   selectedGrade={String(selectedGrade)}
-                  selectedSection={currentSection.split("-")[1] || "1"}
+                  selectedSection={selectedSection}
                   selectedSubject={t(
                     "professor.dashboard.subjects." +
-                      selectedSubject.replace(/\s+/g, "")
+                      selectedSubject.replace(/\s+/g, ""),
                   )}
                   onGradeChange={(grade) =>
                     setSelectedGrade(parseInt(grade, 10))
                   }
-                  onSectionChange={(section) =>
-                    setCurrentSection(`${selectedGrade}-${section}`)
-                  }
+                  onSectionChange={setSelectedSection}
                   onSubjectChange={setSelectedSubject}
                 />
               </div>
@@ -362,7 +346,13 @@ const AssignmentsMenu: React.FC = () => {
                 </button>
               </div>
 
-              {filteredOngoing.length === 0 ? (
+              {loading ? (
+                <div className="assignments-grid">
+                  <div className="assignments-empty">
+                    Loading assignments...
+                  </div>
+                </div>
+              ) : filteredOngoing.length === 0 ? (
                 <div className="assignments-grid">
                   <div className="assignments-empty">
                     No ongoing assignments found.
@@ -401,7 +391,11 @@ const AssignmentsMenu: React.FC = () => {
                 </button>
               </div>
 
-              {filteredPrevious.length === 0 ? (
+              {loading ? (
+                <div className="assignments-grid">
+                  <div className="assignments-empty">Loading...</div>
+                </div>
+              ) : filteredPrevious.length === 0 ? (
                 <div className="assignments-grid">
                   <div className="assignments-empty">
                     No previous assignments found.

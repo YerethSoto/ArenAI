@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { getStudentTopicProgress, upsertStudentTopicScore } from '../repositories/studentRepository.js';
+import { getStudentTopicProgress, upsertStudentTopicScore, getStudentStats, getStudentSubjectScores } from '../repositories/studentRepository.js';
 import { parseNumeric } from '../utils/transformers.js';
 import { updateUser } from '../repositories/userRepository.js';
 import { ApiError } from '../middleware/errorHandler.js';
@@ -74,6 +74,47 @@ router.post('/:userId/topics/:topicId/score', async (req, res, next) => {
             subject_name: updated.subject_name,
             score: parseNumeric(updated.score),
         });
+    }
+    catch (error) {
+        next(error);
+    }
+});
+/**
+ * GET /api/students/:userId/stats
+ * Get aggregated stats for a student (quizzes, battles, rank)
+ */
+router.get('/:userId/stats', async (req, res, next) => {
+    const paramsSchema = z.object({ userId: z.coerce.number().int().positive() });
+    try {
+        const { userId } = paramsSchema.parse(req.params);
+        const stats = await getStudentStats(userId);
+        res.json({
+            quizzesCompleted: stats.quizzes_completed,
+            quizAvgScore: stats.quiz_avg_score,
+            battlesWon: stats.battles_won,
+            totalBattles: stats.total_battles,
+            classRank: stats.class_rank,
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
+/**
+ * GET /api/students/:userId/subjects
+ * Get subject scores for a student
+ */
+router.get('/:userId/subjects', async (req, res, next) => {
+    const paramsSchema = z.object({ userId: z.coerce.number().int().positive() });
+    try {
+        const { userId } = paramsSchema.parse(req.params);
+        const subjects = await getStudentSubjectScores(userId);
+        res.json(subjects.map(s => ({
+            subjectId: s.subject_id,
+            subjectName: s.subject_name,
+            score: s.score,
+            color: s.color,
+        })));
     }
     catch (error) {
         next(error);
