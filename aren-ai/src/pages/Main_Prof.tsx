@@ -18,11 +18,14 @@ import {
   analyticsOutline,
   chevronBackOutline,
   chevronForwardOutline,
+  libraryOutline,
 } from "ionicons/icons";
-import { useTranslation } from "react-i18next";
 import "./Main_Prof.css";
 import "../components/ProfessorHeader.css";
 import ProfessorMenu from "../components/ProfessorMenu";
+import { useProfessorFilters } from "../hooks/useProfessorFilters";
+import { useTranslation } from "react-i18next";
+import { getApiUrl } from "../config/api";
 import AnimatedMascot from "../components/AnimatedMascot";
 import { CalendarSelector } from "../components/CalendarSelector";
 import { TopicProgress } from "../types/student";
@@ -34,51 +37,99 @@ const Main_Prof: React.FC = () => {
   const { getAvatarAssets } = useAvatar();
   const avatarAssets = getAvatarAssets();
 
-  const [selectedGrade, setSelectedGrade] = useState("7");
-  const [selectedSection, setSelectedSection] = useState("1");
-  const [selectedSubject, setSelectedSubject] = useState(
-    () => localStorage.getItem("prof_selectedSubject") || "Math"
-  );
+  const {
+    selectedGrade,
+    setSelectedGrade,
+    selectedSection,
+    setSelectedSection,
+    selectedSubject,
+    setSelectedSubject,
+  } = useProfessorFilters();
   const [topics, setTopics] = useState<TopicProgress[]>([]);
   const [overallPerformance, setOverallPerformance] = useState(0);
   const [viewMode, setViewMode] = useState<"rec" | "que">("rec");
 
   useEffect(() => {
-    localStorage.setItem("prof_selectedSubject", selectedSubject);
-  }, [selectedSubject]);
+    const fetchTopicsFromAPI = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        const userStr = localStorage.getItem("user");
+        const user = userStr ? JSON.parse(userStr) : null;
+        const userId = user?.id;
 
-  const getClassTopics = (subject: string): TopicProgress[] => {
-    const data: Record<string, TopicProgress[]> = {
-      Math: [
-        { name: "Algebra", nameKey: "Algebra", percentage: 78, icon: "📐" },
-        { name: "Geometry", nameKey: "Geometry", percentage: 65, icon: "📏" },
-        { name: "Calculus", nameKey: "Calculus", percentage: 72, icon: "∫" },
-        {
-          name: "Statistics",
-          nameKey: "Statistics",
-          percentage: 85,
-          icon: "📊",
-        },
-      ],
-      Science: [
-        { name: "Biology", nameKey: "Biology", percentage: 80, icon: "🧬" },
-        { name: "Chemistry", nameKey: "Chemistry", percentage: 68, icon: "⚗️" },
-        { name: "Physics", nameKey: "Physics", percentage: 74, icon: "⚛️" },
-      ],
+        if (userId) {
+          // Try to fetch topic progress from API
+          const response = await fetch(
+            getApiUrl(`api/students/${userId}/progress`),
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            },
+          );
+
+          if (response.ok) {
+            const progressData = await response.json();
+            // Filter by selected subject and transform
+            const subjectTopics = progressData
+              .filter((p: any) =>
+                p.subject_name
+                  .toLowerCase()
+                  .includes(selectedSubject.toLowerCase()),
+              )
+              .map((p: any) => ({
+                name: t(
+                  `professor.dashboard.topics.${p.topic_name}`,
+                  p.topic_name,
+                ),
+                nameKey: p.topic_name,
+                percentage: p.score || 0,
+                icon: "📚", // Default icon for API data
+              }));
+
+            if (subjectTopics.length > 0) {
+              setTopics(subjectTopics);
+              const sum = subjectTopics.reduce(
+                (acc: number, curr: any) => acc + curr.percentage,
+                0,
+              );
+              setOverallPerformance(Math.round(sum / subjectTopics.length));
+              return;
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching topics from API:", err);
+        // No fallback - just leave empty
+        setTopics([]);
+        setOverallPerformance(0);
+      }
     };
-    return data[subject] || [];
+
+    fetchTopicsFromAPI();
+  }, [selectedSubject, t]); // Re-run when subject or language changes
+
+  // Dynamic Insights
+  // Needs mapping for "Social Studies" vs key in JSON if there's a mismatch.
+  // In JSON "SocialStudies" (no space). In state 'Social Studies' (space).
+  const getInsightKey = (subject: string) => {
+    if (subject === "Social Studies") return "SocialStudies";
+    return subject;
   };
 
-  useEffect(() => {
-    const newTopics = getClassTopics(selectedSubject);
-    setTopics(newTopics);
-    const avg = newTopics.length
-      ? Math.round(
-          newTopics.reduce((s, t) => s + t.percentage, 0) / newTopics.length
-        )
-      : 0;
-    setOverallPerformance(avg);
-  }, [selectedSubject]);
+  const subjectKey = getInsightKey(selectedSubject);
+
+  const currentEnforceText = t(
+    `professor.dashboard.insights.enforce.${subjectKey}`,
+    "No insight available.",
+  );
+  const currentClassRecommendation = t(
+    `professor.dashboard.insights.recommendation.${subjectKey}`,
+    "No recommendation available.",
+  );
+
+  const navigateTo = (path: string) => router.push(path);
 
   const getColorForPercentage = (p: number) => {
     const ratio = Math.max(0, Math.min(100, p)) / 100;
@@ -87,8 +138,6 @@ const Main_Prof: React.FC = () => {
     const b = Math.round(82 + (176 - 82) * ratio);
     return `rgb(${r}, ${g}, ${b})`;
   };
-
-  const navigateTo = (path: string) => router.push(path);
 
   return (
     <IonPage className="main-student-page">
@@ -113,13 +162,15 @@ const Main_Prof: React.FC = () => {
             <div className="ph-dropdowns-display">
               <div className="ph-text-oval">
                 <ProfessorMenu
-                  selectedGrade={selectedGrade}
+                  selectedGrade={String(selectedGrade)}
                   selectedSection={selectedSection}
                   selectedSubject={t(
                     "professor.dashboard.subjects." +
-                      selectedSubject.replace(/\s+/g, "")
+                      selectedSubject.replace(/\s+/g, ""),
                   )}
-                  onGradeChange={setSelectedGrade}
+                  onGradeChange={(grade) =>
+                    setSelectedGrade(parseInt(grade, 10))
+                  }
                   onSectionChange={setSelectedSection}
                   onSubjectChange={setSelectedSubject}
                 />
@@ -142,7 +193,7 @@ const Main_Prof: React.FC = () => {
                 {t("professor.dashboard.yourClass", {
                   subject: t(
                     "professor.dashboard.subjects." +
-                      selectedSubject.replace(/\s+/g, "")
+                      selectedSubject.replace(/\s+/g, ""),
                   ),
                 })}
               </div>
@@ -150,7 +201,7 @@ const Main_Prof: React.FC = () => {
                 className="ms-progress-circle"
                 style={{
                   border: `6px solid ${getColorForPercentage(
-                    overallPerformance
+                    overallPerformance,
                   )}`,
                   boxShadow: "inset 0 0 0 3px white",
                   color: "white",
@@ -263,9 +314,9 @@ const Main_Prof: React.FC = () => {
         </div>
         <div
           className="student-nav-btn"
-          onClick={() => navigateTo("/professor-admin")}
+          onClick={() => navigateTo("/page/quiz-menu")}
         >
-          <IonIcon icon={clipboardOutline} />
+          <IonIcon icon={libraryOutline} />
         </div>
         <div className="student-mascot-container">
           <AnimatedMascot
@@ -278,9 +329,9 @@ const Main_Prof: React.FC = () => {
         </div>
         <div
           className="student-nav-btn"
-          onClick={() => navigateTo("/student-section")}
+          onClick={() => navigateTo("/page/ai-quiz-generator")}
         >
-          <IonIcon icon={analyticsOutline} />
+          <IonIcon icon={clipboardOutline} />
         </div>
         <div
           className="student-nav-btn"

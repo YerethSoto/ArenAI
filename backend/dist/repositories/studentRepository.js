@@ -46,3 +46,68 @@ export async function listStudentsBySection(sectionId) {
      ORDER BY u.name, u.last_name, u.username`, [sectionId]);
     return result.rows;
 }
+export async function getStudentStats(userId) {
+    // Get quiz stats
+    const quizResult = await db.query(`SELECT 
+        COUNT(*) as quiz_count,
+        COALESCE(AVG(score), 0) as avg_score
+     FROM quiz_student
+     WHERE id_student = ?`, [userId]);
+    // Get battle stats
+    const battleResult = await db.query(`SELECT 
+        SUM(CASE 
+          WHEN (id_user_1 = ? AND winner = 1) OR (id_user_2 = ? AND winner = 0) 
+          THEN 1 ELSE 0 
+        END) as wins,
+        COUNT(*) as total
+     FROM battle_minigame
+     WHERE id_user_1 = ? OR id_user_2 = ?`, [userId, userId, userId, userId]);
+    // Get class rank (based on quiz average)
+    const rankResult = await db.query(`SELECT COUNT(*) + 1 as rank
+     FROM (
+       SELECT id_student, AVG(score) as avg_score
+       FROM quiz_student
+       WHERE score IS NOT NULL
+       GROUP BY id_student
+     ) scores
+     WHERE avg_score > (
+       SELECT COALESCE(AVG(score), 0)
+       FROM quiz_student
+       WHERE id_student = ?
+     )`, [userId]);
+    const quizStats = quizResult.rows[0] || { quiz_count: 0, avg_score: 0 };
+    const battleStats = battleResult.rows[0] || { wins: 0, total: 0 };
+    const rank = rankResult.rows[0]?.rank || null;
+    return {
+        quizzes_completed: quizStats.quiz_count,
+        quiz_avg_score: Math.round(quizStats.avg_score),
+        battles_won: battleStats.wins || 0,
+        total_battles: battleStats.total || 0,
+        class_rank: rank,
+    };
+}
+const SUBJECT_COLORS = {
+    'Math': '#3b82f6',
+    'Science': '#10b981',
+    'Social Studies': '#f59e0b',
+    'Spanish': '#ec4899',
+    'default': '#667eea',
+};
+export async function getStudentSubjectScores(userId) {
+    const result = await db.query(`SELECT 
+        s.id_subject,
+        s.name_subject,
+        COALESCE(AVG(st.score), 0) as avg_score
+     FROM subject s
+     LEFT JOIN topic t ON t.id_subject = s.id_subject
+     LEFT JOIN student_topic st ON st.id_topic = t.id_topic AND st.id_user = ?
+     GROUP BY s.id_subject, s.name_subject
+     HAVING avg_score > 0
+     ORDER BY s.name_subject`, [userId]);
+    return result.rows.map(row => ({
+        subject_id: row.id_subject,
+        subject_name: row.name_subject,
+        score: Math.round(row.avg_score),
+        color: SUBJECT_COLORS[row.name_subject] || SUBJECT_COLORS['default'],
+    }));
+}

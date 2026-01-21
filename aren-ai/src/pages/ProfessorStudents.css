@@ -1,0 +1,334 @@
+/* ProfessorStudents.css - AIQuizGenerator Style */
+
+.pst-page {
+    background-color: #f9f4e6 !important;
+}
+
+.pst-content {
+    --background: #f9f4e6 !important;
+}
+
+/* Fix header line issue */
+.pst-page .student-header-container ion-toolbar::after,
+.pst-page ion-header::after,
+.pst-page .student-toolbar::after,
+.pst-page ion-toolbar::after {
+    display: none !important;
+    background: none !important;
+    background-image: none !important;
+    height: 0 !important;
+    opacity: 0 !important;
+}
+
+.pst-page ion-header {
+    --border-width: 0 !important;
+    --border-style: none !important;
+}
+
+/* Container - minimal padding */
+.pst-container {
+    padding: 25px 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.pst-footer-spacer {
+    height: 40px;
+    flex-shrink: 0;
+}
+
+/* ========== CARD STYLE (AIQuizGenerator) ========== */
+.pst-card {
+    background-color: var(--ion-color-secondary-soft);
+    border-radius: 15px;
+    padding: 25px 15px 20px 15px;
+    position: relative;
+    margin-top: 20px;
+}
+
+/* Title Pill - Half in / Half out */
+.pst-card-title {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--ion-color-primary);
+    color: white;
+    padding: 8px 24px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== STATS ROW ========== */
+.pst-stats-row {
+    display: flex;
+    justify-content: space-around;
+    gap: 16px;
+    padding: 10px 0;
+}
+
+.pst-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pst-stat-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--ion-color-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pst-stat-circle ion-icon {
+    font-size: 24px;
+    color: white;
+}
+
+.pst-stat-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pst-stat-value {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    font-family: 'Georgia', serif;
+}
+
+.pst-stat-label {
+    font-size: 12px;
+    color: var(--ion-text-color-step-400);
+}
+
+/* ========== SEARCH ========== */
+.pst-search-container {
+    margin-top: 8px;
+}
+
+.pst-searchbar {
+    --background: white;
+    --border-radius: 12px;
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --placeholder-color: var(--ion-text-color-step-400);
+    padding: 0;
+}
+
+/* ========== STUDENTS GRID ========== */
+.pst-students-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pst-student-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 14px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    gap: 12px;
+}
+
+.pst-student-item:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: translateX(4px);
+}
+
+.pst-student-item:active {
+    transform: scale(0.98);
+}
+
+.pst-student-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-tertiary));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.pst-student-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.pst-student-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pst-student-stats {
+    display: flex;
+    gap: 10px;
+}
+
+.pst-mini-stat {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    color: var(--ion-text-color-step-400);
+}
+
+.pst-mini-stat ion-icon {
+    font-size: 12px;
+    color: var(--ion-color-secondary);
+}
+
+.pst-mini-stat.streak ion-icon {
+    color: #e74c3c;
+}
+
+.pst-score-badge {
+    padding: 6px 10px;
+    border-radius: 12px;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* ========== COMPACT HEADER TEXT ========== */
+.pst-compact-text {
+    font-size: 14px !important;
+    letter-spacing: 0.5px;
+}
+
+/* ========== CLASS DROPDOWN ========== */
+.pst-class-dropdown {
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    background: var(--ion-card-background);
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    min-width: 280px;
+    max-width: 320px;
+    padding: 16px;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.pst-dropdown-section {
+    margin-bottom: 16px;
+}
+
+.pst-dropdown-section:last-child {
+    margin-bottom: 0;
+}
+
+.pst-dropdown-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--ion-text-color-step-400);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.pst-dropdown-options-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pst-dropdown-chip {
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.05);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pst-dropdown-chip:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.pst-dropdown-chip.selected {
+    background: var(--ion-color-secondary);
+    color: white;
+}
+
+.pst-dropdown-options-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pst-dropdown-option {
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pst-dropdown-option:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.pst-dropdown-option.selected {
+    background: var(--ion-color-secondary);
+    color: white;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 400px) {
+    .pst-student-item {
+        padding: 10px 12px;
+    }
+
+    .pst-student-name {
+        font-size: 13px;
+    }
+
+    .pst-stat-value {
+        font-size: 18px;
+    }
+
+    .pst-compact-text {
+        font-size: 12px !important;
+    }
+}

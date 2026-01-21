@@ -15,7 +15,6 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import RegisterStudent from "./pages/RegisterStudent";
 import Class_Creation from "./pages/Class_Creation";
-import CreateTask from "./pages/CreateTask";
 import StudentSectionPage from "./pages/StudentScores";
 import StudentDetail from "./pages/StudentDetail";
 import Quiz from "./pages/Quiz";
@@ -36,8 +35,15 @@ import Clan from "./pages/Clan";
 import Help from "./pages/Help";
 import ProfessorAdmin from "./pages/ProfessorAdmin";
 import ProfessorProfile from "./pages/ProfessorProfile";
+import EditProfile from "./pages/EditProfile";
 import ProfessorChat from "./pages/ProfessorChat";
 import ProfessorSettings from "./pages/ProfessorSettings";
+import AIQuizGenerator from "./pages/AIQuizGenerator";
+import QuizPreview from "./pages/QuizPreview";
+import TaskAssignment from "./pages/TaskAssignment";
+import QuizMenu from "./pages/QuizMenu";
+import AssignmentsMenu from "./pages/AssignmentsMenu";
+import AssignmentDetail from "./pages/AssignmentDetail";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AvatarProvider } from "./context/AvatarContext";
 import { SoundProvider } from "./context/SoundContext";
@@ -74,6 +80,8 @@ import "./theme/variables.css";
 
 /* i18n */
 import "./i18n";
+import ProfessorStudents from "./pages/ProfessorStudents";
+import ProfessorAttendance from "./pages/ProfessorAttendance";
 
 setupIonicReact();
 
@@ -331,9 +339,58 @@ const App: React.FC = () => {
                       <Redirect to="/login" />
                     )}
                   </Route>
-                  <Route path="/create-task" exact={true}>
+                  <Route path="/prof-students" exact={true}>
                     {userRole === "professor" ? (
-                      <CreateTask />
+                      <ProfessorStudents />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/prof-attendance" exact={true}>
+                    {userRole === "professor" ? (
+                      <ProfessorAttendance />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/task-assignment" exact={true}>
+                    {userRole === "professor" ? (
+                      <TaskAssignment />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/ai-quiz-generator" exact={true}>
+                    {userRole === "professor" ? (
+                      <AIQuizGenerator />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/quiz-preview" exact={true}>
+                    {userRole === "professor" ? (
+                      <QuizPreview />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/quiz-menu" exact={true}>
+                    {userRole === "professor" ? (
+                      <QuizMenu />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/assignments-menu" exact={true}>
+                    {userRole === "professor" ? (
+                      <AssignmentsMenu />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/assignment-detail/:id" exact={true}>
+                    {userRole === "professor" ? (
+                      <AssignmentDetail />
                     ) : (
                       <Redirect to="/login" />
                     )}
@@ -345,10 +402,6 @@ const App: React.FC = () => {
                     ) : (
                       <Redirect to="/login" />
                     )}
-                  </Route>
-
-                  <Route path="/folder/:name" exact={true}>
-                    {userRole ? <Page /> : <Redirect to="/login" />}
                   </Route>
 
                   <Route path="/quiz" exact={true}>
@@ -482,6 +535,14 @@ const App: React.FC = () => {
                     )}
                   </Route>
 
+                  <Route path="/edit-profile" exact={true}>
+                    {userRole === "professor" ? (
+                      <EditProfile />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+
                   <Route path="/professor-chat" exact={true}>
                     {userRole === "professor" ? (
                       <ProfessorChat />
@@ -509,6 +570,11 @@ const App: React.FC = () => {
                   {/* Nueva ruta para unirse a clase por código o QR */}
                   <Route path="/join/:code?" exact={true}>
                     <Class_Join />
+                  </Route>
+
+                  {/* Generic folder route - must be LAST to avoid capturing specific routes */}
+                  <Route path="/folder/:name" exact={true}>
+                    {userRole ? <Page /> : <Redirect to="/login" />}
                   </Route>
                 </IonRouterOutlet>
               </IonSplitPane>

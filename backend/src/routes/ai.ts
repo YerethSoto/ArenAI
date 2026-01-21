@@ -2,7 +2,7 @@
 import { checkGeminiConnection, generateContentWithGemini } from '../services/geminiService.js'; 
 import { Router } from 'express';
 import { ApiError } from '../middleware/errorHandler.js';
-import { STUDENT_SYSTEM_PROMPT, PROFESSOR_SYSTEM_PROMPT } from '../config/prompts.js';
+import { STUDENT_SYSTEM_PROMPT, PROFESSOR_SYSTEM_PROMPT, QUIZ_GENERATOR_PROMPT } from '../config/prompts.js';
 
 const router = Router();
 
@@ -82,6 +82,82 @@ router.post('/chat', async (req, res, next) => {
 
   } catch (error) {
     console.error("Error en /ai/chat:", error);
+    next(error);
+  }
+});
+
+// Ruta para generar Quiz: POST /ai/generate-quiz
+router.post('/generate-quiz', async (req, res, next) => {
+  try {
+    const { 
+      subject, 
+      level, 
+      topics, 
+      questionCount, 
+      language,
+      customPrompt 
+    } = req.body;
+
+    // Validation
+    if (!subject || !topics || topics.length === 0) {
+      throw new ApiError(400, "Subject and topics are required.");
+    }
+
+    // Build the prompt with replacements
+    const topicsList = Array.isArray(topics) ? topics.join(", ") : topics;
+    
+    const quizPrompt = QUIZ_GENERATOR_PROMPT
+      .replace(/{SUBJECT}/g, subject)
+      .replace(/{LEVEL}/g, String(level || 5))
+      .replace(/{TOPICS_LIST}/g, topicsList)
+      .replace(/{QUESTION_COUNT}/g, String(questionCount || 5))
+      .replace(/{LANGUAGE}/g, language || "Spanish")
+      .replace(/{CUSTOM_PROMPT}/g, customPrompt || "None");
+
+    console.log("[Quiz Generator] Generating quiz with prompt...");
+    console.log(`  Subject: ${subject}, Level: ${level}, Topics: ${topicsList}`);
+    console.log(`  Questions: ${questionCount}, Language: ${language}`);
+
+    // Call Gemini API
+    const aiResponse = await generateContentWithGemini(
+      "Generate a quiz based on the following instructions:",
+      quizPrompt
+    );
+
+    // Try to parse JSON from response
+    let parsedQuiz;
+    try {
+      // Clean the response - remove markdown if present
+      let cleanedResponse = aiResponse.trim();
+      
+      // Remove markdown code blocks if present
+      if (cleanedResponse.startsWith("```json")) {
+        cleanedResponse = cleanedResponse.replace(/^```json\s*/, "").replace(/```\s*$/, "");
+      } else if (cleanedResponse.startsWith("```")) {
+        cleanedResponse = cleanedResponse.replace(/^```\s*/, "").replace(/```\s*$/, "");
+      }
+      
+      parsedQuiz = JSON.parse(cleanedResponse.trim());
+    } catch (parseError) {
+      console.error("Failed to parse AI response as JSON:", parseError);
+      console.error("Raw response:", aiResponse);
+      throw new ApiError(500, "AI returned invalid JSON. Please try again.");
+    }
+
+    // Validate the response structure
+    if (!parsedQuiz.questions || !Array.isArray(parsedQuiz.questions)) {
+      throw new ApiError(500, "AI response missing questions array.");
+    }
+
+    console.log(`[Quiz Generator] Successfully generated ${parsedQuiz.questions.length} questions`);
+
+    res.json({
+      success: true,
+      data: parsedQuiz
+    });
+
+  } catch (error) {
+    console.error("Error en /ai/generate-quiz:", error);
     next(error);
   }
 });

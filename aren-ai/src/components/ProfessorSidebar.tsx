@@ -35,6 +35,8 @@ import {
   chatbubbleEllipsesSharp,
   personOutline,
   personSharp,
+  calendarOutline,
+  calendarSharp,
 } from "ionicons/icons";
 import AnimatedMascot from "./AnimatedMascot";
 import { useAvatar } from "../context/AvatarContext";
@@ -68,27 +70,57 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
     },
     {
       titleKey: "professor.sidebar.students",
-      url: "/folder/Students",
+      url: "/prof-students",
       iosIcon: peopleOutline,
       mdIcon: peopleSharp,
     },
     {
-      titleKey: "professor.sidebar.createSection",
-      url: "/class-creation",
-      iosIcon: createOutline,
-      mdIcon: createSharp,
+      titleKey: "professor.sidebar.attendance",
+      url: "/prof-attendance",
+      iosIcon: calendarOutline,
+      mdIcon: calendarSharp,
     },
+
     {
-      titleKey: "professor.sidebar.createTask",
-      url: "/create-task",
+      titleKey: "professor.sidebar.assignments",
+      url: "/page/assignments-menu",
       iosIcon: clipboardOutline,
       mdIcon: clipboardOutline,
     },
+
+    {
+      titleKey: "professor.sidebar.createTask",
+      url: "/page/task-assignment",
+      iosIcon: clipboardOutline,
+      mdIcon: clipboardOutline,
+    },
+
+    {
+      titleKey: "professor.sidebar.quizLibrary",
+      url: "/page/quiz-menu",
+      iosIcon: documentTextOutline,
+      mdIcon: documentTextOutline,
+    },
+
+    {
+      titleKey: "professor.sidebar.quizGenerator",
+      url: "/page/ai-quiz-generator",
+      iosIcon: glassesOutline,
+      mdIcon: glassesOutline,
+    },
+
     {
       titleKey: "professor.sidebar.studentSections",
       url: "/student-section",
       iosIcon: analyticsOutline,
       mdIcon: analyticsSharp,
+    },
+
+    {
+      titleKey: "professor.sidebar.createSection",
+      url: "/class-creation",
+      iosIcon: createOutline,
+      mdIcon: createSharp,
     },
     {
       titleKey: "professor.sidebar.teacherAdmin",

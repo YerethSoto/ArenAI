@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     IonContent,
     IonHeader,
@@ -39,6 +39,7 @@ import {
     bookOutline
 } from 'ionicons/icons';
 import { useTranslation } from 'react-i18next';
+import { getApiUrl } from '../config/api';
 import './CreateTask.css';
 
 // Mock Topics Data (Matching Main_Prof structure but simplified keys if possible, or using the same keys)
@@ -68,21 +69,58 @@ const CreateTask: React.FC = () => {
     // Requirement State
     const [note, setNote] = useState('');
 
-    // Mock Data
-    const classes = [
-        { id: '1', name: 'Mathematics 101' },
-        { id: '2', name: 'History of Art' },
-        { id: '3', name: 'Computer Science A' }
-    ];
-
-    const students = [
-        { id: '1', name: 'Alice Johnson' },
-        { id: '2', name: 'Bob Smith' },
-        { id: '3', name: 'Charlie Brown' },
-        { id: '4', name: 'Diana Prince' }
-    ];
+    // Data loaded from API
+    const [classes, setClasses] = useState<{ id: string; name: string }[]>([]);
+    const [students, setStudents] = useState<{ id: string; name: string }[]>([]);
+    const [loadingData, setLoadingData] = useState(true);
 
     const subjects = Object.keys(TOPICS_BY_SUBJECT);
+
+    // Fetch classes and students from API
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoadingData(true);
+                const token = localStorage.getItem('authToken');
+                const headers = {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                };
+
+                // Fetch classes for the professor
+                const userStr = localStorage.getItem('user');
+                const user = userStr ? JSON.parse(userStr) : null;
+                const professorId = user?.id;
+
+                if (professorId) {
+                    const classesResponse = await fetch(getApiUrl(`api/classes?professorId=${professorId}`), { headers });
+                    if (classesResponse.ok) {
+                        const classesData = await classesResponse.json();
+                        setClasses(classesData.map((c: any) => ({ id: String(c.id_class), name: c.name_class })));
+                    }
+                }
+
+                // Fetch students from user's section
+                const sectionId = user?.sectionId || user?.id_section;
+                if (sectionId) {
+                    const studentsResponse = await fetch(getApiUrl(`api/sections/${sectionId}/students`), { headers });
+                    if (studentsResponse.ok) {
+                        const studentsData = await studentsResponse.json();
+                        setStudents(studentsData.map((s: any) => ({
+                            id: String(s.id),
+                            name: `${s.name}${s.lastName ? ' ' + s.lastName : ''}`
+                        })));
+                    }
+                }
+            } catch (err) {
+                console.error('Error fetching data:', err);
+            } finally {
+                setLoadingData(false);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const handleCreateTask = () => {
         // Validation

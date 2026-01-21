@@ -1,2 +1,0 @@
--- Migración consolidada en 000-initial-schema.sql.
--- Se deja este archivo como no-op para mantener el orden histórico.
