@@ -11,33 +11,10 @@ const config: CapacitorConfig = {
       overlaysWebView: true,
     },
   },
+  // Deep link handling configuration
+  server: {
+    androidScheme: 'https',
+  },
 };
-
-
-icon:{
-
-  sources: {
-
-    android:
-    [
-
-      {
-
-        type: 'adaptive',
-        foregroud: 'aren-ai\resources\Capybara profile picture.png',
-        background: 'aren-ai\resources\Capybara profile picture.png'
-
-      },
-      {
-        type: 'legacy',
-        src: 'aren-ai\resources\Capybara profile picture.png'
-      }
-
-
-    ]
-
-
-  }
-}
 
 export default config;

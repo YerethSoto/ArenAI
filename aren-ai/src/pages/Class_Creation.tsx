@@ -11,6 +11,7 @@ import { school, create, chevronDown, todayOutline } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 import * as QRCode from 'qrcode';
 import { useTranslation } from 'react-i18next';
+import { Capacitor } from '@capacitor/core';
 import './Class_Creation.css';
 import { getApiUrl } from '../config/api';
 import ProfessorHeader from '../components/ProfessorHeader';
@@ -86,7 +87,10 @@ const Class_Creation: React.FC = () => {
       const data = await resp.json();
 
       const newClassCode = data.id_section?.toString() || '';
-      const newJoinLink = `${window.location.origin}/join/${newClassCode}`;
+      // Use custom scheme for mobile apps so QR opens in-app instead of browser
+      const newJoinLink = Capacitor.isNativePlatform()
+        ? `arenai://join/${newClassCode}`
+        : `${window.location.origin}/join/${newClassCode}`;
 
       setClassCode(newClassCode);
       setJoinLink(newJoinLink);
