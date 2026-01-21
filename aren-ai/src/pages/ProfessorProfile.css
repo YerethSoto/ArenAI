@@ -59,22 +59,6 @@ ion-toolbar {
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.profile-avatar-large {
-    width: 110px;
-    height: 110px;
-    background: var(--ion-item-background, rgba(0, 0, 0, 0.03));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
-    color: var(--ion-color-primary);
-    font-size: 3.5rem;
-    border: 4px solid var(--ion-background-color);
-    /* Cutout effect */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-}
-
 .profile-name {
     font-size: 1.5rem;
     font-weight: 800;

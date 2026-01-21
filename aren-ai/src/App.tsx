@@ -46,6 +46,7 @@ import StudentChat from "./pages/StudentChat";
 import ArenEntityPage from "./pages/ArenEntityPage";
 import { socketService } from "./services/socket";
 import { chatStorage } from "./services/chatStorage";
+import { App as CapApp } from '@capacitor/app';
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -153,6 +154,50 @@ const App: React.FC = () => {
       }
     };
   }, [userRole]); // Re-run when userRole changes (login/logout)
+
+  // === DEEP LINK LISTENER FOR QR CODE JOINING ===
+  useEffect(() => {
+    const setupDeepLinks = async () => {
+      await CapApp.addListener('appUrlOpen', (event: { url: string }) => {
+        console.log('[App] Deep link received:', event.url);
+
+        try {
+          const url = new URL(event.url);
+          let joinCode: string | null = null;
+
+          if (url.protocol === 'arenai:') {
+            // Custom scheme: arenai://join/123
+            // The host is "join" and the code is in the pathname
+            const pathParts = url.pathname.split('/').filter(Boolean);
+            if (url.host === 'join') {
+              joinCode = pathParts[0] || null;
+            }
+          } else {
+            // HTTPS scheme: https://domain.com/join/123
+            const pathParts = url.pathname.split('/').filter(Boolean);
+            const joinIndex = pathParts.indexOf('join');
+            if (joinIndex !== -1 && pathParts.length > joinIndex + 1) {
+              joinCode = pathParts[joinIndex + 1];
+            }
+          }
+
+          if (joinCode) {
+            console.log('[App] Navigating to join class:', joinCode);
+            // Use window.location for navigation to ensure it works even if router isn't ready
+            window.location.href = `/join/${joinCode}`;
+          }
+        } catch (error) {
+          console.error('[App] Error parsing deep link:', error);
+        }
+      });
+    };
+
+    setupDeepLinks();
+
+    return () => {
+      CapApp.removeAllListeners();
+    };
+  }, []);
 
   const handleLogin = (role: "professor" | "student", userData?: any) => {
     setUserRole(role);
