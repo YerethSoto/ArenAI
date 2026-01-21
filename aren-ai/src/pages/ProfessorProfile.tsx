@@ -4,15 +4,16 @@ import {
     IonPage,
     IonIcon,
     IonButton,
-    IonAccordion,
-    IonAccordionGroup,
     IonItem,
     IonLabel,
     IonToggle,
     IonSelect,
     IonSelectOption,
-    useIonRouter,
-    IonAvatar
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonBackButton,
+    IonList
 } from '@ionic/react';
 import {
     person,
@@ -21,23 +22,16 @@ import {
     helpCircleOutline,
     logOutOutline,
     colorPaletteOutline,
-    pencilOutline
+    createOutline,
+    chevronForward
 } from 'ionicons/icons';
 import { useTheme } from '../context/ThemeContext';
 import { useTranslation } from 'react-i18next';
-import { getUserData } from '../utils/userUtils';
-import PageTransition from '../components/PageTransition';
 import './ProfessorProfile.css';
-import StudentHeader from '../components/StudentHeader';
-import PageTransition from '../components/PageTransition';
 
 const ProfessorProfile: React.FC = () => {
     const { theme, setTheme, availableThemes } = useTheme();
     const { t } = useTranslation();
-    const router = useIonRouter();
-
-    // Get real user data
-    const currentUser = getUserData();
 
     const handleLogout = () => {
         // Clear local storage and redirect
