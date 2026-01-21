@@ -1,6 +1,12 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import { updateUser, findUserByIdentifier } from '../repositories/userRepository.js';
+import { 
+    updateUser, 
+    findUserByIdentifier, 
+    createUserAvatar, 
+    getUserAvatars, 
+    updateUserAvatar 
+} from '../repositories/userRepository.js';
 import { ApiError } from '../middleware/errorHandler.js';
 
 const router = Router();
@@ -82,6 +88,46 @@ router.get('/profile', async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+});
+// Update first login status
+router.patch('/first-login', async (req, res, next) => {
+    try {
+        const userId = (req as any).user?.userId;
+        if (!userId) throw new ApiError(401, 'Unauthorized');
+
+        const { firstLogin } = req.body; 
+        
+        await updateUser(userId, { first_login: !!firstLogin });
+        res.json({ success: true });
+    } catch (e) { next(e); }
+});
+
+// Create Avatar
+router.post('/avatars', async (req, res, next) => {
+    try {
+        const userId = (req as any).user?.userId;
+        if (!userId) throw new ApiError(401, 'Unauthorized');
+
+        const body = z.object({
+            avatarType: z.string().min(1),
+            nickname: z.string().optional(),
+            isCurrent: z.boolean().optional()
+        }).parse(req.body);
+        
+        const id = await createUserAvatar({ idUser: userId, ...body });
+        res.status(201).json({ id });
+    } catch(e) { next(e); }
+});
+
+// Get Avatars
+router.get('/avatars', async (req, res, next) => {
+    try {
+        const userId = (req as any).user?.userId;
+        if (!userId) throw new ApiError(401, 'Unauthorized');
+
+        const avatars = await getUserAvatars(userId);
+        res.json(avatars);
+    } catch(e) { next(e); }
 });
 
 export const usersRouter = router;

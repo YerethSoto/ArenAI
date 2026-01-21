@@ -43,7 +43,9 @@ import QuizPreview from "./pages/QuizPreview";
 import TaskAssignment from "./pages/TaskAssignment";
 import QuizMenu from "./pages/QuizMenu";
 import AssignmentsMenu from "./pages/AssignmentsMenu";
+import StudentAssignments from "./pages/StudentAssignments";
 import AssignmentDetail from "./pages/AssignmentDetail";
+import AvatarSelection from "./pages/AvatarSelection";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AvatarProvider } from "./context/AvatarContext";
 import { SoundProvider } from "./context/SoundContext";
@@ -86,7 +88,7 @@ setupIonicReact();
 
 const App: React.FC = () => {
   const [userRole, setUserRole] = useState<"professor" | "student" | null>(
-    null
+    null,
   );
   const [userData, setUserData] = useState<any>(null); // Add userData state
   const [isLoading, setIsLoading] = useState(true);
@@ -148,7 +150,7 @@ const App: React.FC = () => {
             senderName: data.senderName || "Friend",
           });
           console.log(
-            `[App] Saved message to chatStorage for chat ${targetChatId}`
+            `[App] Saved message to chatStorage for chat ${targetChatId}`,
           );
         }
       });
@@ -221,9 +223,7 @@ const App: React.FC = () => {
                       <Redirect
                         to={
                           userRole === "student"
-                            ? userData?.first_login
-                              ? "/personality-quiz"
-                              : "/page/student"
+                            ? "/page/student"
                             : "/page/professor"
                         }
                       />
@@ -238,9 +238,7 @@ const App: React.FC = () => {
                       <Redirect
                         to={
                           userRole === "student"
-                            ? userData?.first_login
-                              ? "/personality-quiz"
-                              : "/page/student"
+                            ? "/page/student"
                             : "/page/professor"
                         }
                       />
@@ -267,6 +265,13 @@ const App: React.FC = () => {
                   <Route path="/page/student" exact={true}>
                     {userRole === "student" ? (
                       <Main_Student />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/student-assignments" exact={true}>
+                    {userRole === "student" ? (
+                      <StudentAssignments />
                     ) : (
                       <Redirect to="/login" />
                     )}
@@ -394,6 +399,14 @@ const App: React.FC = () => {
                   <Route path="/subject/:name" exact={true}>
                     {userRole === "student" ? (
                       <SubjectDetail />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+
+                  <Route path="/avatar-selection" exact={true}>
+                    {userRole === "student" ? (
+                      <AvatarSelection />
                     ) : (
                       <Redirect to="/login" />
                     )}

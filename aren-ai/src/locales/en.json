@@ -3,6 +3,7 @@
         "learning": "Learning",
         "mainMenu": "Main Menu",
         "chat": "Chat with Aren",
+        "assignments": "Assignments",
         "social": "Chat Menu",
         "quiz": "Quiz",
         "personalityQuiz": "Personality Quiz",
@@ -1207,5 +1208,19 @@
         "save": "Save Changes",
         "saveSuccess": "Profile updated successfully",
         "nameRequired": "Name is required"
+    },
+    "studentAssignments": {
+        "title": "Your Assignments",
+        "pending": "Pending",
+        "completed": "Completed",
+        "searchPending": "Search pending...",
+        "searchCompleted": "Search completed...",
+        "noPending": "No pending assignments",
+        "noCompleted": "No completed assignments",
+        "start": "Start",
+        "overdue": "Overdue",
+        "submitted": "Submitted",
+        "score": "Score",
+        "questions": "Questions"
     }
 }

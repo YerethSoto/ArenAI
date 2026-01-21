@@ -176,3 +176,54 @@ export async function linkUserToSection(userId: number, sectionId: number, roleI
   );
   return (result.rows[0] as any).affectedRows > 0;
 }
+
+export interface UserAvatar {
+  id_user_avatar: number;
+  id_user: number;
+  avatar_type: string;
+  nickname: string;
+  friendship_level: number;
+  is_current: boolean;
+  created_at: string;
+}
+
+export async function createUserAvatar(payload: { idUser: number; avatarType: string; nickname?: string; isCurrent?: boolean }) {
+  const result = await db.query<any>(
+    `INSERT INTO user_avatar (id_user, avatar_type, nickname, is_current) VALUES (?, ?, ?, ?)`,
+    [payload.idUser, payload.avatarType, payload.nickname ?? null, payload.isCurrent ? 1 : 0]
+  );
+  return (result.rows[0] as any).insertId;
+}
+
+export async function getUserAvatars(idUser: number) {
+  const result = await db.query<UserAvatar>(
+    `SELECT * FROM user_avatar WHERE id_user = ? ORDER BY is_current DESC, created_at DESC`,
+    [idUser]
+  );
+  return result.rows;
+}
+
+export async function updateUserAvatar(idAvatar: number, updates: Partial<{ nickname: string; friendshipLevel: number; isCurrent: boolean }>) {
+  const setClauses: string[] = [];
+  const values: any[] = [];
+
+  if (updates.nickname !== undefined) {
+    setClauses.push('nickname = ?');
+    values.push(updates.nickname);
+  }
+  if (updates.friendshipLevel !== undefined) {
+    setClauses.push('friendship_level = ?');
+    values.push(updates.friendshipLevel);
+  }
+  if (updates.isCurrent !== undefined) {
+    setClauses.push('is_current = ?');
+    values.push(updates.isCurrent ? 1 : 0);
+  }
+
+  if (setClauses.length === 0) return false;
+  values.push(idAvatar);
+
+  const sql = `UPDATE user_avatar SET ${setClauses.join(', ')} WHERE id_user_avatar = ?`;
+  const result = await db.query<any>(sql, values);
+  return (result.rows[0] as any).affectedRows > 0;
+}

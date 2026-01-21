@@ -167,16 +167,16 @@ create table user
 (
     id_user              int auto_increment
         primary key,
-    username             varchar(100)     not null,
-    email                varchar(255)     null,
-    password_hash        varchar(255)     not null,
-    name                 varchar(150)     null,
-    last_name            varchar(200)     null,
-    phone_number         varchar(50)      null,
-    id_institution       int              null,
-    role                 varchar(30)      null,
-    profile_picture_name varchar(50)      null,
-    first_login          bit default b'0' not null,
+    username             varchar(100)         not null,
+    email                varchar(255)         null,
+    password_hash        varchar(255)         not null,
+    name                 varchar(150)         null,
+    last_name            varchar(200)         null,
+    phone_number         varchar(50)          null,
+    id_institution       int                  null,
+    role                 varchar(30)          null,
+    profile_picture_name varchar(50)          null,
+    first_login          tinyint(1) default 1 not null,
     constraint username
         unique (username),
     constraint fk_user_institution
@@ -719,6 +719,24 @@ create table submission_quiz_score
 
 create index idx_sqs_submission
     on submission_quiz_score (id_submission);
+
+create table user_avatar
+(
+    id_user_avatar   int auto_increment
+        primary key,
+    id_user          int                                  not null,
+    avatar_type      varchar(50)                          not null,
+    nickname         varchar(100)                         null,
+    friendship_level int        default 0                 null,
+    is_current       tinyint(1) default 0                 null,
+    created_at       timestamp  default CURRENT_TIMESTAMP null,
+    constraint fk_ua_user
+        foreign key (id_user) references user (id_user)
+            on delete cascade
+);
+
+create index idx_ua_user
+    on user_avatar (id_user);
 
 create table user_section
 (

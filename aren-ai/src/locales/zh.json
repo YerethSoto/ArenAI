@@ -3,6 +3,7 @@
         "learning": "学习",
         "mainMenu": "主菜单",
         "chat": "与其对话",
+        "assignments": "作业",
         "quiz": "测验",
         "personalityQuiz": "性格测试",
         "leaderboard": "排行榜",
@@ -1136,5 +1137,19 @@
             "helpCenter": "帮助中心",
             "logout": "退出登录"
         }
+    },
+    "studentAssignments": {
+        "title": "您的作业",
+        "pending": "待办",
+        "completed": "已完成",
+        "searchPending": "搜索待办...",
+        "searchCompleted": "搜索已完成...",
+        "noPending": "没有待办作业",
+        "noCompleted": "没有已完成作业",
+        "start": "开始",
+        "overdue": "逾期",
+        "submitted": "已提交",
+        "score": "得分",
+        "questions": "问题"
     }
 }

@@ -92,8 +92,9 @@ router.post('/:id/assign', async (req, res, next) => {
 
 router.patch('/student/:assignmentStudentId/complete', async (req, res, next) => {
     try {
-        const { complete, quizStudentId } = req.body;
-        await assignmentService.updateCompletion(Number(req.params.assignmentStudentId), complete, quizStudentId);
+        const { complete } = req.body;
+        const status = complete ? 'SUBMITTED' : 'IN_PROGRESS';
+        await assignmentService.updateStatus(Number(req.params.assignmentStudentId), status);
         res.json({ success: true });
     } catch (err) {
         next(err);

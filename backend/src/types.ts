@@ -119,23 +119,34 @@ export interface ChatbotMessage {
 
 export interface Assignment {
   id_assignment: number;
+  id_professor: number;
+  title: string;
+  description: string | null;
   id_section: number | null;
   due_time: string | null;
   id_quiz: number | null;
   win_battle_requirement: number | null;
+  min_battle_wins: number | null;
   id_subject: number | null;
+  created_at: string | null;
 }
 
-export interface AssignmentStudent {
-  id_assignment_student: number;
-  id_assignment: number | null;
-  id_student: number | null;
-  complete: boolean | null;
-  id_quiz_student: number | null;
+export interface AssignmentSubmission {
+  id_submission: number;
+  id_assignment: number;
+  id_student: number;
+  status: 'NOT_STARTED' | 'IN_PROGRESS' | 'SUBMITTED' | 'GRADED';
+  win_streak_achieved: number | null;
+  text_response: string | null;
+  started_at: string | null;
+  submitted_at: string | null;
+  graded_at: string | null;
+  grade: string | null;
+  feedback: string | null;
 }
 
 export interface AssignmentStudentBattle {
   id_assignment_student_battle: number;
-  id_assignment_student: number | null;
+  id_assignment_submission: number | null;
   id_battle_minigame: number | null;
 }

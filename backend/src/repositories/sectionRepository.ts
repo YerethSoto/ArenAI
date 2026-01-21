@@ -54,3 +54,14 @@ export async function createSection(payload: { sectionNumber: string; grade: str
 
   return newSection.rows[0];
 }
+
+export async function findSectionByNumberAndInstitution(sectionNumber: string, institutionId: number) {
+  const result = await db.query<Section>(
+    `SELECT id_section, section_number, grade, id_institution
+     FROM section
+     WHERE section_number = ? AND id_institution = ?
+     LIMIT 1`,
+    [sectionNumber, institutionId]
+  );
+  return result.rows.at(0) ?? null;
+}

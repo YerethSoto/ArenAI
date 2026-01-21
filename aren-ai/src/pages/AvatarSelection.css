@@ -1,0 +1,110 @@
+.avatar-selection-page {
+  --background: var(--ion-background-color); 
+}
+
+.avatar-selection-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.page-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #FF6B6B 0%, #FFD93D 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-header p {
+  color: var(--ion-color-medium);
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+.avatar-card {
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  background: var(--ion-card-background);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+
+.avatar-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.avatar-card.selected {
+  border-color: #FFD93D;
+  background: rgba(255, 217, 61, 0.05);
+  box-shadow: 0 0 0 4px rgba(255, 217, 61, 0.2);
+}
+
+.avatar-image-wrapper {
+  padding: 20px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 70%);
+}
+
+.avatar-image-wrapper img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
+.avatar-info {
+  padding: 20px;
+}
+
+.avatar-info h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 0;
+  color: var(--ion-text-color);
+}
+
+.avatar-info p {
+  color: var(--ion-color-medium);
+  font-size: 0.9rem;
+}
+
+.nickname-section {
+  max-width: 400px;
+  margin: 40px auto;
+  text-align: left;
+}
+
+.nickname-section ion-label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: var(--ion-text-color);
+}
+
+.nickname-input {
+  --background: var(--ion-item-background);
+  --padding-start: 15px;
+  border-radius: 10px;
+  border: 1px solid var(--ion-color-light-shade);
+}
+
+.confirm-button {
+  max-width: 300px;
+  margin: 20px auto 0;
+  --border-radius: 30px;
+  --background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+  font-weight: 600;
+  font-size: 1.1rem;
+  height: 50px;
+}

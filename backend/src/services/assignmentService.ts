@@ -6,6 +6,6 @@ export const assignmentService = {
     listBySection: assignmentRepo.listAssignmentsBySection,
     listByProfessor: assignmentRepo.listAssignmentsByProfessor,
     assignToStudent: assignmentRepo.assignToStudent,
-    updateCompletion: assignmentRepo.updateAssignmentCompletion,
+    updateStatus: assignmentRepo.updateAssignmentStatus,
     getStudentAssignments: assignmentRepo.getStudentAssignments,
 };

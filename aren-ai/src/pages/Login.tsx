@@ -188,11 +188,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         console.log("firstLogin", isFirstLogin);
 
         if (isFirstLogin) {
-          // Show theme selection modal for students (First Time Flow)
           localStorage.setItem("userRole", "student");
-          setPendingUser({ role, data: data.user });
-          setShowThemeModal(true);
-          setIsLoading(false);
+          completeLogin(role, data.user, "/page/student");
         } else {
           completeLogin(role, data.user, "/page/student");
         }
@@ -210,12 +207,12 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const completeLogin = (
     role: "professor" | "student",
     userData: any,
-    targetPath?: string
+    targetPath?: string,
   ) => {
     // Ensure fresh socket connection for new user
     import("../services/socket").then(({ socketService }) => {
       console.log(
-        "Login: Disconnecting previous socket to ensure fresh session."
+        "Login: Disconnecting previous socket to ensure fresh session.",
       );
       socketService.disconnect();
     });
@@ -253,7 +250,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({ first_login: true }),
-          }
+          },
         );
       } catch (err) {
         console.error("Failed to update user onboarding status", err);

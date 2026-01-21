@@ -60,6 +60,12 @@ const appPages: AppPage[] = [
     mdIcon: homeSharp,
   },
   {
+    titleKey: "sidebar.assignments",
+    url: "/student-assignments",
+    iosIcon: bookOutline,
+    mdIcon: bookSharp,
+  },
+  {
     titleKey: "sidebar.chat",
     url: "/chat",
     iosIcon: schoolOutline,
@@ -198,7 +204,7 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
   // Cálculo del porcentaje de progreso
   const progreso = Math.min(
     100,
-    Math.round((indiceUtilizacion / META_DIARIA) * 100)
+    Math.round((indiceUtilizacion / META_DIARIA) * 100),
   );
   // Estado para mostrar la ventanita de explicación
   const [showFormulaInfo, setShowFormulaInfo] = useState(false);
@@ -211,12 +217,20 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
           className="student-menu-header clickable-header"
           onClick={() => {
             // Close menu first if needed, or just navigate
-            // Using a simple window location or router hook would be best, 
+            // Using a simple window location or router hook would be best,
             // but we can use Link wrapper or just an onClick handler if we have router
             // converting to click handler on the container
           }}
         >
-          <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: '100%' }}>
+          <Link
+            to="/profile"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              display: "block",
+              width: "100%",
+            }}
+          >
             <div
               className="sidebar-mascot-wrapper"
               style={{
@@ -231,7 +245,11 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
                 closedSrc={avatarAssets.closed}
                 winkSrc={avatarAssets.wink}
                 className="sidebar-mascot-img"
-                style={{ width: "120px", height: "120px", objectFit: "contain" }} // Reduced to 120px
+                style={{
+                  width: "120px",
+                  height: "120px",
+                  objectFit: "contain",
+                }} // Reduced to 120px
               />
             </div>
             <div className="student-info">

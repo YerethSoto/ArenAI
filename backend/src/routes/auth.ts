@@ -4,7 +4,7 @@ import { findUserByIdentifier, findUserByUsername, createUser, linkUserToSection
 import { ApiError } from '../middleware/errorHandler.js';
 import { signAccessToken, verifyPassword, hashPassword } from '../services/authService.js';
 import { createInstitution, findInstitutionByName } from '../repositories/institutionRepository.js';
-import { getSectionById } from '../repositories/sectionRepository.js';
+import { getSectionById, findSectionByNumberAndInstitution } from '../repositories/sectionRepository.js';
 
 const router = Router();
 
@@ -160,7 +160,7 @@ router.post('/register-student', async (req, res, next) => {
     username: z.string().min(1),
     password: z.string().min(6),
     institution: z.string().min(1),
-    sectionId: z.coerce.number().int().positive(),
+    sectionNumber: z.string().min(1),
   });
 
   try {
@@ -182,12 +182,11 @@ router.post('/register-student', async (req, res, next) => {
     }
 
     // Verify section exists and belongs to institution
-    const secRow = await getSectionById(body.sectionId);
+    if (!idInstitution) throw new ApiError(400, 'Institution not found');
+    
+    const secRow = await findSectionByNumberAndInstitution(body.sectionNumber, idInstitution);
     if (!secRow) {
-      throw new ApiError(404, 'Section not found');
-    }
-    if (secRow.id_institution !== idInstitution) {
-      throw new ApiError(400, 'Section does not belong to the provided institution');
+      throw new ApiError(404, 'Section not found in this institution');
     }
 
     // Hash password
@@ -210,7 +209,7 @@ router.post('/register-student', async (req, res, next) => {
     if (!created) throw new ApiError(500, 'Failed to create student user');
 
     // Link to section
-    await linkUserToSection(created.id_user, body.sectionId, 'student');
+    await linkUserToSection(created.id_user, secRow.id_section, 'student');
 
     const { token, expiresIn } = signAccessToken({
       userId: created.id_user,
@@ -227,6 +226,7 @@ router.post('/register-student', async (req, res, next) => {
         role: created.role,
         name: created.name,
         lastName: created.last_name,
+        first_login: created.first_login,
         institution: created.id_institution ? { id: created.id_institution, name: created.institution_name } : null,
       },
     });

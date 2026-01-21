@@ -3,6 +3,7 @@
         "learning": "Aprendizaje",
         "mainMenu": "Menú Principal",
         "chat": "Chat con Aren",
+        "assignments": "Tareas",
         "quiz": "Cuestionario",
         "personalityQuiz": "Quiz de Personalidad",
         "battle": "Batalla",
@@ -1219,5 +1220,19 @@
         "save": "Guardar Cambios",
         "saveSuccess": "Perfil actualizado correctamente",
         "nameRequired": "El nombre es requerido"
+    },
+    "studentAssignments": {
+        "title": "Tus Asignaciones",
+        "pending": "Pendientes",
+        "completed": "Completadas",
+        "searchPending": "Buscar pendientes...",
+        "searchCompleted": "Buscar completadas...",
+        "noPending": "No hay asignaciones pendientes",
+        "noCompleted": "No hay asignaciones completadas",
+        "start": "Iniciar",
+        "overdue": "Atrasada",
+        "submitted": "Enviado",
+        "score": "Puntaje",
+        "questions": "Preguntas"
     }
 }

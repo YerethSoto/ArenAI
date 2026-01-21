@@ -1,6 +1,6 @@
 import type { ResultSetHeader } from 'mysql2';
 import { db } from '../db/pool.js';
-import type { Assignment, AssignmentStudent } from '../types.js';
+import type { Assignment, AssignmentSubmission } from '../types.js';
 
 export async function createAssignment(payload: {
     title?: string | null;
@@ -67,28 +67,37 @@ export async function listAssignmentsBySection(sectionId: number) {
 
 export async function assignToStudent(assignmentId: number, studentId: number) {
     const result = await db.query<ResultSetHeader>(
-        `INSERT INTO assignment_student (id_assignment, id_student, complete)
-     VALUES (?, ?, false)`,
+        `INSERT INTO assignment_submission (id_assignment, id_student, status)
+     VALUES (?, ?, 'NOT_STARTED')`,
         [assignmentId, studentId]
     );
     return result.rows[0].insertId;
 }
 
-export async function updateAssignmentCompletion(assignmentStudentId: number, complete: boolean, quizStudentId?: number | null) {
+export async function updateAssignmentStatus(submissionId: number, status: 'NOT_STARTED' | 'IN_PROGRESS' | 'SUBMITTED' | 'GRADED') {
     await db.query(
-        `UPDATE assignment_student 
-     SET complete = ?, id_quiz_student = ? 
-     WHERE id_assignment_student = ?`,
-        [complete, quizStudentId ?? null, assignmentStudentId]
+        `UPDATE assignment_submission 
+     SET status = ? 
+     WHERE id_submission = ?`,
+        [status, submissionId]
     );
 }
 
 export async function getStudentAssignments(studentId: number) {
-    const result = await db.query<AssignmentStudent & { assignment_details: Assignment }>(
-        `SELECT ast.*, a.id_section, a.due_time, a.id_quiz, a.win_battle_requirement, a.id_subject
-     FROM assignment_student ast
-     JOIN assignment a ON a.id_assignment = ast.id_assignment
-     WHERE ast.id_student = ?`,
+    const result = await db.query<any>(
+        `SELECT a.id_assignment, a.title, a.description, a.due_time, a.id_subject, a.id_quiz, 
+                a.win_battle_requirement, a.min_battle_wins,
+                s.name_subject as subject_name,
+                q.quiz_name,
+                sub.id_submission, sub.status, sub.grade, sub.win_streak_achieved, 
+                sub.text_response, sub.started_at, sub.submitted_at, sub.graded_at, sub.feedback,
+                (SELECT COUNT(*) FROM quiz_question qq WHERE qq.id_quiz = a.id_quiz) as questions_count
+     FROM assignment a
+     JOIN user_section us ON us.id_section = a.id_section AND us.id_user = ?
+     LEFT JOIN assignment_submission sub ON sub.id_assignment = a.id_assignment AND sub.id_student = us.id_user
+     LEFT JOIN subject s ON s.id_subject = a.id_subject
+     LEFT JOIN quiz q ON q.id_quiz = a.id_quiz
+     ORDER BY a.due_time ASC`,
         [studentId]
     );
     return result.rows;
