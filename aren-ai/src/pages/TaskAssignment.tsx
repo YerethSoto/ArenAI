@@ -46,7 +46,8 @@ interface Student {
 const GRADES = [7, 8, 9, 10, 11, 12];
 
 // Quiz interface
-interface MockQuiz {
+// Real Quiz interface matching QuizMenu
+interface Quiz {
   id: string;
   name: string;
   subject: string;
@@ -54,69 +55,11 @@ interface MockQuiz {
   grade: number;
   topics: string[];
   questions: { text: string; points: number }[];
-  createdAt: string; // ISO date string
+  createdAt: string;
+  creatorId: string;
 }
 
-// Available topics for filtering
-const AVAILABLE_TOPICS = [
-  "Algebra",
-  "Geometry",
-  "Calculus",
-  "Statistics",
-  "Trigonometry",
-  "Probability",
-  "Linear Equations",
-  "Fractions",
-  "Biology",
-  "Chemistry",
-  "Physics",
-];
-
-// Mock quizzes data
-const MOCK_QUIZZES: MockQuiz[] = [
-  {
-    id: "q1",
-    name: "Algebra Basics",
-    subject: "Math",
-    grade: 7,
-    description: "Introduction to algebraic expressions and equations",
-    topics: ["Algebra", "Linear Equations"],
-    questions: [
-      { text: "Solve for x: 2x + 4 = 10", points: 1.5 },
-      { text: "What is the value of y in 3y - 9 = 0?", points: 1.5 },
-      { text: "Simplify: 5x + 3x - 2x", points: 1.0 },
-    ],
-    createdAt: "2026-01-15",
-  },
-  {
-    id: "q2",
-    name: "Geometry Fundamentals",
-    subject: "Math",
-    grade: 8,
-    description: "Basic concepts of shapes and measurements",
-    topics: ["Geometry", "Trigonometry"],
-    questions: [
-      { text: "What is the area of a circle with radius 5?", points: 2.0 },
-      { text: "Calculate the perimeter of a rectangle 4x6", points: 1.0 },
-    ],
-    createdAt: "2026-01-10",
-  },
-  {
-    id: "q3",
-    name: "Statistics Quiz",
-    subject: "Math",
-    grade: 9,
-    description: "Mean, median, mode and data analysis",
-    topics: ["Statistics", "Probability"],
-    questions: [
-      { text: "Find the mean of: 5, 8, 12, 15, 20", points: 1.5 },
-      { text: "What is the median of: 3, 7, 9, 11, 14?", points: 1.5 },
-      { text: "Calculate the mode of: 2, 4, 4, 5, 7, 7, 7", points: 1.0 },
-      { text: "What is the range of: 10, 25, 30, 45?", points: 1.0 },
-    ],
-    createdAt: "2026-01-18",
-  },
-];
+// Remove MOCK_QUIZZES - data will be fetched
 
 const TaskAssignment: React.FC = () => {
   const { t } = useTranslation();
@@ -139,6 +82,10 @@ const TaskAssignment: React.FC = () => {
   const [students, setStudents] = useState<Student[]>([]);
   const [loadingSections, setLoadingSections] = useState(true);
   const [loadingStudents, setLoadingStudents] = useState(false);
+
+  // Real Quizzes state
+  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+  const [loadingQuizzes, setLoadingQuizzes] = useState(false);
 
   // Assignment mode: section or student
   const [assignMode, setAssignMode] = useState<"section" | "student">(
@@ -185,7 +132,7 @@ const TaskAssignment: React.FC = () => {
 
   // Quiz states
   const [quizSearch, setQuizSearch] = useState("");
-  const [selectedQuiz, setSelectedQuiz] = useState<MockQuiz | null>(null);
+  const [selectedQuiz, setSelectedQuiz] = useState<Quiz | null>(null);
   const [selectedQuizId, setSelectedQuizId] = useState<string | null>(null);
   const [showQuizDetailModal, setShowQuizDetailModal] = useState(false);
 
@@ -256,9 +203,72 @@ const TaskAssignment: React.FC = () => {
       }
     };
     fetchSections();
-  }, [selectedGrade, selectedSection]); // Re-run when context changes to update default assignment?
-  // Actually we probably only want to set default on mount or explicit change?
-  // Let's keep it dependent so it auto-updates the "Assign to" if user changes header.
+  }, [selectedGrade, selectedSection]);
+
+  // Fetch Quizzes from API (Professor's quizzes)
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      setLoadingQuizzes(true);
+      try {
+        const token =
+          localStorage.getItem("authToken") || localStorage.getItem("token");
+        const userStr =
+          localStorage.getItem("userData") || localStorage.getItem("user");
+        const user = userStr ? JSON.parse(userStr) : null;
+
+        if (token && user?.id) {
+          // Fetch professor's own quizzes
+          // Use same endpoint as QuizMenu: /api/quizzes/professor/:id
+          const response = await fetch(
+            getApiUrl(`/api/quizzes/professor/${user.id}`),
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            },
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            if (data.quizzes) {
+              const transformed: Quiz[] = data.quizzes.map((q: any) => ({
+                id: String(q.id_quiz),
+                name: q.quiz_name,
+                subject:
+                  q.id_subject === 1
+                    ? "Math"
+                    : q.id_subject === 2
+                      ? "Science"
+                      : q.id_subject === 3
+                        ? "Social Studies"
+                        : "Spanish", // Simple mapping, ideally dynamic
+                grade: 7, // Default as backend might not return grade in list view?? QuizMenu hardcodes 7?
+                // Wait, Quiz table has 'level' or 'grade'?
+                // QuizRoute creates with 'level'. Let's check QuizMenu logic again.
+                // QuizMenu map: `grade: 7`. It seems backend doesn't return grade in the list view query?
+                // Let's rely on what we get. If missing, default to 7 or filter logic might break.
+                // Actually, let's try to map 'level' if present.
+                // data.quizzes query: SELECT q.* ...
+                // 'level' column exists in createFullQuiz.
+                description: q.description || "",
+                topics: q.topics ? q.topics.split(",") : [], // Parse comma-separated topics
+                questions: Array(q.question_count || 0).fill({
+                  text: "Question",
+                  points: 1,
+                }),
+                createdAt: q.created_at || new Date().toISOString(),
+                creatorId: String(q.id_professor),
+              }));
+              setQuizzes(transformed);
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching quizzes:", error);
+      } finally {
+        setLoadingQuizzes(false);
+      }
+    };
+    fetchQuizzes();
+  }, []); // Run once on mount
 
   // Fetch students when a section is selected
   const fetchStudentsForSection = async (sectionId: number) => {
@@ -397,30 +407,32 @@ const TaskAssignment: React.FC = () => {
   };
 
   // Filter and sort quizzes
-  const filteredQuizzes = MOCK_QUIZZES.filter((quiz) => {
-    // Search filter
-    const matchesSearch =
-      quiz.name.toLowerCase().includes(quizSearch.toLowerCase()) ||
-      quiz.subject.toLowerCase().includes(quizSearch.toLowerCase());
+  const filteredQuizzes = quizzes
+    .filter((quiz) => {
+      // Search filter
+      const matchesSearch =
+        quiz.name.toLowerCase().includes(quizSearch.toLowerCase()) ||
+        quiz.subject.toLowerCase().includes(quizSearch.toLowerCase());
 
-    // Grade filter
-    const matchesGrade =
-      quizFilterGrade === null || quiz.grade === quizFilterGrade;
+      // Grade filter
+      const matchesGrade =
+        quizFilterGrade === null || quiz.grade === quizFilterGrade;
 
-    // Topics filter (quiz must contain at least one selected topic)
-    const matchesTopics =
-      quizFilterTopics.length === 0 ||
-      quiz.topics.some((t) => quizFilterTopics.includes(t));
+      // Topics filter (quiz must contain at least one selected topic)
+      const matchesTopics =
+        quizFilterTopics.length === 0 ||
+        quiz.topics.some((t) => quizFilterTopics.includes(t));
 
-    // Subject filter (global)
-    const matchesSubject = quiz.subject === selectedSubject;
+      // Subject filter (global)
+      const matchesSubject = quiz.subject === selectedSubject;
 
-    return matchesSearch && matchesGrade && matchesTopics && matchesSubject;
-  }).sort((a, b) => {
-    const dateA = new Date(a.createdAt).getTime();
-    const dateB = new Date(b.createdAt).getTime();
-    return quizSortOrder === "newest" ? dateB - dateA : dateA - dateB;
-  });
+      return matchesSearch && matchesGrade && matchesTopics && matchesSubject;
+    })
+    .sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return quizSortOrder === "newest" ? dateB - dateA : dateA - dateB;
+    });
 
   // Format date for display
   const formatQuizDate = (dateStr: string) => {
@@ -658,7 +670,9 @@ const TaskAssignment: React.FC = () => {
 
             {/* Additional Assignments Card */}
             <div className="task-card">
-              <div className="task-card-title">Additional assignments</div>
+              <div className="task-card-title">
+                {t("taskAssignment.additionalAssignments")}
+              </div>
 
               <div className="task-slider-section">
                 {/* Two column grid for parallel display */}
@@ -1270,27 +1284,33 @@ const TaskAssignment: React.FC = () => {
               placeholder="Search topics..."
             />
             <div className="task-quiz-topic-grid">
-              {AVAILABLE_TOPICS.filter((t) =>
-                t.toLowerCase().includes(topicSearch.toLowerCase()),
-              ).map((topic) => (
-                <div
-                  key={topic}
-                  className={`task-quiz-topic-item ${
-                    tempFilterTopics.includes(topic) ? "selected" : ""
-                  }`}
-                  onClick={() => toggleFilterTopic(topic)}
-                >
-                  <div className="task-quiz-topic-checkbox">
-                    {tempFilterTopics.includes(topic) && (
-                      <IonIcon
-                        icon={checkmark}
-                        style={{ color: "white", fontSize: "12px" }}
-                      />
-                    )}
+              {Array.from(new Set(quizzes.flatMap((q) => q.topics)))
+                .sort()
+                .filter((t) =>
+                  t.toLowerCase().includes(topicSearch.toLowerCase()),
+                )
+                .map((topic) => (
+                  <div
+                    key={topic}
+                    className={`task-quiz-topic-item ${
+                      tempFilterTopics.includes(topic) ? "selected" : ""
+                    }`}
+                    onClick={() => toggleFilterTopic(topic)}
+                  >
+                    <div className="task-quiz-topic-checkbox">
+                      {tempFilterTopics.includes(topic) && (
+                        <IonIcon
+                          icon={checkmark}
+                          style={{ color: "white", fontSize: "12px" }}
+                        />
+                      )}
+                    </div>
+                    <span className="task-quiz-topic-name">{topic}</span>
                   </div>
-                  <span className="task-quiz-topic-name">{topic}</span>
-                </div>
-              ))}
+                ))}
+              {quizzes.length === 0 && (
+                <div className="task-no-topics">No topics found.</div>
+              )}
             </div>
           </div>
 

@@ -10,6 +10,7 @@ import {
   IonMenuButton,
   useIonToast,
   useIonViewWillEnter,
+  useIonAlert,
 } from "@ionic/react";
 import {
   menu,
@@ -22,6 +23,7 @@ import {
   createOutline,
   addOutline,
   closeOutline,
+  trashOutline,
 } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
@@ -182,6 +184,7 @@ const QuizMenu: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const [present] = useIonToast();
+  const [presentAlert] = useIonAlert();
 
   // Header state
   const [selectedGrade, setSelectedGrade] = useState(7);
@@ -220,7 +223,7 @@ const QuizMenu: React.FC = () => {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
-            }
+            },
           );
 
           if (response.ok) {
@@ -234,7 +237,7 @@ const QuizMenu: React.FC = () => {
                 (_, i) => ({
                   text: `Question ${i + 1}`,
                   points: 1,
-                })
+                }),
               );
 
               return {
@@ -264,7 +267,7 @@ const QuizMenu: React.FC = () => {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
-            }
+            },
           );
 
           if (publicResponse.ok) {
@@ -277,7 +280,7 @@ const QuizMenu: React.FC = () => {
                   (_, i) => ({
                     text: `Question ${i + 1}`,
                     points: 1,
-                  })
+                  }),
                 );
 
                 return {
@@ -299,7 +302,7 @@ const QuizMenu: React.FC = () => {
                   ratingCount: q.rating_count || 0,
                   isOwned: false,
                 };
-              }
+              },
             );
             setPopularQuizzes(publicQuizzes);
           }
@@ -329,7 +332,7 @@ const QuizMenu: React.FC = () => {
             getApiUrl(`/api/quizzes/professor/${user.id}`),
             {
               headers: { Authorization: `Bearer ${token}` },
-            }
+            },
           );
 
           if (response.ok) {
@@ -341,7 +344,7 @@ const QuizMenu: React.FC = () => {
                 (_, i) => ({
                   text: `Question ${i + 1}`,
                   points: 1,
-                })
+                }),
               );
 
               return {
@@ -388,10 +391,59 @@ const QuizMenu: React.FC = () => {
           icon={i <= fullStars ? star : starOutline}
           className={`quiz-menu-star ${i > fullStars ? "empty" : ""}`}
           style={{ fontSize: size === "large" ? "28px" : "12px" }}
-        />
+        />,
       );
     }
     return stars;
+  };
+
+  // Delete quiz
+  const confirmDelete = (e: React.MouseEvent, quizId: string) => {
+    e.stopPropagation();
+    presentAlert({
+      header: "Delete Quiz",
+      message:
+        "Are you sure you want to delete this quiz? This cannot be undone.",
+      buttons: [
+        "Cancel",
+        {
+          text: "Delete",
+          role: "destructive",
+          handler: () => handleDeleteQuiz(quizId),
+        },
+      ],
+    });
+  };
+
+  const handleDeleteQuiz = async (quizId: string) => {
+    try {
+      const token =
+        localStorage.getItem("authToken") || localStorage.getItem("token");
+      if (!token) return;
+
+      const response = await fetch(getApiUrl(`/api/quizzes/${quizId}`), {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        setMyQuizzes(myQuizzes.filter((q) => q.id !== quizId));
+        present({
+          message: "Quiz deleted successfully",
+          duration: 2000,
+          color: "success",
+        });
+      } else {
+        throw new Error("Failed to delete");
+      }
+    } catch (error) {
+      console.error("Error deleting quiz:", error);
+      present({
+        message: "Failed to delete quiz",
+        duration: 2000,
+        color: "danger",
+      });
+    }
   };
 
   // Open quiz detail
@@ -420,8 +472,8 @@ const QuizMenu: React.FC = () => {
     // Increment download counter on original
     setPopularQuizzes(
       popularQuizzes.map((q) =>
-        q.id === quiz.id ? { ...q, downloads: q.downloads + 1 } : q
-      )
+        q.id === quiz.id ? { ...q, downloads: q.downloads + 1 } : q,
+      ),
     );
 
     present({
@@ -446,8 +498,8 @@ const QuizMenu: React.FC = () => {
                   (q.rating * q.ratingCount + rating) / (q.ratingCount + 1),
                 ratingCount: q.ratingCount + 1,
               }
-            : q
-        )
+            : q,
+        ),
       );
       present({
         message: `Rated ${rating} stars!`,
@@ -459,6 +511,7 @@ const QuizMenu: React.FC = () => {
 
   // Navigate to preview
   const goToPreview = (quiz: Quiz) => {
+    sessionStorage.removeItem("generatedQuiz"); // Clear any stale AI data
     sessionStorage.setItem(
       "previewQuiz",
       JSON.stringify({
@@ -468,7 +521,7 @@ const QuizMenu: React.FC = () => {
         isOwned: quiz.isOwned,
         fromDatabase: true, // Flag to indicate we need to fetch questions from API
         questions: [], // Empty - will be fetched from API
-      })
+      }),
     );
     history.push("/page/quiz-preview");
   };
@@ -482,13 +535,13 @@ const QuizMenu: React.FC = () => {
   const filteredMyQuizzes = myQuizzes.filter(
     (q) =>
       q.name.toLowerCase().includes(mySearch.toLowerCase()) ||
-      q.subject.toLowerCase().includes(mySearch.toLowerCase())
+      q.subject.toLowerCase().includes(mySearch.toLowerCase()),
   );
 
   const filteredPopularQuizzes = popularQuizzes.filter(
     (q) =>
       q.name.toLowerCase().includes(popularSearch.toLowerCase()) ||
-      q.subject.toLowerCase().includes(popularSearch.toLowerCase())
+      q.subject.toLowerCase().includes(popularSearch.toLowerCase()),
   );
 
   return (
@@ -519,7 +572,7 @@ const QuizMenu: React.FC = () => {
                   selectedSection={currentSection.split("-")[1] || "1"}
                   selectedSubject={t(
                     "professor.dashboard.subjects." +
-                      selectedSubject.replace(/\s+/g, "")
+                      selectedSubject.replace(/\s+/g, ""),
                   )}
                   onGradeChange={(grade) =>
                     setSelectedGrade(parseInt(grade, 10))
@@ -574,10 +627,22 @@ const QuizMenu: React.FC = () => {
                       onClick={() => openQuizDetail(quiz)}
                     >
                       <div className="quiz-menu-card-header">
-                        <span className="quiz-menu-card-name">{quiz.name}</span>
-                        <span className="quiz-menu-card-meta">
-                          {quiz.subject} • Grade {quiz.grade}
-                        </span>
+                        <div>
+                          <span className="quiz-menu-card-name">
+                            {quiz.name}
+                          </span>
+                          <span className="quiz-menu-card-meta">
+                            {quiz.subject} • Grade {quiz.grade}
+                          </span>
+                        </div>
+                        {quiz.isOwned && (
+                          <button
+                            className="quiz-menu-delete-btn"
+                            onClick={(e) => confirmDelete(e, quiz.id)}
+                          >
+                            <IonIcon icon={trashOutline} />
+                          </button>
+                        )}
                       </div>
 
                       {quiz.originalCreatorName && (

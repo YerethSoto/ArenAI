@@ -24,6 +24,7 @@ interface StudentHeaderProps {
   onBack?: () => void;
   skipTranslation?: boolean;
   onSubjectClick?: () => void;
+  notchContent?: React.ReactNode;
 }
 
 const StudentHeader: React.FC<StudentHeaderProps> = ({
@@ -37,6 +38,7 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
   onBack,
   skipTranslation = false,
   onSubjectClick,
+  notchContent,
 }) => {
   const { t } = useTranslation();
 
@@ -71,9 +73,11 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
       {showNotch && (
         <div className="sh-notch-container">
           <div className="sh-notch">
-            {showSubject ? (
+            {notchContent ? (
+              notchContent
+            ) : showSubject ? (
               <div
-                className={`sh-subject-display ${onSubjectClick ? 'interactive' : ''}`}
+                className={`sh-subject-display ${onSubjectClick ? "interactive" : ""}`}
                 onClick={onSubjectClick}
               >
                 {onSubjectChange ? (
@@ -82,17 +86,17 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
                       skipTranslation
                         ? selectedSubject
                         : menuOptions
-                        ? t(selectedSubject)
-                        : t(getSubjectKey(selectedSubject))
+                          ? t(selectedSubject)
+                          : t(getSubjectKey(selectedSubject))
                     }
                     onSubjectChange={onSubjectChange}
                     variant="header"
                     options={
                       menuOptions
                         ? menuOptions.map((opt) => ({
-                          value: opt,
-                          label: t(opt),
-                        }))
+                            value: opt,
+                            label: t(opt),
+                          }))
                         : undefined
                     }
                   />
@@ -101,8 +105,8 @@ const StudentHeader: React.FC<StudentHeaderProps> = ({
                     {skipTranslation
                       ? selectedSubject
                       : menuOptions
-                      ? t(selectedSubject)
-                      : t(getSubjectKey(selectedSubject))}
+                        ? t(selectedSubject)
+                        : t(getSubjectKey(selectedSubject))}
                   </span>
                 )}
               </div>

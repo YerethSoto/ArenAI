@@ -160,7 +160,7 @@ router.post('/register-student', async (req, res, next) => {
     username: z.string().min(1),
     password: z.string().min(6),
     institution: z.string().min(1),
-    sectionNumber: z.string().min(1),
+    sectionId: z.number().int().positive(),
   });
 
   try {
@@ -184,9 +184,14 @@ router.post('/register-student', async (req, res, next) => {
     // Verify section exists and belongs to institution
     if (!idInstitution) throw new ApiError(400, 'Institution not found');
     
-    const secRow = await findSectionByNumberAndInstitution(body.sectionNumber, idInstitution);
+    // Check if section exists by ID directly
+    const secRow = await getSectionById(body.sectionId);
     if (!secRow) {
-      throw new ApiError(404, 'Section not found in this institution');
+      throw new ApiError(404, 'Section not found');
+    }
+
+    if (secRow.id_institution !== idInstitution) {
+      throw new ApiError(400, 'Section does not belong to the institution'); 
     }
 
     // Hash password

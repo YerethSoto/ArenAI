@@ -59,12 +59,7 @@ const appPages: AppPage[] = [
     iosIcon: homeOutline,
     mdIcon: homeSharp,
   },
-  {
-    titleKey: "sidebar.assignments",
-    url: "/student-assignments",
-    iosIcon: bookOutline,
-    mdIcon: bookSharp,
-  },
+
   {
     titleKey: "sidebar.chat",
     url: "/chat",
@@ -79,7 +74,7 @@ const appPages: AppPage[] = [
   },
   {
     titleKey: "sidebar.quiz",
-    url: "/quiz",
+    url: "/quiz-menu",
     iosIcon: trophyOutline,
     mdIcon: trophySharp,
   },

@@ -220,7 +220,22 @@
         "noQuizzesSelected": "未选择测验",
         "selectAtLeastOne": "请至少选择一个测验",
         "yourQuizzes": "您的测验",
-        "quizzesInAssignment": "作业中的测验"
+        "quizzesInAssignment": "作业中的测验",
+        "title": "您的作业",
+        "pending": "待办",
+        "completed": "已完成",
+        "completedQuizzes": "已完成的测验",
+        "searchPending": "搜索待办...",
+        "searchCompleted": "搜索已完成...",
+        "noPending": "无待办作业",
+        "noCompleted": "无已完成作业",
+        "start": "开始",
+        "overdue": "逾期",
+        "submitted": "已提交",
+        "score": "得分",
+        "questions": "题目",
+        "viewDetails": "查看详情",
+        "assignment": "作业"
     },
     "taskAssignment": {
         "pageTitle": "新作业",
@@ -234,6 +249,7 @@
         "dueDate": "截止日期",
         "points": "分数",
         "totalPoints": "总分",
+        "additionalAssignments": "额外作业",
         "battlesRequired": "所需对战次数",
         "studyWithAgentTime": "与助手学习时间",
         "minutes": "分钟",
@@ -1151,5 +1167,26 @@
         "submitted": "已提交",
         "score": "得分",
         "questions": "问题"
+    },
+
+    "quizGenerator": {
+        "title": "AI 测验生成器",
+        "quizName": "测验名称",
+        "enterQuizName": "输入测验名称",
+        "quizTopics": "测验主题",
+        "addMore": "添加更多",
+        "advancedSettings": "高级设置",
+        "questions": "问题",
+        "gradeLevel": "年级",
+        "additionalDetails": "更多细节",
+        "numberOfQuestions": "问题数量",
+        "enterNumberHint": "输入 5 到 100 之间的数字",
+        "generating": "正在生成测验",
+        "generatingDesc": "AI 正在为您创建问题...",
+        "selectTopicError": "请至少选择一个主题",
+        "enterNameError": "请输入测验名称",
+        "cancel": "取消",
+        "save": "保存",
+        "generate": "生成"
     }
 }

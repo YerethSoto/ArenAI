@@ -98,7 +98,11 @@ export async function getQuizById(quizId: number): Promise<Quiz | null> {
 export async function listQuizzesByProfessor(professorId: number) {
     const result = await db.query<Quiz & { question_count: number } & RowDataPacket>(
         `SELECT q.*, 
-         (SELECT COUNT(*) FROM quiz_question qq WHERE qq.id_quiz = q.id_quiz) as question_count
+         (SELECT COUNT(*) FROM quiz_question qq WHERE qq.id_quiz = q.id_quiz) as question_count,
+         (SELECT GROUP_CONCAT(DISTINCT t.name_topic SEPARATOR ',') 
+          FROM quiz_question qq 
+          JOIN topic t ON qq.id_topic = t.id_topic 
+          WHERE qq.id_quiz = q.id_quiz) as topics
          FROM quiz q 
          WHERE q.id_professor = ? 
          ORDER BY q.created_at DESC`,

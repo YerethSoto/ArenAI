@@ -25,6 +25,7 @@ import { getApiUrl } from "../config/api";
 import "./AIQuizGenerator.css";
 import "../components/StudentHeader.css";
 import PageTransition from "../components/PageTransition";
+import { useProfessorFilters } from "../hooks/useProfessorFilters";
 
 // All Available Topics
 const ALL_TOPICS: { key: string; name: string; subject: string }[] = [
@@ -62,7 +63,21 @@ const AIQuizGenerator: React.FC = () => {
   // Loading state for AI generation
   const [isLoading, setIsLoading] = useState(false);
 
-  const [selectedSubject, setSelectedSubject] = useState("Math");
+  const { selectedGrade: filterGrade, selectedSubject: filterSubject } =
+    useProfessorFilters();
+
+  const [selectedSubject, setSelectedSubject] = useState(
+    SUBJECTS.includes(filterSubject) ? filterSubject : "Math",
+  );
+
+  // Sync with Professor Filters
+  React.useEffect(() => {
+    if (filterSubject && SUBJECTS.includes(filterSubject)) {
+      setSelectedSubject(filterSubject);
+      setSelectedTopics([]); // Clear topics when subject changes
+      setAddedTopics([]);
+    }
+  }, [filterSubject]);
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [addedTopics, setAddedTopics] = useState<
     { key: string; name: string; subject: string }[]
@@ -75,7 +90,7 @@ const AIQuizGenerator: React.FC = () => {
   const [modalSelectedTopics, setModalSelectedTopics] = useState<string[]>([]);
 
   // Quiz Name State
-  const [quizName, setQuizName] = useState("Quiz de sumas");
+  const [quizName, setQuizName] = useState("");
   const [showNameModal, setShowNameModal] = useState(false);
   const [tempName, setTempName] = useState("");
 
@@ -84,7 +99,7 @@ const AIQuizGenerator: React.FC = () => {
   const [tempCount, setTempCount] = useState("");
 
   // Grade Level State
-  const [gradeLevel, setGradeLevel] = useState(5);
+  const [gradeLevel, setGradeLevel] = useState(filterGrade || 5);
   const [showGradeModal, setShowGradeModal] = useState(false);
   const [tempGrade, setTempGrade] = useState("");
 
@@ -104,22 +119,21 @@ const AIQuizGenerator: React.FC = () => {
     return result;
   }, [defaultTopics, addedTopics]);
 
-  // Search filtered topics
+  // Search filtered topics - Restrict to selected subject
   const searchResults = useMemo(() => {
-    if (!searchText.trim()) return ALL_TOPICS;
+    let filtered = ALL_TOPICS.filter((t) => t.subject === selectedSubject);
+
+    if (!searchText.trim()) return filtered;
+
     const query = searchText.toLowerCase();
-    return ALL_TOPICS.filter(
-      (t) =>
-        t.name.toLowerCase().includes(query) ||
-        t.subject.toLowerCase().includes(query)
-    );
-  }, [searchText]);
+    return filtered.filter((t) => t.name.toLowerCase().includes(query));
+  }, [searchText, selectedSubject]);
 
   const toggleTopic = (topicKey: string) => {
     setSelectedTopics((prev) =>
       prev.includes(topicKey)
         ? prev.filter((t) => t !== topicKey)
-        : [...prev, topicKey]
+        : [...prev, topicKey],
     );
   };
 
@@ -127,13 +141,13 @@ const AIQuizGenerator: React.FC = () => {
     setModalSelectedTopics((prev) =>
       prev.includes(topicKey)
         ? prev.filter((t) => t !== topicKey)
-        : [...prev, topicKey]
+        : [...prev, topicKey],
     );
   };
 
   const handleAddTopicsFromModal = () => {
     const newTopics = ALL_TOPICS.filter((t) =>
-      modalSelectedTopics.includes(t.key)
+      modalSelectedTopics.includes(t.key),
     );
     setAddedTopics((prev) => {
       const existingKeys = prev.map((t) => t.key);
@@ -168,11 +182,10 @@ const AIQuizGenerator: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // Get language from i18n or default to Spanish
-      const language =
-        i18n.language === "en"
-          ? "English"
-          : i18n.language === "zh"
+      // Get language from i18n
+      const language = i18n.language?.startsWith("en")
+        ? "English"
+        : i18n.language?.startsWith("zh")
           ? "Chinese"
           : "Spanish";
 
@@ -214,14 +227,16 @@ const AIQuizGenerator: React.FC = () => {
       console.log("Quiz generated successfully:", result.data);
 
       // Store generated quiz data in sessionStorage for preview page
+      sessionStorage.removeItem("previewQuiz"); // Clear any stale preview data
       sessionStorage.setItem(
         "generatedQuiz",
         JSON.stringify({
           quizName,
           subject: selectedSubject,
           gradeLevel,
+          language,
           questions: result.data.questions,
-        })
+        }),
       );
 
       // Navigate directly to preview page
@@ -252,7 +267,22 @@ const AIQuizGenerator: React.FC = () => {
 
   const saveQuizName = () => {
     if (tempName.trim()) {
-      setQuizName(tempName.trim());
+      const newName = tempName.trim();
+      setQuizName(newName);
+
+      // Update session storage if it exists to keep preview in sync
+      const stored = sessionStorage.getItem("generatedQuiz");
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          parsed.quizName = newName;
+          parsed.subject = selectedSubject; // Keep subject in sync too
+          parsed.gradeLevel = gradeLevel; // Keep grade in sync too
+          sessionStorage.setItem("generatedQuiz", JSON.stringify(parsed));
+        } catch (e) {
+          // ignore
+        }
+      }
     }
     setShowNameModal(false);
   };
@@ -285,8 +315,12 @@ const AIQuizGenerator: React.FC = () => {
             <div className="spinner-ring"></div>
             <div className="spinner-ring"></div>
           </div>
-          <h3 className="quiz-loading-title">Generating Quiz</h3>
-          <p className="quiz-loading-text">AI is creating your questions...</p>
+          <h3 className="quiz-loading-title">
+            {t("quizGenerator.generating")}
+          </h3>
+          <p className="quiz-loading-text">
+            {t("quizGenerator.generatingDesc")}
+          </p>
         </div>
       </IonModal>
 
@@ -304,7 +338,7 @@ const AIQuizGenerator: React.FC = () => {
 
         <div className="sh-brand-container-absolute">
           <div className="sh-brand-name">ArenAI</div>
-          <div className="sh-brand-sub">Generator</div>
+          <div className="sh-brand-sub">{t("quizGenerator.title")}</div>
         </div>
 
         <div className="sh-notch-container">
@@ -321,8 +355,8 @@ const AIQuizGenerator: React.FC = () => {
                 {t(
                   `professor.dashboard.subjects.${selectedSubject.replace(
                     /\s+/g,
-                    ""
-                  )}`
+                    "",
+                  )}`,
                 ) || selectedSubject}
               </span>
             </div>
@@ -343,7 +377,7 @@ const AIQuizGenerator: React.FC = () => {
                 }`}
               >
                 {t(
-                  `professor.dashboard.subjects.${subj.replace(/\s+/g, "")}`
+                  `professor.dashboard.subjects.${subj.replace(/\s+/g, "")}`,
                 ) || subj}
               </div>
             ))}
@@ -361,7 +395,9 @@ const AIQuizGenerator: React.FC = () => {
             {/* Quiz Name with Floral Separator */}
             <div className="quiz-name-section">
               <div className="quiz-name-display" onClick={openNameModal}>
-                <span>{quizName}</span>
+                <span className={!quizName ? "placeholder-text" : ""}>
+                  {quizName || t("quizGenerator.enterQuizName")}
+                </span>
                 <IonIcon icon={createOutline} className="quiz-name-edit-icon" />
               </div>
               <div className="floral-separator">
@@ -373,7 +409,9 @@ const AIQuizGenerator: React.FC = () => {
 
             {/* Quiz Topics Card */}
             <div className="quiz-card">
-              <div className="quiz-card-title">Quiz Topics</div>
+              <div className="quiz-card-title">
+                {t("quizGenerator.quizTopics")}
+              </div>
 
               <div className="quiz-topics-grid">
                 {displayedTopics.map((topic) => (
@@ -398,21 +436,25 @@ const AIQuizGenerator: React.FC = () => {
               <div className="quiz-add-more-container">
                 <div className="quiz-add-more-btn" onClick={openModal}>
                   <IonIcon icon={addCircleOutline} />
-                  <span>Add More</span>
+                  <span>{t("quizGenerator.addMore")}</span>
                 </div>
               </div>
             </div>
 
             {/* Advanced Settings Card */}
             <div className="quiz-card">
-              <div className="quiz-card-title">Advanced settings</div>
+              <div className="quiz-card-title">
+                {t("quizGenerator.advancedSettings")}
+              </div>
 
               {/* Questions Row - Click to open modal */}
               <div className="quiz-questions-row" onClick={openCountModal}>
                 <div className="quiz-question-circle">
                   <span className="quiz-question-number">{questionCount}</span>
                 </div>
-                <span className="quiz-questions-label">Questions</span>
+                <span className="quiz-questions-label">
+                  {t("quizGenerator.questions")}
+                </span>
               </div>
 
               {/* Slider - max 30, show 30+ if count > 30 */}
@@ -448,17 +490,21 @@ const AIQuizGenerator: React.FC = () => {
                 <div className="quiz-question-circle">
                   <span className="quiz-question-number">{gradeLevel}</span>
                 </div>
-                <span className="quiz-questions-label">Grade Level</span>
+                <span className="quiz-questions-label">
+                  {t("quizGenerator.gradeLevel")}
+                </span>
               </div>
 
               {/* Additional Details */}
               <div className="quiz-details-section">
-                <span className="quiz-details-label">Additional details</span>
+                <span className="quiz-details-label">
+                  {t("quizGenerator.additionalDetails")}
+                </span>
                 <IonTextarea
                   className="quiz-details-textarea"
                   rows={3}
                   value={customPrompt}
-                  onIonChange={(e) => setCustomPrompt(e.detail.value!)}
+                  onIonInput={(e) => setCustomPrompt(e.detail.value!)}
                   placeholder="Add specific instructions for the AI..."
                 />
               </div>
@@ -474,7 +520,7 @@ const AIQuizGenerator: React.FC = () => {
       <div className="quiz-footer">
         <div className="quiz-footer-notch">
           <div className="quiz-generate-btn" onClick={handleGenerateQuiz}>
-            Generate
+            {t("quizGenerator.generate")}
           </div>
         </div>
       </div>
@@ -486,7 +532,7 @@ const AIQuizGenerator: React.FC = () => {
         className="quiz-name-modal"
       >
         <div className="quiz-modal-inner">
-          <h2 className="quiz-modal-title">{t("Quiz Name")}</h2>
+          <h2 className="quiz-modal-title">{t("quizGenerator.quizName")}</h2>
 
           <div className="quiz-input-wrapper">
             <input
@@ -494,7 +540,7 @@ const AIQuizGenerator: React.FC = () => {
               className="quiz-modal-input-field"
               value={tempName}
               onChange={(e) => setTempName(e.target.value)}
-              placeholder="Enter quiz name"
+              placeholder={t("quizGenerator.enterQuizName")}
             />
           </div>
 
@@ -519,7 +565,9 @@ const AIQuizGenerator: React.FC = () => {
         className="quiz-name-modal"
       >
         <div className="quiz-modal-inner">
-          <h2 className="quiz-modal-title">Number of Questions</h2>
+          <h2 className="quiz-modal-title">
+            {t("quizGenerator.numberOfQuestions")}
+          </h2>
 
           <div className="quiz-input-wrapper">
             <input
@@ -532,7 +580,9 @@ const AIQuizGenerator: React.FC = () => {
               max={100}
             />
           </div>
-          <p className="quiz-modal-hint">Enter a number between 5 and 100</p>
+          <p className="quiz-modal-hint">
+            {t("quizGenerator.enterNumberHint")}
+          </p>
 
           <div className="quiz-modal-buttons">
             <button
@@ -555,7 +605,7 @@ const AIQuizGenerator: React.FC = () => {
         className="quiz-name-modal"
       >
         <div className="quiz-modal-inner">
-          <h2 className="quiz-modal-title">Grade Level</h2>
+          <h2 className="quiz-modal-title">{t("quizGenerator.gradeLevel")}</h2>
 
           <div className="quiz-input-wrapper">
             <input

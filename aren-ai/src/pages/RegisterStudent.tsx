@@ -24,7 +24,7 @@ const RegisterStudent: React.FC = () => {
     password: "",
     confirmPassword: "",
     institution: "",
-    sectionNumber: "",
+    sectionId: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -78,7 +78,7 @@ const RegisterStudent: React.FC = () => {
       !formData.username.trim() ||
       !formData.password ||
       !formData.institution.trim() ||
-      !formData.sectionNumber.trim()
+      !formData.sectionId.trim()
     ) {
       alert("Please fill all fields");
       return;
@@ -107,13 +107,15 @@ const RegisterStudent: React.FC = () => {
           username: formData.username.trim(),
           password: formData.password,
           institution: formData.institution.trim(),
-          sectionNumber: formData.sectionNumber.trim(),
+          sectionId: parseInt(formData.sectionId),
         }),
       });
 
       if (!resp.ok) {
         const err = await resp.json().catch(() => null);
-        alert(err?.error || "Registration failed");
+        console.error("Register Error:", err, "Status:", resp.status);
+        const msg = err?.error || err?.message || "Registration failed";
+        alert(`Error ${resp.status}: ${msg}`);
         setIsLoading(false);
         return;
       }
@@ -317,19 +319,19 @@ const RegisterStudent: React.FC = () => {
                         </IonItem>
                       </div>
 
-                      {/* Section Number */}
+                      {/* Section ID */}
                       <div className="input-section">
                         <IonText>
-                          <h3 className="input-label">Section Number</h3>
+                          <h3 className="input-label">Section ID</h3>
                         </IonText>
                         <IonItem className="input-item" lines="none">
                           <IonInput
-                            type="text"
-                            placeholder="Enter section number (e.g. 7-1)"
-                            value={formData.sectionNumber}
+                            type="number"
+                            placeholder="Enter section ID"
+                            value={formData.sectionId}
                             onIonInput={(e) =>
                               handleInputChange(
-                                "sectionNumber",
+                                "sectionId",
                                 String(e.detail.value),
                               )
                             }

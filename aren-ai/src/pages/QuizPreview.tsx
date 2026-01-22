@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   IonPage,
   IonContent,
@@ -7,6 +7,7 @@ import {
   IonModal,
   IonIcon,
   useIonToast,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import {
   createOutline,
@@ -61,12 +62,36 @@ const QuizPreview: React.FC = () => {
   const [isOwned, setIsOwned] = useState(true);
 
   // Quiz state
-  const [quizName, setQuizName] = useState("Generated Quiz");
+  const [quizName, setQuizName] = useState("");
   const [quizDescription, setQuizDescription] = useState("");
+  const [gradeLevel, setGradeLevel] = useState<number>(7);
+  const [language, setLanguage] = useState("en"); // Default to en, but will overwrite
+  const [subject, setSubject] = useState("Math"); // Default to Math
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [subjects, setSubjects] = useState<
+    { id_subject: number; name_subject: string }[]
+  >([]);
 
-  // Load generated quiz from sessionStorage on mount
-  useEffect(() => {
+  // Load generated quiz from sessionStorage on enter
+  useIonViewWillEnter(() => {
+    // Fetch subjects dynamically
+    // Fetch subjects dynamically with auth token
+    const token =
+      localStorage.getItem("authToken") || localStorage.getItem("token");
+    fetch(getApiUrl("/api/subjects"), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch subjects");
+        return res.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data)) setSubjects(data);
+      })
+      .catch((err) => console.error("Failed to fetch subjects:", err));
+
     const storedQuiz = sessionStorage.getItem("generatedQuiz");
     const previewQuiz = sessionStorage.getItem("previewQuiz");
 
@@ -76,6 +101,17 @@ const QuizPreview: React.FC = () => {
         const parsed = JSON.parse(previewQuiz);
         if (parsed.quizName) setQuizName(parsed.quizName);
         if (parsed.isOwned !== undefined) setIsOwned(parsed.isOwned);
+        // Grade from preview usually not stored, default or fetch?
+        if (parsed.level) setGradeLevel(parsed.level);
+        if (parsed.subject) setSubject(parsed.subject);
+        if (parsed.language)
+          setLanguage(
+            parsed.language === "Spanish"
+              ? "es"
+              : parsed.language === "Chinese"
+                ? "zh"
+                : "en",
+          );
 
         // If from database, fetch questions from API
         if (parsed.fromDatabase && parsed.quizId) {
@@ -130,7 +166,7 @@ const QuizPreview: React.FC = () => {
               }
             })
             .catch((err) =>
-              console.error("Error fetching quiz questions:", err)
+              console.error("Error fetching quiz questions:", err),
             );
         } else if (parsed.questions && Array.isArray(parsed.questions)) {
           const transformedQuestions: Question[] = parsed.questions.map(
@@ -165,7 +201,7 @@ const QuizPreview: React.FC = () => {
                   },
                 ],
               };
-            }
+            },
           );
           setQuestions(transformedQuestions);
         }
@@ -176,10 +212,26 @@ const QuizPreview: React.FC = () => {
       try {
         const parsed = JSON.parse(storedQuiz);
 
-        // Set quiz name if provided
         if (parsed.quizName) {
           setQuizName(parsed.quizName);
         }
+        if (parsed.gradeLevel) {
+          setGradeLevel(parsed.gradeLevel);
+        }
+        if (parsed.language) {
+          // Map full name back to code for DB if needed, or keep full name?
+          // Backend expects 'en', 'es', 'zh' usually?
+          // Actually backend types don't specify, but DB probably prefers codes.
+          // AIGenerator uses "English", "Spanish", "Chinese".
+          // Let's map them.
+          const langMap: Record<string, string> = {
+            English: "en",
+            Spanish: "es",
+            Chinese: "zh",
+          };
+          setLanguage(langMap[parsed.language] || "en");
+        }
+        if (parsed.subject) setSubject(parsed.subject);
 
         // Transform AI questions to component format
         if (parsed.questions && Array.isArray(parsed.questions)) {
@@ -215,7 +267,7 @@ const QuizPreview: React.FC = () => {
                   },
                 ],
               };
-            }
+            },
           );
           setQuestions(transformedQuestions);
         }
@@ -223,7 +275,7 @@ const QuizPreview: React.FC = () => {
         console.error("Error parsing stored quiz:", error);
       }
     }
-  }, []);
+  });
 
   // Modal states
   const [showNameModal, setShowNameModal] = useState(false);
@@ -277,8 +329,8 @@ const QuizPreview: React.FC = () => {
                 points: Math.min(3.0, Math.max(1.0, points)),
                 allowMultipleSelection: tempAllowMultiple,
               }
-            : q
-        )
+            : q,
+        ),
       );
     }
     setShowQuestionModal(false);
@@ -315,11 +367,11 @@ const QuizPreview: React.FC = () => {
                         text: tempAnswerText.trim(),
                         isCorrect: tempAnswerCorrect,
                       }
-                    : a
+                    : a,
                 ),
               }
-            : q
-        )
+            : q,
+        ),
       );
     }
     setShowAnswerModal(false);
@@ -334,11 +386,11 @@ const QuizPreview: React.FC = () => {
             ? {
                 ...q,
                 answers: q.answers.filter(
-                  (a) => a.id !== editingAnswer.answer.id
+                  (a) => a.id !== editingAnswer.answer.id,
                 ),
               }
-            : q
-        )
+            : q,
+        ),
       );
     }
     setShowAnswerModal(false);
@@ -389,6 +441,16 @@ const QuizPreview: React.FC = () => {
         return;
       }
 
+      if (!quizName.trim()) {
+        present({
+          message: "Please enter a name for the quiz",
+          duration: 2000,
+          color: "warning",
+        });
+        openNameModal();
+        return;
+      }
+
       // Transform questions to backend format
       const questionsPayload = questions.map((q) => {
         // Find which answers are correct and convert to 1-indexed options
@@ -409,6 +471,34 @@ const QuizPreview: React.FC = () => {
         };
       });
 
+      // Find subject ID
+      // Find subject ID with fuzzy matching for differences between UI and DB
+      const foundSubject = subjects.find((s) => {
+        const dbName = s.name_subject.toLowerCase();
+        const uiName = subject.toLowerCase();
+
+        // Direct match
+        if (dbName === uiName) return true;
+
+        // UI: "Social Studies" -> DB: "Costa Rican Social Studies"
+        if (uiName === "social studies" && dbName.includes("social studies"))
+          return true;
+
+        // UI: "Spanish" -> DB: "Spanish as a First Language"
+        if (uiName === "spanish" && dbName.includes("spanish")) return true;
+
+        return false;
+      });
+      // Fallback: If still not found, defaults to 1 (Math) which explains the user's issue.
+      // We should probably log a warning if we default.
+      const subjectId = foundSubject ? foundSubject.id_subject : 1;
+      if (!foundSubject) {
+        console.warn(
+          `Subject mismatch! UI: "${subject}" not found in DB subjects:`,
+          subjects,
+        );
+      }
+
       const response = await fetch(getApiUrl("/api/quizzes"), {
         method: "POST",
         headers: {
@@ -417,11 +507,11 @@ const QuizPreview: React.FC = () => {
         },
         body: JSON.stringify({
           professorId: user.id,
-          subjectId: 1, // Default subject - would need selection
+          subjectId,
           name: quizName,
           description: quizDescription,
-          level: "intermediate",
-          language: "en",
+          level: String(parseInt(String(gradeLevel), 10) || 7),
+          language: language,
           questions: questionsPayload,
         }),
       });
@@ -487,8 +577,11 @@ const QuizPreview: React.FC = () => {
           <div className="preview-container">
             {/* Quiz Title */}
             <div className="preview-title-section">
-              <span className="preview-quiz-name" onClick={openNameModal}>
-                {quizName}
+              <span
+                className={`preview-quiz-name ${!quizName ? "placeholder-text" : ""}`}
+                onClick={openNameModal}
+              >
+                {quizName || "Enter Quiz Name"}
                 <IonIcon icon={createOutline} className="preview-edit-icon" />
               </span>
               <div className="preview-separator">

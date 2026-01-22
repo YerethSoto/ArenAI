@@ -132,6 +132,9 @@
 
 .quiz-menu-card-header {
   margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .quiz-menu-card-name {
@@ -247,9 +250,30 @@
   color: var(--ion-color-secondary);
 }
 
-.quiz-menu-action-btn:hover {
-  opacity: 0.9;
-  transform: scale(1.02);
+.quiz-menu-delete-btn {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  color: #ef5350;
+  padding: 4px;
+  margin: -4px -4px 0 0;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: all 0.2s;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quiz-menu-delete-btn:hover {
+  opacity: 1;
+  background-color: rgba(239, 83, 80, 0.1);
+}
+
+.quiz-menu-card-actions {
+  display: flex;
+  gap: 8px;
 }
 
 /* ========== EMPTY STATE ========== */

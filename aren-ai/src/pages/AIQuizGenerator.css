@@ -43,6 +43,10 @@
 .quiz-name-section {
   text-align: center;
   padding: 10px 0;
+  margin-top: 50px; /* Increased to ensure no overlap */
+  position: relative;
+  z-index: 50;
+  pointer-events: auto;
 }
 
 .quiz-name-display {
@@ -380,6 +384,43 @@
 }
 
 /* ========== SUBJECT DROPDOWN ========== */
+.quiz-subject-dropdown {
+  position: absolute;
+  top: 90px; /* Adjusted to be closer to notch */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99999; /* Super high Z-index */
+  background: white; /* Ensure non-transparent */
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  min-width: 180px;
+  overflow: hidden;
+  pointer-events: auto; /* Ensure clickable */
+}
+
+.ai-quiz-page ion-header {
+  pointer-events: none; /* Let clicks pass through header area */
+  z-index: 100 !important;
+}
+
+.ai-quiz-page .student-toolbar {
+  pointer-events: auto; /* Re-enable for menu button */
+}
+
+.sh-notch-container {
+  pointer-events: none;
+  z-index: 101 !important; /* Above toolbar */
+}
+
+.sh-notch {
+  pointer-events: auto !important; /* Force clickable */
+  cursor: pointer;
+  z-index: 102 !important;
+}
+
+.sh-subject-display {
+  pointer-events: auto !important;
+}
 .quiz-subject-dropdown {
   position: absolute;
   top: 120px;

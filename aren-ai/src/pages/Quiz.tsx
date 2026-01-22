@@ -3,33 +3,43 @@ import {
   IonContent,
   IonPage,
   IonButton,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonText,
   IonIcon,
   IonModal,
   IonCard,
   IonCardContent,
   useIonRouter,
 } from "@ionic/react";
-import { arrowForward } from "ionicons/icons";
+import {
+  checkmarkCircle,
+  ellipseOutline,
+  leaf,
+  arrowBack,
+} from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import "./Quiz.css";
 import StudentHeader from "../components/StudentHeader";
 import StudentSidebar from "../components/StudentSidebar";
 import { getUserData } from "../utils/userUtils";
-import PageTransition from "../components/PageTransition";
 import { useSound } from "../context/SoundContext";
 import { triggerConfetti } from "../utils/confettiUtils";
 import { QuizQuestionBanks } from "../data/questions";
 import { progressionService } from "../services/progressionService";
 import { learningStatsService } from "../services/learningStatsService";
 
+// Helper Interface
+interface ExpandedQuestion {
+  id: number;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  correctAnswers?: number[];
+  allowMultiple?: boolean;
+}
+
 const Quiz: React.FC = () => {
   const { t } = useTranslation();
   const router = useIonRouter();
-  const { playSuccess } = useSound();
+  const { playSuccess } = useSound(); // We use manual audio for correct/wrong specific sounds
 
   const handleLogout = () => {
     router.push("/login", "root", "replace");
@@ -38,28 +48,37 @@ const Quiz: React.FC = () => {
   const questionBanks = QuizQuestionBanks;
   const currentUser = getUserData();
 
+  // State
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
+
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [selectedAnswers, setSelectedAnswers] = useState<number[]>([]);
+
   const [isAnswered, setIsAnswered] = useState(false);
   const [startTime, setStartTime] = useState<number>(Date.now());
 
   const [showPointsAnimation, setShowPointsAnimation] = useState(false);
   const [animationPoints, setAnimationPoints] = useState(0);
   const [showResults, setShowResults] = useState(false);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
-  const [activeQuestions, setActiveQuestions] = useState(
-    questionBanks.SocialStudies
+  const [correctCount, setCorrectCount] = useState(0);
+
+  const [activeQuestions, setActiveQuestions] = useState<ExpandedQuestion[]>(
+    [],
   );
   const [selectedSubject, setSelectedSubject] = useState("SocialStudies");
 
+  // Audio refs
+  // Note: Creating new Audio objects on render is okay for simple logic,
+  // but better to memoize if causing issues. For now, this works.
+  const correctAudio = new Audio("/assets/correct-answer.mp3");
+  const wrongAudio = new Audio("/assets/wrong-answer.mp3");
+
   useEffect(() => {
-    // Load subject from LS
     const sub = localStorage.getItem("selectedSubject");
+    let bankQuestions: any[] = questionBanks.SocialStudies;
+
     if (sub) {
-      // Map "Math" -> Math, "Science" -> Science, etc.
-      // Note: Main_Student uses keys like "Math", "Science", "SocialStudies", "Spanish"
-      // We map them to our question banks
       let bankName: keyof typeof questionBanks = "SocialStudies";
       if (sub === "Math") bankName = "Math";
       else if (sub === "Science") bankName = "Science";
@@ -67,29 +86,66 @@ const Quiz: React.FC = () => {
       else if (sub === "SocialStudies") bankName = "SocialStudies";
 
       setSelectedSubject(bankName);
-      setActiveQuestions(questionBanks[bankName]);
+      bankQuestions = questionBanks[bankName];
     }
+
+    // Default mapping
+    const mapped: ExpandedQuestion[] = bankQuestions.map((q) => ({
+      ...q,
+      allowMultiple: false,
+      correctAnswers: [q.correctAnswer],
+    }));
+    setActiveQuestions(mapped);
   }, []);
 
-  const activeQuestionList = activeQuestions || questionBanks.SocialStudies;
+  const currentQ = activeQuestions[currentQuestion];
+  const isMultiple = currentQ?.allowMultiple || false;
 
-  const handleAnswerSelect = (answerIndex: number) => {
-    if (isAnswered) return;
+  const handleOptionClick = (index: number) => {
+    if (isAnswered && !isMultiple) return;
+
+    if (isMultiple) {
+      if (isAnswered) return;
+      if (selectedAnswers.includes(index)) {
+        setSelectedAnswers(selectedAnswers.filter((i) => i !== index));
+      } else {
+        setSelectedAnswers([...selectedAnswers, index]);
+      }
+    } else {
+      submitSingleAnswer(index);
+    }
+  };
+
+  const submitSingleAnswer = (index: number) => {
+    const endTime = Date.now();
+    const timeTaken = (endTime - startTime) / 1000;
+    const isCorrect = index === currentQ.correctAnswer;
+
+    setSelectedAnswer(index);
+    setIsAnswered(true);
+
+    processResult(isCorrect, timeTaken);
+  };
+
+  const submitMultipleAnswer = () => {
+    if (selectedAnswers.length === 0) return;
 
     const endTime = Date.now();
     const timeTaken = (endTime - startTime) / 1000;
+    const correctSet = currentQ.correctAnswers || [currentQ.correctAnswer];
     const isCorrect =
-      answerIndex === activeQuestionList[currentQuestion].correctAnswer;
+      selectedAnswers.length === correctSet.length &&
+      selectedAnswers.every((a) => correctSet.includes(a));
 
-    setSelectedAnswer(answerIndex);
     setIsAnswered(true);
+    processResult(isCorrect, timeTaken);
+  };
 
+  const processResult = (isCorrect: boolean, timeTaken: number) => {
     if (isCorrect) {
-      setCorrectAnswers((prev) => prev + 1);
-    }
+      setCorrectCount((prev) => prev + 1);
 
-    let pointsEarned = 0;
-    if (isCorrect) {
+      let pointsEarned = 0;
       if (timeTaken < 5) pointsEarned = 150;
       else if (timeTaken < 10) pointsEarned = 125;
       else if (timeTaken < 15) pointsEarned = 110;
@@ -98,265 +154,230 @@ const Quiz: React.FC = () => {
       setAnimationPoints(pointsEarned);
       setShowPointsAnimation(true);
 
-      setTimeout(() => {
-        setScore((prev) => prev + pointsEarned);
-      }, 500);
+      // Play Correct Sound
+      correctAudio.play().catch((e) => console.log("Audio play failed", e));
+
+      // Animate Score
+      const startScore = score;
+      const endScore = score + pointsEarned;
+      animateScore(startScore, endScore);
     } else {
+      // Play Wrong Sound
+      wrongAudio.play().catch((e) => console.log("Audio play failed", e));
+
       setScore((prev) => Math.max(0, prev - 25));
     }
 
-    // Move to next or finish
     setTimeout(() => {
-      if (currentQuestion < activeQuestionList.length - 1) {
+      if (currentQuestion < activeQuestions.length - 1) {
         setCurrentQuestion((prev) => prev + 1);
         setSelectedAnswer(null);
+        setSelectedAnswers([]);
         setIsAnswered(false);
         setStartTime(Date.now());
         setShowPointsAnimation(false);
       } else {
-        // End of Quiz
-        setTimeout(() => {
-          // 1. Save Quiz Result
-          learningStatsService.saveResult({
-            subject: selectedSubject,
-            score: score,
-            correctCount: correctAnswers,
-            totalQuestions: activeQuestionList.length,
-            timestamp: Date.now()
-          });
-
-          // 2. Award XP (XP = Score)
-          if (score > 0) {
-            progressionService.addXp(score);
-            console.log(`[Quiz] XP Awarded: +${score}`);
-          }
-
-          setShowResults(true);
-          playSuccess();
-          triggerConfetti();
-        }, 1000);
+        finishQuiz();
       }
     }, 2000);
   };
 
-  const getButtonColor = (index: number) => {
-    if (!isAnswered) return "";
-    if (index === activeQuestionList[currentQuestion].correctAnswer)
-      return "correct";
-    if (
-      index === selectedAnswer &&
-      index !== activeQuestionList[currentQuestion].correctAnswer
-    )
-      return "incorrect";
-    return "";
+  // Helper for Score Animation
+  const animateScore = (start: number, end: number) => {
+    const duration = 1000; // 1 second
+    const startTime = performance.now();
+
+    const update = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Ease Out Quart formula
+      const ease = 1 - Math.pow(1 - progress, 4);
+
+      const current = Math.floor(start + (end - start) * ease);
+      setScore(current);
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    };
+
+    requestAnimationFrame(update);
+  };
+
+  const finishQuiz = () => {
+    setTimeout(() => {
+      if (score > 0) progressionService.addXp(score);
+      learningStatsService.saveResult({
+        subject: selectedSubject,
+        score: score,
+        correctCount: correctCount,
+        totalQuestions: activeQuestions.length,
+        timestamp: Date.now(),
+      });
+      setShowResults(true);
+      triggerConfetti();
+    }, 1000);
   };
 
   const getQuestionText = () => {
-    return activeQuestionList[currentQuestion].question.replace(
-      "{name}",
-      currentUser.name
-    );
+    if (!currentQ) return "";
+    return currentQ.question.replace("{name}", currentUser.name);
   };
 
-  const getScoreRating = () => {
-    const percentage = (correctAnswers / activeQuestionList.length) * 100;
-    if (percentage >= 90)
-      return { text: t("quiz.rating.perfect"), color: "#4CAF50" };
-    if (percentage >= 80)
-      return { text: t("quiz.rating.awesome"), color: "#2196F3" };
-    if (percentage >= 70)
-      return { text: t("quiz.rating.veryGood"), color: "#FF9800" };
-    if (percentage >= 60)
-      return { text: t("quiz.rating.goodJob"), color: "#9C27B0" };
-    return { text: t("quiz.rating.keepPracticing"), color: "#F44336" };
-  };
+  const getButtonClass = (index: number) => {
+    let base = "quiz-answer-btn-new";
+    const isSelected = isMultiple
+      ? selectedAnswers.includes(index)
+      : selectedAnswer === index;
 
-  const calculatePerformancePercentage = () => {
-    return Math.round((correctAnswers / activeQuestionList.length) * 100);
-  };
+    if (isAnswered) {
+      const correctSet = currentQ.correctAnswers || [currentQ.correctAnswer];
+      const isCorrect = correctSet.includes(index);
+      if (isCorrect) return `${base} status-correct`;
+      if (isSelected && !isCorrect) return `${base} status-incorrect`;
+      return base;
+    }
 
-  const getRingChartColor = (percentage: number) => {
-    if (percentage >= 80) return "#4CAF50";
-    if (percentage >= 70) return "#2196F3";
-    if (percentage >= 60) return "#FF9800";
-    return "#F44336";
+    if (isSelected) return `${base} selected`;
+    return base;
   };
 
   const handleBackToMenu = () => {
-    router.push("/page/student", "back", "pop");
+    router.push("/quiz-menu", "back", "pop");
   };
 
+  if (!currentQ)
+    return (
+      <IonPage>
+        <IonContent>Loading...</IonContent>
+      </IonPage>
+    );
+
   return (
-    <IonPage>
-      <StudentHeader pageTitle="quiz.title" showNotch={false} />
+    <IonPage className="quiz-new-layout">
+      {/* Floating Points Animation Overlay */}
+      {showPointsAnimation && (
+        <div className="quiz-floating-points">+{animationPoints}</div>
+      )}
+
+      {/* Shared Student Header with Custom Notch */}
+      <StudentHeader
+        pageTitle="Quiz"
+        showBackButton
+        onBack={handleBackToMenu}
+        notchContent={
+          <div
+            className="sh-subject-display"
+            style={{ width: "auto", padding: "0 20px", cursor: "default" }}
+          >
+            <span
+              className="quiz-score-val"
+              style={{ fontSize: "1.5rem", fontWeight: 800, color: "white" }}
+            >
+              {score}
+            </span>
+          </div>
+        }
+      />
 
       <StudentSidebar onLogout={handleLogout} />
 
-      <IonContent fullscreen className="quiz-content">
-        <PageTransition variant="fade">
-          <div className="quiz-container">
-            <div
-              className="quiz-stats-bar"
-              style={{
-                backgroundColor: "var(--ion-card-background)",
-                borderColor: "var(--ion-color-primary)",
-              }}
-            >
-              <div className="stat-box">
-                <div className="stat-number">
-                  {currentQuestion + 1}/{activeQuestionList.length}
-                </div>
-                <div className="stat-label">{t("quiz.questions")}</div>
-              </div>
-              <div className="stat-box">
-                <div className="stat-number">{score} pts</div>
-                <div className="stat-label">{t("quiz.points")}</div>
-              </div>
-              <div className="stat-box">
-                <div className="stat-number">1ro</div>
-                <div className="stat-label">{t("quiz.place")}</div>
-              </div>
-            </div>
-
-            {/* Combined Card Section with Floating Mascot and Interleaved Name */}
-            <div className="quiz-card-wrapper">
-              {/* 1. Mascot Image (Behind Question Block) */}
+      <IonContent fullscreen className="quiz-content-redesign">
+        {/* Scaler Wrapper - 5% Smaller */}
+        <div className="quiz-scaler-wrapper">
+          <div className="quiz-main-layout">
+            {/* Mascot Wrapper */}
+            <div className="quiz-visual-block">
               <div className="quiz-mascot-layer">
                 <img
                   src="/assets/capybara_sprite_normal.png"
-                  alt="ArenAI Capybara"
-                  className="quiz-mascot-img"
+                  alt="Mascot"
+                  className="quiz-mascot-img-large"
                 />
               </div>
 
-              {/* 2. Question Block (Top Card) */}
-              <div className="question-block">
-                {/* Name Pill (Top of Question) */}
-                <div className="character-name-pill">
-                  <span className="character-name-text">Aren</span>
+              {/* Question Card */}
+              <div className="quiz-card-container">
+                <div className="quiz-name-pill">
+                  <span>Aren</span>
                 </div>
-
-                <IonText>
-                  <h2 className="question-title">{getQuestionText()}</h2>
-                </IonText>
-              </div>
-
-              {/* 3. Answers Block (Bottom - Separate) */}
-              <div className="answers-block">
-                <div className="options-container">
-                  <IonGrid className="options-grid">
-                    <IonRow>
-                      {activeQuestionList[currentQuestion].options.map(
-                        (option, index) => (
-                          <IonCol size="12" key={index}>
-                            <IonButton
-                              expand="block"
-                              className={`option-button ${getButtonColor(
-                                index
-                              )}`}
-                              onClick={() => handleAnswerSelect(index)}
-                              disabled={isAnswered}
-                            >
-                              {option}
-                            </IonButton>
-                          </IonCol>
-                        )
-                      )}
-                    </IonRow>
-                  </IonGrid>
-                </div>
+                <div className="quiz-card-text">{getQuestionText()}</div>
               </div>
             </div>
 
-            {/* Points Animation */}
-            {showPointsAnimation && (
-              <div className="points-animation">+{animationPoints} pts!</div>
-            )}
-          </div>
-        </PageTransition>
+            {/* Controls */}
+            <div className="quiz-controls-row">
+              <div className="quiz-type-badge">
+                {isMultiple ? t("Respuesta multiple") : t("Respuesta única")}
+              </div>
 
-        {/* Results Modal */}
-        <IonModal isOpen={showResults} className="results-modal">
-          <div className="results-container">
-            <IonCard className="results-card">
-              <IonCardContent>
-                {/* Score Rating */}
-                <div className="score-rating-section">
-                  <IonText>
-                    <h2
-                      className="score-rating"
-                      style={{ color: getScoreRating().color }}
-                    >
-                      {getScoreRating().text}
-                    </h2>
-                  </IonText>
-                  <IonText>
-                    <p className="congratulations-text">
-                      {t("quiz.congrats", {
-                        name: currentUser.name,
-                        score: score,
-                      })}
-                    </p>
-                  </IonText>
+              {isMultiple && (
+                <div
+                  className="quiz-ok-btn-visible"
+                  onClick={submitMultipleAnswer}
+                >
+                  Ok
                 </div>
+              )}
+            </div>
 
-                {/* Performance Ring */}
-                <div className="performance-section">
-                  <div className="circle-wrapper">
-                    <div
-                      className="performance-ring-chart"
-                      style={
-                        {
-                          "--percentage": `${calculatePerformancePercentage()}%`,
-                          "--ring-color": getRingChartColor(
-                            calculatePerformancePercentage()
-                          ),
-                        } as React.CSSProperties
-                      }
-                    >
-                      <div className="ring-center">
-                        <IonText>
-                          <h2 className="performance-percentage">
-                            {calculatePerformancePercentage()}%
-                          </h2>
-                        </IonText>
-                      </div>
-                    </div>
+            {/* Separator */}
+            <div className="quiz-separator-floral">
+              <div className="separator-line"></div>
+              <div className="separator-icon">
+                <IonIcon icon={leaf} /> <span>❧</span>
+              </div>
+              <div className="separator-line"></div>
+            </div>
+
+            {/* Answers Box */}
+            <div className="quiz-answers-container-box">
+              {currentQ.options.map((option, idx) => (
+                <div
+                  key={idx}
+                  className={getButtonClass(idx)}
+                  onClick={() => handleOptionClick(idx)}
+                >
+                  <div className="answer-check-icon">
+                    {(
+                      isMultiple
+                        ? selectedAnswers.includes(idx)
+                        : selectedAnswer === idx
+                    ) ? (
+                      <IonIcon icon={checkmarkCircle} />
+                    ) : (
+                      <IonIcon icon={ellipseOutline} />
+                    )}
                   </div>
+                  <span className="answer-text-content">{option}</span>
                 </div>
-
-                {/* Topics to Reinforce */}
-                <div className="topics-section">
-                  <IonText>
-                    <h3 className="topics-title">
-                      {t("quiz.topicsToReinforce")}
-                    </h3>
-                  </IonText>
-                  <div className="topics-grid">
-                    <div className="topic-item">
-                      <IonText>
-                        <p className="topic-name">{selectedSubject}</p>
-                      </IonText>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Back to Menu Button */}
-                <div className="action-section">
-                  <IonButton
-                    expand="block"
-                    className="menu-button-primary"
-                    onClick={handleBackToMenu}
-                  >
-                    <IonIcon icon={arrowForward} slot="end" />
-                    {t("quiz.backToMenu")}
-                  </IonButton>
-                </div>
-              </IonCardContent>
-            </IonCard>
+              ))}
+            </div>
           </div>
-        </IonModal>
+        </div>
+
+        {/* Footer Progress Bar - Touching Bottom & Sides */}
+        <div className="quiz-footer-progress">
+          <div
+            className="quiz-progress-fill"
+            style={{
+              width: `${((currentQuestion + 1) / activeQuestions.length) * 100}%`,
+            }}
+          ></div>
+        </div>
       </IonContent>
+
+      <IonModal isOpen={showResults} className="results-modal">
+        <IonCard className="results-card">
+          <IonCardContent>
+            <h2>{t("quiz.congrats", { name: currentUser.name, score })}</h2>
+            <IonButton expand="block" onClick={handleBackToMenu}>
+              {t("quiz.backToMenu")}
+            </IonButton>
+          </IonCardContent>
+        </IonCard>
+      </IonModal>
     </IonPage>
   );
 };

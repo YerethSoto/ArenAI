@@ -489,7 +489,22 @@
         "noQuizzesSelected": "No hay quizzes seleccionados",
         "selectAtLeastOne": "Por favor selecciona al menos un quiz",
         "yourQuizzes": "Tus Quizzes",
-        "quizzesInAssignment": "Quizzes en esta tarea"
+        "quizzesInAssignment": "Quizzes en esta tarea",
+        "title": "Tus tareas",
+        "pending": "Pendiente",
+        "completed": "Terminada",
+        "completedQuizzes": "Cuestionarios completados",
+        "searchPending": "Busqueda pendiente...",
+        "searchCompleted": "Busqueda completada...",
+        "noPending": "No hay tareas pendientes",
+        "noCompleted": "No hay tareas completadas",
+        "start": "Comenzar",
+        "overdue": "Atrasada",
+        "submitted": "Entregado",
+        "score": "Puntuacion",
+        "questions": "Preguntas",
+        "viewDetails": "Ver detalles",
+        "assignment": "Tarea"
     },
     "taskAssignment": {
         "pageTitle": "Nueva Tarea",
@@ -521,6 +536,7 @@
         "newestFirst": "Más recientes",
         "oldestFirst": "Más antiguos",
         "viewDetails": "Ver Detalles",
+        "additionalAssignments": "Asignaciones Adicionales",
         "additionalRequirements": "Requisitos adicionales",
         "defaultTitle": "Nueva Tarea",
         "editName": "Editar Nombre",
@@ -1234,5 +1250,26 @@
         "submitted": "Enviado",
         "score": "Puntaje",
         "questions": "Preguntas"
+    },
+
+    "quizGenerator": {
+        "title": "Generador de Quiz con IA",
+        "quizName": "Nombre del Cuestionario",
+        "enterQuizName": "Ingrese Nombre del Quiz",
+        "quizTopics": "Temas del Quiz",
+        "addMore": "Añadir Más",
+        "advancedSettings": "Configuración Avanzada",
+        "questions": "Preguntas",
+        "gradeLevel": "Nivel de Grado",
+        "additionalDetails": "Detalles Adicionales",
+        "numberOfQuestions": "Número de Preguntas",
+        "enterNumberHint": "Ingrese un número entre 5 y 100",
+        "generating": "Generando Quiz",
+        "generatingDesc": "La IA está creando tus preguntas...",
+        "selectTopicError": "Por favor seleccione al menos un tema",
+        "enterNameError": "Por favor ingrese un nombre para el quiz",
+        "cancel": "Cancelar",
+        "save": "Guardar",
+        "generate": "Generar"
     }
 }

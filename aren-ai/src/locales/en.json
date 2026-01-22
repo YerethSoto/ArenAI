@@ -3,7 +3,7 @@
         "learning": "Learning",
         "mainMenu": "Main Menu",
         "chat": "Chat with Aren",
-        "assignments": "Assignments",
+        "assignments": "Quiz Menu",
         "social": "Chat Menu",
         "quiz": "Quiz",
         "personalityQuiz": "Personality Quiz",
@@ -451,9 +451,21 @@
         "save": "Save Assignment",
         "cancel": "Cancel",
         "noQuizzesSelected": "No quizzes selected",
-        "selectAtLeastOne": "Please select at least one quiz",
         "yourQuizzes": "Your Quizzes",
-        "quizzesInAssignment": "Quizzes in this assignment"
+        "quizzesInAssignment": "Quizzes in this assignment",
+        "assignment": "Assignment"
+    },
+    "studentAssignments": {
+        "pending": "Pending",
+        "start": "Start Quiz",
+        "overdue": "Overdue",
+        "questions": "questions",
+        "noPending": "No pending assignments! You're all caught up.",
+        "searchCompleted": "Search your history...",
+        "score": "Score",
+        "viewDetails": "View Details",
+        "noCompleted": "No completed quizzes yet.",
+        "completedQuizzes": "Completed Quizzes"
     },
     "taskAssignment": {
         "pageTitle": "New Assignment",
@@ -485,6 +497,7 @@
         "newestFirst": "Newest first",
         "oldestFirst": "Oldest first",
         "viewDetails": "View Details",
+        "additionalAssignments": "Additional Assignments",
         "additionalRequirements": "Additional requirements",
         "defaultTitle": "New Assignment",
         "editName": "Edit Name",
@@ -1209,18 +1222,26 @@
         "saveSuccess": "Profile updated successfully",
         "nameRequired": "Name is required"
     },
-    "studentAssignments": {
-        "title": "Your Assignments",
-        "pending": "Pending",
-        "completed": "Completed",
-        "searchPending": "Search pending...",
-        "searchCompleted": "Search completed...",
-        "noPending": "No pending assignments",
-        "noCompleted": "No completed assignments",
-        "start": "Start",
-        "overdue": "Overdue",
-        "submitted": "Submitted",
-        "score": "Score",
-        "questions": "Questions"
+
+    "quizGenerator": {
+        "title": "AI Quiz Generator",
+        "quizName": "Quiz Name",
+        "enterQuizName": "Enter Quiz Name",
+        "quizTopics": "Quiz Topics",
+        "addMore": "Add More",
+        "advancedSettings": "Advanced Settings",
+        "questions": "Questions",
+        "gradeLevel": "Grade Level",
+        "additionalDetails": "Additional Details",
+        "numberOfQuestions": "Number of Questions",
+        "enterNumberHint": "Enter a number between 5 and 100",
+        "generating": "Generating Quiz",
+        "generatingDesc": "AI is creating your questions...",
+        "selectTopicError": "Please select at least one topic",
+        "enterNameError": "Please enter a name for the quiz",
+        "cancel": "Cancel",
+        "save": "Save",
+        "generate": "Generate"
     }
+
 }
