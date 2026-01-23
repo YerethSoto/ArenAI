@@ -8,4 +8,6 @@ export const assignmentService = {
     assignToStudent: assignmentRepo.assignToStudent,
     updateStatus: assignmentRepo.updateAssignmentStatus,
     getStudentAssignments: assignmentRepo.getStudentAssignments,
+    deleteAssignment: assignmentRepo.deleteAssignment,
+    updateAssignment: assignmentRepo.updateAssignment,
 };

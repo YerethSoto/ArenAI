@@ -8,12 +8,16 @@ import {
   IonToolbar,
   IonMenuButton,
   useIonViewWillEnter,
+  useIonToast,
+  useIonAlert,
 } from "@ionic/react";
 import {
   menu,
   filterOutline,
   calendarOutline,
   statsChartOutline,
+  createOutline,
+  trashOutline,
 } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
@@ -44,6 +48,8 @@ interface Assignment {
 const AssignmentsMenu: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const [present] = useIonToast();
+  const [presentAlert] = useIonAlert();
 
   // Header state
   // Header state (Global)
@@ -101,7 +107,10 @@ const AssignmentsMenu: React.FC = () => {
                   totalPoints: a.total_points || 100,
                   topics: a.subject_name ? [a.subject_name] : [],
                   hasTextSubmission: false,
-                  studentsTotal: Number(a.students_total) || 0,
+                  studentsTotal:
+                    Number(a.section_students_total) ||
+                    Number(a.students_total) ||
+                    0,
                   studentsCompleted: Number(a.students_completed) || 0,
                   isOngoing,
                   pendingReviews: 0,
@@ -157,7 +166,10 @@ const AssignmentsMenu: React.FC = () => {
                   totalPoints: a.total_points || 100,
                   topics: a.subject_name ? [a.subject_name] : [],
                   hasTextSubmission: false,
-                  studentsTotal: Number(a.students_total) || 0,
+                  studentsTotal:
+                    Number(a.section_students_total) ||
+                    Number(a.students_total) ||
+                    0,
                   studentsCompleted: Number(a.students_completed) || 0,
                   isOngoing,
                   pendingReviews: 0,
@@ -201,6 +213,63 @@ const AssignmentsMenu: React.FC = () => {
   const goToDetail = (assignment: Assignment) => {
     sessionStorage.setItem("selectedAssignment", JSON.stringify(assignment));
     history.push(`/page/assignment-detail/${assignment.id}`);
+  };
+
+  // Navigate to edit assignment
+  const goToEdit = (assignment: Assignment) => {
+    history.push(`/page/edit-assignment/${assignment.id}`);
+  };
+
+  // Delete assignment
+  const confirmDelete = (e: React.MouseEvent, assignmentId: string) => {
+    e.stopPropagation();
+    presentAlert({
+      header: "Delete Assignment",
+      message:
+        "Are you sure you want to delete this assignment? This cannot be undone.",
+      buttons: [
+        "Cancel",
+        {
+          text: "Delete",
+          role: "destructive",
+          handler: () => handleDeleteAssignment(assignmentId),
+        },
+      ],
+    });
+  };
+
+  const handleDeleteAssignment = async (assignmentId: string) => {
+    try {
+      const token =
+        localStorage.getItem("authToken") || localStorage.getItem("token");
+      if (!token) return;
+
+      const response = await fetch(
+        getApiUrl(`/api/assignments/${assignmentId}`),
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
+      if (response.ok) {
+        setAssignments(assignments.filter((a) => a.id !== assignmentId));
+        present({
+          message: "Assignment deleted successfully",
+          duration: 2000,
+          color: "success",
+        });
+      } else {
+        throw new Error("Failed to delete");
+      }
+    } catch (error) {
+      console.error("Error deleting assignment:", error);
+      present({
+        message: "Failed to delete assignment",
+        duration: 2000,
+        color: "danger",
+      });
+    }
   };
 
   // Filter assignments
@@ -272,6 +341,24 @@ const AssignmentsMenu: React.FC = () => {
           <div className="assignment-avg-row">
             <IonIcon icon={statsChartOutline} />
             <span>Avg: {assignment.averageScore}%</span>
+          </div>
+
+          <div className="assignment-card-actions">
+            <button
+              className="assignment-action-btn secondary"
+              onClick={(e) => {
+                e.stopPropagation();
+                goToEdit(assignment);
+              }}
+            >
+              <IonIcon icon={createOutline} /> Edit
+            </button>
+            <button
+              className="assignment-action-btn danger"
+              onClick={(e) => confirmDelete(e, assignment.id)}
+            >
+              <IonIcon icon={trashOutline} /> Delete
+            </button>
           </div>
         </div>
       </div>

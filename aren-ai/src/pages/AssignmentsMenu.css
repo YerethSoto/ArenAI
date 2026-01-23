@@ -320,3 +320,43 @@
   height: 20px;
   flex-shrink: 0;
 }
+
+/* Action Buttons */
+.assignment-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(141, 110, 99, 0.1);
+}
+
+.assignment-action-btn {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-family: 'Georgia', serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.assignment-action-btn.secondary {
+  background: transparent;
+  border: 1px solid var(--ion-color-secondary);
+  color: var(--ion-color-secondary);
+}
+
+.assignment-action-btn.danger {
+  background: transparent;
+  border: 1px solid #ef5350;
+  color: #ef5350;
+}
+
+.assignment-action-btn:hover {
+  opacity: 0.8;
+}

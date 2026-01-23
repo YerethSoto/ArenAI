@@ -45,6 +45,7 @@ import QuizMenu from "./pages/QuizMenu";
 import AssignmentsMenu from "./pages/AssignmentsMenu";
 import StudentAssignments from "./pages/StudentAssignments";
 import AssignmentDetail from "./pages/AssignmentDetail";
+import EditAssignment from "./pages/EditAssignment";
 import AvatarSelection from "./pages/AvatarSelection";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AvatarProvider } from "./context/AvatarContext";
@@ -440,6 +441,13 @@ const App: React.FC = () => {
                   <Route path="/page/assignment-detail/:id" exact={true}>
                     {userRole === "professor" ? (
                       <AssignmentDetail />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/page/edit-assignment/:id" exact={true}>
+                    {userRole === "professor" ? (
+                      <EditAssignment />
                     ) : (
                       <Redirect to="/login" />
                     )}

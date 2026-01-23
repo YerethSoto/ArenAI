@@ -37,6 +37,7 @@ export async function listAssignmentsByProfessor(professorId: number) {
         `SELECT a.*, 
                 q.quiz_name,
                 s.name_subject as subject_name,
+                (SELECT COUNT(*) FROM user_section us WHERE us.id_section = a.id_section) as section_students_total,
                 (SELECT COUNT(*) FROM assignment_submission asub WHERE asub.id_assignment = a.id_assignment) as students_total,
                 (SELECT COUNT(*) FROM assignment_submission asub WHERE asub.id_assignment = a.id_assignment AND asub.status = 'SUBMITTED') as students_completed
          FROM assignment a
@@ -101,4 +102,40 @@ export async function getStudentAssignments(studentId: number) {
         [studentId]
     );
     return result.rows;
+}
+
+export async function deleteAssignment(assignmentId: number) {
+    // First delete related submissions
+    await db.query('DELETE FROM assignment_submission WHERE id_assignment = ?', [assignmentId]);
+    // Then delete the assignment
+    await db.query('DELETE FROM assignment WHERE id_assignment = ?', [assignmentId]);
+}
+
+export async function updateAssignment(assignmentId: number, payload: {
+    title?: string;
+    description?: string;
+    sectionId: number;
+    professorId: number;
+    subjectId: number;
+    dueTime?: string | Date | null;
+    quizId?: number | null;
+    winBattleRequirement?: number | null;
+    minBattleWins?: number | null;
+}) {
+    await db.query(
+        `UPDATE assignment 
+         SET title = ?, description = ?, id_section = ?, id_subject = ?, due_time = ?, id_quiz = ?, win_battle_requirement = ?, min_battle_wins = ?
+         WHERE id_assignment = ?`,
+        [
+            payload.title,
+            payload.description,
+            payload.sectionId,
+            payload.subjectId,
+            payload.dueTime,
+            payload.quizId ?? null,
+            payload.winBattleRequirement ?? null,
+            payload.minBattleWins ?? 0,
+            assignmentId
+        ]
+    );
 }

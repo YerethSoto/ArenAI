@@ -8,6 +8,8 @@ import {
   IonCard,
   IonCardContent,
   useIonRouter,
+  useIonLoading,
+  useIonToast,
 } from "@ionic/react";
 import {
   checkmarkCircle,
@@ -16,15 +18,16 @@ import {
   arrowBack,
 } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import "./Quiz.css";
 import StudentHeader from "../components/StudentHeader";
 import StudentSidebar from "../components/StudentSidebar";
 import { getUserData } from "../utils/userUtils";
 import { useSound } from "../context/SoundContext";
 import { triggerConfetti } from "../utils/confettiUtils";
-import { QuizQuestionBanks } from "../data/questions";
 import { progressionService } from "../services/progressionService";
 import { learningStatsService } from "../services/learningStatsService";
+import { getApiUrl } from "../config/api";
 
 // Helper Interface
 interface ExpandedQuestion {
@@ -39,13 +42,15 @@ interface ExpandedQuestion {
 const Quiz: React.FC = () => {
   const { t } = useTranslation();
   const router = useIonRouter();
-  const { playSuccess } = useSound(); // We use manual audio for correct/wrong specific sounds
+  const location = useLocation();
+  const { playSuccess } = useSound();
+  const [presentLoading, dismissLoading] = useIonLoading();
+  const [presentToast] = useIonToast();
 
   const handleLogout = () => {
     router.push("/login", "root", "replace");
   };
 
-  const questionBanks = QuizQuestionBanks;
   const currentUser = getUserData();
 
   // State
@@ -66,37 +71,110 @@ const Quiz: React.FC = () => {
   const [activeQuestions, setActiveQuestions] = useState<ExpandedQuestion[]>(
     [],
   );
-  const [selectedSubject, setSelectedSubject] = useState("SocialStudies");
+  const [loading, setLoading] = useState(true);
+  const [quizName, setQuizName] = useState("");
+  const [assignmentId, setAssignmentId] = useState<string | null>(null);
 
   // Audio refs
-  // Note: Creating new Audio objects on render is okay for simple logic,
-  // but better to memoize if causing issues. For now, this works.
   const correctAudio = new Audio("/assets/correct-answer.mp3");
   const wrongAudio = new Audio("/assets/wrong-answer.mp3");
 
+  // Fetch Quiz Data
   useEffect(() => {
-    const sub = localStorage.getItem("selectedSubject");
-    let bankQuestions: any[] = questionBanks.SocialStudies;
+    const fetchQuiz = async () => {
+      const searchParams = new URLSearchParams(location.search);
+      const qId = searchParams.get("quizId");
+      const aId = searchParams.get("assignmentId");
+      setAssignmentId(aId);
 
-    if (sub) {
-      let bankName: keyof typeof questionBanks = "SocialStudies";
-      if (sub === "Math") bankName = "Math";
-      else if (sub === "Science") bankName = "Science";
-      else if (sub === "Spanish") bankName = "Spanish";
-      else if (sub === "SocialStudies") bankName = "SocialStudies";
+      if (!qId) {
+        setLoading(false);
+        presentToast({
+          message: "No quiz specified",
+          duration: 2000,
+          color: "danger",
+        });
+        return;
+      }
 
-      setSelectedSubject(bankName);
-      bankQuestions = questionBanks[bankName];
-    }
+      try {
+        const token =
+          localStorage.getItem("authToken") || localStorage.getItem("token");
+        if (!token) {
+          router.push("/login");
+          return;
+        }
 
-    // Default mapping
-    const mapped: ExpandedQuestion[] = bankQuestions.map((q) => ({
-      ...q,
-      allowMultiple: false,
-      correctAnswers: [q.correctAnswer],
-    }));
-    setActiveQuestions(mapped);
-  }, []);
+        const response = await fetch(getApiUrl(`/api/quizzes/${qId}/full`), {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const quiz = data.quiz;
+          setQuizName(quiz.quiz_name);
+
+          // Transform questions
+          const transformed: ExpandedQuestion[] = quiz.questions.map(
+            (q: any) => {
+              const options = [q.option_1, q.option_2];
+              if (q.option_3) options.push(q.option_3);
+              if (q.option_4) options.push(q.option_4);
+
+              let correctIndices: number[] = [];
+              try {
+                // correct_options is JSON string "[1, 2]" (1-based)
+                const parsed = JSON.parse(q.correct_options);
+                if (Array.isArray(parsed)) {
+                  correctIndices = parsed.map((i: any) => Number(i) - 1);
+                }
+              } catch (e) {
+                console.error("Error parsing correct options", e);
+              }
+
+              return {
+                id: q.id_question,
+                question: q.question_text,
+                options,
+                correctAnswer: correctIndices[0] || 0,
+                correctAnswers: correctIndices,
+                allowMultiple:
+                  q.allow_multiple_selection === 1 ||
+                  q.allow_multiple_selection === true,
+              };
+            },
+          );
+
+          if (transformed.length === 0) {
+            presentToast({
+              message: "This quiz has no questions.",
+              duration: 2000,
+              color: "warning",
+            });
+          }
+
+          setActiveQuestions(transformed);
+        } else {
+          presentToast({
+            message: "Failed to load quiz.",
+            duration: 2000,
+            color: "danger",
+          });
+        }
+      } catch (error) {
+        console.error("Error loading quiz:", error);
+        presentToast({
+          message: "Error loading quiz.",
+          duration: 2000,
+          color: "danger",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuiz();
+  }, [location.search]);
 
   const currentQ = activeQuestions[currentQuestion];
   const isMultiple = currentQ?.allowMultiple || false;
@@ -119,7 +197,14 @@ const Quiz: React.FC = () => {
   const submitSingleAnswer = (index: number) => {
     const endTime = Date.now();
     const timeTaken = (endTime - startTime) / 1000;
-    const isCorrect = index === currentQ.correctAnswer;
+
+    // Check correctness
+    let isCorrect = false;
+    if (currentQ.correctAnswers && currentQ.correctAnswers.length > 0) {
+      isCorrect = currentQ.correctAnswers.includes(index);
+    } else {
+      isCorrect = index === currentQ.correctAnswer;
+    }
 
     setSelectedAnswer(index);
     setIsAnswered(true);
@@ -133,6 +218,7 @@ const Quiz: React.FC = () => {
     const endTime = Date.now();
     const timeTaken = (endTime - startTime) / 1000;
     const correctSet = currentQ.correctAnswers || [currentQ.correctAnswer];
+
     const isCorrect =
       selectedAnswers.length === correctSet.length &&
       selectedAnswers.every((a) => correctSet.includes(a));
@@ -185,10 +271,10 @@ const Quiz: React.FC = () => {
   // Helper for Score Animation
   const animateScore = (start: number, end: number) => {
     const duration = 1000; // 1 second
-    const startTime = performance.now();
+    const startTimeStamp = performance.now();
 
     const update = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
+      const elapsed = currentTime - startTimeStamp;
       const progress = Math.min(elapsed / duration, 1);
 
       // Ease Out Quart formula
@@ -205,16 +291,46 @@ const Quiz: React.FC = () => {
     requestAnimationFrame(update);
   };
 
-  const finishQuiz = () => {
-    setTimeout(() => {
+  const finishQuiz = async () => {
+    // Wait a moment before showing results
+    setTimeout(async () => {
       if (score > 0) progressionService.addXp(score);
+
+      // Save local stats
       learningStatsService.saveResult({
-        subject: selectedSubject,
+        subject: "General", // Could be mapped from quiz subject if available
         score: score,
         correctCount: correctCount,
         totalQuestions: activeQuestions.length,
         timestamp: Date.now(),
       });
+
+      // If played as an assignment, update status
+      if (assignmentId) {
+        try {
+          const token =
+            localStorage.getItem("authToken") || localStorage.getItem("token");
+          if (token) {
+            // Update status
+            // Note: Ideally we would also save the score here.
+            // Using the existing endpoint for now.
+            await fetch(
+              getApiUrl(`/api/assignments/student/${assignmentId}/complete`),
+              {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ complete: true }),
+              },
+            );
+          }
+        } catch (e) {
+          console.error("Failed to update assignment status", e);
+        }
+      }
+
       setShowResults(true);
       triggerConfetti();
     }, 1000);
@@ -222,7 +338,7 @@ const Quiz: React.FC = () => {
 
   const getQuestionText = () => {
     if (!currentQ) return "";
-    return currentQ.question.replace("{name}", currentUser.name);
+    return currentQ.question.replace("{name}", currentUser?.name || "Student");
   };
 
   const getButtonClass = (index: number) => {
@@ -247,10 +363,38 @@ const Quiz: React.FC = () => {
     router.push("/quiz-menu", "back", "pop");
   };
 
-  if (!currentQ)
+  if (loading)
     return (
       <IonPage>
-        <IonContent>Loading...</IonContent>
+        <IonContent className="quiz-loading-content">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            Loading quiz...
+          </div>
+        </IonContent>
+      </IonPage>
+    );
+
+  if (!currentQ && !loading && !showResults)
+    return (
+      <IonPage>
+        <StudentHeader
+          pageTitle="Quiz"
+          showBackButton
+          onBack={handleBackToMenu}
+        />
+        <IonContent>
+          <div style={{ padding: "20px", textAlign: "center" }}>
+            <h3>Quiz not found or has no questions.</h3>
+            <IonButton onClick={handleBackToMenu}>Back to Menu</IonButton>
+          </div>
+        </IonContent>
       </IonPage>
     );
 
@@ -263,7 +407,7 @@ const Quiz: React.FC = () => {
 
       {/* Shared Student Header with Custom Notch */}
       <StudentHeader
-        pageTitle="Quiz"
+        pageTitle={quizName || "Quiz"}
         showBackButton
         onBack={handleBackToMenu}
         notchContent={
@@ -371,7 +515,16 @@ const Quiz: React.FC = () => {
       <IonModal isOpen={showResults} className="results-modal">
         <IonCard className="results-card">
           <IonCardContent>
-            <h2>{t("quiz.congrats", { name: currentUser.name, score })}</h2>
+            <h2>
+              {t("quiz.congrats", {
+                name: currentUser?.name || "Student",
+                score,
+              })}
+            </h2>
+            <div style={{ margin: "20px 0", fontSize: "18px" }}>
+              You answered {correctCount} out of {activeQuestions.length}{" "}
+              correctly!
+            </div>
             <IonButton expand="block" onClick={handleBackToMenu}>
               {t("quiz.backToMenu")}
             </IonButton>

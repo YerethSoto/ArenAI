@@ -80,6 +80,38 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
+router.delete('/:id', async (req, res, next) => {
+    try {
+        const assignmentId = Number(req.params.id);
+        await assignmentService.deleteAssignment(assignmentId);
+        res.json({ success: true, message: 'Assignment deleted' });
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.put('/:id', async (req, res, next) => {
+    try {
+        const assignmentId = Number(req.params.id);
+        const { title, description, sectionId, professorId, subjectId, dueTime, quizId, winBattleRequirement, minBattleWins } = req.body;
+        
+        await assignmentService.updateAssignment(assignmentId, {
+            title,
+            description,
+            sectionId,
+            professorId,
+            subjectId,
+            dueTime,
+            quizId,
+            winBattleRequirement,
+            minBattleWins,
+        });
+        res.json({ success: true });
+    } catch (err) {
+        next(err);
+    }
+});
+
 router.post('/:id/assign', async (req, res, next) => {
     try {
         const { studentId } = req.body;
