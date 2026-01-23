@@ -27,6 +27,11 @@
         "formulaProgress": "Progress: The bar shows your progress towards the daily goal.",
         "close": "Close"
     },
+    "session": {
+        "expiredTitle": "Session Expired",
+        "expiredMessage": "Your session has timed out. Please sign in again to continue.",
+        "loginAgain": "Login Again"
+    },
     "ChatOptions": {
         "play": "Challenge",
         "rename": "Change Nickname",

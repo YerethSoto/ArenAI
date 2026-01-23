@@ -26,6 +26,11 @@
         "formulaProgress": "进度: 此条显示您每日目标的进度。",
         "close": "关闭"
     },
+    "session": {
+        "expiredTitle": "会话已过期",
+        "expiredMessage": "您的会话已超时。请重新登录以继续。",
+        "loginAgain": "重新登录"
+    },
     "mainStudent": {
         "brandSub": "Æ",
         "yourSubject": "您的 {{subject}}",

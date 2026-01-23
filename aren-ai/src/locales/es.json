@@ -28,6 +28,11 @@
         "formulaProgress": "Progreso: La barra muestra tu avance hacia la meta diaria.",
         "close": "Cerrar"
     },
+    "session": {
+        "expiredTitle": "Sesión Expirada",
+        "expiredMessage": "Tu sesión ha expirado. Por favor, inicia sesión de nuevo para continuar.",
+        "loginAgain": "Iniciar Sesión"
+    },
     "ChatOptions": {
         "play": "Desafío",
         "rename": "Cambiar Apodo",

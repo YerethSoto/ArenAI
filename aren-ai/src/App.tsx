@@ -55,6 +55,7 @@ import ArenEntityPage from "./pages/ArenEntityPage";
 import { socketService } from "./services/socket";
 import { chatStorage } from "./services/chatStorage";
 import { App as CapApp } from "@capacitor/app";
+import SessionExpiredModal from "./components/SessionExpiredModal";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -93,6 +94,7 @@ const App: React.FC = () => {
   );
   const [userData, setUserData] = useState<any>(null); // Add userData state
   const [isLoading, setIsLoading] = useState(true);
+  const [isSessionExpired, setIsSessionExpired] = useState(false);
 
   useEffect(() => {
     const savedRole = localStorage.getItem("userRole") as
@@ -164,6 +166,48 @@ const App: React.FC = () => {
       }
     };
   }, [userRole]); // Re-run when userRole changes (login/logout)
+
+  // === SESSION EXPIRY CHECK ===
+  useEffect(() => {
+    if (!userRole) return;
+
+    const checkSession = () => {
+      const token =
+        localStorage.getItem("authToken") || localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        // Manually decode JWT to avoid adding a dependency just for this
+        const payloadBase64 = token.split(".")[1];
+        if (!payloadBase64) return;
+
+        const decodedJson = atob(payloadBase64);
+        const payload = JSON.parse(decodedJson);
+
+        if (payload.exp) {
+          const currentTime = Date.now() / 1000;
+          if (payload.exp < currentTime) {
+            console.log("Session expired. Showing modal.");
+            setIsSessionExpired(true);
+          }
+        }
+      } catch (e) {
+        console.error("Error checking token expiry:", e);
+      }
+    };
+
+    // Check immediately and then every minute
+    checkSession();
+    const intervalId = setInterval(checkSession, 60000);
+
+    return () => clearInterval(intervalId);
+  }, [userRole]);
+
+  const handleSessionExpiredConfirm = () => {
+    setIsSessionExpired(false);
+    handleLogout();
+    window.location.href = "/login";
+  };
 
   // === DEEP LINK LISTENER FOR QR CODE JOINING ===
   useEffect(() => {
@@ -595,6 +639,10 @@ const App: React.FC = () => {
           </SoundProvider>
         </ThemeProvider>
       </AvatarProvider>
+      <SessionExpiredModal
+        isOpen={isSessionExpired}
+        onConfirm={handleSessionExpiredConfirm}
+      />
     </IonApp>
   );
 };

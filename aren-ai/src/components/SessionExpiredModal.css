@@ -1,0 +1,99 @@
+/* SessionExpiredModal.css */
+
+.session-expired-modal {
+    --background: rgba(0, 0, 0, 0.6);
+    --backdrop-opacity: 0.6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.session-expired-modal::part(content) {
+    --width: 90%;
+    --max-width: 400px;
+    --height: auto;
+    --border-radius: 24px;
+    --box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    background: transparent;
+    overflow: visible;
+}
+
+.session-expired-content {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 24px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.session-expired-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #FF6B6B 0%, #EE5253 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 25px rgba(238, 82, 83, 0.4);
+}
+
+.session-expired-icon {
+    font-size: 40px;
+    color: white;
+}
+
+.session-expired-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #2D3436;
+    margin: 0 0 12px 0;
+    font-family: 'Outfit', sans-serif; /* Assuming font is available per request for beauty */
+}
+
+.session-expired-message {
+    font-size: 16px;
+    color: #636E72;
+    line-height: 1.5;
+    margin: 0 0 32px 0;
+}
+
+.session-expired-actions {
+    width: 100%;
+}
+
+.session-expired-btn {
+    width: 100%;
+    background: #2D3436;
+    color: white;
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.session-expired-btn:active {
+    transform: scale(0.96);
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
