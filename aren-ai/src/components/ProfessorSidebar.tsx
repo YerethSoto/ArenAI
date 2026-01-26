@@ -37,6 +37,8 @@ import {
   personSharp,
   calendarOutline,
   calendarSharp,
+  statsChartOutline,
+  statsChartSharp,
 } from "ionicons/icons";
 import AnimatedMascot from "./AnimatedMascot";
 import { useAvatar } from "../context/AvatarContext";
@@ -79,6 +81,12 @@ const ProfessorSidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
       url: "/prof-attendance",
       iosIcon: calendarOutline,
       mdIcon: calendarSharp,
+    },
+    {
+      titleKey: "professor.sidebar.topicStats",
+      url: "/topic-stats",
+      iosIcon: statsChartOutline,
+      mdIcon: statsChartSharp,
     },
 
     {
