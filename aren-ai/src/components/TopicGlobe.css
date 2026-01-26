@@ -1,0 +1,156 @@
+/* TopicGlobe.css */
+
+.topic-globe-container {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.topic-globe-container canvas {
+    border-radius: 16px;
+}
+
+/* Controls */
+.globe-controls {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.globe-control-btn {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.globe-control-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.globe-control-btn.active {
+    background: rgba(74, 158, 255, 0.4);
+    border-color: rgba(74, 158, 255, 0.6);
+}
+
+/* Legend */
+.globe-legend {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 12px 14px;
+    border-radius: 12px;
+    z-index: 10;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.globe-legend-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.globe-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: white;
+}
+
+.globe-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    box-shadow: 0 0 6px currentColor;
+}
+
+/* Instructions */
+.globe-instructions {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.8);
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.globe-legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* View Toggle */
+.pts-view-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.pts-view-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: var(--ion-color-secondary-soft);
+    border: none;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ion-text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pts-view-btn ion-icon {
+    font-size: 18px;
+}
+
+.pts-view-btn.active {
+    background: var(--ion-color-primary);
+    color: white;
+}
+
+.pts-view-btn:hover:not(.active) {
+    background: var(--ion-color-secondary);
+}
+
+/* Globe instructions */
+.globe-instructions {
+    text-align: center;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    margin: -16px 0 16px 0;
+    border-radius: 0 0 16px 16px;
+}

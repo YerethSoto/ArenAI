@@ -86,6 +86,7 @@ import "./theme/variables.css";
 import "./i18n";
 import ProfessorStudents from "./pages/ProfessorStudents";
 import ProfessorAttendance from "./pages/ProfessorAttendance";
+import ProfessorTopicStats from "./pages/ProfessorTopicStats";
 
 setupIonicReact();
 
@@ -399,6 +400,13 @@ const App: React.FC = () => {
                   <Route path="/prof-attendance" exact={true}>
                     {userRole === "professor" ? (
                       <ProfessorAttendance />
+                    ) : (
+                      <Redirect to="/login" />
+                    )}
+                  </Route>
+                  <Route path="/topic-stats" exact={true}>
+                    {userRole === "professor" ? (
+                      <ProfessorTopicStats />
                     ) : (
                       <Redirect to="/login" />
                     )}
