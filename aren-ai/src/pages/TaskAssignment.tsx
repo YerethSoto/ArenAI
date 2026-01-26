@@ -238,8 +238,10 @@ const TaskAssignment: React.FC = () => {
                     : q.id_subject === 2
                       ? "Science"
                       : q.id_subject === 3
-                        ? "Social Studies"
-                        : "Spanish", // Simple mapping, ideally dynamic
+                        ? "Spanish"
+                        : q.id_subject === 4
+                          ? "Social Studies"
+                          : "General", // Default
                 grade: 7, // Default as backend might not return grade in list view?? QuizMenu hardcodes 7?
                 // Wait, Quiz table has 'level' or 'grade'?
                 // QuizRoute creates with 'level'. Let's check QuizMenu logic again.
@@ -424,7 +426,13 @@ const TaskAssignment: React.FC = () => {
         quiz.topics.some((t) => quizFilterTopics.includes(t));
 
       // Subject filter (global)
-      const matchesSubject = quiz.subject === selectedSubject;
+      // Use fuzzy matching because DB subject names might differ from UI (e.g. "Spanish" vs "Spanish as a First Language")
+      const quizSub = quiz.subject.toLowerCase();
+      const selectedSub = selectedSubject.toLowerCase();
+      const matchesSubject =
+        quizSub === selectedSub ||
+        quizSub.includes(selectedSub) ||
+        selectedSub.includes(quizSub);
 
       return matchesSearch && matchesGrade && matchesTopics && matchesSubject;
     })

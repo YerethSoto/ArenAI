@@ -165,6 +165,35 @@
   opacity: 0.8;
 }
 
+/* Subject Selector */
+.preview-subject-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  margin-top: 10px;
+}
+
+.preview-label {
+  font-size: 14px;
+  color: #666;
+  font-family: 'Georgia', serif;
+}
+
+.preview-subject-select {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(141, 110, 99, 0.2);
+  background: white;
+  color: #5d4037;
+  font-size: 14px;
+  font-family: 'Georgia', serif;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  outline: none;
+  cursor: pointer;
+}
+
 /* Points Input in Modal */
 .preview-points-row {
   display: flex;

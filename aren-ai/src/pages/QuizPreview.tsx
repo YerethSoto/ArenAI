@@ -472,31 +472,41 @@ const QuizPreview: React.FC = () => {
       });
 
       // Find subject ID
-      // Find subject ID with fuzzy matching for differences between UI and DB
-      const foundSubject = subjects.find((s) => {
-        const dbName = s.name_subject.toLowerCase();
-        const uiName = subject.toLowerCase();
+      // Find subject ID
+      // Prioritize the subject name currently set in the UI (which should be in sync with 'subject')
+      // If we have access to the ID directly, we should use it.
+      // But we are storing 'subject' (name) in state.
+      // Let's find it in the subjects list.
+      let subjectId = 1; // Default
 
-        // Direct match
-        if (dbName === uiName) return true;
+      const foundSubject = subjects.find((s) => s.name_subject === subject);
+      if (foundSubject) {
+        subjectId = foundSubject.id_subject;
+      } else {
+        // Fallback fuzzy matching
+        const foundFuzzy = subjects.find((s) => {
+          const dbName = s.name_subject.toLowerCase();
+          const uiName = subject.toLowerCase();
+          return (
+            dbName === uiName ||
+            dbName.includes(uiName) ||
+            uiName.includes(dbName)
+          );
+        });
 
-        // UI: "Social Studies" -> DB: "Costa Rican Social Studies"
-        if (uiName === "social studies" && dbName.includes("social studies"))
-          return true;
+        if (foundFuzzy) {
+          subjectId = foundFuzzy.id_subject;
+        } else {
+          // Hardcoded fallback for known issues
+          if (subject.toLowerCase().includes("spanish")) subjectId = 3;
+          else if (subject.toLowerCase().includes("social"))
+            subjectId = 4; // Assuming
+          else if (subject.toLowerCase().includes("science")) subjectId = 2; // Assuming
 
-        // UI: "Spanish" -> DB: "Spanish as a First Language"
-        if (uiName === "spanish" && dbName.includes("spanish")) return true;
-
-        return false;
-      });
-      // Fallback: If still not found, defaults to 1 (Math) which explains the user's issue.
-      // We should probably log a warning if we default.
-      const subjectId = foundSubject ? foundSubject.id_subject : 1;
-      if (!foundSubject) {
-        console.warn(
-          `Subject mismatch! UI: "${subject}" not found in DB subjects:`,
-          subjects,
-        );
+          console.warn(
+            `Subject '${subject}' not found in DB list. Defaulting/Fallback to ID ${subjectId}`,
+          );
+        }
       }
 
       const response = await fetch(getApiUrl("/api/quizzes"), {
@@ -592,6 +602,32 @@ const QuizPreview: React.FC = () => {
               <div className="preview-total-points">
                 Total: {totalPoints.toFixed(2)} pts
               </div>
+            </div>
+
+            {/* Subject Selector */}
+            <div className="preview-subject-section">
+              <span className="preview-label">Subject:</span>
+              <select
+                className="preview-subject-select"
+                value={
+                  subjects.find((s) => s.name_subject === subject)
+                    ?.id_subject || ""
+                }
+                onChange={(e) => {
+                  const id = parseInt(e.target.value);
+                  const subj = subjects.find((s) => s.id_subject === id);
+                  if (subj) setSubject(subj.name_subject);
+                }}
+              >
+                <option value="" disabled>
+                  Select Subject
+                </option>
+                {subjects.map((s) => (
+                  <option key={s.id_subject} value={s.id_subject}>
+                    {s.name_subject}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Questions */}

@@ -59,6 +59,12 @@ const appPages: AppPage[] = [
     iosIcon: homeOutline,
     mdIcon: homeSharp,
   },
+  {
+    titleKey: "sidebar.assignments",
+    url: "/quiz-menu",
+    iosIcon: bookOutline,
+    mdIcon: bookSharp,
+  },
 
   {
     titleKey: "sidebar.chat",

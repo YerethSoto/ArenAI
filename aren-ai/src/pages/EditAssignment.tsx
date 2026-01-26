@@ -403,7 +403,12 @@ const EditAssignment: React.FC = () => {
         quizFilterTopics.length === 0 ||
         quiz.topics.some((t) => quizFilterTopics.includes(t));
 
-      const matchesSubject = quiz.subject === selectedSubject;
+      const quizSub = quiz.subject.toLowerCase();
+      const selectedSub = selectedSubject.toLowerCase();
+      const matchesSubject =
+        quizSub === selectedSub ||
+        quizSub.includes(selectedSub) ||
+        selectedSub.includes(quizSub);
 
       return matchesSearch && matchesGrade && matchesTopics && matchesSubject;
     })
