@@ -48,8 +48,7 @@ import {
 } from "ionicons/icons";
 import { AppPage } from "../types/user";
 import { getUserData } from "../utils/userUtils";
-import AnimatedMascot from "./AnimatedMascot"; // Import Mascot
-import { useAvatar } from "../context/AvatarContext"; // Import Context
+import { useProfilePicture } from "../context/ProfilePictureContext";
 import "./StudentSidebar.css";
 
 const appPages: AppPage[] = [
@@ -90,12 +89,14 @@ const appPages: AppPage[] = [
     iosIcon: happyOutline,
     mdIcon: happySharp,
   },
+  /*
   {
     titleKey: "sidebar.leaderboard",
     url: "/leaderboard",
     iosIcon: ribbonOutline,
     mdIcon: ribbonSharp,
   },
+  */
   {
     titleKey: "sidebar.battle",
     url: "/battlelobby",
@@ -155,8 +156,7 @@ const META_DIARIA = 100;
 
 const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
   const { t } = useTranslation();
-  const { getAvatarAssets } = useAvatar(); // Hook for assets
-  const avatarAssets = getAvatarAssets();
+  const { getProfilePicPath } = useProfilePicture();
 
   const [showAnimation, setShowAnimation] = useState(true);
   const location = useLocation();
@@ -237,20 +237,21 @@ const StudentSidebar: React.FC<StudentSidebarProps> = ({ onLogout }) => {
               style={{
                 display: "flex",
                 justifyContent: "center",
-                marginBottom: "5px", // Reduced
+                marginBottom: "5px",
                 marginLeft: "0",
               }}
             >
-              <AnimatedMascot
-                openSrc={avatarAssets.open}
-                closedSrc={avatarAssets.closed}
-                winkSrc={avatarAssets.wink}
+              <img
+                src={getProfilePicPath()}
+                alt="Profile"
                 className="sidebar-mascot-img"
                 style={{
-                  width: "120px",
-                  height: "120px",
-                  objectFit: "contain",
-                }} // Reduced to 120px
+                  width: "100px",
+                  height: "100px",
+                  objectFit: "cover",
+                  borderRadius: "50%",
+                  border: "3px solid rgba(255,255,255,0.3)",
+                }}
               />
             </div>
             <div className="student-info">

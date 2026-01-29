@@ -25,6 +25,7 @@ import {
 import { socketService } from "../services/socket";
 import { useTranslation } from "react-i18next";
 import { useAvatar } from "../context/AvatarContext";
+import { getProfilePicturePath } from "../context/ProfilePictureContext";
 import StudentHeader from "../components/StudentHeader";
 import "./BattleLobby.css";
 // We rely on Main_Student.css / global variables for theming
@@ -112,8 +113,12 @@ const BattleLobby: React.FC = () => {
         setOpenGames(games);
       });
       socket.on("game_created", (data) => {
-        console.log("Game created, waiting...", data);
+        console.log("[BattleLobby] Game created received:", data);
         // We stay in lobby but show "Waiting" status
+      });
+
+      socket.on("connect_error", (err) => {
+        console.error("[BattleLobby] Socket connect error:", err);
       });
 
       // Initial Fetch
@@ -135,10 +140,22 @@ const BattleLobby: React.FC = () => {
 
     const storedUserData = JSON.parse(localStorage.getItem("userData") || "{}");
     const realName = storedUserData.name || "Student";
+    const profilePic =
+      storedUserData.profile_picture_name ||
+      storedUserData.profilePicture ||
+      "axolotl";
+    const schoolName = storedUserData.institution?.name || "ArenAI School";
+
+    // Get language preference from i18n localStorage
+    const language = localStorage.getItem("i18nextLng") || "es";
 
     console.log("[BattleLobby] Hosting game as:", {
       name: realName,
       avatar: currentAvatar,
+      profilePic,
+      schoolName,
+      topicName: selectedSubject,
+      language,
     });
     setIsSearching(true);
 
@@ -146,6 +163,10 @@ const BattleLobby: React.FC = () => {
     socketService.socket?.emit("create_game", {
       name: realName,
       avatar: currentAvatar,
+      profilePic: profilePic,
+      schoolName: schoolName,
+      topicName: selectedSubject,
+      language: language,
     });
   };
 
@@ -363,17 +384,25 @@ const BattleLobby: React.FC = () => {
                             >
                               <div className="col-host">
                                 <img
-                                  src={`https://ui-avatars.com/api/?name=${game.hostName}&background=random`}
+                                  src={getProfilePicturePath(
+                                    game.hostProfilePic || "axolotl",
+                                  )}
                                   alt="host"
                                   className="host-avatar-mini"
+                                  style={{
+                                    borderRadius: "50%",
+                                    objectFit: "cover",
+                                  }}
                                 />
                                 <span>{game.hostName}</span>
                               </div>
                               <div className="col-subject">
-                                {selectedSubject}
+                                {game.subjectName || selectedSubject}
                               </div>
                               <div className="col-school">
-                                {game.schoolId || "ArenAI School"}
+                                {game.schoolName ||
+                                  game.schoolId ||
+                                  "ArenAI School"}
                               </div>
                               <div className="col-section">
                                 {game.sectionId || "10-1"}

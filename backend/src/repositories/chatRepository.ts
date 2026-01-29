@@ -81,7 +81,7 @@ export async function getUserChats(userId: number) {
         return {
             id: row.id,
             name: row.name || row.username || 'Unknown User',
-            avatar: row.avatar ? `/assets/avatars/${row.avatar}` : 'https://ionicframework.com/docs/img/demos/avatar.svg',
+            avatar: row.avatar || 'https://ionicframework.com/docs/img/demos/avatar.svg',
             message: row.last_message || 'Start a conversation',
             time: timeStr,
             unread: row.unread_count || 0

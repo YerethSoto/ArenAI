@@ -29,3 +29,10 @@ export async function createSection(payload) {
      WHERE id_section = ?`, [insertResult.rows[0].insertId]);
     return newSection.rows[0];
 }
+export async function findSectionByNumberAndInstitution(sectionNumber, institutionId) {
+    const result = await db.query(`SELECT id_section, section_number, grade, id_institution
+     FROM section
+     WHERE section_number = ? AND id_institution = ?
+     LIMIT 1`, [sectionNumber, institutionId]);
+    return result.rows.at(0) ?? null;
+}

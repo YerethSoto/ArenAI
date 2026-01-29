@@ -29,6 +29,7 @@ import { useTranslation } from "react-i18next";
 import { useIonViewWillEnter, useIonViewWillLeave } from "@ionic/react";
 import { socketService } from "../services/socket";
 import { chatStorage } from "../services/chatStorage";
+import { getProfilePicturePath } from "../context/ProfilePictureContext";
 
 const ChatMenu: React.FC = () => {
   const { t } = useTranslation();
@@ -531,7 +532,11 @@ const ChatMenu: React.FC = () => {
                   }}
                 >
                   <IonAvatar slot="start" className="chat-avatar">
-                    <img src={chat.avatar} alt={chat.name} />
+                    <img
+                      src={getProfilePicturePath(chat.avatar || "axolotl")}
+                      alt={chat.name}
+                      style={{ borderRadius: "50%", objectFit: "cover" }}
+                    />
                   </IonAvatar>
                   <IonLabel className="chat-info">
                     <div className="chat-header">

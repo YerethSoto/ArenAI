@@ -1,0 +1,18 @@
+src/repositories/quizRepository.ts(42,35): error TS2339: Property 'id_subject' does not exist on type 'RowDataPacket[]'.
+src/repositories/quizRepository.ts(52,5): error TS2740: Type 'QuizRow[]' is missing the following properties from type 'QuizRow': id_quiz, quiz_name, description, id_professor, and 7 more.
+src/repositories/quizRepository.ts(66,15): error TS2339: Property 'id_question' does not exist on type 'QuestionRow[]'.
+src/repositories/quizRepository.ts(67,21): error TS2339: Property 'question_text' does not exist on type 'QuestionRow[]'.
+src/repositories/quizRepository.ts(68,21): error TS2339: Property 'option_1' does not exist on type 'QuestionRow[]'.
+src/repositories/quizRepository.ts(68,33): error TS2339: Property 'option_2' does not exist on type 'QuestionRow[]'.
+src/repositories/quizRepository.ts(68,45): error TS2339: Property 'option_3' does not exist on type 'QuestionRow[]'.
+src/repositories/quizRepository.ts(68,57): error TS2339: Property 'option_4' does not exist on type 'QuestionRow[]'.
+src/repositories/quizRepository.ts(69,45): error TS2339: Property 'correct_options' does not exist on type 'QuestionRow[]'.
+src/repositories/quizRepository.ts(69,65): error TS2339: Property 'option_1' does not exist on type 'QuestionRow[]'.
+src/repositories/quizRepository.ts(69,77): error TS2339: Property 'option_2' does not exist on type 'QuestionRow[]'.
+src/repositories/quizRepository.ts(69,89): error TS2339: Property 'option_3' does not exist on type 'QuestionRow[]'.
+src/repositories/quizRepository.ts(69,101): error TS2339: Property 'option_4' does not exist on type 'QuestionRow[]'.
+src/repositories/quizRepository.ts(97,24): error TS2339: Property 'insertId' does not exist on type 'ResultSetHeader[]'.
+src/repositories/quizRepository.ts(124,5): error TS2740: Type 'QuizRow[]' is missing the following properties from type 'QuizRow': id_quiz, quiz_name, description, id_professor, and 7 more.
+src/repositories/quizRepository.ts(176,28): error TS2339: Property 'count' does not exist on type 'RowDataPacket[]'.
+src/routes/quizRoutes.ts(115,14): error TS1345: An expression of type 'void' cannot be tested for truthiness.
+src/routes/quizRoutes.ts(137,35): error TS2698: Spread types may only be created from object types.

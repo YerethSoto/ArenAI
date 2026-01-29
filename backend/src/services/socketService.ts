@@ -2,6 +2,8 @@ import { Server, Socket } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import { appConfig } from '../config/env.js';
 import { getUserChats } from '../repositories/chatRepository.js';
+import { getRandomQuiz, getQuizQuestions } from '../repositories/quizRepository.js';
+import { getUserGrade } from '../repositories/userRepository.js';
 
 // --- Interfaces ---
 
@@ -33,6 +35,7 @@ interface GameState {
     // System
     roundTimeout?: NodeJS.Timeout;
     isSuddenDeath?: boolean;
+    questions?: any[]; // Array of questions for this session
 }
 
 // --- State ---
@@ -125,12 +128,50 @@ export const initSocket = (io: Server) => {
         // --- 3. HOSTED GAMES LIST ---
         
         // Host a new Game
-        socket.on('create_game', (data: { name: string; avatar: string }) => {
+        socket.on('create_game', async (data: { name: string; avatar: string; profilePic?: string; schoolName?: string; topicName?: string; language?: string }) => {
             const roomId = `room_${Date.now()}_${userId}`;
             
-            // Mock Data for Filters
-            const mockSchoolId = "school_123";
+            // Use actual school name from client if provided, otherwise fallback
+            const hostSchoolName = data.schoolName || "ArenAI School";
             const mockSectionId = parseInt(userId) ? (parseInt(userId) % 2 === 0 ? "10-1" : "10-2") : "10-1";
+            
+            // Get subject from frontend data
+            const subjectName = data.topicName || 'Math';
+            const language = data.language || 'es'; // Default to Spanish
+
+            // === QUIZ SELECTION ===
+            let questions: any[] = [];
+            let quizName: string | null = null;
+            try {
+                // 1. Get User Grade
+                let grade = '10'; // Default
+                if (!userId.startsWith('guest_')) {
+                    const dbGrade = await getUserGrade(parseInt(userId));
+                    if (dbGrade) grade = dbGrade;
+                }
+                
+                // 2. Fetch Random Quiz with language filter
+                const quiz = await getRandomQuiz(subjectName, grade, language);
+                
+                if (quiz) {
+                   questions = await getQuizQuestions(quiz.id_quiz);
+                   quizName = quiz.quiz_name;
+                   console.log(`\n========================================`);
+                   console.log(`[BATTLE QUIZ] Starting battle with quiz from database!`);
+                   console.log(`[BATTLE QUIZ] Quiz Name: "${quizName}"`);
+                   console.log(`[BATTLE QUIZ] Quiz ID: ${quiz.id_quiz}`);
+                   console.log(`[BATTLE QUIZ] Subject: ${subjectName}`);
+                   console.log(`[BATTLE QUIZ] Grade: ${grade}`);
+                   console.log(`[BATTLE QUIZ] Language: ${language}`);
+                   console.log(`[BATTLE QUIZ] Questions: ${questions.length}`);
+                   console.log(`========================================\n`);
+                } else {
+                   console.log(`[BATTLE QUIZ] No quiz found for Subject=${subjectName}, Grade=${grade}, Language=${language}. Using Frontend Fallback.`);
+                }
+            } catch(e) {
+                console.error("[BATTLE QUIZ] Failed to fetch quiz:", e);
+            }
+            // ======================
 
             const p1: Player = {
                 userId,
@@ -152,13 +193,17 @@ export const initSocket = (io: Server) => {
                 players: { [userId]: p1 },
                 currentQuestionIndex: 0,
                 roundStartTime: 0,
-                roundEndTime: 0, // 24h hard limit only starts when round starts
+                roundEndTime: 0, 
                 answers: {},
+                questions, // Store questions
                 // Metadata for Listing
                 hostName: data.name,
-                schoolId: mockSchoolId,
-                sectionId: mockSectionId
-            } as any; // Cast to allow extra props for listing
+                hostProfilePic: data.profilePic || 'axolotl',
+                schoolName: hostSchoolName,
+                sectionId: mockSectionId,
+                subjectName: subjectName, // Store subject name for lobby display
+                quizName: quizName // Store quiz name for reference
+            } as any; 
 
             activeGames[roomId] = game;
             userGameMap[userId] = roomId;
@@ -167,10 +212,9 @@ export const initSocket = (io: Server) => {
             console.log(`[Game] Hosted by ${data.name}: ${roomId}`);
             socket.emit('game_created', { roomId });
             
-            // Broadcast new game list to everyone in lobby? 
-            // Better: Client polls or we subscribe. For now, we can broadcast 'games_list_update'
             io.emit('games_list_update', getOpenGames());
         });
+
 
         // Get List
         socket.on('get_games', () => {
@@ -567,7 +611,8 @@ const emitGameState = (io: Server, game: GameState, targetSocket?: Socket) => {
         currentQuestionIndex: game.currentQuestionIndex,
         roundEndTime: game.roundEndTime,
         isSuddenDeath: game.isSuddenDeath,
-        players: game.players, // Contains health, scores, hasAnswered
+        players: game.players,
+        questions: game.questions || [] // Send questions
     };
     
     if (targetSocket) {
@@ -585,7 +630,10 @@ const getOpenGames = () => {
             roomId: g.roomId,
             hostName: (g as any).hostName,
             hostAvatar: Object.values(g.players)[0]?.avatar,
-            schoolId: (g as any).schoolId,
-            sectionId: (g as any).sectionId
+            hostProfilePic: (g as any).hostProfilePic || 'axolotl',
+            schoolName: (g as any).schoolName || 'ArenAI School',
+            sectionId: (g as any).sectionId,
+            subjectName: (g as any).subjectName || 'Math' // Include subject name for lobby display
         }));
 };
+

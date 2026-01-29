@@ -34,8 +34,10 @@ import { useTranslation } from "react-i18next";
 import { socketService } from "../services/socket";
 import { chatStorage } from "../services/chatStorage";
 import { useIonViewWillEnter } from "@ionic/react";
-import { useAvatar } from "../context/AvatarContext";
-import { getAvatarPath } from "../utils/avatarUtils";
+import {
+  useProfilePicture,
+  getProfilePicturePath,
+} from "../context/ProfilePictureContext";
 
 // Helper to get User Context
 const getUserContext = () => {
@@ -72,7 +74,7 @@ interface Message {
 const StudentChat: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const { currentAvatar } = useAvatar();
+  const { getProfilePicPath } = useProfilePicture();
   const { id } = useParams<{ id: string }>(); // Chat ID or User ID
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
@@ -81,6 +83,7 @@ const StudentChat: React.FC = () => {
   const [chatName, setChatName] = useState("Student");
   const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const displayedTimestampsRef = useRef<Set<string>>(new Set()); // Track displayed messages
+  const [friendProfilePic, setFriendProfilePic] = useState<string | null>(null);
 
   // Modals State
   const [showOptionsModal, setShowOptionsModal] = useState(false); // Can double as "Actions" if not using StudentMenu directly
@@ -100,10 +103,9 @@ const StudentChat: React.FC = () => {
     const nick = getChatNickname(id);
     if (nick) {
       setChatName(nick);
-    } else {
-      // Try to fetch the friend's name from the backend
-      fetchChatName();
     }
+    // Always fetch chat details to get the latest avatar
+    fetchChatName();
   });
 
   // Fetch friend name from backend if no nickname is set
@@ -123,15 +125,19 @@ const StudentChat: React.FC = () => {
       if (res.ok) {
         const chats = await res.json();
         const currentChat = chats.find((c: any) => String(c.id) === String(id));
-        if (currentChat && currentChat.name) {
-          setChatName(currentChat.name);
+        if (currentChat) {
+          const nick = getChatNickname(id);
+          if (!nick && currentChat.name) setChatName(currentChat.name);
+          if (currentChat.avatar) setFriendProfilePic(currentChat.avatar);
         } else {
-          setChatName(`Chat ${id}`);
+          const nick = getChatNickname(id);
+          if (!nick) setChatName(`Chat ${id}`);
         }
       }
     } catch (err) {
       console.error("[StudentChat] Failed to fetch chat name:", err);
-      setChatName(`Chat ${id}`);
+      const nick = getChatNickname(id);
+      if (!nick) setChatName(`Chat ${id}`);
     }
   };
 
@@ -140,9 +146,8 @@ const StudentChat: React.FC = () => {
     const nick = getChatNickname(id);
     if (nick) {
       setChatName(nick);
-    } else {
-      fetchChatName();
     }
+    fetchChatName();
   }, [id]);
 
   const handleHeaderOption = (option: string) => {
@@ -466,24 +471,16 @@ const StudentChat: React.FC = () => {
               className={`message-row ${msg.isUser ? "user" : "bot"}`}
             >
               {!msg.isUser && (
-                <div className="chat-avatar bot">
-                  {/* Placeholder Avatar - Initials */}
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      background: "#ccc",
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "12px",
-                      color: "#fff",
-                    }}
-                  >
-                    {chatName.charAt(0)}
-                  </div>
-                </div>
+                <img
+                  className="chat-avatar bot"
+                  src={
+                    friendProfilePic
+                      ? getProfilePicturePath(friendProfilePic)
+                      : getProfilePicturePath("axolotl")
+                  }
+                  alt={chatName}
+                  style={{ borderRadius: "50%", objectFit: "cover" }}
+                />
               )}
 
               <div className={`chat-bubble ${msg.isUser ? "user" : "bot"}`}>
@@ -505,8 +502,9 @@ const StudentChat: React.FC = () => {
               {msg.isUser && (
                 <img
                   className="chat-avatar user"
-                  src={getAvatarPath(currentAvatar)}
+                  src={getProfilePicPath()}
                   alt="Me"
+                  style={{ borderRadius: "50%", objectFit: "cover" }}
                 />
               )}
             </div>

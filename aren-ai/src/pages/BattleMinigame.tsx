@@ -49,7 +49,9 @@ interface GameSnapshot {
   players: Record<string, Player>;
   currentQuestionIndex: number;
   roundEndTime: number;
+  roundEndTime: number;
   isSuddenDeath?: boolean; // New flag for visual timer
+  questions?: any[];
 }
 
 // --- Component ---
@@ -63,6 +65,9 @@ const BattleMinigame: React.FC = () => {
     myAvatar: any;
   }>();
   const roomId = location.state?.roomId;
+
+  // Questions State (Dynamic or Fallback)
+  const [questions, setQuestions] = useState<any[]>(BattleQuestions);
 
   // --- State ---
   const [status, setStatus] = useState<GameStatus>("waiting");
@@ -126,7 +131,9 @@ const BattleMinigame: React.FC = () => {
   const opponent = opponentId ? players[opponentId] : null;
 
   const currentQuestion =
-    BattleQuestions[questionIndex % BattleQuestions.length];
+    questions.length > 0
+      ? questions[questionIndex % questions.length]
+      : BattleQuestions[0]; // Fallback safety
 
   // --- Audio Functions ---
   const playHitSound = () => {
@@ -285,6 +292,11 @@ const BattleMinigame: React.FC = () => {
         setPlayers(state.players);
         setQuestionIndex(state.currentQuestionIndex);
 
+        // Update questions if provided (and we don't have them yet or should overwrite)
+        if (state.questions && state.questions.length > 0) {
+          setQuestions(state.questions);
+        }
+
         // Sudden Death Sync
         setIsSuddenDeath(!!state.isSuddenDeath);
         if (state.isSuddenDeath && state.status === "playing") {
@@ -295,9 +307,6 @@ const BattleMinigame: React.FC = () => {
 
         // Show Popup on new Round
         if (state.status === "playing") {
-          // Only if we haven't answered yet?
-          // Actually popup is usually for reading logic.
-          // We can check if we just transitioned.
           // Simplification: Always show popup if not answered.
         }
       });

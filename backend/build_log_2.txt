@@ -1,0 +1,16 @@
+src/repositories/quizRepository.ts(22,11): error TS2488: Type '{ rows: RowDataPacket[][]; }' must have a '[Symbol.iterator]()' method that returns an iterator.
+src/repositories/quizRepository.ts(31,11): error TS2488: Type '{ rows: QuizRow[][]; }' must have a '[Symbol.iterator]()' method that returns an iterator.
+src/repositories/quizRepository.ts(43,11): error TS2488: Type '{ rows: QuestionRow[][]; }' must have a '[Symbol.iterator]()' method that returns an iterator.
+src/repositories/quizRepository.ts(50,26): error TS7006: Parameter 'q' implicitly has an 'any' type.
+src/services/quizService.ts(25,39): error TS2339: Property 'createQuiz' does not exist on type 'typeof import("C:/ArenAI/ArenAI/backend/src/repositories/quizRepository", { with: { "resolution-mode": "import" } })'.
+src/services/quizService.ts(36,28): error TS2339: Property 'addQuestionToQuiz' does not exist on type 'typeof import("C:/ArenAI/ArenAI/backend/src/repositories/quizRepository", { with: { "resolution-mode": "import" } })'.
+src/services/quizService.ts(54,27): error TS2339: Property 'getQuizById' does not exist on type 'typeof import("C:/ArenAI/ArenAI/backend/src/repositories/quizRepository", { with: { "resolution-mode": "import" } })'.
+src/services/quizService.ts(57,27): error TS2339: Property 'getFullQuiz' does not exist on type 'typeof import("C:/ArenAI/ArenAI/backend/src/repositories/quizRepository", { with: { "resolution-mode": "import" } })'.
+src/services/quizService.ts(60,38): error TS2339: Property 'listQuizzesByProfessor' does not exist on type 'typeof import("C:/ArenAI/ArenAI/backend/src/repositories/quizRepository", { with: { "resolution-mode": "import" } })'.
+src/services/quizService.ts(63,33): error TS2339: Property 'listPublicQuizzes' does not exist on type 'typeof import("C:/ArenAI/ArenAI/backend/src/repositories/quizRepository", { with: { "resolution-mode": "import" } })'.
+src/services/quizService.ts(66,36): error TS2339: Property 'listQuizzesBySubject' does not exist on type 'typeof import("C:/ArenAI/ArenAI/backend/src/repositories/quizRepository", { with: { "resolution-mode": "import" } })'.
+src/services/quizService.ts(72,26): error TS2339: Property 'deleteQuiz' does not exist on type 'typeof import("C:/ArenAI/ArenAI/backend/src/repositories/quizRepository", { with: { "resolution-mode": "import" } })'.
+src/services/quizService.ts(75,28): error TS2339: Property 'getQuizCountByProfessor' does not exist on type 'typeof import("C:/ArenAI/ArenAI/backend/src/repositories/quizRepository", { with: { "resolution-mode": "import" } })'.
+src/services/quizService.ts(78,24): error TS2339: Property 'rateQuiz' does not exist on type 'typeof import("C:/ArenAI/ArenAI/backend/src/repositories/quizRepository", { with: { "resolution-mode": "import" } })'.
+src/services/quizService.ts(81,34): error TS2339: Property 'incrementDownloads' does not exist on type 'typeof import("C:/ArenAI/ArenAI/backend/src/repositories/quizRepository", { with: { "resolution-mode": "import" } })'.
+src/services/quizService.ts(84,33): error TS2339: Property 'copyQuizToLibrary' does not exist on type 'typeof import("C:/ArenAI/ArenAI/backend/src/repositories/quizRepository", { with: { "resolution-mode": "import" } })'.

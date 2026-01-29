@@ -16,6 +16,7 @@ import {
 import { micOutline, send, menu } from "ionicons/icons";
 import React, { useState, useRef, useEffect } from "react";
 import { useAvatar } from "../context/AvatarContext";
+import { useProfilePicture } from "../context/ProfilePictureContext";
 import "./Chatbot.css";
 import StudentMenu from "../components/StudentMenu";
 import StudentSidebar from "../components/StudentSidebar";
@@ -48,6 +49,7 @@ interface Message {
 const Chat: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { getAvatarAssets, currentAvatar } = useAvatar();
+  const { getProfilePicPath } = useProfilePicture();
   const avatarAssets = getAvatarAssets();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
@@ -64,9 +66,8 @@ const Chat: React.FC = () => {
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        const subjectData = await studentService.getSubjectDetails(
-          selectedSubject
-        );
+        const subjectData =
+          await studentService.getSubjectDetails(selectedSubject);
         if (subjectData && subjectData.topics) {
           const topicNames = subjectData.topics.map((t) => t.nameKey);
           setCurrentTopics(topicNames);
@@ -118,7 +119,7 @@ const Chat: React.FC = () => {
   const startTypewriterEffect = (
     messageId: number,
     fullText: string,
-    speed: number = 15
+    speed: number = 15,
   ) => {
     let currentText = "";
     let charIndex = 0;
@@ -131,8 +132,8 @@ const Chat: React.FC = () => {
       prev.map((msg) =>
         msg.id === messageId
           ? { ...msg, displayedText: "", isTyping: true }
-          : msg
-      )
+          : msg,
+      ),
     );
 
     typingIntervalRef.current = setInterval(() => {
@@ -140,8 +141,8 @@ const Chat: React.FC = () => {
         currentText += fullText.charAt(charIndex);
         setMessages((prev) =>
           prev.map((msg) =>
-            msg.id === messageId ? { ...msg, displayedText: currentText } : msg
-          )
+            msg.id === messageId ? { ...msg, displayedText: currentText } : msg,
+          ),
         );
         charIndex++;
         scrollToBottom();
@@ -151,8 +152,8 @@ const Chat: React.FC = () => {
         }
         setMessages((prev) =>
           prev.map((msg) =>
-            msg.id === messageId ? { ...msg, isTyping: false } : msg
-          )
+            msg.id === messageId ? { ...msg, isTyping: false } : msg,
+          ),
         );
       }
     }, speed);
@@ -343,9 +344,13 @@ const Chat: React.FC = () => {
                 {message.isUser && (
                   <img
                     className={`chat-avatar user ${showAvatar ? "" : "hidden"}`}
-                    src="/assets/Capybara profile picture.png"
+                    src={getProfilePicPath()}
                     alt="User"
-                    style={{ opacity: showAvatar ? 1 : 0 }} // Simple visibility toggle
+                    style={{
+                      opacity: showAvatar ? 1 : 0,
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
                   />
                 )}
               </div>

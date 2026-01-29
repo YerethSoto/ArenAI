@@ -56,6 +56,7 @@ router.post('/login', async (req, res, next) => {
         name: user.name,
         lastName: user.last_name,
         first_login: user.first_login,
+        profilePicture: user.profile_picture_name,
         institution: user.id_institution
           ? {
             id: user.id_institution,
@@ -139,6 +140,7 @@ router.post('/register', async (req, res, next) => {
         name: created.name,
         lastName: created.last_name,
         first_login: created.first_login,
+        profilePicture: created.profile_picture_name,
         institution: created.id_institution
           ? { id: created.id_institution, name: created.institution_name }
           : null,

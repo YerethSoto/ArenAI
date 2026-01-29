@@ -46,6 +46,7 @@ router.post('/login', async (req, res, next) => {
                 name: user.name,
                 lastName: user.last_name,
                 first_login: user.first_login,
+                profilePicture: user.profile_picture_name,
                 institution: user.id_institution
                     ? {
                         id: user.id_institution,
@@ -120,6 +121,7 @@ router.post('/register', async (req, res, next) => {
                 name: created.name,
                 lastName: created.last_name,
                 first_login: created.first_login,
+                profilePicture: created.profile_picture_name,
                 institution: created.id_institution
                     ? { id: created.id_institution, name: created.institution_name }
                     : null,
@@ -141,7 +143,7 @@ router.post('/register-student', async (req, res, next) => {
         username: z.string().min(1),
         password: z.string().min(6),
         institution: z.string().min(1),
-        sectionId: z.coerce.number().int().positive(),
+        sectionId: z.number().int().positive(),
     });
     try {
         const body = schema.parse(req.body);
@@ -160,12 +162,15 @@ router.post('/register-student', async (req, res, next) => {
             idInstitution = createdInst.id_institution;
         }
         // Verify section exists and belongs to institution
+        if (!idInstitution)
+            throw new ApiError(400, 'Institution not found');
+        // Check if section exists by ID directly
         const secRow = await getSectionById(body.sectionId);
         if (!secRow) {
             throw new ApiError(404, 'Section not found');
         }
         if (secRow.id_institution !== idInstitution) {
-            throw new ApiError(400, 'Section does not belong to the provided institution');
+            throw new ApiError(400, 'Section does not belong to the institution');
         }
         // Hash password
         const passwordHash = await hashPassword(body.password);
@@ -184,7 +189,7 @@ router.post('/register-student', async (req, res, next) => {
         if (!created)
             throw new ApiError(500, 'Failed to create student user');
         // Link to section
-        await linkUserToSection(created.id_user, body.sectionId, 'student');
+        await linkUserToSection(created.id_user, secRow.id_section, 'student');
         const { token, expiresIn } = signAccessToken({
             userId: created.id_user,
             username: created.username,
@@ -199,6 +204,7 @@ router.post('/register-student', async (req, res, next) => {
                 role: created.role,
                 name: created.name,
                 lastName: created.last_name,
+                first_login: created.first_login,
                 institution: created.id_institution ? { id: created.id_institution, name: created.institution_name } : null,
             },
         });

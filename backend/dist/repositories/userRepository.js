@@ -105,6 +105,10 @@ export async function updateUser(idUser, data) {
         setClauses.push('email = ?');
         values.push(data.email);
     }
+    if (data.profile_picture_name !== undefined) {
+        setClauses.push('profile_picture_name = ?');
+        values.push(data.profile_picture_name);
+    }
     if (setClauses.length === 0)
         return false;
     values.push(idUser);
@@ -115,4 +119,42 @@ export async function updateUser(idUser, data) {
 export async function linkUserToSection(userId, sectionId, roleInSection) {
     const result = await db.query(`INSERT INTO user_section (id_user, id_section, role_in_section) VALUES (?, ?, ?)`, [userId, sectionId, roleInSection]);
     return result.rows[0].affectedRows > 0;
+}
+export async function createUserAvatar(payload) {
+    const result = await db.query(`INSERT INTO user_avatar (id_user, avatar_type, nickname, is_current) VALUES (?, ?, ?, ?)`, [payload.idUser, payload.avatarType, payload.nickname ?? null, payload.isCurrent ? 1 : 0]);
+    return result.rows[0].insertId;
+}
+export async function getUserAvatars(idUser) {
+    const result = await db.query(`SELECT * FROM user_avatar WHERE id_user = ? ORDER BY is_current DESC, created_at DESC`, [idUser]);
+    return result.rows;
+}
+export async function updateUserAvatar(idAvatar, updates) {
+    const setClauses = [];
+    const values = [];
+    if (updates.nickname !== undefined) {
+        setClauses.push('nickname = ?');
+        values.push(updates.nickname);
+    }
+    if (updates.friendshipLevel !== undefined) {
+        setClauses.push('friendship_level = ?');
+        values.push(updates.friendshipLevel);
+    }
+    if (updates.isCurrent !== undefined) {
+        setClauses.push('is_current = ?');
+        values.push(updates.isCurrent ? 1 : 0);
+    }
+    if (setClauses.length === 0)
+        return false;
+    values.push(idAvatar);
+    const sql = `UPDATE user_avatar SET ${setClauses.join(', ')} WHERE id_user_avatar = ?`;
+    const result = await db.query(sql, values);
+    return result.rows[0].affectedRows > 0;
+}
+export async function getUserGrade(userId) {
+    const result = await db.query(`SELECT s.grade 
+         FROM user_section us 
+         JOIN section s ON us.id_section = s.id_section 
+         WHERE us.id_user = ? 
+         LIMIT 1`, [userId]);
+    return result.rows[0]?.grade || null;
 }

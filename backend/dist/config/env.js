@@ -24,7 +24,7 @@ const EnvSchema = z.object({
     DB_SSL_CERT_PATH: z.string().optional(),
     DB_SSL_KEY_PATH: z.string().optional(),
     JWT_SECRET: z.string().min(16, 'JWT_SECRET must be at least 16 characters long'),
-    JWT_EXPIRES_IN: z.string().optional().default('1h'),
+    JWT_EXPIRES_IN: z.string().optional().default('30d'),
     GOOGLE_APPLICATION_CREDENTIALS: z.string().optional(),
 });
 const env = EnvSchema.parse(process.env);

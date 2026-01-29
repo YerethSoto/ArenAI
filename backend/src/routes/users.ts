@@ -15,12 +15,13 @@ const updateProfileSchema = z.object({
     name: z.string().min(1).optional(),
     lastName: z.string().optional(),
     email: z.string().email().optional(),
+    profilePicture: z.string().optional(), // New field
 });
 
 // Update user profile
 router.put('/profile', async (req, res, next) => {
     try {
-        const userId = (req as any).user?.userId;
+        const userId = (req as any).user?.id;
         if (!userId) {
             throw new ApiError(401, 'Unauthorized');
         }
@@ -31,6 +32,7 @@ router.put('/profile', async (req, res, next) => {
         if (body.name) updateData.name = body.name;
         if (body.lastName !== undefined) updateData.last_name = body.lastName;
         if (body.email) updateData.email = body.email;
+        if (body.profilePicture) updateData.profile_picture_name = body.profilePicture;
 
         const updated = await updateUser(userId, updateData);
 
@@ -50,6 +52,7 @@ router.put('/profile', async (req, res, next) => {
                 name: updatedUser.name,
                 lastName: updatedUser.last_name,
                 role: updatedUser.role,
+                profilePicture: updatedUser.profile_picture_name,
             } : null
         });
     } catch (error) {
@@ -60,7 +63,7 @@ router.put('/profile', async (req, res, next) => {
 // Get current user profile
 router.get('/profile', async (req, res, next) => {
     try {
-        const userId = (req as any).user?.userId;
+        const userId = (req as any).user?.id;
         const username = (req as any).user?.username;
 
         if (!userId || !username) {
@@ -80,6 +83,7 @@ router.get('/profile', async (req, res, next) => {
             name: user.name,
             lastName: user.last_name,
             role: user.role,
+            profilePicture: user.profile_picture_name,
             institution: user.id_institution ? {
                 id: user.id_institution,
                 name: user.institution_name,
@@ -92,7 +96,7 @@ router.get('/profile', async (req, res, next) => {
 // Update first login status
 router.patch('/first-login', async (req, res, next) => {
     try {
-        const userId = (req as any).user?.userId;
+        const userId = (req as any).user?.id;
         if (!userId) throw new ApiError(401, 'Unauthorized');
 
         const { firstLogin } = req.body; 
@@ -105,7 +109,7 @@ router.patch('/first-login', async (req, res, next) => {
 // Create Avatar
 router.post('/avatars', async (req, res, next) => {
     try {
-        const userId = (req as any).user?.userId;
+        const userId = (req as any).user?.id;
         if (!userId) throw new ApiError(401, 'Unauthorized');
 
         const body = z.object({
@@ -122,7 +126,7 @@ router.post('/avatars', async (req, res, next) => {
 // Get Avatars
 router.get('/avatars', async (req, res, next) => {
     try {
-        const userId = (req as any).user?.userId;
+        const userId = (req as any).user?.id;
         if (!userId) throw new ApiError(401, 'Unauthorized');
 
         const avatars = await getUserAvatars(userId);

@@ -3,7 +3,8 @@ import { IonButton, IonIcon, IonModal } from "@ionic/react";
 import { arrowForward } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import "./BattleResultModal.css";
-import { getAvatarPath } from "../utils/avatarUtils";
+import { getProfilePicturePath } from "../context/ProfilePictureContext";
+import { useProfilePicture } from "../context/ProfilePictureContext";
 
 interface BattleResultModalProps {
   isOpen: boolean;
@@ -23,12 +24,13 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
   myId,
   players,
   battleStats,
-  xpGained
+  xpGained,
 }) => {
   const history = useHistory();
+  const { getProfilePicPath } = useProfilePicture();
 
   // Helper to get opponent ID
-  const opponentId = Object.keys(players).find(id => id !== myId);
+  const opponentId = Object.keys(players).find((id) => id !== myId);
   const opponent = opponentId ? players[opponentId] : null;
   const me = myId ? players[myId] : null;
 
@@ -47,9 +49,10 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
               {opponent ? opponent.name : "Opponent"}
             </span>
             <img
-              src={getAvatarPath(opponent?.avatar || "capybara")}
+              src={getProfilePicturePath(opponent?.profilePicture || "axolotl")}
               alt="Opponent"
               className="player-avatar"
+              style={{ borderRadius: "50%", objectFit: "cover" }}
             />
           </div>
 
@@ -57,21 +60,21 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
 
           {/* Player Side */}
           <div className="player-side right">
-            <span className="player-name-right">
-              {me ? me.name : "You"}
-            </span>
+            <span className="player-name-right">{me ? me.name : "You"}</span>
             <img
-              src={getAvatarPath(me?.avatar || "capybara")}
+              src={getProfilePicPath()}
               alt="Player"
               className="player-avatar"
+              style={{ borderRadius: "50%", objectFit: "cover" }}
             />
           </div>
         </div>
 
         {/* Colored Win/Loss Message */}
         <div
-          className={`battle-outcome ${winnerId === myId ? "win" : winnerId === "draw" ? "tie" : "loss"
-            }`}
+          className={`battle-outcome ${
+            winnerId === myId ? "win" : winnerId === "draw" ? "tie" : "loss"
+          }`}
         >
           {winnerId === myId
             ? "You Won!"
@@ -100,7 +103,9 @@ const BattleResultModal: React.FC<BattleResultModalProps> = ({
           </div>
           <div className="stat-box">
             <div className="stat-title">XP</div>
-            <div className="stat-number" style={{ color: '#FFD700' }}>+{xpGained}</div>
+            <div className="stat-number" style={{ color: "#FFD700" }}>
+              +{xpGained}
+            </div>
           </div>
         </div>
 

@@ -133,6 +133,7 @@ export async function updateUser(idUser: number, data: Partial<{
   name: string;
   last_name: string;
   email: string;
+  profile_picture_name: string;
 }>) {
   if (Object.keys(data).length === 0) return false;
 
@@ -157,6 +158,11 @@ export async function updateUser(idUser: number, data: Partial<{
   if (data.email !== undefined) {
     setClauses.push('email = ?');
     values.push(data.email);
+  }
+
+  if (data.profile_picture_name !== undefined) {
+    setClauses.push('profile_picture_name = ?');
+    values.push(data.profile_picture_name);
   }
 
   if (setClauses.length === 0) return false;
@@ -226,4 +232,16 @@ export async function updateUserAvatar(idAvatar: number, updates: Partial<{ nick
   const sql = `UPDATE user_avatar SET ${setClauses.join(', ')} WHERE id_user_avatar = ?`;
   const result = await db.query<any>(sql, values);
   return (result.rows[0] as any).affectedRows > 0;
+}
+
+export async function getUserGrade(userId: number): Promise<string | null> {
+    const result = await db.query<{ grade: string }>(
+        `SELECT s.grade 
+         FROM user_section us 
+         JOIN section s ON us.id_section = s.id_section 
+         WHERE us.id_user = ? 
+         LIMIT 1`,
+        [userId]
+    );
+    return result.rows[0]?.grade || null;
 }
