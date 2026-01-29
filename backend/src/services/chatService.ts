@@ -7,4 +7,5 @@ export const chatService = {
     sendMessage: chatRepo.sendMessage,
     getMessages: chatRepo.getChatMessages,
     bulkSaveMessages: chatRepo.bulkSaveMessages,
+    markMessagesAsRead: chatRepo.markMessagesAsRead,
 };

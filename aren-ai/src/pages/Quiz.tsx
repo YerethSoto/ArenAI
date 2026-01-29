@@ -28,6 +28,8 @@ import { triggerConfetti } from "../utils/confettiUtils";
 import { progressionService } from "../services/progressionService";
 import { learningStatsService } from "../services/learningStatsService";
 import { getApiUrl } from "../config/api";
+import { useAvatar } from "../context/AvatarContext";
+import { getQuestionSprite } from "../utils/avatarUtils";
 
 // Helper Interface
 interface ExpandedQuestion {
@@ -44,6 +46,7 @@ const Quiz: React.FC = () => {
   const router = useIonRouter();
   const location = useLocation();
   const { playSuccess } = useSound();
+  const { currentAvatar } = useAvatar();
   const [presentLoading, dismissLoading] = useIonLoading();
   const [presentToast] = useIonToast();
 
@@ -435,7 +438,7 @@ const Quiz: React.FC = () => {
             <div className="quiz-visual-block">
               <div className="quiz-mascot-layer">
                 <img
-                  src="/assets/capybara_sprite_normal.png"
+                  src={getQuestionSprite(currentAvatar)}
                   alt="Mascot"
                   className="quiz-mascot-img-large"
                 />

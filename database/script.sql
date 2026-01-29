@@ -273,11 +273,13 @@ create index id_topic
 
 create table chat
 (
-    id_chat    int auto_increment
+    id_chat              int auto_increment
         primary key,
-    id_user_1  int        null,
-    id_user_2  int        null,
-    friendship tinyint(1) null,
+    id_user_1            int          null,
+    id_user_2            int          null,
+    friendship           tinyint(1)   null,
+    last_message_at      timestamp    null,
+    last_message_preview varchar(100) null,
     constraint chat_ibfk_1
         foreign key (id_user_1) references user (id_user),
     constraint chat_ibfk_2
@@ -436,20 +438,38 @@ create table message
 (
     id_message int auto_increment
         primary key,
-    id_chat    int  null,
-    id_user    int  null,
-    date       date null,
+    id_chat    int                                  null,
+    id_user    int                                  null,
+    content    text                                 null,
+    created_at timestamp  default CURRENT_TIMESTAMP null,
+    is_read    tinyint(1) default 0                 null,
+    text       text                                 null,
+    date       datetime   default CURRENT_TIMESTAMP null,
     constraint message_ibfk_1
         foreign key (id_chat) references chat (id_chat),
     constraint message_ibfk_2
         foreign key (id_user) references user (id_user)
 );
 
-create index id_chat
-    on message (id_chat);
-
 create index id_user
     on message (id_user);
+
+create index idx_message_chat_time
+    on message (id_chat, created_at);
+
+create index idx_message_unread
+    on message (id_chat, is_read);
+
+create definer = root@`%` trigger trg_update_chat_preview
+    after insert
+    on message
+    for each row
+BEGIN
+  UPDATE chat
+  SET last_message_at = NEW.created_at,
+      last_message_preview = LEFT(NEW.content, 100)
+  WHERE id_chat = NEW.id_chat;
+END;
 
 create table professor_profile
 (
@@ -759,5 +779,4 @@ create definer = root@`%` event cleanup_expired_refresh_tokens on schedule
     do
     DELETE FROM refresh_tokens
   WHERE expires_at < NOW() OR revoked = TRUE;
-
 

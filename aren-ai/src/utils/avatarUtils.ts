@@ -43,3 +43,30 @@ export const getAvatarPath = (avatarId: string): string => {
 
     return AVATAR_DEFINITIONS[0].icon;
 };
+
+// Sprite helpers for different views
+const SPRITE_AVATARS = ['capybara', 'sloth']; // Avatars with full sprite sets
+
+export const getQuestionSprite = (avatarId: string): string => {
+    const id = avatarId?.toLowerCase() || 'capybara';
+    if (SPRITE_AVATARS.includes(id)) {
+        return `/assets/${id}-question.png`;
+    }
+    return '/assets/capybara-question.png'; // Fallback
+};
+
+export const getFrontSprite = (avatarId: string): string => {
+    const id = avatarId?.toLowerCase() || 'capybara';
+    if (SPRITE_AVATARS.includes(id)) {
+        return `/assets/${id}-front.png`;
+    }
+    return '/assets/capybara-front.png'; // Fallback
+};
+
+export const getBackSprite = (avatarId: string): string => {
+    const id = avatarId?.toLowerCase() || 'capybara';
+    if (SPRITE_AVATARS.includes(id)) {
+        return `/assets/${id}-back.png`;
+    }
+    return '/assets/capybara-back.png'; // Fallback
+};

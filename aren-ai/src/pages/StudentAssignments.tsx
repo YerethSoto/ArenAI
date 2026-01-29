@@ -196,7 +196,7 @@ const StudentAssignments: React.FC = () => {
               </div>
               <div className="avatar-visual-col">
                 <img
-                  src="/assets/battle_sprite_front_capybara.png"
+                  src={`/assets/${currentAvatar}-front.png`}
                   alt="Mascot"
                   className="mascot-img-lg"
                 />

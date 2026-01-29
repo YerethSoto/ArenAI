@@ -45,15 +45,12 @@ export async function getUserChats(userId: number) {
             (SELECT m.text FROM message m WHERE m.id_chat = c.id_chat ORDER BY m.date DESC LIMIT 1) as last_message,
             -- Get last message time
             (SELECT m.date FROM message m WHERE m.id_chat = c.id_chat ORDER BY m.date DESC LIMIT 1) as last_message_time,
-            -- Count unread messages (messages from other user that are newer than any message from current user)
+            -- Count unread messages (messages from other user that are not read)
             (
                 SELECT COUNT(*) FROM message m 
                 WHERE m.id_chat = c.id_chat 
                 AND m.id_user != ?
-                AND m.date > COALESCE(
-                    (SELECT MAX(m2.date) FROM message m2 WHERE m2.id_chat = c.id_chat AND m2.id_user = ?),
-                    '1970-01-01'
-                )
+                AND (m.is_read = 0 OR m.is_read IS NULL)
             ) as unread_count
         FROM chat c
         LEFT JOIN user u1 ON c.id_user_1 = u1.id_user
@@ -62,8 +59,12 @@ export async function getUserChats(userId: number) {
         ORDER BY last_message_time DESC
     `;
 
-    // Maybe this after can be changed
-    const { rows } = await db.query(sql, [userId, userId, userId, userId, userId, userId, userId, userId]);
+    // 6 parameters: 4 for CASE statements + 1 for unread count + 2 for WHERE clause - but we have 5 CASE + 1 unread = 6 total
+    // Actually: userId appears 4 times in CASE, 1 time in unread, 2 times in WHERE = 7 times
+    // No wait, let's count: id_user_1=? (1), id_user_1=? (2), id_user_1=? (3), id_user_1=? (4), id_user!=? (5), id_user_1=? (6), id_user_2=? (7)
+    // But we removed 1 parameter from the subquery (the COALESCE used 2 params, now uses 1)
+    // So: 4 CASE + 1 unread + 2 WHERE = 7 parameters now
+    const { rows } = await db.query(sql, [userId, userId, userId, userId, userId, userId, userId]);
 
     // Transform to match frontend expectations
     return rows.map((row: any) => {
@@ -146,4 +147,15 @@ export async function bulkSaveMessages(messages: {
     }
 
     return { inserted };
+}
+
+// Mark all messages from other users as read for a specific user viewing a chat
+export async function markMessagesAsRead(chatId: number, userId: number) {
+    // Mark messages as read where the message is NOT from this user (i.e., from the other person)
+    await db.query(
+        `UPDATE message 
+         SET is_read = 1 
+         WHERE id_chat = ? AND id_user != ? AND (is_read = 0 OR is_read IS NULL)`,
+        [chatId, userId]
+    );
 }

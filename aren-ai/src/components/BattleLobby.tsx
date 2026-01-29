@@ -42,7 +42,7 @@ const BattleLobby: React.FC = () => {
   // State
   const [battleType, setBattleType] = useState<"quick" | "friend">("quick");
   const [quickScope, setQuickScope] = useState<"global" | "school" | "section">(
-    "global"
+    "global",
   );
   const [friendName, setFriendName] = useState("");
   const [isSearching, setIsSearching] = useState(false);
@@ -98,7 +98,7 @@ const BattleLobby: React.FC = () => {
         console.log("[BattleLobby] Socket already connected:", socket.id);
       }
       socket.on("connect", () =>
-        console.log("[BattleLobby] Socket connected:", socket.id)
+        console.log("[BattleLobby] Socket connected:", socket.id),
       );
       socket.on("match_found", handleMatchFound);
 
@@ -167,7 +167,7 @@ const BattleLobby: React.FC = () => {
     // Find and cancel our hosted game
     const myGame = openGames.find((g) => {
       const storedUserData = JSON.parse(
-        localStorage.getItem("userData") || "{}"
+        localStorage.getItem("userData") || "{}",
       );
       return g.hostName === (storedUserData.name || "Student");
     });
@@ -229,7 +229,7 @@ const BattleLobby: React.FC = () => {
               {/* Right Col: Mascot */}
               <div className="avatar-visual-col">
                 <img
-                  src="/assets/battle_sprite_front_capybara.png"
+                  src={`/assets/${currentAvatar}-front.png`}
                   alt="Mascot"
                   className="mascot-img-lg"
                 />

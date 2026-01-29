@@ -97,7 +97,7 @@ const BattleMinigame: React.FC = () => {
   const [opponentHitAnim, setOpponentHitAnim] = useState(false);
   const [showDamageAnimation, setShowDamageAnimation] = useState(false);
   const [damageTarget, setDamageTarget] = useState<"player" | "opponent">(
-    "opponent"
+    "opponent",
   );
 
   // Scrolling Text
@@ -267,15 +267,15 @@ const BattleMinigame: React.FC = () => {
 
         // Deduce ID logic (Same as before)
         const myP = Object.values(state.players).find(
-          (p) => p.socketId === socket.id
+          (p) => p.socketId === socket.id,
         );
         if (myP) setMyId(myP.userId);
         else {
           const localUser = JSON.parse(
-            localStorage.getItem("userData") || "{}"
+            localStorage.getItem("userData") || "{}",
           );
           const matchName = Object.values(state.players).find(
-            (p) => p.name === localUser.name
+            (p) => p.name === localUser.name,
           );
           if (matchName) setMyId(matchName.userId);
         }
@@ -330,11 +330,11 @@ const BattleMinigame: React.FC = () => {
         // Find MY UserID by looking for my SocketID in the players list
         // This is the most robust way because it bypasses string prefixes/formats.
         const myRealId = Object.keys(currentPlayers).find(
-          (uid) => currentPlayers[uid].socketId === currentSocketId
+          (uid) => currentPlayers[uid].socketId === currentSocketId,
         );
 
         console.log(
-          `[Animation Debug] Winner=${data.winnerId}, Me=${myRealId}, Sock=${currentSocketId}`
+          `[Animation Debug] Winner=${data.winnerId}, Me=${myRealId}, Sock=${currentSocketId}`,
         );
 
         const isMe = data.winnerId === myRealId;
@@ -414,7 +414,7 @@ const BattleMinigame: React.FC = () => {
 
         // Determine if we won
         const myRealId = Object.keys(playersRef.current).find(
-          (uid) => playersRef.current[uid].socketId === socket.id
+          (uid) => playersRef.current[uid].socketId === socket.id,
         );
 
         // Record result and get updated stats
@@ -444,8 +444,11 @@ const BattleMinigame: React.FC = () => {
         }
 
         // Award XP
-        const { leveledUp, stats: progStats } = progressionService.addXp(xpGained);
-        console.log(`[Battle] XP Awarded: +${xpGained}. Leveled Up: ${leveledUp}. New Level: ${progStats.level}`);
+        const { leveledUp, stats: progStats } =
+          progressionService.addXp(xpGained);
+        console.log(
+          `[Battle] XP Awarded: +${xpGained}. Leveled Up: ${leveledUp}. New Level: ${progStats.level}`,
+        );
 
         setXpGained(xpGained);
         setWinnerId(data.winnerId);
@@ -476,7 +479,7 @@ const BattleMinigame: React.FC = () => {
               isDisconnected: data.status === "disconnected",
             },
           }));
-        }
+        },
       );
     }
 
@@ -567,7 +570,7 @@ const BattleMinigame: React.FC = () => {
                       width: `${(opponent.health / opponent.maxHealth) * 100}%`,
                       backgroundColor: getHealthColor(
                         opponent.health,
-                        opponent.maxHealth
+                        opponent.maxHealth,
                       ),
                     }}
                   ></div>
@@ -580,12 +583,12 @@ const BattleMinigame: React.FC = () => {
               </div>
               <div className="avatar-wrapper">
                 <img
-                  src={`/assets/battle_sprite_front_${opponent.avatar.toLowerCase()}.png`}
-                  className={`avatar-image ${opponentAttackAnim ? "enemy-attack-animation" : ""
-                    } ${opponentHitAnim ? "damage-animation" : ""}`}
+                  src={`/assets/${opponent.avatar.toLowerCase()}-front.png`}
+                  className={`avatar-image ${
+                    opponentAttackAnim ? "enemy-attack-animation" : ""
+                  } ${opponentHitAnim ? "damage-animation" : ""}`}
                   onError={(e) =>
-                  (e.currentTarget.src =
-                    "/assets/battle_sprite_front_capybara.png")
+                    (e.currentTarget.src = "/assets/capybara-front.png")
                   }
                 />
               </div>
@@ -597,12 +600,12 @@ const BattleMinigame: React.FC = () => {
             <div className="character-container">
               <div className="avatar-wrapper">
                 <img
-                  src={`/assets/battle_sprite_back_${me.avatar.toLowerCase()}.png`}
-                  className={`avatar-image ${playerAttackAnim ? "player-attack-animation" : ""
-                    } ${playerHitAnim ? "damage-animation" : ""}`}
+                  src={`/assets/${me.avatar.toLowerCase()}-back.png`}
+                  className={`avatar-image ${
+                    playerAttackAnim ? "player-attack-animation" : ""
+                  } ${playerHitAnim ? "damage-animation" : ""}`}
                   onError={(e) =>
-                  (e.currentTarget.src =
-                    "/assets/battle_sprite_back_capybara.png")
+                    (e.currentTarget.src = "/assets/capybara-back.png")
                   }
                 />
               </div>
@@ -697,12 +700,13 @@ const BattleMinigame: React.FC = () => {
                   <IonCol size="12" key={i}>
                     <IonButton
                       expand="block"
-                      className={`option-button ${selectedAnswer === i
-                        ? i === currentQuestion.correctAnswer
-                          ? "correct"
-                          : "incorrect"
-                        : ""
-                        }`}
+                      className={`option-button ${
+                        selectedAnswer === i
+                          ? i === currentQuestion.correctAnswer
+                            ? "correct"
+                            : "incorrect"
+                          : ""
+                      }`}
                       onClick={() => handleAnswer(i)}
                       disabled={selectedAnswer !== null}
                     >
@@ -766,7 +770,6 @@ const BattleMinigame: React.FC = () => {
             </div>
           )}
         </div>
-
 
         <BattleResultModal
           isOpen={showResults}

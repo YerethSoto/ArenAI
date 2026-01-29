@@ -101,14 +101,48 @@ const StudentChat: React.FC = () => {
     if (nick) {
       setChatName(nick);
     } else {
-      setChatName(`Chat ${id}`); // Generic Fallback
+      // Try to fetch the friend's name from the backend
+      fetchChatName();
     }
   });
+
+  // Fetch friend name from backend if no nickname is set
+  const fetchChatName = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const userDataStr = localStorage.getItem("userData");
+      if (!userDataStr) return;
+
+      const user = JSON.parse(userDataStr);
+      const userId = user.id || user.id_user;
+
+      const res = await fetch(getApiUrl(`/api/chats/user/${userId}`), {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res.ok) {
+        const chats = await res.json();
+        const currentChat = chats.find((c: any) => String(c.id) === String(id));
+        if (currentChat && currentChat.name) {
+          setChatName(currentChat.name);
+        } else {
+          setChatName(`Chat ${id}`);
+        }
+      }
+    } catch (err) {
+      console.error("[StudentChat] Failed to fetch chat name:", err);
+      setChatName(`Chat ${id}`);
+    }
+  };
 
   useEffect(() => {
     // Keep initial load just in case
     const nick = getChatNickname(id);
-    if (nick) setChatName(nick);
+    if (nick) {
+      setChatName(nick);
+    } else {
+      fetchChatName();
+    }
   }, [id]);
 
   const handleHeaderOption = (option: string) => {
@@ -142,8 +176,27 @@ const StudentChat: React.FC = () => {
   //REMOVED: Socket listener - ChatMenu now handles all incoming messages
   // We just read from chatStorage
   useEffect(() => {
-    // Mark messages as read when viewing this chat
+    // Mark messages as read in localStorage
     chatStorage.markAsRead(id);
+
+    // Mark messages as read in the database
+    const markReadInDB = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        const userContext = getUserContext();
+        await fetch(getApiUrl(`/api/chats/${id}/read`), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ userId: userContext.id }),
+        });
+      } catch (err) {
+        console.error("[StudentChat] Failed to mark messages as read:", err);
+      }
+    };
+    markReadInDB();
 
     // IMPORTANT: Still need to join the chat room so backend knows where to deliver messages
     socketService.connect();
@@ -153,7 +206,7 @@ const StudentChat: React.FC = () => {
     }
   }, [id]);
 
-  // Load Messages from chatStorage
+  // Load Messages from Database + LocalStorage
   useEffect(() => {
     const context = getUserContext();
     setChatName(`Chat ${id}`);
@@ -161,24 +214,81 @@ const StudentChat: React.FC = () => {
     // Clear timestamp tracking when switching chats
     displayedTimestampsRef.current.clear();
 
-    // Load messages from chatStorage
-    const storedMessages = chatStorage.getMessages(id);
-    if (storedMessages.length > 0) {
-      const parsedMessages = storedMessages.map((m: any) => {
-        displayedTimestampsRef.current.add(
-          String(new Date(m.timestamp).getTime())
-        );
-        return {
+    // Fetch messages from database and merge with local storage
+    const loadMessages = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        const response = await fetch(getApiUrl(`/api/chats/${id}/messages`), {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        let dbMessages: Message[] = [];
+        if (response.ok) {
+          const data = await response.json();
+          dbMessages = data.map((m: any) => ({
+            id: m.id_message || m.id,
+            text: m.text || m.content || "",
+            isUser: m.id_user === context.id,
+            timestamp: new Date(m.date || m.created_at),
+            senderName: m.sender_name,
+            displayedText: m.text || m.content || "",
+            isTyping: false,
+          }));
+        }
+
+        // Get local messages
+        const localMessages = chatStorage.getMessages(id).map((m: any) => ({
           ...m,
           timestamp: new Date(m.timestamp),
           displayedText: m.text,
           isTyping: false,
-        };
-      });
-      setMessages(parsedMessages);
-      messageIdCounter.current =
-        Math.max(...parsedMessages.map((m: any) => m.id)) + 1;
-    }
+        }));
+
+        // Merge: use DB as source of truth, add any local messages not in DB
+        const dbTimestamps = new Set(
+          dbMessages.map((m) => String(m.timestamp.getTime())),
+        );
+
+        const mergedMessages = [
+          ...dbMessages,
+          ...localMessages.filter(
+            (m: any) => !dbTimestamps.has(String(m.timestamp.getTime())),
+          ),
+        ]
+          .sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
+          .map((m, idx) => ({ ...m, id: idx + 1 })); // Assign unique sequential IDs
+
+        // Track all displayed timestamps
+        mergedMessages.forEach((m) => {
+          displayedTimestampsRef.current.add(String(m.timestamp.getTime()));
+        });
+
+        setMessages(mergedMessages);
+        messageIdCounter.current = mergedMessages.length + 1;
+      } catch (err) {
+        console.error("[StudentChat] Failed to fetch messages from DB:", err);
+        // Fallback to local storage only
+        const storedMessages = chatStorage.getMessages(id);
+        if (storedMessages.length > 0) {
+          const parsedMessages = storedMessages.map((m: any) => {
+            displayedTimestampsRef.current.add(
+              String(new Date(m.timestamp).getTime()),
+            );
+            return {
+              ...m,
+              timestamp: new Date(m.timestamp),
+              displayedText: m.text,
+              isTyping: false,
+            };
+          });
+          setMessages(parsedMessages);
+          messageIdCounter.current =
+            Math.max(...parsedMessages.map((m: any) => m.id)) + 1;
+        }
+      }
+    };
+
+    loadMessages();
 
     // Poll for new messages every 500ms
     const pollInterval = setInterval(() => {
@@ -224,7 +334,7 @@ const StudentChat: React.FC = () => {
   const startTypewriterEffect = (
     messageId: number,
     fullText: string,
-    speed: number = 15
+    speed: number = 15,
   ) => {
     let currentText = "";
     let charIndex = 0;
@@ -237,8 +347,8 @@ const StudentChat: React.FC = () => {
       prev.map((msg) =>
         msg.id === messageId
           ? { ...msg, displayedText: "", isTyping: true }
-          : msg
-      )
+          : msg,
+      ),
     );
 
     typingIntervalRef.current = setInterval(() => {
@@ -246,8 +356,8 @@ const StudentChat: React.FC = () => {
         currentText += fullText.charAt(charIndex);
         setMessages((prev) =>
           prev.map((msg) =>
-            msg.id === messageId ? { ...msg, displayedText: currentText } : msg
-          )
+            msg.id === messageId ? { ...msg, displayedText: currentText } : msg,
+          ),
         );
         charIndex++;
         scrollToBottom();
@@ -257,8 +367,8 @@ const StudentChat: React.FC = () => {
         }
         setMessages((prev) =>
           prev.map((msg) =>
-            msg.id === messageId ? { ...msg, isTyping: false } : msg
-          )
+            msg.id === messageId ? { ...msg, isTyping: false } : msg,
+          ),
         );
       }
     }, speed);
@@ -274,19 +384,11 @@ const StudentChat: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputMessage.trim() === "") return;
 
     const userContext = getUserContext();
-
-    // Emit to Backend
-    if (socketService.socket) {
-      socketService.socket.emit("send_message", {
-        chatId: id,
-        text: inputMessage,
-        senderName: userContext.name,
-      });
-    }
+    const token = localStorage.getItem("authToken");
 
     const newMessage: Message = {
       id: messageIdCounter.current++,
@@ -300,10 +402,40 @@ const StudentChat: React.FC = () => {
     // CRITICAL: Track this timestamp so polling doesn't re-add it
     displayedTimestampsRef.current.add(String(newMessage.timestamp.getTime()));
 
-    saveMessageToLocal(id, newMessage);
-
+    // Update UI immediately
     setMessages((prev) => [...prev, newMessage]);
     setInputMessage("");
+
+    // Save to localStorage for offline support
+    saveMessageToLocal(id, newMessage);
+
+    // Emit via socket for real-time delivery
+    if (socketService.socket) {
+      socketService.socket.emit("send_message", {
+        chatId: id,
+        text: inputMessage,
+        senderName: userContext.name,
+      });
+    }
+
+    // Persist to database
+    try {
+      await fetch(getApiUrl(`/api/chats/${id}/messages`), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userId: userContext.id,
+          text: inputMessage,
+          date: newMessage.timestamp.toISOString(),
+        }),
+      });
+    } catch (err) {
+      console.error("[StudentChat] Failed to save message to DB:", err);
+      // Message is still saved locally, will sync later
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -330,7 +462,7 @@ const StudentChat: React.FC = () => {
         <div className="chat-container">
           {messages.map((msg, index) => (
             <div
-              key={msg.id}
+              key={`${msg.timestamp.getTime()}-${index}`}
               className={`message-row ${msg.isUser ? "user" : "bot"}`}
             >
               {!msg.isUser && (

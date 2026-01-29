@@ -80,4 +80,21 @@ router.post('/:id/sync', async (req, res, next) => {
     }
 });
 
+// Mark messages as read for a chat
+router.post('/:id/read', async (req, res, next) => {
+    try {
+        const chatId = Number(req.params.id);
+        const userId = req.body.userId;
+
+        if (!userId) {
+            return res.status(400).json({ error: 'userId is required' });
+        }
+
+        await chatService.markMessagesAsRead(chatId, userId);
+        res.json({ success: true });
+    } catch (err) {
+        next(err);
+    }
+});
+
 export default router;
