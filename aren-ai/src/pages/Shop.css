@@ -336,3 +336,56 @@
         opacity: 1;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Small screens */
+@media (max-width: 360px) {
+    .shop-content-container {
+        padding: 0 12px 40px;
+    }
+
+    .shop-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .featured-card {
+        min-width: 220px;
+        height: 140px;
+    }
+
+    .feat-title {
+        font-size: 16px;
+    }
+
+    .item-visual {
+        width: 50px;
+        height: 50px;
+        font-size: 26px;
+    }
+
+    .shop-categories {
+        padding: 12px;
+    }
+}
+
+/* Touch targets */
+.shop-cat-btn {
+    min-height: 44px;
+}
+
+.btn-buy {
+    min-height: 44px;
+}
+
+.item-card {
+    min-height: 48px;
+}
+
+/* Safe area */
+.shop-content-container {
+    padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+}

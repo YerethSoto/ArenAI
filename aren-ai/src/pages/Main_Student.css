@@ -1,11 +1,66 @@
 /* Main_Student.css */
 
 .main-student-page {
-  background-color: #f9f4e6 !important;
+  background-color: var(--ion-background-color) !important;
 }
 
 .main-student-content {
-  --background: #f9f4e6 !important;
+  --background: var(--ion-background-color) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE - Solid Opaque Backgrounds Per Theme
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-color-scheme: dark) {
+
+  /* Default/Original theme - Café Chocolate */
+  .main-student-page,
+  .main-student-content {
+    background-color: #3D2E24 !important;
+    --background: #3D2E24 !important;
+  }
+
+  /* Theme: NAVY */
+  body.theme-navy .main-student-page,
+  body.theme-navy .main-student-content {
+    background-color: #0F2540 !important;
+    --background: #0F2540 !important;
+  }
+
+  /* Theme: SAGE */
+  body.theme-sage .main-student-page,
+  body.theme-sage .main-student-content {
+    background-color: #1A3020 !important;
+    --background: #1A3020 !important;
+  }
+
+  /* Theme: BURGUNDY */
+  body.theme-burgundy .main-student-page,
+  body.theme-burgundy .main-student-content {
+    background-color: #2A1018 !important;
+    --background: #2A1018 !important;
+  }
+
+  /* Theme: BAMBOO */
+  body.theme-bamboo .main-student-page,
+  body.theme-bamboo .main-student-content {
+    background-color: #153525 !important;
+    --background: #153525 !important;
+  }
+
+  /* Theme: EARTH */
+  body.theme-earth .main-student-page,
+  body.theme-earth .main-student-content {
+    background-color: #2A2418 !important;
+    --background: #2A2418 !important;
+  }
+
+  /* Theme: ORIGINAL-ALTER */
+  body.theme-original-alter .main-student-page,
+  body.theme-original-alter .main-student-content {
+    background-color: #3D2E24 !important;
+    --background: #3D2E24 !important;
+  }
 }
 
 /* Content Container */
@@ -25,7 +80,7 @@
 }
 
 .ms-intro-pill {
-  background-color: var(--ion-color-primary);
+  background-color: var(--ion-color-card-header, var(--ion-color-primary));
   color: white;
   padding: 15px 20px;
   border-radius: 25px;
@@ -50,8 +105,8 @@
 }
 
 .ms-your-math-pill {
-  background-color: var(--ion-color-primary);
-  color: white;
+  background-color: var(--ion-color-highlight, var(--ion-color-tertiary));
+  color: var(--ion-color-tertiary-contrast, white);
   padding: 10px 20px;
   border-radius: 20px;
   font-size: 16px;
@@ -60,7 +115,7 @@
 .ms-progress-circle {
   width: 60px;
   height: 60px;
-  background-color: var(--ion-color-secondary);
+  background-color: var(--ion-color-button-primary, var(--ion-color-secondary));
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -131,7 +186,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #78B8B0;
+  background-color: var(--ion-color-progress, #78B8B0);
   transition: height 0.5s ease;
   z-index: 1;
 }
@@ -243,3 +298,63 @@
 }
 
 /* Bottom Nav removed - now using shared.css */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Small screens (320px - very small phones) */
+@media (max-width: 360px) {
+  .ms-container {
+    padding: 70px 12px 100px 12px;
+  }
+
+  .ms-intro-pill {
+    padding: 12px 15px;
+    font-size: 14px;
+  }
+
+  .ms-mascot-img {
+    max-width: 100px;
+  }
+
+  .ms-your-math-pill {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+
+  .ms-topic-btn {
+    padding: 14px;
+    min-height: 50px;
+  }
+
+  .ms-topic-icon {
+    font-size: 22px;
+  }
+}
+
+/* Short screens */
+@media (max-height: 650px) {
+  .ms-container {
+    padding-top: 60px;
+    gap: 15px;
+  }
+
+  .ms-mascot-wrapper {
+    max-height: 120px;
+  }
+
+  .ms-mascot-img {
+    max-width: 100px;
+  }
+}
+
+/* Ensure topic buttons have minimum touch size */
+.ms-topic-btn {
+  min-height: 48px;
+}
+
+/* Safe area for container */
+.ms-container {
+  padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
+}

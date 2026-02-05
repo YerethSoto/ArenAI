@@ -2,11 +2,11 @@
 
 /* Replicating Main Student Page Styles */
 .main-student-page {
-    background-color: #f9f4e6 !important;
+    background-color: var(--ion-background-color) !important;
 }
 
 .main-student-content {
-    --background: #f9f4e6 !important;
+    --background: var(--ion-background-color) !important;
 }
 
 .pq-container {
@@ -31,7 +31,7 @@
 .pq-mascot-wrapper-small {
     width: 100px;
     height: 100px;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
 .pq-mascot-img-small {
@@ -42,7 +42,7 @@
 
 /* Progress Pill - Matching ms-intro-pill */
 .pq-progress-pill {
-    background-color: var(--ion-color-primary);
+    background-color: var(--ion-color-card-header, var(--ion-color-primary));
     color: white;
     padding: 12px 20px;
     border-radius: 25px;
@@ -71,7 +71,7 @@
 
 .pq-progress-bar {
     height: 100%;
-    background: white;
+    background: var(--ion-color-progress, white);
     border-radius: 4px;
     transition: width 0.4s ease;
 }
@@ -85,28 +85,32 @@
 /* --- Content Card (Like Bottom Section in Main Student) --- */
 .pq-question-card {
     /* Matches ms-bottom-section style: Solid soft secondary or semi-transparent */
-    background-color: rgba(255, 255, 255, 0.6); 
+    background-color: rgba(255, 255, 255, 0.6);
     border-radius: 20px;
-    padding: 60px 20px 30px 20px; /* Added Top Padding for Mascot overlap visual balance */
+    padding: 60px 20px 30px 20px;
+    /* Added Top Padding for Mascot overlap visual balance */
     flex: 1;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    overflow-y: visible; /* CRITICAL: Allow mascot to stick out top */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow-y: visible;
+    /* CRITICAL: Allow mascot to stick out top */
     position: relative;
-    margin-top: 60px; /* Push card down to make room for mascot head */
+    margin-top: 60px;
+    /* Push card down to make room for mascot head */
 }
 
 /* Floating Mascot Logic */
 .pq-floating-mascot-container {
     position: absolute;
-    top: -65px; /* Pull up to stick out */
+    top: -65px;
+    /* Pull up to stick out */
     left: 50%;
     transform: translateX(-50%);
     width: 130px;
     height: 130px;
     z-index: 10;
-    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.15));
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.15));
 }
 
 .pq-floating-mascot-img {
@@ -118,7 +122,8 @@
 .pq-question-text {
     font-size: 20px;
     font-weight: 700;
-    color: var(--ion-color-primary); /* Primary Title Color */
+    color: white !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     text-align: center;
     margin-bottom: 20px;
     line-height: 1.4;
@@ -130,7 +135,7 @@
 .pq-separator {
     width: 100%;
     height: 2px;
-    background: rgba(0,0,0,0.05);
+    background: rgba(0, 0, 0, 0.05);
     margin-bottom: 25px;
     border-radius: 2px;
 }
@@ -153,23 +158,24 @@
     border-radius: 15px;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .pq-option-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 .pq-option-btn.selected {
-    border-color: var(--ion-color-primary);
+    border-color: var(--ion-color-highlight, var(--ion-color-primary));
     background: rgba(var(--ion-color-primary-rgb), 0.05);
 }
 
 .pq-opt-circle {
     width: 32px;
     height: 32px;
-    background: var(--ion-color-secondary); /* Secondary accent */
+    background: var(--ion-color-button-primary, var(--ion-color-secondary));
+    /* Secondary accent */
     color: white;
     border-radius: 50%;
     display: flex;
@@ -182,12 +188,12 @@
 }
 
 .pq-option-btn.selected .pq-opt-circle {
-    background: var(--ion-color-primary);
+    background: var(--ion-color-highlight, var(--ion-color-primary));
 }
 
 .pq-opt-text {
     font-size: 16px;
-    color: var(--ion-text-color);
+    color: white !important;
     font-weight: 500;
     text-align: left;
 }
@@ -241,7 +247,7 @@
     background: white;
     border-radius: 24px;
     padding: 30px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
@@ -272,7 +278,7 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 15px;
-    border-bottom: 2px solid rgba(0,0,0,0.05);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
     padding-bottom: 5px;
 }
 
@@ -335,28 +341,115 @@
     font-size: 18px;
 }
 
-/* Dark Mode Adjustments - Keeping Main Student logic */
+/* Dark Mode Adjustments - Using Theme Variables (NO black) */
 @media (prefers-color-scheme: dark) {
-    .main-student-page, .main-student-content {
-        background-color: #121212 !important;
-        --background: #121212 !important;
+
+    .main-student-page,
+    .main-student-content {
+        background-color: var(--ion-background-color) !important;
+        --background: var(--ion-background-color) !important;
     }
-    .pq-question-card, .pq-results-card {
-        background-color: #1e1e1e;
-        color: white;
+
+    .pq-question-card,
+    .pq-results-card {
+        background-color: var(--ion-card-background);
+        color: var(--ion-text-color);
     }
+
+    .pq-question-text {
+        color: var(--ion-text-color);
+    }
+
     .pq-option-btn {
-        background-color: #2a2a2a;
-        color: white;
-        border: 1px solid #333;
+        background-color: var(--ion-color-surface, var(--ion-card-background));
+        color: var(--ion-text-color);
+        border: 1px solid var(--ion-border-color);
     }
+
+    .pq-option-btn:hover {
+        background-color: var(--ion-color-surface-elevated);
+    }
+
+    .pq-option-btn.selected {
+        border-color: var(--ion-color-secondary);
+        background: rgba(var(--ion-color-secondary-rgb), 0.15);
+    }
+
     .pq-opt-text {
-        color: white;
+        color: var(--ion-text-color);
     }
+
     .pq-traits-container {
-        background: #2a2a2a;
+        background: var(--ion-color-surface, var(--ion-card-background));
     }
+
     .pq-trait-item {
-        color: #ddd;
+        color: var(--ion-text-color-step-150);
     }
+
+    .pq-separator {
+        background: var(--ion-border-color);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Small screens (320px - very small phones) */
+@media (max-width: 360px) {
+    .pq-container {
+        padding: 12px;
+        gap: 15px;
+    }
+
+    .pq-mascot-wrapper-small {
+        width: 70px;
+        height: 70px;
+    }
+
+    .pq-progress-pill {
+        padding: 10px 15px;
+    }
+
+    .pq-question-card {
+        padding: 40px 15px 25px 15px;
+        margin-top: 40px;
+    }
+
+    .pq-question-text {
+        font-size: 1rem;
+    }
+}
+
+/* Ensure options have minimum touch size */
+.pq-option-btn {
+    min-height: 48px;
+}
+
+/* Short screens (landscape or small height phones) */
+@media (max-height: 650px) {
+    .pq-header-section {
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+    .pq-mascot-wrapper-small {
+        width: 60px;
+        height: 60px;
+    }
+
+    .pq-question-card {
+        margin-top: 35px;
+        padding-top: 45px;
+    }
+
+    .pq-options-container {
+        gap: 8px;
+    }
+}
+
+/* Safe area for notch devices */
+.pq-container {
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
 }

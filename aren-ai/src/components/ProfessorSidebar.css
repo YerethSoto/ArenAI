@@ -9,8 +9,8 @@
 /* Transparency Fix: Do not set background on the container */
 #professor-menu {
   /* Only internal variable */
-  --background: var(--ion-background-color, #ffffff); 
-  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  --background: var(--ion-background-color, #ffffff);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
 #professor-menu ion-content {
@@ -20,8 +20,9 @@
 
 /* Header del menú - Vertical Layout like Student */
 .professor-menu-header {
-  padding: 30px 16px; 
-  background: var(--ion-color-primary); /* Use Primary (Brown) */
+  padding: 30px 16px;
+  background: var(--ion-color-primary);
+  /* Use Primary (Brown) */
   color: var(--ion-color-primary-contrast);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex !important;
@@ -96,7 +97,8 @@
 
 ion-list-header {
   --background: transparent;
-  color: var(--ion-color-primary); /* Brown */
+  color: var(--ion-color-primary);
+  /* Brown */
   font-weight: 700;
   font-size: 0.8rem;
   text-transform: uppercase;
@@ -119,7 +121,8 @@ ion-item {
 
 ion-item.selected {
   --background: var(--ion-color-primary-tint);
-  --color: var(--ion-color-primary-contrast); /* White text on active */
+  --color: var(--ion-color-primary-contrast);
+  /* White text on active */
   font-weight: 600;
 }
 
@@ -150,5 +153,109 @@ ion-item.selected ion-icon {
 @media (max-width: 768px) {
   .professor-menu-header {
     padding: 40px 16px 30px 16px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE - Solid Opaque Backgrounds Per Theme
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-color-scheme: dark) {
+
+  /* Sidebar background - DARKER/more opaque */
+  #professor-menu {
+    --background: color-mix(in srgb, var(--ion-background-color) 60%, black);
+    background: color-mix(in srgb, var(--ion-background-color) 60%, black);
+  }
+
+  #professor-menu ion-content {
+    --background: color-mix(in srgb, var(--ion-background-color) 60%, black);
+    background: color-mix(in srgb, var(--ion-background-color) 60%, black);
+  }
+
+  /* Theme-specific solid backgrounds */
+  body.theme-sage #professor-menu,
+  body.theme-sage #professor-menu ion-content {
+    --background: #1A3020 !important;
+    background: #1A3020 !important;
+  }
+
+  body.theme-navy #professor-menu,
+  body.theme-navy #professor-menu ion-content {
+    --background: #0F2540 !important;
+    background: #0F2540 !important;
+  }
+
+  body.theme-burgundy #professor-menu,
+  body.theme-burgundy #professor-menu ion-content {
+    --background: #2A1018 !important;
+    background: #2A1018 !important;
+  }
+
+  body.theme-bamboo #professor-menu,
+  body.theme-bamboo #professor-menu ion-content {
+    --background: #153525 !important;
+    background: #153525 !important;
+  }
+
+  body.theme-earth #professor-menu,
+  body.theme-earth #professor-menu ion-content {
+    --background: #2A2418 !important;
+    background: #2A2418 !important;
+  }
+
+  /* Theme: ORIGINAL-ALTER */
+  body.theme-original-alter #professor-menu,
+  body.theme-original-alter #professor-menu ion-content {
+    --background: #3D2E24 !important;
+    background: #3D2E24 !important;
+  }
+
+  /* Default/Original theme - Café Chocolate */
+  body:not([class*="theme-"]) #professor-menu,
+  body:not([class*="theme-"]) #professor-menu ion-content {
+    --background: #3D2E24 !important;
+    background: #3D2E24 !important;
+  }
+
+  /* Menu items */
+  ion-item {
+    --color: #ffffff !important;
+    color: #ffffff !important;
+    --background: transparent;
+    --background-hover: rgba(255, 255, 255, 0.12);
+  }
+
+  ion-item ion-label {
+    color: #ffffff !important;
+  }
+
+  ion-item ion-icon {
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  /* List headers */
+  ion-list-header {
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+
+  /* Selected item - LIGHTER for contrast */
+  ion-item.selected {
+    --background: rgba(255, 255, 255, 0.18);
+    --color: #ffffff !important;
+    color: #ffffff !important;
+    font-weight: 600;
+  }
+
+  ion-item.selected ion-icon {
+    color: var(--ion-color-secondary) !important;
+  }
+
+  .professor-menu-footer {
+    border-top-color: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .app-version {
+    color: rgba(255, 255, 255, 0.7);
   }
 }

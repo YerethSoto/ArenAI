@@ -1,0 +1,207 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE UTILITIES - Global responsive design helpers
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Safe Area Variables for notch/camera handling */
+:root {
+    --safe-area-top: env(safe-area-inset-top, 0px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-left: env(safe-area-inset-left, 0px);
+    --safe-area-right: env(safe-area-inset-right, 0px);
+
+    /* Minimum touch target size (Apple/Google recommend 44px) */
+    --min-touch-size: 44px;
+
+    /* Common breakpoints */
+    --breakpoint-xs: 320px;
+    --breakpoint-sm: 375px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SAFE AREA UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Apply safe area padding to any element */
+.safe-area-top {
+    padding-top: var(--safe-area-top) !important;
+}
+
+.safe-area-bottom {
+    padding-bottom: var(--safe-area-bottom) !important;
+}
+
+.safe-area-all {
+    padding-top: var(--safe-area-top) !important;
+    padding-bottom: var(--safe-area-bottom) !important;
+    padding-left: var(--safe-area-left) !important;
+    padding-right: var(--safe-area-right) !important;
+}
+
+/* Fixed footer with safe area */
+.fixed-bottom-safe {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-bottom: calc(var(--safe-area-bottom) + 8px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOUCH TARGET UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Ensure minimum touch size */
+.touch-target {
+    min-width: var(--min-touch-size);
+    min-height: var(--min-touch-size);
+}
+
+/* Add spacing between adjacent touch targets */
+.touch-spacing>*+* {
+    margin-top: 8px;
+}
+
+.touch-spacing-horizontal>*+* {
+    margin-left: 8px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TEXT OVERFLOW UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.text-wrap {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.text-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.text-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   IMAGE UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Maintain aspect ratio (contain) */
+.img-contain {
+    object-fit: contain;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Cover while maintaining aspect ratio */
+.img-cover {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Extra small screens (very small phones) */
+@media (max-width: 320px) {
+    :root {
+        --responsive-scale: 0.85;
+        --font-scale: 0.9;
+    }
+
+    .hide-xs {
+        display: none !important;
+    }
+
+    /* Reduce padding on tiny screens */
+    .container-responsive {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+}
+
+/* Small screens (most phones) */
+@media (max-width: 375px) {
+    :root {
+        --responsive-scale: 0.9;
+        --font-scale: 0.95;
+    }
+}
+
+/* Short screens (landscape or small height) */
+@media (max-height: 600px) {
+    :root {
+        --mascot-scale: 0.7;
+    }
+
+    .hide-short {
+        display: none !important;
+    }
+
+    /* Reduce vertical spacing on short screens */
+    .spacer-responsive {
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+}
+
+/* Medium-short screens */
+@media (max-height: 700px) {
+    :root {
+        --mascot-scale: 0.8;
+    }
+}
+
+/* Tall screens (extra vertical space) */
+@media (min-height: 800px) {
+    :root {
+        --mascot-scale: 1;
+    }
+
+    /* Allow more breathing room on tall screens */
+    .spacer-responsive {
+        margin-top: 20px !important;
+        margin-bottom: 20px !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FLEX UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.flex-shrink-0 {
+    flex-shrink: 0;
+}
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+.min-w-0 {
+    min-width: 0;
+}
+
+/* Prevent flex item overflow */
+.flex-overflow-safe {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+}

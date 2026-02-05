@@ -113,3 +113,160 @@
 .student-page-content {
     --background: var(--ion-background-color);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GLOBAL BUTTON STATES - Hover/Active/Disabled for Dark Mode
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Nav Button States */
+.student-nav-btn:hover {
+    transform: scale(1.08);
+    filter: brightness(1.1);
+}
+
+.student-nav-btn:active {
+    transform: scale(0.95);
+    filter: brightness(0.9);
+}
+
+.student-nav-btn:disabled,
+.student-nav-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    filter: grayscale(0.5);
+}
+
+/* Primary Button (Accent Color in Dark Mode) */
+.btn-primary,
+ion-button[color="primary"],
+.action-btn {
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover,
+ion-button[color="primary"]:hover,
+.action-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:active,
+ion-button[color="primary"]:active,
+.action-btn:active {
+    filter: brightness(0.95);
+    transform: translateY(0);
+}
+
+.btn-primary:disabled,
+ion-button[color="primary"]:disabled,
+.action-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    filter: grayscale(0.6);
+    transform: none;
+    box-shadow: none;
+}
+
+/* Secondary Button (Outline Style) */
+.btn-secondary,
+ion-button[fill="outline"],
+.outline-btn {
+    transition: all 0.2s ease;
+    border: 2px solid var(--ion-color-secondary);
+    background: transparent;
+    color: var(--ion-color-secondary);
+}
+
+.btn-secondary:hover,
+ion-button[fill="outline"]:hover,
+.outline-btn:hover {
+    background: var(--ion-color-secondary-soft);
+    transform: translateY(-1px);
+}
+
+.btn-secondary:active,
+ion-button[fill="outline"]:active,
+.outline-btn:active {
+    background: rgba(var(--ion-color-secondary-rgb), 0.25);
+    transform: translateY(0);
+}
+
+.btn-secondary:disabled,
+ion-button[fill="outline"]:disabled,
+.outline-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    border-color: var(--ion-color-medium);
+    color: var(--ion-color-medium);
+}
+
+/* Card Styles for Dark Mode */
+.student-card {
+    background: var(--ion-card-background);
+    border-radius: var(--card-border-radius);
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--ion-border-color);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.student-card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Input States for Dark Mode */
+ion-input,
+ion-textarea,
+.input-field {
+    --background: var(--ion-color-surface);
+    --color: var(--ion-text-color);
+    --placeholder-color: var(--ion-text-color-step-400);
+    border: 1px solid var(--ion-border-color);
+    border-radius: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+ion-input:focus-within,
+ion-textarea:focus-within,
+.input-field:focus-within {
+    border-color: var(--ion-color-accent, var(--ion-color-secondary));
+    box-shadow: 0 0 0 2px rgba(var(--ion-color-secondary-rgb), 0.2);
+}
+
+ion-input.has-error,
+ion-textarea.has-error,
+.input-field.has-error {
+    border-color: var(--ion-color-danger);
+    box-shadow: 0 0 0 2px var(--ion-color-danger-soft);
+}
+
+/* Status Badges */
+.badge-success {
+    background: var(--ion-color-success-soft);
+    color: var(--ion-color-success);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.badge-warning {
+    background: var(--ion-color-warning-soft);
+    color: var(--ion-color-warning);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.badge-danger {
+    background: var(--ion-color-danger-soft);
+    color: var(--ion-color-danger);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}

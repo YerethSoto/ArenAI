@@ -340,3 +340,87 @@
 .text-util {
     color: #2ecc71;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Small screens */
+@media (max-width: 360px) {
+    .leaderboard-title {
+        font-size: 22px;
+    }
+
+    .podium-container {
+        height: 240px;
+        margin-bottom: 20px;
+    }
+
+    .podium-avatar {
+        width: 60px;
+        height: 60px;
+    }
+
+    .rank-1 .podium-avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .podium-base {
+        width: 70px;
+    }
+
+    .rank-1 .podium-base {
+        height: 110px;
+    }
+
+    .rank-2 .podium-base {
+        height: 80px;
+    }
+
+    .rank-3 .podium-base {
+        height: 55px;
+    }
+
+    .podium-rank-num {
+        font-size: 24px;
+    }
+
+    .ranking-list {
+        padding: 0 12px 80px;
+    }
+
+    .ranking-item {
+        padding: 10px 12px;
+    }
+}
+
+/* Short screens */
+@media (max-height: 650px) {
+    .podium-container {
+        height: 200px;
+        margin-bottom: 15px;
+    }
+
+    .rank-1 .podium-base {
+        height: 100px;
+    }
+
+    .rank-2 .podium-base {
+        height: 70px;
+    }
+
+    .rank-3 .podium-base {
+        height: 50px;
+    }
+}
+
+/* Touch targets */
+.ranking-item {
+    min-height: 48px;
+}
+
+/* Safe area for list */
+.ranking-list {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+}
