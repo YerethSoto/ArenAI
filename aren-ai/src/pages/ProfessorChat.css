@@ -2,7 +2,8 @@
 
 /* 0. Theme Variables (Light/Dark Mode Handling) */
 :root {
-  --chat-bg-color: #f9f4e6; /* Cream for Light Mode */
+  --chat-bg-color: #f9f4e6;
+  /* Cream for Light Mode */
   --chat-header-bg: #f9f4e6;
   --chat-bot-bubble-bg: rgba(255, 255, 255, 0.95);
   --chat-bot-text: #333;
@@ -13,13 +14,14 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --chat-bg-color: #000000;
-    --chat-header-bg: #000000;
-    --chat-bot-bubble-bg: rgba(40, 40, 40, 0.85);
-    --chat-bot-text: #ffffff;
-    --chat-input-bg: rgba(30, 30, 30, 0.7);
-    --chat-input-border: rgba(255, 255, 255, 0.15);
-    --chat-footer-gradient: linear-gradient(to top, #000000 85%, rgba(0, 0, 0, 0));
+    /* Use theme variables for dark mode - tinted backgrounds */
+    --chat-bg-color: var(--ion-background-color, #1A1512);
+    --chat-header-bg: var(--ion-background-color, #1A1512);
+    --chat-bot-bubble-bg: var(--ion-color-surface, rgba(40, 40, 40, 0.85));
+    --chat-bot-text: var(--ion-text-color, #E8E0D8);
+    --chat-input-bg: var(--ion-color-surface, rgba(30, 30, 30, 0.7));
+    --chat-input-border: var(--ion-border-color, rgba(255, 255, 255, 0.15));
+    --chat-footer-gradient: linear-gradient(to top, var(--ion-background-color, #1A1512) 85%, transparent);
   }
 }
 
@@ -61,11 +63,16 @@ ion-content.chat-content {
   object-fit: cover;
   flex-shrink: 0;
   margin-bottom: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.chat-avatar.bot { margin-right: 8px; }
-.chat-avatar.user { margin-left: 8px; }
+.chat-avatar.bot {
+  margin-right: 8px;
+}
+
+.chat-avatar.user {
+  margin-left: 8px;
+}
 
 /* 5. Bubbles */
 .chat-bubble {
@@ -75,7 +82,7 @@ ion-content.chat-content {
   font-size: 1rem;
   line-height: 1.5;
   position: relative;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
 }
@@ -93,7 +100,7 @@ ion-content.chat-content {
   color: var(--ion-color-primary-contrast) !important;
   border-bottom-right-radius: 4px;
   border: 3px solid var(--ion-color-secondary) !important;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* 6. Text Formatting */
@@ -116,8 +123,16 @@ ion-content.chat-content {
 }
 
 @keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
 }
 
 /* 7. Footer / Input Area */
@@ -134,7 +149,7 @@ ion-content.chat-content {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
 }
 
 .input-pill {
@@ -146,7 +161,7 @@ ion-content.chat-content {
   display: flex;
   align-items: center;
   padding: 4px 6px 4px 20px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--chat-input-border);
   min-height: 56px;
 }
@@ -159,8 +174,8 @@ ion-content.chat-content {
   color: var(--ion-text-color) !important;
   max-height: 100px;
   overflow-y: auto;
-  margin-top: 0; 
-  margin-bottom: 0; 
+  margin-top: 0;
+  margin-bottom: 0;
   --padding-top: 10px;
   --padding-bottom: 10px;
   --padding-start: 0;
@@ -207,7 +222,7 @@ ion-content.chat-content {
   background: var(--ion-color-primary) !important;
   pointer-events: auto;
   box-shadow: none !important;
-  border-bottom: none !important; 
+  border-bottom: none !important;
 }
 
 .ph-brand-name {
@@ -228,7 +243,7 @@ ion-content.chat-content {
 
 /* 9. Code Styles */
 code {
-  background: rgba(127,127,127,0.15);
+  background: rgba(127, 127, 127, 0.15);
   padding: 2px 4px;
   border-radius: 4px;
   font-family: monospace;

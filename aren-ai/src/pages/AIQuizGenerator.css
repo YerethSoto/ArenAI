@@ -1,11 +1,11 @@
 /* AIQuizGenerator.css - Custom Design with Smooth Curves */
 
 .ai-quiz-page {
-  background-color: #f9f4e6 !important;
+  background-color: var(--ion-background-color) !important;
 }
 
 .ai-quiz-content {
-  --background: #f9f4e6 !important;
+  --background: var(--ion-background-color) !important;
 }
 
 /* Fix header line issue - more aggressive */
@@ -616,7 +616,7 @@
   padding: 16px;
   max-height: 45vh;
   overflow-y: auto;
-  background: #f9f4e6;
+  background: var(--ion-background-color);
 }
 
 .quiz-modal-grid {

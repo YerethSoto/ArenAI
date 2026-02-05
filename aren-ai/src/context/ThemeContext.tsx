@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Define available themes
-export type Theme = 'original' | 'original-alter' | 'navy' | 'sage' | 'burgundy' | 'bamboo' | 'earth';
+export type Theme = 'original' | 'original-alter' | 'navy' | 'sage' | 'burgundy' | 'bamboo' | 'earth' | 'neon';
 
 interface ThemeContextType {
     theme: Theme;
@@ -38,7 +38,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }
     };
 
-    const availableThemes: Theme[] = ['original', 'original-alter', 'navy', 'sage', 'burgundy', 'bamboo', 'earth'];
+    const availableThemes: Theme[] = ['original', 'original-alter', 'navy', 'sage', 'burgundy', 'bamboo', 'earth', 'neon'];
 
     return (
         <ThemeContext.Provider value={{ theme, setTheme, availableThemes }}>

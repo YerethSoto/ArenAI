@@ -79,7 +79,7 @@ const Chat: React.FC = () => {
     fetchTopics();
   }, [selectedSubject]);
 
-  const handleLogout = () => {};
+  const handleLogout = () => { };
 
   useEffect(() => {
     const userContext = getUserContext();
