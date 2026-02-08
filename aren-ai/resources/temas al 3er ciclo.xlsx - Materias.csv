@@ -1,0 +1,700 @@
+id_topic,name,id_subj,description
+4,Definición de Estudios Sociales,1,Concepto y campo de estudio de la asignatura.
+4,Importancia de los Estudios Sociales,2,Valor de la disciplina para la vida cotidiana y la comprensión del entorno.
+4,El Arte y los Estudios Sociales,3,Relación entre las expresiones artísticas y el análisis social.
+4,Ubicación Hemisférica de Costa Rica,4,Localización de Costa Rica en los hemisferios Norte y Occidental.
+4,Ubicación Continental de Costa Rica,5,Localización de Costa Rica en el continente americano y el istmo centroamericano.
+4,Ventajas de la Ubicación Geográfica,6,Beneficios climáticos comerciales y de biodiversidad por la posición del país.
+4,Desventajas de la Ubicación Geográfica,7,Vulnerabilidad ante amenazas naturales y geopolíticas.
+4,Lazos Centroamericanos,8,Relaciones históricas y de cooperación entre Costa Rica y sus vecinos.
+4,Ciudadanía Global,9,Integración de Costa Rica en la dinámica política y social mundial.
+4,Concepto de Relieve,10,Definición general de las irregularidades de la corteza terrestre.
+4,Costas,11,Definición y características de las zonas de contacto entre tierra y mar.
+4,Valles,12,Definición y características de las depresiones entre montañas (Central General etc.).
+4,Cordilleras,13,Definición y características de los sistemas montañosos (Volcánica Central Talamanca etc.).
+4,Llanuras,14,Definición y características de las zonas planas (Norte Caribe Pacífico).
+4,Ríos y Cuencas,15,Importancia de la red hídrica y principales ríos de Costa Rica.
+4,Relieve de Costa Rica,16,Descripción general de la topografía del territorio nacional.
+4,Concepto de Región,17,Definición de región como espacio con características homogéneas.
+4,Regiones Socioeconómicas,18,División administrativa de Costa Rica para planificación (MIDEPLAN).
+4,Ubicación de Regiones,19,Localización espacial de las 6 regiones socioeconómicas.
+4,Región Central,20,Características economía y población del Gran Área Metropolitana.
+4,Región Chorotega,21,Características economía y geografía de Guanacaste.
+4,Región Pacífico Central,22,Características economía y zonas costeras de Puntarenas.
+4,Región Brunca,23,Características economía y geografía de la zona sur.
+4,Región Huetar Atlántica (Caribe),24,Características economía y cultura de Limón.
+4,Región Huetar Norte,25,Características economía y geografía de la zona norte.
+4,Concepto de Clima,26,Promedio de condiciones atmosféricas a largo plazo.
+4,Concepto de Tiempo Atmosférico,27,Estado momentáneo de la atmósfera en un lugar.
+4,Diferencia Clima vs Tiempo,28,Distinción entre condiciones permanentes y transitorias.
+4,Elementos del Clima,29,Temperatura precipitación humedad viento y presión atmosférica.
+4,Factores del Clima,30,Latitud altitud relieve y cercanía al mar que modifican el clima.
+4,Climas de Costa Rica,31,Clasificación general de los regímenes climáticos del país.
+4,Clima Tropical Seco,32,Características y ubicación (Pacífico Norte).
+4,Clima Tropical Húmedo,33,Características y ubicación (Valle Central zonas de transición).
+4,Clima Tropical Muy Húmedo,34,Características y ubicación (Caribe Pacífico Sur Zona Norte).
+4,Clima de Montaña,35,Características de zonas altas y páramos.
+4,Influencia del Clima en la Vida,36,Efectos en la agricultura vivienda vestimenta y costumbres.
+4,Historia Antigua: Ubicación Espacial,37,Zonas de asentamiento de los primeros pobladores en CR.
+4,Historia Antigua: Ubicación Temporal,38,Periodización de la historia precolombina.
+4,Modo de Vida: Cazadores-Recolectores,39,Características de los primeros grupos nómadas.
+4,Modo de Vida: Aldeanos,40,Sedentarización y primeras prácticas agrícolas.
+4,Modo de Vida: Cacicazgos,41,Organización social compleja y jerarquizada.
+4,Etnias Antiguas,42,Grupos indígenas históricos (Chorotegas Huetares Bruncas etc.).
+4,Cosmovisión Indígena,43,Creencias espirituales y relación sagrada con la naturaleza.
+4,Arte Precolombino,44,Elaboración de objetos en oro jade cerámica y piedra.
+4,Esferas de Piedra,45,Significado y elaboración de las esferas del Diquís.
+4,Pueblos Originarios Siglo XXI,46,Situación actual de las comunidades indígenas en CR.
+4,Territorios Indígenas Actuales,47,Ubicación geográfica de las reservas indígenas hoy.
+4,Vida Cotidiana Indígena Actual,48,Preservación de tradiciones lengua y cultura.
+4,Desafíos Indígenas,49,Problemáticas de tierra salud educación y discriminación.
+4,Momento del Contacto,50,Llegada de los españoles y encuentro de culturas (1502 en adelante).
+4,Impacto Cultural de la Conquista,51,Imposición de lengua religión y costumbres europeas.
+4,Impacto Demográfico de la Conquista,52,Descenso de la población indígena por guerras y enfermedades.
+4,Impacto Social de la Conquista,53,Desestructuración de las sociedades cacicales.
+4,Sociedad Colonial: Ubicación,54,Territorio de la Provincia de Costa Rica en la Colonia.
+4,Organización Política Colonial,55,Gobernadores Cabildos y leyes españolas.
+4,Organización Social Colonial,56,Estratificación: Peninsulares Criollos Mestizos Indígenas Mulatos.
+4,Organización Económica Colonial,57,Ciclos económicos: Cacao Tabaco Ganadería Agricultura de subsistencia.
+4,Manifestaciones Culturales Coloniales,58,Sincretismo religioso fiestas patronales y tradiciones.
+4,Arte Colonial,59,Arquitectura de iglesias imaginería religiosa y pintura.
+4,Causas de la Independencia,60,Factores externos (Ilustración) e internos que motivaron la libertad.
+4,Consecuencias de la Independencia,61,Autonomía política y formación del Estado.
+4,Valor de la Libertad,62,Significado de la independencia para la democracia actual.
+4,Pacto de Concordia,63,Primera Constitución (1821) y organización política inicial.
+4,Importancia del Pacto de Concordia,64,El diálogo y acuerdo como bases de la identidad política tica.
+4,Anexión del Partido de Nicoya,65,Proceso de incorporación de Nicoya a Costa Rica (1824).
+4,Importancia Geográfica de la Anexión,66,Aumento del territorio nacional.
+4,Importancia Económica de la Anexión,67,Aporte de tierras ganadería y turismo.
+4,Importancia Cultural de la Anexión,68,Aporte del folclore guanacasteco a la identidad nacional.
+4,Campaña Nacional 1856-1857,69,Guerra contra los filibusteros para defender la soberanía.
+4,Identidad Nacional y Campaña 1856,70,Consolidación del sentimiento patriótico.
+4,Batalla de Santa Rosa,71,Expulsión de los filibusteros de territorio nacional (20 de marzo).
+4,Batalla de Rivas,72,Combate en Nicaragua y quema del Mesón (11 de abril).
+4,Combate de la Trinidad,73,Toma de la Vía del Tránsito en el río San Juan.
+4,Ruta de los Héroes,74,Trayecto del ejército costarricense hacia la frontera.
+4,Juan Santamaría,75,Héroe nacional y símbolo de sacrificio.
+4,Juan Rafael Mora Porras,76,Liderazgo político y militar durante la campaña.
+4,Francisca Carrasco,77,Participación de la mujer en la defensa de la patria.
+4,Reformas Liberales: Concepto,78,Modernización del Estado a finales del siglo XIX.
+4,Reforma Educativa Liberal,79,Educación gratuita obligatoria y laica.
+4,Reforma Jurídica y Civil,80,Leyes anticlericales matrimonio civil y registros.
+4,Reformas Sociales de 1940,81,Transformación del Estado liberal a Estado social de derecho.
+4,Caja Costarricense de Seguro Social,82,Creación de la CCSS y universalización de la salud.
+4,Universidad de Costa Rica,83,Fundación de la UCR y acceso a la educación superior.
+4,Código de Trabajo,84,Legislación para proteger los derechos de los trabajadores.
+4,Garantías Sociales,85,Incorporación de derechos sociales en la Constitución.
+4,Rafael Ángel Calderón Guardia,86,Papel político en la promulgación de las reformas.
+4,Manuel Mora Valverde,87,Aporte del partido comunista a las reformas.
+4,Monseñor Sanabria,88,Apoyo de la Iglesia Católica a las reformas sociales.
+1,Valor Posicional,89,Identificación del valor de los dígitos en números naturales y decimales.
+1,Notación Desarrollada,90,Expresión de números naturales y decimales utilizando potencias de base diez.
+1,Lectura y Escritura de Números,91,Reconocimiento y escritura de números naturales y decimales hasta la diezmilésima.
+1,Redondeo de Decimales,92,Aproximación de números decimales a una posición específica.
+1,Fracciones,93,"Concepto, comparación y ubicación en la recta numérica."
+1,Fracción Propia e Impropia,94,Diferenciación y representación como suma de natural y fracción.
+1,Notación Mixta,95,Conversión entre fracciones impropias y números mixtos.
+1,Fracciones Decimales,96,Correspondencia entre fracción decimal y número decimal.
+1,Fracciones Homogéneas y Heterogéneas,97,Identificación y operaciones de suma/resta.
+1,Fracciones Equivalentes,98,Identificación de fracciones que representan la misma cantidad.
+1,Simplificación y Amplificación,99,Procesos para obtener fracciones equivalentes.
+1,Operaciones con Números Naturales,100,"Suma, resta, multiplicación y división en resolución de problemas."
+1,Operaciones con Decimales,101,"Suma, resta, multiplicación y división aplicadas a problemas."
+1,Multiplicación/División por potencias de 10,102,"Cálculo rápido por 10, 100, 1000, etc."
+1,Potencias (Naturales),103,Cálculo de potencias con base y exponente natural.
+1,Cuadrados y Cubos Perfectos,104,Identificación de números que son cuadrados o cubos de enteros.
+1,Raíces (Concepto),105,Relación inversa con la potencia (implícito en cuadrados/cubos).
+1,Inverso Multiplicativo,106,Identificación del recíproco de un número natural o fraccionario.
+1,Combinación de Operaciones,107,Resolución de expresiones con prioridad de operaciones (naturales y decimales).
+1,Teoría de Números,108,Conceptos básicos de divisibilidad y propiedades numéricas.
+1,Números Pares e Impares,109,Clasificación y aplicación en problemas.
+1,Múltiplos,110,Concepto y cálculo de múltiplos de un número.
+1,Divisores,111,Identificación de los divisores de un número natural.
+1,Reglas de Divisibilidad,112,"Criterios de divisibilidad por 2, 3, 5 y 10."
+1,Números Primos y Compuestos,113,Identificación y diferenciación según sus divisores.
+1,Factorización Prima,114,Descomposición de números compuestos (relacionado a primos).
+1,Cuerpos Sólidos,115,Clasificación de figuras tridimensionales por su forma.
+1,Prismas,116,"Elementos (caras, bases, altura) y propiedades."
+1,Cilindros,117,"Elementos (bases, superficie lateral, eje, radio, diámetro)."
+1,Esferas y Conos,118,Reconocimiento de formas básicas.
+1,Perímetro de Polígonos,119,Cálculo de bordes en triángulos y cuadriláteros.
+1,Área de Polígonos,120,"Cálculo de superficie en triángulos, cuadrados, rectángulos, paralelogramos y trapecios."
+1,Figuras Compuestas (Áreas),121,Cálculo de áreas en figuras formadas por la unión de otras simples.
+1,Circunferencia,122,"Elementos: centro, radio, diámetro, cuerda, arco."
+1,Número Pi,123,Uso de 3.14 para cálculos geométricos.
+1,Longitud de la Circunferencia,124,Cálculo del perímetro del círculo.
+1,Círculo,125,Concepto de superficie circular.
+1,Polígonos Regulares,126,"Elementos: lado, centro, radio, apotema, ángulo central."
+1,Polígonos Inscritos,127,Relación entre polígonos y la circunferencia que los contiene.
+1,Traslaciones,128,Transformaciones isométricas: desplazamiento de figuras.
+1,Estimación de Medidas,129,"Aproximación de longitud, peso, capacidad, tiempo y temperatura."
+1,Sistema Métrico Decimal,130,"Unidades básicas, múltiplos y submúltiplos."
+1,Unidades de Longitud,131,"Metro, múltiplos, submúltiplos y nanómetro."
+1,Unidades de Superficie,132,Metro cuadrado y conversiones.
+1,Unidades de Volumen,133,"Metro cúbico, conversiones y relación con el litro."
+1,Capacidad,134,"Litro, múltiplos y submúltiplos."
+1,Masa y Peso,135,Unidades de medida y estimaciones.
+1,Tiempo,136,Unidades de medida temporal.
+1,Temperatura,137,Escalas de medición.
+1,Moneda,138,"Conversiones entre colones, dólares y euros."
+1,Sucesiones y Patrones,139,Análisis de secuencias numéricas y geométricas.
+1,Cantidades Constantes y Variables,140,Diferenciación entre valores fijos y cambiantes.
+1,Relaciones de Dependencia,141,Conexión entre dos variables (expresión matemática).
+1,Plano de Coordenadas,142,Ubicación de puntos que satisfacen una relación.
+1,Ecuaciones de Primer Grado,143,Concepto y determinación del valor desconocido.
+1,Inecuaciones de Primer Grado,144,Identificación de soluciones en desigualdades.
+1,Escalas,145,Interpretación de gráficas de figuras a escala.
+1,Razón y Proporción,146,Concepto de relación entre cantidades.
+1,Proporcionalidad Directa,147,Resolución de problemas y regla de tres.
+1,Porcentajes,148,Cálculo y aplicación en situaciones cotidianas.
+1,Recolección de Datos,149,Uso de cuestionarios y fuentes de información.
+1,Tablas de Frecuencia,150,Frecuencia absoluta y porcentual.
+1,Representación Gráfica,151,"Gráficos de barras, circulares y diagramas lineales."
+1,Medidas de Posición,152,"Moda, media aritmética (promedio), mínimo y máximo."
+1,Medidas de Variabilidad,153,Cálculo del recorrido (rango).
+1,Población y Muestra,154,Conceptos básicos de grupos de estudio estadístico.
+1,Eventos Aleatorios,155,"Clasificación en seguros, probables o imposibles."
+1,Probabilidad Frecuencial,156,"Eventos más probables, menos probables e igualmente probables."
+1,Probabilidad Clásica (Laplace),157,Cálculo de probabilidad como fracción (favorables/totales).
+1,Propiedades de la Probabilidad,158,Rango de 0 a 1 para valores de probabilidad.
+3,Sinónimos,159,Palabras con significado similar o igual.
+3,Antónimos,160,Palabras con significado opuesto.
+3,Parónimos,161,Palabras con escritura o sonido similar pero significado distinto.
+3,Homónimos,162,Palabras que se escriben o pronuncian igual pero tienen distinto significado.
+3,Prefijos,163,"Elementos gramaticales (geo-, bio-, hidro-, hipo-, hipno-, homo-) que modifican el significado de la palabra."
+3,Sufijos Aumentativos,164,"Terminaciones que indican mayor tamaño o intensidad (-ón, -ona, -ote, -ota)."
+3,Sufijos Diminutivos,165,"Terminaciones que indican menor tamaño o afecto (-ito, -ita, -ico, -ica, -ín)."
+3,Sufijos Despectivos,166,"Terminaciones que indican desprecio o menor valor (-illo, -illa, -ucho, -ucha, -zuelo, -zuela)."
+3,Oraciones Enunciativas,167,Oraciones que afirman o niegan un hecho.
+3,Oraciones Dubitativas,168,Oraciones que expresan duda o posibilidad.
+3,Oraciones Exclamativas,169,Oraciones que expresan emoción o sorpresa.
+3,Verbos: Tiempos Verbales,170,"Conjugación en pasado, presente y futuro."
+3,Adverbios,171,"Palabras que modifican al verbo, adjetivo u otro adverbio."
+3,Sustantivos Comunes y Propios,172,"Clasificación de nombres de personas, lugares o cosas."
+3,Adjetivos Calificativos,173,Palabras que describen características del sustantivo.
+3,Adjetivos Determinativos,174,Palabras que concretan o limitan al sustantivo.
+3,Artículos Definidos e Indefinidos,175,Palabras que acompañan al sustantivo indicando género y número.
+3,Pronombres Personales,176,Palabras que sustituyen al nombre en la oración.
+3,Pronombres Determinativos,177,Pronombres que señalan distancia o posesión.
+3,Conjunciones,178,Palabras que unen oraciones o palabras.
+3,Preposiciones,179,Palabras que relacionan elementos de una oración.
+3,Oración Simple,180,Estructura formada por sujeto y predicado.
+3,Sujeto y Predicado,181,Partes fundamentales de la oración simple.
+3,Palabras Agudas,182,Reglas de acentuación en la última sílaba.
+3,Palabras Graves,183,Reglas de acentuación en la penúltima sílaba.
+3,Palabras Esdrújulas,184,Reglas de acentuación en la antepenúltima sílaba.
+3,Palabras Sobreesdrújulas,185,Reglas de acentuación anterior a la antepenúltima sílaba.
+3,Uso de Mayúsculas (Oración),186,Regla de mayúscula inicial al comenzar un escrito.
+3,Uso de Mayúsculas (Nombres),187,Regla de mayúscula en instituciones y lugares.
+3,Siglas y Abreviaturas,188,Escritura correcta de reducciones de palabras.
+3,Partes del Libro,189,"Identificación de prólogo, índice, cuerpo, glosario y bibliografía."
+3,Género Literario: Poesía,190,Características del género lírico.
+3,Género Literario: Cuento,191,Características del género narrativo breve.
+3,Género Literario: Novela,192,Características del género narrativo extenso.
+3,Género Literario: Drama,193,Características del género teatral.
+3,Género Literario: Leyenda,194,Características de narraciones tradicionales.
+3,Idea Principal,195,Identificación del tema central en un texto.
+3,Ideas Secundarias,196,Identificación de detalles que apoyan la idea principal.
+3,Texto Narrativo,197,Comprensión de textos que relatan hechos.
+3,Texto Descriptivo,198,Comprensión de textos que detallan características.
+3,Texto Expositivo,199,Comprensión de textos que explican un tema.
+3,Texto Informativo,200,Comprensión de textos que transmiten datos o noticias.
+2,Niveles de Organización del Cuerpo,201,Estructura celular tejidos órganos y sistemas del cuerpo humano.
+2,Sistema Respiratorio,202,Órganos funciones y proceso de la respiración humana.
+2,Sistema Circulatorio,203,Órganos componentes de la sangre y funciones de transporte.
+2,Sistema Inmunológico,204,Defensa del cuerpo glóbulos blancos e inmunidad.
+2,Vacunas,205,Importancia y función en la prevención de enfermedades.
+2,Sistema Urinario,206,Órganos formación de orina y función de excreción.
+2,Sistema Nervioso,207,Componentes y funciones de coordinación del cuerpo.
+2,Sistema Endocrino,208,Glándulas hormonas y regulación de funciones corporales.
+2,Sistemas Reproductores,209,Anatomía y fisiología de los sistemas masculino y femenino.
+2,Madurez Sexual,210,Cambios físicos y emocionales en la pubertad y adolescencia.
+2,Sexualidad Humana,211,Conceptos de sexo género y dimensiones de la sexualidad.
+2,Reproducción Humana,212,Fecundación embarazo parto y ciclo menstrual.
+2,Salud y Estilos de Vida,213,Nutrición higiene y prevención de enfermedades y adicciones.
+2,Clasificación de Seres Vivos (Alimentación),214,Organismos autótrofos y heterótrofos.
+2,Fotosíntesis,215,Proceso de elaboración de alimento en las plantas.
+2,Ecosistemas,216,Componentes bióticos y abióticos cadenas alimenticias y equilibrio.
+2,Niveles de Organización Ecológica,217,Individuo población comunidad y biosfera.
+2,Biodiversidad y Adaptaciones,218,Variedad de vida y formas de adaptación al medio.
+2,Reinos Biológicos,219,Clasificación de los seres vivos (Monera Protista Fungi Plantae Animalia).
+2,Relaciones entre Seres Vivos,220,Interacciones intraespecíficas e interespecíficas (depredación simbiosis etc.).
+2,Energía y sus Formas,221,Tipos de energía (cinética potencial térmica etc.) y su conservación.
+2,Movimiento y Rapidez,222,Conceptos básicos de desplazamiento y velocidad en objetos.
+2,Calor y Temperatura,223,Diferenciación de conceptos transmisión del calor y medición.
+2,La Luz,224,Fenómenos de reflexión refracción y fuentes luminosas.
+2,Magnetismo,225,Propiedades de los imanes y campo magnético terrestre.
+2,Electricidad,226,Corriente eléctrica circuitos y materiales conductores.
+2,Generación de Electricidad,227,Fuentes de energía (hidroeléctrica eólica etc.) y su transformación.
+2,Sonido,228,Energía sonora vibraciones y transmisión.
+2,Materia: Cambios Físicos y Químicos,229,Diferenciación entre transformaciones reversibles e irreversibles.
+2,Clasificación de la Materia,230,Sustancias puras y mezclas (homogéneas y heterogéneas).
+2,Métodos de Separación,231,Técnicas para separar mezclas (filtración evaporación etc.).
+2,Estructura de la Tierra,232,Capas internas y externas del planeta.
+2,Clima y Tiempo Atmosférico,233,Diferenciación y factores que los determinan.
+2,Movimientos de la Tierra,234,Rotación y traslación y sus consecuencias (día/noche estaciones).
+2,La Luna,235,Fases lunares y su influencia (mareas).
+2,Eclipses,236,Formación de eclipses de Sol y de Luna.
+2,Agentes Internos (Geología),237,Tectónica de placas sismos y vulcanismo.
+2,Agentes Externos (Geología),238,Erosión sedimentación y modelado del relieve.
+2,Sistema Solar,239,Características del Sol planetas y otros cuerpos celestes.
+2,Origen del Universo y Sistema Solar,240,Teorías sobre la formación del cosmos y nuestro sistema.
+2,Exploración Espacial,241,Historia y avances tecnológicos en el estudio del espacio.
+2,Hidrosfera,242,Distribución e importancia del agua en la Tierra.
+2,Atmósfera,243,Importancia y contaminación del aire.
+2,Equilibrio Ecológico,244,Factores naturales y humanos que alteran el medio ambiente.
+2,Conservación de Recursos,245,Uso sostenible de energía y materiales.
+2,Científicos Costarricenses,246,Aportes al desarrollo científico nacional.
+2,Seguridad y Prevención,247,Medidas ante desastres naturales y accidentes.
+1,Números Naturales,248,Concepto y conjunto de números naturales.
+1,Potencias (Naturales),249,Concepto de potencia y notación exponencial.
+1,Suma de Números Naturales,250,Operación de adición en N.
+1,Resta de Números Naturales,251,Operación de sustracción en N.
+1,Multiplicación de Números Naturales,252,Operación de multiplicación en N.
+1,División de Números Naturales,253,Operación de división en N.
+1,Combinación de operaciones (Naturales),254,Operaciones combinadas con/sin paréntesis.
+1,Teoría de números,255,Conceptos generales de teoría de números.
+1,Algoritmo de la división,256,Aplicación del algoritmo de Euclides.
+1,Divisibilidad,257,Concepto de divisibilidad.
+1,Divisor y Factor,258,Identificación de divisores y factores.
+1,Múltiplo,259,Concepto de múltiplo de un número.
+1,Números primos,260,Identificación de números primos.
+1,Números compuestos,261,Identificación y descomposición de números compuestos.
+1,Descomposición Prima,262,Factorización en números primos.
+1,Mínimo Común Múltiplo (MCM),263,Cálculo y problemas de MCM.
+1,Máximo Común Divisor (MCD),264,Cálculo y problemas de MCD.
+1,Números Enteros,265,Concepto de número entero.
+1,Enteros negativos,266,Uso de enteros negativos en contextos reales.
+1,Relaciones de orden (Enteros),267,Comparación de números enteros.
+1,Recta numérica (Enteros),268,Ubicación de enteros en la recta.
+1,Valor absoluto,269,Cálculo del valor absoluto de un entero.
+1,Número opuesto,270,Identificación del opuesto de un entero.
+1,Suma de Números Enteros,271,Adición de números enteros.
+1,Resta de Números Enteros,272,Sustracción de números enteros.
+1,Multiplicación de Números Enteros,273,Multiplicación de números enteros.
+1,División de Números Enteros,274,División de números enteros.
+1,Potencias (Enteros),275,Potencias con base entera y exponente natural.
+1,Raíces (Enteros),276,Raíces exactas de números enteros.
+1,Combinación de operaciones (Enteros),277,Operaciones combinadas en Z.
+1,"Punto, Recta y Plano",278,Conceptos básicos de geometría.
+1,"Segmento, Rayo y Semirrecta",279,Subconjuntos de la recta.
+1,Puntos colineales y no colineales,280,Relación de puntos en una misma recta.
+1,Puntos coplanares y no coplanares,281,Relación de puntos en un mismo plano.
+1,Punto medio,282,Punto que divide un segmento en dos partes iguales.
+1,Rectas paralelas,283,Rectas que no se intersecan.
+1,Rectas perpendiculares,284,Rectas que forman ángulos de 90 grados.
+1,Rectas concurrentes,285,Rectas que se cruzan en un punto.
+1,Visualización espacial,286,Identificación de figuras 3D.
+1,"Caras, Aristas y Vértices",287,Elementos de figuras tridimensionales.
+1,Ángulos,288,Concepto de ángulo.
+1,Ángulo Llano,289,Ángulo de 180 grados.
+1,Ángulos Adyacentes,290,Ángulos que comparten un lado y vértice.
+1,Par lineal,291,Ángulos adyacentes que suman 180 grados.
+1,Opuestos por el vértice,292,Ángulos opuestos formados por rectas secantes.
+1,Ángulos Congruentes,293,Ángulos de igual medida.
+1,Ángulos Complementarios,294,Ángulos que suman 90 grados.
+1,Ángulos Suplementarios,295,Ángulos que suman 180 grados.
+1,Rectas paralelas y transversal,296,Ángulos formados entre paralelas y una secante.
+1,Desigualdad triangular,297,Condición para formar un triángulo.
+1,Ángulos internos del triángulo,298,Suma de ángulos internos.
+1,Ángulos externos del triángulo,299,Medida de ángulos externos.
+1,Suma de ángulos internos (Cuadriláteros),300,Propiedad de cuadriláteros convexos.
+1,Suma de ángulos externos (Cuadriláteros),301,Propiedad de ángulos externos.
+1,Áreas de Triángulos y Cuadriláteros,302,Cálculo de áreas.
+1,Geometría analítica (Punto medio),303,Cálculo algebraico del punto medio.
+1,Puntos en el plano cartesiano,304,Ubicación de coordenadas.
+1,Sucesiones,305,Concepto y ejemplos de sucesiones.
+1,Ley de formación,306,Regla que define una sucesión.
+1,Patrones,307,Identificación de patrones numéricos.
+1,Proporcionalidad inversa,308,Relación inversa entre variables.
+1,Representación Verbal (Relaciones),309,Descripción verbal de relaciones.
+1,Representación Tabular (Relaciones),310,Tablas de valores.
+1,Representación Gráfica (Relaciones),311,Gráficos de relaciones.
+1,Representación Algebraica (Relaciones),312,Fórmulas de relaciones.
+1,Unidad estadística,313,Elemento básico de estudio.
+1,Variables (Características),314,Lo que se mide o estudia.
+1,Datos u observaciones,315,Valores recolectados.
+1,Población y Muestra,316,Grupos de estudio.
+1,Variables Cuantitativas,317,Datos numéricos.
+1,Variables Cualitativas,318,Datos categóricos.
+1,Distribución de frecuencias,319,Tablas de conteo.
+1,Moda,320,Valor más frecuente.
+1,Media aritmética,321,Promedio de los datos.
+1,Mínimo y Máximo,322,Valores extremos de los datos.
+1,Recorrido,323,Diferencia entre máximo y mínimo.
+1,Números Racionales,324,Concepto de número racional.
+1,Expansión decimal exacta y periódica,325,Tipos de decimales racionales.
+1,Representaciones de Racionales,326,Fracción vs Decimal.
+1,Orden en Racionales,327,Comparación de racionales.
+1,Suma de Racionales,328,Adición de fracciones y decimales.
+1,Resta de Racionales,329,Sustracción de fracciones y decimales.
+1,Multiplicación de Racionales,330,Producto de racionales.
+1,División de Racionales,331,Cociente de racionales.
+1,Potencias (Base Racional),332,Potenciación en Q.
+1,Raíces (Racionales),333,Radicación en Q.
+1,Combinación de operaciones (Racionales),334,Operaciones mixtas en Q.
+1,Homotecias,335,Transformación geométrica de escala.
+1,Puntos y segmentos homólogos,336,Elementos correspondientes en homotecia.
+1,Semejanza de Triángulos,337,Triángulos con misma forma.
+1,Criterios de Semejanza,338,"LLL, LAL, AAA."
+1,Congruencia de Triángulos,339,Triángulos iguales.
+1,Criterios de Congruencia,340,"LLL, LAL, ALA."
+1,Teorema de Thales,341,Proporcionalidad en paralelas.
+1,Pirámide Recta (Elementos),342,"Base, caras, altura, apotema."
+1,Prisma Recto (Elementos),343,"Base, caras, altura."
+1,Secciones planas (Pirámide),344,Cortes en pirámides.
+1,Secciones planas (Prisma),345,Cortes en prismas.
+1,Función Lineal,346,Concepto de función y = ax + b.
+1,Pendiente e Intersección,347,Análisis de 'a' y 'b' en la lineal.
+1,Concepto de expresión algebraica,348,Definición y ejemplos.
+1,Valor numérico,349,Sustitución de valores en expresiones.
+1,Monomios (Concepto),350,Expresiones de un solo término.
+1,Factor numérico y factor literal,351,Partes de un monomio.
+1,Monomios semejantes,352,Monomios con misma parte literal.
+1,Suma y Resta de Monomios,353,Operaciones básicas con monomios.
+1,Multiplicación y División de Monomios,354,Producto y cociente de monomios.
+1,Polinomios (Concepto),355,Expresiones con varios términos.
+1,Suma y Resta de Polinomios,356,Operaciones con polinomios.
+1,Multiplicación de Polinomios,357,Producto de polinomios.
+1,Productos Notables,358,Fórmulas de multiplicación abreviada.
+1,Ecuación de primer grado,359,Igualdades con una incógnita.
+1,Solución de una ecuación,360,Encontrar el valor de la incógnita.
+1,Ecuaciones literales,361,Ecuaciones con múltiples letras.
+1,Espacio muestral,362,Conjunto de resultados posibles.
+1,Puntos muestrales,363,Resultados individuales.
+1,Eventos,364,Subconjuntos del espacio muestral.
+1,Eventos simples y compuestos,365,Clasificación de eventos.
+1,"Evento seguro, probable, imposible",366,Tipos de eventos según probabilidad.
+1,Probabilidad Clásica (Laplace),367,Casos favorables / Casos totales.
+1,Probabilidad (0 a 1),368,Rango de la probabilidad.
+1,Números Irracionales,369,Decimales infinitos no periódicos.
+1,Concepto de Número Real,370,Unión de racionales e irracionales.
+1,Comparación de Irracionales,371,Orden en irracionales.
+1,Suma y Resta (Reales),372,Operaciones en R.
+1,Multiplicación y División (Reales),373,Operaciones en R.
+1,Radicales,374,Propiedades y cálculo de raíces.
+1,Racionalización (Numérica),375,Eliminar raíces (en contexto numérico).
+1,Notación Científica,376,Uso de potencias de 10.
+1,Prefijos del SI,377,"Kilo, Mega, Micro, etc."
+1,Teorema de Pitágoras,378,Catetos e hipotenusa.
+1,Distancia entre dos puntos,379,Fórmula de distancia.
+1,Radianes y Grados,380,Conversión de medidas angulares.
+1,Razones Trigonométricas,381,"Seno, Coseno, Tangente."
+1,Ángulos complementarios (Trigonometría),382,Razones de ángulos que suman 90.
+1,Identidades Trigonométricas Básicas,383,"Relaciones entre seno, coseno, tangente."
+1,Ángulos de elevación y depresión,384,Aplicaciones de trigonometría.
+1,Ley de Senos,385,Proporcionalidad lados-senos.
+1,Apotema de la pirámide,386,Cálculo de la apotema.
+1,Área lateral (Pirámide),387,Cálculo de superficie lateral.
+1,Área total (Pirámide),388,Cálculo de superficie total.
+1,Área lateral (Prisma),389,Cálculo de superficie lateral.
+1,Área total (Prisma),390,Cálculo de superficie total.
+1,Función Cuadrática,391,Concepto y = ax^2 + bx + c.
+1,Gráfica de la función cuadrática,392,Parábola y sus características.
+1,Factorización,393,"Factor común, fórmulas notables, etc."
+1,División de polinomios,394,Algoritmo de división.
+1,Expresiones algebraicas fraccionarias,395,Fracciones con variables.
+1,Operaciones con fracciones algebraicas,396,"Suma, resta, mult, div."
+1,Racionalización (Algebraica),397,Racionalización de denominadores/numeradores.
+1,Ecuaciones de segundo grado,398,Resolución de cuadráticas.
+1,Discriminante,399,Análisis de soluciones de cuadrática.
+1,Problemas con ecuaciones cuadráticas,400,Aplicaciones reales.
+1,Variables discretas,401,Variables de conteo.
+1,Variables continuas,402,Variables de medición.
+1,Distribución de frecuencias (Intervalos),403,Clases y frecuencias.
+1,Histogramas,404,Gráfico de barras para continuas.
+1,Polígonos de frecuencia,405,Gráfico de líneas para continuas.
+1,Probabilidad Frecuencial,406,Estimación empírica.
+1,Ley de los grandes números,407,Estabilidad de la frecuencia relativa.
+3,Voseo,408,#REF!
+3,Tuteo,409,#REF!
+3,Ustedeo,410,#REF!
+3,Registro Formal,411,#REF!
+3,Registro Informal,412,#REF!
+3,Palabras Agudas,413,#REF!
+3,Palabras Graves,414,#REF!
+3,Palabras Esdrújulas,415,#REF!
+3,Palabras Sobreesdrújulas,416,#REF!
+3,Ley del Hiato,417,#REF!
+3,División Silábica,418,#REF!
+3,Tilde Diacrítica (Monosílabos),419,#REF!
+3,Tilde Diacrítica (Interrogativos/Exclamativos),420,#REF!
+3,Tilde Diacrítica (Aún),421,#REF!
+3,Uso de Mayúscula (Puntuación),422,#REF!
+3,Uso de Mayúscula (Citas),423,#REF!
+3,Uso de Mayúscula (Epígrafes),424,#REF!
+3,Mayúscula en Hipocorísticos,425,#REF!
+3,Mayúscula en Antropónimos,426,#REF!
+3,Mayúscula en Apodos y Alias,427,#REF!
+3,Mayúscula en Seudónimos,428,#REF!
+3,Mayúscula en Sobrenombres,429,#REF!
+3,Mayúscula en Apellidos (con preposición),430,#REF!
+3,Mayúscula en Plural de Antropónimos,431,#REF!
+3,Mayúscula en Personajes de Ficción,432,#REF!
+3,Mayúscula en Deidades,433,#REF!
+3,Mayúscula en Seres Mitológicos,434,#REF!
+3,Mayúscula en Topónimos (Antonomasia),435,#REF!
+3,Mayúscula en Zonas Geográficas,436,#REF!
+3,Mayúscula en Festividades,437,#REF!
+3,Mayúscula en Espacios Naturales,438,#REF!
+3,Mayúscula en Divisiones Administrativas,439,#REF!
+3,Mayúscula en Urbanismo,440,#REF!
+3,Mayúscula en Instituciones,441,#REF!
+3,Mayúscula en Establecimientos,442,#REF!
+3,Uso de grafías: B y V,443,#REF!
+3,Uso de grafías: G y J,444,#REF!
+3,Uso del Punto,445,#REF!
+3,Uso de la Coma (Vocativo),446,#REF!
+3,Uso de la Coma (Apéndices),447,#REF!
+3,Uso de la Coma (Fecha y Lugar),448,#REF!
+3,Uso de la Coma (Enumeración),449,#REF!
+3,Uso de la Coma (Inversión Nombre),450,#REF!
+3,Prohibición de Coma (Sujeto-Verbo),451,#REF!
+3,Uso de Dos Puntos (Saludo),452,#REF!
+3,Uso de Dos Puntos (Enumeración),453,#REF!
+3,Uso de Dos Puntos (Citas),454,#REF!
+3,Uso de Comillas,455,#REF!
+3,Sinónimos,456,#REF!
+3,Antónimos,457,#REF!
+3,Homónimos,458,#REF!
+3,Polisemia,459,#REF!
+3,Monosemia,460,#REF!
+3,Grupo Nominal,461,#REF!
+3,Oración Gramatical,462,#REF!
+3,Verbos de Conjugación Especial,463,#REF!
+3,Modo Discursivo: Narración,464,#REF!
+3,Modo Discursivo: Descripción,465,#REF!
+3,Modo Discursivo: Argumentación,466,#REF!
+3,Modo Discursivo: Explicación,467,#REF!
+3,Modo Discursivo: Diálogo,468,#REF!
+3,Falacia Ad Hominem (Ofensiva),469,#REF!
+3,Falacia Circunstancial,470,#REF!
+3,Falacia Ad Misericordiam (Apelación),471,#REF!
+3,Falacia Ad Populum (Multitud),472,#REF!
+3,Falacia Ad Verecundiam (Autoridad),473,#REF!
+3,Falacia Ad Ignorantiam,474,#REF!
+3,Falacia Petición de Principio,475,#REF!
+3,Falacia Causa Falsa,476,#REF!
+3,Falacia Generalización Apresurada,477,#REF!
+3,Falacia Pregunta Múltiple,478,#REF!
+3,Falacia Ad Baculum (Fuerza),479,#REF!
+3,Falacia de Equívoco,480,#REF!
+3,Falacia de Anfibología,481,#REF!
+3,Falacia de Énfasis,482,#REF!
+3,Falacia de Composición,483,#REF!
+3,Falacia de División,484,#REF!
+3,Análisis Literario: Cotexto,485,#REF!
+3,Análisis Literario: Contexto,486,#REF!
+3,Mundo Mostrado,487,#REF!
+3,Prácticas Sociales e Ideológicas,488,#REF!
+3,Género Literario: Cuento,489,#REF!
+3,Género Literario: Novela,490,#REF!
+3,Género Literario: Lírica,491,#REF!
+3,Género Literario: Drama,492,#REF!
+3,Género Literario: Ensayo,493,#REF!
+3,Texto No Literario: Artículo Periódico,494,#REF!
+3,Texto No Literario: Afiche Publicitario,495,#REF!
+3,Pragmática,496,#REF!
+3,Retórica,497,#REF!
+3,Semántica,498,#REF!
+3,Ideología,499,#REF!
+3,Intertextualidad (Paratexto),500,#REF!
+3,Fases de Lectura: Natural,501,#REF!
+3,Fases de Lectura: Analítica,502,#REF!
+3,Fases de Lectura: Interpretativa,503,#REF!
+3,Inferir,504,#REF!
+3,Cohesión Textual,505,#REF!
+3,Coherencia Textual,506,#REF!
+3,Vocabulario,507,#REF!
+3,Estructura del Ensayo (Introducción),508,#REF!
+3,Estructura del Ensayo (Conclusión),509,#REF!
+3,Legibilidad y Caligrafía,510,#REF!
+3,Uso de Preposiciones,511,#REF!
+3,Sangría,512,#REF!
+4,Evolución de los Homínidos,513,#REF!
+4,Adaptación Humana Primitiva,514,#REF!
+4,Nomadismo a Sedentarismo,515,#REF!
+4,Primeras Sociedades Agrícolas,516,#REF!
+4,Civilización de Mesopotamia,517,#REF!
+4,Civilización Egipcia,518,#REF!
+4,Civilización Griega,519,#REF!
+4,Civilización Romana,520,#REF!
+4,Legado Jurídico Clásico,521,#REF!
+4,Civilizaciones Originarias de América,522,#REF!
+4,Pueblos Originarios de Costa Rica,523,#REF!
+4,Pueblos Indígenas Actuales (CR),524,#REF!
+4,Desafíos Indígenas Contemporáneos,525,#REF!
+4,Huella Ecológica,526,#REF!
+4,Factores de la Huella Ecológica,527,#REF!
+4,Variación Espacial Ecológica,528,#REF!
+4,Reducción de Huella Ecológica,529,#REF!
+4,Ecosistemas Terrestres (CR y Mundo),530,#REF!
+4,Bosques Tropicales,531,#REF!
+4,Manejo Sostenible de Recursos,532,#REF!
+4,Centros de Producción de Alimentos,533,#REF!
+4,Patrones de Consumo Alimentario,534,#REF!
+4,Seguridad Alimentaria,535,#REF!
+4,Soberanía Alimentaria,536,#REF!
+4,Tectónica de Placas,537,#REF!
+4,Actividad Sísmica,538,#REF!
+4,Actividad Volcánica,539,#REF!
+4,Vulnerabilidad ante Desastres,540,#REF!
+4,Gestión del Riesgo (Sismos/Volcanes),541,#REF!
+4,Recurso Hídrico (Agua Dulce),542,#REF!
+4,Contaminación del Agua,543,#REF!
+4,Gestión Sostenible del Agua,544,#REF!
+4,Cambio Climático (Proceso Natural),545,#REF!
+4,Cambio Climático Global (Antropogénico),546,#REF!
+4,Efecto Invernadero Natural,547,#REF!
+4,Efecto Invernadero Acentuado,548,#REF!
+4,Gases de Efecto Invernadero (GEI),549,#REF!
+4,Impacto del Cambio Climático,550,#REF!
+4,Fenómenos Climáticos Extremos,551,#REF!
+4,Sequías e Inundaciones,552,#REF!
+4,Gestión Territorial (Cambio Climático),553,#REF!
+4,Amenazas Climáticas en Costa Rica,554,#REF!
+4,Adaptación al Cambio Climático (CR),555,#REF!
+4,Mitigación del Cambio Climático,556,#REF!
+4,Protocolo de Kioto,557,#REF!
+4,Políticas Públicas Climáticas,558,#REF!
+4,Caída del Imperio Romano,559,#REF!
+4,Feudalismo,560,#REF!
+4,Sociedad Medieval,561,#REF!
+4,Cristianismo en la Edad Media,562,#REF!
+4,Islam en la Edad Media,563,#REF!
+4,Las Cruzadas,564,#REF!
+4,Transición a la Edad Moderna,565,#REF!
+4,Peste Negra,566,#REF!
+4,Legado Cultural Medieval,567,#REF!
+4,Renacimiento,568,#REF!
+4,Reforma Protestante,569,#REF!
+4,Exploración Ultramarina Española,570,#REF!
+4,Tolerancia Religiosa,571,#REF!
+4,Conquista de América,572,#REF!
+4,Instituciones Coloniales,573,#REF!
+4,Encomienda y Repartimiento,574,#REF!
+4,Esclavitud Colonial,575,#REF!
+4,Iglesia Católica Colonial,576,#REF!
+4,Legado Colonial,577,#REF!
+4,Mestizaje,578,#REF!
+4,Monarquías Absolutistas,579,#REF!
+4,Estado Moderno,580,#REF!
+4,La Ilustración,581,#REF!
+4,Revolución Francesa,582,#REF!
+4,Independencia de América,583,#REF!
+4,Independencia de Costa Rica,584,#REF!
+4,Revolución Industrial,585,#REF!
+4,Formación del Estado Costarricense,586,#REF!
+4,Localismos en Costa Rica,587,#REF!
+4,Campaña Nacional 1856-1857,588,#REF!
+4,Juan Santamaría y Francisca Carrasco,589,#REF!
+4,Consolidación de Identidad Nacional,590,#REF!
+4,Ascenso de los Militares (Siglo XIX),591,#REF!
+4,Reformas Liberales (1870-1890),592,#REF!
+4,Educación en el Estado Liberal,593,#REF!
+4,Modelo Agroexportador,594,#REF!
+4,Expansión del Café,595,#REF!
+4,Oligarquía Cafetalera,596,#REF!
+4,Enclave Bananero,597,#REF!
+4,Impacto Social del Banano,598,#REF!
+4,Ferrocarril al Atlántico,599,#REF!
+4,Vida Cotidiana Siglo XIX,600,#REF!
+4,Hábitos de Consumo (Siglo XIX vs Actual),601,#REF!
+4,Geografía de Grecia Antigua,602,#REF!
+4,Geografía de Roma Antigua,603,#REF!
+4,Religión Egipcia,604,#REF!
+4,Religión Griega,605,#REF!
+4,Ingeniería Romana,606,#REF!
+4,Ubicación Mayas,607,#REF!
+4,Ubicación Aztecas,608,#REF!
+4,Ubicación Incas,609,#REF!
+4,Cacicazgos en Costa Rica,610,#REF!
+4,Arte Precolombino de CR,611,#REF!
+4,Biocapacidad,612,#REF!
+4,Déficit Ecológico,613,#REF!
+4,Deforestación,614,#REF!
+4,Energías Limpias,615,#REF!
+4,Placas Tectónicas (Cocos y Caribe),616,#REF!
+4,Cinturón de Fuego del Pacífico,617,#REF!
+4,Ciclo Hidrológico,618,#REF!
+4,Escasez de Agua,619,#REF!
+4,Fenómeno de El Niño/La Niña,620,#REF!
+4,Sector Agropecuario y Cambio Climático,621,#REF!
+4,Biodiversidad y Cambio Climático,622,#REF!
+4,Sector Salud y Cambio Climático,623,#REF!
+4,Energía y Cambio Climático,624,#REF!
+4,Impuestos Coloniales,625,#REF!
+4,Monopolio Comercial,626,#REF!
+4,Castas Coloniales,627,#REF!
+4,Arte Barroco Colonial,628,#REF!
+4,Enciclopedismo,629,#REF!
+4,Constitución de Cádiz (1812),630,#REF!
+4,Acta de Independencia (15 Septiembre),631,#REF!
+4,Pacto de Concordia,632,#REF!
+4,Batalla de Santa Rosa,633,#REF!
+4,Batalla de Rivas,634,#REF!
+4,Generación del Olimpo,635,#REF!
+2,La Célula,636,"Unidad estructural, funcional y reproductiva de los seres vivos."
+2,Teoría Celular,637,"Aportes de Hooke, Leeuwenhoek, Schleiden, Schwann y Virchow."
+2,Tipos de Células,638,Diferenciación entre procariotas y eucariotas (animal y vegetal).
+2,Estructura Celular Básica,639,"Núcleo, membrana, citoplasma y organelas básicas."
+2,Avances Científicos y Tecnológicos,640,"Impacto en agricultura, industria, salud y exploración espacial."
+2,Biotecnología y Nanotecnología,641,Aplicaciones modernas de la tecnología en la vida diaria.
+2,Método Científico,642,Pasos de la investigación científica y pensamiento crítico.
+2,Científicos Costarricenses,643,"Aportes de Picado, Chang, Benavides, y otros al desarrollo científico."
+2,Mediciones y Estimaciones,644,Diferencias y uso de instrumentos de medición.
+2,Sistema Internacional de Unidades (SI),645,"Unidades fundamentales y derivadas (metro, kilogramo, segundo)."
+2,Conversión de Unidades,646,Uso de factores de conversión y prefijos del SI.
+2,Propiedades de la Materia,647,"Propiedades físicas (densidad, solubilidad) y químicas (oxidación)."
+2,Estados de Agregación,648,"Sólido, líquido, gas, plasma y cambios de fase."
+2,Ciclo Hidrológico,649,"Procesos de evaporación, condensación y purificación del agua."
+2,Sustancias Puras,650,Elementos y compuestos químicos.
+2,Mezclas,651,"Mezclas homogéneas, heterogéneas y coloides."
+2,Métodos de Separación,652,"Filtración, decantación, destilación, cromatografía, etc."
+2,Hidrosfera,653,"Distribución de masas de agua (océanos, glaciares, ríos)."
+2,Recurso Hídrico,654,"Importancia de acueductos, humedales y conservación del agua."
+2,Contaminación Atmosférica,655,Impacto en el cambio climático y el ciclo hidrológico.
+2,Fenómeno ENOS,656,El Niño y La Niña y la variabilidad climática.
+2,Membrana y Pared Celular,657,Estructura y transporte de sustancias.
+2,Organelas Citoplasmáticas,658,"Funciones de mitocondrias, cloroplastos, ribosomas, lisosomas, etc."
+2,Ciclo Celular,659,"Fases G1, S, G2, M y regeneración de tejidos."
+2,Cáncer,660,"Causas, agentes carcinógenos y prevención."
+2,Formas de Energía,661,"Energía eléctrica, eólica, solar, geotérmica, etc."
+2,Energía Cinética y Potencial,662,"Conceptos, fórmulas y relación con el trabajo."
+2,Transformación de la Energía,663,Ley de conservación y aplicaciones cotidianas.
+2,Temperatura y Calor,664,"Escalas (Celsius, Fahrenheit, Kelvin) y conversión."
+2,Energías Renovables,665,Uso sostenible de recursos energéticos en Costa Rica.
+2,Elementos Químicos,666,"Nombres, símbolos y origen de los elementos comunes."
+2,Tabla Periódica,667,"Organización, grupos, metales, no metales y metaloides."
+2,Usos de los Elementos,668,"Aplicaciones del hierro, aluminio, cobre, oro, etc."
+2,El Átomo,669,"Estructura (protones, neutrones, electrones) y modelos atómicos."
+2,Número Atómico y Másico,670,Cálculos de partículas subatómicas (Z y A).
+2,Iones e Isótopos,671,"Concepto de aniones, cationes y átomos con diferente masa."
+2,Radioactividad,672,"Tipos (natural/artificial), fisión y fusión nuclear."
+2,Aplicaciones Nucleares,673,"Uso de radioisótopos en medicina, agricultura y energía."
+2,Formación del Suelo,674,"Meteorización, erosión y componentes del suelo."
+2,Rocas,675,"Tipos de rocas: ígneas, sedimentarias y metamórficas."
+2,Uso y Conservación del Suelo,676,Ordenamiento territorial y prevención de erosión.
+2,Sistemas del Cuerpo Humano,677,"Interrelación de sistemas (digestivo, respiratorio, circulatorio, etc.)."
+2,Salud y Nutrición,678,"Hábitos de consumo, manipulación de alimentos y prevención de enfermedades."
+2,Estilos de Vida Saludable,679,"Ejercicio, higiene, descanso y salud mental."
+2,Movimiento,680,"Conceptos de distancia, desplazamiento, rapidez y velocidad."
+2,Movimiento Rectilíneo Uniforme,681,Características y cálculos de velocidad.
+2,Fuerza,682,"Concepto, unidades, tipos (rozamiento, peso) y vectores."
+2,Leyes de Newton,683,"Inercia, Acción-Reacción y Ley Fundamental."
+2,Trabajo Mecánico,684,Relación entre fuerza y desplazamiento.
+2,Máquinas Simples,685,"Palancas, planos inclinados y su utilidad."
+2,Molécula,686,Unidad de compuestos químicos.
+2,Compuestos Químicos,687,Clasificación (binarios/ternarios) y ejemplos cotidianos.
+2,Nomenclatura Química,688,"Reglas para nombrar óxidos, sales, hidruros e hidrácidos."
+2,Reacciones Químicas,689,Diferencia con ecuación química y manifestaciones.
+2,Ley de Conservación de la Materia,690,Balanceo de ecuaciones químicas sencillas.
+2,Procesos Endotérmicos y Exotérmicos,691,Absorción y liberación de energía en reacciones.
+2,Tejidos Vegetales,692,"Xilema, floema, epidermis y meristemos."
+2,Órganos de las Plantas,693,"Raíz, tallo, hoja, flor, fruto y semilla."
+2,Tejidos Animales,694,"Epitelial, conectivo, muscular, nervioso, etc."
+2,Biotecnología y Ética,695,"Trasplantes, células madre, transgénicos y bienestar animal."
+2,Sistema Solar,696,"Características del Sol, planetas y cuerpos menores."
+2,Tierra y Luna,697,"Movimientos (rotación/traslación) y efectos (mareas, estaciones)."
+2,Leyes de Kepler,698,Dinámica del movimiento planetario.
+2,Exploración Espacial,699,Historia y avances en el estudio del universo.

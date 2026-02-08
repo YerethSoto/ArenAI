@@ -2,11 +2,11 @@
 /* Following the same design as TaskAssignment and AIQuizGenerator */
 
 .quiz-menu-page {
-  background-color: #f9f4e6 !important;
+  background-color: var(--ion-background-color) !important;
 }
 
 .quiz-menu-content {
-  --background: #f9f4e6 !important;
+  --background: var(--ion-background-color) !important;
 }
 
 /* Fix header line issue */
@@ -564,4 +564,65 @@
   font-size: 14px;
   cursor: pointer;
   font-family: 'Georgia', serif;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Small screens */
+@media (max-width: 360px) {
+  .quiz-menu-container {
+    padding: 15px 12px;
+    gap: 15px;
+  }
+
+  .quiz-menu-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .quiz-menu-section-title {
+    font-size: 16px;
+  }
+
+  .quiz-menu-card {
+    padding: 12px;
+  }
+
+  .quiz-menu-card-name {
+    font-size: 14px;
+  }
+
+  .quiz-menu-footer {
+    padding: 12px 15px;
+  }
+
+  .quiz-menu-generate-btn {
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Touch targets */
+.quiz-menu-action-btn {
+  min-height: 44px;
+}
+
+.quiz-menu-card {
+  min-height: 48px;
+}
+
+.quiz-menu-filter-btn {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Safe area */
+.quiz-menu-footer {
+  padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px));
+}
+
+.quiz-menu-footer-spacer {
+  height: calc(90px + env(safe-area-inset-bottom, 0px));
 }

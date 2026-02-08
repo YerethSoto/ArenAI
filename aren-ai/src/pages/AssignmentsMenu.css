@@ -1,11 +1,11 @@
 /* AssignmentsMenu.css - Redesigned with colorful cards */
 
 .assignments-menu-page {
-  background-color: #f9f4e6 !important;
+  background-color: var(--ion-background-color) !important;
 }
 
 .assignments-menu-content {
-  --background: #f9f4e6 !important;
+  --background: var(--ion-background-color) !important;
 }
 
 /* Fix header line issue */

@@ -10,6 +10,7 @@ interface ProfessorMenuProps {
   onGradeChange: (grade: string) => void;
   onSectionChange: (section: string) => void;
   onSubjectChange: (subject: string) => void;
+  hideSubject?: boolean; // Optional: hide subject selector for general views
 }
 
 interface DropdownPortalProps {
@@ -44,9 +45,9 @@ const DropdownPortal: React.FC<DropdownPortalProps> = ({
   const childrenWithProps = React.Children.map(children, (child) =>
     React.isValidElement(child)
       ? React.cloneElement(child, {
-          _portalType: type,
-          _onOptionClick: onOptionClick,
-        } as any)
+        _portalType: type,
+        _onOptionClick: onOptionClick,
+      } as any)
       : child
   );
 
@@ -78,8 +79,8 @@ const DropdownOptions: React.FC<DropdownOptionsProps> = ({
   const childrenWithClick = React.Children.map(children, (child) =>
     React.isValidElement(child)
       ? React.cloneElement(child, {
-          _onOptionClick: handleOptionClick,
-        } as any)
+        _onOptionClick: handleOptionClick,
+      } as any)
       : child
   );
 
@@ -121,6 +122,7 @@ const ProfessorMenu: React.FC<ProfessorMenuProps> = ({
   onGradeChange,
   onSectionChange,
   onSubjectChange,
+  hideSubject = false,
 }) => {
   const { t } = useTranslation();
   const grades = ["7", "8", "9", "10", "11", "12"];
@@ -225,18 +227,22 @@ const ProfessorMenu: React.FC<ProfessorMenuProps> = ({
             </div>
           </div>
 
-          <span className="divider">:</span>
+          {!hideSubject && (
+            <>
+              <span className="divider">:</span>
 
-          {/* Subject Dropdown */}
-          <div className="dropdown-wrapper">
-            <div
-              ref={subjectRef}
-              className="dropdown-trigger subject-trigger"
-              onClick={() => handleSelectClick("subject")}
-            >
-              {selectedSubject}
-            </div>
-          </div>
+              {/* Subject Dropdown */}
+              <div className="dropdown-wrapper">
+                <div
+                  ref={subjectRef}
+                  className="dropdown-trigger subject-trigger"
+                  onClick={() => handleSelectClick("subject")}
+                >
+                  {selectedSubject}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -273,7 +279,7 @@ const ProfessorMenu: React.FC<ProfessorMenuProps> = ({
         </DropdownPortal>
       )}
 
-      {activeDropdown === "subject" && (
+      {!hideSubject && activeDropdown === "subject" && (
         <DropdownPortal
           triggerRect={triggerRects.subject}
           type="subject"

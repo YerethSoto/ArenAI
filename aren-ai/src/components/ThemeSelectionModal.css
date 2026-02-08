@@ -191,6 +191,22 @@
     background: #8b6f47;
 }
 
+.theme-preview-neon {
+    background: #150224;
+}
+
+.theme-preview-neon .primary {
+    background: #d500f9;
+}
+
+.theme-preview-neon .secondary {
+    background: #00e5ff;
+}
+
+.theme-preview-neon .tertiary {
+    background: #76ff03;
+}
+
 .theme-modal-footer {
     padding-top: 16px;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
@@ -202,4 +218,46 @@
     margin: 0;
     text-transform: none;
     height: 48px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Small screens */
+@media (max-width: 360px) {
+    .theme-modal-content {
+        padding: 16px;
+    }
+
+    .theme-modal-title {
+        font-size: 20px;
+    }
+
+    .theme-grid {
+        gap: 10px;
+    }
+
+    .theme-preview-box {
+        height: 80px;
+    }
+
+    .preview-primary-circle {
+        width: 26px;
+        height: 26px;
+    }
+
+    .theme-name {
+        font-size: 12px;
+        padding: 10px;
+    }
+}
+
+/* Touch targets */
+.theme-card {
+    min-height: 48px;
+}
+
+.select-button {
+    min-height: 48px;
 }

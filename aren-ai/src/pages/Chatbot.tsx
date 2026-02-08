@@ -79,7 +79,7 @@ const Chat: React.FC = () => {
     fetchTopics();
   }, [selectedSubject]);
 
-  const handleLogout = () => {};
+  const handleLogout = () => { };
 
   // Show welcome message on initial load or subject change
   useEffect(() => {
