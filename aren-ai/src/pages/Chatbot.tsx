@@ -81,11 +81,13 @@ const Chat: React.FC = () => {
 
   const handleLogout = () => {};
 
+  // Show welcome message on initial load or subject change
   useEffect(() => {
     const userContext = getUserContext();
     const avatarName = localStorage.getItem("avatarName") || "Aren";
     const avatarType = localStorage.getItem("selected_avatar") || "Capybara";
 
+    // Always start with welcome message
     const initialMessage: Message = {
       id: messageIdCounter.current++,
       text: t("mainStudent.aiAssistant.welcome", {
@@ -100,11 +102,70 @@ const Chat: React.FC = () => {
     };
 
     setMessages([initialMessage]);
+    messageIdCounter.current = 2; // Reset counter for history
 
     setTimeout(() => {
       startTypewriterEffect(initialMessage.id, initialMessage.text, 15);
     }, 500);
-  }, []);
+
+    // Load chat history from database
+    const loadChatHistory = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+          console.log("[Chatbot] No authToken found - skipping history load");
+          return;
+        }
+
+        console.log(
+          `[Chatbot] Loading history for subject: ${selectedSubject}`,
+        );
+
+        const response = await fetch(
+          getApiUrl(
+            `/ai/chat-history?subject=${encodeURIComponent(selectedSubject)}&limit=50`,
+          ),
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.history && data.history.length > 0) {
+            console.log(
+              `[Chatbot] Loaded ${data.history.length} messages from history`,
+            );
+
+            // Convert DB history to Message format
+            const historyMessages: Message[] = data.history.map((msg: any) => ({
+              id: messageIdCounter.current++,
+              text: msg.content,
+              isUser: msg.role === "user",
+              timestamp: new Date(msg.timestamp),
+              displayedText: msg.content, // Show immediately, no typing animation for history
+              isTyping: false,
+            }));
+
+            // Append history after welcome message
+            setMessages((prev) => [...prev, ...historyMessages]);
+            scrollToBottom();
+          } else {
+            console.log("[Chatbot] No history found for this subject");
+          }
+        } else {
+          console.error("[Chatbot] Failed to load history:", response.status);
+        }
+      } catch (err) {
+        console.error("[Chatbot] Error loading chat history:", err);
+      }
+    };
+
+    // Load history after a short delay to let welcome message show first
+    setTimeout(loadChatHistory, 100);
+  }, [selectedSubject, t]);
 
   // Clean up intervals on unmount
   useEffect(() => {
@@ -215,7 +276,7 @@ const Chat: React.FC = () => {
         parts: [{ text: m.text }],
       }));
 
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("authToken");
       const headers: any = {
         "Content-Type": "application/json",
       };
@@ -311,7 +372,7 @@ const Chat: React.FC = () => {
             const showAvatar = shouldShowAvatar(index);
             return (
               <div
-                key={message.id}
+                key={`${message.timestamp.getTime()}-${index}`}
                 className={`message-row ${message.isUser ? "user" : "bot"}`}
               >
                 {!message.isUser && (

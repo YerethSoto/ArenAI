@@ -63,6 +63,47 @@ class SocketService {
             // Client should not auto-reconnect unless we fix token.
         }
     });
+
+    // Listen for insight generation updates from cron job
+    this.socket.on('insight_update', (data: { timestamp: string; message: string; data?: any }) => {
+        console.log('');
+        console.log('%c╔══════════════════════════════════════════════════════╗', 'color: #00ff00; font-weight: bold');
+        console.log('%c║       🧠 INSIGHT ANALYTICS UPDATE                    ║', 'color: #00ff00; font-weight: bold');
+        console.log('%c╚══════════════════════════════════════════════════════╝', 'color: #00ff00; font-weight: bold');
+        console.log(`%c📡 ${data.message}`, 'color: #00ccff; font-size: 14px');
+        console.log('%c⏰ Time:', 'color: #888', data.timestamp);
+        
+        // If this is an insight result, display the content prominently
+        if (data.data) {
+            if (data.data.status === 'insight_saved') {
+                console.log('%c━━━━━━━━━━━━━ STUDENT SUMMARY ━━━━━━━━━━━━━', 'color: #ffcc00; font-weight: bold');
+                console.log(`%c👤 User ID: ${data.data.userId}`, 'color: #fff; font-size: 12px');
+                console.log(`%c📚 Subject: ${data.data.subject}`, 'color: #fff; font-size: 12px');
+                
+                if (data.data.knowledgeGaps && data.data.knowledgeGaps.length > 0) {
+                    console.log('%c📊 KNOWLEDGE GAPS (What student struggles with):', 'color: #ff6666; font-weight: bold; font-size: 13px');
+                    data.data.knowledgeGaps.forEach((gap: string, i: number) => {
+                        console.log(`%c   ${i + 1}. ${gap}`, 'color: #ff9999; font-size: 12px');
+                    });
+                }
+                
+                console.log(`%c😊 SENTIMENT: ${data.data.sentiment}`, 'color: #66ff66; font-weight: bold; font-size: 13px');
+                
+                if (data.data.studyTips && data.data.studyTips.length > 0) {
+                    console.log('%c💡 STUDY TIPS:', 'color: #66ccff; font-weight: bold; font-size: 13px');
+                    data.data.studyTips.forEach((tip: string, i: number) => {
+                        console.log(`%c   ${i + 1}. ${tip}`, 'color: #99ddff; font-size: 12px');
+                    });
+                }
+                
+                console.log(`%c📝 Messages analyzed: ${data.data.messagesAnalyzed}`, 'color: #888');
+                console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #ffcc00; font-weight: bold');
+            } else {
+                console.log('%c📊 Details:', 'color: #ff9900', data.data);
+            }
+        }
+        console.log('');
+    });
   }
 
   disconnect() {

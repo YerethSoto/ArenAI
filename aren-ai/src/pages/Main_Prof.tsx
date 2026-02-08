@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect, useRef } from "react";
 import { useAvatar } from "../context/AvatarContext";
 import {
   IonContent,
@@ -30,6 +30,7 @@ import AnimatedMascot from "../components/AnimatedMascot";
 import { CalendarSelector } from "../components/CalendarSelector";
 import { TopicProgress } from "../types/student";
 import PageTransition from "../components/PageTransition";
+import { socketService } from "../services/socket";
 
 const Main_Prof: React.FC = () => {
   const router = useIonRouter();
@@ -47,13 +48,27 @@ const Main_Prof: React.FC = () => {
   } = useProfessorFilters();
   const [topics, setTopics] = useState<TopicProgress[]>([]);
   const [overallPerformance, setOverallPerformance] = useState(0);
-  const [viewMode, setViewMode] = useState<"rec" | "que">("rec");
+  const [viewMode, setViewMode] = useState<"state" | "que">("state");
+
+  // Class insights state
+  const [classInsights, setClassInsights] = useState<{
+    summary: string;
+    issues: string[];
+  } | null>(null);
+  const [insightsLoading, setInsightsLoading] = useState(false);
+
+  // Typing animation state
+  const [displayedSummary, setDisplayedSummary] = useState("");
+  const [displayedIssues, setDisplayedIssues] = useState<string[]>([]);
+  const [isTyping, setIsTyping] = useState(false);
+  const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const issueTimeoutRefs = useRef<NodeJS.Timeout[]>([]);
 
   useEffect(() => {
     const fetchTopicsFromAPI = async () => {
       try {
         const token = localStorage.getItem("authToken");
-        const userStr = localStorage.getItem("user");
+        const userStr = localStorage.getItem("userData");
         const user = userStr ? JSON.parse(userStr) : null;
         const userId = user?.id;
 
@@ -124,10 +139,164 @@ const Main_Prof: React.FC = () => {
     `professor.dashboard.insights.enforce.${subjectKey}`,
     "No insight available.",
   );
-  const currentClassRecommendation = t(
-    `professor.dashboard.insights.recommendation.${subjectKey}`,
-    "No recommendation available.",
-  );
+
+  // Typing animation effect for summary + issues
+  const startTypingAnimation = (
+    text: string,
+    issues: string[],
+    speed: number = 20,
+  ) => {
+    // Clear any existing timeouts
+    if (typingIntervalRef.current) {
+      clearInterval(typingIntervalRef.current);
+    }
+    issueTimeoutRefs.current.forEach((t) => clearTimeout(t));
+    issueTimeoutRefs.current = [];
+
+    setDisplayedSummary("");
+    setDisplayedIssues([]);
+    setIsTyping(true);
+    let charIndex = 0;
+
+    typingIntervalRef.current = setInterval(() => {
+      if (charIndex < text.length) {
+        setDisplayedSummary(text.substring(0, charIndex + 1));
+        charIndex++;
+      } else {
+        if (typingIntervalRef.current) {
+          clearInterval(typingIntervalRef.current);
+        }
+        setIsTyping(false);
+
+        // After summary is done, animate issues one by one
+        issues.forEach((issue, idx) => {
+          const timeout = setTimeout(
+            () => {
+              setDisplayedIssues((prev) => [...prev, issue]);
+            },
+            300 * (idx + 1),
+          );
+          issueTimeoutRefs.current.push(timeout);
+        });
+      }
+    }, speed);
+  };
+
+  // Cleanup typing interval and issue timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (typingIntervalRef.current) {
+        clearInterval(typingIntervalRef.current);
+      }
+      issueTimeoutRefs.current.forEach((t) => clearTimeout(t));
+    };
+  }, []);
+
+  // Fetch class insights from API
+  const fetchClassInsights = async (animate: boolean = false) => {
+    console.log("[Debug] fetchClassInsights CALLED");
+    setInsightsLoading(true);
+    try {
+      const token = localStorage.getItem("authToken");
+      const url = getApiUrl(`/ai/class-insights?classId=1`);
+      console.log("[Debug] Fetching:", url);
+
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("[Debug] Response status:", response.status);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(
+          "[Debug] Class insights API response:",
+          JSON.stringify(data),
+        );
+
+        let summary = "";
+        const allWeaknesses: string[] = [];
+
+        if (data.insights && data.insights.length > 0) {
+          console.log("[Debug] Found", data.insights.length, "insights");
+          summary = data.insights[0].summary || "";
+          console.log("[Debug] First insight summary:", summary);
+
+          data.insights.forEach((insight: any) => {
+            const weaknesses = insight.weaknesses || [];
+            allWeaknesses.push(...weaknesses);
+          });
+        } else {
+          console.log("[Debug] No insights in response");
+        }
+
+        const uniqueWeaknesses = [...new Set(allWeaknesses)];
+
+        setClassInsights({
+          summary: summary,
+          issues: uniqueWeaknesses.slice(0, 5),
+        });
+
+        // Trigger typing animation if requested (new report)
+        if (animate && summary) {
+          startTypingAnimation(summary, uniqueWeaknesses.slice(0, 5));
+        } else {
+          setDisplayedSummary(summary);
+          setDisplayedIssues(uniqueWeaknesses.slice(0, 5));
+        }
+      } else {
+        console.log(
+          "[Debug] Response NOT OK:",
+          response.status,
+          await response.text(),
+        );
+        setClassInsights(null);
+        setDisplayedSummary("");
+        setDisplayedIssues([]);
+      }
+    } catch (err) {
+      console.error("[Debug] Error fetching class insights:", err);
+      setClassInsights(null);
+    } finally {
+      setInsightsLoading(false);
+    }
+  };
+
+  // Initial fetch on mount/subject change
+  useEffect(() => {
+    fetchClassInsights(false);
+  }, [selectedSubject]);
+
+  // WebSocket listener for real-time report updates
+  useEffect(() => {
+    socketService.connect();
+
+    const handleInsightUpdate = (data: {
+      timestamp: string;
+      message: string;
+      data?: any;
+    }) => {
+      console.log("[Main_Prof] Insight update received:", data);
+
+      // Check if this is a class report saved - refetch for professor
+      if (
+        data.data?.status === "report_saved" ||
+        data.data?.status === "summary_saved"
+      ) {
+        console.log("[Main_Prof] New class report - refetching with animation");
+        fetchClassInsights(true); // Refetch with animation
+      }
+    };
+
+    socketService.socket?.on("insight_update", handleInsightUpdate);
+
+    return () => {
+      socketService.socket?.off("insight_update", handleInsightUpdate);
+    };
+  }, []);
 
   const navigateTo = (path: string) => router.push(path);
 
@@ -245,11 +414,11 @@ const Main_Prof: React.FC = () => {
               <div className="ms-switch-container">
                 <div
                   className={`ms-switch-option ${
-                    viewMode === "rec" ? "active" : ""
+                    viewMode === "state" ? "active" : ""
                   }`}
-                  onClick={() => setViewMode("rec")}
+                  onClick={() => setViewMode("state")}
                 >
-                  {t("professor.dashboard.recommendations")}
+                  {t("professor.dashboard.stateOfClass", "State of Class")}
                 </div>
                 <div
                   className={`ms-switch-option ${
@@ -268,14 +437,68 @@ const Main_Prof: React.FC = () => {
                 />
               </div>
               <div className="ms-info-display">
-                {viewMode === "rec" ? (
+                {viewMode === "state" ? (
                   <>
-                    <div className="ms-info-title">
-                      {t("professor.dashboard.studyRecommendation")}
-                    </div>
-                    <div className="ms-info-content">
-                      Focus on reinforcing {selectedSubject} fundamentals with
-                      your class.
+                    <div
+                      className="ms-info-content"
+                      style={{
+                        fontSize: "13px",
+                        lineHeight: "1.6",
+                        textAlign: "center",
+                      }}
+                    >
+                      {insightsLoading ? (
+                        <p>{t("common.loading", "Loading...")}</p>
+                      ) : classInsights &&
+                        (classInsights.summary ||
+                          classInsights.issues.length > 0) ? (
+                        <>
+                          {(displayedSummary || isTyping) && (
+                            <p style={{ marginBottom: "12px" }}>
+                              {displayedSummary}
+                              {isTyping && (
+                                <span
+                                  style={{
+                                    animation: "blink 1s step-end infinite",
+                                  }}
+                                >
+                                  |
+                                </span>
+                              )}
+                            </p>
+                          )}
+                          {displayedIssues.length > 0 && (
+                            <ul
+                              style={{
+                                margin: 0,
+                                paddingLeft: "16px",
+                                listStyleType: "disc",
+                              }}
+                            >
+                              {displayedIssues.map(
+                                (issue: string, idx: number) => (
+                                  <li
+                                    key={idx}
+                                    style={{
+                                      marginBottom: "4px",
+                                      animation: "fadeIn 0.3s ease-in",
+                                    }}
+                                  >
+                                    {issue}
+                                  </li>
+                                ),
+                              )}
+                            </ul>
+                          )}
+                        </>
+                      ) : (
+                        <p style={{ fontStyle: "italic", opacity: 0.8 }}>
+                          {t(
+                            "professor.dashboard.nothingToSummarize",
+                            "Nothing to summarize yet",
+                          )}
+                        </p>
+                      )}
                     </div>
                   </>
                 ) : (

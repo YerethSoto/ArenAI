@@ -46,15 +46,13 @@ create table subject
 
 create table class
 (
-    id_class                  int auto_increment
+    id_class      int auto_increment
         primary key,
-    name_class                varchar(255)  not null,
-    id_subject                int           not null,
-    id_section                int           not null,
-    fecha                     date          null,
-    ai_summary                text          null,
-    current_questions_summary text          null,
-    score_average             decimal(5, 2) null,
+    name_class    varchar(255)  not null,
+    id_subject    int           not null,
+    id_section    int           not null,
+    fecha         date          null,
+    score_average decimal(5, 2) null,
     constraint id_subject
         unique (id_subject, id_section, name_class),
     constraint fk_class_section
@@ -65,6 +63,26 @@ create table class
 
 create index idx_class__subject_section
     on class (id_subject, id_section, fecha);
+
+create table professor_class_report
+(
+    id_report            bigint auto_increment
+        primary key,
+    id_class             int                                 not null,
+    general_summary      text                                not null,
+    top_confusion_topics json                                null,
+    sentiment_average    varchar(50)                         null,
+    suggested_action     text                                null,
+    created_at           timestamp default CURRENT_TIMESTAMP null,
+    constraint unique_class_report
+        unique (id_class),
+    constraint fk_pcr_class
+        foreign key (id_class) references class (id_class)
+            on delete cascade
+);
+
+create index idx_pcr_class_date
+    on professor_class_report (id_class, created_at);
 
 create table topic
 (
@@ -292,38 +310,6 @@ create index id_user_1
 create index id_user_2
     on chat (id_user_2);
 
-create table chatbot
-(
-    id_chatbot int auto_increment
-        primary key,
-    id_subject int null,
-    id_student int null,
-    constraint chatbot_ibfk_1
-        foreign key (id_student) references user (id_user),
-    constraint chatbot_ibfk_2
-        foreign key (id_subject) references subject (id_subject)
-);
-
-create index id_student
-    on chatbot (id_student);
-
-create index id_subject
-    on chatbot (id_subject);
-
-create table chatbot_message
-(
-    id_chatbot_message int auto_increment
-        primary key,
-    id_chatbot         int        null,
-    date               date       null,
-    is_user            tinyint(1) null,
-    constraint chatbot_message_ibfk_1
-        foreign key (id_chatbot) references chatbot (id_chatbot)
-);
-
-create index id_chatbot
-    on chatbot_message (id_chatbot);
-
 create table class_student
 (
     id_class                int                  not null,
@@ -433,6 +419,33 @@ create table friend_requests
         foreign key (id_sender) references user (id_user)
             on delete cascade
 );
+
+create table learning_chat_history
+(
+    id_message  bigint auto_increment
+        primary key,
+    id_user     int                                  not null,
+    id_subject  int                                  not null,
+    id_class    int                                  null,
+    role        enum ('user', 'model')               not null,
+    content     text                                 not null,
+    is_analyzed tinyint(1) default 0                 null,
+    created_at  timestamp  default CURRENT_TIMESTAMP null,
+    constraint fk_lch_class
+        foreign key (id_class) references class (id_class)
+            on delete set null,
+    constraint fk_lch_subject
+        foreign key (id_subject) references subject (id_subject),
+    constraint fk_lch_user
+        foreign key (id_user) references user (id_user)
+            on delete cascade
+);
+
+create index idx_lch_analysis_queue
+    on learning_chat_history (id_user, is_analyzed);
+
+create index idx_lch_history
+    on learning_chat_history (id_user, id_subject, created_at);
 
 create table message
 (
@@ -685,6 +698,29 @@ create index id_attempt
 
 create index id_question
     on quiz_response (id_question);
+
+create table student_class_summary
+(
+    id_summary                 bigint auto_increment
+        primary key,
+    id_class                   int                                  not null,
+    id_user                    int                                  not null,
+    summary_text               text                                 not null,
+    strengths                  json                                 null,
+    weaknesses                 json                                 null,
+    study_tips                 json                                 null,
+    is_processed_for_professor tinyint(1) default 0                 null,
+    created_at                 timestamp  default CURRENT_TIMESTAMP null,
+    updated_at                 timestamp  default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP,
+    constraint unique_summary_per_class
+        unique (id_class, id_user),
+    constraint fk_scs_class
+        foreign key (id_class) references class (id_class)
+            on delete cascade,
+    constraint fk_scs_user
+        foreign key (id_user) references user (id_user)
+            on delete cascade
+);
 
 create table student_profile
 (

@@ -121,3 +121,83 @@ Aproximadamente 70% selección única, 30% selección múltiple.
 }
 </json_schema>
 `;
+
+// ==========================================
+// 4. STUDENT INSIGHT ANALYSIS PROMPT (JSON)
+// Used by cron job to analyze chat conversations
+// ==========================================
+export const STUDENT_INSIGHT_PROMPT = `
+<role>
+Eres un analizador de conversaciones educativas. Tu salida será procesada por una API.
+IMPORTANTE: Tu respuesta debe ser ÚNICAMENTE un JSON válido. Sin markdown, sin explicaciones.
+</role>
+
+<task>
+Analiza el siguiente historial de chat de tutoría para la materia: {SUBJECT}.
+Identifica fortalezas, debilidades del estudiante, y genera consejos específicos.
+</task>
+
+<transcript>
+{TRANSCRIPT}
+</transcript>
+
+<strict_format>
+El formato debe ser EXACTAMENTE así:
+
+1. **summary**: Un párrafo describiendo la situación del estudiante. 
+   Ejemplo: "El estudiante tiene dificultades para hacer sumas mentalmente y solo puede hacerlas en papel. También confunde las reglas de multiplicación con las de suma."
+
+2. **strengths**: Lo que el estudiante hace bien (puede estar vacío si no hay evidencia).
+   Ejemplo: ["Entiende conceptos básicos de algebra", "Hace buenas preguntas"]
+
+3. **weaknesses**: Lista de problemas ESPECÍFICOS (frases cortas).
+   Ejemplo: ["No puede sumar rápidamente en su cabeza", "Confunde multiplicación con suma"]
+
+4. **tips**: 2-3 consejos ACCIONABLES para mejorar.
+   Ejemplo: ["Practica sumas mentales con números pequeños cada día", "Repasa las tablas de multiplicar"]
+</strict_format>
+
+<json_schema>
+{
+  "summary": "Párrafo describiendo la situación del estudiante",
+  "strengths": ["fortaleza 1", "fortaleza 2"],
+  "weaknesses": ["problema específico 1", "problema específico 2"],
+  "tips": ["consejo accionable 1", "consejo accionable 2"]
+}
+</json_schema>
+`;
+
+
+
+// ==========================================
+// 5. CLASS REPORT AGGREGATION PROMPT (JSON)
+// Used by cron job to aggregate insights for professors
+// ==========================================
+export const CLASS_REPORT_PROMPT = `
+<role>
+Eres un generador de reportes de clase para profesores. Tu salida será procesada por una API.
+IMPORTANTE: Tu respuesta debe ser ÚNICAMENTE un JSON válido. Sin markdown, sin explicaciones.
+</role>
+
+<task>
+Aquí hay un resumen de las brechas de aprendizaje identificadas en tu clase:
+
+{INSIGHTS_SUMMARY}
+
+Genera un reporte de clase identificando patrones comunes.
+</task>
+
+<strict_constraints>
+1. **SOLO JSON:** Tu respuesta debe ser ÚNICAMENTE el JSON. NO markdown, NO explicaciones.
+2. **Patrones:** Enfócate en problemas que afectan a múltiples estudiantes.
+3. **Accionable:** Las sugerencias deben ser temas específicos para repasar en clase.
+</strict_constraints>
+
+<json_schema>
+{
+  "trending_problems": ["los 3 problemas más comunes entre los estudiantes"],
+  "suggested_topics": ["2-3 temas para repasar en la próxima clase"],
+  "summary": "Un resumen breve de 2-3 oraciones para el profesor"
+}
+</json_schema>
+`;

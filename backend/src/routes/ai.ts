@@ -3,10 +3,151 @@ import { checkGeminiConnection, generateContentWithGemini } from '../services/ge
 import { Router } from 'express';
 import { ApiError } from '../middleware/errorHandler.js';
 import { STUDENT_SYSTEM_PROMPT, PROFESSOR_SYSTEM_PROMPT, QUIZ_GENERATOR_PROMPT } from '../config/prompts.js';
+// Using simpler chat_logs table for message storage and analytics
+import { 
+  logChatMessage, 
+  getChatHistory,
+  getSubjectIdByName
+} from '../repositories/chatLogRepository.js';
+import { runInsightGeneration, runClassReportGeneration } from '../services/insightService.js';
+import { db } from '../db/pool.js';
 
 const router = Router();
 
-// Ruta de prueba: GET /ai/test-connection
+// Default class ID (until class system is fully implemented)
+const DEFAULT_CLASS_ID = 1;
+
+// GET /ai/class-insights - Get aggregated student summaries for teacher dashboard
+router.get('/class-insights', async (req, res, next) => {
+  try {
+    const classId = parseInt(req.query.classId as string) || DEFAULT_CLASS_ID;
+    console.log(`[API] /class-insights called with classId=${classId}`);
+    
+    // Get all student summaries for this class
+    const query = `
+      SELECT 
+        scs.id_summary,
+        scs.id_class,
+        scs.id_user,
+        u.username,
+        u.name as student_name,
+        scs.summary_text,
+        scs.strengths,
+        scs.weaknesses,
+        scs.study_tips,
+        scs.created_at,
+        scs.updated_at
+      FROM student_class_summary scs
+      JOIN user u ON scs.id_user = u.id_user
+      WHERE scs.id_class = ?
+      ORDER BY scs.updated_at DESC
+      LIMIT 50
+    `;
+    
+    const result = await db.query<any>(query, [classId]);
+    console.log(`[API] /class-insights found ${result.rows.length} rows for classId=${classId}`);
+    
+    // Aggregate weaknesses across all students
+    const allWeaknesses: string[] = [];
+    
+    result.rows.forEach((summary: any) => {
+      let weaknesses = summary.weaknesses;
+      if (typeof weaknesses === 'string') {
+        try { weaknesses = JSON.parse(weaknesses); } catch (e) { weaknesses = []; }
+      }
+      if (Array.isArray(weaknesses)) {
+        allWeaknesses.push(...weaknesses);
+      }
+    });
+    
+    // Count frequency of each weakness
+    const weaknessFrequency: { [key: string]: number } = {};
+    allWeaknesses.forEach(weakness => {
+      const normalized = weakness.toLowerCase().trim();
+      weaknessFrequency[normalized] = (weaknessFrequency[normalized] || 0) + 1;
+    });
+    
+    // Sort by frequency
+    const topWeaknesses = Object.entries(weaknessFrequency)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([topic, count]) => ({ topic, studentCount: count }));
+    
+    res.json({
+      success: true,
+      summary: {
+        totalStudentsAnalyzed: result.rows.length,
+        topWeaknesses,
+        classId
+      },
+      insights: result.rows.map((r: any) => ({
+        ...r,
+        summary: r.summary_text,
+        weaknesses: typeof r.weaknesses === 'string' ? JSON.parse(r.weaknesses) : r.weaknesses,
+        strengths: typeof r.strengths === 'string' ? JSON.parse(r.strengths) : r.strengths,
+        study_tips: typeof r.study_tips === 'string' ? JSON.parse(r.study_tips) : r.study_tips
+      }))
+    });
+  } catch (error: any) {
+    console.error('Class insights error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET /ai/student-insights - Get personal summary for a specific student
+router.get('/student-insights', async (req, res, next) => {
+  try {
+    const userId = parseInt(req.query.userId as string);
+    const classId = parseInt(req.query.classId as string) || DEFAULT_CLASS_ID;
+    
+    if (!userId) {
+      return res.status(400).json({ error: 'userId is required' });
+    }
+    
+    console.log(`[API] /student-insights called with userId=${userId}, classId=${classId}`);
+    
+    const query = `
+      SELECT 
+        scs.id_summary,
+        scs.id_class,
+        scs.id_user,
+        scs.summary_text,
+        scs.strengths,
+        scs.weaknesses,
+        scs.study_tips,
+        scs.created_at,
+        scs.updated_at
+      FROM student_class_summary scs
+      WHERE scs.id_user = ? AND scs.id_class = ?
+      ORDER BY scs.updated_at DESC
+      LIMIT 1
+    `;
+    
+    const result = await db.query<any>(query, [userId, classId]);
+    console.log(`[API] /student-insights found ${result.rows.length} rows for userId=${userId}, classId=${classId}`);
+    
+    // Map to expected format for frontend compatibility
+    const insights = result.rows.map((r: any) => ({
+      ...r,
+      summary: r.summary_text,
+      knowledge_gaps: typeof r.weaknesses === 'string' ? JSON.parse(r.weaknesses) : r.weaknesses,
+      weaknesses: typeof r.weaknesses === 'string' ? JSON.parse(r.weaknesses) : r.weaknesses,
+      strengths: typeof r.strengths === 'string' ? JSON.parse(r.strengths) : r.strengths,
+      study_tips: typeof r.study_tips === 'string' ? JSON.parse(r.study_tips) : r.study_tips
+    }));
+    
+    res.json({
+      success: true,
+      insights
+    });
+  } catch (error: any) {
+    console.error('Student insights error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+
 router.get('/test-connection', async (req, res, next) => {
   try {
     const result = await checkGeminiConnection();
@@ -76,12 +217,138 @@ router.post('/chat', async (req, res, next) => {
     // 4. Llamamos al servicio con la instrucción
     const aiResponse = await generateContentWithGemini(prompt, systemInstruction, history);
 
+    // 5. Save messages to chatbot tables
+    // Extract user ID from JWT
+    const authHeader = req.headers.authorization;
+    let userId: number | null = null;
+    let subjectId: number | null = null;
+
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      try {
+        const token = authHeader.substring(7);
+        const jwt = await import('jsonwebtoken');
+        const { appConfig } = await import('../config/env.js');
+        const payload = jwt.default.verify(token, appConfig.auth.jwtSecret) as any;
+        userId = payload.sub ? parseInt(payload.sub) : null;
+        console.log(`[Chatbot] 🔑 Extracted userId: ${userId} from JWT`);
+      } catch (e: any) {
+        console.error('[Chatbot] ⚠️ Failed to extract userId from JWT:', e.message);
+      }
+    } else {
+      console.log('[Chatbot] ⚠️ No Authorization header - messages will not be saved');
+    }
+
+    // Get subject ID from name
+    if (subject && subject !== 'General') {
+      subjectId = await getSubjectIdByName(subject);
+    }
+
+    // Save both user and model messages to chat_logs table for analytics
+    if (userId) {
+      console.log(`[ChatLogs] 📝 Saving messages for user ${userId}, subject: ${subject} (id: ${subjectId})`);
+      
+      try {
+        // Save to learning_chat_history table (subjectId defaults to 1 if not set)
+        const effectiveSubjectId = subjectId ?? 1;
+        
+        // Save user message
+        await logChatMessage({ userId, subjectId: effectiveSubjectId, role: 'user', content: prompt });
+        // Save AI response
+        await logChatMessage({ userId, subjectId: effectiveSubjectId, role: 'model', content: aiResponse });
+        
+        console.log(`[ChatLogs] ✅ Messages saved for user ${userId}`);
+        
+        // Broadcast to frontend that messages were saved (for debugging)
+        try {
+          const { io } = await import('../server.js');
+          if (io) {
+            io.emit('insight_update', {
+              timestamp: new Date().toISOString(),
+              message: `💾 Chat messages saved for user ${userId}`,
+              data: { 
+                phase: 1, 
+                status: 'message_saved',
+                userId,
+                subject: subject 
+              }
+            });
+          }
+        } catch (e) { /* ignore broadcast errors */ }
+      } catch (err: any) {
+        console.error('[ChatLogs] ❌ Failed to save:', err);
+        // Broadcast the error so it's visible in browser console
+        try {
+          const { io } = await import('../server.js');
+          if (io) {
+            io.emit('insight_update', {
+              timestamp: new Date().toISOString(),
+              message: `❌ Failed to save chat messages: ${err.message}`,
+              data: { phase: 1, status: 'error', error: err.message }
+            });
+          }
+        } catch (e) { /* ignore */ }
+      }
+    }
+
     res.json({
       response: aiResponse
     });
 
   } catch (error) {
     console.error("Error en /ai/chat:", error);
+    next(error);
+  }
+});
+
+// GET /ai/chat-history - Load chat history from database
+router.get('/chat-history', async (req, res, next) => {
+  try {
+    // Extract user ID from JWT
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new ApiError(401, 'Authorization required');
+    }
+
+    const token = authHeader.substring(7);
+    const jwt = await import('jsonwebtoken');
+    const { appConfig } = await import('../config/env.js');
+    
+    let userId: number;
+    try {
+      const payload = jwt.default.verify(token, appConfig.auth.jwtSecret) as any;
+      userId = parseInt(payload.sub);
+    } catch (e) {
+      throw new ApiError(401, 'Invalid token');
+    }
+
+    // Get subject from query params
+    const subjectName = req.query.subject as string;
+    let subjectId: number | null = null;
+
+    if (subjectName && subjectName !== 'General') {
+      subjectId = await getSubjectIdByName(subjectName);
+    }
+
+    // Fetch chat history from chat_logs table
+    const limit = parseInt(req.query.limit as string) || 50;
+    const history = await getChatHistory({ userId, subjectId, limit });
+
+    console.log(`[ChatHistory] Loaded ${history.length} messages for user ${userId}, subject: ${subjectName || 'all'}`);
+
+    // Format for frontend (chat_logs uses 'role' field directly)
+    const formattedHistory = history.map((msg) => ({
+      role: msg.role,
+      content: msg.content,
+      timestamp: msg.created_at
+    }));
+
+    res.json({
+      success: true,
+      history: formattedHistory
+    });
+
+  } catch (error) {
+    console.error("Error en /ai/chat-history:", error);
     next(error);
   }
 });
