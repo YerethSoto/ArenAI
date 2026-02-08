@@ -17,76 +17,64 @@ const router = Router();
 // Default class ID (until class system is fully implemented)
 const DEFAULT_CLASS_ID = 1;
 
-// GET /ai/class-insights - Get aggregated student summaries for teacher dashboard
+// GET /ai/class-insights - Get professor class report for teacher dashboard
 router.get('/class-insights', async (req, res, next) => {
   try {
     const classId = parseInt(req.query.classId as string) || DEFAULT_CLASS_ID;
     console.log(`[API] /class-insights called with classId=${classId}`);
     
-    // Get all student summaries for this class
+    // Get the professor's aggregated report for this class
     const query = `
       SELECT 
-        scs.id_summary,
-        scs.id_class,
-        scs.id_user,
-        u.username,
-        u.name as student_name,
-        scs.summary_text,
-        scs.strengths,
-        scs.weaknesses,
-        scs.study_tips,
-        scs.created_at,
-        scs.updated_at
-      FROM student_class_summary scs
-      JOIN user u ON scs.id_user = u.id_user
-      WHERE scs.id_class = ?
-      ORDER BY scs.updated_at DESC
-      LIMIT 50
+        pcr.id_report,
+        pcr.id_class,
+        pcr.general_summary,
+        pcr.top_confusion_topics,
+        pcr.sentiment_average,
+        pcr.suggested_action,
+        pcr.created_at
+      FROM professor_class_report pcr
+      WHERE pcr.id_class = ?
+      ORDER BY pcr.created_at DESC
+      LIMIT 1
     `;
     
     const result = await db.query<any>(query, [classId]);
-    console.log(`[API] /class-insights found ${result.rows.length} rows for classId=${classId}`);
+    console.log(`[API] /class-insights found ${result.rows.length} reports for classId=${classId}`);
     
-    // Aggregate weaknesses across all students
-    const allWeaknesses: string[] = [];
+    if (result.rows.length === 0) {
+      // No report yet - return empty
+      return res.json({
+        success: true,
+        insights: [],
+        summary: {
+          totalStudentsAnalyzed: 0,
+          topWeaknesses: [],
+          classId
+        }
+      });
+    }
     
-    result.rows.forEach((summary: any) => {
-      let weaknesses = summary.weaknesses;
-      if (typeof weaknesses === 'string') {
-        try { weaknesses = JSON.parse(weaknesses); } catch (e) { weaknesses = []; }
-      }
-      if (Array.isArray(weaknesses)) {
-        allWeaknesses.push(...weaknesses);
-      }
-    });
+    const report = result.rows[0];
+    let topConfusionTopics = report.top_confusion_topics;
+    if (typeof topConfusionTopics === 'string') {
+      try { topConfusionTopics = JSON.parse(topConfusionTopics); } catch (e) { topConfusionTopics = []; }
+    }
     
-    // Count frequency of each weakness
-    const weaknessFrequency: { [key: string]: number } = {};
-    allWeaknesses.forEach(weakness => {
-      const normalized = weakness.toLowerCase().trim();
-      weaknessFrequency[normalized] = (weaknessFrequency[normalized] || 0) + 1;
-    });
-    
-    // Sort by frequency
-    const topWeaknesses = Object.entries(weaknessFrequency)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 5)
-      .map(([topic, count]) => ({ topic, studentCount: count }));
-    
+    // Format response to match frontend expectations
     res.json({
       success: true,
+      insights: [{
+        summary: report.general_summary,
+        weaknesses: topConfusionTopics || [],
+        sentiment: report.sentiment_average,
+        suggested_action: report.suggested_action,
+        created_at: report.created_at
+      }],
       summary: {
-        totalStudentsAnalyzed: result.rows.length,
-        topWeaknesses,
-        classId
-      },
-      insights: result.rows.map((r: any) => ({
-        ...r,
-        summary: r.summary_text,
-        weaknesses: typeof r.weaknesses === 'string' ? JSON.parse(r.weaknesses) : r.weaknesses,
-        strengths: typeof r.strengths === 'string' ? JSON.parse(r.strengths) : r.strengths,
-        study_tips: typeof r.study_tips === 'string' ? JSON.parse(r.study_tips) : r.study_tips
-      }))
+        classId,
+        topWeaknesses: (topConfusionTopics || []).map((topic: string) => ({ topic, studentCount: 1 }))
+      }
     });
   } catch (error: any) {
     console.error('Class insights error:', error);
