@@ -1,0 +1,27 @@
+﻿spec:
+  template:
+    spec:
+      containers:
+      - env:
+        - name: DB_HOST
+          value: 34.172.49.18
+        - name: DB_PORT
+          value: '3306'
+        - name: DB_NAME
+          value: arenaidb
+        - name: DB_USER
+          value: root
+        - name: DB_PASSWORD
+          value: DAKe5?LNjoZluak+
+        - name: DB_SSL
+          value: 'false'
+        - name: JWT_SECRET
+          value: super-secret-key-change-me
+        - name: JWT_EXPIRES_IN
+          value: 1h
+        - name: GOOGLE_CLOUD_PROJECT_ID
+          value: project-c51b6aa6-3bde-49a4-9b0
+        - name: GOOGLE_CLOUD_LOCATION
+          value: us-central1
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: cert/project-c51b6aa6-3bde-49a4-9b0-dab00faa1edc.json

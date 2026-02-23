@@ -14,30 +14,28 @@ This workflow builds the backend Docker image and deploys it to Google Cloud Run
 ## Steps
 
 1.  **Authenticate with Google Cloud** (if not already logged in):
+
     ```bash
     gcloud auth login
-    gcloud config set project [YOUR_PROJECT_ID]
+    gcloud config set project project-c51b6aa6-3bde-49a4-9b0
     ```
 
 2.  **Configure Docker to use gcloud credentials**:
+
     ```bash
     gcloud auth configure-docker
     ```
 
 3.  **Build and Push the Docker Image**:
-    Replace `[YOUR_PROJECT_ID]` with your actual project ID.
+
     ```bash
-    docker build -t gcr.io/[YOUR_PROJECT_ID]/arenai-backend:latest ./backend
-    docker push gcr.io/[YOUR_PROJECT_ID]/arenai-backend:latest
+    docker build -t gcr.io/project-c51b6aa6-3bde-49a4-9b0/arenai-backend:latest ./backend
+    docker push gcr.io/project-c51b6aa6-3bde-49a4-9b0/arenai-backend:latest
     ```
 
-4.  **Deploy to Cloud Run**:
+4.  **Deploy to Cloud Run (source-based, recommended)**:
     ```bash
-    gcloud run deploy arenai-backend \
-      --image gcr.io/[YOUR_PROJECT_ID]/arenai-backend:latest \
-      --platform managed \
-      --region us-central1 \
-      --allow-unauthenticated \
-      --set-env-vars NODE_ENV=production
+    cd backend
+    gcloud run deploy arenai-backend --source . --region us-central1 --project project-c51b6aa6-3bde-49a4-9b0 --clear-base-image
     ```
-    *Note: Add other environment variables (DB credentials, etc.) using `--set-env-vars KEY=VALUE,KEY2=VALUE2`.*
+    _Note: Add other environment variables (DB credentials, etc.) using `--set-env-vars KEY=VALUE,KEY2=VALUE2`._
