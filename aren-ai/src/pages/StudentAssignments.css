@@ -1003,3 +1003,224 @@
   font-size: 48px;
   color: #ddd;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Tablet (768px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  .assignments-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px 32px;
+    gap: 28px;
+  }
+
+  .task-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 30px 32px 24px 32px;
+    gap: 20px;
+  }
+
+  .page-title {
+    font-size: 32px;
+  }
+
+  .task-name {
+    font-size: 30px;
+  }
+
+  /* Assignment cards — 2 column grid */
+  .assignments-list-vertical {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+
+  .assignments-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  /* Quiz grid — 3 columns */
+  .task-quiz-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  /* Cards — larger padding */
+  .assignment-card {
+    padding: 20px;
+  }
+
+  .assignment-card-v2 {
+    border-radius: 16px;
+  }
+
+  .assignment-card-header-v2 {
+    padding: 18px 16px 16px 16px;
+    min-height: 80px;
+  }
+
+  .assignment-card-title {
+    font-size: 17px;
+  }
+
+  .assignment-card-body {
+    padding: 16px;
+  }
+
+  .assignment-title {
+    font-size: 20px;
+  }
+
+  /* Task cards */
+  .task-card {
+    padding: 30px 20px 24px 20px;
+    border-radius: 18px;
+  }
+
+  /* Lobby card */
+  .lobby-card {
+    padding: 24px;
+    border-radius: 28px;
+  }
+
+  .mascot-img-lg {
+    max-width: 180px;
+  }
+
+  .speech-bubble {
+    font-size: 15px;
+    padding: 20px;
+  }
+
+  /* Flat cards */
+  .flat-card-title {
+    font-size: 20px;
+  }
+
+  .flat-card-header {
+    padding: 18px;
+  }
+
+  /* Paper cards */
+  .paper-title {
+    font-size: 18px;
+  }
+
+  .paper-view-btn {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  /* Quiz menu mascot */
+  .quiz-mascot-img {
+    width: 120px;
+    height: 120px;
+  }
+
+  .mascot-speech-bubble {
+    font-size: 15px;
+    padding: 10px 20px;
+  }
+
+  .section-header h2 {
+    font-size: 20px;
+  }
+
+  /* Search & filter controls */
+  .quiz-list-controls {
+    gap: 14px;
+  }
+
+  .quiz-list-filter-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .start-btn {
+    padding: 14px;
+    font-size: 17px;
+    border-radius: 14px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Large Desktop (1200px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+  .assignments-container {
+    max-width: 1100px;
+    padding: 28px 40px;
+    gap: 32px;
+  }
+
+  .task-container {
+    max-width: 1100px;
+    padding: 35px 40px 28px 40px;
+  }
+
+  .page-title {
+    font-size: 34px;
+  }
+
+  .task-name {
+    font-size: 32px;
+  }
+
+  /* 3 column assignment grid */
+  .assignments-list-vertical {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .assignments-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+
+  /* 4 column quiz grid */
+  .task-quiz-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  .assignment-card {
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .assignment-title {
+    font-size: 22px;
+  }
+
+  .assignment-card-header-v2 {
+    padding: 20px 18px 18px 18px;
+  }
+
+  .assignment-card-title {
+    font-size: 18px;
+  }
+
+  .lobby-card {
+    padding: 28px;
+  }
+
+  .mascot-img-lg {
+    max-width: 200px;
+  }
+
+  .speech-bubble {
+    font-size: 16px;
+  }
+
+  .quiz-mascot-img {
+    width: 140px;
+    height: 140px;
+  }
+
+  .section-header h2 {
+    font-size: 22px;
+  }
+}

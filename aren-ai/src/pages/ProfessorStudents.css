@@ -332,3 +332,105 @@
         font-size: 12px !important;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Tablet (768px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+    .pst-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 30px 32px 24px 32px;
+        gap: 20px;
+    }
+
+    .pst-card {
+        border-radius: 20px;
+        padding: 30px 20px 24px 20px;
+    }
+
+    .pst-card-title {
+        font-size: 16px;
+        padding: 10px 28px;
+    }
+
+    .pst-stats-row {
+        gap: 20px;
+        padding: 14px 0;
+    }
+
+    .pst-stat-circle {
+        width: 56px;
+        height: 56px;
+    }
+
+    .pst-stat-value {
+        font-size: 24px;
+    }
+
+    .pst-stat-label {
+        font-size: 13px;
+    }
+
+    .pst-student-item {
+        padding: 14px 18px;
+        border-radius: 16px;
+    }
+
+    .pst-student-avatar {
+        width: 48px;
+        height: 48px;
+        font-size: 16px;
+    }
+
+    .pst-student-name {
+        font-size: 15px;
+    }
+
+    .pst-score-badge {
+        font-size: 13px;
+        padding: 8px 14px;
+    }
+
+    .pst-class-dropdown {
+        min-width: 320px;
+        max-width: 400px;
+    }
+
+    .pst-compact-text {
+        font-size: 16px !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Large Desktop (1200px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+    .pst-container {
+        max-width: 1000px;
+        padding: 35px 40px 28px 40px;
+    }
+
+    .pst-students-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .pst-student-item {
+        padding: 16px 20px;
+    }
+
+    .pst-student-avatar {
+        width: 52px;
+        height: 52px;
+    }
+
+    .pst-student-name {
+        font-size: 16px;
+    }
+
+    .pst-stat-value {
+        font-size: 26px;
+    }
+}

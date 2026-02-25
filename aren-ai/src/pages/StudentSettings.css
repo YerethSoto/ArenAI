@@ -275,3 +275,93 @@
         --color-checked: var(--ion-color-secondary) !important;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Tablet (768px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+    .student-settings-content ion-list[inset] {
+        max-width: 700px;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding: 12px !important;
+    }
+
+    .student-settings-content ion-list[inset] ion-item {
+        --min-height: 64px;
+    }
+
+    .student-settings-content ion-list[inset] ion-label {
+        font-size: 1.05rem !important;
+    }
+
+    .theme-preview-section {
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 28px;
+    }
+
+    .theme-preview-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .preview-container {
+        padding: 24px;
+    }
+
+    .preview-container h1 {
+        font-size: 2rem !important;
+    }
+
+    .button-group {
+        gap: 16px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Large Desktop (1200px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+    .student-settings-content ion-list[inset] {
+        max-width: 760px;
+        border-radius: 24px !important;
+    }
+
+    .student-settings-content ion-list[inset] ion-item {
+        --min-height: 68px;
+        border-radius: 14px !important;
+    }
+
+    .student-settings-content ion-list[inset] ion-label {
+        font-size: 1.1rem !important;
+    }
+
+    .theme-preview-section {
+        max-width: 760px;
+        padding: 32px;
+        border-radius: 28px;
+    }
+
+    .theme-preview-section h2 {
+        font-size: 1.6rem;
+    }
+
+    .preview-container {
+        padding: 28px;
+        border-radius: 20px;
+    }
+
+    .preview-container h1 {
+        font-size: 2.2rem !important;
+    }
+
+    .preview-container > p {
+        font-size: 1.1rem;
+    }
+
+    .button-group ion-button {
+        --padding-start: 24px;
+        --padding-end: 24px;
+    }
+}

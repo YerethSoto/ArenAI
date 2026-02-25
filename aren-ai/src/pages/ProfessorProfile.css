@@ -175,3 +175,93 @@ ion-toolbar {
 .logout-btn:hover {
     --background: rgba(var(--ion-color-danger-rgb), 0.05);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Tablet (768px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+    .profile-container {
+        max-width: 700px;
+        padding: 32px;
+        gap: 36px;
+    }
+
+    .profile-card {
+        padding: 40px;
+        border-radius: 28px;
+    }
+
+    .profile-avatar-large {
+        width: 130px;
+        height: 130px;
+        font-size: 4rem;
+    }
+
+    .profile-name {
+        font-size: 1.7rem;
+    }
+
+    .profile-title {
+        font-size: 1.1rem;
+    }
+
+    .profile-email {
+        font-size: 1rem;
+    }
+
+    .settings-section-title {
+        font-size: 0.95rem;
+    }
+
+    .settings-item {
+        font-size: 1.05rem;
+        --min-height: 56px;
+    }
+
+    .settings-list {
+        border-radius: 22px;
+    }
+
+    .logout-btn {
+        height: 56px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Large Desktop (1200px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+    .profile-container {
+        max-width: 780px;
+        padding: 36px;
+    }
+
+    .profile-card {
+        padding: 48px;
+        border-radius: 32px;
+    }
+
+    .profile-avatar-large {
+        width: 140px;
+        height: 140px;
+        font-size: 4.5rem;
+    }
+
+    .profile-name {
+        font-size: 1.9rem;
+    }
+
+    .profile-title {
+        font-size: 1.15rem;
+    }
+
+    .settings-item {
+        font-size: 1.1rem;
+        --min-height: 60px;
+    }
+
+    .edit-profile-btn {
+        height: 40px;
+        font-size: 1rem;
+    }
+}

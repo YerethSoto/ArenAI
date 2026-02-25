@@ -1551,3 +1551,208 @@
     font-size: 12px;
     color: var(--ion-text-color-step-400);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Tablet (768px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+    .pts-tabs-container {
+        max-width: 960px;
+        margin: 0 auto;
+    }
+
+    .pts-tab-content {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 20px 32px;
+    }
+
+    .pts-stats-row {
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .pts-stat-circle {
+        padding: 18px 14px;
+        min-width: 80px;
+    }
+
+    .pts-stat-value {
+        font-size: 24px;
+    }
+
+    .pts-stat-label {
+        font-size: 12px;
+    }
+
+    .pts-card {
+        padding: 22px 20px;
+        border-radius: 20px;
+    }
+
+    .pts-card-title {
+        font-size: 18px;
+    }
+
+    .pts-network-container {
+        height: 420px;
+    }
+
+    .pts-top-students {
+        gap: 16px;
+    }
+
+    .pts-top-card {
+        min-width: 110px;
+        padding: 18px 14px;
+    }
+
+    .pts-top-name {
+        font-size: 12px;
+    }
+
+    .pts-top-score {
+        font-size: 20px;
+    }
+
+    .pts-student-row {
+        padding: 14px 18px;
+        border-radius: 16px;
+    }
+
+    .pts-student-avatar {
+        width: 42px;
+        height: 42px;
+    }
+
+    .pts-student-name {
+        font-size: 15px;
+    }
+
+    .pts-student-score {
+        font-size: 18px;
+    }
+
+    /* Modal */
+    .pts-modal-header {
+        padding: 24px;
+    }
+
+    .pts-modal-header h2 {
+        font-size: 20px;
+    }
+
+    .pts-modal-content {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 24px;
+    }
+
+    .pts-modal-big-score {
+        font-size: 54px;
+    }
+
+    /* Tree */
+    .pts-tree-unit-header {
+        padding: 18px;
+    }
+
+    .pts-tree-unit-name {
+        font-size: 15px;
+    }
+
+    .pts-tree-topic-row {
+        padding: 12px 14px;
+    }
+
+    .pts-tree-topic-name {
+        font-size: 14px;
+    }
+
+    /* View toggle */
+    .pts-view-btn {
+        padding: 14px 18px;
+        font-size: 15px;
+    }
+
+    .pts-segment ion-segment-button {
+        min-height: 48px;
+        font-size: 13px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Large Desktop (1200px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+    .pts-tabs-container {
+        max-width: 1080px;
+    }
+
+    .pts-tab-content {
+        max-width: 1080px;
+        padding: 24px 40px;
+    }
+
+    .pts-stat-circle {
+        padding: 20px 16px;
+        min-width: 90px;
+        border-radius: 20px;
+    }
+
+    .pts-stat-value {
+        font-size: 26px;
+    }
+
+    .pts-card {
+        padding: 24px;
+        border-radius: 22px;
+    }
+
+    .pts-network-container {
+        height: 480px;
+        border-radius: 20px;
+    }
+
+    .pts-students-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .pts-student-row {
+        padding: 16px 20px;
+    }
+
+    .pts-student-avatar {
+        width: 46px;
+        height: 46px;
+    }
+
+    .pts-student-name {
+        font-size: 16px;
+    }
+
+    .pts-modal-content {
+        max-width: 800px;
+        padding: 28px;
+    }
+
+    .pts-modal-big-score {
+        font-size: 58px;
+    }
+
+    .pts-modal-section {
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .pts-modal-section h3 {
+        font-size: 16px;
+    }
+
+    .pts-modal-topic-name {
+        flex: 0 0 110px;
+        font-size: 13px;
+    }
+}
