@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   IonContent,
   IonPage,
@@ -12,7 +12,6 @@ import {
   IonIcon,
   IonCard,
   IonCardContent,
-  IonSearchbar,
 } from "@ionic/react";
 import {
   person,
@@ -24,12 +23,11 @@ import {
   call,
   business,
   school,
-  chevronDown,
-  chevronUp,
 } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import "./Register.css";
 import { getApiUrl } from "../config/api";
+import { INSTITUTIONS, DOMAIN_TO_INSTITUTION } from "../config/institutions";
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -45,93 +43,37 @@ const Register: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isInstitutionLocked, setIsInstitutionLocked] = useState(false);
-  const [showMEPSelector, setShowMEPSelector] = useState(false);
-  const [isMEPSelectorOpen, setIsMEPSelectorOpen] = useState(false);
-  const [searchText, setSearchText] = useState("");
   const [passwordErrors, setPasswordErrors] = useState<string[]>([]);
   const history = useHistory();
 
-  // Lista de instituciones públicas del MEP (ejemplo)
-  const mepInstitutions = [
-    "Liceo de Costa Rica",
-    "Colegio Superior de Señoritas",
-    "Liceo de Heredia",
-    "Liceo de San José",
-    "Colegio de San Luis Gonzaga",
-    "Liceo de Cartago",
-    "Colegio de Alajuela",
-    "Liceo de Puntarenas",
-    "Colegio de Limón",
-    "Liceo de Guanacaste",
-    "Colegio Técnico Profesional de Purral",
-    "Liceo Experimental Bilingüe de Grecia",
-    "Colegio Científico de Costa Rica",
-    "Liceo Napoleón Quesada Salazar",
-    "Colegio de Santa Cruz",
-    "Liceo de Aserrí",
-    "Colegio de San Ramón",
-    "Liceo de San Carlos",
-    "Colegio de Pérez Zeledón",
-    "Liceo de Turrialba",
-    "Colegio Nocturno de San José",
-    "Liceo de Osa",
-    "Colegio Técnico Profesional de Atenas",
-    "Liceo de Sarapiquí",
-    "Colegio de Upala",
-    "Liceo de Los Santos",
-    "Colegio de Tilarán",
-    "Liceo de Bagaces",
-    "Colegio de Cañas",
-    "Liceo de Nicoya",
-    "Colegio de La Cruz",
-    "Liceo de Hojancha",
-    "Colegio de Nandayure",
-    "Liceo de Carrillo",
-    "Colegio de Santa Bárbara",
-    "Liceo de San Pablo",
-    "Colegio de Barva",
-    "Liceo de Santo Domingo",
-    "Colegio de San Rafael",
-    "Liceo de Belén",
-    "Colegio de Flores",
-    "Liceo de San Isidro",
-    "Colegio de Curridabat",
-    "Liceo de Goicoechea",
-    "Colegio de Montes de Oca",
-    "Liceo de Tibás",
-    "Colegio de Moravia",
-    "Liceo de Coronado",
-    "Colegio de Acosta",
-    "Liceo de Tarrazú",
-    "Colegio de Dota",
-    "Liceo de León Cortés",
-    "Colegio de Desamparados",
-    "Liceo de Alajuelita",
-    "Colegio de Escazú",
-    "Liceo de Santa Ana",
-    "Colegio de Mora",
-    "Liceo de Puriscal",
-    "Colegio de Turrubares",
-  ];
+  // Autocomplete state
+  const [institutionQuery, setInstitutionQuery] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const suggestionsRef = useRef<HTMLDivElement>(null);
+  const inputContainerRef = useRef<HTMLDivElement>(null);
 
-  // Mapeo de dominios a instituciones
-  const domainToInstitution: { [key: string]: string } = {
-    "mep.go.cr": "Ministerio de Educación Pública (MEP)",
-    "stpaul.com": "Colegio San Paul",
-    "ulacit.ed.cr": "ULACIT",
-    "ucr.ac.cr": "Universidad de Costa Rica",
-    "itcr.ac.cr": "Tecnológico de Costa Rica",
-    "una.ac.cr": "Universidad Nacional",
-    "uned.ac.cr": "Universidad Estatal a Distancia",
-    "ulatina.ac.cr": "Universidad Latina",
-    "fidelitas.ac.cr": "Universidad Fidélitas",
-    "uam.ac.cr": "Universidad Americana",
-  };
+  // Filter institutions based on what user types
+  const filteredInstitutions = institutionQuery.trim()
+    ? INSTITUTIONS.filter((inst) =>
+        inst.name.toLowerCase().includes(institutionQuery.toLowerCase()),
+      ).slice(0, 8)
+    : [];
 
-  // Filtrar instituciones basado en la búsqueda
-  const filteredInstitutions = mepInstitutions.filter((institution) =>
-    institution.toLowerCase().includes(searchText.toLowerCase()),
-  );
+  // Close suggestions when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        suggestionsRef.current &&
+        !suggestionsRef.current.contains(event.target as Node) &&
+        inputContainerRef.current &&
+        !inputContainerRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Validar contraseña
   const validatePassword = (password: string) => {
@@ -165,74 +107,55 @@ const Register: React.FC = () => {
 
     setFormData(newFormData);
 
-    // Validar contraseña cuando cambia
+    // Validate password
     if (field === "password") {
       const errors = validatePassword(value);
       setPasswordErrors(errors);
     }
 
-    // Auto-detectar institución cuando el email cambia
+    // Auto-detect institution from email domain
     if (field === "email") {
       const domain = value.split("@")[1];
-      if (domain && domainToInstitution[domain]) {
-        if (domain === "mep.go.cr") {
-          // Para MEP, mostrar el selector pero no auto-completar
-          setShowMEPSelector(true);
-          setIsInstitutionLocked(false);
-          if (!formData.institution) {
-            setFormData((prev) => ({
-              ...prev,
-              institution: "",
-            }));
-          }
-        } else {
-          // Para otros dominios, auto-completar y bloquear
-          setFormData((prev) => ({
-            ...prev,
-            institution: domainToInstitution[domain],
-          }));
-          setIsInstitutionLocked(true);
-          setShowMEPSelector(false);
-          setIsMEPSelectorOpen(false);
-        }
+      if (domain && DOMAIN_TO_INSTITUTION[domain]) {
+        const detectedInstitution = DOMAIN_TO_INSTITUTION[domain];
+        setFormData((prev) => ({
+          ...prev,
+          institution: detectedInstitution,
+        }));
+        setInstitutionQuery(detectedInstitution);
+        setIsInstitutionLocked(true);
+        setShowSuggestions(false);
       } else if (domain) {
-        // Si el dominio no está en la lista, desbloquear el campo
+        // Unknown domain — unlock institution field
         setIsInstitutionLocked(false);
-        setShowMEPSelector(false);
-        setIsMEPSelectorOpen(false);
-        if (!formData.institution) {
-          setFormData((prev) => ({
-            ...prev,
-            institution: "",
-          }));
-        }
       } else {
-        // Si no hay dominio, desbloquear y limpiar
+        // No domain yet — unlock and clear
         setIsInstitutionLocked(false);
-        setShowMEPSelector(false);
-        setIsMEPSelectorOpen(false);
         setFormData((prev) => ({
           ...prev,
           institution: "",
         }));
+        setInstitutionQuery("");
       }
     }
   };
 
-  const handleInstitutionSelect = (institution: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      institution: institution,
-    }));
-    setIsMEPSelectorOpen(false);
-    setSearchText("");
+  const handleInstitutionInput = (value: string) => {
+    setInstitutionQuery(value);
+    setShowSuggestions(value.trim().length > 0);
+    // If user types after selecting, clear the selection
+    if (formData.institution && value !== formData.institution) {
+      setFormData((prev) => ({ ...prev, institution: "" }));
+    }
   };
 
-  const toggleMEPSelector = () => {
-    if (showMEPSelector) {
-      setIsMEPSelectorOpen(!isMEPSelectorOpen);
-      setSearchText("");
-    }
+  const handleInstitutionSelect = (name: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      institution: name,
+    }));
+    setInstitutionQuery(name);
+    setShowSuggestions(false);
   };
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -438,7 +361,7 @@ const Register: React.FC = () => {
                         </IonItem>
                       </div>
 
-                      {/* Institution */}
+                      {/* Institution Autocomplete */}
                       <div className="input-section">
                         <IonText>
                           <h3 className="input-label">
@@ -448,92 +371,18 @@ const Register: React.FC = () => {
                                 Auto-filled
                               </span>
                             )}
-                            {showMEPSelector && (
-                              <span className="mep-selector-badge">
-                                Select from MEP
+                            {!isInstitutionLocked && formData.institution && (
+                              <span className="auto-filled-badge">
+                                ✓ Selected
                               </span>
                             )}
                           </h3>
                         </IonText>
 
-                        {showMEPSelector ? (
-                          // Selector para MEP con campo clickeable
-                          <div className="mep-selector-container">
-                            <IonItem
-                              className="institution-selector-item"
-                              button
-                              detail={false}
-                              onClick={toggleMEPSelector}
-                            >
-                              <IonIcon
-                                icon={business}
-                                slot="start"
-                                className="input-icon"
-                              />
-                              <IonText>
-                                <p className="institution-display">
-                                  {formData.institution ||
-                                    "Select your institution..."}
-                                </p>
-                              </IonText>
-                              <IonIcon
-                                icon={
-                                  isMEPSelectorOpen ? chevronUp : chevronDown
-                                }
-                                slot="end"
-                                className="selector-arrow"
-                              />
-                            </IonItem>
-
-                            {isMEPSelectorOpen && (
-                              <div className="mep-selector-dropdown">
-                                <IonSearchbar
-                                  value={searchText}
-                                  onIonInput={(e) =>
-                                    setSearchText(e.detail.value!)
-                                  }
-                                  placeholder="Search MEP institutions..."
-                                  className="institution-searchbar"
-                                />
-
-                                <div className="institution-list">
-                                  {filteredInstitutions
-                                    .slice(0, 10)
-                                    .map((institution, index) => (
-                                      <IonItem
-                                        key={index}
-                                        button
-                                        detail={false}
-                                        className="institution-item"
-                                        onClick={() =>
-                                          handleInstitutionSelect(institution)
-                                        }
-                                      >
-                                        <IonIcon
-                                          icon={school}
-                                          slot="start"
-                                          className="institution-icon"
-                                        />
-                                        <IonText>
-                                          <p className="institution-name">
-                                            {institution}
-                                          </p>
-                                        </IonText>
-                                      </IonItem>
-                                    ))}
-                                  {filteredInstitutions.length === 0 && (
-                                    <IonText>
-                                      <p className="no-results">
-                                        No institutions found
-                                      </p>
-                                    </IonText>
-                                  )}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        ) : (
-                          // Campo normal para otras instituciones
+                        <div
+                          className="autocomplete-container"
+                          ref={inputContainerRef}
+                        >
                           <IonItem className="input-item" lines="none">
                             <IonIcon
                               icon={business}
@@ -545,36 +394,72 @@ const Register: React.FC = () => {
                               placeholder={
                                 isInstitutionLocked
                                   ? "Institution auto-filled from email"
-                                  : "Enter your institution name"
+                                  : "Type to search institutions..."
                               }
-                              value={formData.institution}
+                              value={
+                                isInstitutionLocked
+                                  ? formData.institution
+                                  : institutionQuery
+                              }
                               onIonInput={(e) =>
                                 !isInstitutionLocked &&
-                                handleInputChange(
-                                  "institution",
-                                  e.detail.value!,
-                                )
+                                handleInstitutionInput(e.detail.value!)
                               }
+                              onIonFocus={() => {
+                                if (
+                                  !isInstitutionLocked &&
+                                  institutionQuery.trim()
+                                )
+                                  setShowSuggestions(true);
+                              }}
                               className="custom-input"
                               required
                               readonly={isInstitutionLocked}
                             />
                           </IonItem>
-                        )}
+
+                          {showSuggestions &&
+                            filteredInstitutions.length > 0 && (
+                              <div
+                                className="suggestions-dropdown"
+                                ref={suggestionsRef}
+                              >
+                                {filteredInstitutions.map((inst, index) => (
+                                  <div
+                                    key={index}
+                                    className="suggestion-item"
+                                    onClick={() =>
+                                      handleInstitutionSelect(inst.name)
+                                    }
+                                  >
+                                    <IonIcon
+                                      icon={school}
+                                      className="suggestion-icon"
+                                    />
+                                    <span className="suggestion-name">
+                                      {inst.name}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+
+                          {showSuggestions &&
+                            institutionQuery.trim() &&
+                            filteredInstitutions.length === 0 && (
+                              <div className="suggestions-dropdown">
+                                <div className="suggestion-item no-results">
+                                  No institutions found
+                                </div>
+                              </div>
+                            )}
+                        </div>
 
                         {isInstitutionLocked && (
                           <IonText>
                             <p className="institution-hint">
                               Institution automatically detected from email
                               domain
-                            </p>
-                          </IonText>
-                        )}
-                        {showMEPSelector && !formData.institution && (
-                          <IonText>
-                            <p className="institution-hint">
-                              Click to select your specific institution from the
-                              MEP list
                             </p>
                           </IonText>
                         )}

@@ -14,8 +14,9 @@ import {
   IonCard,
   IonCardContent,
 } from "@ionic/react";
-import { person, key, eye, eyeOff } from "ionicons/icons";
+import { person, key, eye, eyeOff, globeOutline } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./Login.css";
 import { getApiUrl } from "../config/api";
 import AnimatedMascot from "../components/AnimatedMascot";
@@ -46,7 +47,14 @@ interface LoginProps {
 // MAIN COMPONENT
 // ============================================================================
 
+const LANGUAGES = [
+  { code: "es", label: "ES", flag: "🇪🇸" },
+  { code: "en", label: "EN", flag: "🇺🇸" },
+  { code: "zh", label: "ZH", flag: "🇨🇳" },
+];
+
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
+  const { t, i18n } = useTranslation();
   const { getAvatarAssets } = useAvatar();
   const avatarAssets = getAvatarAssets();
   const [username, setUsername] = useState("");
@@ -60,6 +68,17 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     data: any;
   } | null>(null);
   const history = useHistory();
+
+  const currentLang =
+    LANGUAGES.find((l) => i18n.language?.startsWith(l.code)) || LANGUAGES[0];
+
+  const cycleLanguage = () => {
+    const currentIdx = LANGUAGES.findIndex((l) =>
+      i18n.language?.startsWith(l.code),
+    );
+    const nextIdx = (currentIdx + 1) % LANGUAGES.length;
+    i18n.changeLanguage(LANGUAGES[nextIdx].code);
+  };
 
   // Recarga la página solo una vez al llegar a esta ruta
   useEffect(() => {
@@ -76,7 +95,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     setIsLoading(true);
     // Validate inputs
     if (!username.trim() || !password.trim()) {
-      setError("Please enter both username and password");
+      setError(t("auth.enterBothFields"));
       setIsLoading(false);
       return;
     }
@@ -162,7 +181,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       if (!resp.ok) {
         // Attempt to show server error message
         const errBody = await resp.json().catch(() => null);
-        setError(errBody?.message || "Invalid username or password");
+        setError(errBody?.message || t("auth.invalidCredentials"));
         setIsLoading(false);
         return;
       }
@@ -199,7 +218,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       }
     } catch (error) {
       console.error("Login error", error);
-      setError("Unable to reach authentication server");
+      setError(t("auth.serverError"));
       setIsLoading(false);
     }
   };
@@ -272,20 +291,30 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const handleForgotPassword = () => {
     console.log("Forgot password clicked");
     // Logic for password recovery
-    setError("Password recovery feature coming soon!");
+    setError(t("auth.passwordRecovery"));
   };
 
   return (
     <IonPage>
       <IonContent fullscreen class="login-content">
+        {/* Language Toggle Button */}
+        <button
+          className="lang-toggle-btn"
+          onClick={cycleLanguage}
+          title="Change language"
+        >
+          <span className="lang-flag">{currentLang.flag}</span>
+          <span className="lang-code">{currentLang.label}</span>
+        </button>
+
         <div className="login-container">
           <IonGrid>
             <IonRow class="ion-justify-content-center">
               <IonCol size="12" size-md="8" size-lg="6" size-xl="4">
-                {/* Brand section con título arriba del logo */}
+                {/* Brand section */}
                 <div className="brand-section">
                   <IonText>
-                    <h1 className="brand-title">Aren AI</h1>
+                    <h1 className="brand-title">{t("auth.brandTitle")}</h1>
                   </IonText>
                   <div className="logo-container">
                     <AnimatedMascot
@@ -296,9 +325,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     />
                   </div>
                   <IonText>
-                    <p className="brand-subtitle">
-                      Less Monologues, more Dialogs
-                    </p>
+                    <p className="brand-subtitle">{t("auth.brandSubtitle")}</p>
                   </IonText>
                 </div>
 
@@ -324,7 +351,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                       {/* Username Section */}
                       <div className="input-section">
                         <IonText>
-                          <h3 className="input-label">Username</h3>
+                          <h3 className="input-label">{t("auth.username")}</h3>
                         </IonText>
                         <IonItem className="input-item" lines="none">
                           <IonIcon
@@ -334,7 +361,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                           />
                           <IonInput
                             type="text"
-                            placeholder="Enter your username"
+                            placeholder={t("auth.usernamePlaceholder")}
                             value={username}
                             onIonInput={(e) => setUsername(e.detail.value!)}
                             className="custom-input"
@@ -346,7 +373,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                       {/* Password Section */}
                       <div className="input-section">
                         <IonText>
-                          <h3 className="input-label">Password</h3>
+                          <h3 className="input-label">{t("auth.password")}</h3>
                         </IonText>
                         <IonItem className="input-item" lines="none">
                           <IonIcon
@@ -356,7 +383,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                           />
                           <IonInput
                             type={showPassword ? "text" : "password"}
-                            placeholder="Enter your password"
+                            placeholder={t("auth.passwordPlaceholder")}
                             value={password}
                             onIonInput={(e) => setPassword(e.detail.value!)}
                             className="custom-input"
@@ -380,7 +407,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                           className="forgot-password-link"
                           onClick={handleForgotPassword}
                         >
-                          Forgot password?
+                          {t("auth.forgotPassword")}
                         </IonButton>
                       </div>
                     </form>
@@ -396,7 +423,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     onClick={handleLogin}
                     disabled={isLoading}
                   >
-                    {isLoading ? "LOGGING IN..." : "LOGIN"}
+                    {isLoading ? t("auth.loggingIn") : t("auth.login")}
                   </IonButton>
 
                   <IonButton
@@ -406,7 +433,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     onClick={handleTeacherLogin}
                     disabled={isLoading}
                   >
-                    Are you a teacher?
+                    {t("auth.areYouTeacher")}
                   </IonButton>
 
                   <IonButton
@@ -417,7 +444,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     disabled={isLoading}
                     style={{ marginTop: 8 }}
                   >
-                    Are you a student?
+                    {t("auth.areYouStudent")}
                   </IonButton>
                 </div>
               </IonCol>

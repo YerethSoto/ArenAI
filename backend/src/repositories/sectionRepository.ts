@@ -65,3 +65,14 @@ export async function findSectionByNumberAndInstitution(sectionNumber: string, i
   );
   return result.rows.at(0) ?? null;
 }
+
+export async function findSectionByGradeAndNumber(grade: string, sectionNumber: string, institutionId: number) {
+  const result = await db.query<Section>(
+    `SELECT id_section, section_number, grade, id_institution
+     FROM section
+     WHERE grade = ? AND section_number = ? AND id_institution = ?
+     LIMIT 1`,
+    [grade, sectionNumber, institutionId]
+  );
+  return result.rows.at(0) ?? null;
+}
