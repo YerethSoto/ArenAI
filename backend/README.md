@@ -37,15 +37,15 @@ El script aplicará todos los archivos `.sql` de la carpeta `database/` en orden
 El backend se conecta vía TLS contra MySQL usando los certificados en `backend/cert/`. Asegúrate de definir en `.env`:
 
 ```
-DB_HOST=34.67.117.207
+DB_HOST=34.172.49.18
 DB_PORT=3306
 DB_NAME=arenaidb
-DB_USER=arenaidb
+DB_USER=root
 DB_PASSWORD=DAKe5?LNjoZluak+
-DB_SSL=true
-DB_SSL_CA_PATH=cert/server-ca-arenai.pem
-DB_SSL_CERT_PATH=cert/client-cert-arenai.pem
-DB_SSL_KEY_PATH=cert/client-key-arenai.pem
+DB_SSL=false
+# DB_SSL_CA_PATH=cert/server-ca-arenai.pem
+# DB_SSL_CERT_PATH=cert/client-cert-arenai.pem
+# DB_SSL_KEY_PATH=cert/client-key-arenai.pem
 ```
 
 Los paths pueden ser absolutos o relativos al directorio `backend/`. Si `DB_SSL=true`, todos los archivos deben existir; de lo contrario, la inicialización fallará. Para entornos locales sin TLS basta con poner `DB_SSL=false` y omitir los paths.
@@ -111,7 +111,7 @@ Con esto puedes recorrer toda la API en orden desde Postman sin tener que armar 
 ## Modelo de Datos
 
 - **institution**: catálogo de colegios con promedio global. `section`, `user` y `grade_score_average` apuntan aquí.
-- **section**: grupos por institución (ej. “Sección 9A”). Cada sección pertenece a una `institution` y se usa en `class` y `user_section`.
+- **section**: grupos por institución (ej. "Sección 9A"). Cada sección pertenece a una `institution` y se usa en `class` y `user_section`.
 - **subject**: materias principales. `class` y `topic` referencian un `subject`.
 - **topic**: temas concretos dentro de una materia. Se relaciona con `topic_father_son_relation`, `topic_resource`, `class_topic`, `class_student_topic` y `student_topic`.
 - **topic_father_son_relation**: define dependencias entre temas (padre ↔ hijo) para mapear prerequisitos.

@@ -1,0 +1,7 @@
+﻿2026-02-23 22:47:29 > arenai-backend@1.0.0 start
+2026-02-23 22:47:29 > node dist/server.js
+2026-02-23 22:47:31 [CRON] Initializing cron jobs...
+2026-02-23 22:47:31 [CRON] ? Scheduled: Insight generation every 5 minutes
+2026-02-23 22:47:31 ? Servidor corriendo en puerto 8080
+2026-02-23 22:47:31 ? Socket.io listo para conexiones
+2026-02-23 22:47:31 ? Cron jobs inicializados

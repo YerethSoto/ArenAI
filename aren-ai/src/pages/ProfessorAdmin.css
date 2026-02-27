@@ -206,3 +206,88 @@
     font-weight: 600;
     box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Tablet (768px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+    .admin-container {
+        padding: 28px 32px;
+    }
+
+    .admin-title {
+        font-size: 2rem;
+    }
+
+    .admin-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .admin-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 24px;
+    }
+
+    .admin-card-content {
+        padding: 24px;
+    }
+
+    .admin-avatar {
+        width: 52px;
+        height: 52px;
+        font-size: 1.3rem;
+    }
+
+    .admin-student-info h3 {
+        font-size: 1.15rem;
+    }
+
+    .attendance-btn {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .grade-input {
+        width: 90px;
+        font-size: 1.2rem;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Large Desktop (1200px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+    .admin-container {
+        padding: 32px 40px;
+    }
+
+    .admin-title {
+        font-size: 2.2rem;
+    }
+
+    .admin-grid {
+        gap: 28px;
+    }
+
+    .admin-card-content {
+        padding: 28px;
+    }
+
+    .student-admin-card {
+        border-radius: 20px;
+    }
+
+    .admin-avatar {
+        width: 56px;
+        height: 56px;
+    }
+
+    .attendance-btn {
+        font-size: 0.95rem;
+    }
+
+    .save-btn {
+        --padding-start: 32px;
+        --padding-end: 32px;
+    }
+}

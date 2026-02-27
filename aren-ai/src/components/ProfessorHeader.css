@@ -153,3 +153,78 @@
         font-size: 12px;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Tablet (768px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+    .professor-toolbar {
+        --min-height: 80px;
+        padding-top: 12px;
+    }
+
+    .ph-notch {
+        width: 400px;
+        height: 140px;
+    }
+
+    .ph-notch-container {
+        margin-top: -80px;
+    }
+
+    .ph-text-oval {
+        width: 300px;
+        height: 80px;
+        margin-top: 35px;
+    }
+
+    .ph-brand-name {
+        font-size: 28px;
+    }
+
+    .ph-brand-sub {
+        font-size: 16px;
+    }
+
+    .ph-content {
+        padding: 0 20px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Large Desktop (1200px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+    .professor-toolbar {
+        --min-height: 85px;
+        padding-top: 14px;
+    }
+
+    .ph-notch {
+        width: 440px;
+        height: 150px;
+    }
+
+    .ph-notch-container {
+        margin-top: -85px;
+    }
+
+    .ph-text-oval {
+        width: 320px;
+        height: 84px;
+        margin-top: 38px;
+    }
+
+    .ph-brand-name {
+        font-size: 30px;
+        letter-spacing: 1.5px;
+    }
+
+    .ph-brand-sub {
+        font-size: 17px;
+    }
+
+    .ph-content {
+        padding: 0 30px;
+    }
+}

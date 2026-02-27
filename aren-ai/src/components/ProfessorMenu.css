@@ -141,3 +141,68 @@
     margin: 0 1px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Tablet (768px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  .dropdown-trigger {
+    font-size: 24px;
+    padding: 6px 4px;
+  }
+
+  .subject-trigger {
+    min-width: 90px;
+  }
+
+  .divider {
+    font-size: 24px;
+    margin: 0 3px;
+  }
+
+  .dropdown-options {
+    min-width: 100px;
+    max-height: 280px;
+  }
+
+  .dropdown-option {
+    font-size: 1rem;
+    padding: 12px 16px;
+  }
+
+  .subject-portal .dropdown-options {
+    min-width: 160px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Large Desktop (1200px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+  .dropdown-trigger {
+    font-size: 26px;
+    padding: 6px 5px;
+  }
+
+  .subject-trigger {
+    min-width: 100px;
+  }
+
+  .divider {
+    font-size: 26px;
+  }
+
+  .dropdown-options {
+    min-width: 120px;
+    max-height: 320px;
+  }
+
+  .dropdown-option {
+    font-size: 1.05rem;
+    padding: 14px 18px;
+  }
+
+  .subject-portal .dropdown-options {
+    min-width: 180px;
+  }
+}

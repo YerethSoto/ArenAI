@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   IonContent,
   IonPage,
@@ -13,10 +13,20 @@ import {
   IonText,
   IonIcon,
 } from "@ionic/react";
-import { person, key, business, arrowBack, eye, eyeOff } from "ionicons/icons";
+import {
+  person,
+  key,
+  business,
+  arrowBack,
+  eye,
+  eyeOff,
+  school,
+  chevronDown,
+} from "ionicons/icons";
 import "./RegisterStudent.css";
 import { useHistory } from "react-router-dom";
 import { getApiUrl } from "../config/api";
+import { INSTITUTIONS, GRADES, SECTIONS } from "../config/institutions";
 
 const RegisterStudent: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -24,15 +34,49 @@ const RegisterStudent: React.FC = () => {
     password: "",
     confirmPassword: "",
     institution: "",
-    sectionId: "",
   });
+  const [selectedGrade, setSelectedGrade] = useState("");
+  const [selectedSection, setSelectedSection] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [passwordErrors, setPasswordErrors] = useState<string[]>([]);
+
+  // Autocomplete state
+  const [institutionQuery, setInstitutionQuery] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [selectedInstitutionId, setSelectedInstitutionId] = useState<
+    number | null
+  >(null);
+  const suggestionsRef = useRef<HTMLDivElement>(null);
+  const inputContainerRef = useRef<HTMLDivElement>(null);
+
   const history = useHistory();
 
-  // Validar contrase単a
+  // Filter institutions based on what user types
+  const filteredInstitutions = institutionQuery.trim()
+    ? INSTITUTIONS.filter((inst) =>
+        inst.name.toLowerCase().includes(institutionQuery.toLowerCase()),
+      ).slice(0, 8)
+    : [];
+
+  // Close suggestions when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        suggestionsRef.current &&
+        !suggestionsRef.current.contains(event.target as Node) &&
+        inputContainerRef.current &&
+        !inputContainerRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Validate password
   const validatePassword = (password: string) => {
     const errors: string[] = [];
     if (password.length < 8) {
@@ -44,14 +88,6 @@ const RegisterStudent: React.FC = () => {
     if (!/(?=.*[A-Z])/.test(password)) {
       errors.push("At least one uppercase letter");
     }
-    /*
-    if (!/(?=.*\d)/.test(password)) {
-      errors.push('At least one number');
-    }
-    if (!/(?=.*[@$!%*?&])/.test(password)) {
-      errors.push('At least one special character (@$!%*?&)');
-    }
-      */
     return errors;
   };
 
@@ -63,41 +99,64 @@ const RegisterStudent: React.FC = () => {
 
     setFormData(newFormData);
 
-    // Validar contrase単a cuando cambia
     if (field === "password") {
       const errors = validatePassword(value);
       setPasswordErrors(errors);
     }
   };
 
+  const handleInstitutionInput = (value: string) => {
+    setInstitutionQuery(value);
+    setShowSuggestions(value.trim().length > 0);
+    // If user types after selecting, clear the selection
+    if (formData.institution && value !== formData.institution) {
+      setFormData((prev) => ({ ...prev, institution: "" }));
+      setSelectedInstitutionId(null);
+    }
+  };
+
+  const handleInstitutionSelect = (name: string, id: number) => {
+    setFormData((prev) => ({ ...prev, institution: name }));
+    setInstitutionQuery(name);
+    setSelectedInstitutionId(id);
+    setShowSuggestions(false);
+  };
+
   const handleRegister = async (e?: React.FormEvent) => {
     e?.preventDefault();
 
-    // Validar campos requeridos
-    if (
-      !formData.username.trim() ||
-      !formData.password ||
-      !formData.institution.trim() ||
-      !formData.sectionId.trim()
-    ) {
+    // Validate required fields
+    if (!formData.username.trim() || !formData.password) {
       alert("Please fill all fields");
       return;
     }
 
-    // Validar contrase単a
+    if (!formData.institution.trim()) {
+      alert("Please select an institution");
+      return;
+    }
+
+    if (!selectedGrade || !selectedSection) {
+      alert("Please select your grade and section");
+      return;
+    }
+
+    // Validate password
     const passwordErrors = validatePassword(formData.password);
     if (passwordErrors.length > 0) {
       alert("Please fix password requirements:\n" + passwordErrors.join("\n"));
       return;
     }
 
-    // Validar que las contrase単as coincidan
+    // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match");
       return;
     }
 
     setIsLoading(true);
+
+    const sectionNumber = `${selectedGrade}-${selectedSection}`;
 
     try {
       const resp = await fetch(getApiUrl("/api/auth/register-student"), {
@@ -107,7 +166,7 @@ const RegisterStudent: React.FC = () => {
           username: formData.username.trim(),
           password: formData.password,
           institution: formData.institution.trim(),
-          sectionId: parseInt(formData.sectionId),
+          sectionNumber: sectionNumber,
         }),
       });
 
@@ -124,9 +183,7 @@ const RegisterStudent: React.FC = () => {
       if (data.token) {
         try {
           localStorage.setItem("authToken", data.token);
-          // mark role so App routing allows student pages immediately
           localStorage.setItem("userRole", "student");
-          // store basic user data for personalization
           if (data.user)
             localStorage.setItem("userData", JSON.stringify(data.user));
         } catch (_) {}
@@ -295,50 +352,151 @@ const RegisterStudent: React.FC = () => {
                           )}
                       </div>
 
-                      {/* Institution */}
+                      {/* Institution Autocomplete */}
                       <div className="input-section">
                         <IonText>
-                          <h3 className="input-label">Institution</h3>
+                          <h3 className="input-label">
+                            Institution
+                            {formData.institution && (
+                              <span className="auto-filled-badge">
+                                ✓ Selected
+                              </span>
+                            )}
+                          </h3>
                         </IonText>
-                        <IonItem className="input-item" lines="none">
-                          <IonIcon
-                            icon={business}
-                            slot="start"
-                            className="input-icon"
-                          />
-                          <IonInput
-                            type="text"
-                            placeholder="Enter institution name"
-                            value={formData.institution}
-                            onIonInput={(e) =>
-                              handleInputChange("institution", e.detail.value!)
-                            }
-                            className="custom-input"
-                            required
-                          />
-                        </IonItem>
+                        <div
+                          className="autocomplete-container"
+                          ref={inputContainerRef}
+                        >
+                          <IonItem className="input-item" lines="none">
+                            <IonIcon
+                              icon={business}
+                              slot="start"
+                              className="input-icon"
+                            />
+                            <IonInput
+                              type="text"
+                              placeholder="Type to search institutions..."
+                              value={institutionQuery}
+                              onIonInput={(e) =>
+                                handleInstitutionInput(e.detail.value!)
+                              }
+                              onIonFocus={() => {
+                                if (institutionQuery.trim())
+                                  setShowSuggestions(true);
+                              }}
+                              className="custom-input"
+                            />
+                          </IonItem>
+
+                          {showSuggestions &&
+                            filteredInstitutions.length > 0 && (
+                              <div
+                                className="suggestions-dropdown"
+                                ref={suggestionsRef}
+                              >
+                                {filteredInstitutions.map((inst, index) => (
+                                  <div
+                                    key={index}
+                                    className="suggestion-item"
+                                    onClick={() =>
+                                      handleInstitutionSelect(
+                                        inst.name,
+                                        inst.id,
+                                      )
+                                    }
+                                  >
+                                    <IonIcon
+                                      icon={school}
+                                      className="suggestion-icon"
+                                    />
+                                    <span className="suggestion-name">
+                                      {inst.name}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+
+                          {showSuggestions &&
+                            institutionQuery.trim() &&
+                            filteredInstitutions.length === 0 && (
+                              <div className="suggestions-dropdown">
+                                <div className="suggestion-item no-results">
+                                  No institutions found
+                                </div>
+                              </div>
+                            )}
+                        </div>
                       </div>
 
-                      {/* Section ID */}
+                      {/* Grade & Section */}
                       <div className="input-section">
                         <IonText>
-                          <h3 className="input-label">Section ID</h3>
+                          <h3 className="input-label">Grade & Section</h3>
                         </IonText>
-                        <IonItem className="input-item" lines="none">
-                          <IonInput
-                            type="number"
-                            placeholder="Enter section ID"
-                            value={formData.sectionId}
-                            onIonInput={(e) =>
-                              handleInputChange(
-                                "sectionId",
-                                String(e.detail.value),
-                              )
-                            }
-                            className="custom-input"
-                            required
-                          />
-                        </IonItem>
+                        <div className="grade-section-row">
+                          {/* Grade Select */}
+                          <div className="select-wrapper">
+                            <label className="select-label">Grade</label>
+                            <div className="custom-select">
+                              <select
+                                value={selectedGrade}
+                                onChange={(e) =>
+                                  setSelectedGrade(e.target.value)
+                                }
+                                className="grade-select"
+                              >
+                                <option value="" disabled>
+                                  —
+                                </option>
+                                {GRADES.map((g) => (
+                                  <option key={g} value={g}>
+                                    {g}
+                                  </option>
+                                ))}
+                              </select>
+                              <IonIcon
+                                icon={chevronDown}
+                                className="select-arrow"
+                              />
+                            </div>
+                          </div>
+
+                          <span className="grade-section-divider">–</span>
+
+                          {/* Section Select */}
+                          <div className="select-wrapper">
+                            <label className="select-label">Section</label>
+                            <div className="custom-select">
+                              <select
+                                value={selectedSection}
+                                onChange={(e) =>
+                                  setSelectedSection(e.target.value)
+                                }
+                                className="section-select"
+                              >
+                                <option value="" disabled>
+                                  —
+                                </option>
+                                {SECTIONS.map((s) => (
+                                  <option key={s} value={s}>
+                                    {s}
+                                  </option>
+                                ))}
+                              </select>
+                              <IonIcon
+                                icon={chevronDown}
+                                className="select-arrow"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        {selectedGrade && selectedSection && (
+                          <p className="section-preview">
+                            Section: {selectedGrade}-{selectedSection}
+                          </p>
+                        )}
                       </div>
                     </form>
                   </IonCardContent>

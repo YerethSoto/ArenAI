@@ -200,3 +200,84 @@
 .sh-subject-display {
     min-height: 40px;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Tablet (768px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+    .student-toolbar {
+        --min-height: 80px;
+        padding-top: 12px;
+    }
+
+    .sh-notch {
+        width: 230px;
+        height: 78px;
+    }
+
+    .sh-notch-container {
+        margin-top: -50px;
+    }
+
+    .sh-subject-display {
+        width: 160px;
+        height: 50px;
+    }
+
+    .sh-subject-text {
+        font-size: 20px;
+    }
+
+    .sh-brand-name {
+        font-size: 28px;
+    }
+
+    .sh-brand-sub {
+        font-size: 16px;
+    }
+
+    .sh-content {
+        padding: 0 20px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP RESPONSIVE — Large Desktop (1200px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1200px) {
+    .student-toolbar {
+        --min-height: 85px;
+        padding-top: 14px;
+    }
+
+    .sh-notch {
+        width: 260px;
+        height: 82px;
+    }
+
+    .sh-notch-container {
+        margin-top: -52px;
+    }
+
+    .sh-subject-display {
+        width: 180px;
+        height: 54px;
+    }
+
+    .sh-subject-text {
+        font-size: 22px;
+    }
+
+    .sh-brand-name {
+        font-size: 30px;
+        letter-spacing: 1.5px;
+    }
+
+    .sh-brand-sub {
+        font-size: 17px;
+    }
+
+    .sh-content {
+        padding: 0 30px;
+    }
+}

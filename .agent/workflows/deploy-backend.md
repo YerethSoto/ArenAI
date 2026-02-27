@@ -4,40 +4,37 @@ description: Deploy the backend to Google Cloud Run
 
 # Deploy Backend to Cloud Run
 
-This workflow builds the backend Docker image and deploys it to Google Cloud Run.
+## Quick Deploy (env vars already saved)
 
-## Prerequisites
+// turbo
 
-- Google Cloud SDK (`gcloud`) installed and authenticated.
-- A Google Cloud project with Cloud Run and Artifact Registry/Container Registry enabled.
+1. Run from the `backend/` directory:
+   ```bash
+   cd c:\ArenAI\ArenAI\backend
+   gcloud run deploy arenai-backend --source . --region us-central1 --project project-c51b6aa6-3bde-49a4-9b0 --allow-unauthenticated
+   ```
 
-## Steps
+Service URL: `https://arenai-backend-279714222087.us-central1.run.app`
 
-1.  **Authenticate with Google Cloud** (if not already logged in):
-    ```bash
-    gcloud auth login
-    gcloud config set project [YOUR_PROJECT_ID]
-    ```
+## If you need to update env vars
 
-2.  **Configure Docker to use gcloud credentials**:
-    ```bash
-    gcloud auth configure-docker
-    ```
+```bash
+gcloud run services update arenai-backend --region us-central1 --project project-c51b6aa6-3bde-49a4-9b0 --update-env-vars "KEY=value,KEY2=value2"
+```
 
-3.  **Build and Push the Docker Image**:
-    Replace `[YOUR_PROJECT_ID]` with your actual project ID.
-    ```bash
-    docker build -t gcr.io/[YOUR_PROJECT_ID]/arenai-backend:latest ./backend
-    docker push gcr.io/[YOUR_PROJECT_ID]/arenai-backend:latest
-    ```
+## Current env vars on Cloud Run
 
-4.  **Deploy to Cloud Run**:
-    ```bash
-    gcloud run deploy arenai-backend \
-      --image gcr.io/[YOUR_PROJECT_ID]/arenai-backend:latest \
-      --platform managed \
-      --region us-central1 \
-      --allow-unauthenticated \
-      --set-env-vars NODE_ENV=production
-    ```
-    *Note: Add other environment variables (DB credentials, etc.) using `--set-env-vars KEY=VALUE,KEY2=VALUE2`.*
+- `DB_HOST=34.172.49.18`
+- `DB_PORT=3306`
+- `DB_NAME=arenaidb`
+- `DB_USER=root`
+- `DB_PASSWORD=DAKe5?LNjoZluak+`
+- `DB_SSL=true`
+- `DB_SSL_CA_PATH=cert/server-ca-arenai.pem`
+- `DB_SSL_CERT_PATH=cert/client-cert-arenai.pem`
+- `DB_SSL_KEY_PATH=cert/client-key-arenai.pem`
+- `JWT_SECRET=super-secret-key-change-me`
+- `JWT_EXPIRES_IN=1h`
+- `GOOGLE_CLOUD_PROJECT_ID=project-c51b6aa6-3bde-49a4-9b0`
+- `GOOGLE_CLOUD_LOCATION=us-central1`
+- `GOOGLE_APPLICATION_CREDENTIALS=cert/project-c51b6aa6-3bde-49a4-9b0-dab00faa1edc.json`

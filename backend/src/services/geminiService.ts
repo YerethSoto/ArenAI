@@ -14,7 +14,7 @@ if (!PROJECT_ID || !LOCATION) {
 const ai = new GoogleGenAI({
   vertexai: true, // Esto activa el modo Vertex AI
   location: LOCATION || 'us-central1',
-  project: PROJECT_ID || 'neat-resolver-478304-h4',
+  project: PROJECT_ID || 'project-c51b6aa6-3bde-49a4-9b0',
 });
 
 // Usamos el modelo 1.5 Flash que es rápido y económico en Vertex AI

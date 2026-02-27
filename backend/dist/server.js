@@ -5,7 +5,9 @@ import { initSocket } from './services/socketService.js';
 import { initCronJobs } from './services/cronService.js';
 const app = createApp();
 const httpServer = createServer(app);
-const io = new Server(httpServer, {
+// Export io instance for use by other services (e.g., insight broadcasting)
+export let io;
+io = new Server(httpServer, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"]

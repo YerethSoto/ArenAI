@@ -1,0 +1,4 @@
+﻿settings:
+  ipConfiguration:
+    requireSsl: false
+    sslMode: ENCRYPTED_ONLY
