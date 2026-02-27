@@ -1,11 +1,11 @@
 /* ProfessorTopicStats.css */
 
 .pts-page {
-    --background: #f9f4e6 !important;
+    --background: var(--ion-background-color) !important;
 }
 
 .pts-content {
-    --background: #f9f4e6 !important;
+    --background: var(--ion-background-color) !important;
 }
 
 /* Fix header line */
@@ -66,12 +66,12 @@
 .pts-stat-value {
     font-size: 22px;
     font-weight: 700;
-    color: var(--ion-text-color);
+    color: white;
 }
 
 .pts-stat-label {
     font-size: 10px;
-    color: var(--ion-text-color-step-400);
+    color: rgba(255, 255, 255, 0.7);
     margin-top: 4px;
     text-align: center;
 }
@@ -90,7 +90,7 @@
     gap: 8px;
     font-size: 16px;
     font-weight: 600;
-    color: var(--ion-text-color);
+    color: white;
     margin-bottom: 16px;
 }
 
@@ -112,7 +112,7 @@
     gap: 12px;
     padding: 12px 14px;
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--ion-color-secondary-soft);
 }
 
 .pts-alert-item.warning {
@@ -137,12 +137,12 @@
 .pts-alert-title {
     font-size: 14px;
     font-weight: 600;
-    color: var(--ion-text-color);
+    color: white;
 }
 
 .pts-alert-desc {
     font-size: 12px;
-    color: var(--ion-text-color-step-400);
+    color: rgba(255, 255, 255, 0.65);
 }
 
 /* Network Tab */
@@ -189,10 +189,10 @@
     transform: translateX(-50%);
     font-size: 11px;
     font-weight: 500;
-    color: var(--ion-text-color);
+    color: white;
     text-align: center;
     white-space: nowrap;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 /* Legend */
@@ -261,12 +261,12 @@
 .pts-tree-unit-name {
     font-size: 14px;
     font-weight: 600;
-    color: var(--ion-text-color);
+    color: white;
 }
 
 .pts-tree-unit-count {
     font-size: 11px;
-    color: var(--ion-text-color-step-400);
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .pts-tree-score {
@@ -312,12 +312,12 @@
 .pts-tree-topic-name {
     font-size: 13px;
     font-weight: 500;
-    color: var(--ion-text-color);
+    color: white;
 }
 
 .pts-tree-bar-container {
     height: 4px;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 2px;
     overflow: hidden;
 }
@@ -347,14 +347,14 @@
     align-items: center;
     padding: 8px 12px;
     margin: 4px 0;
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--ion-color-secondary-soft);
     border-radius: 8px;
     border-left: 3px solid var(--ion-color-tertiary);
 }
 
 .pts-tree-subtopic-name {
     font-size: 12px;
-    color: var(--ion-text-color);
+    color: white;
 }
 
 .pts-tree-subtopic-score {
@@ -416,7 +416,7 @@
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--ion-color-secondary-soft);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -431,7 +431,7 @@
     font-weight: 600;
     margin-top: 8px;
     text-align: center;
-    color: var(--ion-text-color);
+    color: white;
 }
 
 .pts-top-score {
@@ -505,12 +505,12 @@
 .pts-student-name {
     font-size: 14px;
     font-weight: 600;
-    color: var(--ion-text-color);
+    color: white;
 }
 
 .pts-student-stats {
     font-size: 11px;
-    color: var(--ion-text-color-step-400);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .pts-student-score {
@@ -562,7 +562,7 @@
 /* ============ MODAL STYLES ============ */
 
 .pts-modal {
-    background: #f9f4e6;
+    background: var(--ion-background-color);
     height: 100%;
     overflow-y: auto;
 }
@@ -614,11 +614,12 @@
 .pts-modal-big-score {
     font-size: 48px;
     font-weight: 700;
+    color: white;
 }
 
 .pts-modal-score-label {
     font-size: 14px;
-    color: var(--ion-text-color-step-400);
+    color: rgba(255, 255, 255, 0.7);
     margin-top: 4px;
 }
 
@@ -650,12 +651,12 @@
 .pts-modal-stat-value {
     font-size: 18px;
     font-weight: 700;
-    color: var(--ion-text-color);
+    color: white;
 }
 
 .pts-modal-stat-label {
     font-size: 10px;
-    color: var(--ion-text-color-step-400);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 /* Modal Sections */
@@ -669,7 +670,7 @@
 .pts-modal-section h3 {
     font-size: 14px;
     font-weight: 600;
-    color: var(--ion-text-color);
+    color: white;
     margin: 0 0 12px 0;
 }
 
@@ -680,7 +681,7 @@
 
 .pts-modal-section li {
     font-size: 13px;
-    color: var(--ion-text-color-step-200);
+    color: rgba(255, 255, 255, 0.85);
     margin-bottom: 6px;
     line-height: 1.4;
 }
@@ -696,7 +697,7 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 14px;
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--ion-color-secondary-soft);
     border-radius: 10px;
     font-size: 14px;
 }
@@ -717,7 +718,7 @@
 .pts-modal-topic-name {
     flex: 0 0 90px;
     font-size: 12px;
-    color: var(--ion-text-color);
+    color: white;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -726,7 +727,7 @@
 .pts-modal-bar-track {
     flex: 1;
     height: 8px;
-    background: rgba(0, 0, 0, 0.1);
+    background: var(--ion-color-step-150);
     border-radius: 4px;
     overflow: hidden;
 }
@@ -746,9 +747,9 @@
 
 /* Warning Badge */
 .pts-modal-warning {
-    background: #fff3cd;
-    border: 1px solid #ffc107;
-    color: #856404;
+    background: rgba(var(--ion-color-warning-rgb), 0.1);
+    border: 1px solid var(--ion-color-warning);
+    color: var(--ion-color-warning-shade);
     padding: 12px 16px;
     border-radius: 12px;
     font-size: 14px;
@@ -767,13 +768,13 @@
 }
 
 .pts-modal-alert-badge.warning {
-    background: #fff3cd;
-    color: #856404;
+    background: rgba(var(--ion-color-warning-rgb), 0.1);
+    color: var(--ion-color-warning-shade);
 }
 
 .pts-modal-alert-badge.danger {
-    background: #f8d7da;
-    color: #721c24;
+    background: rgba(var(--ion-color-danger-rgb), 0.1);
+    color: var(--ion-color-danger-shade);
 }
 
 /* Action Button */
@@ -843,7 +844,7 @@
     border-radius: 12px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--ion-text-color);
+    color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -870,8 +871,8 @@
     --background: var(--ion-color-secondary-soft);
     --border-radius: 12px;
     --box-shadow: none;
-    --placeholder-color: #666;
-    --color: #333;
+    --placeholder-color: rgba(255, 255, 255, 0.5);
+    --color: white;
     padding: 0 !important;
 }
 
@@ -899,7 +900,7 @@
 
 .pts-subject-count {
     font-size: 13px;
-    color: #555;
+    color: rgba(255, 255, 255, 0.6);
     font-weight: 500;
 }
 
@@ -961,7 +962,7 @@
 /* Results Count */
 .pts-results-count {
     font-size: 12px;
-    color: #555;
+    color: rgba(255, 255, 255, 0.5);
     padding: 4px 0;
 }
 
@@ -1010,17 +1011,18 @@
 .pts-topic-name {
     font-size: 13px;
     font-weight: 600;
-    color: var(--ion-text-color);
+    color: white;
     margin-bottom: 6px;
     display: -webkit-box;
     -webkit-line-clamp: 1;
+    line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
 .pts-topic-bar-track {
     height: 4px;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 2px;
     overflow: hidden;
 }
@@ -1063,7 +1065,7 @@
 
 .pts-topic-desc {
     font-size: 12px;
-    color: #4a4a4a;
+    color: rgba(255, 255, 255, 0.7);
     line-height: 1.5;
     margin: 0 0 12px 0;
 }
@@ -1079,7 +1081,7 @@
     align-items: center;
     gap: 4px;
     font-size: 11px;
-    color: #555;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .pts-topic-stat ion-icon {
@@ -1223,7 +1225,7 @@
 }
 
 .pts-subject-card {
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--ion-color-secondary-soft);
     border-radius: 12px;
     padding: 14px;
     border-left: 4px solid;
@@ -1250,7 +1252,7 @@
 .pts-subject-name {
     font-size: 12px;
     font-weight: 600;
-    color: var(--ion-text-color);
+    color: white;
 }
 
 .pts-subject-score {
@@ -1263,7 +1265,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 10px;
-    color: var(--ion-text-color-step-400);
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .pts-subject-alerts {
@@ -1285,7 +1287,7 @@
 
 .pts-modal-description {
     font-size: 14px;
-    color: var(--ion-text-color-step-200);
+    color: rgba(255, 255, 255, 0.8);
     line-height: 1.6;
     margin: 0 0 20px 0;
 }
@@ -1307,7 +1309,7 @@
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background: white;
+    background: var(--ion-card-background);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1334,7 +1336,7 @@
 
 .pts-student-xp {
     font-size: 14px;
-    color: var(--ion-text-color);
+    color: white;
     font-weight: 600;
     margin-bottom: 4px;
 }
@@ -1366,7 +1368,7 @@
 .pts-subject-bar-name {
     width: 80px;
     font-size: 11px;
-    color: var(--ion-text-color);
+    color: white;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -1375,7 +1377,7 @@
 .pts-subject-bar-track {
     flex: 1;
     height: 8px;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
     overflow: hidden;
 }
@@ -1414,7 +1416,7 @@
     align-items: center;
     gap: 10px;
     padding: 10px 12px;
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--ion-color-secondary-soft);
     border-radius: 10px;
 }
 
@@ -1456,7 +1458,7 @@
     align-items: flex-start;
     gap: 10px;
     padding: 10px 12px;
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--ion-color-secondary-soft);
     border-radius: 10px;
 }
 
@@ -1754,5 +1756,67 @@
     .pts-modal-topic-name {
         flex: 0 0 110px;
         font-size: 13px;
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   DARK MODE OVERRIDES
+   --------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+
+    /* Modal Background Dark Blue */
+    .pts-modal {
+        background: #0f172a;
+        /* Dark blue background */
+    }
+
+    /* Segment Buttons (Tabs) */
+    .pts-segment ion-segment-button {
+        --color: rgba(255, 255, 255, 0.6);
+        --color-checked: white;
+    }
+
+    /* Performance bar text */
+    .pts-perf-label,
+    .pts-perf-count {
+        color: white;
+    }
+
+    /* Pills and tags */
+    .pts-pill {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .pts-pill.active {
+        color: white;
+    }
+
+    /* Small labels and hints */
+    .pts-hint,
+    .pts-empty-hint {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .pts-legend-item {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Activity and list texts */
+    .pts-activity-desc,
+    .pts-weak-topic-name,
+    .pts-strong-topic-name,
+    .pts-globe-message p {
+        color: white;
+    }
+
+    .pts-activity-date,
+    .pts-globe-message span {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Tree expand icons */
+    .pts-tree-topic-expand,
+    .pts-topic-expand-icon {
+        color: rgba(255, 255, 255, 0.5);
     }
 }

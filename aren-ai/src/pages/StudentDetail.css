@@ -2,8 +2,9 @@
 
 /* Page & Background */
 .sd-page {
-    --background: var(--ion-background-color, #f9f4e6) !important;
-    background: var(--ion-background-color, #f9f4e6) !important;
+    /* Rely entirely on Ionic's global background variables */
+    --background: var(--ion-background-color);
+    background: var(--ion-background-color);
 }
 
 /* Header Override */
@@ -53,7 +54,7 @@
 
 /* Content */
 .sd-content {
-    --background: var(--ion-background-color, #f9f4e6) !important;
+    --background: var(--ion-background-color);
 }
 
 .sd-scroll-content {
@@ -66,7 +67,7 @@
 
 /* Profile Card */
 .sd-profile-card {
-    background: var(--ion-color-secondary-soft, rgba(200, 200, 200, 0.3));
+    background: var(--ion-color-secondary-soft);
     border-radius: 24px;
     padding: 30px 24px;
     display: flex;
@@ -78,7 +79,7 @@
 
 /* Rank Badge */
 .sd-rank-badge {
-    background: var(--ion-color-secondary);
+    background: var(--ion-color-secondary-soft);
     border-radius: 16px;
     padding: 16px 40px;
     display: flex;
@@ -95,14 +96,14 @@
 .sd-rank-number {
     font-size: 32px;
     font-weight: 700;
-    color: var(--ion-color-secondary-contrast, white);
+    color: var(--ion-text-color);
     font-family: 'Georgia', serif;
 }
 
 .sd-rank-label {
     font-size: 10px;
     font-weight: 700;
-    color: var(--ion-color-secondary-contrast, white);
+    color: var(--ion-text-color);
     opacity: 0.7;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -135,7 +136,7 @@
 
 /* Overall Badge */
 .sd-overall-badge {
-    background: var(--ion-color-secondary);
+    background: var(--ion-color-secondary-soft);
     border-radius: 20px;
     padding: 12px 30px;
     display: flex;
@@ -149,13 +150,12 @@
     font-size: 28px;
     font-weight: 700;
     font-family: 'Georgia', serif;
-    color: var(--ion-color-secondary-contrast, white);
 }
 
 .sd-overall-label {
     font-size: 10px;
     font-weight: 700;
-    color: var(--ion-color-secondary-contrast, white);
+    color: var(--ion-text-color);
     opacity: 0.8;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -163,7 +163,7 @@
 
 /* Stats Container */
 .sd-stats-container {
-    background: var(--ion-color-secondary-soft, rgba(200, 200, 200, 0.3));
+    background: var(--ion-color-secondary-soft);
     border-radius: 20px;
     padding: 20px;
     display: flex;
@@ -176,15 +176,16 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    background: rgba(255, 255, 255, 0.6);
+    background: var(--ion-color-secondary-soft);
     border-radius: 14px;
     padding: 14px 16px;
     transition: all 0.2s ease;
+    border: 1px solid var(--ion-border-color);
 }
 
 .sd-stat-card:hover {
     transform: translateX(4px);
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* Stat Icon Wrappers */
@@ -230,7 +231,7 @@
 .sd-stat-label {
     font-size: 11px;
     font-weight: 700;
-    color: var(--ion-text-color-step-400);
+    color: var(--ion-text-color-step-400, #666);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -412,5 +413,38 @@
 
     .sd-stat-label {
         font-size: 13px;
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   DARK MODE OVERRIDES
+   --------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+    .sd-stat-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .sd-stat-card:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .sd-stat-label {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .sd-profile-card,
+    .sd-stats-container {
+        background: var(--ion-color-secondary-soft);
+    }
+
+    /* Text Colors */
+    .sd-name,
+    .sd-rank-number,
+    .sd-rank-label,
+    .sd-overall-value,
+    .sd-overall-label,
+    .sd-stat-value {
+        color: white;
     }
 }

@@ -334,14 +334,14 @@ body.theme-original-alter {
     /* Accent - Coral (botones de acción principales) */
     --ion-color-accent: #FF7B7B;
     --ion-color-accent-rgb: 255, 123, 123;
-    --ion-color-accent-contrast: #3D2E24;
+    --ion-color-accent-contrast: #ffffff;
     --ion-color-accent-shade: #E06B6B;
     --ion-color-accent-tint: #FF9090;
 
     /* Secondary - Menta verde (bordes, indicadores) */
     --ion-color-secondary: #90BEAB;
     --ion-color-secondary-rgb: 144, 190, 171;
-    --ion-color-secondary-contrast: #3D2E24;
+    --ion-color-secondary-contrast: #ffffff;
     --ion-color-secondary-shade: #7FA796;
     --ion-color-secondary-tint: #A0CEBB;
     --ion-color-secondary-soft: rgba(144, 190, 171, 0.2);
@@ -349,7 +349,7 @@ body.theme-original-alter {
     /* Tertiary - Amber dorado (badges, notificaciones) */
     --ion-color-tertiary: #FFB74D;
     --ion-color-tertiary-rgb: 255, 183, 77;
-    --ion-color-tertiary-contrast: #3D2E24;
+    --ion-color-tertiary-contrast: #ffffff;
     --ion-color-tertiary-shade: #FFA726;
     --ion-color-tertiary-tint: #FFC870;
 
@@ -428,14 +428,14 @@ body.theme-original-alter {
     /* Accent for buttons - Slate Blue */
     --ion-color-accent: #7890A0;
     --ion-color-accent-rgb: 120, 144, 160;
-    --ion-color-accent-contrast: #3D2E24;
+    --ion-color-accent-contrast: #ffffff;
     --ion-color-accent-shade: #688090;
     --ion-color-accent-tint: #88A0B0;
 
     /* Secondary - Muted Teal/Mint */
     --ion-color-secondary: #70A090;
     --ion-color-secondary-rgb: 112, 160, 144;
-    --ion-color-secondary-contrast: #3D2E24;
+    --ion-color-secondary-contrast: #ffffff;
     --ion-color-secondary-shade: #609080;
     --ion-color-secondary-tint: #80B0A0;
     --ion-color-secondary-soft: rgba(112, 160, 144, 0.2);
@@ -475,14 +475,14 @@ body.theme-original-alter {
     /* Accent - Naranja brillante (botones de acción principales) */
     --ion-color-accent: #FF9E44;
     --ion-color-accent-rgb: 255, 158, 68;
-    --ion-color-accent-contrast: #0D1F35;
+    --ion-color-accent-contrast: #ffffff;
     --ion-color-accent-shade: #E08B3A;
     --ion-color-accent-tint: #FFB066;
 
     /* Secondary - Cyan eléctrico (bordes, indicadores) */
     --ion-color-secondary: #00D4FF;
     --ion-color-secondary-rgb: 0, 212, 255;
-    --ion-color-secondary-contrast: #0D1F35;
+    --ion-color-secondary-contrast: #ffffff;
     --ion-color-secondary-shade: #00B8E0;
     --ion-color-secondary-tint: #33DDFF;
     --ion-color-secondary-soft: rgba(0, 212, 255, 0.25);
@@ -490,7 +490,7 @@ body.theme-original-alter {
     /* Tertiary - Coral (badges, notificaciones) */
     --ion-color-tertiary: #FF7B7B;
     --ion-color-tertiary-rgb: 255, 123, 123;
-    --ion-color-tertiary-contrast: #0D1F35;
+    --ion-color-tertiary-contrast: #ffffff;
     --ion-color-tertiary-shade: #E06B6B;
     --ion-color-tertiary-tint: #FF9090;
 
@@ -553,14 +553,14 @@ body.theme-original-alter {
     /* Accent - Dorado (botones de acción principales) */
     --ion-color-accent: #FFD700;
     --ion-color-accent-rgb: 255, 215, 0;
-    --ion-color-accent-contrast: #0F2010;
+    --ion-color-accent-contrast: #ffffff;
     --ion-color-accent-shade: #E0BE00;
     --ion-color-accent-tint: #FFE033;
 
     /* Secondary - Lima neón (bordes, indicadores) */
     --ion-color-secondary: #B8FF44;
     --ion-color-secondary-rgb: 184, 255, 68;
-    --ion-color-secondary-contrast: #0F2010;
+    --ion-color-secondary-contrast: #ffffff;
     --ion-color-secondary-shade: #A0E03A;
     --ion-color-secondary-tint: #C8FF66;
     --ion-color-secondary-soft: rgba(184, 255, 68, 0.25);
@@ -568,7 +568,7 @@ body.theme-original-alter {
     /* Tertiary - Lavanda (badges, notificaciones) */
     --ion-color-tertiary: #C8A8E0;
     --ion-color-tertiary-rgb: 200, 168, 224;
-    --ion-color-tertiary-contrast: #0F2010;
+    --ion-color-tertiary-contrast: #ffffff;
     --ion-color-tertiary-shade: #B090C8;
     --ion-color-tertiary-tint: #D8C0F0;
 
@@ -631,14 +631,14 @@ body.theme-original-alter {
     /* Accent - Turquesa (botones de acción principales) */
     --ion-color-accent: #40E0D0;
     --ion-color-accent-rgb: 64, 224, 208;
-    --ion-color-accent-contrast: #200810;
+    --ion-color-accent-contrast: #ffffff;
     --ion-color-accent-shade: #35C4B6;
     --ion-color-accent-tint: #66E8DB;
 
     /* Secondary - Coral cálido (bordes, indicadores) */
     --ion-color-secondary: #E07850;
     --ion-color-secondary-rgb: 224, 120, 80;
-    --ion-color-secondary-contrast: #200810;
+    --ion-color-secondary-contrast: #ffffff;
     --ion-color-secondary-shade: #C86845;
     --ion-color-secondary-tint: #E89070;
     --ion-color-secondary-soft: rgba(224, 120, 80, 0.25);
@@ -646,7 +646,7 @@ body.theme-original-alter {
     /* Tertiary - Oro (badges, notificaciones) */
     --ion-color-tertiary: #FFD54F;
     --ion-color-tertiary-rgb: 255, 213, 79;
-    --ion-color-tertiary-contrast: #200810;
+    --ion-color-tertiary-contrast: #ffffff;
     --ion-color-tertiary-shade: #E0BC40;
     --ion-color-tertiary-tint: #FFE082;
 
@@ -709,14 +709,14 @@ body.theme-original-alter {
     /* Accent - Magenta (botones de acción principales) */
     --ion-color-accent: #FF44AA;
     --ion-color-accent-rgb: 255, 68, 170;
-    --ion-color-accent-contrast: #0A2510;
+    --ion-color-accent-contrast: #ffffff;
     --ion-color-accent-shade: #E03A96;
     --ion-color-accent-tint: #FF66BB;
 
     /* Secondary - Chartreuse (bordes, indicadores) */
     --ion-color-secondary: #CCFF00;
     --ion-color-secondary-rgb: 204, 255, 0;
-    --ion-color-secondary-contrast: #0A2510;
+    --ion-color-secondary-contrast: #ffffff;
     --ion-color-secondary-shade: #B3E000;
     --ion-color-secondary-tint: #D6FF33;
     --ion-color-secondary-soft: rgba(204, 255, 0, 0.25);
@@ -724,7 +724,7 @@ body.theme-original-alter {
     /* Tertiary - Azul cielo (badges, notificaciones) */
     --ion-color-tertiary: #64B5F6;
     --ion-color-tertiary-rgb: 100, 181, 246;
-    --ion-color-tertiary-contrast: #0A2510;
+    --ion-color-tertiary-contrast: #ffffff;
     --ion-color-tertiary-shade: #509BE0;
     --ion-color-tertiary-tint: #90CAF9;
 
@@ -787,14 +787,14 @@ body.theme-original-alter {
     /* Accent - Teal (botones de acción principales) */
     --ion-color-accent: #20B2AA;
     --ion-color-accent-rgb: 32, 178, 170;
-    --ion-color-accent-contrast: #1A1508;
+    --ion-color-accent-contrast: #ffffff;
     --ion-color-accent-shade: #1A9C95;
     --ion-color-accent-tint: #40C4BD;
 
     /* Secondary - Dorado (bordes, indicadores) */
     --ion-color-secondary: #DAA520;
     --ion-color-secondary-rgb: 218, 165, 32;
-    --ion-color-secondary-contrast: #382e14;
+    --ion-color-secondary-contrast: #ffffff;
     --ion-color-secondary-shade: #C0901A;
     --ion-color-secondary-tint: #E0B540;
     --ion-color-secondary-soft: rgba(218, 165, 32, 0.25);
@@ -802,7 +802,7 @@ body.theme-original-alter {
     /* Tertiary - Coral (badges, notificaciones) */
     --ion-color-tertiary: #E07860;
     --ion-color-tertiary-rgb: 224, 120, 96;
-    --ion-color-tertiary-contrast: #382e14;
+    --ion-color-tertiary-contrast: #ffffff;
     --ion-color-tertiary-shade: #C86850;
     --ion-color-tertiary-tint: #E89078;
 
@@ -865,14 +865,14 @@ body.theme-original-alter {
     /* Accent - Amarillo eléctrico (botones de acción principales) */
     --ion-color-accent: #ffea00;
     --ion-color-accent-rgb: 255, 234, 0;
-    --ion-color-accent-contrast: #050010;
+    --ion-color-accent-contrast: #ffffff;
     --ion-color-accent-shade: #e0ce00;
     --ion-color-accent-tint: #ffec33;
 
     /* Secondary - Cyan neón (bordes, indicadores) */
     --ion-color-secondary: #00e5ff;
     --ion-color-secondary-rgb: 0, 229, 255;
-    --ion-color-secondary-contrast: #050010;
+    --ion-color-secondary-contrast: #ffffff;
     --ion-color-secondary-shade: #00cae0;
     --ion-color-secondary-tint: #33eaff;
     --ion-color-secondary-soft: rgba(0, 229, 255, 0.3);
@@ -880,7 +880,7 @@ body.theme-original-alter {
     /* Tertiary - Lima brillante (badges, notificaciones) */
     --ion-color-tertiary: #76ff03;
     --ion-color-tertiary-rgb: 118, 255, 3;
-    --ion-color-tertiary-contrast: #050010;
+    --ion-color-tertiary-contrast: #ffffff;
     --ion-color-tertiary-shade: #68e003;
     --ion-color-tertiary-tint: #8cff33;
 
@@ -926,6 +926,24 @@ body.theme-original-alter {
 ion-app {
   --ion-background-color: var(--ion-background-color);
   --ion-text-color: var(--ion-text-color);
+}
+
+/* Fix Sidebar Backdrop: Ensure background is visible on the right when menu is open */
+ion-menu::part(backdrop) {
+  background-color: transparent !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Ensure backdrop element itself doesn't dim */
+ion-backdrop {
+  --opacity: 0 !important;
+}
+
+/* Target specifically the menu backdrop if above fails */
+.menu-pane-visible ion-backdrop,
+ion-menu ion-backdrop {
+  display: none !important;
 }
 
 /* Global Custom Scrollbar */

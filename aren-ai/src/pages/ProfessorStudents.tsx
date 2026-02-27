@@ -111,7 +111,7 @@ const ProfessorStudents: React.FC = () => {
     };
 
     return (
-        <IonPage className="pst-page">
+        <IonPage className="pst-page global-background-pattern">
             {/* Header */}
             <IonHeader className="student-header-container">
                 <IonToolbar className="student-toolbar">

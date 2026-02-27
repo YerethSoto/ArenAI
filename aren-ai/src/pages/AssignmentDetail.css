@@ -89,7 +89,8 @@
   padding: 20px;
   min-height: 160px;
   border-radius: 0 0 24px 24px;
-  margin: 0 -20px 15px -20px; /* Extend to edges */
+  margin: 0 -20px 15px -20px;
+  /* Extend to edges */
   transition: background 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -258,11 +259,12 @@
 
 /* Section bars */
 .submission-section {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--ion-color-secondary-soft);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .section-header {
@@ -281,7 +283,7 @@
   font-family: 'Georgia', serif;
   font-size: 15px;
   font-weight: 600;
-  color: var(--ion-color-primary);
+  color: white;
 }
 
 .section-title ion-icon {
@@ -327,7 +329,7 @@
 
 .grade-label {
   font-size: 13px;
-  color: var(--ion-color-primary);
+  color: white;
   font-weight: 500;
 }
 
@@ -345,9 +347,9 @@
   font-family: 'Georgia', serif;
   font-size: 16px;
   font-weight: 600;
-  color: var(--ion-color-primary);
+  color: white;
   text-align: center;
-  background: white;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .grade-input-small:focus {
@@ -380,10 +382,10 @@
 /* Text Content */
 .text-content {
   font-size: 14px;
-  color: var(--ion-color-primary);
+  color: white;
   line-height: 1.7;
   white-space: pre-wrap;
-  background: rgba(141, 110, 99, 0.03);
+  background: rgba(255, 255, 255, 0.05);
   padding: 15px;
   border-radius: 10px;
 }
@@ -431,13 +433,13 @@
 
 .quiz-result-question {
   font-size: 13px;
-  color: var(--ion-color-primary);
+  color: white;
   margin-bottom: 4px;
 }
 
 .quiz-result-answer {
   font-size: 12px;
-  color: var(--ion-color-primary);
+  color: white;
   opacity: 0.7;
 }
 
@@ -472,17 +474,18 @@
 .ai-progress-text {
   font-size: 14px;
   font-weight: 600;
-  color: var(--ion-color-primary);
+  color: white;
   min-width: 45px;
 }
 
 /* Not Submitted State */
 .not-submitted-card {
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--ion-color-secondary-soft);
   border-radius: 16px;
   padding: 50px 20px;
   text-align: center;
   margin-top: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .not-submitted-icon {
@@ -494,20 +497,20 @@
 .not-submitted-text {
   font-family: 'Georgia', serif;
   font-size: 18px;
-  color: var(--ion-color-primary);
+  color: white;
   margin-bottom: 8px;
 }
 
 .not-submitted-hint {
   font-size: 13px;
-  color: var(--ion-color-primary);
-  opacity: 0.6;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* ========== BOTTOM STUDENT BAR (Transparent) ========== */
 .student-bottom-bar {
   flex-shrink: 0;
-  background: transparent; /* Match page background */
+  background: transparent;
+  /* Match page background */
   padding: 12px 0;
   border-top: 1px solid rgba(141, 110, 99, 0.1);
 }
@@ -638,7 +641,7 @@
 .total-grade-save {
   padding: 10px 24px;
   border-radius: 20px;
-  background: white;
+  background: var(--ion-card-background);
   color: var(--ion-color-primary);
   border: none;
   font-family: 'Georgia', serif;

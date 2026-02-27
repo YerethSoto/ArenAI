@@ -56,8 +56,8 @@ const RegisterStudent: React.FC = () => {
   // Filter institutions based on what user types
   const filteredInstitutions = institutionQuery.trim()
     ? INSTITUTIONS.filter((inst) =>
-        inst.name.toLowerCase().includes(institutionQuery.toLowerCase()),
-      ).slice(0, 8)
+      inst.name.toLowerCase().includes(institutionQuery.toLowerCase()),
+    ).slice(0, 8)
     : [];
 
   // Close suggestions when clicking outside
@@ -186,7 +186,7 @@ const RegisterStudent: React.FC = () => {
           localStorage.setItem("userRole", "student");
           if (data.user)
             localStorage.setItem("userData", JSON.stringify(data.user));
-        } catch (_) {}
+        } catch (_) { }
       }
 
       setIsLoading(false);
@@ -516,7 +516,7 @@ const RegisterStudent: React.FC = () => {
 
                   <IonButton
                     expand="block"
-                    fill="outline"
+                    fill="clear"
                     className="back-login-button"
                     onClick={handleBackToLogin}
                     disabled={isLoading}

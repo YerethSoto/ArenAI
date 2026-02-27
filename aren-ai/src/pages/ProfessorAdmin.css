@@ -1,5 +1,5 @@
 .admin-content {
-    --background: #f8f9fa;
+    --background: var(--ion-background-color);
 }
 
 .admin-container {
@@ -16,13 +16,13 @@
 .admin-title {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #1f2937;
+    color: white;
     margin-bottom: 8px;
 }
 
 .admin-subtitle {
     font-size: 1rem;
-    color: #6b7280;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .admin-grid {
@@ -32,11 +32,12 @@
 }
 
 .student-admin-card {
-    background: white;
+    background: var(--ion-color-secondary-soft);
     border-radius: 16px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .student-admin-card:hover {
@@ -72,12 +73,12 @@
     margin: 0;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #111827;
+    color: white;
 }
 
 .admin-student-id {
     font-size: 0.85rem;
-    color: #6b7280;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .admin-controls {
@@ -95,7 +96,7 @@
 .control-label {
     font-size: 0.85rem;
     font-weight: 500;
-    color: #4b5563;
+    color: rgba(255, 255, 255, 0.5);
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -103,7 +104,7 @@
 /* Attendance Toggles */
 .attendance-toggles {
     display: flex;
-    background: #f3f4f6;
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
     padding: 4px;
     gap: 4px;
@@ -117,14 +118,15 @@
     border-radius: 6px;
     font-size: 0.85rem;
     font-weight: 500;
-    color: #6b7280;
+    color: rgba(255, 255, 255, 0.6);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .attendance-btn.active {
-    background: white;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     font-weight: 600;
 }
 
@@ -153,13 +155,14 @@
 .grade-input {
     width: 80px;
     padding: 8px 12px;
-    border: 1px solid #d1d5db;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
     font-size: 1.1rem;
     font-weight: 600;
     text-align: center;
-    color: #1f2937;
-    transition: border-color 0.2s;
+    color: white;
+    transition: all 0.2s;
 }
 
 .grade-input:focus {

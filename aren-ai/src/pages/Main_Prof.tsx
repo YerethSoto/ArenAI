@@ -18,7 +18,22 @@ import {
   analyticsOutline,
   chevronBackOutline,
   chevronForwardOutline,
+  infiniteOutline,
+  flaskOutline,
+  statsChartOutline,
+  createOutline,
   libraryOutline,
+  leafOutline,
+  planetOutline,
+  nuclearOutline,
+  globeOutline,
+  mapOutline,
+  earthOutline,
+  languageOutline,
+  chatbubblesOutline,
+  bookOutline,
+  pencilOutline,
+  schoolOutline,
 } from "ionicons/icons";
 import "./Main_Prof.css";
 import "../components/ProfessorHeader.css";
@@ -309,7 +324,7 @@ const Main_Prof: React.FC = () => {
   };
 
   return (
-    <IonPage className="main-student-page">
+    <IonPage className="main-student-page global-background-pattern">
       <IonHeader className="professor-header-container">
         <IonToolbar color="primary" className="professor-toolbar">
           <div className="ph-content">
@@ -335,7 +350,7 @@ const Main_Prof: React.FC = () => {
                   selectedSection={selectedSection}
                   selectedSubject={t(
                     "professor.dashboard.subjects." +
-                      selectedSubject.replace(/\s+/g, ""),
+                    selectedSubject.replace(/\s+/g, ""),
                   )}
                   onGradeChange={(grade) =>
                     setSelectedGrade(parseInt(grade, 10))
@@ -353,7 +368,7 @@ const Main_Prof: React.FC = () => {
           <div className="ms-container">
             <div className="ms-week-selector">
               <CalendarSelector
-                onDateSelect={() => {}}
+                onDateSelect={() => { }}
                 title={t("professor.dashboard.classSchedule")}
               />
             </div>
@@ -362,7 +377,7 @@ const Main_Prof: React.FC = () => {
                 {t("professor.dashboard.yourClass", {
                   subject: t(
                     "professor.dashboard.subjects." +
-                      selectedSubject.replace(/\s+/g, ""),
+                    selectedSubject.replace(/\s+/g, ""),
                   ),
                 })}
               </div>
@@ -390,40 +405,75 @@ const Main_Prof: React.FC = () => {
             </div>
             <div className="ms-topics-scroll-container">
               <div className="ms-topics-track">
-                {topics.map((topic, i) => (
-                  <div key={i} className="ms-topic-btn">
-                    <div className="ms-topic-fill-box">
-                      <div
-                        className="ms-topic-fill"
-                        style={{
-                          height: `${topic.percentage}%`,
-                          backgroundColor:
-                            topic.percentage < 60 ? "#FFC107" : "#78B8B0",
-                        }}
-                      ></div>
-                      <div className="ms-topic-icon">
-                        <IonIcon icon={calculator} />
+                {topics.length > 0 ? (
+                  topics.map((topic, i) => (
+                    <div key={i} className="ms-topic-btn">
+                      <div className="ms-topic-fill-box">
+                        <div
+                          className="ms-topic-fill"
+                          style={{
+                            height: `${topic.percentage}%`,
+                            backgroundColor:
+                              topic.percentage < 60 ? "#FFC107" : "#78B8B0",
+                          }}
+                        ></div>
+                        <div className="ms-topic-icon">
+                          <IonIcon icon={calculator} />
+                        </div>
                       </div>
+                      <span className="ms-topic-label">{topic.name}</span>
                     </div>
-                    <span className="ms-topic-label">{topic.name}</span>
+                  ))
+                ) : (
+                  <div className="ms-empty-topics-placeholder">
+                    {selectedSubject === 'Math' && (
+                      <>
+                        <IonIcon icon={calculator} className="ms-empty-icon" />
+                        <IonIcon icon={infiniteOutline} className="ms-empty-icon" />
+                        <IonIcon icon={statsChartOutline} className="ms-empty-icon" />
+                        <IonIcon icon={createOutline} className="ms-empty-icon" />
+                      </>
+                    )}
+                    {selectedSubject === 'Science' && (
+                      <>
+                        <IonIcon icon={flaskOutline} className="ms-empty-icon" />
+                        <IonIcon icon={leafOutline} className="ms-empty-icon" />
+                        <IonIcon icon={planetOutline} className="ms-empty-icon" />
+                        <IonIcon icon={nuclearOutline} className="ms-empty-icon" />
+                      </>
+                    )}
+                    {selectedSubject === 'Social Studies' && (
+                      <>
+                        <IonIcon icon={globeOutline} className="ms-empty-icon" />
+                        <IonIcon icon={mapOutline} className="ms-empty-icon" />
+                        <IonIcon icon={earthOutline} className="ms-empty-icon" />
+                        <IonIcon icon={schoolOutline} className="ms-empty-icon" />
+                      </>
+                    )}
+                    {selectedSubject === 'Spanish' && (
+                      <>
+                        <IonIcon icon={languageOutline} className="ms-empty-icon" />
+                        <IonIcon icon={chatbubblesOutline} className="ms-empty-icon" />
+                        <IonIcon icon={bookOutline} className="ms-empty-icon" />
+                        <IonIcon icon={pencilOutline} className="ms-empty-icon" />
+                      </>
+                    )}
                   </div>
-                ))}
+                )}
               </div>
             </div>
             <div className="ms-bottom-section">
               <div className="ms-switch-container">
                 <div
-                  className={`ms-switch-option ${
-                    viewMode === "state" ? "active" : ""
-                  }`}
+                  className={`ms-switch-option ${viewMode === "state" ? "active" : ""
+                    }`}
                   onClick={() => setViewMode("state")}
                 >
                   {t("professor.dashboard.stateOfClass", "State of Class")}
                 </div>
                 <div
-                  className={`ms-switch-option ${
-                    viewMode === "que" ? "active" : ""
-                  }`}
+                  className={`ms-switch-option ${viewMode === "que" ? "active" : ""
+                    }`}
                   onClick={() => setViewMode("que")}
                 >
                   {t("professor.dashboard.questions")}
@@ -445,6 +495,7 @@ const Main_Prof: React.FC = () => {
                         fontSize: "13px",
                         lineHeight: "1.6",
                         textAlign: "center",
+                        color: "white"
                       }}
                     >
                       {insightsLoading ? (
@@ -492,7 +543,7 @@ const Main_Prof: React.FC = () => {
                           )}
                         </>
                       ) : (
-                        <p style={{ fontStyle: "italic", opacity: 0.8 }}>
+                        <p style={{ fontStyle: "italic", opacity: 0.9, color: "white", textAlign: "center", width: "100%" }}>
                           {t(
                             "professor.dashboard.nothingToSummarize",
                             "Nothing to summarize yet",
@@ -510,7 +561,7 @@ const Main_Prof: React.FC = () => {
                       <IonIcon
                         icon={chevronBackOutline}
                         className="ms-carousel-arrow"
-                        onClick={() => {}}
+                        onClick={() => { }}
                       />
                       <div className="ms-info-content">
                         How can I better explain concepts to my students?
@@ -518,7 +569,7 @@ const Main_Prof: React.FC = () => {
                       <IonIcon
                         icon={chevronForwardOutline}
                         className="ms-carousel-arrow"
-                        onClick={() => {}}
+                        onClick={() => { }}
                       />
                     </div>
                   </>

@@ -43,7 +43,8 @@
 .quiz-name-section {
   text-align: center;
   padding: 10px 0;
-  margin-top: 50px; /* Increased to ensure no overlap */
+  margin-top: 50px;
+  /* Increased to ensure no overlap */
   position: relative;
   z-index: 50;
   pointer-events: auto;
@@ -130,7 +131,7 @@
   display: flex;
   align-items: center;
   padding: 12px 14px;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 25px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -138,7 +139,7 @@
 }
 
 .quiz-topic-item:hover {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .quiz-topic-item.selected {
@@ -197,7 +198,7 @@
   justify-content: center;
   gap: 6px;
   padding: 10px 20px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.05);
   border: 2px dashed var(--ion-color-secondary);
   border-radius: 20px;
   cursor: pointer;
@@ -205,13 +206,12 @@
   color: var(--ion-color-secondary);
   font-weight: 500;
   font-size: 13px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .quiz-add-more-btn:hover {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.1);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .quiz-add-more-btn ion-icon {
@@ -320,7 +320,7 @@
 }
 
 .quiz-details-textarea {
-  --background: white;
+  --background: rgba(255, 255, 255, 0.05);
   --border-radius: 12px;
   --padding-start: 14px;
   --padding-end: 14px;
@@ -386,34 +386,42 @@
 /* ========== SUBJECT DROPDOWN ========== */
 .quiz-subject-dropdown {
   position: absolute;
-  top: 90px; /* Adjusted to be closer to notch */
+  top: 90px;
+  /* Adjusted to be closer to notch */
   left: 50%;
   transform: translateX(-50%);
-  z-index: 99999; /* Super high Z-index */
-  background: white; /* Ensure non-transparent */
+  z-index: 99999;
+  /* Super high Z-index */
+  background: white;
+  /* Ensure non-transparent */
   border-radius: 14px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
   min-width: 180px;
   overflow: hidden;
-  pointer-events: auto; /* Ensure clickable */
+  pointer-events: auto;
+  /* Ensure clickable */
 }
 
 .ai-quiz-page ion-header {
-  pointer-events: none; /* Let clicks pass through header area */
+  pointer-events: none;
+  /* Let clicks pass through header area */
   z-index: 100 !important;
 }
 
 .ai-quiz-page .student-toolbar {
-  pointer-events: auto; /* Re-enable for menu button */
+  pointer-events: auto;
+  /* Re-enable for menu button */
 }
 
 .sh-notch-container {
   pointer-events: none;
-  z-index: 101 !important; /* Above toolbar */
+  z-index: 101 !important;
+  /* Above toolbar */
 }
 
 .sh-notch {
-  pointer-events: auto !important; /* Force clickable */
+  pointer-events: auto !important;
+  /* Force clickable */
   cursor: pointer;
   z-index: 102 !important;
 }
@@ -421,6 +429,7 @@
 .sh-subject-display {
   pointer-events: auto !important;
 }
+
 .quiz-subject-dropdown {
   position: absolute;
   top: 120px;
@@ -429,7 +438,7 @@
   z-index: 9999;
   background: var(--ion-card-background);
   border-radius: 14px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   min-width: 180px;
   overflow: hidden;
 }
@@ -437,7 +446,7 @@
 .quiz-subject-option {
   padding: 14px 20px;
   cursor: pointer;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   font-weight: 500;
   transition: background 0.2s;
 }
@@ -468,8 +477,8 @@
 }
 
 .quiz-modal-inner {
-  background: rgba(255, 248, 225, 0.95);
-  border: 4px solid rgba(93, 64, 55, 0.8);
+  background: var(--ion-background-color);
+  border: 4px solid var(--ion-color-primary);
   border-radius: 24px;
   padding: 24px;
   position: relative;
@@ -499,8 +508,8 @@
 }
 
 .quiz-input-wrapper {
-  background: rgba(255, 255, 255, 0.6);
-  border: 2px solid rgba(141, 110, 99, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid var(--ion-color-primary);
   border-radius: 12px;
   padding: 12px;
   margin-bottom: 24px;
@@ -664,19 +673,20 @@
 
 /* ========== RESPONSIVE ========== */
 @media (max-width: 400px) {
+
   .quiz-topics-grid,
   .quiz-modal-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .quiz-topic-item {
     padding: 10px 12px;
   }
-  
+
   .quiz-name-display {
     font-size: 24px;
   }
-  
+
   .quiz-generate-btn {
     padding: 8px 20px;
     font-size: 13px;
@@ -700,8 +710,8 @@
 }
 
 .quiz-loading-inner {
-  background: rgba(255, 248, 225, 0.98);
-  border: 4px solid rgba(93, 64, 55, 0.8);
+  background: var(--ion-background-color);
+  border: 4px solid var(--ion-color-primary);
   border-radius: 24px;
   padding: 40px 24px;
   text-align: center;
@@ -738,10 +748,13 @@
 }
 
 @keyframes spinnerPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(0.5);
     opacity: 0.4;
   }
+
   50% {
     transform: scale(1.2);
     opacity: 1;

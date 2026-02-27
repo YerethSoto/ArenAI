@@ -77,10 +77,12 @@
 
 .quiz-menu-searchbar {
   flex: 1;
-  --background: rgba(255, 255, 255, 0.8);
+  --background: rgba(var(--ion-color-primary-rgb), 0.05);
+  --color: var(--ion-text-color);
+  --placeholder-color: var(--ion-text-color-step-400);
   --border-radius: 12px;
   --box-shadow: none;
-  border: 2px solid rgba(141, 110, 99, 0.4);
+  border: 1px solid var(--ion-border-color);
   border-radius: 12px;
 }
 
@@ -88,8 +90,8 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.8);
-  border: 2px solid rgba(141, 110, 99, 0.4);
+  background: rgba(var(--ion-color-primary-rgb), 0.05);
+  border: 1px solid var(--ion-border-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -148,7 +150,7 @@
 
 .quiz-menu-card-meta {
   font-size: 11px;
-  color: var(--ion-color-primary);
+  color: var(--ion-text-color);
   opacity: 0.6;
 }
 
@@ -171,7 +173,7 @@
   align-items: center;
   gap: 4px;
   font-size: 11px;
-  color: var(--ion-color-primary);
+  color: var(--ion-text-color);
   opacity: 0.7;
 }
 
@@ -196,7 +198,7 @@
 
 .quiz-menu-rating-number {
   font-size: 11px;
-  color: var(--ion-color-primary);
+  color: var(--ion-text-color);
   opacity: 0.7;
 }
 
@@ -292,7 +294,7 @@
   left: 0;
   right: 0;
   padding: 15px 20px;
-  background: linear-gradient(to top, #f9f4e6 80%, transparent);
+  background: linear-gradient(to top, var(--ion-background-color) 80%, transparent);
   z-index: 100;
 }
 
@@ -448,7 +450,7 @@
 }
 
 .quiz-menu-detail-questions {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(var(--ion-color-primary-rgb), 0.05);
   border-radius: 12px;
   padding: 12px;
 }
@@ -503,7 +505,7 @@
 .quiz-menu-rating-star {
   font-size: 28px;
   cursor: pointer;
-  color: rgba(141, 110, 99, 0.3);
+  color: rgba(var(--ion-color-primary-rgb), 0.2);
   transition: all 0.2s;
 }
 
@@ -511,6 +513,50 @@
 .quiz-menu-rating-star:hover {
   color: #f5b400;
   transform: scale(1.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-color-scheme: dark) {
+
+  .quiz-menu-section-title,
+  .quiz-menu-card-name {
+    color: white;
+  }
+
+  .quiz-menu-searchbar,
+  .quiz-menu-filter-btn {
+    --background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    --color: white;
+    --placeholder-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .quiz-menu-card-meta,
+  .quiz-menu-card-downloads,
+  .quiz-menu-rating-number,
+  .quiz-menu-empty {
+    color: rgba(255, 255, 255, 0.6);
+    opacity: 1 !important;
+  }
+
+  .quiz-menu-detail-questions {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .quiz-menu-question-preview {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .quiz-menu-rating-star {
+    color: rgba(255, 255, 255, 0.2);
+  }
+
+  .quiz-menu-card-topics .quiz-menu-topic-chip {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+  }
 }
 
 /* Modal Buttons */

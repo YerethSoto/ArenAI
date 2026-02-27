@@ -66,10 +66,10 @@ interface StudentData {
     studyTime: number;
     tardies: number;
     subjectScores: { subjectId: number; score: number; topicsCompleted: number; totalTopics: number }[];
-    weakTopics: { name: string; score: number; subjectId: number }[];
-    strongTopics: { name: string; score: number; subjectId: number }[];
+    weakTopics: { name: string; nameEn?: string; score: number; subjectId: number }[];
+    strongTopics: { name: string; nameEn?: string; score: number; subjectId: number }[];
     recentActivity: { type: 'quiz' | 'battle' | 'study' | 'achievement'; description: string; date: string; score?: number }[];
-    achievements: { name: string; icon: string; date: string }[];
+    achievements: { name: string; nameEn?: string; icon: string; date: string }[];
 }
 
 const STUDENTS: StudentData[] = [
@@ -98,9 +98,9 @@ const STUDENTS: StudentData[] = [
             { type: 'study', description: 'Estudió 45 minutos', date: '2026-01-29' },
         ],
         achievements: [
-            { name: 'Estrella de Matemáticas', icon: '⭐', date: '2026-01-28' },
-            { name: 'Racha Legendaria', icon: '🔥', date: '2026-01-25' },
-            { name: 'Campeón de Batallas', icon: '🏆', date: '2026-01-20' },
+            { name: 'Estrella de Matemáticas', nameEn: 'Math Star', icon: '⭐', date: '2026-01-28' },
+            { name: 'Racha Legendaria', nameEn: 'Legendary Streak', icon: '🔥', date: '2026-01-25' },
+            { name: 'Campeón de Batallas', nameEn: 'Battle Champion', icon: '🏆', date: '2026-01-20' },
         ],
     },
     {
@@ -112,10 +112,10 @@ const STUDENTS: StudentData[] = [
             { subjectId: 3, score: 88, topicsCompleted: 25, totalTopics: 35 },
             { subjectId: 4, score: 90, topicsCompleted: 20, totalTopics: 25 },
         ],
-        weakTopics: [{ name: 'Ortografía', score: 68, subjectId: 3 }],
-        strongTopics: [{ name: 'Geometría', score: 98, subjectId: 1 }],
+        weakTopics: [{ name: 'Ortografía', nameEn: 'Spelling', score: 68, subjectId: 3 }],
+        strongTopics: [{ name: 'Geometría', nameEn: 'Geometry', score: 98, subjectId: 1 }],
         recentActivity: [{ type: 'quiz', description: 'Quiz de Ciencias', date: '2026-02-01', score: 92 }],
-        achievements: [{ name: 'Científico Curioso', icon: '🔬', date: '2026-01-22' }],
+        achievements: [{ name: 'Científico Curioso', nameEn: 'Curious Scientist', icon: '🔬', date: '2026-01-22' }],
     },
     {
         id: 's3', name: 'María López', averageScore: 88, streak: 5, level: 6, xp: 1650,
@@ -126,10 +126,10 @@ const STUDENTS: StudentData[] = [
             { subjectId: 3, score: 92, topicsCompleted: 28, totalTopics: 35 },
             { subjectId: 4, score: 85, topicsCompleted: 18, totalTopics: 25 },
         ],
-        weakTopics: [{ name: 'Álgebra', score: 65, subjectId: 1 }],
-        strongTopics: [{ name: 'Lectura Comprensiva', score: 96, subjectId: 3 }],
+        weakTopics: [{ name: 'Álgebra', nameEn: 'Algebra', score: 65, subjectId: 1 }],
+        strongTopics: [{ name: 'Lectura Comprensiva', nameEn: 'Reading Comprehension', score: 96, subjectId: 3 }],
         recentActivity: [{ type: 'study', description: 'Repaso de Español', date: '2026-02-01' }],
-        achievements: [{ name: 'Lectora Ávida', icon: '📚', date: '2026-01-18' }],
+        achievements: [{ name: 'Lectora Ávida', nameEn: 'Avid Reader', icon: '📚', date: '2026-01-18' }],
     },
     {
         id: 's4', name: 'Diego Sánchez', averageScore: 82, streak: 3, level: 5, xp: 1340,
@@ -154,7 +154,7 @@ const STUDENTS: StudentData[] = [
             { subjectId: 3, score: 82, topicsCompleted: 24, totalTopics: 35 },
             { subjectId: 4, score: 75, topicsCompleted: 15, totalTopics: 25 },
         ],
-        weakTopics: [{ name: 'Potencias', score: 52, subjectId: 1 }, { name: 'Geografía', score: 58, subjectId: 4 }],
+        weakTopics: [{ name: 'Potencias', nameEn: 'Powers', score: 52, subjectId: 1 }, { name: 'Geografía', nameEn: 'Geography', score: 58, subjectId: 4 }],
         strongTopics: [],
         recentActivity: [],
         achievements: [],
@@ -168,7 +168,7 @@ const STUDENTS: StudentData[] = [
             { subjectId: 3, score: 70, topicsCompleted: 20, totalTopics: 35 },
             { subjectId: 4, score: 75, topicsCompleted: 14, totalTopics: 25 },
         ],
-        weakTopics: [{ name: 'Fracciones', score: 45, subjectId: 1 }, { name: 'Ortografía', score: 48, subjectId: 3 }],
+        weakTopics: [{ name: 'Fracciones', nameEn: 'Fractions', score: 45, subjectId: 1 }, { name: 'Ortografía', nameEn: 'Spelling', score: 48, subjectId: 3 }],
         strongTopics: [],
         recentActivity: [],
         achievements: [],
@@ -182,7 +182,7 @@ const STUDENTS: StudentData[] = [
             { subjectId: 3, score: 68, topicsCompleted: 18, totalTopics: 35 },
             { subjectId: 4, score: 70, topicsCompleted: 12, totalTopics: 25 },
         ],
-        weakTopics: [{ name: 'Ecuaciones', score: 38, subjectId: 1 }],
+        weakTopics: [{ name: 'Ecuaciones', nameEn: 'Equations', score: 38, subjectId: 1 }],
         strongTopics: [],
         recentActivity: [],
         achievements: [],
@@ -197,9 +197,9 @@ const STUDENTS: StudentData[] = [
             { subjectId: 4, score: 60, topicsCompleted: 10, totalTopics: 25 },
         ],
         weakTopics: [
-            { name: 'Matemáticas Básicas', score: 35, subjectId: 1 },
-            { name: 'Lectura', score: 42, subjectId: 3 },
-            { name: 'Sistema Solar', score: 45, subjectId: 2 },
+            { name: 'Matemáticas Básicas', nameEn: 'Basic Mathematics', score: 35, subjectId: 1 },
+            { name: 'Lectura', nameEn: 'Reading', score: 42, subjectId: 3 },
+            { name: 'Sistema Solar', nameEn: 'Solar System', score: 45, subjectId: 2 },
         ],
         strongTopics: [],
         recentActivity: [],
@@ -208,7 +208,7 @@ const STUDENTS: StudentData[] = [
 ];
 
 const ProfessorTopicStats: React.FC = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         selectedGrade,
         setSelectedGrade,
@@ -312,7 +312,7 @@ const ProfessorTopicStats: React.FC = () => {
 
                 <div className="ph-brand-container-absolute">
                     <div className="ph-brand-name">ArenAI</div>
-                    <div className="ph-brand-sub">Estadísticas de Temas</div>
+                    <div className="ph-brand-sub">{t('professor.topicStats.headerTitle')}</div>
                 </div>
 
                 <div className="ph-notch-container">
@@ -322,7 +322,7 @@ const ProfessorTopicStats: React.FC = () => {
                                 <ProfessorMenu
                                     selectedGrade={String(selectedGrade)}
                                     selectedSection={selectedSection}
-                                    selectedSubject={t('professor.dashboard.subjects.' + profSubject.replace(/\s+/g, ''))}
+                                    selectedSubject={t(currentSubject?.nameKey || 'professor.topicStats.subjects.math')}
                                     onGradeChange={(grade) => setSelectedGrade(parseInt(grade, 10))}
                                     onSectionChange={setSelectedSection}
                                     onSubjectChange={setProfSubject}
@@ -345,15 +345,15 @@ const ProfessorTopicStats: React.FC = () => {
                         >
                             <IonSegmentButton value="resumen">
                                 <IonIcon icon={statsChartOutline} />
-                                <IonLabel>Resumen</IonLabel>
+                                <IonLabel>{t('professor.topicStats.tabSummary')}</IonLabel>
                             </IonSegmentButton>
                             <IonSegmentButton value="red">
                                 <IonIcon icon={gitNetworkOutline} />
-                                <IonLabel>Temas</IonLabel>
+                                <IonLabel>{t('professor.topicStats.tabTopics')}</IonLabel>
                             </IonSegmentButton>
                             <IonSegmentButton value="estudiantes">
                                 <IonIcon icon={peopleOutline} />
-                                <IonLabel>Estudiantes</IonLabel>
+                                <IonLabel>{t('professor.topicStats.tabStudents')}</IonLabel>
                             </IonSegmentButton>
                         </IonSegment>
                     </div>
@@ -365,23 +365,23 @@ const ProfessorTopicStats: React.FC = () => {
                             <div className="pts-stats-row">
                                 <div className="pts-stat-circle" onClick={() => setActiveTab('estudiantes')}>
                                     <span className="pts-stat-value">{classOverview.totalStudents}</span>
-                                    <span className="pts-stat-label">Estudiantes</span>
+                                    <span className="pts-stat-label">{t('professor.topicStats.students')}</span>
                                 </div>
                                 <div className="pts-stat-circle">
                                     <span className="pts-stat-value" style={{ color: getScoreColor(classOverview.classAverage) }}>
                                         {classOverview.classAverage}%
                                     </span>
-                                    <span className="pts-stat-label">Promedio</span>
+                                    <span className="pts-stat-label">{t('professor.topicStats.average')}</span>
                                 </div>
                                 <div className="pts-stat-circle" onClick={() => setActiveTab('red')}>
                                     <span className="pts-stat-value">{classOverview.totalTopics}</span>
-                                    <span className="pts-stat-label">Temas</span>
+                                    <span className="pts-stat-label">{t('professor.topicStats.topics')}</span>
                                 </div>
                                 <div className="pts-stat-circle">
                                     <span className="pts-stat-value" style={{ color: getScoreColor(classOverview.completionRate) }}>
                                         {classOverview.completionRate}%
                                     </span>
-                                    <span className="pts-stat-label">Completado</span>
+                                    <span className="pts-stat-label">{t('professor.topicStats.completed')}</span>
                                 </div>
                             </div>
 
@@ -389,13 +389,13 @@ const ProfessorTopicStats: React.FC = () => {
                             <div className="pts-card">
                                 <div className="pts-card-title">
                                     <IonIcon icon={statsChartOutline} />
-                                    Distribución de Rendimiento
+                                    {t('professor.topicStats.performanceDistribution')}
                                 </div>
                                 <div className="pts-performance-bars">
                                     <div className="pts-perf-bar">
                                         <div className="pts-perf-label">
                                             <span className="pts-perf-dot" style={{ background: '#e74c3c' }}></span>
-                                            Bajo (&lt;60%)
+                                            {t('professor.topicStats.low')} ({'<'}60%)
                                         </div>
                                         <div className="pts-perf-track">
                                             <div className="pts-perf-fill" style={{
@@ -408,7 +408,7 @@ const ProfessorTopicStats: React.FC = () => {
                                     <div className="pts-perf-bar">
                                         <div className="pts-perf-label">
                                             <span className="pts-perf-dot" style={{ background: '#f39c12' }}></span>
-                                            Medio (60-80%)
+                                            {t('professor.topicStats.medium')} (60-80%)
                                         </div>
                                         <div className="pts-perf-track">
                                             <div className="pts-perf-fill" style={{
@@ -421,7 +421,7 @@ const ProfessorTopicStats: React.FC = () => {
                                     <div className="pts-perf-bar">
                                         <div className="pts-perf-label">
                                             <span className="pts-perf-dot" style={{ background: '#2ecc71' }}></span>
-                                            Alto (&gt;80%)
+                                            {t('professor.topicStats.high')} ({'>'}80%)
                                         </div>
                                         <div className="pts-perf-track">
                                             <div className="pts-perf-fill" style={{
@@ -438,7 +438,7 @@ const ProfessorTopicStats: React.FC = () => {
                             <div className="pts-card">
                                 <div className="pts-card-title">
                                     <IonIcon icon={schoolOutline} />
-                                    Rendimiento por Materia
+                                    {t('professor.topicStats.subjectPerformance')}
                                 </div>
                                 <div className="pts-subject-grid">
                                     {subjectStats.map(subject => (
@@ -454,15 +454,15 @@ const ProfessorTopicStats: React.FC = () => {
                                         >
                                             <div className="pts-subject-header">
                                                 <span className="pts-subject-icon">{subject.icon}</span>
-                                                <span className="pts-subject-name">{subject.name}</span>
+                                                <span className="pts-subject-name">{subject.nameKey ? t(subject.nameKey) : subject.name}</span>
                                             </div>
                                             <div className="pts-subject-score" style={{ color: getScoreColor(subject.averageScore) }}>
                                                 {subject.averageScore}%
                                             </div>
                                             <div className="pts-subject-meta">
-                                                <span>{subject.topicCount} temas</span>
+                                                <span>{subject.topicCount} {t('professor.topicStats.topicsLabel')}</span>
                                                 <span className="pts-subject-alerts" style={{ color: '#e74c3c' }}>
-                                                    ⚠️ {subject.lowCount} bajos
+                                                    ⚠️ {subject.lowCount} {t('professor.topicStats.lowAlerts')}
                                                 </span>
                                             </div>
                                         </div>
@@ -474,7 +474,7 @@ const ProfessorTopicStats: React.FC = () => {
                             <div className="pts-card">
                                 <div className="pts-card-title">
                                     <IonIcon icon={alertCircleOutline} />
-                                    Temas que Requieren Atención
+                                    {t('professor.topicStats.topicsNeedAttention')}
                                 </div>
                                 <div className="pts-alerts-list">
                                     {allTopicsWithStats
@@ -489,8 +489,8 @@ const ProfessorTopicStats: React.FC = () => {
                                             >
                                                 <span className="pts-alert-icon">{SUBJECTS[topic.subjectId]?.icon}</span>
                                                 <div className="pts-alert-info">
-                                                    <span className="pts-alert-title">{topic.name}</span>
-                                                    <span className="pts-alert-desc">{SUBJECTS[topic.subjectId]?.name}</span>
+                                                    <span className="pts-alert-title">{i18n.language.startsWith('en') ? topic.nameEn || topic.name : topic.name}</span>
+                                                    <span className="pts-alert-desc">{SUBJECTS[topic.subjectId]?.nameKey ? t(SUBJECTS[topic.subjectId].nameKey) : SUBJECTS[topic.subjectId]?.name}</span>
                                                 </div>
                                                 <span style={{ color: getScoreColor(topic.score), fontWeight: 600 }}>
                                                     {topic.score}%
@@ -512,14 +512,14 @@ const ProfessorTopicStats: React.FC = () => {
                                     onClick={() => setTopicsView('list')}
                                 >
                                     <IonIcon icon={listOutline} />
-                                    Lista
+                                    {t('professor.topicStats.listView')}
                                 </button>
                                 <button
                                     className={`pts-view-btn ${topicsView === 'globe' ? 'active' : ''}`}
                                     onClick={() => setTopicsView('globe')}
                                 >
                                     <IonIcon icon={globeOutline} />
-                                    Globo 3D
+                                    {t('professor.topicStats.globeView')}
                                 </button>
                             </div>
 
@@ -529,7 +529,7 @@ const ProfessorTopicStats: React.FC = () => {
                                 <IonSearchbar
                                     value={searchQuery}
                                     onIonInput={(e) => setSearchQuery(e.detail.value || '')}
-                                    placeholder="Buscar tema..."
+                                    placeholder={t('professor.topicStats.searchTopic')}
                                     className="pts-searchbar"
                                 />
 
@@ -540,10 +540,10 @@ const ProfessorTopicStats: React.FC = () => {
                                         style={{ background: currentSubject?.color }}
                                     >
                                         <span>{currentSubject?.icon}</span>
-                                        <span>{currentSubject?.name}</span>
+                                        <span>{currentSubject?.nameKey ? t(currentSubject.nameKey) : currentSubject?.name}</span>
                                     </div>
                                     <span className="pts-subject-count">
-                                        {filteredTopics.length} temas
+                                        {filteredTopics.length} {t('professor.topicStats.topicsLabel')}
                                     </span>
                                 </div>
 
@@ -553,7 +553,7 @@ const ProfessorTopicStats: React.FC = () => {
                                         className={`pts-chip ${performanceFilter === 'all' ? 'active' : ''}`}
                                         onClick={() => setPerformanceFilter('all')}
                                     >
-                                        Todos
+                                        {t('professor.topicStats.all')}
                                     </button>
                                     <button
                                         className={`pts-chip low ${performanceFilter === 'low' ? 'active' : ''}`}
@@ -577,9 +577,9 @@ const ProfessorTopicStats: React.FC = () => {
 
                                 {/* Results Count */}
                                 <div className="pts-results-count">
-                                    Mostrando {displayedTopics.length} de {filteredTopics.length} temas
+                                    {t('professor.topicStats.showing')} {displayedTopics.length} {t('professor.topicStats.of')} {filteredTopics.length} {t('professor.topicStats.topicsLabel')}
                                     {filteredTopics.length !== allTopicsWithStats.length && (
-                                        <span> (filtrado de {allTopicsWithStats.length})</span>
+                                        <span> ({t('professor.topicStats.filteredOf')} {allTopicsWithStats.length})</span>
                                     )}
                                 </div>
                             </div>
@@ -621,8 +621,8 @@ const ProfessorTopicStats: React.FC = () => {
                                     ) : (
                                         <div className="pts-globe-message">
                                             <IonIcon icon={filterOutline} />
-                                            <p>Aplica filtros para ver el globo 3D</p>
-                                            <span>Máximo 50 temas en vista de globo</span>
+                                            <p>{t('professor.topicStats.applyFilters')}</p>
+                                            <span>{t('professor.topicStats.maxTopics')}</span>
                                         </div>
                                     )}
                                 </>
@@ -647,7 +647,7 @@ const ProfessorTopicStats: React.FC = () => {
                                                     {SUBJECTS[topic.subjectId]?.icon}
                                                 </span>
                                                 <div className="pts-topic-info">
-                                                    <span className="pts-topic-name">{topic.name}</span>
+                                                    <span className="pts-topic-name">{i18n.language.startsWith('en') ? topic.nameEn || topic.name : topic.name}</span>
                                                     <div className="pts-topic-bar-track">
                                                         <div
                                                             className="pts-topic-bar-fill"
@@ -672,26 +672,26 @@ const ProfessorTopicStats: React.FC = () => {
 
                                             {expandedTopicId === topic.id && (
                                                 <div className="pts-topic-details">
-                                                    <p className="pts-topic-desc">{topic.description}</p>
+                                                    <p className="pts-topic-desc">{i18n.language.startsWith('en') ? topic.descriptionEn || topic.description : topic.description}</p>
                                                     <div className="pts-topic-stats">
                                                         <div className="pts-topic-stat">
                                                             <IonIcon icon={peopleOutline} />
-                                                            <span>{topic.studentsCompleted}/{topic.totalStudents} completaron</span>
+                                                            <span>{topic.studentsCompleted}/{topic.totalStudents} {t('professor.topicStats.completedCount')}</span>
                                                         </div>
                                                         <div className="pts-topic-stat">
                                                             <IonIcon icon={checkmarkCircleOutline} style={{ color: '#2ecc71' }} />
-                                                            <span>{topic.correctAnswers} correctas</span>
+                                                            <span>{topic.correctAnswers} {t('professor.topicStats.correct')}</span>
                                                         </div>
                                                         <div className="pts-topic-stat">
                                                             <IonIcon icon={closeCircleOutline} style={{ color: '#e74c3c' }} />
-                                                            <span>{topic.incorrectAnswers} incorrectas</span>
+                                                            <span>{topic.incorrectAnswers} {t('professor.topicStats.incorrect')}</span>
                                                         </div>
                                                     </div>
                                                     <button
                                                         className="pts-topic-btn"
                                                         onClick={() => setSelectedTopic(topic)}
                                                     >
-                                                        Ver Detalles Completos
+                                                        {t('professor.topicStats.viewFullDetails')}
                                                     </button>
                                                 </div>
                                             )}
@@ -700,7 +700,7 @@ const ProfessorTopicStats: React.FC = () => {
 
                                     {hasMoreTopics && (
                                         <button className="pts-load-more" onClick={loadMoreTopics}>
-                                            Cargar más temas ({filteredTopics.length - displayCount} restantes)
+                                            {t('professor.topicStats.loadMore')} ({filteredTopics.length - displayCount} {t('professor.topicStats.remaining')})
                                         </button>
                                     )}
                                 </div>
@@ -748,7 +748,7 @@ const ProfessorTopicStats: React.FC = () => {
                                         <div className="pts-student-info">
                                             <span className="pts-student-name">{student.name}</span>
                                             <span className="pts-student-stats">
-                                                Lvl {student.level} • {student.quizzesTaken} quizzes
+                                                Lvl {student.level} • {student.quizzesTaken} {t('professor.topicStats.quizzes').toLowerCase()}
                                             </span>
                                         </div>
                                         <div className="pts-student-score" style={{ color: getScoreColor(student.averageScore) }}>
@@ -768,7 +768,7 @@ const ProfessorTopicStats: React.FC = () => {
             <IonModal isOpen={!!selectedTopic} onDidDismiss={() => setSelectedTopic(null)}>
                 <div className="pts-modal">
                     <div className="pts-modal-header">
-                        <h2>{selectedTopic?.name}</h2>
+                        <h2>{i18n.language.startsWith('en') ? selectedTopic?.nameEn || selectedTopic?.name : selectedTopic?.name}</h2>
                         <button className="pts-modal-close" onClick={() => setSelectedTopic(null)}>
                             <IonIcon icon={closeOutline} />
                         </button>
@@ -776,47 +776,52 @@ const ProfessorTopicStats: React.FC = () => {
                     {selectedTopic && (
                         <div className="pts-modal-content">
                             <div className="pts-modal-subject-badge" style={{ background: SUBJECTS[selectedTopic.subjectId]?.color }}>
-                                {SUBJECTS[selectedTopic.subjectId]?.icon} {SUBJECTS[selectedTopic.subjectId]?.name}
+                                {SUBJECTS[selectedTopic.subjectId]?.icon} {SUBJECTS[selectedTopic.subjectId]?.nameKey ? t(SUBJECTS[selectedTopic.subjectId].nameKey) : SUBJECTS[selectedTopic.subjectId]?.name}
                             </div>
 
                             <div className="pts-modal-score-row">
                                 <div className="pts-modal-big-score" style={{ color: getScoreColor(selectedTopic.score) }}>
                                     {selectedTopic.score}%
                                 </div>
-                                <div className="pts-modal-score-label">Promedio de la clase</div>
+                                <div className="pts-modal-score-label">{t('professor.topicStats.classAverage')}</div>
                             </div>
 
-                            <p className="pts-modal-description">{selectedTopic.description}</p>
+                            <p className="pts-modal-description">
+                                {i18n.language.startsWith('en') ? selectedTopic.descriptionEn || selectedTopic.description : selectedTopic.description}
+                            </p>
 
                             <div className="pts-modal-stats">
                                 <div className="pts-modal-stat">
                                     <IonIcon icon={checkmarkCircleOutline} style={{ color: '#2ecc71' }} />
                                     <span className="pts-modal-stat-value">{selectedTopic.correctAnswers}</span>
-                                    <span className="pts-modal-stat-label">Correctas</span>
+                                    <span className="pts-modal-stat-label">{t('professor.topicStats.modalCorrect')}</span>
                                 </div>
                                 <div className="pts-modal-stat">
                                     <IonIcon icon={closeCircleOutline} style={{ color: '#e74c3c' }} />
                                     <span className="pts-modal-stat-value">{selectedTopic.incorrectAnswers}</span>
-                                    <span className="pts-modal-stat-label">Incorrectas</span>
+                                    <span className="pts-modal-stat-label">{t('professor.topicStats.modalIncorrect')}</span>
                                 </div>
                                 <div className="pts-modal-stat">
                                     <IonIcon icon={peopleOutline} />
                                     <span className="pts-modal-stat-value">{selectedTopic.studentsCompleted}/{selectedTopic.totalStudents}</span>
-                                    <span className="pts-modal-stat-label">Completaron</span>
+                                    <span className="pts-modal-stat-label">{t('professor.topicStats.modalCompleted')}</span>
                                 </div>
                             </div>
 
                             <div className="pts-modal-section">
-                                <h3>❌ Errores Comunes</h3>
+                                <h3>❌ {t('professor.topicStats.commonMistakes')}</h3>
                                 <ul>
-                                    {selectedTopic.commonMistakes.map((mistake, idx) => (
+                                    {(i18n.language.startsWith('en') && selectedTopic.commonMistakesEn && selectedTopic.commonMistakesEn.length > 0
+                                        ? selectedTopic.commonMistakesEn
+                                        : selectedTopic.commonMistakes
+                                    ).map((mistake, idx) => (
                                         <li key={idx}>{mistake}</li>
                                     ))}
                                 </ul>
                             </div>
 
                             <div className="pts-modal-section">
-                                <h3>⚠️ Estudiantes con Dificultades</h3>
+                                <h3>⚠️ {t('professor.topicStats.strugglingStudents')}</h3>
                                 <div className="pts-modal-student-list">
                                     {selectedTopic.strugglingStudents.map((s, idx) => (
                                         <div key={idx} className="pts-modal-student-item">
@@ -828,7 +833,7 @@ const ProfessorTopicStats: React.FC = () => {
                             </div>
 
                             <div className="pts-modal-section">
-                                <h3>⭐ Mejores del Tema</h3>
+                                <h3>⭐ {t('professor.topicStats.topPerformers')}</h3>
                                 <div className="pts-modal-student-list">
                                     {selectedTopic.topPerformers.map((s, idx) => (
                                         <div key={idx} className="pts-modal-student-item">
@@ -861,13 +866,13 @@ const ProfessorTopicStats: React.FC = () => {
                                 </div>
                                 <div className="pts-student-profile-info">
                                     <div className="pts-student-level-badge">
-                                        Nivel {selectedStudent.level}
+                                        {t('professor.topicStats.level')} {selectedStudent.level}
                                     </div>
                                     <div className="pts-student-xp">
                                         ⚡ {selectedStudent.xp} XP
                                     </div>
                                     <div className="pts-student-main-score" style={{ color: getScoreColor(selectedStudent.averageScore) }}>
-                                        {selectedStudent.averageScore}% promedio
+                                        {selectedStudent.averageScore}% {t('professor.topicStats.averageLabel')}
                                     </div>
                                 </div>
                             </div>
@@ -877,39 +882,39 @@ const ProfessorTopicStats: React.FC = () => {
                                 <div className="pts-modal-stat">
                                     <IonIcon icon={flameOutline} style={{ color: selectedStudent.streak > 0 ? '#e74c3c' : '#ccc' }} />
                                     <span className="pts-modal-stat-value">{selectedStudent.streak}</span>
-                                    <span className="pts-modal-stat-label">Racha</span>
+                                    <span className="pts-modal-stat-label">{t('professor.topicStats.streak')}</span>
                                 </div>
                                 <div className="pts-modal-stat">
                                     <IonIcon icon={schoolOutline} />
                                     <span className="pts-modal-stat-value">{selectedStudent.quizzesTaken}</span>
-                                    <span className="pts-modal-stat-label">Quizzes</span>
+                                    <span className="pts-modal-stat-label">{t('professor.topicStats.quizzes')}</span>
                                 </div>
                                 <div className="pts-modal-stat">
                                     <IonIcon icon={gameControllerOutline} />
                                     <span className="pts-modal-stat-value">{selectedStudent.battlesWon}/{selectedStudent.totalBattles}</span>
-                                    <span className="pts-modal-stat-label">Batallas</span>
+                                    <span className="pts-modal-stat-label">{t('professor.topicStats.battles')}</span>
                                 </div>
                                 <div className="pts-modal-stat">
                                     <IonIcon icon={timeOutline} />
                                     <span className="pts-modal-stat-value">{selectedStudent.studyTime}m</span>
-                                    <span className="pts-modal-stat-label">Estudio</span>
+                                    <span className="pts-modal-stat-label">{t('professor.topicStats.studyTime')}</span>
                                 </div>
                             </div>
 
                             {selectedStudent.tardies >= 3 && (
                                 <div className="pts-modal-warning">
-                                    ⚠️ {selectedStudent.tardies} tardanzas este período
+                                    ⚠️ {selectedStudent.tardies} {t('professor.topicStats.tardiesWarning')}
                                 </div>
                             )}
 
                             {/* Subject Breakdown */}
                             <div className="pts-modal-section">
-                                <h3>📊 Rendimiento por Materia</h3>
+                                <h3>📊 {t('professor.topicStats.subjectBreakdown')}</h3>
                                 <div className="pts-subject-bars">
                                     {selectedStudent.subjectScores.map(subj => (
                                         <div key={subj.subjectId} className="pts-subject-bar-row">
                                             <span className="pts-subject-bar-icon">{SUBJECTS[subj.subjectId]?.icon}</span>
-                                            <span className="pts-subject-bar-name">{SUBJECTS[subj.subjectId]?.name}</span>
+                                            <span className="pts-subject-bar-name">{SUBJECTS[subj.subjectId]?.nameKey ? t(SUBJECTS[subj.subjectId].nameKey) : SUBJECTS[subj.subjectId]?.name}</span>
                                             <div className="pts-subject-bar-track">
                                                 <div
                                                     className="pts-subject-bar-fill"
@@ -933,12 +938,12 @@ const ProfessorTopicStats: React.FC = () => {
                             {/* Weak Topics */}
                             {selectedStudent.weakTopics.length > 0 && (
                                 <div className="pts-modal-section">
-                                    <h3>⚠️ Temas por Reforzar</h3>
+                                    <h3>⚠️ {t('professor.topicStats.weakTopics')}</h3>
                                     <div className="pts-weak-topics-list">
                                         {selectedStudent.weakTopics.map((topic, idx) => (
                                             <div key={idx} className="pts-weak-topic-item">
                                                 <span className="pts-weak-topic-icon">{SUBJECTS[topic.subjectId]?.icon}</span>
-                                                <span className="pts-weak-topic-name">{topic.name}</span>
+                                                <span className="pts-weak-topic-name">{i18n.language.startsWith('en') ? topic.nameEn || topic.name : topic.name}</span>
                                                 <span className="pts-weak-topic-score" style={{ color: getScoreColor(topic.score) }}>
                                                     {topic.score}%
                                                 </span>
@@ -951,12 +956,12 @@ const ProfessorTopicStats: React.FC = () => {
                             {/* Strong Topics */}
                             {selectedStudent.strongTopics.length > 0 && (
                                 <div className="pts-modal-section">
-                                    <h3>⭐ Temas Dominados</h3>
+                                    <h3>⭐ {t('professor.topicStats.strongTopics')}</h3>
                                     <div className="pts-strong-topics-list">
                                         {selectedStudent.strongTopics.map((topic, idx) => (
                                             <div key={idx} className="pts-strong-topic-item">
                                                 <span className="pts-strong-topic-icon">{SUBJECTS[topic.subjectId]?.icon}</span>
-                                                <span className="pts-strong-topic-name">{topic.name}</span>
+                                                <span className="pts-strong-topic-name">{i18n.language.startsWith('en') ? topic.nameEn || topic.name : topic.name}</span>
                                                 <span className="pts-strong-topic-score" style={{ color: '#2ecc71' }}>
                                                     {topic.score}%
                                                 </span>
@@ -969,7 +974,7 @@ const ProfessorTopicStats: React.FC = () => {
                             {/* Recent Activity */}
                             {selectedStudent.recentActivity.length > 0 && (
                                 <div className="pts-modal-section">
-                                    <h3>📅 Actividad Reciente</h3>
+                                    <h3>📅 {t('professor.topicStats.recentActivity')}</h3>
                                     <div className="pts-activity-timeline">
                                         {selectedStudent.recentActivity.map((activity, idx) => (
                                             <div key={idx} className="pts-activity-item">
@@ -997,7 +1002,7 @@ const ProfessorTopicStats: React.FC = () => {
                             {/* Achievements */}
                             {selectedStudent.achievements.length > 0 && (
                                 <div className="pts-modal-section">
-                                    <h3>🎖️ Logros</h3>
+                                    <h3>🎖️ {t('professor.topicStats.achievements')}</h3>
                                     <div className="pts-achievements-grid">
                                         {selectedStudent.achievements.map((ach, idx) => (
                                             <div key={idx} className="pts-achievement-badge">
@@ -1013,8 +1018,8 @@ const ProfessorTopicStats: React.FC = () => {
                             {selectedStudent.recentActivity.length === 0 && selectedStudent.achievements.length === 0 && (
                                 <div className="pts-modal-empty-state">
                                     <span>📉</span>
-                                    <p>Este estudiante tiene poca actividad reciente</p>
-                                    <span className="pts-empty-hint">Considera motivarlo a participar más</span>
+                                    <p>{t('professor.topicStats.emptyStateTitle')}</p>
+                                    <span className="pts-empty-hint">{t('professor.topicStats.emptyStateHint')}</span>
                                 </div>
                             )}
                         </div>

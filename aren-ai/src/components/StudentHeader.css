@@ -81,7 +81,9 @@
 }
 
 .sh-notch {
-    width: 200px;
+    width: max-content;
+    min-width: 200px;
+    padding: 0 30px;
     height: 70px;
     background-color: var(--ion-color-primary);
     border-bottom-left-radius: 50%;
@@ -99,7 +101,9 @@
 /* .sh-notch::after { ... } */
 
 .sh-subject-display {
-    width: 140px;
+    width: max-content;
+    min-width: 140px;
+    padding: 0 20px;
     height: 45px;
     background-color: var(--ion-color-secondary);
     border-radius: 50%;
@@ -128,6 +132,7 @@
     font-family: serif;
     /* Match the "Math" font in image */
     letter-spacing: 1px;
+    white-space: nowrap;
 }
 
 /* Override StudentMenu styles when in header */
@@ -165,7 +170,9 @@
     }
 
     .sh-notch {
-        width: 160px;
+        min-width: 160px;
+        width: max-content;
+        padding: 0 20px;
         height: 55px;
     }
 
@@ -174,7 +181,9 @@
     }
 
     .sh-subject-display {
-        width: 110px;
+        min-width: 110px;
+        width: max-content;
+        padding: 0 15px;
         height: 38px;
     }
 
@@ -211,7 +220,9 @@
     }
 
     .sh-notch {
-        width: 230px;
+        min-width: 230px;
+        width: max-content;
+        padding: 0 40px;
         height: 78px;
     }
 
@@ -220,7 +231,9 @@
     }
 
     .sh-subject-display {
-        width: 160px;
+        min-width: 160px;
+        width: max-content;
+        padding: 0 24px;
         height: 50px;
     }
 
@@ -251,7 +264,9 @@
     }
 
     .sh-notch {
-        width: 260px;
+        min-width: 260px;
+        width: max-content;
+        padding: 0 40px;
         height: 82px;
     }
 
@@ -260,7 +275,9 @@
     }
 
     .sh-subject-display {
-        width: 180px;
+        min-width: 180px;
+        width: max-content;
+        padding: 0 24px;
         height: 54px;
     }
 
