@@ -1,4 +1,8 @@
-/* ProfessorStudents.css - AIQuizGenerator Style */
+/* ProfessorStudents.css — Premium Analytics Dashboard */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE LAYOUT
+   ═══════════════════════════════════════════════════════════════════════════ */
 
 .pst-page {
     background-color: var(--ion-background-color) !important;
@@ -8,429 +12,1410 @@
     --background: var(--ion-background-color) !important;
 }
 
-/* Fix header line issue */
-.pst-page .student-header-container ion-toolbar::after,
-.pst-page ion-header::after,
-.pst-page .student-toolbar::after,
-.pst-page ion-toolbar::after {
-    display: none !important;
-    background: none !important;
-    background-image: none !important;
-    height: 0 !important;
-    opacity: 0 !important;
+/* Tabs Container */
+.pst-tabs-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px 16px 0 16px;
 }
 
-.pst-page ion-header {
-    --border-width: 0 !important;
-    --border-style: none !important;
+.pst-segment {
+    background: var(--ion-color-secondary-soft);
+    border-radius: 16px;
+    padding: 4px;
 }
 
-/* Container - minimal padding */
-.pst-container {
-    padding: 25px 20px 20px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+.pst-segment ion-segment-button {
+    --indicator-color: var(--ion-color-primary);
+    --color-checked: white;
+    --color: var(--ion-text-color);
+    --border-radius: 12px;
+    min-height: 42px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: none;
+}
+
+.pst-segment ion-segment-button ion-icon {
+    font-size: 16px;
+    margin-right: 4px;
+}
+
+/* Tab Content */
+.pst-tab-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px;
 }
 
 .pst-footer-spacer {
     height: 40px;
-    flex-shrink: 0;
 }
 
-/* ========== CARD STYLE (AIQuizGenerator) ========== */
-.pst-card {
-    background-color: var(--ion-color-secondary-soft);
-    border-radius: 15px;
-    padding: 25px 15px 20px 15px;
-    position: relative;
-    margin-top: 20px;
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESUMEN TAB — Stats Grid
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.pst-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
 }
 
-/* Title Pill - Half in / Half out */
-.pst-card-title {
-    position: absolute;
-    top: -16px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--ion-color-primary);
-    color: white;
-    padding: 8px 24px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 600;
-    white-space: nowrap;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* ========== STATS ROW ========== */
-.pst-stats-row {
+.pst-stat-card {
     display: flex;
-    justify-content: space-around;
-    gap: 16px;
-    padding: 10px 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 8px;
+    background: var(--ion-color-secondary-soft);
+    border-radius: 16px;
 }
 
-.pst-stat-item {
+.pst-stat-icon {
+    font-size: 22px;
+    color: var(--ion-color-primary);
+}
+
+.pst-stat-card .pst-stat-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--ion-text-color);
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+.pst-stat-card .pst-stat-label {
+    font-size: 9px;
+    color: var(--ion-text-color-step-400);
+    text-align: center;
+}
+
+/* Card Sections */
+.pst-card-section {
+    background: var(--ion-color-secondary-soft);
+    border-radius: 20px;
+    padding: 18px 16px;
+    margin-bottom: 14px;
+}
+
+.pst-section-title {
     display: flex;
     align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ion-text-color);
+    margin: 0 0 14px 0;
+}
+
+.pst-section-title ion-icon {
+    font-size: 20px;
+    color: var(--ion-color-primary);
+}
+
+.pst-section-subtitle {
+    font-size: 12px;
+    color: var(--ion-text-color-step-400);
+    margin: -8px 0 14px 0;
+}
+
+/* Distribution */
+.pst-distribution {
+    display: flex;
+    flex-direction: column;
     gap: 12px;
 }
 
-.pst-stat-circle {
-    width: 50px;
-    height: 50px;
+.pst-dist-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pst-dist-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pst-dist-emoji {
+    font-size: 14px;
+}
+
+.pst-dist-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    flex: 1;
+}
+
+.pst-dist-range {
+    font-size: 10px;
+    color: var(--ion-text-color-step-400);
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+.pst-dist-bar-track {
+    height: 8px;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.pst-dist-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+    min-width: 4px;
+}
+
+.pst-dist-count {
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* Podium */
+.pst-podium {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.pst-podium-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 16px 8px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    max-width: 140px;
+}
+
+.pst-podium-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pst-podium-card.rank-1 {
+    border-top: 3px solid #f1c40f;
+    background: linear-gradient(180deg, rgba(241, 196, 15, 0.08), rgba(255, 255, 255, 0.6));
+}
+
+.pst-podium-card.rank-2 {
+    border-top: 3px solid #95a5a6;
+}
+
+.pst-podium-card.rank-3 {
+    border-top: 3px solid #cd7f32;
+}
+
+.pst-podium-rank {
+    font-size: 24px;
+}
+
+.pst-podium-avatar {
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    background-color: var(--ion-color-secondary);
+    background: var(--ion-color-primary);
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    font-weight: 700;
 }
 
-.pst-stat-circle ion-icon {
-    font-size: 24px;
-    color: white;
-}
-
-.pst-stat-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.pst-stat-value {
-    font-size: 22px;
+.pst-podium-name {
+    font-size: 11px;
     font-weight: 600;
     color: var(--ion-text-color);
-    font-family: 'Georgia', serif;
+    text-align: center;
+    line-height: 1.2;
 }
 
-.pst-stat-label {
-    font-size: 12px;
+.pst-podium-score {
+    font-size: 18px;
+    font-weight: 800;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+.pst-podium-meta {
+    display: flex;
+    gap: 8px;
+    font-size: 10px;
     color: var(--ion-text-color-step-400);
 }
 
-/* ========== SEARCH ========== */
-.pst-search-container {
-    margin-top: 8px;
+.pst-podium-meta ion-icon {
+    font-size: 12px;
+    color: #e74c3c;
 }
 
-.pst-searchbar {
-    --background: white;
-    --border-radius: 12px;
-    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    --placeholder-color: var(--ion-text-color-step-400);
-    padding: 0;
+/* Top Battlers */
+.pst-battlers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-/* ========== STUDENTS GRID ========== */
-.pst-students-grid {
+.pst-battler-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+}
+
+.pst-battler-rank {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--ion-color-primary);
+    min-width: 20px;
+    text-align: center;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+.pst-battler-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--ion-color-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.pst-battler-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.pst-battler-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    display: block;
+}
+
+.pst-battler-stats {
+    font-size: 10px;
+    color: var(--ion-text-color-step-400);
+}
+
+.pst-battler-winrate {
+    font-size: 14px;
+    font-weight: 800;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* Alert Section */
+.pst-alert-section {
+    border: 1px solid rgba(231, 76, 60, 0.2);
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.06), var(--ion-color-secondary-soft));
+}
+
+.pst-alert-title ion-icon {
+    color: #e74c3c !important;
+}
+
+.pst-alerts-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.pst-student-item {
-    display: flex;
-    align-items: center;
-    padding: 12px 14px;
-    background-color: rgba(255, 255, 255, 0.6);
+.pst-alert-card {
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 14px;
+    border-left: 4px solid #e74c3c;
     cursor: pointer;
     transition: all 0.2s ease;
-    border: 2px solid transparent;
-    gap: 12px;
 }
 
-.pst-student-item:hover {
-    background-color: rgba(255, 255, 255, 0.9);
+.pst-alert-card:hover {
     transform: translateX(4px);
 }
 
-.pst-student-item:active {
-    transform: scale(0.98);
+.pst-alert-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
 }
 
-.pst-student-avatar {
-    width: 44px;
-    height: 44px;
+.pst-alert-avatar {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-tertiary));
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    border: 2px solid;
+    flex-shrink: 0;
+}
+
+.pst-alert-info {
+    flex: 1;
+}
+
+.pst-alert-name {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+}
+
+.pst-alert-score {
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+.pst-alert-weak-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.pst-alert-topic-chip {
+    padding: 3px 8px;
+    background: rgba(231, 76, 60, 0.1);
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 500;
+    color: #c0392b;
+}
+
+.pst-alert-feedback {
+    font-size: 11px;
+    color: var(--ion-text-color-step-300);
+    margin: 0;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LISTADO TAB
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.pst-search-sort-row {
+    margin-bottom: 12px;
+}
+
+.pst-search-bar {
+    --background: var(--ion-color-secondary-soft);
+    --border-radius: 14px;
+    --box-shadow: none;
+    --placeholder-color: var(--ion-text-color-step-500);
+    padding: 0;
+    margin-bottom: 8px;
+}
+
+.pst-sort-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.pst-sort-chip {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: var(--ion-color-secondary-soft);
+    border: 2px solid transparent;
+    border-radius: 16px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pst-sort-chip ion-icon {
+    font-size: 14px;
+}
+
+.pst-sort-chip.active {
+    background: var(--ion-color-primary);
+    color: white;
+}
+
+/* Student List */
+.pst-student-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pst-student-card {
+    background: var(--ion-color-secondary-soft);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.pst-student-card.expanded {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pst-student-summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.pst-student-summary:hover {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.pst-student-number {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ion-text-color-step-400);
+    min-width: 20px;
+    text-align: center;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+.pst-student-avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--ion-color-primary);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 13px;
     font-weight: 700;
-    font-size: 14px;
+    border: 2px solid;
     flex-shrink: 0;
 }
 
-.pst-student-info {
+.pst-student-main-info {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
     min-width: 0;
 }
 
-.pst-student-name {
+.pst-student-display-name {
     font-size: 14px;
     font-weight: 600;
     color: var(--ion-text-color);
+    display: block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.pst-student-stats {
-    display: flex;
-    gap: 10px;
-}
-
-.pst-mini-stat {
+.pst-student-mini-stats {
     display: flex;
     align-items: center;
-    gap: 3px;
-    font-size: 11px;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+}
+
+.pst-student-mini-stats>span {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 10px;
     color: var(--ion-text-color-step-400);
 }
 
-.pst-mini-stat ion-icon {
+.pst-student-mini-stats ion-icon {
     font-size: 12px;
-    color: var(--ion-color-secondary);
 }
 
-.pst-mini-stat.streak ion-icon {
+.pst-mini-badge {
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 9px;
+    font-weight: 700;
+    color: white;
+}
+
+.pst-streak-glow {
+    color: #e74c3c !important;
+}
+
+.pst-streak-glow ion-icon {
     color: #e74c3c;
 }
 
-.pst-score-badge {
-    padding: 6px 10px;
-    border-radius: 12px;
-    color: white;
-    font-size: 12px;
-    font-weight: 700;
+.pst-student-end {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     flex-shrink: 0;
 }
 
-/* ========== COMPACT HEADER TEXT ========== */
-.pst-compact-text {
-    font-size: 14px !important;
-    letter-spacing: 0.5px;
+.pst-student-score-big {
+    font-size: 18px;
+    font-weight: 800;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
 }
 
-/* ========== CLASS DROPDOWN ========== */
-.pst-class-dropdown {
-    position: fixed;
-    top: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
-    background: var(--ion-card-background);
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    min-width: 280px;
-    max-width: 320px;
-    padding: 16px;
-    animation: fadeIn 0.2s ease-out;
+.pst-expand-icon {
+    font-size: 16px;
+    color: var(--ion-text-color-step-400);
 }
 
-@keyframes fadeIn {
+/* Expanded Detail */
+.pst-student-detail {
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
     from {
         opacity: 0;
-        transform: translateX(-50%) translateY(-10px);
+        max-height: 0;
     }
 
     to {
         opacity: 1;
-        transform: translateX(-50%) translateY(0);
+        max-height: 2000px;
     }
 }
 
-.pst-dropdown-section {
-    margin-bottom: 16px;
+.pst-detail-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 10px 14px 0;
 }
 
-.pst-dropdown-section:last-child {
-    margin-bottom: 0;
-}
-
-.pst-dropdown-label {
+.pst-detail-tab {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.04);
+    border: none;
+    border-radius: 10px;
     font-size: 11px;
     font-weight: 600;
-    text-transform: uppercase;
+    color: var(--ion-text-color-step-300);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pst-detail-tab ion-icon {
+    font-size: 14px;
+}
+
+.pst-detail-tab.active {
+    background: var(--ion-color-primary);
+    color: white;
+}
+
+.pst-detail-content {
+    padding: 14px;
+}
+
+/* Profile Header Row */
+.pst-profile-header-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.pst-profile-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 10px 6px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+}
+
+.pst-profile-stat-label {
+    font-size: 9px;
     color: var(--ion-text-color-step-400);
-    margin-bottom: 8px;
+    text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.pst-dropdown-options-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+.pst-profile-stat-value {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--ion-text-color);
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
 }
 
-.pst-dropdown-chip {
-    padding: 8px 14px;
-    border-radius: 20px;
-    background: rgba(0, 0, 0, 0.05);
+.pst-warning-banner {
+    padding: 8px 12px;
+    background: rgba(231, 76, 60, 0.1);
+    border: 1px solid rgba(231, 76, 60, 0.2);
+    border-radius: 10px;
+    font-size: 12px;
+    color: #c0392b;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+/* Detail Sections */
+.pst-detail-section {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+}
+
+.pst-detail-section h4 {
     font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    margin: 0 0 10px 0;
 }
 
-.pst-dropdown-chip:hover {
-    background: rgba(0, 0, 0, 0.1);
+.pst-section-danger {
+    border-left: 3px solid #e74c3c;
 }
 
-.pst-dropdown-chip.selected {
-    background: var(--ion-color-secondary);
-    color: white;
+.pst-section-success {
+    border-left: 3px solid #2ecc71;
 }
 
-.pst-dropdown-options-col {
+.pst-section-feedback {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.08), rgba(155, 89, 182, 0.08));
+    border-left: 3px solid #3498db;
+}
+
+.pst-feedback-text {
+    font-size: 12px;
+    color: var(--ion-text-color-step-200);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Subject Bars */
+.pst-subject-bars {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
 }
 
-.pst-dropdown-option {
-    padding: 10px 14px;
-    border-radius: 10px;
-    font-size: 14px;
+.pst-subject-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pst-subj-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.pst-subj-name {
+    font-size: 10px;
     font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    color: var(--ion-text-color-step-300);
+    min-width: 55px;
+    flex-shrink: 0;
 }
 
-.pst-dropdown-option:hover {
-    background: rgba(0, 0, 0, 0.05);
+.pst-subj-bar-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 3px;
+    overflow: hidden;
 }
 
-.pst-dropdown-option.selected {
-    background: var(--ion-color-secondary);
+.pst-subj-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.pst-subj-score {
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 30px;
+    text-align: right;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+.pst-subj-progress {
+    font-size: 9px;
+    color: var(--ion-text-color-step-500);
+    min-width: 30px;
+    text-align: right;
+}
+
+/* Topic Chips */
+.pst-topic-chips {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pst-topic-chip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ion-text-color);
+}
+
+.pst-topic-chip.weak {
+    background: rgba(231, 76, 60, 0.06);
+}
+
+.pst-topic-chip.strong {
+    background: rgba(46, 204, 113, 0.06);
+}
+
+.pst-topic-chip-score {
+    font-weight: 800;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BATTLE DETAIL SUB-TAB
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.pst-battle-summary-row {
+    display: flex;
+    justify-content: space-around;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.pst-battle-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    flex: 1;
+}
+
+.pst-battle-stat-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--ion-text-color);
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+.pst-battle-stat-label {
+    font-size: 10px;
+    color: var(--ion-text-color-step-400);
+}
+
+.pst-battle-history {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pst-battle-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+}
+
+.pst-battle-item.win {
+    border-left: 3px solid #2ecc71;
+}
+
+.pst-battle-item.loss {
+    border-left: 3px solid #e74c3c;
+}
+
+.pst-battle-result-badge {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
     color: white;
+    flex-shrink: 0;
 }
 
-/* ========== RESPONSIVE ========== */
-@media (max-width: 400px) {
-    .pst-student-item {
-        padding: 10px 12px;
+.pst-battle-result-badge.win {
+    background: #2ecc71;
+}
+
+.pst-battle-result-badge.loss {
+    background: #e74c3c;
+}
+
+.pst-battle-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.pst-battle-opponent {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    display: block;
+}
+
+.pst-battle-date {
+    font-size: 10px;
+    color: var(--ion-text-color-step-500);
+}
+
+.pst-battle-scores {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+}
+
+.pst-battle-scores .winner {
+    font-weight: 800;
+    color: #2ecc71;
+}
+
+.pst-battle-scores .loser {
+    font-weight: 600;
+    color: var(--ion-text-color-step-400);
+}
+
+.pst-vs {
+    color: var(--ion-text-color-step-500);
+}
+
+/* Activity Timeline */
+.pst-activity-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pst-activity-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.pst-activity-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.pst-activity-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.pst-activity-desc {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ion-text-color);
+    display: block;
+}
+
+.pst-activity-date {
+    font-size: 10px;
+    color: var(--ion-text-color-step-500);
+}
+
+.pst-activity-score {
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* Achievements Grid */
+.pst-achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+}
+
+.pst-achievement-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 8px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.pst-achievement-icon {
+    font-size: 24px;
+}
+
+.pst-achievement-name {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+}
+
+.pst-achievement-date {
+    font-size: 8px;
+    color: var(--ion-text-color-step-500);
+}
+
+/* Empty State */
+.pst-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 30px;
+    text-align: center;
+}
+
+.pst-empty-state>span:first-child {
+    font-size: 32px;
+}
+
+.pst-empty-state p {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ion-text-color-step-300);
+    margin: 0;
+}
+
+.pst-empty-hint {
+    font-size: 12px;
+    color: var(--ion-text-color-step-500);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   INTERACCIONES TAB
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Battle Leaderboard */
+.pst-battle-leaderboard {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pst-lb-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    transition: all 0.15s ease;
+}
+
+.pst-lb-row:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.pst-lb-row.top-1 {
+    border-left: 3px solid #f1c40f;
+    background: linear-gradient(90deg, rgba(241, 196, 15, 0.06), rgba(255, 255, 255, 0.5));
+}
+
+.pst-lb-row.top-2 {
+    border-left: 3px solid #95a5a6;
+}
+
+.pst-lb-row.top-3 {
+    border-left: 3px solid #cd7f32;
+}
+
+.pst-lb-pos {
+    font-size: 16px;
+    min-width: 24px;
+    text-align: center;
+    font-weight: 800;
+    color: var(--ion-text-color-step-300);
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+.pst-lb-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--ion-color-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.pst-lb-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.pst-lb-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.pst-lb-bar-track {
+    height: 4px;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.pst-lb-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.6s ease;
+}
+
+.pst-lb-stats {
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.pst-lb-wins {
+    font-weight: 800;
+    color: #2ecc71;
+}
+
+.pst-lb-total {
+    color: var(--ion-text-color-step-500);
+}
+
+.pst-lb-wr {
+    font-size: 14px;
+    font-weight: 800;
+    min-width: 36px;
+    text-align: right;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* Rivalries */
+.pst-rivalries-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pst-rivalry-card {
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 14px;
+}
+
+.pst-rivalry-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.pst-rivalry-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+}
+
+.pst-rivalry-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--ion-color-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.pst-rivalry-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+}
+
+.pst-rivalry-wins {
+    font-size: 10px;
+    font-weight: 700;
+    color: #2ecc71;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+.pst-rivalry-vs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 6px 12px;
+}
+
+.pst-rivalry-total {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ion-color-primary);
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+.pst-rivalry-label {
+    font-size: 9px;
+    color: var(--ion-text-color-step-400);
+}
+
+.pst-rivalry-bar {
+    display: flex;
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.pst-rivalry-bar-p1 {
+    background: linear-gradient(90deg, #3498db, #2ecc71);
+    transition: width 0.5s ease;
+}
+
+.pst-rivalry-bar-p2 {
+    background: linear-gradient(90deg, #e74c3c, #e67e22);
+    transition: width 0.5s ease;
+}
+
+/* Engagement */
+.pst-engagement-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pst-engagement-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pst-engagement-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    min-width: 80px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pst-engagement-bar-track {
+    flex: 1;
+    height: 22px;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 11px;
+    overflow: hidden;
+}
+
+.pst-engagement-bar-fill {
+    height: 100%;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+    transition: width 0.5s ease;
+    min-width: 28px;
+}
+
+.pst-engagement-bar-fill span {
+    font-size: 10px;
+    font-weight: 800;
+    color: white;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — Small Phone
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 380px) {
+    .pst-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .pst-student-name {
-        font-size: 13px;
+    .pst-podium {
+        flex-direction: column;
+        align-items: center;
     }
 
-    .pst-stat-value {
-        font-size: 18px;
+    .pst-podium-card {
+        max-width: 100%;
+        width: 100%;
+        flex-direction: row;
+        padding: 12px;
+        gap: 10px;
     }
 
-    .pst-compact-text {
-        font-size: 12px !important;
+    .pst-podium-rank {
+        font-size: 20px;
+    }
+
+    .pst-profile-header-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pst-segment ion-segment-button {
+        font-size: 10px;
+        min-height: 38px;
+    }
+
+    .pst-engagement-name {
+        min-width: 60px;
+        font-size: 10px;
     }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   DESKTOP RESPONSIVE — Tablet (768px+)
+   RESPONSIVE — Tablet (768px+)
    ═══════════════════════════════════════════════════════════════════════════ */
+
 @media (min-width: 768px) {
-    .pst-container {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 30px 32px 24px 32px;
-        gap: 20px;
+    .pst-tabs-container {
+        max-width: 960px;
+        padding: 20px 24px 0;
     }
 
-    .pst-card {
-        border-radius: 20px;
-        padding: 30px 20px 24px 20px;
+    .pst-tab-content {
+        max-width: 960px;
+        padding: 20px 24px;
     }
 
-    .pst-card-title {
-        font-size: 16px;
-        padding: 10px 28px;
+    .pst-segment ion-segment-button {
+        min-height: 48px;
+        font-size: 13px;
     }
 
-    .pst-stats-row {
-        gap: 20px;
-        padding: 14px 0;
+    .pst-stat-card {
+        padding: 18px 12px;
     }
 
-    .pst-stat-circle {
-        width: 56px;
-        height: 56px;
-    }
-
-    .pst-stat-value {
+    .pst-stat-card .pst-stat-value {
         font-size: 24px;
     }
 
-    .pst-stat-label {
-        font-size: 13px;
+    .pst-card-section {
+        padding: 22px 20px;
+        border-radius: 22px;
     }
 
-    .pst-student-item {
-        padding: 14px 18px;
-        border-radius: 16px;
+    .pst-podium-card {
+        max-width: 180px;
+        padding: 20px 12px;
     }
 
-    .pst-student-avatar {
-        width: 48px;
-        height: 48px;
+    .pst-podium-avatar {
+        width: 52px;
+        height: 52px;
         font-size: 16px;
     }
 
-    .pst-student-name {
+    .pst-student-summary {
+        padding: 14px 18px;
+    }
+
+    .pst-student-avatar-circle {
+        width: 46px;
+        height: 46px;
         font-size: 15px;
     }
 
-    .pst-score-badge {
-        font-size: 13px;
-        padding: 8px 14px;
+    .pst-student-display-name {
+        font-size: 15px;
     }
 
-    .pst-class-dropdown {
-        min-width: 320px;
-        max-width: 400px;
+    .pst-student-score-big {
+        font-size: 20px;
     }
 
-    .pst-compact-text {
-        font-size: 16px !important;
-    }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   DESKTOP RESPONSIVE — Large Desktop (1200px+)
-   ═══════════════════════════════════════════════════════════════════════════ */
-@media (min-width: 1200px) {
-    .pst-container {
-        max-width: 1000px;
-        padding: 35px 40px 28px 40px;
-    }
-
-    .pst-students-grid {
+    .pst-rivalries-list {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
     }
 
-    .pst-student-item {
-        padding: 16px 20px;
+    .pst-battle-leaderboard {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .pst-student-avatar {
-        width: 52px;
-        height: 52px;
+    .pst-engagement-name {
+        min-width: 100px;
+        font-size: 13px;
     }
 
-    .pst-student-name {
-        font-size: 16px;
+    .pst-alerts-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — Large Desktop (1200px+)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 1200px) {
+
+    .pst-tabs-container,
+    .pst-tab-content {
+        max-width: 1080px;
+        padding-left: 40px;
+        padding-right: 40px;
     }
 
-    .pst-stat-value {
-        font-size: 26px;
+    .pst-student-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .pst-stat-card .pst-stat-value {
+        font-size: 28px;
     }
 }
