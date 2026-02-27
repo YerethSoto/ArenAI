@@ -20,7 +20,13 @@ export const useProfessorFilters = () => {
   };
 
   const getStoredSubject = () => {
-    return localStorage.getItem(STORAGE_KEYS.SUBJECT) || "Math";
+    const val = localStorage.getItem(STORAGE_KEYS.SUBJECT) || "Math";
+    const validSubjects = ["Math", "Science", "Social Studies", "Spanish", "SocialStudies"];
+    if (!validSubjects.includes(val)) {
+      // If it's a translated string or invalid, default to Science
+      return "Science";
+    }
+    return val;
   };
 
   const [selectedGrade, setGradeState] = useState<number>(getStoredGrade);

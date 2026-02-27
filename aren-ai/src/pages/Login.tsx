@@ -428,7 +428,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
                   <IonButton
                     expand="block"
-                    fill="outline"
+                    fill="clear"
                     className="teacher-button"
                     onClick={handleTeacherLogin}
                     disabled={isLoading}
@@ -438,7 +438,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
                   <IonButton
                     expand="block"
-                    fill="outline"
+                    fill="clear"
                     className="teacher-button"
                     onClick={handleStudentRegister}
                     disabled={isLoading}

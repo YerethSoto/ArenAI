@@ -70,7 +70,68 @@
             "teaching": "Teaching",
             "account": "Account",
             "chat": "Chat Menu",
-            "profile": "Profile"
+            "profile": "Profile",
+            "topicStats": "Topic Stats"
+        },
+        "topicStats": {
+            "headerTitle": "Topic Stats",
+            "tabSummary": "Summary",
+            "tabTopics": "Topics",
+            "tabStudents": "Students",
+            "students": "Students",
+            "average": "Average",
+            "topics": "Topics",
+            "completed": "Completed",
+            "performanceDistribution": "Performance Distribution",
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High",
+            "subjectPerformance": "Performance by Subject",
+            "topicsNeedAttention": "Topics That Need Attention",
+            "listView": "List",
+            "globeView": "3D Globe",
+            "searchTopic": "Search topic...",
+            "topicsLabel": "topics",
+            "all": "All",
+            "showing": "Showing",
+            "of": "of",
+            "filteredOf": "filtered of",
+            "completedCount": "completed",
+            "correct": "correct",
+            "incorrect": "incorrect",
+            "viewFullDetails": "View Full Details",
+            "loadMore": "Load more topics",
+            "remaining": "remaining",
+            "classAverage": "Class Average",
+            "applyFilters": "Apply filters to see 3D globe",
+            "maxTopics": "Maximum 50 topics in globe view",
+            "lowAlerts": "low",
+            "modalCorrect": "Correct",
+            "modalIncorrect": "Incorrect",
+            "modalCompleted": "Completed",
+            "commonMistakes": "Common Mistakes",
+            "strugglingStudents": "Struggling Students",
+            "topPerformers": "Top Performers",
+            "level": "Level",
+            "averageLabel": "average",
+            "streak": "Streak",
+            "quizzes": "Quizzes",
+            "battles": "Battles",
+            "studyTime": "Study",
+            "tardiesWarning": "tardies this period",
+            "subjectBreakdown": "Performance by Subject",
+            "weakTopics": "Topics to Reinforce",
+            "strongTopics": "Mastered Topics",
+            "recentActivity": "Recent Activity",
+            "achievements": "Achievements",
+            "emptyStateTitle": "This student has little recent activity",
+            "emptyStateHint": "Consider motivating them to participate more",
+            "subjects": {
+                "math": "Mathematics",
+                "science": "Science",
+                "spanish": "Spanish",
+                "socialStudies": "Social Studies"
+            }
         },
         "attendance": {
             "title": "Attendance",
@@ -285,6 +346,9 @@
             "quizzes": "Quizzes",
             "wins": "Wins",
             "streak": "Streak"
+        },
+        "admin": {
+            "title": "Admin Tools"
         }
     },
     "mainStudent": {
@@ -1243,7 +1307,6 @@
         "saveSuccess": "Profile updated successfully",
         "nameRequired": "Name is required"
     },
-
     "quizGenerator": {
         "title": "AI Quiz Generator",
         "quizName": "Quiz Name",

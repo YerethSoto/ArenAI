@@ -41,7 +41,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    z-index: 110;
+    z-index: 99;
     pointer-events: none;
 }
 
@@ -64,15 +64,18 @@
 .ph-notch-container {
     display: flex;
     justify-content: center;
-    margin-top: -75px;  /* More down */
+    margin-top: -75px;
+    /* More down */
     position: relative;
     z-index: 101;
     pointer-events: none;
 }
 
 .ph-notch {
-    width: 360px;  /* Larger width */
-    height: 130px; /* Larger height/depth */
+    width: 360px;
+    /* Larger width */
+    height: 130px;
+    /* Larger height/depth */
     background-color: var(--ion-color-primary);
     border-bottom-left-radius: 50%;
     border-bottom-right-radius: 50%;
@@ -98,17 +101,21 @@
 /* Oval shape behind text - matches student button style */
 /* 1.5x bigger and positioned to straddle the semicircle edge */
 .ph-text-oval {
-    width: 270px;   /* 180 * 1.5 */
-    height: 72px;   /* 48 * 1.5 */
+    width: 270px;
+    /* 180 * 1.5 */
+    height: 72px;
+    /* 48 * 1.5 */
     background-color: var(--ion-color-secondary);
-    border-radius: 50%;  /* Creates the oval/ellipse like student */
+    border-radius: 50%;
+    /* Creates the oval/ellipse like student */
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease, background 0.2s;
     gap: 4px;
-    margin-top: 30px;  /* Raised to match student header button positioning */
+    margin-top: 30px;
+    /* Raised to match student header button positioning */
 }
 
 /* Responsive */
@@ -117,17 +124,19 @@
         width: 320px;
         height: 110px;
     }
-    
+
     .ph-text-oval {
-        width: 240px;   /* 160 * 1.5 */
-        height: 63px;   /* 42 * 1.5 */
+        width: 240px;
+        /* 160 * 1.5 */
+        height: 63px;
+        /* 42 * 1.5 */
         margin-top: 25px;
     }
-    
+
     .ph-brand-name {
         font-size: 20px;
     }
-    
+
     .ph-brand-sub {
         font-size: 13px;
     }
@@ -138,17 +147,19 @@
         width: 280px;
         height: 100px;
     }
-    
+
     .ph-text-oval {
-        width: 210px;   /* 140 * 1.5 */
-        height: 57px;   /* 38 * 1.5 */
+        width: 210px;
+        /* 140 * 1.5 */
+        height: 57px;
+        /* 38 * 1.5 */
         margin-top: 20px;
     }
-    
+
     .ph-brand-name {
         font-size: 18px;
     }
-    
+
     .ph-brand-sub {
         font-size: 12px;
     }

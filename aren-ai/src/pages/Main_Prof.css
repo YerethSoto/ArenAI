@@ -4,6 +4,15 @@
   background-color: var(--ion-background-color) !important;
 }
 
+.student-page-content {
+  --background: transparent !important;
+}
+
+.ms-container {
+  /* Pattern is applied to the page or a background div */
+  background-attachment: fixed;
+}
+
 .main-student-content {
   --background: var(--ion-background-color) !important;
 }
@@ -101,6 +110,50 @@
   display: flex;
   gap: 15px;
   min-width: min-content;
+  width: 100%;
+}
+
+.ms-empty-topics-placeholder {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 5px 10px;
+  opacity: 0.4;
+}
+
+.ms-empty-icon {
+  font-size: 28px;
+  color: white;
+  animation: float 3s ease-in-out infinite;
+}
+
+.ms-empty-icon:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.ms-empty-icon:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.ms-empty-icon:nth-child(4) {
+  animation-delay: 1.5s;
+}
+
+.ms-empty-icon:nth-child(5) {
+  animation-delay: 2s;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
 }
 
 .ms-topic-btn {
@@ -116,7 +169,7 @@
 .ms-topic-fill-box {
   width: 50px;
   height: 50px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: var(--ion-color-secondary-soft);
   /* Lighter bg for contrast */
   border-radius: 12px;
   position: relative;
@@ -131,7 +184,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #78B8B0;
+  background-color: var(--ion-color-secondary-tint);
   transition: height 0.5s ease;
   z-index: 1;
 }
@@ -140,7 +193,7 @@
   position: relative;
   z-index: 2;
   font-size: 24px;
-  color: #555;
+  color: var(--ion-text-color);
 }
 
 .ms-topic-label {
@@ -169,7 +222,7 @@
 
 .ms-switch-container {
   display: flex;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: var(--ion-color-secondary-soft);
   border-radius: 20px;
   padding: 4px;
   position: relative;
@@ -181,7 +234,7 @@
   text-align: center;
   padding: 8px 0;
   font-size: 14px;
-  color: var(--ion-text-color-step-400);
+  color: rgba(255, 255, 255, 0.6);
   z-index: 2;
   transition: color 0.3s;
 }
@@ -213,20 +266,20 @@
 .ms-info-title {
   font-size: 16px;
   font-weight: bold;
-  color: var(--ion-color-primary);
+  color: rgba(255, 255, 255, 0.75);
   text-align: center;
 }
 
 .ms-info-content {
   font-size: 14px;
-  color: var(--ion-text-color);
+  color: white;
   line-height: 1.6;
-  text-align: left;
+  text-align: center;
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 5px 0;
 }
@@ -249,11 +302,25 @@
 
 /* Typing cursor animation */
 @keyframes blink {
-  from, to { opacity: 1; }
-  50% { opacity: 0; }
+
+  from,
+  to {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

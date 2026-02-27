@@ -70,7 +70,68 @@
             "teaching": "Enseñanza",
             "account": "Cuenta",
             "chat": "Menú de Chat",
-            "profile": "Perfil"
+            "profile": "Perfil",
+            "topicStats": "Estadísticas de Temas"
+        },
+        "topicStats": {
+            "headerTitle": "Estadísticas de Temas",
+            "tabSummary": "Resumen",
+            "tabTopics": "Temas",
+            "tabStudents": "Estudiantes",
+            "students": "Estudiantes",
+            "average": "Promedio",
+            "topics": "Temas",
+            "completed": "Completado",
+            "performanceDistribution": "Distribución de Rendimiento",
+            "low": "Bajo",
+            "medium": "Medio",
+            "high": "Alto",
+            "subjectPerformance": "Rendimiento por Materia",
+            "topicsNeedAttention": "Temas que Requieren Atención",
+            "listView": "Lista",
+            "globeView": "Globo 3D",
+            "searchTopic": "Buscar tema...",
+            "topicsLabel": "temas",
+            "all": "Todos",
+            "showing": "Mostrando",
+            "of": "de",
+            "filteredOf": "filtrado de",
+            "completedCount": "completaron",
+            "correct": "correctas",
+            "incorrect": "incorrectas",
+            "viewFullDetails": "Ver Detalles Completos",
+            "loadMore": "Cargar más temas",
+            "remaining": "restantes",
+            "classAverage": "Promedio de la clase",
+            "applyFilters": "Aplica filtros para ver el globo 3D",
+            "maxTopics": "Máximo 50 temas en vista de globo",
+            "lowAlerts": "bajos",
+            "modalCorrect": "Correctas",
+            "modalIncorrect": "Incorrectas",
+            "modalCompleted": "Completaron",
+            "commonMistakes": "Errores Comunes",
+            "strugglingStudents": "Estudiantes con Dificultades",
+            "topPerformers": "Mejores del Tema",
+            "level": "Nivel",
+            "averageLabel": "promedio",
+            "streak": "Racha",
+            "quizzes": "Quizzes",
+            "battles": "Batallas",
+            "studyTime": "Estudio",
+            "tardiesWarning": "tardanzas este período",
+            "subjectBreakdown": "Rendimiento por Materia",
+            "weakTopics": "Temas por Reforzar",
+            "strongTopics": "Temas Dominados",
+            "recentActivity": "Actividad Reciente",
+            "achievements": "Logros",
+            "emptyStateTitle": "Este estudiante tiene poca actividad reciente",
+            "emptyStateHint": "Considera motivarlo a participar más",
+            "subjects": {
+                "math": "Matemáticas",
+                "science": "Ciencias",
+                "spanish": "Español",
+                "socialStudies": "Estudios Sociales"
+            }
         },
         "attendance": {
             "title": "Asistencia",
@@ -285,6 +346,9 @@
             "quizzes": "Quizzes",
             "wins": "Victorias",
             "streak": "Racha"
+        },
+        "admin": {
+            "title": "Administración de Profesores"
         }
     },
     "studentProfile": {
@@ -1271,7 +1335,6 @@
         "score": "Puntaje",
         "questions": "Preguntas"
     },
-
     "quizGenerator": {
         "title": "Generador de Quiz con IA",
         "quizName": "Nombre del Cuestionario",

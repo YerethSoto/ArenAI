@@ -13,6 +13,12 @@
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Make backdrop transparent to see page background */
+#professor-menu::part(backdrop) {
+  background-color: transparent !important;
+  opacity: 0 !important;
+}
+
 #professor-menu ion-content {
   --background: var(--ion-background-color, #ffffff);
   background: var(--ion-background-color, #ffffff);

@@ -41,7 +41,7 @@
 .cs-month-year {
     font-size: 14px;
     font-weight: 600;
-    color: var(--ion-text-color-step-300);
+    color: white;
 }
 
 .cs-nav-buttons {
@@ -83,7 +83,7 @@
     width: 36px;
     text-align: center;
     font-size: 12px;
-    color: var(--ion-text-color-step-400);
+    color: rgba(255, 255, 255, 0.7);
     font-weight: 600;
 }
 
@@ -101,7 +101,7 @@
     align-items: center;
     border-radius: 50%;
     font-size: 14px;
-    color: var(--ion-text-color);
+    color: white;
     cursor: pointer;
     position: relative;
     transition: all 0.2s ease;

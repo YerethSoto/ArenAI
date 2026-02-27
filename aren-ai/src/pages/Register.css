@@ -112,10 +112,25 @@
   --padding-start: 14px;
   --padding-end: 14px;
   --inner-padding-end: 0;
+  --inner-border-width: 0;
+  --border-width: 0;
+  --border-color: transparent;
+  --highlight-background: transparent;
+  --highlight-color-focused: transparent;
+  --highlight-color-valid: transparent;
+  --highlight-color-invalid: transparent;
+  --highlight-height: 0;
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
+  border: none;
   margin-bottom: 5px;
+  background: white;
+  overflow: hidden;
+}
+
+.input-item::part(native) {
+  background: white !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .input-icon {
@@ -125,12 +140,58 @@
 }
 
 .custom-input {
+  --background: white;
   --padding-top: 14px;
   --padding-bottom: 14px;
-  --color: #2c3e50;
-  --placeholder-color: #7f8c8d;
+  --color: #8f6a56;
+  --placeholder-color: #b6b6b6;
   --placeholder-font-weight: 400;
+  --border-color: transparent !important;
+  --border-width: 0 !important;
+  --highlight-height: 0 !important;
+  --highlight-color-focused: transparent !important;
+  --highlight-color-valid: transparent !important;
+  --highlight-color-invalid: transparent !important;
   font-size: 0.95rem;
+  background: white;
+  border: none !important;
+  outline: none !important;
+}
+
+.custom-input::part(native) {
+  color: #8f6a56 !important;
+  background: white !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove all ion-input borders on this page */
+.register-card ion-input {
+  --border-color: transparent !important;
+  --border-width: 0 !important;
+  --highlight-height: 0 !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.register-card ion-input:focus-within {
+  border: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.register-card ion-input::part(native) {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.register-card ion-item {
+  --border-color: transparent !important;
+  --inner-border-width: 0 !important;
+  --border-width: 0 !important;
 }
 
 /* Estilo para campo de institución bloqueado */
@@ -319,10 +380,10 @@
   --background-activated: rgba(143, 106, 86, 0.1);
   --background-hover: rgba(143, 106, 86, 0.05);
   --color: #8f6a56;
-  --border-color: #8f6a56;
-  --border-width: 2px;
   --border-radius: 12px;
-  --border-style: solid;
+  border: 2px solid #8f6a56;
+  border-radius: 12px;
+  color: #8f6a56;
   font-weight: 500;
   font-size: 1rem;
   height: 50px;
@@ -332,7 +393,8 @@
 
 .back-login-button:disabled {
   --color: #b8a399;
-  --border-color: #b8a399;
+  border-color: #b8a399;
+  color: #b8a399;
 }
 
 /* Responsive design */
@@ -342,37 +404,37 @@
     --padding-end: 12px;
     --padding-top: 30px;
   }
-  
+
   .brand-title {
     font-size: 2rem;
     letter-spacing: 1.5px;
   }
-  
+
   .brand-subtitle {
     font-size: 1rem;
   }
-  
+
   .register-card ion-card-content {
     padding: 20px 18px;
   }
-  
+
   .input-section {
     margin-bottom: 16px;
   }
-  
+
   .institution-list {
     max-height: 150px;
   }
-  
+
   .register-button {
     height: 50px;
     font-size: 1rem;
   }
-  
+
   .back-login-button {
     height: 48px;
   }
-  
+
   .buttons-container {
     margin-top: 25px;
   }
@@ -383,15 +445,15 @@
     font-size: 1.8rem;
     letter-spacing: 1px;
   }
-  
+
   .register-card ion-card-content {
     padding: 18px 16px;
   }
-  
+
   .buttons-container {
     margin-top: 20px;
   }
-  
+
   .register-content {
     --padding-top: 20px;
   }
@@ -400,12 +462,13 @@
 /* Focus states for accessibility */
 .input-item:focus-within {
   --background: white;
-  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
-  border-color: white;
+  border: none;
+  outline: none;
+  box-shadow: none;
 }
 
 .custom-input:focus {
-  --color: #2c3e50;
+  --color: #8f6a56;
 }
 
 /* ═══════════ Autocomplete ═══════════ */
@@ -464,4 +527,3 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-

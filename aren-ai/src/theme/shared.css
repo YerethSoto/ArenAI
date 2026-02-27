@@ -114,6 +114,16 @@
   --background: var(--ion-background-color);
 }
 
+/* --- Global Background Pattern --- */
+.global-background-pattern {
+  background-color: var(--ion-background-color);
+  background-image:
+    radial-gradient(rgba(var(--ion-color-primary-rgb), 0.15) 1px, transparent 1px),
+    radial-gradient(rgba(var(--ion-color-primary-rgb), 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    GLOBAL BUTTON STATES - Hover/Active/Disabled for Dark Mode
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -226,7 +236,6 @@ ion-textarea,
   --background: var(--ion-color-surface);
   --color: var(--ion-text-color);
   --placeholder-color: var(--ion-text-color-step-400);
-  border: 1px solid var(--ion-border-color);
   border-radius: 12px;
   transition:
     border-color 0.2s ease,
@@ -236,15 +245,13 @@ ion-textarea,
 ion-input:focus-within,
 ion-textarea:focus-within,
 .input-field:focus-within {
-  border-color: var(--ion-color-accent, var(--ion-color-secondary));
-  box-shadow: 0 0 0 2px rgba(var(--ion-color-secondary-rgb), 0.2);
+  outline: none;
 }
 
 ion-input.has-error,
 ion-textarea.has-error,
 .input-field.has-error {
   border-color: var(--ion-color-danger);
-  box-shadow: 0 0 0 2px var(--ion-color-danger-soft);
 }
 
 /* Status Badges */
