@@ -5740,3 +5740,220 @@ export function getClassOverview(totalStudents: number = 28): ClassOverview {
         }),
     };
 }
+
+// ==================== TOPIC SUB-RELATIONSHIPS ====================
+
+export interface TopicRelation {
+    id: string;
+    sourceTopicId: number;
+    targetTopicId: number;
+    sourceSubjectId: number;
+    targetSubjectId: number;
+    impactPercent: number; // 0-100
+    type: 'prerequisito' | 'complementario' | 'correlacionado';
+    description: string;
+    sourceName: string;
+    targetName: string;
+}
+
+export interface SubjectCrossImpact {
+    sourceSubjectId: number;
+    targetSubjectId: number;
+    sourceName: string;
+    targetName: string;
+    sourceIcon: string;
+    targetIcon: string;
+    sourceColor: string;
+    targetColor: string;
+    impactPercent: number;
+    strength: 'alto' | 'medio' | 'bajo';
+    relations: TopicRelation[];
+}
+
+// Curated cross-subject topic relationships based on actual curriculum
+const TOPIC_RELATIONS_RAW: {
+    sourceId: number; targetId: number;
+    sourceSub: number; targetSub: number;
+    impact: number; type: TopicRelation['type'];
+    desc: string;
+}[] = [
+        // Math → Science (mathematical tools used in science)
+        { sourceId: 101, targetId: 644, sourceSub: 1, targetSub: 2, impact: 45, type: 'prerequisito', desc: 'Operaciones con decimales son fundamentales para mediciones científicas' },
+        { sourceId: 148, targetId: 649, sourceSub: 1, targetSub: 2, impact: 35, type: 'complementario', desc: 'Porcentajes se aplican en cálculos de concentraciones del ciclo hidrológico' },
+        { sourceId: 151, targetId: 404, sourceSub: 1, targetSub: 1, impact: 50, type: 'prerequisito', desc: 'Representación gráfica es base para histogramas' },
+        { sourceId: 152, targetId: 321, sourceSub: 1, targetSub: 1, impact: 55, type: 'prerequisito', desc: 'Medidas de posición incluyen media aritmética como caso avanzado' },
+        { sourceId: 130, targetId: 645, sourceSub: 1, targetSub: 2, impact: 40, type: 'prerequisito', desc: 'Sistema Métrico Decimal es esencial para las unidades del SI' },
+        { sourceId: 103, targetId: 376, sourceSub: 1, targetSub: 1, impact: 60, type: 'prerequisito', desc: 'Potencias son base para notación científica' },
+        { sourceId: 378, targetId: 384, sourceSub: 1, targetSub: 1, impact: 65, type: 'prerequisito', desc: 'Teorema de Pitágoras es base para ángulos de elevación y depresión' },
+        { sourceId: 146, targetId: 337, sourceSub: 1, targetSub: 1, impact: 50, type: 'prerequisito', desc: 'Razón y proporción es base para semejanza de triángulos' },
+        { sourceId: 143, targetId: 359, sourceSub: 1, targetSub: 1, impact: 55, type: 'prerequisito', desc: 'Ecuaciones de primer grado son base para ecuaciones de segundo grado' },
+        { sourceId: 131, targetId: 646, sourceSub: 1, targetSub: 2, impact: 38, type: 'complementario', desc: 'Unidades de longitud se aplican en conversión de unidades científicas' },
+
+        // Science → Math (scientific context motivates math concepts)
+        { sourceId: 222, targetId: 147, sourceSub: 2, targetSub: 1, impact: 30, type: 'complementario', desc: 'Movimiento y rapidez contextualiza proporcionalidad directa' },
+        { sourceId: 661, targetId: 662, sourceSub: 2, targetSub: 2, impact: 70, type: 'prerequisito', desc: 'Formas de energía son base para energía cinética y potencial' },
+        { sourceId: 647, targetId: 648, sourceSub: 2, targetSub: 2, impact: 55, type: 'prerequisito', desc: 'Propiedades de la materia son base para estados de agregación' },
+        { sourceId: 636, targetId: 657, sourceSub: 2, targetSub: 2, impact: 60, type: 'prerequisito', desc: 'La célula es base para membrana y pared celular' },
+        { sourceId: 682, targetId: 683, sourceSub: 2, targetSub: 2, impact: 65, type: 'prerequisito', desc: 'Fuerza es requisito previo para las Leyes de Newton' },
+
+        // Spanish → Social Studies (reading comprehension for history)
+        { sourceId: 195, targetId: 60, sourceSub: 3, targetSub: 4, impact: 40, type: 'complementario', desc: 'Identificar la idea principal ayuda a analizar causas de la Independencia' },
+        { sourceId: 199, targetId: 81, sourceSub: 3, targetSub: 4, impact: 35, type: 'complementario', desc: 'Comprensión de texto expositivo facilita entender las Reformas Sociales de 1940' },
+        { sourceId: 197, targetId: 69, sourceSub: 3, targetSub: 4, impact: 30, type: 'complementario', desc: 'Texto narrativo apoya la comprensión de la Campaña Nacional 1856-1857' },
+        { sourceId: 466, targetId: 582, sourceSub: 3, targetSub: 4, impact: 38, type: 'complementario', desc: 'Argumentación se aplica al análisis de la Revolución Francesa' },
+        { sourceId: 505, targetId: 506, sourceSub: 3, targetSub: 3, impact: 55, type: 'prerequisito', desc: 'Cohesión textual es base para coherencia textual' },
+
+        // Social Studies → Science (geographic context for science)
+        { sourceId: 26, targetId: 233, sourceSub: 4, targetSub: 2, impact: 42, type: 'correlacionado', desc: 'Concepto de clima en estudios sociales se correlaciona con Clima y Tiempo Atmosférico en ciencias' },
+        { sourceId: 537, targetId: 237, sourceSub: 4, targetSub: 2, impact: 48, type: 'correlacionado', desc: 'Tectónica de placas en estudios sociales se relaciona con agentes internos de geología' },
+        { sourceId: 542, targetId: 654, sourceSub: 4, targetSub: 2, impact: 45, type: 'correlacionado', desc: 'Recurso hídrico en estudios sociales se correlaciona con recurso hídrico en ciencias' },
+        { sourceId: 546, targetId: 655, sourceSub: 4, targetSub: 2, impact: 50, type: 'correlacionado', desc: 'Cambio climático en estudios sociales complementa contaminación atmosférica en ciencias' },
+
+        // Math → Social Studies (statistics for social analysis)
+        { sourceId: 149, targetId: 18, sourceSub: 1, targetSub: 4, impact: 25, type: 'complementario', desc: 'Recolección de datos se aplica al estudiar regiones socioeconómicas' },
+        { sourceId: 148, targetId: 526, sourceSub: 1, targetSub: 4, impact: 28, type: 'complementario', desc: 'Porcentajes se usan para analizar la huella ecológica' },
+
+        // Science → Spanish (scientific vocabulary)
+        { sourceId: 642, targetId: 507, sourceSub: 2, targetSub: 3, impact: 22, type: 'complementario', desc: 'Método científico enriquece el vocabulario técnico' },
+        { sourceId: 640, targetId: 199, sourceSub: 2, targetSub: 3, impact: 18, type: 'complementario', desc: 'Avances científicos se presentan como texto expositivo' },
+
+        // Spanish → Math (reading comprehension for word problems)
+        { sourceId: 195, targetId: 100, sourceSub: 3, targetSub: 1, impact: 32, type: 'complementario', desc: 'Idea principal ayuda a identificar datos relevantes en problemas matemáticos' },
+        { sourceId: 196, targetId: 143, sourceSub: 3, targetSub: 1, impact: 28, type: 'complementario', desc: 'Ideas secundarias apoyan el planteamiento de ecuaciones de primer grado' },
+
+        // Intra-subject Math chains
+        { sourceId: 93, targetId: 96, sourceSub: 1, targetSub: 1, impact: 70, type: 'prerequisito', desc: 'Fracciones son prerrequisito directo para fracciones decimales' },
+        { sourceId: 110, targetId: 263, sourceSub: 1, targetSub: 1, impact: 60, type: 'prerequisito', desc: 'Múltiplos son base para el MCM' },
+        { sourceId: 111, targetId: 264, sourceSub: 1, targetSub: 1, impact: 60, type: 'prerequisito', desc: 'Divisores son base para el MCD' },
+        { sourceId: 265, targetId: 324, sourceSub: 1, targetSub: 1, impact: 55, type: 'prerequisito', desc: 'Números enteros son prerrequisito para números racionales' },
+        { sourceId: 355, targetId: 357, sourceSub: 1, targetSub: 1, impact: 65, type: 'prerequisito', desc: 'Polinomios son base para multiplicación de polinomios' },
+        { sourceId: 358, targetId: 393, sourceSub: 1, targetSub: 1, impact: 70, type: 'prerequisito', desc: 'Productos notables son base para factorización' },
+        { sourceId: 391, targetId: 398, sourceSub: 1, targetSub: 1, impact: 75, type: 'prerequisito', desc: 'Función cuadrática es base para ecuaciones de segundo grado' },
+        { sourceId: 100, targetId: 101, sourceSub: 1, targetSub: 1, impact: 80, type: 'prerequisito', desc: 'Operaciones básicas con números enteros preceden a operaciones con decimales' },
+        { sourceId: 101, targetId: 103, sourceSub: 1, targetSub: 1, impact: 65, type: 'prerequisito', desc: 'Las operaciones con decimales son base para las potencias' },
+        { sourceId: 143, targetId: 146, sourceSub: 1, targetSub: 1, impact: 50, type: 'complementario', desc: 'Ecuaciones de primer grado apoyan la comprensión de razón y proporción' },
+
+        // Intra-subject Science chains
+        { sourceId: 216, targetId: 244, sourceSub: 2, targetSub: 2, impact: 50, type: 'prerequisito', desc: 'Ecosistemas son prerrequisito para entender equilibrio ecológico' },
+        { sourceId: 201, targetId: 677, sourceSub: 2, targetSub: 2, impact: 45, type: 'prerequisito', desc: 'Niveles de organización del cuerpo son base para sistemas del cuerpo humano' },
+        { sourceId: 666, targetId: 667, sourceSub: 2, targetSub: 2, impact: 65, type: 'prerequisito', desc: 'Elementos químicos son prerrequisito para la tabla periódica' },
+        { sourceId: 669, targetId: 670, sourceSub: 2, targetSub: 2, impact: 70, type: 'prerequisito', desc: 'El átomo es base para número atómico y másico' },
+        { sourceId: 201, targetId: 636, sourceSub: 2, targetSub: 2, impact: 75, type: 'prerequisito', desc: 'Organización básica es clave para entender la célula a profundidad' },
+        { sourceId: 647, targetId: 648, sourceSub: 2, targetSub: 2, impact: 85, type: 'prerequisito', desc: 'Propiedades de la materia preceden a estados de agregación' },
+        { sourceId: 661, targetId: 682, sourceSub: 2, targetSub: 2, impact: 40, type: 'correlacionado', desc: 'Formas de energía se correlacionan con el estudio de fuerzas' },
+
+        // Intra-subject Spanish chains
+        { sourceId: 505, targetId: 506, sourceSub: 3, targetSub: 3, impact: 55, type: 'prerequisito', desc: 'Cohesión textual es base para coherencia textual' },
+        { sourceId: 195, targetId: 196, sourceSub: 3, targetSub: 3, impact: 65, type: 'prerequisito', desc: 'Identificar la idea principal facilita extraer ideas secundarias' },
+        { sourceId: 196, targetId: 197, sourceSub: 3, targetSub: 3, impact: 50, type: 'complementario', desc: 'Manejar ideas secundarias apoya el análisis de textos narrativos' },
+        { sourceId: 197, targetId: 199, sourceSub: 3, targetSub: 3, impact: 45, type: 'correlacionado', desc: 'El texto narrativo guarda similitudes analíticas con el texto expositivo' },
+        { sourceId: 466, targetId: 507, sourceSub: 3, targetSub: 3, impact: 70, type: 'prerequisito', desc: 'La argumentación es la base para desarrollar vocabulario técnico efectivo' },
+        { sourceId: 506, targetId: 582, sourceSub: 3, targetSub: 3, impact: 60, type: 'complementario', desc: 'La coherencia textual es vital para la presentación de crónicas' },
+
+        // Intra-subject Social Studies chains
+        { sourceId: 50, targetId: 572, sourceSub: 4, targetSub: 4, impact: 55, type: 'prerequisito', desc: 'Momento del contacto es base para entender la conquista de América' },
+        { sourceId: 60, targetId: 584, sourceSub: 4, targetSub: 4, impact: 60, type: 'prerequisito', desc: 'Causas de la independencia general son base para la independencia de CR' },
+        { sourceId: 78, targetId: 592, sourceSub: 4, targetSub: 4, impact: 50, type: 'prerequisito', desc: 'Reformas liberales básicas son prerrequisito para reformas liberales avanzadas' },
+        { sourceId: 10, targetId: 11, sourceSub: 4, targetSub: 4, impact: 85, type: 'prerequisito', desc: 'Concepto de Relieve es la base teórica para estudiar Costas' },
+        { sourceId: 10, targetId: 13, sourceSub: 4, targetSub: 4, impact: 80, type: 'prerequisito', desc: 'Concepto de Relieve precede al estudio de Cordilleras' },
+        { sourceId: 13, targetId: 16, sourceSub: 4, targetSub: 4, impact: 75, type: 'complementario', desc: 'Las Cordilleras forman la columna vertebral del Relieve de Costa Rica' },
+        { sourceId: 17, targetId: 18, sourceSub: 4, targetSub: 4, impact: 90, type: 'prerequisito', desc: 'El Concepto abstracto de Región es obligatorio para las Regiones Socioeconómicas' },
+        { sourceId: 18, targetId: 19, sourceSub: 4, targetSub: 4, impact: 70, type: 'prerequisito', desc: 'Conocer las Regiones Socioeconómicas permite abordar su Ubicación' },
+    ];
+
+function getTopicName(topicSeqId: number): string {
+    const topic = ALL_TOPICS.find(t => t.id === topicSeqId);
+    return topic?.name || `Tema ${topicSeqId}`;
+}
+
+export function getTopicRelations(): TopicRelation[] {
+    return TOPIC_RELATIONS_RAW.map((r, idx) => ({
+        id: `rel-${idx}`,
+        sourceTopicId: r.sourceId,
+        targetTopicId: r.targetId,
+        sourceSubjectId: r.sourceSub,
+        targetSubjectId: r.targetSub,
+        impactPercent: r.impact,
+        type: r.type,
+        description: r.desc,
+        sourceName: getTopicName(r.sourceId),
+        targetName: getTopicName(r.targetId),
+    }));
+}
+
+export function getSubjectCrossImpact(): SubjectCrossImpact[] {
+    const relations = getTopicRelations();
+    const result: SubjectCrossImpact[] = [];
+
+    const subjectIds = Object.keys(SUBJECTS).map(Number);
+
+    for (const sourceId of subjectIds) {
+        for (const targetId of subjectIds) {
+            const matchingRelations = relations.filter(
+                r => r.sourceSubjectId === sourceId && r.targetSubjectId === targetId
+            );
+
+            if (matchingRelations.length === 0 && sourceId !== targetId) {
+                // Still create an entry with 0 impact for full matrix
+                result.push({
+                    sourceSubjectId: sourceId,
+                    targetSubjectId: targetId,
+                    sourceName: SUBJECTS[sourceId].name,
+                    targetName: SUBJECTS[targetId].name,
+                    sourceIcon: SUBJECTS[sourceId].icon,
+                    targetIcon: SUBJECTS[targetId].icon,
+                    sourceColor: SUBJECTS[sourceId].color,
+                    targetColor: SUBJECTS[targetId].color,
+                    impactPercent: 0,
+                    strength: 'bajo',
+                    relations: [],
+                });
+                continue;
+            }
+
+            if (sourceId === targetId) {
+                // Intra-subject: show self-relationships
+                const selfRelations = relations.filter(
+                    r => r.sourceSubjectId === sourceId && r.targetSubjectId === sourceId
+                );
+                const avgImpact = selfRelations.length > 0
+                    ? Math.round(selfRelations.reduce((s, r) => s + r.impactPercent, 0) / selfRelations.length)
+                    : 0;
+                result.push({
+                    sourceSubjectId: sourceId,
+                    targetSubjectId: targetId,
+                    sourceName: SUBJECTS[sourceId].name,
+                    targetName: SUBJECTS[targetId].name,
+                    sourceIcon: SUBJECTS[sourceId].icon,
+                    targetIcon: SUBJECTS[targetId].icon,
+                    sourceColor: SUBJECTS[sourceId].color,
+                    targetColor: SUBJECTS[targetId].color,
+                    impactPercent: avgImpact,
+                    strength: avgImpact >= 50 ? 'alto' : avgImpact >= 30 ? 'medio' : 'bajo',
+                    relations: selfRelations,
+                });
+                continue;
+            }
+
+            const avgImpact = Math.round(
+                matchingRelations.reduce((s, r) => s + r.impactPercent, 0) / matchingRelations.length
+            );
+
+            result.push({
+                sourceSubjectId: sourceId,
+                targetSubjectId: targetId,
+                sourceName: SUBJECTS[sourceId].name,
+                targetName: SUBJECTS[targetId].name,
+                sourceIcon: SUBJECTS[sourceId].icon,
+                targetIcon: SUBJECTS[targetId].icon,
+                sourceColor: SUBJECTS[sourceId].color,
+                targetColor: SUBJECTS[targetId].color,
+                impactPercent: avgImpact,
+                strength: avgImpact >= 40 ? 'alto' : avgImpact >= 25 ? 'medio' : 'bajo',
+                relations: matchingRelations,
+            });
+        }
+    }
+
+    return result;
+}
