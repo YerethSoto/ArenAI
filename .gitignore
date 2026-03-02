@@ -4,3 +4,4 @@ backend/dist/
 **/node_modules/
 /backend/dist
 backend/dist/repositories/classRepository.js
+.env

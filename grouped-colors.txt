@@ -1,0 +1,341 @@
+
+=== Achievements.css ===
+L224: color: #bfa004;
+L236: color: #ffd700;
+
+=== AIQuizGenerator.css ===
+L767: color: #5D4037;
+L775: color: #8B7355;
+
+=== ArenEntityPage.css ===
+L197: color: #5D4037;
+L233: color: #FFD54F;
+L325: color: #D81B60;
+L549: color: #5D4037;
+
+=== AssignmentDetail.css ===
+L252: color: #5d4037;
+L303: color: #2e7d32;
+L308: color: #e65100;
+L418: color: #4caf50;
+L423: color: #f44336;
+L564: color: #5d4037;
+
+=== AssignmentsMenu.css ===
+L638: border-color: #1565c0;
+
+=== AvatarSelection.css ===
+L49: border-color: #FFD93D;
+
+=== BattleMinigame.css ===
+L561: color: #ff4444;
+L631: color: #4caf50;
+L807: color: #4caf50;
+L1004: 50% { background-color: #FFC107; }
+L1005: 100% { width: 0%; background-color: #F44336; }
+L1017: color: #FF0000;
+L1091: color: #FF5252;
+
+=== BattleResultsStats.css ===
+L63: color: #4caf50; /* Green */
+L67: color: #f44336; /* Red */
+
+=== CharacterDetail.css ===
+L281: color: #33691E;
+L321: color: #33691E !important;
+
+=== Chatbot.css ===
+L47: --ion-background-color: #3D2E24 !important;
+L50: background-color: #3D2E24 !important;
+L295: background-color: #3D2E24 !important;
+L300: border-color: #FFB74D !important;
+L307: color: #3D2E24 !important;
+L308: border-color: #FF7B7B !important;
+L319: border-color: #FFB74D !important;
+L331: background-color: #0D1F35 !important;
+L336: border-color: #FF9E44 !important;
+L343: color: #0D1F35 !important;
+L344: border-color: #FF7B7B !important;
+L355: border-color: #00D4FF !important;
+L367: background-color: #0F2010 !important;
+L372: border-color: #FFD700 !important;
+L379: color: #0F2010 !important;
+L380: border-color: #C8A8E0 !important;
+L391: border-color: #B8FF44 !important;
+L403: background-color: #200810 !important;
+L408: border-color: #40E0D0 !important;
+L415: color: #200810 !important;
+L416: border-color: #E07850 !important;
+L427: border-color: #FFD54F !important;
+L439: background-color: #0A2510 !important;
+L444: border-color: #FF44AA !important;
+L451: color: #0A2510 !important;
+L452: border-color: #CCFF00 !important;
+L463: border-color: #64B5F6 !important;
+L475: background-color: #1A1508 !important;
+L480: border-color: #20B2AA !important;
+L488: border-color: #DAA520 !important;
+L499: border-color: #E07860 !important;
+L511: background-color: #050010 !important;
+L516: border-color: #ffea00 !important;
+L524: color: #050010 !important;
+L525: border-color: #76ff03 !important;
+L538: border-color: #00e5ff !important;
+L551: background-color: #3D2E24 !important;
+L556: border-color: #70A090 !important;
+L561: border-color: #7890A0 !important;
+L570: border-color: #70A090 !important;
+
+=== Clan.css ===
+L117: color: #d4ac0d;
+L305: color: #f1c40f;
+L309: color: #9b59b6;
+
+=== Class_Creation.css ===
+L195: color: #ff9800;
+L201: color: #ab47bc;
+
+=== Leaderboard.css ===
+L83: border-color: #ffd700;
+L92: border-color: #cd7f32;
+L101: color: #ffd700;
+L315: color: #e74c3c;
+L328: color: #3498db;
+L341: color: #2ecc71;
+
+=== Login.css ===
+L50: color: #8f6a56;
+L74: color: #8f6a56;
+L105: color: #8f6a56;
+L163: color: #8f6a56;
+L186: color: #dfdddc;
+L229: --color: #8f6a56;
+L283: --color: #8f6a56;
+L288: color: #8f6a56;
+L295: --color: #b8a399;
+L296: border-color: #b8a399;
+L297: color: #b8a399;
+L308: color: #8f6a56;
+
+=== Main_Student.css ===
+L19: background-color: #3D2E24 !important;
+L26: background-color: #0F2540 !important;
+L33: background-color: #1A3020 !important;
+L40: background-color: #2A1018 !important;
+L47: background-color: #153525 !important;
+L54: background-color: #2A2418 !important;
+L61: background-color: #3D2E24 !important;
+
+=== ProfessorAdmin.css ===
+L134: color: #10b981;
+L139: color: #ef4444;
+L144: color: #f59e0b;
+L170: border-color: #6366f1;
+L183: color: #065f46;
+L188: color: #92400e;
+L193: color: #991b1b;
+
+=== ProfessorAssignmentReview.css ===
+L117: color: #1976d2;
+L122: color: #f57c00;
+L217: color: #1976d2;
+L221: color: #f57c00;
+L425: color: #1976d2;
+L429: color: #f57c00;
+L447: color: #2e7d32;
+L451: color: #1976d2;
+L455: color: #f57c00;
+L459: color: #c62828;
+L747: color: #2e7d32;
+L752: color: #f57c00;
+
+=== ProfessorAttendance.css ===
+L69: color: #27ae60;
+L74: color: #e67e22;
+L117: color: #27ae60;
+L127: color: #c0392b;
+L248: color: #2ecc71;
+L252: color: #bdc3c7;
+L256: color: #e74c3c;
+L261: color: #e67e22;
+L275: color: #e67e22;
+
+=== ProfessorChat.css ===
+L5: --chat-bg-color: #f9f4e6;
+
+=== ProfessorStudentQuizDetail.css ===
+L269: border-color: #2ecc71;
+L274: border-color: #e74c3c;
+L303: color: #2ecc71;
+L307: color: #e74c3c;
+
+=== ProfessorStudents.css ===
+L258: color: #e74c3c;
+L330: color: #e74c3c !important;
+L364: color: #e74c3c;
+L404: color: #c0392b;
+L561: color: #e74c3c !important;
+L565: color: #e74c3c;
+L676: color: #c0392b;
+L907: color: #2ecc71;
+L1117: color: #2ecc71;
+L1182: color: #2ecc71;
+
+=== ProfessorTopicStats.css ===
+L145: color: #f1c40f !important;
+L612: color: #e74c3c;
+L617: color: #3498db;
+L622: color: #9b59b6;
+L650: color: #e74c3c;
+L663: color: #c0392b;
+L688: color: #c0392b;
+
+=== Quiz.backup.css ===
+L362: color: #4caf50;
+
+=== Quiz.css ===
+L262: border-color: #4CAF50;
+L268: border-color: #F44336;
+L273: color: #bdc3c7;
+L278: color: #4CAF50;
+
+=== QuizMenu.css ===
+L191: color: #f5b400;
+L259: color: #ef5350;
+L514: color: #f5b400;
+
+=== QuizPreview.css ===
+L143: color: #ffd54f;
+L152: background-color: #90caf9;
+L153: color: #1565c0;
+L289: color: #d32f2f;
+L333: border-color: #4caf50;
+L353: border-color: #4caf50;
+L371: color: #2e7d32;
+L607: color: #c62828;
+
+=== Register.css ===
+L33: --color: #8f6a56;
+L43: color: #8f6a56;
+L54: color: #8f6a56;
+L137: color: #8f6a56;
+L146: --color: #8f6a56;
+L162: color: #8f6a56 !important;
+L204: --color: #8f6a56;
+L244: color: #2c3e50;
+L249: color: #8f6a56;
+L271: --color: #2c3e50;
+L294: color: #8f6a56;
+L302: color: #2c3e50;
+L337: color: #ff6b6b;
+L343: color: #ff6b6b;
+L382: --color: #8f6a56;
+L386: color: #8f6a56;
+L395: --color: #b8a399;
+L396: border-color: #b8a399;
+L397: color: #b8a399;
+L471: --color: #8f6a56;
+L520: color: #8f6a56;
+
+=== RegisterStudent.css ===
+L33: --color: #8f6a56;
+L43: color: #8f6a56;
+L54: color: #8f6a56;
+L119: color: #8f6a56;
+L128: --color: #8f6a56;
+L144: color: #8f6a56 !important;
+L180: --color: #8f6a56;
+L208: color: #ff6b6b;
+L214: color: #ff6b6b;
+L253: --color: #8f6a56;
+L257: color: #8f6a56;
+L266: --color: #b8a399;
+L267: border-color: #b8a399;
+L268: color: #b8a399;
+L339: --color: #8f6a56;
+L388: color: #8f6a56;
+L403: color: #2e7d32;
+L466: color: #8f6a56;
+
+=== Shop.css ===
+L35: color: #f1c40f;
+L39: color: #2ecc71;
+L323: color: #2ecc71;
+
+=== StudentAssignments.css ===
+L20: color: #4a2c2a;
+L45: color: #5d4037;
+L65: color: #8d6e63;
+L71: background-color: #fdfbf7; /* Using soft secondary */
+L84: background-color: #5d4037; /* Primary */
+L321: color: #5d4037;
+L327: color: #f44336;
+L332: color: #5d4037;
+L361: color: #8d6e63;
+L368: color: #8d6e63;
+L417: color: #8d6e63;
+L435: color: #5d4037;
+L442: color: #5d4037;
+L448: color: #8d6e63;
+L460: color: #5d4037;
+L474: color: #8d6e63;
+L510: background-color: #16a085; /* Teal */
+L514: background-color: #2980b9; /* Blue */
+L527: background-color: #7f8fa6; /* Grey */
+L539: color: #2c3e50; /* Dark text on Colored BG? wait screenshot had it on color */
+L592: color: #8d6e63;
+L637: color: #5d4037;
+L644: color: #8d6e63;
+L650: color: #8d6e63;
+L662: color: #5d4037;
+L672: color: #8d6e63;
+L722: border-color: #34495e transparent transparent transparent;
+L733: color: #5d4037; /* Brownish academic color */
+L754: color: #4a2c2a;
+L761: color: #4a2c2a;
+L770: color: #2e7d32;
+L868: color: #c62828;
+L873: color: #2e7d32;
+L983: color: #4caf50;
+L987: color: #f44336;
+
+=== StudentDetail.css ===
+L93: color: #FFD54F;
+L247: color: #e67e22;
+
+=== StudentProfile.css ===
+L15: --ion-background-color: #f4f5f8;
+L332: color: #f39c12;
+L648: border-color: #9b59b6;
+L653: border-color: #f1c40f;
+L658: border-color: #3498db;
+L663: border-color: #2ecc71;
+
+=== StudentScores.css ===
+L153: color: #FFD700;
+
+=== StudentSettings.css ===
+L204: background-color: #2A2018 !important;
+L209: background-color: #0F2540 !important;
+L214: background-color: #1A3020 !important;
+L219: background-color: #2A1018 !important;
+L224: background-color: #153525 !important;
+L229: background-color: #2A2418 !important;
+
+=== BattleLobby.css ===
+L128: color: #f1c40f;
+L133: color: #2ecc71;
+L183: color: #94a3b8;
+L337: color: #4b3600;
+L501: color: #ffd700;
+L551: color: #5c3a00;
+
+=== BattleResultModal.css ===
+L50: color: #FFF3E0;
+L126: color: #FFD54F;
+L235: color: #8D6E63;
+L244: color: #5D4037;
+
+=== SessionExpiredModal.css ===
+L53: color: #2D3436;
+L60: color: #636E72;

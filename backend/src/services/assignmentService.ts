@@ -10,4 +10,5 @@ export const assignmentService = {
     getStudentAssignments: assignmentRepo.getStudentAssignments,
     deleteAssignment: assignmentRepo.deleteAssignment,
     updateAssignment: assignmentRepo.updateAssignment,
+    getAssignmentSubmissions: assignmentRepo.getAssignmentSubmissions,
 };

@@ -8,13 +8,13 @@ router.post('/', async (req, res, next) => {
     try {
         console.log('POST /api/assignments - Body:', JSON.stringify(req.body));
         const { title, description, sectionId, professorId, subjectId, dueTime, quizId, winBattleRequirement, minBattleWins } = req.body;
-        
+
         if (!professorId || !sectionId || !subjectId) {
             console.log('Missing required fields:', { professorId, sectionId, subjectId });
             res.status(400).json({ error: 'professorId, sectionId, and subjectId are required' });
             return;
         }
-        
+
         const id = await assignmentService.createAssignment({
             title,
             description,
@@ -67,6 +67,19 @@ router.get('/student/:studentId', async (req, res, next) => {
 });
 
 // Get single assignment by ID (MUST be AFTER all named routes)
+router.get('/:id/submissions', async (req, res, next) => {
+    try {
+        const data = await assignmentService.getAssignmentSubmissions(Number(req.params.id));
+        if (!data) {
+            res.status(404).json({ error: 'Assignment not found' });
+            return;
+        }
+        res.json(data);
+    } catch (err) {
+        next(err);
+    }
+});
+
 router.get('/:id', async (req, res, next) => {
     try {
         const assignment = await assignmentService.getAssignmentById(Number(req.params.id));
@@ -94,7 +107,7 @@ router.put('/:id', async (req, res, next) => {
     try {
         const assignmentId = Number(req.params.id);
         const { title, description, sectionId, professorId, subjectId, dueTime, quizId, winBattleRequirement, minBattleWins } = req.body;
-        
+
         await assignmentService.updateAssignment(assignmentId, {
             title,
             description,
