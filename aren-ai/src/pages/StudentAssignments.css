@@ -17,7 +17,7 @@
 
 .page-title {
   font-size: 24px;
-  color: #4a2c2a;
+  color: var(--ion-color-primary);
   margin: 0 0 10px 4px;
   font-weight: 700;
 }
@@ -42,7 +42,7 @@
 .task-name {
   font-size: 26px;
   font-weight: 400;
-  color: #5d4037;
+  color: var(--ion-color-primary);
   font-family: 'Georgia', serif;
   letter-spacing: 1px;
 }
@@ -58,22 +58,22 @@
 .task-line {
   height: 1px;
   width: 80px;
-  background: linear-gradient(to right, transparent, #8d6e63, transparent);
+  background: linear-gradient(to right, transparent, var(--ion-color-primary-tint), transparent);
 }
 
 .task-center {
-  color: #8d6e63;
+  color: var(--ion-color-primary-tint);
   font-size: 12px;
   opacity: 0.6;
 }
 
 .task-card {
-  background-color: #fdfbf7; /* Using soft secondary */
+  background-color: var(--ion-card-background);
   border-radius: 15px;
   padding: 25px 15px 20px 15px;
   position: relative;
   margin-top: 30px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .task-card-title {
@@ -81,8 +81,8 @@
   top: -12px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #5d4037; /* Primary */
-  color: white;
+  background-color: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
   padding: 6px 20px;
   border-radius: 20px;
   font-weight: 600;
@@ -96,143 +96,151 @@
 
 /* ========== CONTAINERS ========== */
 .white-container {
-  background-color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  padding: 30px 20px 20px 20px; /* Space for pill */
+  background-color: var(--ion-card-background) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 30px 20px 20px 20px;
+  /* Space for pill */
 }
 
 .beige-container {
-  background: rgba(var(--ion-color-secondary-rgb), 0.15) !important; /* Transparent/Glass effect matching top */
+  background: rgba(var(--ion-color-secondary-rgb), 0.15) !important;
+  /* Transparent/Glass effect matching top */
   border: 1px solid rgba(var(--ion-color-secondary-rgb), 0.3);
   padding: 30px 20px 20px 20px;
 }
 
 .brown-pill {
-  background-color: var(--ion-color-primary) !important; /* Dynamic Primary */
+  background-color: var(--ion-color-primary) !important;
+  /* Dynamic Primary */
   font-family: 'Georgia', serif;
   font-size: 15px;
   padding: 8px 24px;
   border-radius: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* ========== BATTLE LOBBY MASCOT STYLES ========== */
 .lobby-card {
-    background: rgba(var(--ion-color-secondary-rgb), 0.15);
-    border-radius: 24px;
-    padding: 20px;
-    box-shadow: none;
-    border: 1px solid rgba(var(--ion-color-secondary-rgb), 0.3);
-    margin-bottom: 20px;
+  background: rgba(var(--ion-color-secondary-rgb), 0.15);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: none;
+  border: 1px solid rgba(var(--ion-color-secondary-rgb), 0.3);
+  margin-bottom: 20px;
 }
 
 .avatar-section-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    min-height: 160px; /* adjusted */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  min-height: 160px;
+  /* adjusted */
 }
 
 .avatar-info-col {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding-right: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-right: 15px;
 }
 
 .message-container {
-    position: relative;
-    margin-top: 15px;
+  position: relative;
+  margin-top: 15px;
 }
 
 .name-tag {
-    position: absolute;
-    top: -12px;
-    left: 15px;
-    background: var(--ion-color-primary); /* Dynamic Primary */
-    color: white;
-    font-size: 11px;
-    font-weight: 800;
-    padding: 3px 14px;
-    border-radius: 12px;
-    z-index: 5;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  position: absolute;
+  top: -12px;
+  left: 15px;
+  background: var(--ion-color-primary);
+  /* Dynamic Primary */
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 14px;
+  border-radius: 12px;
+  z-index: 5;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .speech-bubble {
-    background: white;
-    border-radius: 18px;
-    border-top-left-radius: 4px;
-    padding: 16px;
-    font-size: 14px;
-    color: #333;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    line-height: 1.4;
-    font-weight: 600;
+  background: var(--ion-card-background);
+  border-radius: 18px;
+  border-top-left-radius: 4px;
+  padding: 16px;
+  font-size: 14px;
+  color: var(--ion-text-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  line-height: 1.4;
+  font-weight: 600;
 }
 
 .avatar-visual-col {
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .mascot-img-lg {
-    width: 100%;
-    max-width: 160px;
-    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.1));
+  width: 100%;
+  max-width: 160px;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.1));
 }
 
 /* ========== UNIFIED THEME CARDS ========== */
 .theme-card {
-    /* Base styles from assignment-card-v2 apply */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08); /* Slightly stronger shadow */
+  /* Base styles from assignment-card-v2 apply */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  /* Slightly stronger shadow */
 }
 
 .theme-header {
-    background: var(--ion-color-primary) !important; /* Dynamic Theme */
-    color: var(--ion-color-primary-contrast);
+  background: var(--ion-color-primary) !important;
+  /* Dynamic Theme */
+  color: var(--ion-color-primary-contrast);
 }
 
 /* Typography Swap */
 .quiz-main-title {
-    font-size: 18px; /* Larger */
-    font-weight: 700;
-    margin-bottom: 4px;
-    font-family: 'Georgia', serif;
+  font-size: 18px;
+  /* Larger */
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-family: 'Georgia', serif;
 }
 
 .assignment-sub-title {
-    font-size: 11px;
-    opacity: 0.9;
-    margin-bottom: 8px;
-    font-family: sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: rgba(255,255,255,0.8);
+  font-size: 11px;
+  opacity: 0.9;
+  margin-bottom: 8px;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .assignment-overdue-badge {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: #d32f2f;
-    color: white;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 10px;
-    font-weight: 700;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--ion-color-danger);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 700;
 }
 
 .assignment-start-link {
-    margin-top: 10px;
-    color: var(--ion-color-primary);
-    font-weight: 700;
-    font-size: 14px;
-    text-decoration: underline;
+  margin-top: 10px;
+  color: var(--ion-color-primary);
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: underline;
 }
 
 /* Remove old gradient styles if needed, or keeping them harmlessly */
@@ -243,7 +251,7 @@
 }
 
 .assignment-card-v2 {
-  background: white;
+  background: var(--ion-card-background);
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
@@ -265,11 +273,25 @@
   background-position: center;
 }
 
-.assignment-card-header-v2.style-1 { background: linear-gradient(135deg, #4db6ac 0%, #00897b 100%); }
-.assignment-card-header-v2.style-2 { background: linear-gradient(135deg, #64b5f6 0%, #1976d2 100%); }
-.assignment-card-header-v2.style-3 { background: linear-gradient(135deg, #ffb74d 0%, #f57c00 100%); }
-.assignment-card-header-v2.style-4 { background: linear-gradient(135deg, #ba68c8 0%, #7b1fa2 100%); }
-.assignment-card-header-v2.style-5 { background: linear-gradient(135deg, #4fc3f7 0%, #0288d1 100%); }
+.assignment-card-header-v2.style-1 {
+  background: linear-gradient(135deg, var(--ion-color-success), var(--ion-color-success-shade));
+}
+
+.assignment-card-header-v2.style-2 {
+  background: linear-gradient(135deg, var(--ion-color-secondary), var(--ion-color-secondary-shade));
+}
+
+.assignment-card-header-v2.style-3 {
+  background: linear-gradient(135deg, var(--ion-color-warning), var(--ion-color-warning-shade));
+}
+
+.assignment-card-header-v2.style-4 {
+  background: linear-gradient(135deg, var(--ion-color-tertiary), var(--ion-color-tertiary-shade));
+}
+
+.assignment-card-header-v2.style-5 {
+  background: linear-gradient(135deg, var(--ion-color-primary-tint), var(--ion-color-primary));
+}
 
 .assignment-card-title {
   color: white;
@@ -318,18 +340,18 @@
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: #5d4037;
+  color: var(--ion-text-color);
   opacity: 0.8;
   margin-bottom: 8px;
 }
 
 .assignment-due-row.overdue {
-  color: #f44336;
+  color: var(--ion-color-danger);
 }
 
 .assignment-completed-row {
   font-size: 13px;
-  color: #5d4037;
+  color: var(--ion-text-color);
   display: flex;
   align-items: center;
 }
@@ -343,7 +365,7 @@
 
 .quiz-list-searchbar {
   flex: 1;
-  --background: #ffffff;
+  --background: var(--ion-card-background);
   --border-radius: 12px;
   --box-shadow: none;
   border: none;
@@ -353,19 +375,19 @@
 .quiz-list-filter-btn {
   width: 44px;
   height: 44px;
-  background: #ffffff;
+  background: var(--ion-card-background);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #8d6e63;
+  color: var(--ion-color-primary-tint);
   font-size: 20px;
   flex-shrink: 0;
 }
 
 .quiz-sort-label {
   font-size: 13px;
-  color: #8d6e63;
+  color: var(--ion-color-primary-tint);
   font-style: italic;
   font-family: 'Georgia', serif;
   margin-bottom: 15px;
@@ -378,7 +400,7 @@
 }
 
 .task-quiz-card {
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--ion-card-background);
   border-radius: 12px;
   padding: 12px;
   cursor: pointer;
@@ -390,9 +412,9 @@
 }
 
 .task-quiz-card:hover {
-  background: white;
+  background: var(--ion-item-background);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 .task-quiz-header {
@@ -405,21 +427,21 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  border: 2px solid #8d6e63;
+  border: 2px solid var(--ion-color-primary-tint);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: white;
+  background: var(--ion-card-background);
 }
 
 .task-quiz-select-circle ion-icon {
-  color: #8d6e63; 
+  color: var(--ion-color-primary-tint);
 }
 
 /* If checked */
 .task-quiz-card.selected .task-quiz-select-circle {
-  background: #8d6e63;
+  background: var(--ion-color-primary-tint);
 }
 
 .task-quiz-info {
@@ -432,20 +454,20 @@
 .task-quiz-name {
   font-size: 14px;
   font-weight: 600;
-  color: #5d4037;
+  color: var(--ion-color-primary);
   font-family: 'Georgia', serif;
   line-height: 1.2;
 }
 
 .task-quiz-subject {
   font-size: 11px;
-  color: #5d4037;
+  color: var(--ion-text-color);
   opacity: 0.6;
 }
 
 .task-quiz-date {
-  font-size: 10px; /* Smaller */
-  color: #8d6e63;
+  font-size: 10px;
+  color: var(--ion-color-primary-tint);
   opacity: 0.7;
 }
 
@@ -456,8 +478,8 @@
 }
 
 .task-quiz-topic-chip {
-  background: rgba(141, 110, 99, 0.1);
-  color: #5d4037;
+  background: rgba(var(--ion-color-primary-rgb), 0.1);
+  color: var(--ion-text-color);
   padding: 3px 8px;
   border-radius: 8px;
   font-size: 10px;
@@ -467,11 +489,11 @@
 .task-quiz-details-btn {
   width: 100%;
   background: transparent;
-  border: 1px solid #8d6e63;
+  border: 1px solid var(--ion-color-primary-tint);
   border-radius: 8px;
   padding: 6px 10px;
   font-size: 11px;
-  color: #8d6e63;
+  color: var(--ion-color-primary-tint);
   cursor: pointer;
   transition: all 0.2s;
   font-family: 'Georgia', serif;
@@ -479,9 +501,10 @@
 }
 
 .task-quiz-details-btn:hover {
-  background: #8d6e63;
-  color: white;
+  background: var(--ion-color-primary-tint);
+  color: var(--ion-color-primary-contrast);
 }
+
 .assignments-list-vertical {
   display: flex;
   flex-direction: column;
@@ -491,8 +514,8 @@
 .assignment-card-flat {
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: var(--ion-card-background);
   cursor: pointer;
   transition: transform 0.2s;
 }
@@ -507,11 +530,11 @@
 }
 
 .assignment-card-flat.style-1 .flat-card-header {
-  background-color: #16a085; /* Teal */
+  background-color: var(--ion-color-success);
 }
 
 .assignment-card-flat.style-2 .flat-card-header {
-  background-color: #2980b9; /* Blue */
+  background-color: var(--ion-color-secondary);
 }
 
 .flat-card-title {
@@ -524,7 +547,7 @@
 
 .flat-subject-pill {
   display: inline-block;
-  background-color: #7f8fa6; /* Grey */
+  background-color: var(--ion-color-medium);
   color: white;
   padding: 4px 12px;
   border-radius: 12px;
@@ -533,19 +556,16 @@
 }
 
 .flat-status-text {
-  font-size: 20px; /* Large Overdue text */
+  font-size: 20px;
   margin-top: 10px;
-  font-family: 'serif'; /* Match screenshot serif */
-  color: #2c3e50; /* Dark text on Colored BG? wait screenshot had it on color */
-  /* Actually looking at screenshot 0: "Overdue" is black text on the colored background? 
-     No, it looks like black text ON the Teal background. */
-  color: #000000;
+  font-family: 'serif';
+  color: var(--ion-text-color);
   opacity: 0.7;
 }
 
 .flat-card-body {
   padding: 15px;
-  background: white;
+  background: var(--ion-card-background);
   position: relative;
 }
 
@@ -553,7 +573,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #333;
+  color: var(--ion-text-color);
   font-size: 14px;
   margin-bottom: 6px;
 }
@@ -561,7 +581,7 @@
 .flat-start-text {
   margin-top: 10px;
   font-weight: 600;
-  color: #333;
+  color: var(--ion-text-color);
   font-size: 14px;
 }
 
@@ -574,42 +594,42 @@
 
 .quiz-list-searchbar {
   flex: 1;
-  --background: #ffffff;
+  --background: var(--ion-card-background);
   --border-radius: 12px;
   --box-shadow: none;
-  border: none; /* Clean look */
+  border: none;
   padding: 0;
 }
 
 .quiz-list-filter-btn {
   width: 44px;
   height: 44px;
-  background: #ffffff;
+  background: var(--ion-card-background);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #8d6e63;
+  color: var(--ion-color-primary-tint);
   font-size: 20px;
   flex-shrink: 0;
 }
 
 .quiz-sort-label {
   font-size: 13px;
-  color: var(--ion-color-primary); /* Dynamic Text */
+  color: var(--ion-color-primary);
   font-style: italic;
   font-family: 'Georgia', serif;
   margin-bottom: 15px;
 }
 
 .task-quiz-card-paper {
-  background: #ffffff; /* White card on beige bg */
+  background: var(--ion-card-background);
   border-radius: 16px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .paper-card-header {
@@ -622,7 +642,7 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  border: 2px solid #8d6e63; /* Brown circle */
+  border: 2px solid var(--ion-color-primary-tint);
   flex-shrink: 0;
 }
 
@@ -634,20 +654,20 @@
   font-family: 'Georgia', serif;
   font-weight: 700;
   font-size: 16px;
-  color: #5d4037;
+  color: var(--ion-color-primary);
   line-height: 1.2;
   margin-bottom: 4px;
 }
 
 .paper-subtitle {
   font-size: 12px;
-  color: #8d6e63;
+  color: var(--ion-color-primary-tint);
   opacity: 0.8;
 }
 
 .paper-date {
   font-size: 11px;
-  color: #8d6e63;
+  color: var(--ion-color-primary-tint);
   opacity: 0.6;
 }
 
@@ -658,8 +678,8 @@
 }
 
 .paper-tag {
-  background: #eeeae4; /* Light beige tag */
-  color: #5d4037;
+  background: var(--ion-color-secondary-soft);
+  color: var(--ion-text-color);
   padding: 4px 10px;
   border-radius: 12px;
   font-size: 10px;
@@ -668,8 +688,8 @@
 
 .paper-view-btn {
   background: transparent;
-  border: 1px solid #8d6e63;
-  color: #8d6e63;
+  border: 1px solid var(--ion-color-primary-tint);
+  color: var(--ion-color-primary-tint);
   border-radius: 12px;
   padding: 8px;
   font-size: 12px;
@@ -680,9 +700,10 @@
 }
 
 .paper-view-btn:hover {
-  background: #8d6e63;
-  color: white;
+  background: var(--ion-color-primary-tint);
+  color: var(--ion-color-primary-contrast);
 }
+
 .quiz-menu-mascot-header {
   display: flex;
   flex-direction: column;
@@ -699,8 +720,8 @@
 }
 
 .mascot-speech-bubble {
-  background: #34495e;
-  color: white;
+  background: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
   padding: 8px 16px;
   border-radius: 20px;
   font-size: 14px;
@@ -719,22 +740,30 @@
   transform: translateX(-50%);
   border-width: 6px 6px 0;
   border-style: solid;
-  border-color: #34495e transparent transparent transparent;
+  border-color: var(--ion-color-primary) transparent transparent transparent;
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .page-title {
   font-size: 28px;
-  color: #5d4037; /* Brownish academic color */
+  color: var(--ion-color-primary);
   margin: 10px 0 0 0;
   font-weight: 700;
   font-family: 'Georgia', serif;
-  text-shadow: 1px 1px 0px rgba(255,255,255,0.5);
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
 }
 
 .assignments-section {
@@ -751,14 +780,14 @@
 
 .section-header h2 {
   font-size: 18px;
-  color: #4a2c2a;
+  color: var(--ion-color-primary);
   margin: 0;
   font-weight: 600;
 }
 
 .count-badge {
-  background: #e0d8c8;
-  color: #4a2c2a;
+  background: var(--ion-color-secondary-soft);
+  color: var(--ion-color-primary);
   padding: 2px 10px;
   border-radius: 12px;
   font-weight: 700;
@@ -766,16 +795,16 @@
 }
 
 .count-badge.completed {
-  background: #c8e6c9;
-  color: #2e7d32;
+  background: var(--ion-color-success-soft);
+  color: var(--ion-color-success);
 }
 
 /* Custom Searchbar (Previous Section) - Matching TaskAssignment */
 .task-quiz-searchbar {
-  --background: rgba(255, 255, 255, 0.8);
+  --background: var(--ion-card-background);
   --border-radius: 12px;
   --box-shadow: none;
-  border: 2px solid rgba(141, 110, 99, 0.4);
+  border: 2px solid rgba(var(--ion-color-primary-rgb), 0.4);
   border-radius: 12px;
   margin-bottom: 20px;
   font-family: 'Georgia', serif;
@@ -790,7 +819,7 @@
 
 /* Card Styles */
 .assignment-card {
-  background: white;
+  background: var(--ion-card-background);
   border-radius: 16px;
   padding: 16px;
   display: flex;
@@ -800,7 +829,7 @@
   transition:
     transform 0.2s,
     box-shadow 0.2s;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--ion-border-color);
   position: relative;
   overflow: hidden;
 }
@@ -818,27 +847,31 @@
   left: 0;
   right: 0;
   height: 6px;
-  background: #ccc;
+  background: var(--ion-color-medium);
 }
 
 .assignment-card.style-1::before {
-  background: #ff7043;
+  background: var(--ion-color-warning);
 }
+
 .assignment-card.style-2::before {
-  background: #42a5f5;
+  background: var(--ion-color-secondary);
 }
+
 .assignment-card.style-3::before {
-  background: #66bb6a;
+  background: var(--ion-color-success);
 }
+
 .assignment-card.style-4::before {
-  background: #ab47bc;
+  background: var(--ion-color-tertiary);
 }
+
 .assignment-card.style-5::before {
-  background: #ffa726;
+  background: var(--ion-color-primary);
 }
 
 .assignment-card.completed::before {
-  background: #81c784;
+  background: var(--ion-color-success);
 }
 
 .card-header {
@@ -851,7 +884,7 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #888;
+  color: var(--ion-text-color-step-400);
   font-weight: 600;
 }
 
@@ -864,19 +897,19 @@
 }
 
 .status-badge.overdue {
-  background: #ffebee;
-  color: #c62828;
+  background: var(--ion-color-danger-soft);
+  color: var(--ion-color-danger);
 }
 
 .status-badge.completed-badge {
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: var(--ion-color-success-soft);
+  color: var(--ion-color-success);
 }
 
 .assignment-title {
   font-size: 18px;
   font-weight: 700;
-  color: #333;
+  color: var(--ion-text-color);
   margin: 0;
   line-height: 1.3;
 }
@@ -885,7 +918,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #666;
+  color: var(--ion-text-color-step-400);
   font-size: 14px;
 }
 
@@ -893,9 +926,9 @@
   display: flex;
   justify-content: space-between;
   font-size: 13px;
-  color: #888;
+  color: var(--ion-text-color-step-400);
   padding-bottom: 8px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--ion-border-color);
 }
 
 .detail-item {
@@ -911,26 +944,47 @@
 }
 
 .topic-chip {
-  background: #f5f5f5;
-  color: #666;
+  background: var(--ion-color-secondary-soft);
+  color: var(--ion-text-color-step-400);
   font-size: 11px;
   padding: 2px 8px;
   border-radius: 10px;
 }
 
 /* Subject Colors */
-.subject-math { background: #1976d2; }
-.subject-science { background: #388e3c; }
-.subject-history { background: #f57c00; }
-.subject-language { background: #7b1fa2; }
-.subject-art { background: #c2185b; }
-.subject-general { background: #607d8b; }
-.subject-topic { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(4px); }
+.subject-math {
+  background: var(--ion-color-secondary);
+}
+
+.subject-science {
+  background: var(--ion-color-success);
+}
+
+.subject-history {
+  background: var(--ion-color-warning);
+}
+
+.subject-language {
+  background: var(--ion-color-tertiary);
+}
+
+.subject-art {
+  background: var(--ion-color-danger);
+}
+
+.subject-general {
+  background: var(--ion-color-medium);
+}
+
+.subject-topic {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(4px);
+}
 
 /* Start Button */
 .start-btn {
   margin-top: auto;
-  background: #2196f3;
+  background: var(--ion-color-secondary);
   color: white;
   border: none;
   padding: 12px;
@@ -942,19 +996,23 @@
 }
 
 .assignment-card.style-1 .start-btn {
-  background: #ff7043;
+  background: var(--ion-color-warning);
 }
+
 .assignment-card.style-2 .start-btn {
-  background: #42a5f5;
+  background: var(--ion-color-secondary);
 }
+
 .assignment-card.style-3 .start-btn {
-  background: #66bb6a;
+  background: var(--ion-color-success);
 }
+
 .assignment-card.style-4 .start-btn {
-  background: #ab47bc;
+  background: var(--ion-color-tertiary);
 }
+
 .assignment-card.style-5 .start-btn {
-  background: #ffa726;
+  background: var(--ion-color-primary);
 }
 
 .start-btn:active {
@@ -971,7 +1029,7 @@
 
 .score-label {
   font-size: 14px;
-  color: #555;
+  color: var(--ion-text-color-step-400);
 }
 
 .score-value {
@@ -980,11 +1038,11 @@
 }
 
 .score-value.pass {
-  color: #4caf50;
+  color: var(--ion-color-success);
 }
 
 .score-value.fail {
-  color: #f44336;
+  color: var(--ion-color-danger);
 }
 
 /* Empty State */
@@ -994,14 +1052,14 @@
   align-items: center;
   gap: 10px;
   padding: 40px;
-  color: #888;
-  background: rgba(255, 255, 255, 0.5);
+  color: var(--ion-text-color-step-400);
+  background: var(--ion-color-secondary-soft);
   border-radius: 16px;
 }
 
 .no-assignments ion-icon {
   font-size: 48px;
-  color: #ddd;
+  color: var(--ion-border-color);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

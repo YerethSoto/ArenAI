@@ -343,16 +343,18 @@ const ProfessorStudents: React.FC = () => {
     };
 
     const getScoreColor = (score: number) => {
-        if (score >= 80) return '#2ecc71';
-        if (score >= 60) return '#f39c12';
-        return '#e74c3c';
+        const style = getComputedStyle(document.body);
+        if (score >= 80) return style.getPropertyValue('--ion-color-success').trim() || '#2ecc71';
+        if (score >= 60) return style.getPropertyValue('--ion-color-warning').trim() || '#f39c12';
+        return style.getPropertyValue('--ion-color-danger').trim() || '#e74c3c';
     };
 
     const getLevelBadge = (level: number) => {
-        if (level >= 8) return { label: 'Maestro', color: '#9b59b6' };
-        if (level >= 6) return { label: 'Avanzado', color: '#3498db' };
-        if (level >= 4) return { label: 'Intermedio', color: '#f39c12' };
-        return { label: 'Novato', color: '#95a5a6' };
+        const style = getComputedStyle(document.body);
+        if (level >= 8) return { label: 'Maestro', color: style.getPropertyValue('--ion-color-tertiary').trim() || '#9b59b6' };
+        if (level >= 6) return { label: 'Avanzado', color: style.getPropertyValue('--ion-color-secondary').trim() || '#3498db' };
+        if (level >= 4) return { label: 'Intermedio', color: style.getPropertyValue('--ion-color-warning').trim() || '#f39c12' };
+        return { label: 'Novato', color: style.getPropertyValue('--ion-color-medium').trim() || '#95a5a6' };
     };
 
     const getWinRate = (won: number, total: number) => total > 0 ? Math.round((won / total) * 100) : 0;
@@ -461,9 +463,9 @@ const ProfessorStudents: React.FC = () => {
                                 </h3>
                                 <div className="pst-distribution">
                                     {[
-                                        { label: 'Excelente', range: '≥85%', count: STUDENTS_DATA.filter(s => s.averageScore >= 85).length, color: '#2ecc71', icon: '⭐' },
-                                        { label: 'Bueno', range: '70-84%', count: STUDENTS_DATA.filter(s => s.averageScore >= 70 && s.averageScore < 85).length, color: '#f39c12', icon: '👍' },
-                                        { label: 'En Riesgo', range: '<70%', count: STUDENTS_DATA.filter(s => s.averageScore < 70).length, color: '#e74c3c', icon: '⚠️' },
+                                        { label: 'Excelente', range: '≥85%', count: STUDENTS_DATA.filter(s => s.averageScore >= 85).length, color: 'var(--ion-color-success)', icon: '⭐' },
+                                        { label: 'Bueno', range: '70-84%', count: STUDENTS_DATA.filter(s => s.averageScore >= 70 && s.averageScore < 85).length, color: 'var(--ion-color-warning)', icon: '👍' },
+                                        { label: 'En Riesgo', range: '<70%', count: STUDENTS_DATA.filter(s => s.averageScore < 70).length, color: 'var(--ion-color-danger)', icon: '⚠️' },
                                     ].map(tier => (
                                         <div key={tier.label} className="pst-dist-item">
                                             <div className="pst-dist-header">
@@ -568,7 +570,7 @@ const ProfessorStudents: React.FC = () => {
                                                     </div>
                                                     <div className="pst-alert-info">
                                                         <span className="pst-alert-name">{student.name}</span>
-                                                        <span className="pst-alert-score" style={{ color: '#e74c3c' }}>
+                                                        <span className="pst-alert-score" style={{ color: 'var(--ion-color-danger)' }}>
                                                             {student.averageScore}% promedio
                                                         </span>
                                                     </div>
@@ -756,7 +758,7 @@ const ProfessorStudents: React.FC = () => {
                                                                         {student.strongTopics.map((topic, idx) => (
                                                                             <div key={idx} className="pst-topic-chip strong">
                                                                                 <span>{SUBJECTS[topic.subjectId]?.icon} {topic.name}</span>
-                                                                                <span className="pst-topic-chip-score" style={{ color: '#2ecc71' }}>
+                                                                                <span className="pst-topic-chip-score" style={{ color: 'var(--ion-color-success)' }}>
                                                                                     {topic.score}%
                                                                                 </span>
                                                                             </div>

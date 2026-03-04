@@ -199,35 +199,10 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 @media (prefers-color-scheme: dark) {
 
-    /* Settings page background per theme */
+    /* Settings page background - uses theme variable automatically */
     .student-settings-content {
-        background-color: #2A2018 !important;
-        --background: #2A2018 !important;
-    }
-
-    body.theme-navy .student-settings-content {
-        background-color: #0F2540 !important;
-        --background: #0F2540 !important;
-    }
-
-    body.theme-sage .student-settings-content {
-        background-color: #1A3020 !important;
-        --background: #1A3020 !important;
-    }
-
-    body.theme-burgundy .student-settings-content {
-        background-color: #2A1018 !important;
-        --background: #2A1018 !important;
-    }
-
-    body.theme-bamboo .student-settings-content {
-        background-color: #153525 !important;
-        --background: #153525 !important;
-    }
-
-    body.theme-earth .student-settings-content {
-        background-color: #2A2418 !important;
-        --background: #2A2418 !important;
+        background-color: var(--ion-background-color) !important;
+        --background: var(--ion-background-color) !important;
     }
 
     /* Ion Alert/Dialog - Theme selector */
@@ -356,7 +331,7 @@
         font-size: 2.2rem !important;
     }
 
-    .preview-container > p {
+    .preview-container>p {
         font-size: 1.1rem;
     }
 

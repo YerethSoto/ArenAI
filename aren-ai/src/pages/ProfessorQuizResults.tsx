@@ -310,18 +310,18 @@ const ProfessorQuizResults: React.FC = () => {
                                         <span className="pqr-stat-label">Promedio</span>
                                     </div>
                                     <div className="pqr-stat-card">
-                                        <IonIcon icon={trophyOutline} className="pqr-stat-icon" style={{ color: '#2ecc71' }} />
-                                        <span className="pqr-stat-value" style={{ color: '#2ecc71' }}>{stats.max}</span>
+                                        <IonIcon icon={trophyOutline} className="pqr-stat-icon" style={{ color: 'var(--ion-color-success)' }} />
+                                        <span className="pqr-stat-value" style={{ color: 'var(--ion-color-success)' }}>{stats.max}</span>
                                         <span className="pqr-stat-label">Más Alto</span>
                                     </div>
                                     <div className="pqr-stat-card">
-                                        <IonIcon icon={alertCircleOutline} className="pqr-stat-icon" style={{ color: '#e74c3c' }} />
-                                        <span className="pqr-stat-value" style={{ color: '#e74c3c' }}>{stats.min}</span>
+                                        <IonIcon icon={alertCircleOutline} className="pqr-stat-icon" style={{ color: 'var(--ion-color-danger)' }} />
+                                        <span className="pqr-stat-value" style={{ color: 'var(--ion-color-danger)' }}>{stats.min}</span>
                                         <span className="pqr-stat-label">Más Bajo</span>
                                     </div>
                                     <div className="pqr-stat-card">
-                                        <IonIcon icon={checkmarkCircleOutline} className="pqr-stat-icon" style={{ color: '#3498db' }} />
-                                        <span className="pqr-stat-value" style={{ color: '#3498db' }}>{stats.passRate}%</span>
+                                        <IonIcon icon={checkmarkCircleOutline} className="pqr-stat-icon" style={{ color: 'var(--ion-color-secondary)' }} />
+                                        <span className="pqr-stat-value" style={{ color: 'var(--ion-color-secondary)' }}>{stats.passRate}%</span>
                                         <span className="pqr-stat-label">Aprobados</span>
                                     </div>
                                 </div>

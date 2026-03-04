@@ -167,60 +167,95 @@ ion-item.selected ion-icon {
    ═══════════════════════════════════════════════════════════════════════════ */
 @media (prefers-color-scheme: dark) {
 
-  /* Sidebar background - DARKER/more opaque */
+  /* Sidebar background - SOLID OPAQUE */
   #professor-menu {
-    --background: color-mix(in srgb, var(--ion-background-color) 60%, black);
-    background: color-mix(in srgb, var(--ion-background-color) 60%, black);
+    --background: var(--ion-background-color) !important;
+    background: var(--ion-background-color) !important;
   }
 
   #professor-menu ion-content {
-    --background: color-mix(in srgb, var(--ion-background-color) 60%, black);
-    background: color-mix(in srgb, var(--ion-background-color) 60%, black);
+    --background: var(--ion-background-color) !important;
+    background: var(--ion-background-color) !important;
   }
 
   /* Theme-specific solid backgrounds */
   body.theme-sage #professor-menu,
   body.theme-sage #professor-menu ion-content {
-    --background: #1A3020 !important;
-    background: #1A3020 !important;
+    --background: #0F2010 !important;
+    background: #0F2010 !important;
   }
 
   body.theme-navy #professor-menu,
   body.theme-navy #professor-menu ion-content {
-    --background: #0F2540 !important;
-    background: #0F2540 !important;
+    --background: #0A1830 !important;
+    background: #0A1830 !important;
   }
 
   body.theme-burgundy #professor-menu,
   body.theme-burgundy #professor-menu ion-content {
-    --background: #2A1018 !important;
-    background: #2A1018 !important;
+    --background: #200810 !important;
+    background: #200810 !important;
   }
 
   body.theme-bamboo #professor-menu,
   body.theme-bamboo #professor-menu ion-content {
-    --background: #153525 !important;
-    background: #153525 !important;
+    --background: #0E1F14 !important;
+    background: #0E1F14 !important;
   }
 
   body.theme-earth #professor-menu,
   body.theme-earth #professor-menu ion-content {
-    --background: #2A2418 !important;
-    background: #2A2418 !important;
+    --background: #1A1810 !important;
+    background: #1A1810 !important;
   }
 
   /* Theme: ORIGINAL-ALTER */
   body.theme-original-alter #professor-menu,
   body.theme-original-alter #professor-menu ion-content {
-    --background: #3D2E24 !important;
-    background: #3D2E24 !important;
+    --background: #2A2018 !important;
+    background: #2A2018 !important;
   }
 
-  /* Default/Original theme - Café Chocolate */
+  /* Theme: OCEAN */
+  body.theme-ocean #professor-menu,
+  body.theme-ocean #professor-menu ion-content {
+    --background: #0C1929 !important;
+    background: #0C1929 !important;
+  }
+
+  /* Theme: SUNSET */
+  body.theme-sunset #professor-menu,
+  body.theme-sunset #professor-menu ion-content {
+    --background: #1A1520 !important;
+    background: #1A1520 !important;
+  }
+
+  /* Theme: LAVENDER */
+  body.theme-lavender #professor-menu,
+  body.theme-lavender #professor-menu ion-content {
+    --background: #141420 !important;
+    background: #141420 !important;
+  }
+
+  /* Theme: FOREST */
+  body.theme-forest #professor-menu,
+  body.theme-forest #professor-menu ion-content {
+    --background: #0D1A12 !important;
+    background: #0D1A12 !important;
+  }
+
+  /* Theme: ARCTIC */
+  body.theme-arctic #professor-menu,
+  body.theme-arctic #professor-menu ion-content {
+    --background: #12161C !important;
+    background: #12161C !important;
+  }
+
+  /* Default/Original theme */
   body:not([class*="theme-"]) #professor-menu,
   body:not([class*="theme-"]) #professor-menu ion-content {
-    --background: #3D2E24 !important;
-    background: #3D2E24 !important;
+    --background: #2A2018 !important;
+    background: #2A2018 !important;
   }
 
   /* Menu items */

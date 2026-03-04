@@ -323,9 +323,9 @@ const ProfessorTopicStats: React.FC = () => {
     };
 
     const getTrend = (score: number) => {
-        if (score >= 80) return { icon: trendingUpOutline, label: '↑ Subiendo', color: '#2ecc71' };
-        if (score >= 60) return { icon: trendingUpOutline, label: '→ Estable', color: '#f39c12' };
-        return { icon: trendingDownOutline, label: '↓ Bajando', color: '#e74c3c' };
+        if (score >= 80) return { icon: trendingUpOutline, label: '↑ Subiendo', color: 'var(--ion-color-success)' };
+        if (score >= 60) return { icon: trendingUpOutline, label: '→ Estable', color: 'var(--ion-color-warning)' };
+        return { icon: trendingDownOutline, label: '↓ Bajando', color: 'var(--ion-color-danger)' };
     };
 
     // Reset display count and selection when subject changes
@@ -445,11 +445,11 @@ const ProfessorTopicStats: React.FC = () => {
                                                     <p className="pts-topic-desc">{topic.description}</p>
                                                     <div className="pts-topic-detail-grid">
                                                         <div className="pts-topic-detail-stat">
-                                                            <span className="pts-detail-value" style={{ color: '#2ecc71' }}>{topic.correctAnswers}</span>
+                                                            <span className="pts-detail-value" style={{ color: 'var(--ion-color-success)' }}>{topic.correctAnswers}</span>
                                                             <span className="pts-detail-label">Correctas</span>
                                                         </div>
                                                         <div className="pts-topic-detail-stat">
-                                                            <span className="pts-detail-value" style={{ color: '#e74c3c' }}>{topic.incorrectAnswers}</span>
+                                                            <span className="pts-detail-value" style={{ color: 'var(--ion-color-danger)' }}>{topic.incorrectAnswers}</span>
                                                             <span className="pts-detail-label">Incorrectas</span>
                                                         </div>
                                                         <div className="pts-topic-detail-stat">
@@ -486,7 +486,7 @@ const ProfessorTopicStats: React.FC = () => {
                                                             <div className="pts-struggling-chips">
                                                                 {topic.topPerformers.map((s, i) => (
                                                                     <span key={i} className="pts-top-chip">
-                                                                        {s.name} <b style={{ color: '#2ecc71' }}>{s.score}%</b>
+                                                                        {s.name} <b style={{ color: 'var(--ion-color-success)' }}>{s.score}%</b>
                                                                     </span>
                                                                 ))}
                                                             </div>
@@ -528,7 +528,7 @@ const ProfessorTopicStats: React.FC = () => {
                                             <span className="pts-rank-name">{student.name}</span>
                                             <span className="pts-rank-meta">
                                                 Lvl {student.level}
-                                                {student.streak > 0 && <> • <IonIcon icon={flameOutline} style={{ color: '#e74c3c' }} /> {student.streak}</>}
+                                                {student.streak > 0 && <> • <IonIcon icon={flameOutline} style={{ color: 'var(--ion-color-danger)' }} /> {student.streak}</>}
                                             </span>
                                         </div>
                                         <DonutChart percent={student.averageScore} size={38} stroke={4} />

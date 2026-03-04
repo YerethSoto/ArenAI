@@ -191,20 +191,85 @@
     background: #8b6f47;
 }
 
-.theme-preview-neon {
-    background: #150224;
+
+.theme-preview-ocean {
+    background: #0C1929;
 }
 
-.theme-preview-neon .primary {
-    background: #d500f9;
+.theme-preview-ocean .primary {
+    background: #2563A8;
 }
 
-.theme-preview-neon .secondary {
-    background: #00e5ff;
+.theme-preview-ocean .secondary {
+    background: #3AA89F;
 }
 
-.theme-preview-neon .tertiary {
-    background: #76ff03;
+.theme-preview-ocean .tertiary {
+    background: #E87461;
+}
+
+.theme-preview-sunset {
+    background: #1A1520;
+}
+
+.theme-preview-sunset .primary {
+    background: #C47F2A;
+}
+
+.theme-preview-sunset .secondary {
+    background: #C07080;
+}
+
+.theme-preview-sunset .tertiary {
+    background: #D4A843;
+}
+
+.theme-preview-lavender {
+    background: #141420;
+}
+
+.theme-preview-lavender .primary {
+    background: #7C6DAF;
+}
+
+.theme-preview-lavender .secondary {
+    background: #5EAD8A;
+}
+
+.theme-preview-lavender .tertiary {
+    background: #E8956A;
+}
+
+.theme-preview-forest {
+    background: #0D1A12;
+}
+
+.theme-preview-forest .primary {
+    background: #3D7A52;
+}
+
+.theme-preview-forest .secondary {
+    background: #B87333;
+}
+
+.theme-preview-forest .tertiary {
+    background: #D4C5A0;
+}
+
+.theme-preview-arctic {
+    background: #12161C;
+}
+
+.theme-preview-arctic .primary {
+    background: #4A7DA8;
+}
+
+.theme-preview-arctic .secondary {
+    background: #64B0C8;
+}
+
+.theme-preview-arctic .tertiary {
+    background: #D4855A;
 }
 
 .theme-modal-footer {

@@ -64,7 +64,7 @@ const Leaderboard: React.FC = () => {
                             <IonSpinner name="crescent" />
                         </div>
                     ) : error ? (
-                        <div style={{ textAlign: 'center', padding: '40px', color: '#999' }}>
+                        <div style={{ textAlign: 'center', padding: '40px', color: 'var(--ion-text-color-step-400)' }}>
                             <p>{error}</p>
                         </div>
                     ) : (
@@ -198,7 +198,7 @@ const Leaderboard: React.FC = () => {
                                     </div>
                                 </div>
 
-                                <div style={{ marginTop: '30px', textAlign: 'center', fontSize: '12px', color: '#999' }}>
+                                <div style={{ marginTop: '30px', textAlign: 'center', fontSize: '12px', color: 'var(--ion-text-color-step-400)' }}>
                                     * Los puntajes se actualizan diariamente a las 00:00.
                                 </div>
                             </>

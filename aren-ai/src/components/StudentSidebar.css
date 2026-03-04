@@ -24,57 +24,7 @@
     background: var(--ion-background-color) !important;
   }
 
-  /* Theme-specific solid backgrounds */
-  body.theme-sage #student-menu,
-  body.theme-sage #student-menu ion-content {
-    --background: #1A3020 !important;
-    background: #1A3020 !important;
-  }
-
-  body.theme-navy #student-menu,
-  body.theme-navy #student-menu ion-content {
-    --background: #0F2540 !important;
-    background: #0F2540 !important;
-  }
-
-  body.theme-burgundy #student-menu,
-  body.theme-burgundy #student-menu ion-content {
-    --background: #2A1018 !important;
-    background: #2A1018 !important;
-  }
-
-  body.theme-bamboo #student-menu,
-  body.theme-bamboo #student-menu ion-content {
-    --background: #153525 !important;
-    background: #153525 !important;
-  }
-
-  body.theme-earth #student-menu,
-  body.theme-earth #student-menu ion-content {
-    --background: #2A2418 !important;
-    background: #2A2418 !important;
-  }
-
-  /* Theme: NEON - Deep purple/violet dark background */
-  body.theme-neon #student-menu,
-  body.theme-neon #student-menu ion-content {
-    --background: #0A0015 !important;
-    background: linear-gradient(180deg, #0A0015 0%, #150025 100%) !important;
-  }
-
-  /* Theme: ORIGINAL-ALTER */
-  body.theme-original-alter #student-menu,
-  body.theme-original-alter #student-menu ion-content {
-    --background: #3D2E24 !important;
-    background: #3D2E24 !important;
-  }
-
-  /* Default/Original theme - Café Chocolate */
-  body:not([class*="theme-"]) #student-menu,
-  body:not([class*="theme-"]) #student-menu ion-content {
-    --background: #3D2E24 !important;
-    background: #3D2E24 !important;
-  }
+  /* Theme-specific backgrounds now handled by var(--ion-background-color) */
 }
 
 .student-menu-header {
@@ -365,14 +315,14 @@ ion-item:hover {
 
   /* Menu items */
   ion-item {
-    --color: #ffffff !important;
-    color: #ffffff !important;
+    --color: var(--ion-text-color) !important;
+    color: var(--ion-text-color) !important;
     --background: transparent;
     --background-hover: rgba(255, 255, 255, 0.12);
   }
 
   ion-item ion-label {
-    color: #ffffff !important;
+    color: var(--ion-text-color) !important;
   }
 
   ion-item ion-icon {
@@ -387,8 +337,8 @@ ion-item:hover {
   /* Selected item - LIGHTER for contrast */
   ion-item.selected {
     --background: rgba(255, 255, 255, 0.18);
-    --color: #ffffff !important;
-    color: #ffffff !important;
+    --color: var(--ion-text-color) !important;
+    color: var(--ion-text-color) !important;
     font-weight: 600;
   }
 
@@ -408,12 +358,12 @@ ion-item:hover {
   .sidebar-usage-info {
     background: rgba(0, 0, 0, 0.2);
     border-color: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+    color: var(--ion-text-color);
   }
 
   .usage-label,
   .usage-progress-label {
-    color: #ffffff !important;
+    color: var(--ion-text-color) !important;
   }
 }
 
