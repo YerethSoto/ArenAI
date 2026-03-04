@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     IonPage,
     IonContent,
@@ -22,6 +22,7 @@ import {
 } from 'ionicons/icons';
 import { useLocation, useHistory } from 'react-router-dom';
 import PageTransition from '../components/PageTransition';
+import { getApiUrl } from '../config/api';
 import './ProfessorStudentQuizDetail.css';
 
 // ================================ TYPES ================================
@@ -38,23 +39,24 @@ interface QuestionResult {
 }
 
 export interface StudentQuizDetailData {
-    studentId: string;
+    studentId: string | number;
     studentName: string;
     score: number;
     maxScore: number;
     quizTitle: string;
     quizSubject: string;
     quizDate: string;
+    quizId?: number; // NEW: used to fetch real data
     submittedAt: string;
     questionResults: QuestionResult[];
     // Radar metrics (0-100)
     metrics: {
-        precision: number;       // accuracy of answered questions
-        speed: number;           // avg speed vs class
-        consistency: number;     // score vs their own average
-        participation: number;   // % of quizzes completed
-        comprehension: number;   // key concept questions correct
-        effort: number;          // engagement / attempts metric
+        precision: number;
+        speed: number;
+        consistency: number;
+        participation: number;
+        comprehension: number;
+        effort: number;
     };
 }
 
@@ -334,16 +336,54 @@ const ProfessorStudentQuizDetail: React.FC = () => {
 
     // Build data from location state (or use defaults for direct URL access)
     const state = location.state;
-    const studentId = state?.studentId ?? 's1';
-    const studentName = state?.studentName ?? 'Estudiante';
-    const score = state?.score ?? 75;
-    const maxScore = state?.maxScore ?? 100;
-    const quizTitle = state?.quizTitle ?? 'Quiz';
-    const quizSubject = state?.quizSubject ?? 'Materia';
-    const quizDate = state?.quizDate ?? '';
+    const quizId = (state as any)?.quizId;
+    const studentIdFromState = state?.studentId ?? 's1';
+    const [studentName, setStudentName] = useState(state?.studentName ?? 'Estudiante');
+    const [score, setScore] = useState(state?.score ?? 75);
+    const [maxScore, setMaxScore] = useState(state?.maxScore ?? 100);
+    const [quizTitle, setQuizTitle] = useState(state?.quizTitle ?? 'Quiz');
+    const [quizSubject, setQuizSubject] = useState(state?.quizSubject ?? 'Materia');
+    const [quizDate, setQuizDate] = useState(state?.quizDate ?? '');
+    const [questions, setQuestions] = useState<QuestionResult[]>(state?.questionResults ?? buildMockQuestions(score, maxScore));
+    const [metrics, setMetrics] = useState(state?.metrics ?? buildMetrics(score, maxScore, String(studentIdFromState)));
+    const [loadingDetail, setLoadingDetail] = useState(false);
 
-    const questions = state?.questionResults ?? buildMockQuestions(score, maxScore);
-    const metrics = state?.metrics ?? buildMetrics(score, maxScore, studentId);
+    // Fetch real data from API if quizId is available
+    useEffect(() => {
+        if (!quizId || !studentIdFromState) return;
+
+        const fetchDetail = async () => {
+            setLoadingDetail(true);
+            try {
+                const response = await fetch(
+                    getApiUrl(`/api/quizzes/${quizId}/student/${studentIdFromState}/detail`),
+                    { headers: { 'Content-Type': 'application/json' } }
+                );
+                if (!response.ok) throw new Error('Not found');
+                const data = await response.json();
+
+                setStudentName(data.studentName);
+                setScore(data.score);
+                setMaxScore(data.maxScore);
+                setQuizTitle(data.quizTitle);
+                setQuizSubject(data.quizSubject);
+                setQuizDate(data.quizDate ? new Date(data.quizDate).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' }) : '');
+                setQuestions(data.questionResults || []);
+                setMetrics(data.metrics || buildMetrics(data.score, data.maxScore, String(studentIdFromState)));
+
+                // Initialize edited points with real data
+                const pts: Record<number, number> = {};
+                (data.questionResults || []).forEach((q: QuestionResult) => { pts[q.questionNumber] = q.points; });
+                setEditedPoints(pts);
+            } catch (err) {
+                console.error('Error fetching student quiz detail:', err);
+                // Keep mock/state data as fallback
+            } finally {
+                setLoadingDetail(false);
+            }
+        };
+        fetchDetail();
+    }, [quizId, studentIdFromState]);
 
     // Editable points: track per-question overrides
     const [editedPoints, setEditedPoints] = useState<Record<number, number>>(() => {

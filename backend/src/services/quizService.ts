@@ -82,4 +82,10 @@ export const quizService = {
 
     // Copy quiz to library (with credit to original creator)
     copyQuizToLibrary: quizRepo.copyQuizToLibrary,
+
+    // Get quiz results (all student attempts)
+    getQuizResults: quizRepo.getQuizResults,
+
+    // Get student quiz detail (individual responses)
+    getStudentQuizDetail: quizRepo.getStudentQuizDetail,
 };

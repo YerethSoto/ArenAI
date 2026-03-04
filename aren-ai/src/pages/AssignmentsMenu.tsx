@@ -3,7 +3,6 @@ import {
   IonPage,
   IonContent,
   IonIcon,
-  IonSearchbar,
   IonHeader,
   IonToolbar,
   IonMenuButton,
@@ -18,6 +17,8 @@ import {
   statsChartOutline,
   createOutline,
   trashOutline,
+  searchOutline,
+  eyeOutline,
 } from "ionicons/icons";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
@@ -52,7 +53,6 @@ const AssignmentsMenu: React.FC = () => {
   const [presentAlert] = useIonAlert();
 
   // Header state
-  // Header state (Global)
   const {
     selectedGrade,
     setSelectedGrade,
@@ -66,9 +66,11 @@ const AssignmentsMenu: React.FC = () => {
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Tabs / Segment state (nuevo diseño)
+  const [activeTab, setActiveTab] = useState<"ongoing" | "previous">("ongoing");
+
   // Search state
-  const [ongoingSearch, setOngoingSearch] = useState("");
-  const [previousSearch, setPreviousSearch] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Fetch assignments from database
   useEffect(() => {
@@ -87,12 +89,11 @@ const AssignmentsMenu: React.FC = () => {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
-            },
+            }
           );
 
           if (response.ok) {
             const data = await response.json();
-            // Transform database format to UI format
             const now = new Date();
             const transformed: Assignment[] = (data.assignments || []).map(
               (a: any, index: number) => {
@@ -115,9 +116,10 @@ const AssignmentsMenu: React.FC = () => {
                   isOngoing,
                   pendingReviews: 0,
                   colorStyle: (index % 5) + 1,
-                  averageScore: 0,
+                  // Ejemplo falso para promedio dinámico:
+                  averageScore: Math.floor(Math.random() * 40) + 60, // 60 a 100
                 };
-              },
+              }
             );
             setAssignments(transformed);
           }
@@ -147,7 +149,7 @@ const AssignmentsMenu: React.FC = () => {
             getApiUrl(`/api/assignments/professor/${user.id}`),
             {
               headers: { Authorization: `Bearer ${token}` },
-            },
+            }
           );
 
           if (response.ok) {
@@ -174,9 +176,9 @@ const AssignmentsMenu: React.FC = () => {
                   isOngoing,
                   pendingReviews: 0,
                   colorStyle: (index % 5) + 1,
-                  averageScore: 0,
+                  averageScore: Math.floor(Math.random() * 40) + 60,
                 };
-              },
+              }
             );
             setAssignments(transformed);
           }
@@ -188,9 +190,16 @@ const AssignmentsMenu: React.FC = () => {
     reloadAssignments();
   });
 
-  // Split into ongoing and previous
-  const ongoingAssignments = assignments.filter((a) => a.isOngoing);
-  const previousAssignments = assignments.filter((a) => !a.isOngoing);
+  // Split and filter based on Active Tab
+  const activeAssignments = assignments.filter((a) =>
+    activeTab === "ongoing" ? a.isOngoing : !a.isOngoing
+  );
+
+  const filteredAssignments = activeAssignments.filter(
+    (a) =>
+      a.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      a.topics.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
 
   // Format date
   const formatDate = (dateStr: string) => {
@@ -198,21 +207,16 @@ const AssignmentsMenu: React.FC = () => {
     const now = new Date();
     const isOverdue = date < now;
     return {
-      text: date.toLocaleDateString("en-US", {
-        weekday: "short",
-      }),
-      full: date.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      }),
+      text: date.toLocaleDateString("en-US", { weekday: "short" }),
+      full: date.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
       isOverdue,
     };
   };
 
-  // Navigate to assignment detail
+  // Navigate to assignment results
   const goToDetail = (assignment: Assignment) => {
     sessionStorage.setItem("selectedAssignment", JSON.stringify(assignment));
-    history.push(`/page/assignment-detail/${assignment.id}`);
+    history.push(`/page/assignment-results`);
   };
 
   // Navigate to edit assignment
@@ -220,13 +224,18 @@ const AssignmentsMenu: React.FC = () => {
     history.push(`/page/edit-assignment/${assignment.id}`);
   };
 
+  // Navigate to review assignment
+  const goToReview = (assignment: Assignment) => {
+    sessionStorage.setItem("selectedAssignment", JSON.stringify(assignment));
+    history.push(`/page/assignment-review/${assignment.id}`);
+  };
+
   // Delete assignment
   const confirmDelete = (e: React.MouseEvent, assignmentId: string) => {
     e.stopPropagation();
     presentAlert({
       header: "Delete Assignment",
-      message:
-        "Are you sure you want to delete this assignment? This cannot be undone.",
+      message: "Are you sure you want to delete this assignment? This cannot be undone.",
       buttons: [
         "Cancel",
         {
@@ -240,17 +249,13 @@ const AssignmentsMenu: React.FC = () => {
 
   const handleDeleteAssignment = async (assignmentId: string) => {
     try {
-      const token =
-        localStorage.getItem("authToken") || localStorage.getItem("token");
+      const token = localStorage.getItem("authToken") || localStorage.getItem("token");
       if (!token) return;
 
-      const response = await fetch(
-        getApiUrl(`/api/assignments/${assignmentId}`),
-        {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const response = await fetch(getApiUrl(`/api/assignments/${assignmentId}`), {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       if (response.ok) {
         setAssignments(assignments.filter((a) => a.id !== assignmentId));
@@ -272,92 +277,117 @@ const AssignmentsMenu: React.FC = () => {
     }
   };
 
-  // Filter assignments
-  const filteredOngoing = ongoingAssignments.filter(
-    (a) =>
-      a.name.toLowerCase().includes(ongoingSearch.toLowerCase()) ||
-      a.topics.some((t) =>
-        t.toLowerCase().includes(ongoingSearch.toLowerCase()),
-      ),
-  );
+  // Badge Color Helper
+  const getScoreBadgeClass = (score: number) => {
+    if (score >= 90) return "score-badge-high";
+    if (score >= 70) return "score-badge-medium";
+    return "score-badge-low";
+  };
 
-  const filteredPrevious = previousAssignments.filter(
-    (a) =>
-      a.name.toLowerCase().includes(previousSearch.toLowerCase()) ||
-      a.topics.some((t) =>
-        t.toLowerCase().includes(previousSearch.toLowerCase()),
-      ),
-  );
-
-  // Render assignment card
+  // Render assignment card V3 (Premium Redesign)
   const renderAssignmentCard = (assignment: Assignment) => {
     const dateInfo = formatDate(assignment.dueDate);
+    const progressPercent =
+      assignment.studentsTotal > 0
+        ? (assignment.studentsCompleted / assignment.studentsTotal) * 100
+        : 0;
 
     return (
       <div
         key={assignment.id}
-        className="assignment-card-v2"
+        className="assignment-card-v3"
         onClick={() => goToDetail(assignment)}
       >
         {/* Review notification badge */}
         {assignment.pendingReviews > 0 && (
-          <div className="assignment-review-badge">
+          <div className="am-review-badge">
+            <span className="am-ping"></span>
             {assignment.pendingReviews}
           </div>
         )}
 
-        {/* Colorful Header */}
-        <div
-          className={`assignment-card-header-v2 style-${assignment.colorStyle}`}
-        >
-          <div className="assignment-card-title">{assignment.name}</div>
-          <div className="assignment-card-subjects">
+        {/* Card Header Premium */}
+        <div className={`am-header-v3 gradient-${assignment.colorStyle}`}>
+          <div className="am-title-row">
+            <h3 className="am-card-title">{assignment.name}</h3>
+          </div>
+
+          <div className="am-tags-row">
             {assignment.topics.slice(0, 2).map((topic, i) => (
-              <span key={i} className="assignment-subject-tag">
+              <span key={i} className="am-topic-tag">
                 {topic}
               </span>
             ))}
-          </div>
-          <div className="assignment-students-count">
-            {assignment.studentsTotal} students
+            <div className="am-students-pill">
+              <IonIcon icon={statsChartOutline} style={{ marginRight: "4px" }} />
+              {assignment.studentsTotal}
+            </div>
           </div>
         </div>
 
-        {/* Card Body */}
-        <div className="assignment-card-body">
-          <div
-            className={`assignment-due-row ${
-              dateInfo.isOverdue && assignment.isOngoing ? "overdue" : ""
-            }`}
-          >
-            <IonIcon icon={calendarOutline} />
-            <span>Due {dateInfo.full}</span>
-          </div>
-          <div className="assignment-completed-row">
-            Completed {assignment.studentsCompleted}/{assignment.studentsTotal}
+        {/* Card Body Premium */}
+        <div className="am-body-v3">
+          {/* Main Info Left Column */}
+          <div className="am-info-col">
+            <div
+              className={`am-due-date ${dateInfo.isOverdue && assignment.isOngoing ? "am-overdue" : ""
+                }`}
+            >
+              <IonIcon icon={calendarOutline} />
+              <span>Due {dateInfo.full}</span>
+            </div>
+
+            <div className="am-progress-section">
+              <div className="am-progress-labels">
+                <span className="am-prog-title">Completion</span>
+                <span className="am-prog-numbers">
+                  {assignment.studentsCompleted} / {assignment.studentsTotal}
+                </span>
+              </div>
+              <div className="am-progress-track">
+                <div
+                  className="am-progress-fill"
+                  style={{ width: `${progressPercent}%` }}
+                ></div>
+              </div>
+            </div>
+
+            <div className="am-avg-section">
+              <span className="am-avg-title">Avg Score</span>
+              <div className={`am-score-badge ${getScoreBadgeClass(assignment.averageScore)}`}>
+                {assignment.averageScore}%
+              </div>
+            </div>
           </div>
 
-          {/* Average Score */}
-          <div className="assignment-avg-row">
-            <IonIcon icon={statsChartOutline} />
-            <span>Avg: {assignment.averageScore}%</span>
-          </div>
-
-          <div className="assignment-card-actions">
+          {/* Action Buttons Right Column */}
+          <div className="am-actions-col">
             <button
-              className="assignment-action-btn secondary"
+              className="am-action-btn am-review-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                goToReview(assignment);
+              }}
+              title="Review Assignment"
+            >
+              <IonIcon icon={eyeOutline} />
+            </button>
+            <button
+              className="am-action-btn am-edit-btn"
               onClick={(e) => {
                 e.stopPropagation();
                 goToEdit(assignment);
               }}
+              title="Edit Assignment"
             >
-              <IonIcon icon={createOutline} /> Edit
+              <IonIcon icon={createOutline} />
             </button>
             <button
-              className="assignment-action-btn danger"
+              className="am-action-btn am-delete-btn"
               onClick={(e) => confirmDelete(e, assignment.id)}
+              title="Delete Assignment"
             >
-              <IonIcon icon={trashOutline} /> Delete
+              <IonIcon icon={trashOutline} />
             </button>
           </div>
         </div>
@@ -365,8 +395,12 @@ const AssignmentsMenu: React.FC = () => {
     );
   };
 
+  // Stats for the header
+  const totalAssignments = activeAssignments.length;
+  const assignmentsNeedingReview = activeAssignments.filter(a => a.pendingReviews > 0).length;
+
   return (
-    <IonPage className="assignments-menu-page">
+    <IonPage className="am-dashboard-page">
       {/* Professor Header */}
       <IonHeader className="professor-header-container">
         <IonToolbar color="primary" className="professor-toolbar">
@@ -393,7 +427,7 @@ const AssignmentsMenu: React.FC = () => {
                   selectedSection={selectedSection}
                   selectedSubject={t(
                     "professor.dashboard.subjects." +
-                      selectedSubject.replace(/\s+/g, ""),
+                    selectedSubject.replace(/\s+/g, "")
                   )}
                   onGradeChange={(grade) =>
                     setSelectedGrade(parseInt(grade, 10))
@@ -407,96 +441,79 @@ const AssignmentsMenu: React.FC = () => {
         </div>
       </IonHeader>
 
-      <IonContent className="assignments-menu-content">
+      <IonContent className="am-dashboard-content">
         <PageTransition>
-          <div className="assignments-menu-container">
-            {/* ========== ONGOING SECTION ========== */}
-            <div className="assignments-section">
-              <div className="assignments-section-header">
-                <button className="assignments-section-btn ongoing">
-                  Ongoing
-                  <span className="assignments-section-count">
-                    {filteredOngoing.length}
-                  </span>
+          <div className="am-container">
+
+            {/* Top Dashboard Toggles */}
+            <div className="am-top-controls">
+              <div className="am-segment-wrapper">
+                <button
+                  className={`am-segment-btn ${activeTab === 'ongoing' ? 'active' : ''}`}
+                  onClick={() => setActiveTab("ongoing")}
+                >
+                  Ongoing ({assignments.filter(a => a.isOngoing).length})
+                </button>
+                <button
+                  className={`am-segment-btn ${activeTab === 'previous' ? 'active' : ''}`}
+                  onClick={() => setActiveTab("previous")}
+                >
+                  Previous ({assignments.filter(a => !a.isOngoing).length})
                 </button>
               </div>
+            </div>
 
-              <div className="assignments-search-row">
-                <IonSearchbar
-                  className="assignments-searchbar"
-                  value={ongoingSearch}
-                  onIonInput={(e) => setOngoingSearch(e.detail.value || "")}
-                  placeholder="Search ongoing..."
+            {/* Quick Stats & Search */}
+            <div className="am-tools-row">
+              <div className="am-quick-stats">
+                <div className="am-stat-pill">
+                  <span className="am-stat-val">{totalAssignments}</span>
+                  <span className="am-stat-lbl">Total</span>
+                </div>
+                {assignmentsNeedingReview > 0 && (
+                  <div className="am-stat-pill warning">
+                    <span className="am-stat-val">{assignmentsNeedingReview}</span>
+                    <span className="am-stat-lbl">Needs grading</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="am-search-glass">
+                <IonIcon icon={searchOutline} className="am-search-icon" />
+                <input
+                  type="text"
+                  className="am-search-input"
+                  placeholder={`Search ${activeTab}...`}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button className="assignments-filter-btn">
+                <button className="am-filter-btn">
                   <IonIcon icon={filterOutline} />
                 </button>
               </div>
-
-              {loading ? (
-                <div className="assignments-grid">
-                  <div className="assignments-empty">
-                    Loading assignments...
-                  </div>
-                </div>
-              ) : filteredOngoing.length === 0 ? (
-                <div className="assignments-grid">
-                  <div className="assignments-empty">
-                    No ongoing assignments found.
-                  </div>
-                </div>
-              ) : (
-                <div className="assignments-grid">
-                  {filteredOngoing.map(renderAssignmentCard)}
-                </div>
-              )}
             </div>
 
-            {/* Divider */}
-            <div className="assignments-divider"></div>
-
-            {/* ========== PREVIOUS SECTION ========== */}
-            <div className="assignments-section">
-              <div className="assignments-section-header">
-                <button className="assignments-section-btn previous">
-                  Previous
-                  <span className="assignments-section-count">
-                    {filteredPrevious.length}
-                  </span>
-                </button>
+            {/* Main Content Area */}
+            {loading ? (
+              <div className="am-empty-state">
+                <div className="am-loader-ping"></div>
+                <p>Loading your materials...</p>
               </div>
-
-              <div className="assignments-search-row">
-                <IonSearchbar
-                  className="assignments-searchbar"
-                  value={previousSearch}
-                  onIonInput={(e) => setPreviousSearch(e.detail.value || "")}
-                  placeholder="Search previous..."
-                />
-                <button className="assignments-filter-btn">
-                  <IonIcon icon={filterOutline} />
-                </button>
+            ) : filteredAssignments.length === 0 ? (
+              <div className="am-empty-state">
+                <div className="am-empty-icon-wrapper">
+                  <IonIcon icon={calendarOutline} className="am-empty-icon" />
+                </div>
+                <h2>No {activeTab} assignments found</h2>
+                <p>You don't have any matching assignments for this section right now. Take a coffee break!</p>
               </div>
+            ) : (
+              <div className="am-cards-grid">
+                {filteredAssignments.map(renderAssignmentCard)}
+              </div>
+            )}
 
-              {loading ? (
-                <div className="assignments-grid">
-                  <div className="assignments-empty">Loading...</div>
-                </div>
-              ) : filteredPrevious.length === 0 ? (
-                <div className="assignments-grid">
-                  <div className="assignments-empty">
-                    No previous assignments found.
-                  </div>
-                </div>
-              ) : (
-                <div className="assignments-grid">
-                  {filteredPrevious.map(renderAssignmentCard)}
-                </div>
-              )}
-            </div>
-
-            {/* Footer Spacer */}
-            <div className="assignments-footer-spacer"></div>
+            <div className="am-bottom-spacer"></div>
           </div>
         </PageTransition>
       </IonContent>
