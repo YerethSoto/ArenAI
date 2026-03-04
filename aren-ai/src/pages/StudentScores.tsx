@@ -7,17 +7,14 @@ import {
   IonText,
   IonHeader,
   IonToolbar,
-  IonMenuButton,
   IonIcon,
-  IonItem,
-  IonLabel,
   IonSelect,
   IonSelectOption,
   useIonRouter,
   IonBackButton,
   IonButtons
 } from '@ionic/react';
-import { trophyOutline, chevronForward, person } from 'ionicons/icons';
+import { trophyOutline, chevronBack } from 'ionicons/icons';
 import { useTranslation } from 'react-i18next';
 import './StudentScores.css';
 
@@ -54,7 +51,6 @@ const StudentSectionPage: React.FC = () => {
         { username: 'Daniel Smith', score: 69 },
       ],
     },
-    // ... (rest of mock data assumes English keys for subjects currently, could be improved)
     Science: {
       '1': [{ username: 'Yereth Soto', score: 88 }, { username: 'Leonardo Escobar', score: 52 }],
       '2': [{ username: 'Diana Wilson', score: 91 }]
@@ -71,29 +67,26 @@ const StudentSectionPage: React.FC = () => {
 
   const [selectedSection, setSelectedSection] = useState('1');
   const [selectedGrade, setSelectedGrade] = useState('7');
-  const [selectedSubject, setSelectedSubject] = useState('Math'); // Defaults to Math
+  const [selectedSubject, setSelectedSubject] = useState('Math');
 
-  // Get current students based on selected subject and section
-  // Note: For full robustness, subject keys should match what's selected globally or dropdown
   const currentStudents = subjectData[selectedSubject] && subjectData[selectedSubject][selectedSection]
     ? subjectData[selectedSubject][selectedSection]
-    : subjectData['Math']['1']; // Fallback to avoid empty
+    : subjectData['Math'] && subjectData['Math']['1']
+      ? subjectData['Math']['1']
+      : [];
 
-  // Handle student card click
   const handleStudentClick = (username: string) => {
     const encodedUsername = encodeURIComponent(username);
     const encodedSubject = encodeURIComponent(selectedSubject);
     router.push(`/teacher-student-detail/${encodedUsername}/${encodedSubject}`);
   };
 
-  // Get score class based on score value
   const getScoreClass = (score: number) => {
     if (score >= 85) return 'score-high';
     if (score >= 70) return 'score-medium';
     return 'score-low';
   };
 
-  // Get initials from name
   const getInitials = (name: string) => {
     const parts = name.split(' ');
     if (parts.length >= 2) {
@@ -102,52 +95,76 @@ const StudentSectionPage: React.FC = () => {
     return name.substring(0, 2).toUpperCase();
   };
 
-  const averageScore =
-    currentStudents.length > 0
-      ? Math.round(
-        currentStudents.reduce((sum, s) => sum + s.score, 0) /
-        currentStudents.length
-      )
-      : 0;
+  const averageScore = currentStudents.length > 0
+    ? Math.round(currentStudents.reduce((sum, s) => sum + s.score, 0) / currentStudents.length)
+    : 0;
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
+    <IonPage className="pst-page global-background-pattern">
+      <IonHeader className="ion-no-border">
+        <IonToolbar className="header-toolbar">
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/page/professor" className="back-button" text="" icon={chevronForward} style={{ transform: 'rotate(180deg)', color: 'var(--ion-color-primary)' }} />
+            <IonBackButton
+              defaultHref="/page/professor"
+              text=""
+              icon={chevronBack}
+              style={{ color: 'var(--ion-color-primary)', fontSize: '24px' }}
+            />
           </IonButtons>
-          <div className="header-brand">
-            <span className="brand-text">{t('professor.studentScores.title')}</span>
+          <div className="pst-header-brand">
+            <span className="pst-brand-name">ArenAI</span>
+            <span className="pst-brand-sub">ANALYTICS</span>
           </div>
         </IonToolbar>
+
+        {/* Notched section for Title */}
+        <div className="pst-notch-container">
+          <div className="pst-notch">
+            <div className="pst-title-pill">
+              {t('professor.studentScores.title')}
+            </div>
+          </div>
+        </div>
       </IonHeader>
 
       <IonContent fullscreen className="student-scores-content">
         <div className="dashboard-container">
-          {/* Section Header */}
-          <div className="section-header">
-            <div className="header-controls">
-              <IonItem lines="none" className="filter-item">
-                <IonLabel>{t('professor.studentScores.grade')}</IonLabel>
-                <IonSelect value={selectedGrade} placeholder={t('professor.studentScores.selectGrade')} onIonChange={e => setSelectedGrade(e.detail.value)} interface="popover">
-                  <IonSelectOption value="7">7</IonSelectOption>
-                  <IonSelectOption value="8">8</IonSelectOption>
-                  <IonSelectOption value="9">9</IonSelectOption>
-                </IonSelect>
-              </IonItem>
+          {/* Controls / Filters */}
+          <div className="header-controls">
+            <div className="filter-card">
+              <span className="filter-label">{t('professor.studentScores.grade')}</span>
+              <IonSelect
+                value={selectedGrade}
+                onIonChange={e => setSelectedGrade(e.detail.value)}
+                interface="popover"
+                className="filter-select"
+                toggleIcon=""
+              >
+                <IonSelectOption value="7">7th</IonSelectOption>
+                <IonSelectOption value="8">8th</IonSelectOption>
+                <IonSelectOption value="9">9th</IonSelectOption>
+                <IonSelectOption value="10">10th</IonSelectOption>
+                <IonSelectOption value="11">11th</IonSelectOption>
+              </IonSelect>
+            </div>
 
-              <IonItem lines="none" className="filter-item">
-                <IonLabel>{t('professor.studentScores.section')}</IonLabel>
-                <IonSelect value={selectedSection} placeholder={t('professor.studentScores.selectSection')} onIonChange={e => setSelectedSection(e.detail.value)} interface="popover">
-                  <IonSelectOption value="1">1</IonSelectOption>
-                  <IonSelectOption value="2">2</IonSelectOption>
-                </IonSelect>
-              </IonItem>
+            <div className="filter-card">
+              <span className="filter-label">{t('professor.studentScores.section')}</span>
+              <IonSelect
+                value={selectedSection}
+                onIonChange={e => setSelectedSection(e.detail.value)}
+                interface="popover"
+                className="filter-select"
+                toggleIcon=""
+              >
+                <IonSelectOption value="1">S-1</IonSelectOption>
+                <IonSelectOption value="2">S-2</IonSelectOption>
+                <IonSelectOption value="3">S-3</IonSelectOption>
+              </IonSelect>
             </div>
           </div>
 
-          {/* Average Score */}
+          {/* Average Score Banner */}
           <div className="average-score-bubble">
             <IonText>
               <h2>
@@ -157,7 +174,7 @@ const StudentSectionPage: React.FC = () => {
             </IonText>
           </div>
 
-          {/* Student Cards */}
+          {/* Student Cards Grid */}
           <div className="student-score-grid">
             {currentStudents.map((student, index) => (
               <IonCard
@@ -174,7 +191,7 @@ const StudentSectionPage: React.FC = () => {
                       {student.username}
                     </div>
                   </div>
-                  <div className={`student-score ${getScoreClass(student.score)}`}>
+                  <div className={`student-score-badge ${getScoreClass(student.score)}`}>
                     {student.score}%
                   </div>
                 </IonCardContent>

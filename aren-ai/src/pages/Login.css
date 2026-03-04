@@ -89,8 +89,10 @@
   border-radius: 50%;
   object-fit: contain;
   object-position: center;
-  box-shadow: none; /* Remove halo */
-  border: none; /* Remove halo */
+  box-shadow: none;
+  /* Remove halo */
+  border: none;
+  /* Remove halo */
   background: transparent;
   animation: gentlePulse 4s ease-in-out infinite;
 }
@@ -137,9 +139,24 @@
   --border-radius: 12px;
   --padding-start: 16px;
   --padding-end: 16px;
+  --inner-border-width: 0;
+  --border-width: 0;
+  --border-color: transparent;
+  --highlight-background: transparent;
+  --highlight-color-focused: transparent;
+  --highlight-color-valid: transparent;
+  --highlight-color-invalid: transparent;
+  --highlight-height: 0;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
+  border: none;
+  background: white;
+  overflow: hidden;
+}
+
+.input-item::part(native) {
+  background: white !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .input-icon {
@@ -149,25 +166,63 @@
 }
 
 .custom-input {
-  --color: #8f6a56;
-  --placeholder-color: #b8a399;
+  --background: white;
+  --border-color: transparent !important;
+  --border-width: 0 !important;
+  --highlight-height: 0 !important;
+  --placeholder-color: #b6b6b6;
   --placeholder-font-weight: 400;
+  --highlight-color-focused: transparent !important;
+  --highlight-color-valid: transparent !important;
+  --highlight-color-invalid: transparent !important;
   font-size: 1rem;
   font-weight: 500;
-}
-
-/* Fix input background to stay white on all states */
-.input-item::part(native) {
-  background: white !important;
+  background: white;
+  border: none !important;
+  outline: none !important;
 }
 
 .custom-input::part(native) {
-  color: #8f6a56 !important;
+  color: #dfdddc;
+  background: white !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .custom-input::part(placeholder) {
-  color: #b8a399 !important;
   font-style: italic;
+}
+
+/* Remove all ion-input borders globally on this page */
+.login-card ion-input {
+  --border-color: transparent !important;
+  --border-width: 0 !important;
+  --highlight-height: 0 !important;
+  --highlight-color-focused: transparent !important;
+  --highlight-color-valid: transparent !important;
+  --highlight-color-invalid: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.login-card ion-input:focus-within {
+  border: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.login-card ion-input::part(native) {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.login-card ion-item {
+  --border-color: transparent !important;
+  --inner-border-width: 0 !important;
+  --border-width: 0 !important;
 }
 
 .password-toggle {
@@ -223,10 +278,14 @@
 /* Teacher button */
 .teacher-button {
   --background: transparent;
+  --background-hover: rgba(143, 106, 86, 0.1);
+  --background-activated: rgba(143, 106, 86, 0.15);
   --color: #8f6a56;
-  --border-color: #8f6a56;
-  --border-width: 2px;
   --border-radius: 12px;
+  --ripple-color: rgba(143, 106, 86, 0.2);
+  border: 2px solid #8f6a56;
+  border-radius: 12px;
+  color: #8f6a56;
   font-weight: 500;
   font-size: 1rem;
   height: 50px;
@@ -234,7 +293,8 @@
 
 .teacher-button:disabled {
   --color: #b8a399;
-  --border-color: #b8a399;
+  border-color: #b8a399;
+  color: #b8a399;
 }
 
 /* Demo section */
@@ -267,9 +327,12 @@
 
 /* Animation */
 @keyframes gentlePulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
@@ -280,24 +343,24 @@
   .login-content {
     --padding: 30px 12px 20px;
   }
-  
+
   .brand-title {
     font-size: 2.5rem;
   }
-  
+
   .logo-image {
     width: 200px;
     height: 200px;
   }
-  
+
   .login-card ion-card-content {
     padding: 24px 20px;
   }
-  
+
   .buttons-container {
     margin-top: 60px;
   }
-  
+
   .login-card {
     margin: 0 0 50px;
   }
@@ -307,20 +370,20 @@
   .brand-title {
     font-size: 2rem;
   }
-  
+
   .logo-image {
     width: 180px;
     height: 180px;
   }
-  
+
   .login-card ion-card-content {
     padding: 20px 16px;
   }
-  
+
   .buttons-container {
     margin-top: 50px;
   }
-  
+
   .login-content {
     --padding-top: 20px;
   }

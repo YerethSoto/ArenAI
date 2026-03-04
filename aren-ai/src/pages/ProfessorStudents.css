@@ -9,7 +9,7 @@
 }
 
 .pst-content {
-    --background: var(--ion-background-color) !important;
+    --background: transparent !important;
 }
 
 /* Tabs Container */

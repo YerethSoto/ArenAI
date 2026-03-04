@@ -4,11 +4,9 @@ import {
   IonPage,
   IonIcon,
   IonButton,
-  IonText,
   IonGrid,
   IonRow,
   IonCol,
-  IonModal,
   useIonViewWillLeave,
   useIonViewWillEnter,
 } from "@ionic/react";
@@ -49,7 +47,6 @@ interface GameSnapshot {
   players: Record<string, Player>;
   currentQuestionIndex: number;
   roundEndTime: number;
-  roundEndTime: number;
   isSuddenDeath?: boolean; // New flag for visual timer
   questions?: any[];
 }
@@ -61,8 +58,8 @@ const BattleMinigame: React.FC = () => {
   const history = useHistory();
   const location = useLocation<{
     roomId: string;
-    opponent: any;
-    myAvatar: any;
+    opponent: Record<string, unknown>;
+    myAvatar: string;
   }>();
   const roomId = location.state?.roomId;
 
@@ -319,7 +316,7 @@ const BattleMinigame: React.FC = () => {
         setTimeout(() => setShowQuestionPopup(false), 5000);
       });
 
-      socket.on("round_result", (data: any) => {
+      socket.on("round_result", (data: Record<string, any>) => {
         console.log("Round Result:", data);
         setStatus("round_result");
         setDamageAmount(data.damage);
@@ -593,9 +590,8 @@ const BattleMinigame: React.FC = () => {
               <div className="avatar-wrapper">
                 <img
                   src={`/assets/${opponent.avatar.toLowerCase()}-front.png`}
-                  className={`avatar-image ${
-                    opponentAttackAnim ? "enemy-attack-animation" : ""
-                  } ${opponentHitAnim ? "damage-animation" : ""}`}
+                  className={`avatar-image ${opponentAttackAnim ? "enemy-attack-animation" : ""
+                    } ${opponentHitAnim ? "damage-animation" : ""}`}
                   onError={(e) =>
                     (e.currentTarget.src = "/assets/capybara-front.png")
                   }
@@ -610,9 +606,8 @@ const BattleMinigame: React.FC = () => {
               <div className="avatar-wrapper">
                 <img
                   src={`/assets/${me.avatar.toLowerCase()}-back.png`}
-                  className={`avatar-image ${
-                    playerAttackAnim ? "player-attack-animation" : ""
-                  } ${playerHitAnim ? "damage-animation" : ""}`}
+                  className={`avatar-image ${playerAttackAnim ? "player-attack-animation" : ""
+                    } ${playerHitAnim ? "damage-animation" : ""}`}
                   onError={(e) =>
                     (e.currentTarget.src = "/assets/capybara-back.png")
                   }
@@ -705,17 +700,16 @@ const BattleMinigame: React.FC = () => {
           >
             <IonGrid>
               <IonRow>
-                {currentQuestion.options.map((opt, i) => (
+                {currentQuestion.options.map((opt: string, i: number) => (
                   <IonCol size="12" key={i}>
                     <IonButton
                       expand="block"
-                      className={`option-button ${
-                        selectedAnswer === i
-                          ? i === currentQuestion.correctAnswer
-                            ? "correct"
-                            : "incorrect"
-                          : ""
-                      }`}
+                      className={`option-button ${selectedAnswer === i
+                        ? i === currentQuestion.correctAnswer
+                          ? "correct"
+                          : "incorrect"
+                        : ""
+                        }`}
                       onClick={() => handleAnswer(i)}
                       disabled={selectedAnswer !== null}
                     >

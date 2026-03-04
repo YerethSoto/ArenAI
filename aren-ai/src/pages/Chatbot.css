@@ -279,6 +279,11 @@ code {
 
 @media (prefers-color-scheme: dark) {
 
+  .chat-bubble.bot,
+  .chat-bubble.bot .bubble-text {
+    color: #ffffff !important;
+  }
+
   /* Default Original Dark - Café con Menta/Coral/Amber */
   .chatbot-page,
   ion-content.chat-content,

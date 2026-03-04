@@ -238,7 +238,7 @@ const TopicRelGraph: React.FC<{
 
 // ================================ MAIN COMPONENT ================================
 const ProfessorTopicStats: React.FC = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         selectedGrade, setSelectedGrade,
         selectedSection, setSelectedSection,
@@ -357,7 +357,7 @@ const ProfessorTopicStats: React.FC = () => {
                                 <ProfessorMenu
                                     selectedGrade={String(selectedGrade)}
                                     selectedSection={selectedSection}
-                                    selectedSubject={t('professor.dashboard.subjects.' + profSubject.replace(/\s+/g, ''))}
+                                    selectedSubject={t(currentSubject?.nameKey || 'professor.topicStats.subjects.math')}
                                     onGradeChange={(grade) => setSelectedGrade(parseInt(grade, 10))}
                                     onSectionChange={setSelectedSection}
                                     onSubjectChange={setProfSubject}

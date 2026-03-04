@@ -162,5 +162,35 @@ router.post('/:id/copy', async (req, res, next) => {
         next(err);
     }
 });
+// Get quiz results (all student attempts for a quiz)
+router.get('/:id/results', async (req, res, next) => {
+    try {
+        const data = await quizService.getQuizResults(Number(req.params.id));
+        if (!data) {
+            res.status(404).json({ error: 'Quiz not found' });
+            return;
+        }
+        res.json(data);
+    } catch (err) {
+        next(err);
+    }
+});
+
+// Get student quiz detail (individual responses)
+router.get('/:id/student/:studentId/detail', async (req, res, next) => {
+    try {
+        const data = await quizService.getStudentQuizDetail(
+            Number(req.params.id),
+            Number(req.params.studentId)
+        );
+        if (!data) {
+            res.status(404).json({ error: 'No attempt found' });
+            return;
+        }
+        res.json(data);
+    } catch (err) {
+        next(err);
+    }
+});
 
 export default router;

@@ -44,8 +44,8 @@ import TaskAssignment from "./pages/TaskAssignment";
 import QuizMenu from "./pages/QuizMenu";
 import AssignmentsMenu from "./pages/AssignmentsMenu";
 import StudentAssignments from "./pages/StudentAssignments";
-import AssignmentDetail from "./pages/AssignmentDetail";
 import EditAssignment from "./pages/EditAssignment";
+import ProfessorAssignmentReview from "./pages/ProfessorAssignmentReview";
 import AvatarSelection from "./pages/AvatarSelection";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AvatarProvider } from "./context/AvatarContext";
@@ -88,6 +88,8 @@ import "./i18n";
 import ProfessorStudents from "./pages/ProfessorStudents";
 import ProfessorAttendance from "./pages/ProfessorAttendance";
 import ProfessorTopicStats from "./pages/ProfessorTopicStats";
+import ProfessorQuizResults from "./pages/ProfessorQuizResults";
+import ProfessorStudentQuizDetail from "./pages/ProfessorStudentQuizDetail";
 
 setupIonicReact();
 
@@ -448,9 +450,16 @@ const App: React.FC = () => {
                         <Redirect to="/login" />
                       )}
                     </Route>
-                    <Route path="/page/assignment-detail/:id" exact={true}>
+                    <Route path="/page/assignment-results" exact={true}>
                       {userRole === "professor" ? (
-                        <AssignmentDetail />
+                        <ProfessorQuizResults />
+                      ) : (
+                        <Redirect to="/login" />
+                      )}
+                    </Route>
+                    <Route path="/prof-student-quiz-detail" exact={true}>
+                      {userRole === "professor" ? (
+                        <ProfessorStudentQuizDetail />
                       ) : (
                         <Redirect to="/login" />
                       )}
@@ -458,6 +467,13 @@ const App: React.FC = () => {
                     <Route path="/page/edit-assignment/:id" exact={true}>
                       {userRole === "professor" ? (
                         <EditAssignment />
+                      ) : (
+                        <Redirect to="/login" />
+                      )}
+                    </Route>
+                    <Route path="/page/assignment-review/:id" exact={true}>
+                      {userRole === "professor" ? (
+                        <ProfessorAssignmentReview />
                       ) : (
                         <Redirect to="/login" />
                       )}

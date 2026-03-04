@@ -1,0 +1,519 @@
+/* ProfessorStudentQuizDetail.css */
+
+/* ═══════════════════════════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════════════════════════ */
+
+.psqd-page {
+    background-color: var(--ion-background-color) !important;
+    --ion-safe-area-bottom: 0px;
+}
+
+.psqd-content {
+    --background: var(--ion-background-color) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════════════════════════ */
+
+.psqd-header {
+    background: transparent;
+    box-shadow: none;
+}
+
+.psqd-toolbar {
+    --background: var(--ion-color-primary, #5c2d91);
+    --border-width: 0;
+    padding-bottom: 6px;
+}
+
+.psqd-back-btn {
+    --color: #fff;
+    --icon-font-size: 22px;
+}
+
+.psqd-toolbar-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    padding-right: 48px;
+    /* balance the back button */
+}
+
+.psqd-title-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+}
+
+.psqd-title-sub {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+.psqd-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 12px 14px 0 14px;
+}
+
+.psqd-footer-spacer {
+    height: 80px;
+    /* room for sticky footer */
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PROFILE CARD (top)
+   ═══════════════════════════════════════════════════════════════ */
+
+.psqd-profile-card {
+    background: var(--ion-color-secondary-soft);
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+/* Left column */
+.psqd-profile-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    min-width: 90px;
+}
+
+.psqd-avatar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.psqd-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--ion-color-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    border: 3px solid;
+    flex-shrink: 0;
+}
+
+.psqd-avatar-label {
+    font-size: 9px;
+    color: var(--ion-text-color-step-500, #aaa);
+    font-style: italic;
+    text-align: center;
+}
+
+.psqd-profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    text-align: center;
+}
+
+.psqd-student-name {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--ion-text-color);
+    line-height: 1.2;
+}
+
+.psqd-quiz-meta {
+    font-size: 10px;
+    color: var(--ion-text-color-step-400, #888);
+}
+
+.psqd-score-pill {
+    margin-top: 4px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+/* Right column: radar + legend */
+.psqd-radar-wrap {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.psqd-radar-svg {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.18));
+    animation: psqd-float 3.6s ease-in-out infinite;
+}
+
+@keyframes psqd-float {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-5px) rotate(0.5deg);
+    }
+
+    50% {
+        transform: translateY(-8px) rotate(0deg);
+    }
+
+    75% {
+        transform: translateY(-3px) rotate(-0.5deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SUMMARY CHIPS
+   ═══════════════════════════════════════════════════════════════ */
+
+.psqd-summary-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.psqd-chip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    background: var(--ion-color-secondary-soft);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+    flex: 1;
+    justify-content: center;
+}
+
+.psqd-chip ion-icon {
+    font-size: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTIONS CARD
+   ═══════════════════════════════════════════════════════════════ */
+
+.psqd-questions-card {
+    background: var(--ion-color-secondary-soft);
+    border-radius: 20px;
+    padding: 16px 14px;
+}
+
+.psqd-questions-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ion-text-color);
+    margin-bottom: 10px;
+}
+
+.psqd-questions-icon {
+    font-size: 18px;
+    color: var(--ion-color-primary);
+}
+
+.psqd-questions-separator {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.08), transparent);
+    margin-bottom: 12px;
+}
+
+.psqd-questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.psqd-question-row {
+    padding: 12px;
+    border-radius: 14px;
+    border-left: 3px solid;
+    transition: transform 0.15s ease;
+}
+
+.psqd-question-row.correct {
+    background: rgba(46, 204, 113, 0.06);
+    border-color: #2ecc71;
+}
+
+.psqd-question-row.wrong {
+    background: rgba(231, 76, 60, 0.06);
+    border-color: #e74c3c;
+}
+
+.psqd-question-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.psqd-q-number {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--ion-text-color-step-400, #888);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.psqd-q-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.psqd-q-result-icon {
+    font-size: 18px;
+}
+
+.psqd-q-result-icon.correct {
+    color: #2ecc71;
+}
+
+.psqd-q-result-icon.wrong {
+    color: #e74c3c;
+}
+
+.psqd-q-points {
+    font-size: 12px;
+    font-weight: 800;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+/* ── Editable grade input ── */
+
+.psqd-q-points-edit {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.psqd-edit-icon {
+    font-size: 12px;
+    color: var(--ion-color-primary);
+    opacity: 0.7;
+    flex-shrink: 0;
+}
+
+.psqd-grade-input {
+    width: 42px;
+    padding: 5px 6px;
+    border: 2px solid var(--ion-color-primary);
+    border-radius: 14px;
+    background: #aaa;
+    color: var(--ion-text-color);
+    font-size: 14px;
+    font-weight: 900;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    box-shadow: 0 2px 8px rgba(var(--ion-color-primary-rgb, 92, 45, 145), 0.18),
+        inset 0 1px 4px rgba(0, 0, 0, 0.06);
+    animation: psqd-bubble-pulse 2.5s ease-in-out infinite;
+    cursor: pointer;
+}
+
+@keyframes psqd-bubble-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 2px 8px rgba(var(--ion-color-primary-rgb, 92, 45, 145), 0.18), inset 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    50% {
+        box-shadow: 0 2px 14px rgba(var(--ion-color-primary-rgb, 92, 45, 145), 0.35), inset 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+}
+
+.psqd-grade-input::-webkit-inner-spin-button,
+.psqd-grade-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.psqd-grade-input:focus {
+    border-color: var(--ion-color-primary);
+    box-shadow: 0 0 0 4px rgba(var(--ion-color-primary-rgb, 92, 45, 145), 0.25),
+        0 2px 12px rgba(var(--ion-color-primary-rgb, 92, 45, 145), 0.3);
+    background: rgba(var(--ion-color-primary-rgb, 92, 45, 145), 0.22);
+    animation: none;
+}
+
+.psqd-grade-max {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ion-text-color-step-400, #888);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+.psqd-q-time {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 10px;
+    color: var(--ion-text-color-step-400, #888);
+}
+
+.psqd-q-time ion-icon {
+    font-size: 12px;
+}
+
+.psqd-q-text {
+    font-size: 12px;
+    color: var(--ion-text-color);
+    line-height: 1.4;
+    margin: 0 0 8px 0;
+    font-style: italic;
+}
+
+.psqd-q-answers {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.psqd-q-answer {
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    line-height: 1.4;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.psqd-q-answer.student {
+    background: rgba(255, 255, 255, 0.5);
+    color: var(--ion-text-color);
+}
+
+.psqd-q-answer.correct {
+    background: rgba(46, 204, 113, 0.1);
+    color: var(--ion-text-color);
+}
+
+.psqd-answer-label {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--ion-text-color-step-400, #888);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STICKY FOOTER
+   ═══════════════════════════════════════════════════════════════ */
+
+.psqd-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    background: var(--ion-color-secondary-soft);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(12px);
+    gap: 12px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.psqd-footer-grade {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.psqd-footer-icon {
+    font-size: 20px;
+    color: var(--ion-color-primary);
+}
+
+.psqd-footer-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ion-text-color);
+}
+
+.psqd-footer-score {
+    font-size: 20px;
+    font-weight: 900;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    margin-left: auto;
+}
+
+.psqd-save-btn {
+    padding: 10px 22px;
+    background: var(--ion-color-primary);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.psqd-save-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.psqd-save-btn.saving {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.psqd-save-btn.saved {
+    background: #2ecc71;
+    cursor: default;
+}
+
+.psqd-save-btn ion-icon {
+    font-size: 17px;
+}

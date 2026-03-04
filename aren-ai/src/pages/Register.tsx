@@ -55,8 +55,8 @@ const Register: React.FC = () => {
   // Filter institutions based on what user types
   const filteredInstitutions = institutionQuery.trim()
     ? INSTITUTIONS.filter((inst) =>
-        inst.name.toLowerCase().includes(institutionQuery.toLowerCase()),
-      ).slice(0, 8)
+      inst.name.toLowerCase().includes(institutionQuery.toLowerCase()),
+    ).slice(0, 8)
     : [];
 
   // Close suggestions when clicking outside
@@ -218,7 +218,7 @@ const Register: React.FC = () => {
       if (data.token) {
         try {
           localStorage.setItem("authToken", data.token);
-        } catch (_) {}
+        } catch (_) { }
       }
 
       setIsLoading(false);
@@ -577,7 +577,7 @@ const Register: React.FC = () => {
 
                   <IonButton
                     expand="block"
-                    fill="outline"
+                    fill="clear"
                     className="back-login-button"
                     onClick={handleBackToLogin}
                     disabled={isLoading}

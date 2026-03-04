@@ -139,3 +139,105 @@ export async function updateAssignment(assignmentId: number, payload: {
         ]
     );
 }
+
+// Get all submissions for an assignment (for professor review + topic stats)
+export async function getAssignmentSubmissions(assignmentId: number) {
+    // 1. Get assignment info with quiz
+    const assignmentResult = await db.query<any>(
+        `SELECT a.*, q.quiz_name, s.name_subject as subject_name
+         FROM assignment a
+         LEFT JOIN quiz q ON q.id_quiz = a.id_quiz
+         LEFT JOIN subject s ON s.id_subject = a.id_subject
+         WHERE a.id_assignment = ?`,
+        [assignmentId]
+    );
+    const assignment = assignmentResult.rows[0];
+    if (!assignment) return null;
+
+    // 2. Get all students in the section
+    const studentsResult = await db.query<any>(
+        `SELECT u.id_user, u.username, u.user_name, u.last_name
+         FROM user_section us
+         JOIN user u ON u.id_user = us.id_user
+         WHERE us.id_section = ?
+         ORDER BY u.last_name, u.user_name`,
+        [assignment.id_section]
+    );
+
+    // 3. Get submissions for this assignment
+    const submissionsResult = await db.query<any>(
+        `SELECT asub.*
+         FROM assignment_submission asub
+         WHERE asub.id_assignment = ?`,
+        [assignmentId]
+    );
+
+    // 4. Get quiz questions with topic info (if quiz is linked)
+    let questions: any[] = [];
+    if (assignment.id_quiz) {
+        const questionsResult = await db.query<any>(
+            `SELECT qq.*, t.name_topic as topic_name
+             FROM quiz_question qq
+             LEFT JOIN topic t ON t.id_topic = qq.id_topic
+             WHERE qq.id_quiz = ?
+             ORDER BY qq.id_question`,
+            [assignment.id_quiz]
+        );
+        questions = questionsResult.rows;
+    }
+
+    // 5. Build topic stats summary
+    const topicMap: Record<string, { topicName: string; questionCount: number; totalPoints: number }> = {};
+    for (const q of questions) {
+        const topicName = q.topic_name || 'General';
+        if (!topicMap[topicName]) {
+            topicMap[topicName] = { topicName, questionCount: 0, totalPoints: 0 };
+        }
+        topicMap[topicName].questionCount++;
+        topicMap[topicName].totalPoints += Number(q.points) || 1;
+    }
+
+    // Map submissions by student ID
+    const subMap = new Map<number, any>();
+    for (const sub of submissionsResult.rows) {
+        subMap.set(sub.id_student, sub);
+    }
+
+    // Build student list with their submission
+    const students = studentsResult.rows.map((s: any) => {
+        const sub = subMap.get(s.id_user);
+        return {
+            studentId: s.id_user,
+            studentName: `${s.user_name || ''} ${s.last_name || ''}`.trim() || s.username,
+            status: sub?.status || 'NOT_ASSIGNED',
+            grade: sub?.grade ?? null,
+            textResponse: sub?.text_response || null,
+            feedback: sub?.feedback || null,
+            submittedAt: sub?.submitted_at || null,
+            gradedAt: sub?.graded_at || null,
+            winStreakAchieved: sub?.win_streak_achieved || 0,
+            submissionId: sub?.id_submission || null,
+        };
+    });
+
+    return {
+        assignment: {
+            id: assignment.id_assignment,
+            title: assignment.title,
+            description: assignment.description,
+            dueTime: assignment.due_time,
+            quizName: assignment.quiz_name,
+            subjectName: assignment.subject_name,
+            winBattleRequirement: assignment.win_battle_requirement,
+            minBattleWins: assignment.min_battle_wins,
+        },
+        students,
+        questions: questions.map((q: any) => ({
+            id: q.id_question,
+            text: q.question_text,
+            topicName: q.topic_name || 'General',
+            points: Number(q.points) || 1,
+        })),
+        topicStats: Object.values(topicMap),
+    };
+}

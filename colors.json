@@ -1,0 +1,1604 @@
+[
+  {
+    "file": "Achievements.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Achievements.css",
+    "line": 224,
+    "text": "color: #bfa004;"
+  },
+  {
+    "file": "Achievements.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Achievements.css",
+    "line": 236,
+    "text": "color: #ffd700;"
+  },
+  {
+    "file": "AIQuizGenerator.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\AIQuizGenerator.css",
+    "line": 767,
+    "text": "color: #5D4037;"
+  },
+  {
+    "file": "AIQuizGenerator.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\AIQuizGenerator.css",
+    "line": 775,
+    "text": "color: #8B7355;"
+  },
+  {
+    "file": "ArenEntityPage.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ArenEntityPage.css",
+    "line": 197,
+    "text": "color: #5D4037;"
+  },
+  {
+    "file": "ArenEntityPage.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ArenEntityPage.css",
+    "line": 233,
+    "text": "color: #FFD54F;"
+  },
+  {
+    "file": "ArenEntityPage.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ArenEntityPage.css",
+    "line": 325,
+    "text": "color: #D81B60;"
+  },
+  {
+    "file": "ArenEntityPage.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ArenEntityPage.css",
+    "line": 549,
+    "text": "color: #5D4037;"
+  },
+  {
+    "file": "AssignmentDetail.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\AssignmentDetail.css",
+    "line": 252,
+    "text": "color: #5d4037;"
+  },
+  {
+    "file": "AssignmentDetail.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\AssignmentDetail.css",
+    "line": 303,
+    "text": "color: #2e7d32;"
+  },
+  {
+    "file": "AssignmentDetail.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\AssignmentDetail.css",
+    "line": 308,
+    "text": "color: #e65100;"
+  },
+  {
+    "file": "AssignmentDetail.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\AssignmentDetail.css",
+    "line": 418,
+    "text": "color: #4caf50;"
+  },
+  {
+    "file": "AssignmentDetail.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\AssignmentDetail.css",
+    "line": 423,
+    "text": "color: #f44336;"
+  },
+  {
+    "file": "AssignmentDetail.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\AssignmentDetail.css",
+    "line": 564,
+    "text": "color: #5d4037;"
+  },
+  {
+    "file": "AssignmentsMenu.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\AssignmentsMenu.css",
+    "line": 638,
+    "text": "border-color: #1565c0;"
+  },
+  {
+    "file": "AvatarSelection.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\AvatarSelection.css",
+    "line": 49,
+    "text": "border-color: #FFD93D;"
+  },
+  {
+    "file": "BattleMinigame.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\BattleMinigame.css",
+    "line": 561,
+    "text": "color: #ff4444;"
+  },
+  {
+    "file": "BattleMinigame.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\BattleMinigame.css",
+    "line": 631,
+    "text": "color: #4caf50;"
+  },
+  {
+    "file": "BattleMinigame.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\BattleMinigame.css",
+    "line": 807,
+    "text": "color: #4caf50;"
+  },
+  {
+    "file": "BattleMinigame.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\BattleMinigame.css",
+    "line": 1004,
+    "text": "50% { background-color: #FFC107; }"
+  },
+  {
+    "file": "BattleMinigame.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\BattleMinigame.css",
+    "line": 1005,
+    "text": "100% { width: 0%; background-color: #F44336; }"
+  },
+  {
+    "file": "BattleMinigame.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\BattleMinigame.css",
+    "line": 1017,
+    "text": "color: #FF0000;"
+  },
+  {
+    "file": "BattleMinigame.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\BattleMinigame.css",
+    "line": 1091,
+    "text": "color: #FF5252;"
+  },
+  {
+    "file": "BattleResultsStats.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\BattleResultsStats.css",
+    "line": 63,
+    "text": "color: #4caf50; /* Green */"
+  },
+  {
+    "file": "BattleResultsStats.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\BattleResultsStats.css",
+    "line": 67,
+    "text": "color: #f44336; /* Red */"
+  },
+  {
+    "file": "CharacterDetail.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\CharacterDetail.css",
+    "line": 281,
+    "text": "color: #33691E;"
+  },
+  {
+    "file": "CharacterDetail.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\CharacterDetail.css",
+    "line": 321,
+    "text": "color: #33691E !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 47,
+    "text": "--ion-background-color: #3D2E24 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 50,
+    "text": "background-color: #3D2E24 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 295,
+    "text": "background-color: #3D2E24 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 300,
+    "text": "border-color: #FFB74D !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 307,
+    "text": "color: #3D2E24 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 308,
+    "text": "border-color: #FF7B7B !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 319,
+    "text": "border-color: #FFB74D !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 331,
+    "text": "background-color: #0D1F35 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 336,
+    "text": "border-color: #FF9E44 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 343,
+    "text": "color: #0D1F35 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 344,
+    "text": "border-color: #FF7B7B !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 355,
+    "text": "border-color: #00D4FF !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 367,
+    "text": "background-color: #0F2010 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 372,
+    "text": "border-color: #FFD700 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 379,
+    "text": "color: #0F2010 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 380,
+    "text": "border-color: #C8A8E0 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 391,
+    "text": "border-color: #B8FF44 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 403,
+    "text": "background-color: #200810 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 408,
+    "text": "border-color: #40E0D0 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 415,
+    "text": "color: #200810 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 416,
+    "text": "border-color: #E07850 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 427,
+    "text": "border-color: #FFD54F !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 439,
+    "text": "background-color: #0A2510 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 444,
+    "text": "border-color: #FF44AA !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 451,
+    "text": "color: #0A2510 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 452,
+    "text": "border-color: #CCFF00 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 463,
+    "text": "border-color: #64B5F6 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 475,
+    "text": "background-color: #1A1508 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 480,
+    "text": "border-color: #20B2AA !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 488,
+    "text": "border-color: #DAA520 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 499,
+    "text": "border-color: #E07860 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 511,
+    "text": "background-color: #050010 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 516,
+    "text": "border-color: #ffea00 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 524,
+    "text": "color: #050010 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 525,
+    "text": "border-color: #76ff03 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 538,
+    "text": "border-color: #00e5ff !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 551,
+    "text": "background-color: #3D2E24 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 556,
+    "text": "border-color: #70A090 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 561,
+    "text": "border-color: #7890A0 !important;"
+  },
+  {
+    "file": "Chatbot.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Chatbot.css",
+    "line": 570,
+    "text": "border-color: #70A090 !important;"
+  },
+  {
+    "file": "Clan.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Clan.css",
+    "line": 117,
+    "text": "color: #d4ac0d;"
+  },
+  {
+    "file": "Clan.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Clan.css",
+    "line": 305,
+    "text": "color: #f1c40f;"
+  },
+  {
+    "file": "Clan.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Clan.css",
+    "line": 309,
+    "text": "color: #9b59b6;"
+  },
+  {
+    "file": "Class_Creation.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Class_Creation.css",
+    "line": 195,
+    "text": "color: #ff9800;"
+  },
+  {
+    "file": "Class_Creation.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Class_Creation.css",
+    "line": 201,
+    "text": "color: #ab47bc;"
+  },
+  {
+    "file": "Leaderboard.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Leaderboard.css",
+    "line": 83,
+    "text": "border-color: #ffd700;"
+  },
+  {
+    "file": "Leaderboard.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Leaderboard.css",
+    "line": 92,
+    "text": "border-color: #cd7f32;"
+  },
+  {
+    "file": "Leaderboard.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Leaderboard.css",
+    "line": 101,
+    "text": "color: #ffd700;"
+  },
+  {
+    "file": "Leaderboard.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Leaderboard.css",
+    "line": 315,
+    "text": "color: #e74c3c;"
+  },
+  {
+    "file": "Leaderboard.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Leaderboard.css",
+    "line": 328,
+    "text": "color: #3498db;"
+  },
+  {
+    "file": "Leaderboard.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Leaderboard.css",
+    "line": 341,
+    "text": "color: #2ecc71;"
+  },
+  {
+    "file": "Login.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Login.css",
+    "line": 50,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "Login.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Login.css",
+    "line": 74,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "Login.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Login.css",
+    "line": 105,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "Login.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Login.css",
+    "line": 163,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "Login.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Login.css",
+    "line": 186,
+    "text": "color: #dfdddc;"
+  },
+  {
+    "file": "Login.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Login.css",
+    "line": 229,
+    "text": "--color: #8f6a56;"
+  },
+  {
+    "file": "Login.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Login.css",
+    "line": 283,
+    "text": "--color: #8f6a56;"
+  },
+  {
+    "file": "Login.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Login.css",
+    "line": 288,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "Login.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Login.css",
+    "line": 295,
+    "text": "--color: #b8a399;"
+  },
+  {
+    "file": "Login.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Login.css",
+    "line": 296,
+    "text": "border-color: #b8a399;"
+  },
+  {
+    "file": "Login.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Login.css",
+    "line": 297,
+    "text": "color: #b8a399;"
+  },
+  {
+    "file": "Login.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Login.css",
+    "line": 308,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "Main_Student.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Main_Student.css",
+    "line": 19,
+    "text": "background-color: #3D2E24 !important;"
+  },
+  {
+    "file": "Main_Student.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Main_Student.css",
+    "line": 26,
+    "text": "background-color: #0F2540 !important;"
+  },
+  {
+    "file": "Main_Student.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Main_Student.css",
+    "line": 33,
+    "text": "background-color: #1A3020 !important;"
+  },
+  {
+    "file": "Main_Student.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Main_Student.css",
+    "line": 40,
+    "text": "background-color: #2A1018 !important;"
+  },
+  {
+    "file": "Main_Student.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Main_Student.css",
+    "line": 47,
+    "text": "background-color: #153525 !important;"
+  },
+  {
+    "file": "Main_Student.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Main_Student.css",
+    "line": 54,
+    "text": "background-color: #2A2418 !important;"
+  },
+  {
+    "file": "Main_Student.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Main_Student.css",
+    "line": 61,
+    "text": "background-color: #3D2E24 !important;"
+  },
+  {
+    "file": "ProfessorAdmin.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAdmin.css",
+    "line": 134,
+    "text": "color: #10b981;"
+  },
+  {
+    "file": "ProfessorAdmin.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAdmin.css",
+    "line": 139,
+    "text": "color: #ef4444;"
+  },
+  {
+    "file": "ProfessorAdmin.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAdmin.css",
+    "line": 144,
+    "text": "color: #f59e0b;"
+  },
+  {
+    "file": "ProfessorAdmin.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAdmin.css",
+    "line": 170,
+    "text": "border-color: #6366f1;"
+  },
+  {
+    "file": "ProfessorAdmin.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAdmin.css",
+    "line": 183,
+    "text": "color: #065f46;"
+  },
+  {
+    "file": "ProfessorAdmin.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAdmin.css",
+    "line": 188,
+    "text": "color: #92400e;"
+  },
+  {
+    "file": "ProfessorAdmin.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAdmin.css",
+    "line": 193,
+    "text": "color: #991b1b;"
+  },
+  {
+    "file": "ProfessorAssignmentReview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAssignmentReview.css",
+    "line": 117,
+    "text": "color: #1976d2;"
+  },
+  {
+    "file": "ProfessorAssignmentReview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAssignmentReview.css",
+    "line": 122,
+    "text": "color: #f57c00;"
+  },
+  {
+    "file": "ProfessorAssignmentReview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAssignmentReview.css",
+    "line": 217,
+    "text": "color: #1976d2;"
+  },
+  {
+    "file": "ProfessorAssignmentReview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAssignmentReview.css",
+    "line": 221,
+    "text": "color: #f57c00;"
+  },
+  {
+    "file": "ProfessorAssignmentReview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAssignmentReview.css",
+    "line": 425,
+    "text": "color: #1976d2;"
+  },
+  {
+    "file": "ProfessorAssignmentReview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAssignmentReview.css",
+    "line": 429,
+    "text": "color: #f57c00;"
+  },
+  {
+    "file": "ProfessorAssignmentReview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAssignmentReview.css",
+    "line": 447,
+    "text": "color: #2e7d32;"
+  },
+  {
+    "file": "ProfessorAssignmentReview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAssignmentReview.css",
+    "line": 451,
+    "text": "color: #1976d2;"
+  },
+  {
+    "file": "ProfessorAssignmentReview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAssignmentReview.css",
+    "line": 455,
+    "text": "color: #f57c00;"
+  },
+  {
+    "file": "ProfessorAssignmentReview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAssignmentReview.css",
+    "line": 459,
+    "text": "color: #c62828;"
+  },
+  {
+    "file": "ProfessorAssignmentReview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAssignmentReview.css",
+    "line": 747,
+    "text": "color: #2e7d32;"
+  },
+  {
+    "file": "ProfessorAssignmentReview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAssignmentReview.css",
+    "line": 752,
+    "text": "color: #f57c00;"
+  },
+  {
+    "file": "ProfessorAttendance.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAttendance.css",
+    "line": 69,
+    "text": "color: #27ae60;"
+  },
+  {
+    "file": "ProfessorAttendance.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAttendance.css",
+    "line": 74,
+    "text": "color: #e67e22;"
+  },
+  {
+    "file": "ProfessorAttendance.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAttendance.css",
+    "line": 117,
+    "text": "color: #27ae60;"
+  },
+  {
+    "file": "ProfessorAttendance.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAttendance.css",
+    "line": 127,
+    "text": "color: #c0392b;"
+  },
+  {
+    "file": "ProfessorAttendance.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAttendance.css",
+    "line": 248,
+    "text": "color: #2ecc71;"
+  },
+  {
+    "file": "ProfessorAttendance.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAttendance.css",
+    "line": 252,
+    "text": "color: #bdc3c7;"
+  },
+  {
+    "file": "ProfessorAttendance.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAttendance.css",
+    "line": 256,
+    "text": "color: #e74c3c;"
+  },
+  {
+    "file": "ProfessorAttendance.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAttendance.css",
+    "line": 261,
+    "text": "color: #e67e22;"
+  },
+  {
+    "file": "ProfessorAttendance.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorAttendance.css",
+    "line": 275,
+    "text": "color: #e67e22;"
+  },
+  {
+    "file": "ProfessorChat.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorChat.css",
+    "line": 5,
+    "text": "--chat-bg-color: #f9f4e6;"
+  },
+  {
+    "file": "ProfessorStudentQuizDetail.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorStudentQuizDetail.css",
+    "line": 269,
+    "text": "border-color: #2ecc71;"
+  },
+  {
+    "file": "ProfessorStudentQuizDetail.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorStudentQuizDetail.css",
+    "line": 274,
+    "text": "border-color: #e74c3c;"
+  },
+  {
+    "file": "ProfessorStudentQuizDetail.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorStudentQuizDetail.css",
+    "line": 303,
+    "text": "color: #2ecc71;"
+  },
+  {
+    "file": "ProfessorStudentQuizDetail.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorStudentQuizDetail.css",
+    "line": 307,
+    "text": "color: #e74c3c;"
+  },
+  {
+    "file": "ProfessorStudents.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorStudents.css",
+    "line": 258,
+    "text": "color: #e74c3c;"
+  },
+  {
+    "file": "ProfessorStudents.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorStudents.css",
+    "line": 330,
+    "text": "color: #e74c3c !important;"
+  },
+  {
+    "file": "ProfessorStudents.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorStudents.css",
+    "line": 364,
+    "text": "color: #e74c3c;"
+  },
+  {
+    "file": "ProfessorStudents.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorStudents.css",
+    "line": 404,
+    "text": "color: #c0392b;"
+  },
+  {
+    "file": "ProfessorStudents.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorStudents.css",
+    "line": 561,
+    "text": "color: #e74c3c !important;"
+  },
+  {
+    "file": "ProfessorStudents.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorStudents.css",
+    "line": 565,
+    "text": "color: #e74c3c;"
+  },
+  {
+    "file": "ProfessorStudents.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorStudents.css",
+    "line": 676,
+    "text": "color: #c0392b;"
+  },
+  {
+    "file": "ProfessorStudents.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorStudents.css",
+    "line": 907,
+    "text": "color: #2ecc71;"
+  },
+  {
+    "file": "ProfessorStudents.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorStudents.css",
+    "line": 1117,
+    "text": "color: #2ecc71;"
+  },
+  {
+    "file": "ProfessorStudents.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorStudents.css",
+    "line": 1182,
+    "text": "color: #2ecc71;"
+  },
+  {
+    "file": "ProfessorTopicStats.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorTopicStats.css",
+    "line": 145,
+    "text": "color: #f1c40f !important;"
+  },
+  {
+    "file": "ProfessorTopicStats.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorTopicStats.css",
+    "line": 612,
+    "text": "color: #e74c3c;"
+  },
+  {
+    "file": "ProfessorTopicStats.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorTopicStats.css",
+    "line": 617,
+    "text": "color: #3498db;"
+  },
+  {
+    "file": "ProfessorTopicStats.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorTopicStats.css",
+    "line": 622,
+    "text": "color: #9b59b6;"
+  },
+  {
+    "file": "ProfessorTopicStats.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorTopicStats.css",
+    "line": 650,
+    "text": "color: #e74c3c;"
+  },
+  {
+    "file": "ProfessorTopicStats.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorTopicStats.css",
+    "line": 663,
+    "text": "color: #c0392b;"
+  },
+  {
+    "file": "ProfessorTopicStats.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\ProfessorTopicStats.css",
+    "line": 688,
+    "text": "color: #c0392b;"
+  },
+  {
+    "file": "Quiz.backup.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Quiz.backup.css",
+    "line": 362,
+    "text": "color: #4caf50;"
+  },
+  {
+    "file": "Quiz.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Quiz.css",
+    "line": 262,
+    "text": "border-color: #4CAF50;"
+  },
+  {
+    "file": "Quiz.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Quiz.css",
+    "line": 268,
+    "text": "border-color: #F44336;"
+  },
+  {
+    "file": "Quiz.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Quiz.css",
+    "line": 273,
+    "text": "color: #bdc3c7;"
+  },
+  {
+    "file": "Quiz.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Quiz.css",
+    "line": 278,
+    "text": "color: #4CAF50;"
+  },
+  {
+    "file": "QuizMenu.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\QuizMenu.css",
+    "line": 191,
+    "text": "color: #f5b400;"
+  },
+  {
+    "file": "QuizMenu.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\QuizMenu.css",
+    "line": 259,
+    "text": "color: #ef5350;"
+  },
+  {
+    "file": "QuizMenu.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\QuizMenu.css",
+    "line": 514,
+    "text": "color: #f5b400;"
+  },
+  {
+    "file": "QuizPreview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\QuizPreview.css",
+    "line": 143,
+    "text": "color: #ffd54f;"
+  },
+  {
+    "file": "QuizPreview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\QuizPreview.css",
+    "line": 152,
+    "text": "background-color: #90caf9;"
+  },
+  {
+    "file": "QuizPreview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\QuizPreview.css",
+    "line": 153,
+    "text": "color: #1565c0;"
+  },
+  {
+    "file": "QuizPreview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\QuizPreview.css",
+    "line": 289,
+    "text": "color: #d32f2f;"
+  },
+  {
+    "file": "QuizPreview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\QuizPreview.css",
+    "line": 333,
+    "text": "border-color: #4caf50;"
+  },
+  {
+    "file": "QuizPreview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\QuizPreview.css",
+    "line": 353,
+    "text": "border-color: #4caf50;"
+  },
+  {
+    "file": "QuizPreview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\QuizPreview.css",
+    "line": 371,
+    "text": "color: #2e7d32;"
+  },
+  {
+    "file": "QuizPreview.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\QuizPreview.css",
+    "line": 607,
+    "text": "color: #c62828;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 33,
+    "text": "--color: #8f6a56;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 43,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 54,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 137,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 146,
+    "text": "--color: #8f6a56;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 162,
+    "text": "color: #8f6a56 !important;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 204,
+    "text": "--color: #8f6a56;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 244,
+    "text": "color: #2c3e50;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 249,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 271,
+    "text": "--color: #2c3e50;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 294,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 302,
+    "text": "color: #2c3e50;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 337,
+    "text": "color: #ff6b6b;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 343,
+    "text": "color: #ff6b6b;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 382,
+    "text": "--color: #8f6a56;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 386,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 395,
+    "text": "--color: #b8a399;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 396,
+    "text": "border-color: #b8a399;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 397,
+    "text": "color: #b8a399;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 471,
+    "text": "--color: #8f6a56;"
+  },
+  {
+    "file": "Register.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Register.css",
+    "line": 520,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 33,
+    "text": "--color: #8f6a56;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 43,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 54,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 119,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 128,
+    "text": "--color: #8f6a56;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 144,
+    "text": "color: #8f6a56 !important;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 180,
+    "text": "--color: #8f6a56;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 208,
+    "text": "color: #ff6b6b;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 214,
+    "text": "color: #ff6b6b;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 253,
+    "text": "--color: #8f6a56;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 257,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 266,
+    "text": "--color: #b8a399;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 267,
+    "text": "border-color: #b8a399;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 268,
+    "text": "color: #b8a399;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 339,
+    "text": "--color: #8f6a56;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 388,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 403,
+    "text": "color: #2e7d32;"
+  },
+  {
+    "file": "RegisterStudent.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\RegisterStudent.css",
+    "line": 466,
+    "text": "color: #8f6a56;"
+  },
+  {
+    "file": "Shop.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Shop.css",
+    "line": 35,
+    "text": "color: #f1c40f;"
+  },
+  {
+    "file": "Shop.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Shop.css",
+    "line": 39,
+    "text": "color: #2ecc71;"
+  },
+  {
+    "file": "Shop.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\Shop.css",
+    "line": 323,
+    "text": "color: #2ecc71;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 20,
+    "text": "color: #4a2c2a;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 45,
+    "text": "color: #5d4037;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 65,
+    "text": "color: #8d6e63;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 71,
+    "text": "background-color: #fdfbf7; /* Using soft secondary */"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 84,
+    "text": "background-color: #5d4037; /* Primary */"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 321,
+    "text": "color: #5d4037;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 327,
+    "text": "color: #f44336;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 332,
+    "text": "color: #5d4037;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 361,
+    "text": "color: #8d6e63;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 368,
+    "text": "color: #8d6e63;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 417,
+    "text": "color: #8d6e63;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 435,
+    "text": "color: #5d4037;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 442,
+    "text": "color: #5d4037;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 448,
+    "text": "color: #8d6e63;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 460,
+    "text": "color: #5d4037;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 474,
+    "text": "color: #8d6e63;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 510,
+    "text": "background-color: #16a085; /* Teal */"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 514,
+    "text": "background-color: #2980b9; /* Blue */"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 527,
+    "text": "background-color: #7f8fa6; /* Grey */"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 539,
+    "text": "color: #2c3e50; /* Dark text on Colored BG? wait screenshot had it on color */"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 592,
+    "text": "color: #8d6e63;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 637,
+    "text": "color: #5d4037;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 644,
+    "text": "color: #8d6e63;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 650,
+    "text": "color: #8d6e63;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 662,
+    "text": "color: #5d4037;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 672,
+    "text": "color: #8d6e63;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 722,
+    "text": "border-color: #34495e transparent transparent transparent;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 733,
+    "text": "color: #5d4037; /* Brownish academic color */"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 754,
+    "text": "color: #4a2c2a;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 761,
+    "text": "color: #4a2c2a;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 770,
+    "text": "color: #2e7d32;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 868,
+    "text": "color: #c62828;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 873,
+    "text": "color: #2e7d32;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 983,
+    "text": "color: #4caf50;"
+  },
+  {
+    "file": "StudentAssignments.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentAssignments.css",
+    "line": 987,
+    "text": "color: #f44336;"
+  },
+  {
+    "file": "StudentDetail.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentDetail.css",
+    "line": 93,
+    "text": "color: #FFD54F;"
+  },
+  {
+    "file": "StudentDetail.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentDetail.css",
+    "line": 247,
+    "text": "color: #e67e22;"
+  },
+  {
+    "file": "StudentProfile.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentProfile.css",
+    "line": 15,
+    "text": "--ion-background-color: #f4f5f8;"
+  },
+  {
+    "file": "StudentProfile.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentProfile.css",
+    "line": 332,
+    "text": "color: #f39c12;"
+  },
+  {
+    "file": "StudentProfile.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentProfile.css",
+    "line": 648,
+    "text": "border-color: #9b59b6;"
+  },
+  {
+    "file": "StudentProfile.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentProfile.css",
+    "line": 653,
+    "text": "border-color: #f1c40f;"
+  },
+  {
+    "file": "StudentProfile.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentProfile.css",
+    "line": 658,
+    "text": "border-color: #3498db;"
+  },
+  {
+    "file": "StudentProfile.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentProfile.css",
+    "line": 663,
+    "text": "border-color: #2ecc71;"
+  },
+  {
+    "file": "StudentScores.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentScores.css",
+    "line": 153,
+    "text": "color: #FFD700;"
+  },
+  {
+    "file": "StudentSettings.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentSettings.css",
+    "line": 204,
+    "text": "background-color: #2A2018 !important;"
+  },
+  {
+    "file": "StudentSettings.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentSettings.css",
+    "line": 209,
+    "text": "background-color: #0F2540 !important;"
+  },
+  {
+    "file": "StudentSettings.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentSettings.css",
+    "line": 214,
+    "text": "background-color: #1A3020 !important;"
+  },
+  {
+    "file": "StudentSettings.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentSettings.css",
+    "line": 219,
+    "text": "background-color: #2A1018 !important;"
+  },
+  {
+    "file": "StudentSettings.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentSettings.css",
+    "line": 224,
+    "text": "background-color: #153525 !important;"
+  },
+  {
+    "file": "StudentSettings.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\pages\\StudentSettings.css",
+    "line": 229,
+    "text": "background-color: #2A2418 !important;"
+  },
+  {
+    "file": "BattleLobby.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\components\\battlelobbybackup\\BattleLobby.css",
+    "line": 128,
+    "text": "color: #f1c40f;"
+  },
+  {
+    "file": "BattleLobby.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\components\\battlelobbybackup\\BattleLobby.css",
+    "line": 133,
+    "text": "color: #2ecc71;"
+  },
+  {
+    "file": "BattleLobby.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\components\\battlelobbybackup\\BattleLobby.css",
+    "line": 183,
+    "text": "color: #94a3b8;"
+  },
+  {
+    "file": "BattleLobby.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\components\\battlelobbybackup\\BattleLobby.css",
+    "line": 337,
+    "text": "color: #4b3600;"
+  },
+  {
+    "file": "BattleLobby.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\components\\battlelobbybackup\\BattleLobby.css",
+    "line": 501,
+    "text": "color: #ffd700;"
+  },
+  {
+    "file": "BattleLobby.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\components\\battlelobbybackup\\BattleLobby.css",
+    "line": 551,
+    "text": "color: #5c3a00;"
+  },
+  {
+    "file": "BattleResultModal.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\components\\BattleResultModal.css",
+    "line": 50,
+    "text": "color: #FFF3E0;"
+  },
+  {
+    "file": "BattleResultModal.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\components\\BattleResultModal.css",
+    "line": 126,
+    "text": "color: #FFD54F;"
+  },
+  {
+    "file": "BattleResultModal.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\components\\BattleResultModal.css",
+    "line": 235,
+    "text": "color: #8D6E63;"
+  },
+  {
+    "file": "BattleResultModal.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\components\\BattleResultModal.css",
+    "line": 244,
+    "text": "color: #5D4037;"
+  },
+  {
+    "file": "SessionExpiredModal.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\components\\SessionExpiredModal.css",
+    "line": 53,
+    "text": "color: #2D3436;"
+  },
+  {
+    "file": "SessionExpiredModal.css",
+    "path": "d:\\repositories\\ArenAI\\aren-ai\\src\\components\\SessionExpiredModal.css",
+    "line": 60,
+    "text": "color: #636E72;"
+  }
+]
