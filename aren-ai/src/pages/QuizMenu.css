@@ -520,24 +520,53 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 @media (prefers-color-scheme: dark) {
 
-  .quiz-menu-section-title,
+  .quiz-menu-section-title {
+    color: var(--ion-text-color) !important;
+  }
+
   .quiz-menu-card-name {
-    color: var(--ion-text-color);
+    color: var(--ion-color-secondary) !important;
   }
 
   .quiz-menu-searchbar,
   .quiz-menu-filter-btn {
-    --background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
-    --color: white;
-    --placeholder-color: rgba(255, 255, 255, 0.5);
+    --background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    --color: white !important;
+    --placeholder-color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .quiz-menu-searchbar .searchbar-input-container {
+    background: transparent !important;
+  }
+
+  .quiz-menu-searchbar input.searchbar-input {
+    background: transparent !important;
+    color: white !important;
+  }
+
+  .quiz-menu-filter-btn ion-icon {
+    color: var(--ion-color-secondary) !important;
+  }
+
+  .quiz-menu-card {
+    background: var(--ion-card-background) !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  .quiz-menu-card:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
   }
 
   .quiz-menu-card-meta,
   .quiz-menu-card-downloads,
-  .quiz-menu-rating-number,
+  .quiz-menu-rating-number {
+    color: rgba(255, 255, 255, 0.6) !important;
+    opacity: 1 !important;
+  }
+
   .quiz-menu-empty {
-    color: var(--ion-text-color-step-400);
+    color: rgba(255, 255, 255, 0.5) !important;
     opacity: 1 !important;
   }
 
@@ -558,13 +587,19 @@
     color: rgba(255, 255, 255, 0.8);
   }
 
-  .quiz-menu-card-date,
+  .quiz-menu-card-date {
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
+
   .quiz-menu-detail-meta,
   .quiz-menu-ownership-label,
   .quiz-menu-detail-stat-label,
   .quiz-menu-detail-description,
+  .quiz-menu-more-questions {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
   .quiz-menu-question-text,
-  .quiz-menu-more-questions,
   .quiz-menu-close-btn,
   .quiz-menu-detail-title,
   .quiz-menu-detail-section-title,
@@ -579,6 +614,15 @@
 
   .quiz-menu-detail-ownership {
     background: rgba(255, 255, 255, 0.05);
+  }
+
+  .quiz-menu-action-btn.secondary {
+    color: var(--ion-color-secondary) !important;
+    border-color: var(--ion-color-secondary) !important;
+  }
+
+  .quiz-menu-delete-btn {
+    color: var(--ion-color-danger) !important;
   }
 }
 

@@ -336,3 +336,270 @@ ion-textarea.has-error,
     padding: 28px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GLOBAL DARK MODE TEXT VISIBILITY
+   Ensures all text remains readable on dark backgrounds across all pages.
+   Many components use var(--ion-color-primary) or var(--ion-color-dark) as
+   text color, which resolves to dark values (e.g. #2A4A78 navy) that are
+   invisible on dark backgrounds.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-color-scheme: dark) {
+
+  /* ═══ ROOT FIX #1: All modals must be opaque ═══ */
+  ion-modal::part(content) {
+    background: var(--ion-background-color) !important;
+  }
+
+  ion-modal::part(backdrop) {
+    background: rgba(0, 0, 0, 0.7) !important;
+    opacity: 1 !important;
+  }
+
+  /* ═══ ROOT FIX #2: --ion-color-primary is DARK in dark themes ═══
+     Many components use `color: var(--ion-color-primary)` for text, 
+     but in dark themes --ion-color-primary is e.g. #2A4A78 (dark navy).
+     Override ALL common text elements that use primary as text color. */
+
+  /* --- General body text color --- */
+  body {
+    color: var(--ion-text-color);
+  }
+
+  /* --- Headings, labels, and text that use --ion-color-primary as text --- */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--ion-text-color);
+  }
+
+  /* --- Elements using --ion-color-dark (undefined/black in dark mode) --- */
+  .stat-label,
+  .stat-val {
+    color: var(--ion-text-color) !important;
+  }
+
+  /* --- Toggle/tab text --- */
+  .toggle-opt {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  .toggle-opt.selected {
+    color: var(--ion-color-secondary) !important;
+    border-bottom-color: var(--ion-color-secondary) !important;
+  }
+
+  .toggle-sep {
+    color: rgba(255, 255, 255, 0.3) !important;
+  }
+
+  /* --- Lobby table (BattleLobby) --- */
+  .lobby-table-header {
+    color: var(--ion-color-secondary) !important;
+  }
+
+  .col-host {
+    color: var(--ion-text-color) !important;
+  }
+
+  .col-subject,
+  .col-school,
+  .col-section {
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+
+  .lobby-empty-state {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .lobby-waiting-state {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  /* --- Speech bubble / cards --- */
+  .speech-bubble {
+    color: var(--ion-text-color) !important;
+  }
+
+  /* --- Stat units (win rate, streak boxes) --- */
+  .stat-unit {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  .stat-unit:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  /* --- Segment buttons --- */
+  .custom-segment ion-segment-button {
+    --color: rgba(255, 255, 255, 0.7);
+    --color-checked: var(--ion-color-primary-contrast);
+  }
+
+  /* --- Ion components text color inheritance --- */
+  ion-card-title,
+  ion-card-subtitle,
+  ion-card-header {
+    color: var(--ion-text-color) !important;
+  }
+
+  ion-card-content {
+    color: var(--ion-text-color) !important;
+  }
+
+  /* --- General labels and notes --- */
+  ion-note {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  /* --- Inputs in dark mode --- */
+  ion-input,
+  ion-textarea,
+  ion-select {
+    --color: var(--ion-text-color) !important;
+    --placeholder-color: rgba(255, 255, 255, 0.4) !important;
+  }
+
+  /* --- Section headers used across pages --- */
+  .section-title,
+  .page-title,
+  .card-title,
+  .menu-section-title {
+    color: var(--ion-text-color) !important;
+  }
+
+  /* --- Links and interactive text --- */
+  a {
+    color: var(--ion-color-secondary);
+  }
+
+  /* --- Empty/placeholder states --- */
+  .empty-state,
+  .no-data,
+  .placeholder-text {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  /* ═══ StudentAssignments Page ═══ */
+  .page-title {
+    color: var(--ion-color-secondary) !important;
+    text-shadow: none !important;
+  }
+
+  .section-header h2 {
+    color: var(--ion-text-color) !important;
+  }
+
+  .count-badge {
+    color: var(--ion-text-color) !important;
+  }
+
+  .assignment-start-link {
+    color: var(--ion-color-secondary) !important;
+  }
+
+  .quiz-sort-label {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  .paper-title,
+  .task-quiz-name {
+    color: var(--ion-color-secondary) !important;
+  }
+
+  .paper-subtitle,
+  .paper-date,
+  .task-quiz-date,
+  .task-center {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .paper-view-btn,
+  .task-quiz-details-btn {
+    color: var(--ion-color-secondary) !important;
+    border-color: var(--ion-color-secondary) !important;
+  }
+
+  .quiz-list-filter-btn {
+    color: var(--ion-color-secondary) !important;
+  }
+
+  .flat-status-text,
+  .flat-info-row,
+  .flat-start-text,
+  .assignment-due-row,
+  .assignment-completed-row {
+    color: var(--ion-text-color) !important;
+  }
+
+  .task-name {
+    color: var(--ion-color-secondary) !important;
+  }
+
+  /* ═══ PersonalityQuiz Page ═══ */
+  .pq-results-card {
+    background: var(--ion-card-background) !important;
+  }
+
+  .pq-results-title {
+    color: var(--ion-color-secondary) !important;
+  }
+
+  .pq-results-description {
+    color: var(--ion-text-color) !important;
+  }
+
+  .pq-traits-container {
+    background: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  .pq-traits-title {
+    color: var(--ion-color-secondary) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .pq-trait-item {
+    color: var(--ion-text-color) !important;
+  }
+
+  .pq-option-btn {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .pq-opt-text {
+    color: var(--ion-text-color) !important;
+  }
+
+  .pq-exit-button {
+    color: rgba(255, 255, 255, 0.6) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  .pq-nav-back {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  /* ═══ BattleLobby Page ═══ */
+  .battle-lobby-page,
+  .battle-content {
+    color: var(--ion-text-color);
+  }
+
+  .lobby-table-row {
+    background: rgba(255, 255, 255, 0.03) !important;
+  }
+
+  .lobby-table-row:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* ═══ StudentSettings Page ═══ */
+  .settings-section-title {
+    color: var(--ion-text-color) !important;
+  }
+
+  /* ═══ Ion List/Item global overrides ═══ */
+  ion-list-header {
+    color: var(--ion-color-secondary) !important;
+  }
+}

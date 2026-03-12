@@ -63,6 +63,19 @@ class SocketService {
         }
     });
 
+    // Handle server kicking this socket due to a duplicate connection
+    // (e.g., user opened a new tab). Don't try to reconnect — the new
+    // connection is the authoritative one.
+    this.socket.on('force_disconnect', (data: { reason: string }) => {
+        console.log('[SocketService] Force disconnected by server:', data.reason);
+        if (this.socket) {
+            this.socket.removeAllListeners();
+            this.socket.disconnect();
+            this.socket = null;
+            this.lastToken = null;
+        }
+    });
+
     // Listen for insight generation updates from cron job
     this.socket.on('insight_update', (data: { timestamp: string; message: string; data?: any }) => {
         console.log('');

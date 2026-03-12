@@ -11,7 +11,7 @@ description: Deploy the backend to Google Cloud Run
 1. Run from the `backend/` directory:
    ```bash
    cd c:\ArenAI\ArenAI\backend
-   gcloud run deploy arenai-backend --source . --region us-central1 --project project-c51b6aa6-3bde-49a4-9b0 --allow-unauthenticated
+   gcloud run deploy arenai-backend --source . --region us-central1 --project project-c51b6aa6-3bde-49a4-9b0 --allow-unauthenticated --max-instances=1 --session-affinity --min-instances=1
    ```
 
 Service URL: `https://arenai-backend-279714222087.us-central1.run.app`

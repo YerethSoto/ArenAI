@@ -75,6 +75,20 @@ export const initSocket = (io: Server) => {
         const userId = socket.data.user.id;
         console.log(`[Socket] Connected: ${userId} (${socket.id})`);
 
+        // --- DUPLICATE CONNECTION GUARD ---
+        // Kick any existing socket for the same user (prevents ghost connections
+        // that hold queue slots or game positions)
+        if (!userId.startsWith('guest_')) {
+            for (const [, existingSocket] of io.sockets.sockets) {
+                if (existingSocket.id !== socket.id && existingSocket.data.user?.id === userId) {
+                    console.log(`[Socket] Kicking duplicate connection for ${userId} (old=${existingSocket.id})`);
+                    existingSocket.emit('force_disconnect', { reason: 'new_connection' });
+                    existingSocket.disconnect(true);
+                }
+            }
+        }
+        // --- END DUPLICATE CONNECTION GUARD ---
+
         // ===== CRITICAL: AUTO-JOIN CHAT ROOMS =====
         // This ensures users receive messages even if they haven't opened the chat yet
         // Without this, first-time app users won't get any messages

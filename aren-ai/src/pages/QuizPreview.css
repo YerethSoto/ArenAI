@@ -650,3 +650,117 @@
 .preview-add-question ion-icon {
   font-size: 22px;
 }
+
+/* ========== DARK MODE OVERRIDES ========== */
+@media (prefers-color-scheme: dark) {
+
+  /* --- Quiz title and separator --- */
+  .preview-quiz-name {
+    color: var(--ion-text-color) !important;
+  }
+
+  .preview-edit-icon {
+    color: var(--ion-color-secondary) !important;
+  }
+
+  .preview-line {
+    background: linear-gradient(to right, transparent, var(--ion-color-secondary), transparent) !important;
+  }
+
+  .preview-center {
+    color: var(--ion-color-secondary) !important;
+  }
+
+  .preview-total-points {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  /* --- Question cards --- */
+  .preview-question-text {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: var(--ion-text-color) !important;
+  }
+
+  .preview-question-text:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  /* --- Answer items --- */
+  .preview-answer-item {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  .preview-answer-item:hover {
+    background-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  .preview-answer-item.correct {
+    border-color: var(--ion-color-success) !important;
+    background-color: rgba(var(--ion-color-success-rgb), 0.15) !important;
+  }
+
+  .preview-answer-text {
+    color: var(--ion-text-color) !important;
+  }
+
+  .preview-answer-edit {
+    color: var(--ion-color-secondary) !important;
+  }
+
+  /* --- Action buttons on question cards --- */
+  .preview-action-btn {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .preview-action-btn:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .preview-action-btn ion-icon {
+    color: var(--ion-color-secondary) !important;
+  }
+
+  .preview-action-btn.delete ion-icon {
+    color: var(--ion-color-danger) !important;
+  }
+
+  /* --- Add question button --- */
+  .preview-add-question {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  .preview-add-question:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* --- Edit modals (question/answer edit) --- */
+  .preview-modal-inner {
+    background: var(--ion-card-background) !important;
+    border-color: var(--ion-color-secondary) !important;
+    backdrop-filter: none !important;
+  }
+
+  .preview-modal-inner::before {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .preview-modal-title {
+    color: var(--ion-text-color) !important;
+  }
+
+  .preview-toggle-label {
+    color: var(--ion-text-color) !important;
+  }
+
+  .preview-modal-btn.cancel {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: var(--ion-text-color) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  /* --- Subject select --- */
+  .preview-label {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+}

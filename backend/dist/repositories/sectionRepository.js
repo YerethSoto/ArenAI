@@ -36,3 +36,10 @@ export async function findSectionByNumberAndInstitution(sectionNumber, instituti
      LIMIT 1`, [sectionNumber, institutionId]);
     return result.rows.at(0) ?? null;
 }
+export async function findSectionByGradeAndNumber(grade, sectionNumber, institutionId) {
+    const result = await db.query(`SELECT id_section, section_number, grade, id_institution
+     FROM section
+     WHERE grade = ? AND section_number = ? AND id_institution = ?
+     LIMIT 1`, [grade, sectionNumber, institutionId]);
+    return result.rows.at(0) ?? null;
+}

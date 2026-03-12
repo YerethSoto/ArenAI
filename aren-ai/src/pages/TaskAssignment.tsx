@@ -425,16 +425,7 @@ const TaskAssignment: React.FC = () => {
         quizFilterTopics.length === 0 ||
         quiz.topics.some((t) => quizFilterTopics.includes(t));
 
-      // Subject filter (global)
-      // Use fuzzy matching because DB subject names might differ from UI (e.g. "Spanish" vs "Spanish as a First Language")
-      const quizSub = quiz.subject.toLowerCase();
-      const selectedSub = selectedSubject.toLowerCase();
-      const matchesSubject =
-        quizSub === selectedSub ||
-        quizSub.includes(selectedSub) ||
-        selectedSub.includes(quizSub);
-
-      return matchesSearch && matchesGrade && matchesTopics && matchesSubject;
+      return matchesSearch && matchesGrade && matchesTopics;
     })
     .sort((a, b) => {
       const dateA = new Date(a.createdAt).getTime();

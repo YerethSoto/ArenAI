@@ -4,7 +4,7 @@ import { findUserByIdentifier, findUserByUsername, createUser, linkUserToSection
 import { ApiError } from '../middleware/errorHandler.js';
 import { signAccessToken, verifyPassword, hashPassword } from '../services/authService.js';
 import { createInstitution, findInstitutionByName } from '../repositories/institutionRepository.js';
-import { getSectionById } from '../repositories/sectionRepository.js';
+import { getSectionById, findSectionByGradeAndNumber } from '../repositories/sectionRepository.js';
 const router = Router();
 const loginSchema = z.object({
     identifier: z.string().min(1, 'Identifier is required'),
@@ -143,7 +143,10 @@ router.post('/register-student', async (req, res, next) => {
         username: z.string().min(1),
         password: z.string().min(6),
         institution: z.string().min(1),
-        sectionId: z.number().int().positive(),
+        sectionId: z.number().int().positive().optional(),
+        sectionNumber: z.string().min(1).optional(),
+    }).refine(data => data.sectionId || data.sectionNumber, {
+        message: 'Either sectionId or sectionNumber is required',
     });
     try {
         const body = schema.parse(req.body);
@@ -164,10 +167,29 @@ router.post('/register-student', async (req, res, next) => {
         // Verify section exists and belongs to institution
         if (!idInstitution)
             throw new ApiError(400, 'Institution not found');
-        // Check if section exists by ID directly
-        const secRow = await getSectionById(body.sectionId);
+        let secRow = null;
+        if (body.sectionId) {
+            // Legacy: resolve by direct ID
+            secRow = await getSectionById(body.sectionId);
+            if (!secRow) {
+                throw new ApiError(404, 'Section not found');
+            }
+        }
+        else if (body.sectionNumber) {
+            // Parse "7-1" into grade="7" and section_number="1"
+            const parts = body.sectionNumber.split('-');
+            if (parts.length !== 2) {
+                throw new ApiError(400, 'Section format must be "grade-section" (e.g. "7-1")');
+            }
+            const [grade, sectionNum] = parts;
+            // Query by grade + section_number + institution
+            secRow = await findSectionByGradeAndNumber(grade, sectionNum, idInstitution);
+            if (!secRow) {
+                throw new ApiError(404, `Section "${body.sectionNumber}" not found at this institution`);
+            }
+        }
         if (!secRow) {
-            throw new ApiError(404, 'Section not found');
+            throw new ApiError(400, 'Section could not be resolved');
         }
         if (secRow.id_institution !== idInstitution) {
             throw new ApiError(400, 'Section does not belong to the institution');

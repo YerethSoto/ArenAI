@@ -1,6 +1,6 @@
 /* Scoped styles for the Student Menu to override global defaults */
 #student-menu {
-  --background: var(--ion-background-color, #ffffff);
+  --background: transparent;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -13,10 +13,9 @@
 /* DARK MODE - Use theme variable as base, then override per theme */
 @media (prefers-color-scheme: dark) {
 
-  /* Base fallback - uses theme variable */
+  /* Keep menu host transparent so backdrop shows through */
   #student-menu {
-    --background: var(--ion-background-color) !important;
-    background: var(--ion-background-color) !important;
+    --background: transparent !important;
   }
 
   #student-menu ion-content {
@@ -299,50 +298,118 @@ ion-item:hover {
   }
 }
 
-/* Dark mode support - Using themed colored backgrounds */
+/* Make backdrop transparent to see page background behind sidebar */
+#student-menu::part(backdrop) {
+  background-color: transparent !important;
+  opacity: 0 !important;
+}
+
+/* Dark mode support - Solid Opaque Backgrounds Per Theme */
 @media (prefers-color-scheme: dark) {
 
-  /* Sidebar background - DARKER/more opaque */
+  /* Keep menu host transparent so backdrop stays see-through */
   #student-menu {
-    --background: color-mix(in srgb, var(--ion-background-color) 60%, black);
-    background: color-mix(in srgb, var(--ion-background-color) 60%, black);
+    --background: transparent !important;
   }
 
+  /* Content panel gets solid opaque background */
   #student-menu ion-content {
-    --background: color-mix(in srgb, var(--ion-background-color) 60%, black);
-    background: color-mix(in srgb, var(--ion-background-color) 60%, black);
+    --background: var(--ion-background-color) !important;
+    background: var(--ion-background-color) !important;
   }
 
-  /* Menu items */
-  ion-item {
-    --color: var(--ion-text-color) !important;
-    color: var(--ion-text-color) !important;
+  /* Theme-specific solid backgrounds — only on ion-content */
+  body.theme-navy #student-menu ion-content {
+    --background: #0A1830 !important;
+    background: #0A1830 !important;
+  }
+
+  body.theme-sage #student-menu ion-content {
+    --background: #0F2010 !important;
+    background: #0F2010 !important;
+  }
+
+  body.theme-burgundy #student-menu ion-content {
+    --background: #200810 !important;
+    background: #200810 !important;
+  }
+
+  body.theme-bamboo #student-menu ion-content {
+    --background: #0E1F14 !important;
+    background: #0E1F14 !important;
+  }
+
+  body.theme-earth #student-menu ion-content {
+    --background: #1A1810 !important;
+    background: #1A1810 !important;
+  }
+
+  body.theme-original-alter #student-menu ion-content {
+    --background: #2A2018 !important;
+    background: #2A2018 !important;
+  }
+
+  body.theme-ocean #student-menu ion-content {
+    --background: #0C1929 !important;
+    background: #0C1929 !important;
+  }
+
+  body.theme-sunset #student-menu ion-content {
+    --background: #1A1520 !important;
+    background: #1A1520 !important;
+  }
+
+  body.theme-lavender #student-menu ion-content {
+    --background: #141420 !important;
+    background: #141420 !important;
+  }
+
+  body.theme-forest #student-menu ion-content {
+    --background: #0D1A12 !important;
+    background: #0D1A12 !important;
+  }
+
+  body.theme-arctic #student-menu ion-content {
+    --background: #12161C !important;
+    background: #12161C !important;
+  }
+
+  /* Default/Original theme */
+  body:not([class*="theme-"]) #student-menu ion-content {
+    --background: #2A2018 !important;
+    background: #2A2018 !important;
+  }
+
+  /* Menu items - scoped to sidebar for specificity */
+  #student-menu ion-item {
+    --color: #ffffff !important;
+    color: #ffffff !important;
     --background: transparent;
     --background-hover: rgba(255, 255, 255, 0.12);
   }
 
-  ion-item ion-label {
-    color: var(--ion-text-color) !important;
+  #student-menu ion-item ion-label {
+    color: #ffffff !important;
   }
 
-  ion-item ion-icon {
+  #student-menu ion-item ion-icon {
     color: rgba(255, 255, 255, 0.85) !important;
   }
 
   /* List headers */
-  ion-list-header {
+  #student-menu ion-list-header {
     color: rgba(255, 255, 255, 0.7) !important;
   }
 
   /* Selected item - LIGHTER for contrast */
-  ion-item.selected {
+  #student-menu ion-item.selected {
     --background: rgba(255, 255, 255, 0.18);
-    --color: var(--ion-text-color) !important;
-    color: var(--ion-text-color) !important;
+    --color: #ffffff !important;
+    color: #ffffff !important;
     font-weight: 600;
   }
 
-  ion-item.selected ion-icon {
+  #student-menu ion-item.selected ion-icon {
     color: var(--ion-color-secondary) !important;
   }
 
@@ -358,12 +425,28 @@ ion-item:hover {
   .sidebar-usage-info {
     background: rgba(0, 0, 0, 0.2);
     border-color: rgba(255, 255, 255, 0.1);
-    color: var(--ion-text-color);
+    color: #ffffff;
   }
 
   .usage-label,
   .usage-progress-label {
-    color: var(--ion-text-color) !important;
+    color: #ffffff !important;
+  }
+}
+
+/* Light mode - ensure proper text color adaptation */
+@media (prefers-color-scheme: light) {
+  #student-menu ion-item {
+    --color: var(--ion-text-color);
+    color: var(--ion-text-color);
+  }
+
+  #student-menu ion-item ion-label {
+    color: var(--ion-text-color);
+  }
+
+  #student-menu ion-list-header {
+    color: var(--ion-color-primary);
   }
 }
 

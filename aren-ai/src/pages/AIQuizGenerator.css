@@ -593,6 +593,17 @@
   --max-height: 80vh;
 }
 
+.quiz-topic-modal::part(content) {
+  background: var(--ion-background-color);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.quiz-topic-modal::part(backdrop) {
+  background: rgba(0, 0, 0, 0.7);
+  opacity: 1;
+}
+
 .quiz-modal-header {
   display: flex;
   justify-content: space-between;
@@ -779,30 +790,138 @@
 /* ========== DARK MODE OVERRIDES ========== */
 @media (prefers-color-scheme: dark) {
 
+  /* --- General text --- */
   .quiz-name-display,
   .quiz-topic-name,
   .quiz-questions-label,
   .quiz-slider-label,
   .quiz-details-label {
-    color: white !important;
+    color: var(--ion-text-color) !important;
   }
 
-  .quiz-name-edit-icon {
-    color: white !important;
+  .quiz-name-edit-icon,
+  .floral-center {
+    color: var(--ion-color-secondary) !important;
+  }
+
+  .floral-line {
+    background: linear-gradient(to right, transparent, var(--ion-color-secondary), transparent) !important;
+  }
+
+  /* --- Topic Search Modal --- */
+  .quiz-topic-modal {
+    --background: var(--ion-background-color) !important;
+  }
+
+  .quiz-modal-header {
+    background: var(--ion-card-background) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .quiz-modal-header h3 {
+    color: var(--ion-text-color) !important;
+  }
+
+  .quiz-modal-search {
+    background: var(--ion-card-background) !important;
+  }
+
+  .quiz-searchbar {
+    --background: rgba(255, 255, 255, 0.08) !important;
+    --color: var(--ion-text-color) !important;
+    --placeholder-color: rgba(255, 255, 255, 0.4) !important;
+  }
+
+  .quiz-modal-content {
+    background: var(--ion-background-color) !important;
+  }
+
+  .quiz-topic-checkbox {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: var(--ion-color-secondary) !important;
+  }
+
+  .quiz-modal-footer {
+    background: var(--ion-card-background) !important;
+    border-top-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* --- Loading Modal (Generating Quiz) --- */
+  .quiz-loading-inner {
+    background: var(--ion-card-background) !important;
+    border-color: var(--ion-color-secondary) !important;
+    backdrop-filter: none !important;
   }
 
   .quiz-loading-title {
-    color: var(--ion-text-color);
-    text-shadow: none;
+    color: var(--ion-text-color) !important;
+    text-shadow: none !important;
   }
 
   .quiz-loading-text {
-    color: var(--ion-text-color-step-400);
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  .spinner-ring {
+    background: linear-gradient(135deg, var(--ion-color-secondary), var(--ion-color-secondary-tint)) !important;
+  }
+
+  /* --- Name Modal (Quiz Name) --- */
+  .quiz-modal-inner {
+    background: var(--ion-card-background) !important;
+    border-color: var(--ion-color-secondary) !important;
+    backdrop-filter: none !important;
+  }
+
+  .quiz-modal-inner::before {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .quiz-modal-title {
+    color: var(--ion-text-color) !important;
+  }
+
+  .quiz-input-wrapper {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: var(--ion-color-secondary) !important;
+  }
+
+  .quiz-modal-input-field {
+    color: var(--ion-text-color) !important;
+  }
+
+  .quiz-modal-input-field::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
+
+  .quiz-modal-hint {
+    color: rgba(255, 255, 255, 0.5) !important;
   }
 
   .quiz-modal-btn.cancel {
-    background: var(--ion-color-surface-elevated, #3a3a3a);
-    color: var(--ion-text-color);
-    border-color: var(--ion-border-color);
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: var(--ion-text-color) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  /* --- Subject dropdown --- */
+  .quiz-subject-dropdown {
+    background: var(--ion-card-background) !important;
+  }
+
+  .quiz-subject-option {
+    color: var(--ion-text-color) !important;
+    border-bottom-color: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  .quiz-subject-option:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* --- Details textarea --- */
+  .quiz-details-textarea {
+    --background: rgba(255, 255, 255, 0.05) !important;
+    --color: var(--ion-text-color) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
   }
 }
