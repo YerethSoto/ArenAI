@@ -467,7 +467,7 @@
 }
 
 .pst-student-card {
-    background: var(--ion-color-secondary-soft);
+    background: rgba(var(--ion-color-secondary-rgb), 0.6);
     border-radius: 16px;
     overflow: hidden;
     transition: all 0.2s ease;
@@ -1417,5 +1417,54 @@
 
     .pst-stat-card .pst-stat-value {
         font-size: 28px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-color-scheme: dark) {
+
+    .pst-podium-card,
+    .pst-battler-row,
+    .pst-alert-card,
+    .pst-detail-section,
+    .pst-profile-stat,
+    .pst-battle-stat,
+    .pst-battle-item,
+    .pst-achievement-badge,
+    .pst-lb-row,
+    .pst-rivalry-card,
+    .pst-activity-row {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .pst-podium-card.rank-1 {
+        background: linear-gradient(180deg, rgba(241, 196, 15, 0.08), rgba(255, 255, 255, 0.05));
+    }
+
+    .pst-lb-row:hover {
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .pst-lb-row.top-1 {
+        background: linear-gradient(90deg, rgba(241, 196, 15, 0.06), rgba(255, 255, 255, 0.05));
+    }
+
+    .pst-detail-tab {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--ion-text-color-step-300);
+    }
+
+    .pst-warning-banner {
+        color: #e57373;
+    }
+
+    .pst-alert-topic-chip {
+        color: #e57373;
+    }
+
+    .pst-student-detail {
+        border-top-color: rgba(255, 255, 255, 0.06);
     }
 }

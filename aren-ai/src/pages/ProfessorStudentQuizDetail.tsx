@@ -479,11 +479,11 @@ const ProfessorStudentQuizDetail: React.FC = () => {
                     {/* ── Summary chips ── */}
                     <div className="psqd-section psqd-summary-chips">
                         <div className="psqd-chip">
-                            <IonIcon icon={checkmarkCircleOutline} style={{ color: '#2ecc71' }} />
+                            <IonIcon icon={checkmarkCircleOutline} style={{ color: 'var(--ion-color-success)' }} />
                             <span>{correctCount} Correctas</span>
                         </div>
                         <div className="psqd-chip">
-                            <IonIcon icon={closeCircleOutline} style={{ color: '#e74c3c' }} />
+                            <IonIcon icon={closeCircleOutline} style={{ color: 'var(--ion-color-danger)' }} />
                             <span>{questions.length - correctCount} Incorrectas</span>
                         </div>
                         <div className="psqd-chip">

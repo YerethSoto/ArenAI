@@ -115,7 +115,7 @@ const Shop: React.FC = () => {
                                 </div>
                                 <div className="featured-card" style={{ background: 'linear-gradient(135deg, #8e44ad, #3498db)' }}>
                                     <div className="feat-content">
-                                        <div className="feat-tag" style={{ background: '#2ecc71' }}>NUEVO</div>
+                                        <div className="feat-tag" style={{ background: 'var(--ion-color-success)' }}>NUEVO</div>
                                         <div className="feat-title">Cyber Frame</div>
                                         <div className="feat-desc">Estilo futurista para tu perfil.</div>
                                         <div className="feat-price">

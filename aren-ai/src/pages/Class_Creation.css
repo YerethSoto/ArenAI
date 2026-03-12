@@ -191,15 +191,15 @@
 }
 
 .cc-icon-wrapper.grade {
-  background: #fff3e0;
-  color: #ff9800;
-  border: 2px solid #ffe0b2;
+  background: var(--ion-color-warning-soft);
+  color: var(--ion-color-warning);
+  border: 2px solid var(--ion-color-warning-tint);
 }
 
 .cc-icon-wrapper.section {
-  background: #f3e5f5;
-  color: #ab47bc;
-  border: 2px solid #e1bee7;
+  background: var(--ion-color-tertiary-soft, rgba(var(--ion-color-tertiary-rgb), 0.15));
+  color: var(--ion-color-tertiary);
+  border: 2px solid var(--ion-color-tertiary-tint);
 }
 
 /* 11. SELECT STYLING */
@@ -250,8 +250,8 @@
 }
 
 .cc-create-button:disabled {
-  --background: #cfd8dc;
-  --box-shadow: 0 4px 0 #b0bec5;
+  --background: var(--ion-color-medium);
+  --box-shadow: 0 4px 0 var(--ion-border-color);
   opacity: 0.8;
 }
 
@@ -444,7 +444,7 @@
 
 .cc-btn-copy {
   background: var(--cc-secondary);
-  color: #FFF;
+  color: var(--ion-color-primary-contrast);
   border: none;
   padding: 6px 16px;
   border-radius: 20px;
@@ -466,7 +466,7 @@
 }
 
 .cc-qr-code-wrapper {
-  background: #FFF;
+  background: var(--ion-card-background);
   padding: 12px;
   border-radius: 16px;
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
@@ -480,7 +480,7 @@
 .cc-qr-link {
   font-family: var(--cc-font-body);
   font-size: 0.8rem;
-  color: #9e9e9e;
+  color: var(--ion-text-color-step-400);
   word-break: break-all;
   margin-bottom: 24px;
   padding: 0 10px;

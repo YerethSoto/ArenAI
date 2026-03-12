@@ -294,3 +294,38 @@
         --padding-end: 32px;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-color-scheme: dark) {
+    .attendance-btn.present.active {
+        background: rgba(16, 185, 129, 0.2);
+        color: #34d399;
+    }
+
+    .attendance-btn.absent.active {
+        background: rgba(239, 68, 68, 0.2);
+        color: #f87171;
+    }
+
+    .attendance-btn.late.active {
+        background: rgba(245, 158, 11, 0.2);
+        color: #fbbf24;
+    }
+
+    .grade-badge.high {
+        background: rgba(16, 185, 129, 0.2);
+        color: #34d399;
+    }
+
+    .grade-badge.medium {
+        background: rgba(245, 158, 11, 0.2);
+        color: #fbbf24;
+    }
+
+    .grade-badge.low {
+        background: rgba(239, 68, 68, 0.2);
+        color: #f87171;
+    }
+}

@@ -97,3 +97,23 @@
         transform: scale(1);
     }
 }
+
+/* ═══════════ Dark Mode Overrides ═══════════ */
+@media (prefers-color-scheme: dark) {
+    .session-expired-content {
+        background: var(--ion-card-background);
+    }
+
+    .session-expired-title {
+        color: var(--ion-text-color);
+    }
+
+    .session-expired-message {
+        color: var(--ion-text-color-step-400);
+    }
+
+    .session-expired-btn {
+        background: var(--ion-color-primary);
+        color: var(--ion-color-primary-contrast, white);
+    }
+}

@@ -150,7 +150,7 @@
 
 .average-icon {
   font-size: 1.8rem;
-  color: #FFD700;
+  color: var(--ion-color-warning);
   /* Gold trophy color */
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
@@ -225,17 +225,17 @@
 
 /* Score Variations */
 .score-high {
-  background: #27ae60;
+  background: var(--ion-color-success);
   color: white;
 }
 
 .score-medium {
-  background: #f39c12;
+  background: var(--ion-color-warning);
   color: white;
 }
 
 .score-low {
-  background: #e74c3c;
+  background: var(--ion-color-danger);
   color: white;
 }
 

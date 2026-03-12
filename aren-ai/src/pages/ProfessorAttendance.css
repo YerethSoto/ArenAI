@@ -494,3 +494,31 @@
         font-size: 13px;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-color-scheme: dark) {
+    .pa-count-badge.present {
+        color: #2ecc71;
+    }
+
+    .pa-count-badge.late {
+        color: #f39c12;
+    }
+
+    .pa-action-btn.present {
+        color: #2ecc71;
+        border-color: rgba(46, 204, 113, 0.4);
+    }
+
+    .pa-action-btn.absent {
+        color: #e74c3c;
+        border-color: rgba(231, 76, 60, 0.4);
+    }
+
+    .pa-action-btn.late {
+        color: #f39c12;
+        border-color: rgba(243, 156, 18, 0.4);
+    }
+}
