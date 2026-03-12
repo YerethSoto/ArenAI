@@ -1121,3 +1121,97 @@
   margin-top: auto;
   padding-top: 20px;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-color-scheme: dark) {
+
+  .task-details-label,
+  .task-slider-label,
+  .task-range-label,
+  .task-time-label,
+  .task-quizzes-placeholder,
+  .task-section-name,
+  .task-section-grade,
+  .task-quiz-name,
+  .task-quiz-subject,
+  .task-quiz-question-text,
+  .task-quiz-question-points,
+  .task-quiz-more-questions,
+  .task-quiz-sort-indicator,
+  .task-quiz-date,
+  .task-quiz-detail-date,
+  .task-quiz-detail-title,
+  .task-quiz-detail-description,
+  .task-quiz-detail-section-title,
+  .task-quiz-filter-title,
+  .task-quiz-filter-section-title,
+  .task-quiz-sort-btn,
+  .task-quiz-grade-chip,
+  .task-quiz-topic-name,
+  .task-modal-title,
+  .task-section-title,
+  .task-grade-chip {
+    color: var(--ion-text-color) !important;
+  }
+
+  .task-instructions-input,
+  .task-modal-input,
+  .task-time-input {
+    color: var(--ion-text-color) !important;
+    background: var(--ion-card-background) !important;
+  }
+
+  .task-instructions-input::placeholder,
+  .task-modal-input::placeholder {
+    color: var(--ion-text-color-step-400) !important;
+  }
+
+  .task-date-picker {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .task-date-picker input[type="date"] {
+    color: var(--ion-text-color);
+    background: var(--ion-card-background);
+  }
+
+  .task-section-item,
+  .task-quiz-card {
+    background: var(--ion-card-background);
+  }
+
+  .task-section-item:hover,
+  .task-quiz-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .task-quiz-searchbar,
+  .task-section-search,
+  .task-quiz-topic-search {
+    --background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    --color: var(--ion-text-color) !important;
+  }
+
+  .task-quiz-filter-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .task-quiz-filter-modal::part(content) {
+    background: var(--ion-background-color) !important;
+  }
+
+  .task-quiz-sort-btn,
+  .task-quiz-grade-chip,
+  .task-quiz-topic-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .task-quiz-topic-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}

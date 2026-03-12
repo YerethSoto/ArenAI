@@ -557,6 +557,29 @@
     background: rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.8);
   }
+
+  .quiz-menu-card-date,
+  .quiz-menu-detail-meta,
+  .quiz-menu-ownership-label,
+  .quiz-menu-detail-stat-label,
+  .quiz-menu-detail-description,
+  .quiz-menu-question-text,
+  .quiz-menu-more-questions,
+  .quiz-menu-close-btn,
+  .quiz-menu-detail-title,
+  .quiz-menu-detail-section-title,
+  .quiz-menu-ownership-chain {
+    color: var(--ion-text-color) !important;
+  }
+
+  .quiz-menu-detail-btn.tertiary {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--ion-text-color);
+  }
+
+  .quiz-menu-detail-ownership {
+    background: rgba(255, 255, 255, 0.05);
+  }
 }
 
 /* Modal Buttons */

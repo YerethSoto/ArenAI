@@ -617,3 +617,48 @@
         /* Character on top */
     }
 }
+
+/* ═══════════ Dark Mode Overrides ═══════════ */
+@media (prefers-color-scheme: dark) {
+    .ae-modal-content {
+        background: var(--ion-card-background);
+        border-color: var(--ion-border-color);
+    }
+
+    .ae-modal-input-field {
+        color: var(--ion-text-color);
+    }
+
+    .ae-modal-title {
+        color: var(--ion-text-color);
+    }
+
+    .ae-name-container {
+        background: rgba(var(--ion-color-primary-rgb), 0.3);
+        border-color: var(--ion-border-color);
+    }
+
+    .ae-name-input {
+        color: var(--ion-text-color);
+        text-shadow: none;
+    }
+
+    .ae-friendship-badge {
+        background: var(--ion-color-surface, var(--ion-card-background));
+        border-color: var(--ion-border-color);
+    }
+
+    .ae-friendship-label {
+        color: var(--ion-text-color);
+    }
+
+    .ae-stat-icon-wrapper.win {
+        color: var(--ion-text-color);
+    }
+
+    .ae-modal-btn.cancel {
+        background: var(--ion-color-surface-elevated, #3a3a3a);
+        color: var(--ion-text-color);
+        border-color: var(--ion-border-color);
+    }
+}

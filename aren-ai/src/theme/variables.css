@@ -1,20 +1,31 @@
 /* Import responsive utilities */
 @import './responsive.css';
 
-/* Disable automatic dark mode */
+/* Dark mode — let theme body rules define colors; do NOT reset to light here */
 @media (prefers-color-scheme: dark) {
-  :root {
-    /* Use light theme colors even in dark mode by default, overridden by specific dark theme classes */
-    --ion-background-color: #f9f4e6;
-    --ion-text-color: #2c3e50;
+
+  /* Force Ionic components to inherit the themed text color */
+  ion-item,
+  ion-label,
+  ion-list-header,
+  ion-select,
+  ion-note,
+  ion-input,
+  ion-textarea {
+    --color: var(--ion-text-color) !important;
+    color: var(--ion-text-color) !important;
+  }
+
+  ion-segment-button {
+    --color: var(--ion-text-color);
   }
 }
 
 :root {
   /* Palette: Ultra Light Beige */
-  --ion-background-color: #f9f4e6;
-  --ion-item-background: #ffffff;
-  --ion-card-background: #ffffff;
+  --ion-background-color: #e8dfc8;
+  --ion-item-background: #8a7f65;
+  --ion-card-background: #a09470;
 
   --ion-text-color: #2c3e50;
   --ion-text-color-step-150: #415262;
@@ -44,7 +55,7 @@
   --ion-color-secondary-tint: #9bc5b3;
 
   /* Palette: Green (#90BEAB) - Cards & Calendar Backgrounds (Solid) */
-  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.5);
 
   /* Global Layout Variables */
   --page-padding: 20px;
@@ -109,10 +120,10 @@ ion-app {
 }
 
 body.theme-navy {
-  --ion-background-color: #f0f4f8;
+  --ion-background-color: #c8d4e2;
   /* Distinct Cool Blue-Grey */
-  --ion-item-background: #ffffff;
-  --ion-card-background: #ffffff;
+  --ion-item-background: #8b8c8f;
+  --ion-card-background: #9ea2a7;
   --ion-text-color: #0d47a1;
   --ion-color-primary: #002147;
   --ion-color-primary-rgb: 0, 33, 71;
@@ -121,7 +132,7 @@ body.theme-navy {
   --ion-color-primary-shade: #001d3e;
   --ion-color-primary-tint: #1a3759;
   --ion-color-secondary: #1565c0;
-  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.5);
   --ion-color-secondary-rgb: 21, 101, 192;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
@@ -136,9 +147,9 @@ body.theme-navy {
 }
 
 body.theme-sage {
-  --ion-background-color: #f5f8f0;
-  --ion-item-background: #ffffff;
-  --ion-card-background: #ffffff;
+  --ion-background-color: #d4dfc4;
+  --ion-item-background: #6e8558;
+  --ion-card-background: #889e70;
   --ion-text-color: #2c3e50;
   --ion-color-primary: #7fa336;
   --ion-color-primary-rgb: 107, 142, 35;
@@ -147,7 +158,7 @@ body.theme-sage {
   --ion-color-primary-shade: #7ca133;
   --ion-color-primary-tint: #acdf11;
   --ion-color-secondary: #b8e859;
-  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.5);
   --ion-color-secondary-rgb: 154, 205, 50;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
@@ -162,9 +173,9 @@ body.theme-sage {
 }
 
 body.theme-burgundy {
-  --ion-background-color: #faf6f1;
-  --ion-item-background: #ffffff;
-  --ion-card-background: #ffffff;
+  --ion-background-color: #ddd0c4;
+  --ion-item-background: #7a6858;
+  --ion-card-background: #96826e;
   --ion-text-color: #2c3e50;
   --ion-color-primary: #8b4513;
   --ion-color-primary-rgb: 139, 69, 19;
@@ -173,7 +184,7 @@ body.theme-burgundy {
   --ion-color-primary-shade: #7a3d11;
   --ion-color-primary-tint: #97572b;
   --ion-color-secondary: #a0522d;
-  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.5);
   --ion-color-secondary-rgb: 160, 82, 45;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
@@ -188,9 +199,9 @@ body.theme-burgundy {
 }
 
 body.theme-bamboo {
-  --ion-background-color: #f0f8f0;
-  --ion-item-background: #ffffff;
-  --ion-card-background: #ffffff;
+  --ion-background-color: #c8dcc8;
+  --ion-item-background: #5e8a5e;
+  --ion-card-background: #78a078;
   --ion-text-color: #2c3e50;
   --ion-color-primary: #6fba4d;
   --ion-color-primary-rgb: 85, 166, 48;
@@ -199,7 +210,7 @@ body.theme-bamboo {
   --ion-color-primary-shade: #4b922a;
   --ion-color-primary-tint: #66af45;
   --ion-color-secondary: #80b918;
-  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.5);
   --ion-color-secondary-rgb: 128, 185, 24;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
@@ -214,9 +225,9 @@ body.theme-bamboo {
 }
 
 body.theme-earth {
-  --ion-background-color: #f8f5f0;
-  --ion-item-background: #ffffff;
-  --ion-card-background: #ffffff;
+  --ion-background-color: #d8d0c4;
+  --ion-item-background: #786a58;
+  --ion-card-background: #948068;
   --ion-text-color: #2c3e50;
   --ion-color-primary: #a0826d;
   --ion-color-primary-rgb: 160, 130, 109;
@@ -225,7 +236,7 @@ body.theme-earth {
   --ion-color-primary-shade: #8d7260;
   --ion-color-primary-tint: #aa8f7c;
   --ion-color-secondary: #c9a690;
-  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.2);
+  --ion-color-secondary-soft: rgba(var(--ion-color-secondary-rgb), 0.5);
   --ion-color-secondary-rgb: 201, 166, 144;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
@@ -242,10 +253,10 @@ body.theme-earth {
 
 
 body.theme-original-alter {
-  --ion-background-color: #fdfdf9;
+  --ion-background-color: #e0d8cc;
   /* Minimalist Off-White */
-  --ion-item-background: #ffffff;
-  --ion-card-background: #ffffff;
+  --ion-item-background: #696359;
+  --ion-card-background: #c2d9e6;
   --ion-text-color: #2c3e50;
 
   /* Primary: Brown (Same as Original) */
@@ -265,7 +276,7 @@ body.theme-original-alter {
   --ion-color-secondary-tint: #9bc5b3;
 
   /* Secondary Soft: BROWN tint (Different from Original) - Cards become brown */
-  --ion-color-secondary-soft: rgba(var(--ion-color-primary-rgb), 0.2);
+  --ion-color-secondary-soft: rgba(var(--ion-color-primary-rgb), 0.5);
 
   /* Tertiary: Dark Slate (Same as Original) */
   --ion-color-tertiary: #536E83;

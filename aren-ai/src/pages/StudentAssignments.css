@@ -1282,3 +1282,25 @@
     font-size: 22px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE OVERRIDES
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (prefers-color-scheme: dark) {
+
+  .page-title,
+  .section-header h2,
+  .count-badge,
+  .assignment-start-link,
+  .task-quiz-name,
+  .paper-title,
+  .paper-subtitle,
+  .paper-date,
+  .quiz-sort-label {
+    color: var(--ion-text-color) !important;
+  }
+
+  .count-badge {
+    background: rgba(255, 255, 255, 0.08);
+  }
+}

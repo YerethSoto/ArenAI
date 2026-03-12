@@ -93,9 +93,7 @@
 
 /* Topics Grid (Scrollable) */
 .ms-topics-scroll-container {
-  /* Semi-transparent secondary background */
-  /* Solid soft secondary background */
-  background-color: var(--ion-color-secondary-soft);
+  background-color: rgba(var(--ion-color-primary-rgb), 0.75);
   padding: 15px;
   border-radius: 15px;
   overflow-x: auto;
@@ -209,9 +207,8 @@
 
 /* Bottom Section with Switch */
 .ms-bottom-section {
-  /* Semi-transparent secondary background */
-  /* Solid soft secondary background */
-  background-color: var(--ion-color-secondary-soft);
+  /* Café/Brown background */
+  background-color: rgba(var(--ion-color-primary-rgb), 0.55);
   border-radius: 10px;
   padding: 15px;
   min-height: 200px;
@@ -222,7 +219,7 @@
 
 .ms-switch-container {
   display: flex;
-  background-color: var(--ion-color-secondary-soft);
+  background-color: rgba(var(--ion-color-primary-rgb), 0.55);
   border-radius: 20px;
   padding: 4px;
   position: relative;

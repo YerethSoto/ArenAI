@@ -1009,3 +1009,23 @@ body.dark .pts-rel-node-circle {
 body.dark .pts-rel-node-name {
     fill: #e0e0e0;
 }
+
+@media (prefers-color-scheme: dark) {
+    .pts-topic-detail-stat,
+    .pts-rel-legend,
+    .pts-rel-dict-card,
+    .pts-struggling-chip,
+    .pts-top-chip,
+    .pts-topic-detail-card,
+    .pts-rel-overview-card {
+        background: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .pts-rel-node-circle {
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+    }
+
+    .pts-rel-node-name {
+        fill: #e0e0e0;
+    }
+}
